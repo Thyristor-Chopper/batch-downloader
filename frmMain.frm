@@ -40,9 +40,9 @@ Begin VB.Form frmMain
    Begin VB.Frame fDownloadInfo 
       Caption         =   "다운로드 정보"
       Height          =   3855
-      Left            =   240
+      Left            =   2160
       TabIndex        =   82
-      Top             =   2040
+      Top             =   6360
       Visible         =   0   'False
       Width           =   6255
       Begin VB.Label lblElapsed 
@@ -50,7 +50,7 @@ Begin VB.Form frmMain
          Left            =   1440
          TabIndex        =   88
          Top             =   1080
-         Width           =   4095
+         Width           =   4215
       End
       Begin VB.Label Label4 
          Caption         =   "경과 시간:"
@@ -61,10 +61,11 @@ Begin VB.Form frmMain
          Width           =   975
       End
       Begin VB.Label lblDownloadedBytes 
+         BorderStyle     =   1  '단일 고정
          Height          =   255
          Left            =   1440
          TabIndex        =   86
-         Top             =   720
+         Top             =   690
          Width           =   4215
       End
       Begin VB.Label Label3 
@@ -76,11 +77,12 @@ Begin VB.Form frmMain
          Width           =   1095
       End
       Begin VB.Label lblTotalBytes 
+         BorderStyle     =   1  '단일 고정
          Height          =   255
          Left            =   1440
          TabIndex        =   84
-         Top             =   360
-         Width           =   3855
+         Top             =   330
+         Width           =   4215
       End
       Begin VB.Label Label2 
          Caption         =   "총 바이트:"
@@ -1060,7 +1062,41 @@ Begin VB.Form frmMain
          Max             =   15
          TabIndex        =   14
          Top             =   240
+         Visible         =   0   'False
          Width           =   255
+      End
+      Begin VB.TextBox txtDummyScroll 
+         BorderStyle     =   0  '없음
+         Enabled         =   0   'False
+         Height          =   3450
+         Left            =   5760
+         MultiLine       =   -1  'True
+         ScrollBars      =   2  '수직
+         TabIndex        =   92
+         Top             =   255
+         Visible         =   0   'False
+         Width           =   375
+      End
+      Begin DownloadBooster.ListBoxW lvDummyScroll 
+         Height          =   3450
+         Left            =   5520
+         TabIndex        =   91
+         Top             =   255
+         Width           =   615
+         _ExtentX        =   1085
+         _ExtentY        =   6085
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Tahoma"
+            Size            =   14.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         BackColor       =   -2147483643
+         ForeColor       =   -2147483640
+         BorderStyle     =   0
       End
    End
    Begin VB.CommandButton cmdBrowse 
@@ -1390,8 +1426,8 @@ Sub OnStop()
     cmdClear.Enabled = -1
     
     trThreadCount.Enabled = -1
-    cmdDecreaseThreads.Enabled = -1
-    cmdIncreaseThreads.Enabled = -1
+    If trThreadCount.Value > trThreadCount.Min Then cmdDecreaseThreads.Enabled = -1
+    If trThreadCount.Value < trThreadCount.Max Then cmdIncreaseThreads.Enabled = -1
     
     chkNoCleanup.Enabled = -1
     
@@ -1457,6 +1493,12 @@ Sub OnStop()
 End Sub
 
 Private Sub cmdAdd_Click()
+    On Error Resume Next
+    If Replace(txtURL.Text, " ", "") <> "" Then
+        frmBatchAdd.txtURLs.Text = txtURL.Text & vbCrLf
+        frmBatchAdd.txtURLs.SelStart = 0
+        frmBatchAdd.txtURLs.SelLength = Len(txtURL.Text) + 2
+    End If
     frmBatchAdd.Show vbModal, Me
 End Sub
 
@@ -1695,6 +1737,36 @@ Private Sub Form_Load()
         lblDownloader(i).Caption = "스레드" & i & ":"
         lblPercentage(i).Caption = ""
     Next i
+    fDownloadInfo.Top = fThreadInfo.Top
+    fDownloadInfo.Left = fThreadInfo.Left
+    
+    lvDummyScroll.AddItem "1"
+    lvDummyScroll.AddItem "2"
+    lvDummyScroll.AddItem "3"
+    lvDummyScroll.AddItem "4"
+    lvDummyScroll.AddItem "5"
+    lvDummyScroll.AddItem "6"
+    lvDummyScroll.AddItem "7"
+    lvDummyScroll.AddItem "8"
+    lvDummyScroll.AddItem "9"
+    lvDummyScroll.AddItem "10"
+    lvDummyScroll.AddItem "11"
+    lvDummyScroll.AddItem "12"
+    lvDummyScroll.AddItem "13"
+    lvDummyScroll.AddItem "14"
+    lvDummyScroll.AddItem "15"
+    lvDummyScroll.AddItem "16"
+    lvDummyScroll.AddItem "17"
+    lvDummyScroll.AddItem "18"
+    lvDummyScroll.AddItem "19"
+    lvDummyScroll.AddItem "20"
+    lvDummyScroll.AddItem "21"
+    lvDummyScroll.AddItem "22"
+    lvDummyScroll.AddItem "23"
+    lvDummyScroll.AddItem "24"
+    lvDummyScroll.AddItem "25"
+    lvDummyScroll.ListIndex = 0
+    
     trThreadCount.Value = GetSetting("DownloadBooster", "Options", "ThreadCount", 1)
     trThreadCount_Scroll
     
@@ -1790,6 +1862,17 @@ Private Sub lvBatchFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As
     End If
 End Sub
 
+Private Sub lvDummyScroll_Click()
+    If lvDummyScroll.ListCount Then _
+        lvDummyScroll.ListIndex = lvDummyScroll.TopIndex
+End Sub
+
+Private Sub lvDummyScroll_Scroll()
+    If lvDummyScroll.ListCount Then _
+        lvDummyScroll.ListIndex = lvDummyScroll.TopIndex
+    pbProgressContainer.Top = lvDummyScroll.TopIndex * 255 * -1 - (105 * lvDummyScroll.TopIndex)
+End Sub
+
 Private Sub SP_ChildFinished()
     If SP.Length > 0 Then OnData SP.GetData()
     OnExit SP.FinishChild(0)
@@ -1839,6 +1922,10 @@ Private Sub trThreadCount_Change()
     SaveSetting "DownloadBooster", "Options", "ThreadCount", trThreadCount.Value
 End Sub
 
+Private Sub trThreadCount_KeyDown(KeyCode As Integer, Shift As Integer)
+    trThreadCount_Scroll
+End Sub
+
 Private Sub trThreadCount_Scroll()
     If trThreadCount.Value = 1 Then
         lblThreadCount.Caption = "(일반 다운로드)"
@@ -1861,17 +1948,43 @@ Private Sub trThreadCount_Scroll()
     If trThreadCount.Value - 10 > 0 Then
         vsProgressScroll.Max = trThreadCount.Value - 10
         vsProgressScroll.Enabled = -1
+        
+        '------------
+        If lvDummyScroll.ListCount > trThreadCount.Value Then
+            Do While lvDummyScroll.ListCount > trThreadCount.Value
+                lvDummyScroll.RemoveItem lvDummyScroll.ListCount - 1
+            Loop
+            If lvDummyScroll.TopIndex > trThreadCount.Value - 10 Then _
+                lvDummyScroll.TopIndex = trThreadCount.Value - 10
+        ElseIf lvDummyScroll.ListCount < trThreadCount.Value Then
+            Do While lvDummyScroll.ListCount < trThreadCount.Value
+                lvDummyScroll.AddItem lvDummyScroll.ListCount + 1
+            Loop
+        End If
+        
+        txtDummyScroll.Visible = 0
     Else
         If vsProgressScroll.Max <> 0 Then vsProgressScroll.Max = 0
         If vsProgressScroll.Enabled Then vsProgressScroll.Enabled = 0
+        
+        '------------
+        Do While lvDummyScroll.ListCount > 10
+            lvDummyScroll.RemoveItem lvDummyScroll.ListCount - 1
+        Loop
+        
+        txtDummyScroll.Visible = -1
+        lvDummyScroll.ListIndex = 0
+        pbProgressContainer.Top = 0
     End If
     
     If trThreadCount.Value <= 1 Then
         fDownloadInfo.Visible = -1
         fThreadInfo.Visible = 0
+        chkNoCleanup.Enabled = 0
     Else
         fDownloadInfo.Visible = 0
         fThreadInfo.Visible = -1
+        chkNoCleanup.Enabled = -1
     End If
     
     If trThreadCount.Value = trThreadCount.Min Then

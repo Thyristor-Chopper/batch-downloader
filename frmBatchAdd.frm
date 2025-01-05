@@ -28,7 +28,7 @@ Begin VB.Form frmBatchAdd
       Left            =   120
       MultiLine       =   -1  'True
       ScrollBars      =   3  '양방향
-      TabIndex        =   3
+      TabIndex        =   0
       Top             =   360
       Width           =   4215
    End
@@ -37,7 +37,7 @@ Begin VB.Form frmBatchAdd
       Caption         =   "취소"
       Height          =   375
       Left            =   4560
-      TabIndex        =   2
+      TabIndex        =   3
       Top             =   600
       Width           =   1455
    End
@@ -45,7 +45,7 @@ Begin VB.Form frmBatchAdd
       Caption         =   "확인"
       Height          =   375
       Left            =   4560
-      TabIndex        =   1
+      TabIndex        =   2
       Top             =   120
       Width           =   1455
    End
@@ -53,7 +53,7 @@ Begin VB.Form frmBatchAdd
       Caption         =   "각 줄에 파일 주소를 입력하십시오."
       Height          =   255
       Left            =   120
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   120
       Width           =   4215
    End
@@ -78,6 +78,8 @@ Private Sub cmdOK_Click()
     Unload Me
 End Sub
 
-Private Sub Form_Load()
-    txtURLs.Text = ""
+Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
+    If (KeyCode = 13 Or KeyCode = 10) And Right$(txtURLs.Text, 2) = vbCrLf Then
+        cmdOK_Click
+    End If
 End Sub
