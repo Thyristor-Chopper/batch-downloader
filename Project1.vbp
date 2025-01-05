@@ -51,7 +51,7 @@ HelpContextID="0"
 CompatibleMode="0"
 MajorVer=1
 MinorVer=0
-RevisionVer=5
+RevisionVer=6
 AutoIncrementVer=0
 ServerSupportFiles=0
 VersionComments="다운로드 부스터"
@@ -75,6 +75,7 @@ Unattended=0
 Retained=0
 ThreadPerObject=0
 MaxNumberOfThreads=1
+DebugStartupOption=0
 
 [MS Transaction Server]
 AutoRefresh=1

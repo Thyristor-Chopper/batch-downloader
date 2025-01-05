@@ -1,6 +1,14 @@
 Attribute VB_Name = "Functions"
 Public fso
 
+'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
+Function FontExists(Name As String) As Boolean
+    With New StdFont
+        .Name = Name
+        FontExists = (StrComp(.Name, Name, vbTextCompare) = 0)
+    End With
+End Function
+
 Function FolderExists(sFullPath As String) As Boolean
     Dim myFSO As Object
     Set myFSO = CreateObject("Scripting.FileSystemObject")

@@ -5,7 +5,7 @@ Begin VB.Form frmBatchAdd
    ClientHeight    =   3045
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   6240
+   ClientWidth     =   5985
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -20,7 +20,7 @@ Begin VB.Form frmBatchAdd
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   3045
-   ScaleWidth      =   6240
+   ScaleWidth      =   5985
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.TextBox txtURLs 
@@ -28,32 +28,32 @@ Begin VB.Form frmBatchAdd
       Left            =   120
       MultiLine       =   -1  'True
       ScrollBars      =   3  '양방향
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   360
       Width           =   4215
    End
    Begin VB.CommandButton cmdCancel 
       Cancel          =   -1  'True
       Caption         =   "취소"
-      Height          =   375
+      Height          =   340
       Left            =   4560
       TabIndex        =   3
-      Top             =   600
-      Width           =   1455
+      Top             =   510
+      Width           =   1335
    End
    Begin VB.CommandButton cmdOK 
       Caption         =   "확인"
-      Height          =   375
+      Height          =   340
       Left            =   4560
       TabIndex        =   2
       Top             =   120
-      Width           =   1455
+      Width           =   1335
    End
    Begin VB.Label Label1 
-      Caption         =   "각 줄에 파일 주소를 입력하십시오."
+      Caption         =   "각 줄에 파일 주소를 입력하십시오(&L)."
       Height          =   255
       Left            =   120
-      TabIndex        =   1
+      TabIndex        =   0
       Top             =   120
       Width           =   4215
    End
@@ -63,6 +63,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim PrevKeyCode As Integer
+
 Private Sub cmdCancel_Click()
     Unload Me
 End Sub
@@ -79,7 +81,16 @@ Private Sub cmdOK_Click()
 End Sub
 
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
-    If (KeyCode = 13 Or KeyCode = 10) And Right$(txtURLs.Text, 2) = vbCrLf Then
-        cmdOK_Click
+    If (KeyCode = 13 Or KeyCode = 10) Then
+        If (PrevKeyCode = 13 Or PrevKeyCode = 10) Then
+            cmdOK_Click
+        End If
+        PrevKeyCode = KeyCode
+    Else
+        PrevKeyCode = 0
     End If
+End Sub
+
+Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    PrevKeyCode = 0
 End Sub

@@ -1,12 +1,11 @@
 VERSION 5.00
 Begin VB.Form frmBrowse 
-   BackColor       =   &H00F8EFE5&
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "다운로드 경로 선택"
    ClientHeight    =   3195
    ClientLeft      =   2760
    ClientTop       =   3750
-   ClientWidth     =   6495
+   ClientWidth     =   6345
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -21,49 +20,30 @@ Begin VB.Form frmBrowse
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   3195
-   ScaleWidth      =   6495
+   ScaleWidth      =   6345
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.Timer timDelayer 
       Enabled         =   0   'False
       Interval        =   100
-      Left            =   6000
-      Top             =   1680
+      Left            =   5400
+      Top             =   1560
    End
    Begin VB.CheckBox chkHidden 
       BackColor       =   &H00F8EFE5&
       Caption         =   "숨김 표시(&H)"
       Height          =   255
       Left            =   4920
-      TabIndex        =   13
-      Top             =   2160
-      Width           =   1455
+      TabIndex        =   6
+      Top             =   2760
+      Width           =   1335
    End
    Begin VB.TextBox txtFileName 
       Height          =   270
       Left            =   120
-      TabIndex        =   11
+      TabIndex        =   1
       Top             =   360
       Width           =   2175
-   End
-   Begin VB.CommandButton cmdNetwork 
-      Caption         =   "네트워크(&N)..."
-      Enabled         =   0   'False
-      BeginProperty Font 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   340
-      Left            =   4920
-      TabIndex        =   10
-      Top             =   2690
-      Visible         =   0   'False
-      Width           =   1455
    End
    Begin VB.ComboBox selFileType 
       BeginProperty Font 
@@ -78,7 +58,7 @@ Begin VB.Form frmBrowse
       Height          =   300
       Left            =   120
       Style           =   2  '드롭다운 목록
-      TabIndex        =   9
+      TabIndex        =   11
       Top             =   2760
       Width           =   2175
    End
@@ -94,7 +74,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   300
       Left            =   2520
-      TabIndex        =   7
+      TabIndex        =   3
       Top             =   2760
       Width           =   2175
    End
@@ -110,7 +90,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   1770
       Left            =   2520
-      TabIndex        =   5
+      TabIndex        =   0
       Top             =   600
       Width           =   2175
    End
@@ -128,7 +108,7 @@ Begin VB.Form frmBrowse
       Left            =   120
       Pattern         =   "*.d2r"
       System          =   -1  'True
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   600
       Width           =   2175
    End
@@ -146,9 +126,9 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   340
       Left            =   4920
-      TabIndex        =   1
+      TabIndex        =   5
       Top             =   510
-      Width           =   1455
+      Width           =   1335
    End
    Begin VB.CommandButton OKButton 
       Caption         =   "확인"
@@ -164,9 +144,9 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   340
       Left            =   4920
-      TabIndex        =   0
+      TabIndex        =   4
       Top             =   120
-      Width           =   1455
+      Width           =   1335
    End
    Begin VB.Label lblDirectory 
       BackStyle       =   0  '투명
@@ -190,7 +170,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   120
-      TabIndex        =   8
+      TabIndex        =   10
       Top             =   2520
       Width           =   1335
    End
@@ -208,7 +188,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   2520
-      TabIndex        =   6
+      TabIndex        =   9
       Top             =   2520
       Width           =   1335
    End
@@ -226,7 +206,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   2520
-      TabIndex        =   4
+      TabIndex        =   8
       Top             =   120
       Width           =   1695
    End
@@ -244,7 +224,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   120
-      TabIndex        =   2
+      TabIndex        =   7
       Top             =   120
       Width           =   1215
    End
@@ -270,11 +250,13 @@ Private Sub Form_Load()
     Dim Path$
     Path = lvDir.Path
     
-    If FolderExists(frmMain.txtFileName.Text) Then
-        Path = frmMain.txtFileName.Text
+    Dim fmpth As String
+    fmpth = Trim$(frmMain.txtFileName.Text)
+    If FolderExists(fmpth) Then
+        Path = fmpth
     Else
-        Path = fso.GetParentFolderName(frmMain.txtFileName.Text)
-        txtFileName.Text = Split(frmMain.txtFileName.Text, "\")(UBound(Split(frmMain.txtFileName.Text, "\")))
+        Path = fso.GetParentFolderName(fmpth)
+        txtFileName.Text = Split(fmpth, "\")(UBound(Split(fmpth, "\")))
     End If
     
     Dim i%
@@ -302,7 +284,8 @@ Private Sub lvFiles_Click()
 End Sub
 
 Private Sub lvFiles_DblClick()
-    OKButton_Click
+    If frmMain.cbWhenExist.ListIndex <> 0 Then _
+        OKButton_Click
 End Sub
 
 Private Sub OKButton_Click()
