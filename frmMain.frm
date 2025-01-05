@@ -21,6 +21,22 @@ Begin VB.Form frmMain
    ScaleHeight     =   8460
    ScaleWidth      =   9345
    StartUpPosition =   3  'Windows 기본값
+   Begin VB.CommandButton cmdIncreaseThreads 
+      Caption         =   ">"
+      Height          =   375
+      Left            =   7200
+      TabIndex        =   90
+      Top             =   765
+      Width           =   375
+   End
+   Begin VB.CommandButton cmdDecreaseThreads 
+      Caption         =   "<"
+      Height          =   375
+      Left            =   1560
+      TabIndex        =   89
+      Top             =   765
+      Width           =   375
+   End
    Begin VB.Frame fDownloadInfo 
       Caption         =   "다운로드 정보"
       Height          =   3855
@@ -262,7 +278,7 @@ Begin VB.Form frmMain
       Width           =   9345
       _ExtentX        =   16484
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":0442
+      InitPanels      =   "frmMain.frx":030A
    End
    Begin VB.Timer timElapsed 
       Enabled         =   0   'False
@@ -272,11 +288,11 @@ Begin VB.Form frmMain
    End
    Begin DownloadBooster.Slider trThreadCount 
       Height          =   495
-      Left            =   1560
+      Left            =   1935
       TabIndex        =   9
       Top             =   750
-      Width           =   6015
-      _ExtentX        =   10610
+      Width           =   5265
+      _ExtentX        =   9287
       _ExtentY        =   873
       Min             =   1
       Max             =   25
@@ -1322,7 +1338,10 @@ Sub OnStart()
     
     txtFileName.Enabled = 0
     cmdBrowse.Enabled = 0
+    
     trThreadCount.Enabled = 0
+    cmdDecreaseThreads.Enabled = 0
+    cmdIncreaseThreads.Enabled = 0
     
     chkNoCleanup.Enabled = 0
     
@@ -1369,7 +1388,10 @@ Sub OnStop()
     txtFileName.Enabled = -1
     cmdBrowse.Enabled = -1
     cmdClear.Enabled = -1
+    
     trThreadCount.Enabled = -1
+    cmdDecreaseThreads.Enabled = -1
+    cmdIncreaseThreads.Enabled = -1
     
     chkNoCleanup.Enabled = -1
     
@@ -1498,6 +1520,15 @@ Private Sub cmdClear_Click()
     txtURL.Text = ""
 End Sub
 
+Private Sub cmdDecreaseThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If trThreadCount.Value > trThreadCount.Min Then trThreadCount.Value = trThreadCount.Value - 1
+    If trThreadCount.Value = trThreadCount.Min Then
+        cmdDecreaseThreads.Enabled = 0
+    Else
+        cmdDecreaseThreads.Enabled = -1
+    End If
+End Sub
+
 Private Sub cmdDelete_Click()
     lvBatchFiles.ListItems.Remove lvBatchFiles.SelectedItem.Index
     If lvBatchFiles.ListItems.Count < 1 Or cmdStop.Enabled Or BatchStarted Then
@@ -1581,6 +1612,15 @@ Private Sub cmdGo_Click()
     Elapsed = 0
     timElapsed.Enabled = -1
     StartDownload txtURL.Text, txtFileName.Text
+End Sub
+
+Private Sub cmdIncreaseThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If trThreadCount.Value < trThreadCount.Max Then trThreadCount.Value = trThreadCount.Value + 1
+    If trThreadCount.Value = trThreadCount.Max Then
+        cmdIncreaseThreads.Enabled = 0
+    Else
+        cmdIncreaseThreads.Enabled = -1
+    End If
 End Sub
 
 Private Sub cmdOpen_Click()
@@ -1832,6 +1872,17 @@ Private Sub trThreadCount_Scroll()
     Else
         fDownloadInfo.Visible = 0
         fThreadInfo.Visible = -1
+    End If
+    
+    If trThreadCount.Value = trThreadCount.Min Then
+        cmdDecreaseThreads.Enabled = 0
+    Else
+        cmdDecreaseThreads.Enabled = -1
+    End If
+    If trThreadCount.Value = trThreadCount.Max Then
+        cmdIncreaseThreads.Enabled = 0
+    Else
+        cmdIncreaseThreads.Enabled = -1
     End If
 End Sub
 

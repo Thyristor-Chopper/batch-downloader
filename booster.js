@@ -34,6 +34,8 @@ if((process.argv[4] || '').match(/^[%]\d$/)) process.argv[4] = '';
 			fn = parsed.dir.replace(/\\$/, '') + '\\' + parsed.name + '-' + Math.floor(Math.random() * 10000000000000000) + parsed.ext;
 		print('MODIFIEDFILENAME', fn);
 	}
+	if(trd <= 1 && fs.existsSync(fn + '.tmp'))
+		fs.unlinkSync(fn + '.tmp');
 	for(i=1; i<=trd; i++)
 		if(fs.existsSync(fn + '.part.' + i))
 			return process.exit(5);
@@ -92,7 +94,7 @@ if((process.argv[4] || '').match(/^[%]\d$/)) process.argv[4] = '';
 						totals[id] = tt[id] = Number(res.headers['content-length'] || 0);
 						range += totals[id];
 						res.on('error', () => 1);
-						res.on('data', chunk => (downloader[id] += chunk.length, fs.appendFileSync(fn + (trd <= 1 ? '' : ('.part.' + id)), chunk)));
+						res.on('data', chunk => (downloader[id] += chunk.length, fs.appendFileSync(fn + (trd <= 1 ? '.tmp' : ('.part.' + id)), chunk)));
 						res.on('end', () => comp++, completed[id] = 1);
 					})();
 					await (timeout(100));
@@ -135,6 +137,7 @@ if((process.argv[4] || '').match(/^[%]\d$/)) process.argv[4] = '';
 								process.exit(0);
 							});
 						} else {
+							fs.renameSync(fn + '.tmp', fn);
 							print('STATUS', 'COMPLETE');
 							process.exit(0);
 						}

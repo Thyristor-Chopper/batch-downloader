@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmBrowse 
    BackColor       =   &H00F8EFE5&
    BorderStyle     =   3  '크기 고정 대화 상자
-   Caption         =   "다운로드 경로 및 파일 이름 선택"
+   Caption         =   "다운로드 경로 선택"
    ClientHeight    =   3195
    ClientLeft      =   2760
    ClientTop       =   3750
@@ -306,7 +306,8 @@ Private Sub lvDir_Change()
 End Sub
 
 Private Sub lvFiles_Click()
-    'If Not timDelayer.Enabled Then txtFileName.Text = lvFiles.List(lvFiles.ListIndex)
+    If frmMain.cbWhenExist.ListIndex = 0 Then Exit Sub
+    If Not timDelayer.Enabled Then txtFileName.Text = lvFiles.List(lvFiles.ListIndex)
 End Sub
 
 Private Sub lvFiles_DblClick()
@@ -344,11 +345,21 @@ Private Sub OKButton_Click()
 
     Dim Data$, Path$
     
-    Path = lvFiles.Path & "\" & txtFileName.Text
+    If Right$(lvFiles.Path, 1) = "\" Then
+        Path = lvFiles.Path & txtFileName.Text
+    Else
+        Path = lvFiles.Path & "\" & txtFileName.Text
+    End If
     On Error Resume Next
     If FileExists(Path) Then
-        MsgBox "파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", 16
-        Exit Sub
+        If frmMain.cbWhenExist.ListIndex = 0 Then
+            MsgBox "파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", 16
+            Exit Sub
+        ElseIf frmMain.cbWhenExist.ListIndex = 1 Then
+            If MsgBox("파일 이름이 이미 존재합니다. 덮어쓰시겠습니까?", 48 + vbYesNo) <> vbYes Then
+                Exit Sub
+            End If
+        End If
     End If
     
     On Error GoTo e
