@@ -40,9 +40,9 @@ Begin VB.Form frmMain
    Begin VB.Frame fDownloadInfo 
       Caption         =   "다운로드 정보"
       Height          =   3855
-      Left            =   2160
+      Left            =   960
       TabIndex        =   82
-      Top             =   6360
+      Top             =   3360
       Visible         =   0   'False
       Width           =   6255
       Begin VB.Label lblElapsed 
@@ -50,7 +50,7 @@ Begin VB.Form frmMain
          Left            =   1440
          TabIndex        =   88
          Top             =   1080
-         Width           =   4215
+         Width           =   4575
       End
       Begin VB.Label Label4 
          Caption         =   "경과 시간:"
@@ -66,7 +66,7 @@ Begin VB.Form frmMain
          Left            =   1440
          TabIndex        =   86
          Top             =   690
-         Width           =   4215
+         Width           =   4575
       End
       Begin VB.Label Label3 
          Caption         =   "받은 바이트:"
@@ -82,7 +82,7 @@ Begin VB.Form frmMain
          Left            =   1440
          TabIndex        =   84
          Top             =   330
-         Width           =   4215
+         Width           =   4575
       End
       Begin VB.Label Label2 
          Caption         =   "총 바이트:"
@@ -1178,6 +1178,7 @@ Dim BatchStarted As Boolean
 Dim CurrentBatchIdx As Integer
 Dim DownloadPath As String
 Dim IsDownloading As Boolean
+Dim BatchErrorCount As Integer
 
 Sub OnData(Data As String)
     Dim output$
@@ -1263,11 +1264,18 @@ Sub OnData(Data As String)
     ElseIf Left$(Data, 17) = "MODIFIEDFILENAME " Then
         output = Right$(Data, Len(Data) - 17)
         DownloadPath = output
+        If BatchStarted Then
+            lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).Text = output
+            lvBatchFiles.ListItems(CurrentBatchIdx).Text = fso.GetFilename(output)
+        End If
     End If
 End Sub
 
 Sub NextBatchDownload()
     If Not BatchStarted Then Exit Sub
+    
+    If lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "완료" Then _
+        lvBatchFiles.ListItems(CurrentBatchIdx).Checked = False
     
     If CurrentBatchIdx = lvBatchFiles.ListItems.Count Then
         BatchStarted = False
@@ -1300,6 +1308,8 @@ Sub NextBatchDownload()
             cmdStartBatch.Enabled = 0
         End If
         
+        If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 다운로드 강도가 잘못되었습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
+        
         Exit Sub
     End If
     
@@ -1317,7 +1327,7 @@ Sub OnExit(RetVal As Long)
             Case 3
                 MsgBox "다운로드 강도가 잘못되었습니다.", 16
             Case 4
-                MsgBox "저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.'", 16
+                MsgBox "저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", 16
             Case 5
                 MsgBox "내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", 16
             Case 6
@@ -1340,6 +1350,7 @@ Sub OnExit(RetVal As Long)
         
         If RetVal <> 0 Then
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "오류 (" & RetVal & ")"
+            BatchErrorCount = BatchErrorCount + 1
         Else
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "완료"
         End If
@@ -1519,8 +1530,6 @@ Sub AddBatchURLs(URL As String)
         If Replace(ServerName, " ", "") = "" Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
     Else
-        Dim fso
-        Set fso = CreateObject("Scripting.FileSystemObject")
         ServerName = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Split(URL, "/")(UBound(Split(URL, "/"))), "\", "_"), "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_")
         If Replace(ServerName, " ", "") = "" Then
             ServerName = "download_" & CStr(Rnd * 1E+15)
@@ -1680,8 +1689,6 @@ Private Sub cmdOpenFolder_Click()
     If FolderExists(pth) Then
         Shell "cmd /c start """" explorer.exe """ & pth & """"
     Else
-        Dim fso
-        Set fso = CreateObject("Scripting.FileSystemObject")
         Shell "cmd /c start """" explorer.exe """ & fso.GetParentFolderName(pth) & """"
     End If
 End Sub
@@ -1691,7 +1698,8 @@ Private Sub cmdStartBatch_Click()
         cmdStartBatch.Enabled = 0
         Exit Sub
     End If
-
+    
+    BatchErrorCount = 0
     CurrentBatchIdx = 1
     BatchStarted = True
     cmdStartBatch.Enabled = 0
@@ -1724,6 +1732,7 @@ Private Sub cmdStopBatch_Click()
         sbStatusBar.Panels(3).Text = ""
         chkOpenAfterComplete.Enabled = -1
         cmdGo.Enabled = -1
+        If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 다운로드 강도가 잘못되었습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
     End If
 End Sub
 
@@ -1776,8 +1785,8 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , "status", "상태"
     lvBatchFiles.ColumnHeaders(1).Width = 2895
     lvBatchFiles.ColumnHeaders(2).Width = 0
-    lvBatchFiles.ColumnHeaders(3).Width = 3975
-    lvBatchFiles.ColumnHeaders(4).Width = 1455
+    lvBatchFiles.ColumnHeaders(3).Width = 4505
+    lvBatchFiles.ColumnHeaders(4).Width = 1005
     lvBatchFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentCenter
     Me.Height = 6840
     

@@ -34,6 +34,10 @@ if((process.argv[4] || '').match(/^[%]\d$/)) process.argv[4] = '';
 			fn = parsed.dir.replace(/\\$/, '') + '\\' + parsed.name + '-' + Math.floor(Math.random() * 10000000000000000) + parsed.ext;
 		print('MODIFIEDFILENAME', fn);
 	}
+	if(fn.endsWith('.')) {
+		fn = fn.replace(/[.]$/, '_');
+		print('MODIFIEDFILENAME', fn);
+	}
 	if(trd <= 1 && fs.existsSync(fn + '.tmp'))
 		fs.unlinkSync(fn + '.tmp');
 	for(i=1; i<=trd; i++)

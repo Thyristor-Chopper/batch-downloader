@@ -254,16 +254,9 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-Option Explicit
-
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
-
-Function GetFilename(Path As String) As String
-    GetFilename = Right(Path, Len(Path) - InStrRev(Path, "\"))
-End Function
 
 Private Sub chkHidden_Click()
     lvFiles.Hidden = chkHidden.Value
@@ -280,8 +273,6 @@ Private Sub Form_Load()
     If FolderExists(frmMain.txtFileName.Text) Then
         Path = frmMain.txtFileName.Text
     Else
-        Dim fso
-        Set fso = CreateObject("Scripting.FileSystemObject")
         Path = fso.GetParentFolderName(frmMain.txtFileName.Text)
         txtFileName.Text = Split(frmMain.txtFileName.Text, "\")(UBound(Split(frmMain.txtFileName.Text, "\")))
     End If

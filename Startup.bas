@@ -7,6 +7,7 @@ Private Declare Function ShowWindow Lib "user32" (ByVal hWnd As Long, ByVal nCmd
 Private Declare Function SetForegroundWindow Lib "user32" (ByVal hWnd As Long) As Long
 
 Sub Main()
+    Set fso = CreateObject("Scripting.FileSystemObject")
     Call InitVisualStylesFixes
     frmMain.Show vbModeless
 End Sub

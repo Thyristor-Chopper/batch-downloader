@@ -1,4 +1,6 @@
 Attribute VB_Name = "Functions"
+Public fso
+
 Function FolderExists(sFullPath As String) As Boolean
     Dim myFSO As Object
     Set myFSO = CreateObject("Scripting.FileSystemObject")
