@@ -75,17 +75,32 @@ Begin VB.Form frmMain
    End
    Begin VB.Frame fDownloadInfo 
       Caption         =   " 다운로드 정보 "
-      Height          =   1335
-      Left            =   1560
+      Height          =   1815
+      Left            =   1320
       TabIndex        =   83
       Top             =   2400
       Visible         =   0   'False
-      Width           =   2655
+      Width           =   3495
+      Begin VB.Label Label5 
+         Caption         =   "속도:"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   98
+         Top             =   1410
+         Width           =   975
+      End
+      Begin VB.Label lblSpeed 
+         Height          =   255
+         Left            =   1320
+         TabIndex        =   97
+         Top             =   1410
+         Width           =   4455
+      End
       Begin VB.Label lblElapsed 
          Height          =   255
          Left            =   1320
          TabIndex        =   89
-         Top             =   960
+         Top             =   1050
          Width           =   4455
       End
       Begin VB.Label Label4 
@@ -93,39 +108,37 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   120
          TabIndex        =   88
-         Top             =   960
+         Top             =   1050
          Width           =   975
       End
       Begin VB.Label lblDownloadedBytes 
-         BorderStyle     =   1  '단일 고정
          Height          =   255
          Left            =   1320
          TabIndex        =   87
-         Top             =   570
+         Top             =   660
          Width           =   4455
       End
       Begin VB.Label Label3 
-         Caption         =   "받은 바이트:"
+         Caption         =   "받은 크기:"
          Height          =   255
          Left            =   120
          TabIndex        =   86
-         Top             =   600
+         Top             =   660
          Width           =   1095
       End
       Begin VB.Label lblTotalBytes 
-         BorderStyle     =   1  '단일 고정
          Height          =   255
          Left            =   1320
          TabIndex        =   85
-         Top             =   210
+         Top             =   300
          Width           =   4455
       End
       Begin VB.Label Label2 
-         Caption         =   "총 바이트:"
+         Caption         =   "총 크기:"
          Height          =   255
          Left            =   120
          TabIndex        =   84
-         Top             =   240
+         Top             =   300
          Width           =   975
       End
    End
@@ -206,7 +219,7 @@ Begin VB.Form frmMain
       Width           =   1575
    End
    Begin VB.CommandButton cmdStartBatch 
-      Caption         =   "다운로드(&A)"
+      Caption         =   "시작(&A)"
       Enabled         =   0   'False
       Height          =   375
       Left            =   5760
@@ -305,7 +318,7 @@ Begin VB.Form frmMain
       Enabled         =   0   'False
       Interval        =   1000
       Left            =   6720
-      Top             =   3840
+      Top             =   4440
    End
    Begin DownloadBooster.Slider trThreadCount 
       Height          =   495
@@ -1201,7 +1214,7 @@ Begin VB.Form frmMain
    End
    Begin DownloadBooster.ShellPipe SP 
       Left            =   6720
-      Top             =   4440
+      Top             =   4920
       _ExtentX        =   635
       _ExtentY        =   635
    End
@@ -1232,11 +1245,14 @@ Dim DownloadPath As String
 Dim IsDownloading As Boolean
 Dim BatchErrorCount As Integer
 Dim TahomaAvailable As Boolean
+Dim PrevDownloadedBytes As Double
+Dim SpeedCount As Integer
 
 Sub OnData(Data As String)
     Dim output$
     Dim idx%
     Dim progress%
+    Dim DownloadedBytes As Double
     If Left$(Data, 7) = "STATUS " Then
         Select Case Replace(Right$(Data, Len(Data) - 7), " ", "")
             Case "CHECKREDIRECT"
@@ -1252,6 +1268,7 @@ Sub OnData(Data As String)
                 sbStatusBar.Panels(1).Text = "완료"
                 sbStatusBar.Panels(2).Text = ""
                 sbStatusBar.Panels(3).Text = ""
+                sbStatusBar.Panels(4).Text = ""
                 pbTotalProgress.Scrolling = PrbScrollingStandard
                 pbTotalProgress.Value = 100
         End Select
@@ -1283,36 +1300,48 @@ Sub OnData(Data As String)
             progress = CInt(Split(output, ",")(2))
         End If
         
+        DownloadedBytes = CDbl(Split(output, ",")(1))
+        
         If progress < 0 Then
             If pbTotalProgress.Scrolling <> PrbScrollingMarquee Then
                 pbTotalProgress.Scrolling = PrbScrollingMarquee
             End If
             If fTotal.Caption <> " 전체 다운로드 현황 " Then fTotal.Caption = " 전체 다운로드 현황 "
             If pbTotalProgress.Value <> 0 Then pbTotalProgress.Value = 0
-            If Split(output, ",")(1) = "-1" Then
+            If DownloadedBytes = -1 Then
                 sbStatusBar.Panels(2).Text = ""
             Else
-                sbStatusBar.Panels(2).Text = Split(output, ",")(1) & " 바이트"
+                sbStatusBar.Panels(2).Text = DownloadedBytes & " 바이트"
             End If
             If lblTotalBytes.Caption <> "알 수 없음" Then lblTotalBytes.Caption = "알 수 없음"
-            lblDownloadedBytes.Caption = Split(output, ",")(1)
+            lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
         Else
             If pbTotalProgress.Scrolling = PrbScrollingMarquee Then
                 pbTotalProgress.Scrolling = PrbScrollingStandard
             End If
             If Split(output, ",")(0) = "-1" Then
-                sbStatusBar.Panels(2).Text = Split(output, ",")(1) & " 바이트"
+                sbStatusBar.Panels(2).Text = DownloadedBytes & " 바이트"
             Else
-                sbStatusBar.Panels(2).Text = Split(output, ",")(0) & " 중 " & Split(output, ",")(1)
+                sbStatusBar.Panels(2).Text = Split(output, ",")(0) & " 중 " & DownloadedBytes
             End If
             If Split(output, ",")(0) = "NaN" Or Split(output, ",")(0) = "-1" Then
                 lblTotalBytes.Caption = "알 수 없음"
             Else
-                lblTotalBytes.Caption = Split(output, ",")(0)
+                lblTotalBytes.Caption = ParseSize(CStr(Split(output, ",")(0)), True)
             End If
-            lblDownloadedBytes.Caption = Split(output, ",")(1)
+            lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
             pbTotalProgress.Value = progress
             fTotal.Caption = " 전체 다운로드 현황 (" & progress & "%) "
+        End If
+        
+        Dim Speed As Double
+        SpeedCount = SpeedCount + 1
+        If SpeedCount >= 10 Then
+            Speed = (DownloadedBytes - PrevDownloadedBytes)
+            lblSpeed.Caption = ParseSize(Speed, True, "/초")
+            sbStatusBar.Panels(3).Text = ParseSize(Speed, False, "/초")
+            PrevDownloadedBytes = DownloadedBytes
+            SpeedCount = 0
         End If
     ElseIf Left$(Data, 17) = "MODIFIEDFILENAME " Then
         output = Right$(Data, Len(Data) - 17)
@@ -1337,6 +1366,7 @@ Sub NextBatchDownload()
         cmdStopBatch.Enabled = 0
         timElapsed.Enabled = 0
         sbStatusBar.Panels(3).Text = ""
+        sbStatusBar.Panels(4).Text = ""
         chkOpenAfterComplete.Enabled = -1
         If chkOpenFolder.Value Then
             cmdOpenFolder_Click
@@ -1361,7 +1391,11 @@ Sub NextBatchDownload()
             cmdStartBatch.Enabled = 0
         End If
         
-        If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 다운로드 강도가 잘못되었습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
+        If BatchErrorCount Then
+            MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 다운로드 강도가 잘못되었습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
+        Else
+            MessageBeep 64
+        End If
         
         Exit Sub
     End If
@@ -1392,7 +1426,7 @@ Sub OnExit(RetVal As Long)
     
     If Not BatchStarted Then cmdGo.Enabled = -1
     cmdStop.Enabled = 0
-    OnStop
+    OnStop (RetVal = 0)
     Dim i%
     If BatchStarted Then
         pbTotalProgress.Value = 0
@@ -1483,7 +1517,7 @@ Sub OnStart()
     sbStatusBar.Panels(1).Text = "시작 중..."
 End Sub
 
-Sub OnStop()
+Sub OnStop(Optional PlayBeep As Boolean = True)
     IsDownloading = False
     If Not BatchStarted Then cmdGo.Enabled = -1
     cmdStop.Enabled = 0
@@ -1534,6 +1568,7 @@ Sub OnStop()
         sbStatusBar.Panels(1).Text = "완료"
         sbStatusBar.Panels(2).Text = ""
         sbStatusBar.Panels(3).Text = ""
+        sbStatusBar.Panels(4).Text = ""
     End If
     
     cmdBatch.Enabled = -1
@@ -1541,6 +1576,7 @@ Sub OnStop()
     If Not BatchStarted Then
         timElapsed.Enabled = 0
         sbStatusBar.Panels(3).Text = ""
+        sbStatusBar.Panels(4).Text = ""
         
         If lvBatchFiles.ListItems.Count > 0 Then
             Dim Enable As Boolean
@@ -1558,10 +1594,16 @@ Sub OnStop()
         Else
             cmdStartBatch.Enabled = 0
         End If
+        
+        If PlayBeep Then MessageBeep 64
     End If
     
     If lblTotalBytes.Caption = "대기 중..." Then lblTotalBytes.Caption = ""
-    If lblDownloadedBytes.Caption = "대기 중..." Then lblDownloadedBytes.Caption = ""
+    If lblDownloadedBytes.Caption = "대기 중..." Then
+        lblDownloadedBytes.Caption = ""
+    Else
+        lblTotalBytes.Caption = lblDownloadedBytes.Caption
+    End If
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -1613,6 +1655,7 @@ Sub AddBatchURLs(URL As String)
 End Sub
 
 Private Sub cmdBatch_Click()
+    On Error Resume Next
     If Me.Height = 6840 Then
         Me.Height = 9435
         cmdBatch.Caption = "<< 일괄 처리(&W)"
@@ -1706,7 +1749,9 @@ Sub StartDownload(URL As String, FileName As String)
         FileName = FileName & ServerName
     End If
     DownloadPath = FileName
-    SPResult = SP.Run("""" & CachePath & "node.exe"" """ & CachePath & "booster.js"" " & Replace(Replace(URL, " ", "%20"), """", "%22") & " """ & FileName & """ " & trThreadCount.Value & " " & (chkNoCleanup.Value * -1) & " " & cbWhenExist.ListIndex)
+    PrevDownloadedBytes = 0
+    SpeedCount = 0
+    SPResult = SP.Run("""" & CachePath & "node.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" " & Replace(Replace(URL, " ", "%20"), """", "%22") & " """ & FileName & """ " & trThreadCount.Value & " " & (chkNoCleanup.Value * -1) & " " & cbWhenExist.ListIndex)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -1824,14 +1869,14 @@ Private Sub cmdStartBatch_Click()
 End Sub
 
 Private Sub cmdStop_Click()
-    If MsgBox("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", 48 + vbYesNo) = vbYes Then
-        OnStop
+    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", App.Title, Me, 48) = vbYes Then
+        OnStop False
         cmdOpen.Enabled = 0
     End If
 End Sub
 
 Private Sub cmdStopBatch_Click()
-    If MsgBox("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", 48 + vbYesNo) = vbYes Then
+    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", App.Title, Me, 48) = vbYes Then
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "중지"
         lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = 255
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = 255
@@ -1841,10 +1886,11 @@ Private Sub cmdStopBatch_Click()
         CurrentBatchIdx = 1
         cmdStartBatch.Enabled = -1
         cmdStopBatch.Enabled = 0
-        OnStop
+        OnStop False
         cmdGo.Enabled = 0
         timElapsed.Enabled = 0
         sbStatusBar.Panels(3).Text = ""
+        sbStatusBar.Panels(4).Text = ""
         chkOpenAfterComplete.Enabled = -1
         cmdGo.Enabled = -1
         If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 다운로드 강도가 잘못되었습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
@@ -1942,7 +1988,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     If cmdStop.Enabled = -1 Or BatchStarted Then
-        If MsgBox("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", 48 + vbYesNo) <> vbYes Then
+        If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", App.Title, Me, 48) <> vbYes Then
             Cancel = 1
             Exit Sub
         Else
@@ -2104,17 +2150,17 @@ Private Sub timElapsed_Timer()
     Dim Minutes As Integer
     Dim Seconds As Integer
     If Elapsed >= 3600 Then
-        sbStatusBar.Panels(3).Text = CStr(Floor(Elapsed / 3600)) & "시간 "
+        sbStatusBar.Panels(4).Text = CStr(Floor(Elapsed / 3600)) & "시간 "
     Else
-        sbStatusBar.Panels(3).Text = ""
+        sbStatusBar.Panels(4).Text = ""
     End If
     
     If Elapsed >= 60 Then
-        sbStatusBar.Panels(3).Text = sbStatusBar.Panels(3).Text & Floor((Elapsed Mod 3600) / 60) & "분 "
+        sbStatusBar.Panels(4).Text = sbStatusBar.Panels(4).Text & Floor((Elapsed Mod 3600) / 60) & "분 "
     End If
-    sbStatusBar.Panels(3).Text = sbStatusBar.Panels(3).Text & (Elapsed Mod 60) & "초 경과"
+    sbStatusBar.Panels(4).Text = sbStatusBar.Panels(4).Text & (Elapsed Mod 60) & "초 경과"
     
-    lblElapsed.Caption = Replace(sbStatusBar.Panels(3).Text, " 경과", "")
+    lblElapsed.Caption = Replace(sbStatusBar.Panels(4).Text, " 경과", "")
 End Sub
 
 Private Sub trThreadCount_Change()

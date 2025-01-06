@@ -8,10 +8,10 @@ Sub LoadJS()
     Dim f1 As Integer
     Dim f2 As Integer
     Dim B() As Byte
-    If Not FileExists(CachePath & "booster.js") Then
+    If Not FileExists(CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js") Then
         B = LoadResData(1, 10)
         f1 = FreeFile()
-        Open CachePath & "booster.js" For Binary Access Write As #f1
+        Open CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js" For Binary Access Write As #f1
         Put #f1, , B
         Close #f1
     End If
