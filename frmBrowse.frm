@@ -2,9 +2,9 @@ VERSION 5.00
 Begin VB.Form frmBrowse 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "다운로드 경로 선택"
-   ClientHeight    =   3195
+   ClientHeight    =   3255
    ClientLeft      =   2760
-   ClientTop       =   3750
+   ClientTop       =   3780
    ClientWidth     =   6345
    BeginProperty Font 
       Name            =   "굴림"
@@ -19,7 +19,7 @@ Begin VB.Form frmBrowse
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   3195
+   ScaleHeight     =   3255
    ScaleWidth      =   6345
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
@@ -30,12 +30,11 @@ Begin VB.Form frmBrowse
       Top             =   1560
    End
    Begin VB.CheckBox chkHidden 
-      BackColor       =   &H00F8EFE5&
       Caption         =   "숨김 표시(&H)"
       Height          =   255
       Left            =   4920
       TabIndex        =   6
-      Top             =   2760
+      Top             =   2880
       Width           =   1335
    End
    Begin VB.TextBox txtFileName 
@@ -59,7 +58,7 @@ Begin VB.Form frmBrowse
       Left            =   120
       Style           =   2  '드롭다운 목록
       TabIndex        =   11
-      Top             =   2760
+      Top             =   2880
       Width           =   2175
    End
    Begin VB.DriveListBox selDrive 
@@ -75,7 +74,7 @@ Begin VB.Form frmBrowse
       Height          =   300
       Left            =   2520
       TabIndex        =   3
-      Top             =   2760
+      Top             =   2880
       Width           =   2175
    End
    Begin VB.DirListBox lvDir 
@@ -91,7 +90,7 @@ Begin VB.Form frmBrowse
       Height          =   1770
       Left            =   2520
       TabIndex        =   0
-      Top             =   600
+      Top             =   720
       Width           =   2175
    End
    Begin VB.FileListBox lvFiles 
@@ -109,7 +108,7 @@ Begin VB.Form frmBrowse
       Pattern         =   "*.d2r"
       System          =   -1  'True
       TabIndex        =   2
-      Top             =   600
+      Top             =   720
       Width           =   2175
    End
    Begin VB.CommandButton CancelButton 
@@ -158,7 +157,7 @@ Begin VB.Form frmBrowse
    End
    Begin VB.Label Label4 
       BackStyle       =   0  '투명
-      Caption         =   "파일 형식(&F):"
+      Caption         =   "파일 형식(&T):"
       BeginProperty Font 
          Name            =   "굴림"
          Size            =   9
@@ -171,7 +170,7 @@ Begin VB.Form frmBrowse
       Height          =   255
       Left            =   120
       TabIndex        =   10
-      Top             =   2520
+      Top             =   2640
       Width           =   1335
    End
    Begin VB.Label Label3 
@@ -189,7 +188,7 @@ Begin VB.Form frmBrowse
       Height          =   255
       Left            =   2520
       TabIndex        =   9
-      Top             =   2520
+      Top             =   2640
       Width           =   1335
    End
    Begin VB.Label Label2 
@@ -212,7 +211,7 @@ Begin VB.Form frmBrowse
    End
    Begin VB.Label Label1 
       BackStyle       =   0  '투명
-      Caption         =   "파일 이름(&I):"
+      Caption         =   "파일 이름(&F):"
       BeginProperty Font 
          Name            =   "굴림"
          Size            =   9
