@@ -108,7 +108,7 @@ http.get(url.replace(/^["]/, '').replace(/["]$/, ''), res => {
                     if(totals[di] <= 0) pc = -1;
                     else pc = (dn / totals[di]) * 100;
                     psum += pc;
-                    dsum += dn;
+                    dsum += (dn || 0);
                     if(ready.includes(di)) print('DATA', di + ',' + (total == 0 || Math.floor(pc) > 100.0 ? '-1' : Math.floor(pc)) + ',' + totals[di] + ',' + dn);
                     else print('DATA', di + ',-1,0,0');
                 }
