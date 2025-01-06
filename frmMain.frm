@@ -186,74 +186,106 @@ Begin VB.Form frmMain
    Begin VB.Frame fDownloadInfo 
       BorderStyle     =   0  '없음
       Caption         =   " "
-      Height          =   1455
+      Height          =   2055
       Left            =   1320
       TabIndex        =   84
       Top             =   2880
       Visible         =   0   'False
       Width           =   3495
+      Begin VB.Label lblTotalSizeThread 
+         Caption         =   "-"
+         Height          =   255
+         Left            =   1320
+         TabIndex        =   120
+         Top             =   1800
+         Width           =   4335
+      End
+      Begin VB.Label Label7 
+         Caption         =   "스레드당 크기:"
+         Height          =   255
+         Left            =   0
+         TabIndex        =   119
+         Top             =   1800
+         Width           =   1215
+      End
+      Begin VB.Label lblThreadCount2 
+         Caption         =   "-"
+         Height          =   255
+         Left            =   1320
+         TabIndex        =   118
+         Top             =   1440
+         Width           =   4335
+      End
+      Begin VB.Label Label6 
+         Caption         =   "스레드 수:"
+         Height          =   255
+         Left            =   0
+         TabIndex        =   117
+         Top             =   1440
+         Width           =   975
+      End
       Begin VB.Label Label5 
          Caption         =   "속도:"
          Height          =   255
          Left            =   0
          TabIndex        =   99
-         Top             =   1170
+         Top             =   1080
          Width           =   975
       End
       Begin VB.Label lblSpeed 
          Caption         =   "-"
          Height          =   255
-         Left            =   1200
+         Left            =   1320
          TabIndex        =   98
-         Top             =   1170
-         Width           =   4455
+         Top             =   1080
+         Width           =   4335
       End
       Begin VB.Label lblElapsed 
          Caption         =   "-"
          Height          =   255
-         Left            =   1200
+         Left            =   1320
          TabIndex        =   90
-         Top             =   810
-         Width           =   4455
+         Top             =   720
+         Width           =   4335
       End
       Begin VB.Label Label4 
          Caption         =   "경과 시간:"
          Height          =   255
          Left            =   0
          TabIndex        =   89
-         Top             =   810
+         Top             =   720
          Width           =   975
       End
       Begin VB.Label lblDownloadedBytes 
          Caption         =   "-"
          Height          =   255
-         Left            =   1200
+         Left            =   1320
          TabIndex        =   88
-         Top             =   420
-         Width           =   4455
+         Top             =   360
+         Width           =   4335
       End
       Begin VB.Label Label3 
          Caption         =   "받은 크기:"
          Height          =   255
          Left            =   0
          TabIndex        =   87
-         Top             =   420
+         Top             =   360
          Width           =   1095
       End
       Begin VB.Label lblTotalBytes 
          Caption         =   "-"
          Height          =   255
-         Left            =   1200
+         Left            =   1320
          TabIndex        =   86
-         Top             =   60
-         Width           =   4455
+         Top             =   0
+         Width           =   4335
       End
       Begin VB.Label Label2 
          Caption         =   "총 크기:"
          Height          =   255
          Left            =   0
          TabIndex        =   85
-         Top             =   60
+         Top             =   0
          Width           =   975
       End
    End
@@ -1468,6 +1500,8 @@ Sub OnData(Data As String)
             pbProgress(idx).Value = progress
             lblPercentage(idx).Caption = "(" & progress & "%)"
         End If
+        
+        If trThreadCount.Value > 1 And idx = 1 And (CDbl(Split(output, ",")(2)) > 0 Or lblTotalBytes.Caption = "0 바이트") Then lblTotalSizeThread.Caption = ParseSize(CDbl(Split(output, ",")(2)), True)
     ElseIf Left$(Data, 6) = "TOTAL " Then
         output = Right$(Data, Len(Data) - 6)
         If CLng(Split(output, ",")(2)) > 100 Then
@@ -1673,6 +1707,13 @@ Sub OnStart()
     
     lblTotalBytes.Caption = "대기 중..."
     lblDownloadedBytes.Caption = "대기 중..."
+    If trThreadCount.Value > 1 Then
+        lblTotalSizeThread.Caption = "대기 중..."
+        lblThreadCount2.Caption = trThreadCount.Value
+    Else
+        lblTotalSizeThread.Caption = "-"
+        lblThreadCount2.Caption = "-"
+    End If
     lblElapsed.Caption = "0초"
     
     fTotal.Caption = " 전체 다운로드 진행률 "
@@ -1780,6 +1821,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     Else
         lblTotalBytes.Caption = lblDownloadedBytes.Caption
     End If
+    If lblTotalSizeThread.Caption = "대기 중..." Then lblTotalSizeThread.Caption = "-"
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -2119,10 +2161,10 @@ Private Sub Form_Load()
         pbProgress(i).Width = pbProgress(i).Width - 60
         lblPercentage(i).Caption = ""
     Next i
-    fDownloadInfo.Top = fThreadInfo.Top
+    fDownloadInfo.Top = fThreadInfo.Top + 60
     fDownloadInfo.Left = fThreadInfo.Left
     fDownloadInfo.Width = fThreadInfo.Width '5925
-    fDownloadInfo.Height = fThreadInfo.Height
+    fDownloadInfo.Height = fThreadInfo.Height - 60
     
     If GetSetting("DownloadBooster", "UserData", "LastTab", 1) = 1 Then
         fTabDownload_Click
