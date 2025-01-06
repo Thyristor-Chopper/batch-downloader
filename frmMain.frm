@@ -72,7 +72,7 @@ Begin VB.Form frmMain
       Width           =   615
       _ExtentX        =   1085
       _ExtentY        =   291
-      Caption         =   " 스레드"
+      Caption         =   " 스레드 "
       Alignment       =   2
    End
    Begin prjDownloadBooster.FrameW fTabDownload 
@@ -91,7 +91,8 @@ Begin VB.Form frmMain
       Left            =   1320
       TabIndex        =   109
       Top             =   2010
-      Width           =   855
+      Value           =   -1  'True
+      Width           =   255
    End
    Begin VB.Frame Frame6 
       Height          =   420
@@ -106,7 +107,7 @@ Begin VB.Form frmMain
       Left            =   435
       TabIndex        =   108
       Top             =   2010
-      Width           =   735
+      Width           =   255
    End
    Begin VB.Frame Frame5 
       Height          =   420
@@ -200,6 +201,7 @@ Begin VB.Form frmMain
          Width           =   975
       End
       Begin VB.Label lblSpeed 
+         Caption         =   "-"
          Height          =   255
          Left            =   1200
          TabIndex        =   98
@@ -207,6 +209,7 @@ Begin VB.Form frmMain
          Width           =   4455
       End
       Begin VB.Label lblElapsed 
+         Caption         =   "-"
          Height          =   255
          Left            =   1200
          TabIndex        =   90
@@ -222,6 +225,7 @@ Begin VB.Form frmMain
          Width           =   975
       End
       Begin VB.Label lblDownloadedBytes 
+         Caption         =   "-"
          Height          =   255
          Left            =   1200
          TabIndex        =   88
@@ -237,6 +241,7 @@ Begin VB.Form frmMain
          Width           =   1095
       End
       Begin VB.Label lblTotalBytes 
+         Caption         =   "-"
          Height          =   255
          Left            =   1200
          TabIndex        =   86
@@ -1563,7 +1568,7 @@ Sub NextBatchDownload()
         End If
         
         If BatchErrorCount Then
-            MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 다운로드 강도가 잘못되었습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
+            MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
         ElseIf chkPlaySound.Value Then
             MessageBeep 64
         End If
@@ -1583,7 +1588,7 @@ Sub OnExit(RetVal As Long)
             Case 2
                 MsgBox "주소나 파일 이름을 지정하지 않았습니다.", 16
             Case 3
-                MsgBox "다운로드 강도가 잘못되었습니다.", 16
+                MsgBox "저장 경로가 존재하지 않습니다.", 16
             Case 4
                 MsgBox "저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", 16
             Case 5
@@ -1769,9 +1774,9 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         If PlayBeep And chkPlaySound.Value Then MessageBeep 64
     End If
     
-    If lblTotalBytes.Caption = "대기 중..." Then lblTotalBytes.Caption = ""
+    If lblTotalBytes.Caption = "대기 중..." Then lblTotalBytes.Caption = "-"
     If lblDownloadedBytes.Caption = "대기 중..." Then
-        lblDownloadedBytes.Caption = ""
+        lblDownloadedBytes.Caption = "-"
     Else
         lblTotalBytes.Caption = lblDownloadedBytes.Caption
     End If
@@ -2077,7 +2082,7 @@ Private Sub cmdStopBatch_Click()
         sbStatusBar.Panels(4).Text = ""
         chkOpenAfterComplete.Enabled = -1
         cmdGo.Enabled = -1
-        If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 다운로드 강도가 잘못되었습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
+        If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
     End If
 End Sub
 
@@ -2118,6 +2123,12 @@ Private Sub Form_Load()
     fDownloadInfo.Left = fThreadInfo.Left
     fDownloadInfo.Width = fThreadInfo.Width '5925
     fDownloadInfo.Height = fThreadInfo.Height
+    
+    If GetSetting("DownloadBooster", "UserData", "LastTab", 1) = 1 Then
+        fTabDownload_Click
+    Else
+        fTabThreads_Click
+    End If
     
     lvDummyScroll.AddItem "1"
     lvDummyScroll.AddItem "2"
@@ -2175,6 +2186,8 @@ Private Sub Form_Load()
     chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 0)
     If chkRememberURL.Value Then
         txtURL.Text = GetSetting("DownloadBooster", "UserData", "FileURL", "")
+        txtURL.SelStart = 0
+        txtURL.SelLength = Len(txtURL.Text)
     End If
     chkPlaySound.Value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
     
@@ -2212,6 +2225,7 @@ Private Sub Form_Unload(Cancel As Integer)
     SaveSetting "DownloadBooster", "Options", "PlaySound", chkPlaySound.Value
     SaveSetting "DownloadBooster", "UserData", "FormTop", Me.Top
     SaveSetting "DownloadBooster", "UserData", "FormLeft", Me.Left
+    SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
     Unload Me
 End Sub
 
@@ -2459,18 +2473,18 @@ Private Sub trThreadCount_Scroll()
     End If
     
     If trThreadCount.Value <= 1 Then
-        fDownloadInfo.Visible = -1
-        fThreadInfo.Visible = 0
-        tsTabs.Tabs(1).Selected = True
-        optTabDownload.Value = True
-        optTabDownload2.Value = True
+'        fDownloadInfo.Visible = -1
+'        fThreadInfo.Visible = 0
+'        tsTabs.Tabs(1).Selected = True
+'        optTabDownload.Value = True
+'        optTabDownload2.Value = True
         chkNoCleanup.Enabled = 0
     Else
-        fThreadInfo.Visible = -1
-        fDownloadInfo.Visible = 0
-        tsTabs.Tabs(2).Selected = True
-        optTabThreads.Value = True
-        optTabThreads2.Value = True
+'        fThreadInfo.Visible = -1
+'        fDownloadInfo.Visible = 0
+'        tsTabs.Tabs(2).Selected = True
+'        optTabThreads.Value = True
+'        optTabThreads2.Value = True
         chkNoCleanup.Enabled = -1
     End If
     
