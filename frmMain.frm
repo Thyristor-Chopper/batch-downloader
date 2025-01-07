@@ -62,11 +62,11 @@ Begin VB.Form frmMain
       Left            =   6840
       TabIndex        =   12
       Top             =   2520
-      Width           =   2175
+      Width           =   2205
    End
    Begin prjDownloadBooster.FrameW fTabThreads 
       Height          =   165
-      Left            =   1560
+      Left            =   1545
       TabIndex        =   112
       Top             =   2055
       Width           =   615
@@ -77,7 +77,7 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.FrameW fTabDownload 
       Height          =   165
-      Left            =   690
+      Left            =   660
       TabIndex        =   111
       Top             =   2055
       Width           =   495
@@ -1235,7 +1235,7 @@ Begin VB.Form frmMain
       Width           =   1575
    End
    Begin VB.CommandButton cmdBatch 
-      Caption         =   "老褒 贸府(&W) >>"
+      Caption         =   "     老褒 贸府(&W)  ″"
       Height          =   375
       Left            =   7320
       TabIndex        =   20
@@ -1270,7 +1270,7 @@ Begin VB.Form frmMain
       End
    End
    Begin VB.Frame Frame2 
-      Caption         =   " 可记 "
+      Caption         =   " 汲沥 "
       Height          =   1905
       Left            =   6720
       TabIndex        =   28
@@ -1366,6 +1366,7 @@ Begin VB.Form frmMain
    End
    Begin VB.CommandButton cmdGo 
       Caption         =   "促款肺靛(&S)"
+      Default         =   -1  'True
       Height          =   375
       Left            =   7320
       TabIndex        =   18
@@ -1378,6 +1379,7 @@ Begin VB.Form frmMain
       Left            =   120
       TabIndex        =   97
       Top             =   6120
+      Visible         =   0   'False
       Width           =   9135
    End
    Begin VB.Frame Frame4 
@@ -1715,6 +1717,7 @@ Sub OnStart()
         lblThreadCount2.Caption = "-"
     End If
     lblElapsed.Caption = "0檬"
+    lblSpeed.Caption = "-"
     
     fTotal.Caption = " 傈眉 促款肺靛 柳青伏 "
     pbTotalProgress.Value = 0
@@ -1875,7 +1878,7 @@ End Sub
 Private Sub cmdBatch_Click()
     On Error Resume Next
     If Me.Height = 6930 Then
-        cmdBatch.Caption = "<< 老褒 贸府(&W)"
+        cmdBatch.Caption = "     老褒 贸府(&W)  °"
         lvBatchFiles.Visible = -1
         fBatchDownload.Visible = -1
         
@@ -1887,7 +1890,7 @@ Private Sub cmdBatch_Click()
         Me.Height = 9405
     Else
         Me.Height = 6930
-        cmdBatch.Caption = "老褒 贸府(&W) >>"
+        cmdBatch.Caption = "     老褒 贸府(&W)  ″"
         lvBatchFiles.Visible = 0
         fBatchDownload.Visible = 0
         
@@ -2275,8 +2278,16 @@ Private Sub fTabDownload_Click()
     cmdTabDownload_Click
 End Sub
 
+Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    fTabDownload_Click
+End Sub
+
 Private Sub fTabThreads_Click()
     cmdTabThreads_Click
+End Sub
+
+Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    fTabThreads_Click
 End Sub
 
 Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
@@ -2391,12 +2402,20 @@ Private Sub optTabDownload2_Click()
     optTabDownload_Click
 End Sub
 
+Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    fTabDownload_Click
+End Sub
+
 Private Sub optTabThreads_Click()
     tsTabs.Tabs(2).Selected = True
 End Sub
 
 Private Sub optTabThreads2_Click()
     optTabThreads_Click
+End Sub
+
+Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    fTabThreads_Click
 End Sub
 
 Private Sub SP_ChildFinished()

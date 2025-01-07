@@ -4,7 +4,7 @@ Begin VB.Form frmBrowse
    Caption         =   "다운로드 경로 선택"
    ClientHeight    =   3255
    ClientLeft      =   2760
-   ClientTop       =   3780
+   ClientTop       =   3870
    ClientWidth     =   6345
    BeginProperty Font 
       Name            =   "굴림"
@@ -35,7 +35,7 @@ Begin VB.Form frmBrowse
       Left            =   4920
       TabIndex        =   6
       Top             =   2880
-      Width           =   1335
+      Width           =   1350
    End
    Begin VB.TextBox txtFileName 
       Height          =   270
@@ -105,7 +105,6 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   1710
       Left            =   120
-      Pattern         =   "*.d2r"
       System          =   -1  'True
       TabIndex        =   2
       Top             =   720
@@ -152,7 +151,7 @@ Begin VB.Form frmBrowse
       Height          =   255
       Left            =   2520
       TabIndex        =   12
-      Top             =   360
+      Top             =   415
       Width           =   2175
    End
    Begin VB.Label Label4 
@@ -353,7 +352,7 @@ Private Sub selDrive_Change()
     Exit Sub
     
 e:
-    MsgBox "시스템에 부착된 장치를 사용할 수 없습니다.", 16
+    MsgBox "선택한 드라이브 안에 디스크가 없습니다.", 16
 End Sub
 
 Private Sub selFileType_Click()
