@@ -4,7 +4,7 @@ Begin VB.Form frmMain
    Caption         =   "다운로드 부스터"
    ClientHeight    =   8505
    ClientLeft      =   45
-   ClientTop       =   465
+   ClientTop       =   570
    ClientWidth     =   10155
    BeginProperty Font 
       Name            =   "굴림"
@@ -21,6 +21,35 @@ Begin VB.Form frmMain
    ScaleHeight     =   8505
    ScaleWidth      =   10155
    StartUpPosition =   3  'Windows 기본값
+   Begin VB.CheckBox chkAutoRetry 
+      Caption         =   "오류 시 자동 재시도(&G)"
+      Height          =   255
+      Left            =   6840
+      TabIndex        =   122
+      Top             =   3360
+      Width           =   2210
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdStop 
+      Height          =   375
+      Left            =   7320
+      TabIndex        =   19
+      Top             =   4680
+      Visible         =   0   'False
+      Width           =   1815
+      _ExtentX        =   3201
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      ImageList       =   "imgStopRed"
+      Caption         =   "중지(&P) "
+   End
+   Begin VB.CheckBox chkContinueDownload 
+      Caption         =   "이어받기(&Z)"
+      Height          =   255
+      Left            =   6840
+      TabIndex        =   121
+      Top             =   3090
+      Width           =   1935
+   End
    Begin prjDownloadBooster.CommandButtonW cmdOpenBatch 
       Height          =   375
       Left            =   240
@@ -75,7 +104,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":04BA
+      InitListImages  =   "frmMain.frx":09FA
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -97,31 +126,19 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":066A
+      InitListImages  =   "frmMain.frx":10EA
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   375
       Left            =   7320
       TabIndex        =   67
-      Top             =   4980
+      Top             =   5100
       Visible         =   0   'False
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
       ImageList       =   "imgPlusYellow"
       Caption         =   "목록에 추가(&Q)"
-   End
-   Begin prjDownloadBooster.CommandButtonW cmdStop 
-      Height          =   375
-      Left            =   7320
-      TabIndex        =   19
-      Top             =   4560
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgStopRed"
-      Caption         =   "중지(&P) "
    End
    Begin prjDownloadBooster.CommandButtonW cmdStartBatch 
       Height          =   375
@@ -143,7 +160,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":1872
+      InitListImages  =   "frmMain.frx":22F2
    End
    Begin prjDownloadBooster.ImageList imgStopYellow 
       Left            =   9480
@@ -153,7 +170,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2A7A
+      InitListImages  =   "frmMain.frx":34FA
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9480
@@ -163,7 +180,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3C82
+      InitListImages  =   "frmMain.frx":4702
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9480
@@ -173,7 +190,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":4E8A
+      InitListImages  =   "frmMain.frx":590A
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9480
@@ -183,7 +200,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":6092
+      InitListImages  =   "frmMain.frx":6B12
    End
    Begin prjDownloadBooster.ImageList imgPlus 
       Left            =   9480
@@ -193,7 +210,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":729A
+      InitListImages  =   "frmMain.frx":7D1A
    End
    Begin prjDownloadBooster.ImageList imgErase 
       Left            =   9480
@@ -203,7 +220,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":84A2
+      InitListImages  =   "frmMain.frx":8F22
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9480
@@ -213,7 +230,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":888A
+      InitListImages  =   "frmMain.frx":930A
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9480
@@ -223,7 +240,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":9A92
+      InitListImages  =   "frmMain.frx":A512
    End
    Begin VB.CheckBox chkPlaySound 
       Caption         =   "완료 시 신호음 재생(&U)"
@@ -354,7 +371,7 @@ Begin VB.Form frmMain
       TabFixedWidth   =   53
       TabMinWidth     =   45
       TabScrollWheel  =   0   'False
-      InitTabs        =   "frmMain.frx":9E7A
+      InitTabs        =   "frmMain.frx":A8FA
    End
    Begin VB.Frame fDownloadInfo 
       BorderStyle     =   0  '없음
@@ -1699,7 +1716,7 @@ Begin VB.Form frmMain
       Left            =   7590
       Style           =   2  '드롭다운 목록
       TabIndex        =   14
-      Top             =   2790
+      Top             =   2775
       Width           =   1425
    End
    Begin VB.CheckBox chkOpenAfterComplete 
@@ -1711,12 +1728,12 @@ Begin VB.Form frmMain
       Width           =   1935
    End
    Begin VB.CheckBox chkNoCleanup 
-      Caption         =   "조각 파일 삭제 안 함(&N)"
+      Caption         =   "조각 파일 유지(&N)"
       Height          =   255
       Left            =   6840
       TabIndex        =   8
       Top             =   1560
-      Width           =   2250
+      Width           =   2130
    End
    Begin VB.CheckBox chkOpenFolder 
       Caption         =   "완료 후 폴더 열기(&L)"
@@ -1814,7 +1831,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Frame Frame2 
       Caption         =   " 설정 "
-      Height          =   1845
+      Height          =   2415
       Left            =   6720
       TabIndex        =   28
       Top             =   1320
@@ -1824,7 +1841,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   120
          TabIndex        =   13
-         Top             =   1530
+         Top             =   1515
          Width           =   735
       End
    End
@@ -1832,7 +1849,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   15
-      Top             =   3300
+      Top             =   3840
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -1844,7 +1861,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   16
-      Top             =   3720
+      Top             =   4260
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -1859,7 +1876,7 @@ Begin VB.Form frmMain
       Width           =   10155
       _ExtentX        =   17912
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":9F46
+      InitPanels      =   "frmMain.frx":A9C6
    End
    Begin VB.Timer timElapsed 
       Enabled         =   0   'False
@@ -1912,7 +1929,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   18
-      Top             =   4140
+      Top             =   4680
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -2034,6 +2051,8 @@ Sub OnData(Data As String)
                 'pbTotalProgress.Scrolling = PrbScrollingStandard
                 pbTotalProgressMarquee.Visible = 0
                 pbTotalProgress.Value = 100
+            Case "UNABLETOCONTINUE"
+                MsgBox "이어받기가 불가능합니다. 처음부터 다시 다운로드합니다.", 48
         End Select
     ElseIf Left$(Data, 5) = "DATA " Then
         output = Right$(Data, Len(Data) - 5)
@@ -2123,6 +2142,7 @@ Sub OnData(Data As String)
 End Sub
 
 Sub NextBatchDownload()
+    Dim i%
     If Not BatchStarted Then Exit Sub
     
     If lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "완료" Then _
@@ -2144,7 +2164,6 @@ Sub NextBatchDownload()
         
         If lvBatchFiles.ListItems.Count > 0 Then
             Dim Enable As Boolean
-            Dim i%
             For i = 1 To lvBatchFiles.ListItems.Count
                 If lvBatchFiles.ListItems(i).Checked Then
                     Enable = True
@@ -2166,6 +2185,14 @@ Sub NextBatchDownload()
             MessageBeep 64
         End If
         
+        If lblState.Caption = "완료됨" Then
+            pbTotalProgress.Value = 100
+            For i = 1 To trThreadCount.Value
+                pbProgress(i).Value = 100
+                lblPercentage(i).Caption = "(100%)"
+            Next i
+        End If
+        
         Exit Sub
     End If
     
@@ -2177,7 +2204,9 @@ Sub OnExit(RetVal As Long)
     If Not BatchStarted Then
         Select Case RetVal
             Case 1
-                MsgBox "유효하지 않은 주소를 입력했거나 내부 오류가 발생했습니다.", 16
+                If chkAutoRetry.Value <> 1 Then
+                    MsgBox "유효하지 않은 주소를 입력했거나 내부 오류가 발생했습니다.", 16
+                End If
             Case 2
                 MsgBox "주소나 파일 이름을 지정하지 않았습니다.", 16
             Case 3
@@ -2195,6 +2224,8 @@ Sub OnExit(RetVal As Long)
     
     If Not BatchStarted Then cmdGo.Enabled = -1
     cmdStop.Enabled = 0
+    cmdStop.Visible = 0
+    cmdGo.Visible = -1
     OnStop (RetVal = 0)
     Dim i%
     If BatchStarted Then
@@ -2229,6 +2260,9 @@ Sub OnExit(RetVal As Long)
         If chkOpenFolder.Value Then
             cmdOpenFolder_Click
         End If
+    ElseIf RetVal = 1 And chkAutoRetry.Value Then
+        MessageBeep 48
+        cmdGo_Click
     End If
 End Sub
 
@@ -2237,8 +2271,12 @@ Sub OnStart()
     cmdGo.Enabled = 0
     If Not BatchStarted Then
         cmdStop.Enabled = -1
+        cmdStop.Visible = -1
+        cmdGo.Visible = 0
     Else
         cmdStop.Enabled = 0
+        cmdStop.Visible = 0
+        cmdGo.Visible = -1
     End If
     
     lblURL.Enabled = 0
@@ -2300,6 +2338,8 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     IsDownloading = False
     If Not BatchStarted Then cmdGo.Enabled = -1
     cmdStop.Enabled = 0
+    cmdStop.Visible = 0
+    cmdGo.Visible = -1
     
     lblURL.Enabled = -1
     lblFilePath.Enabled = -1
@@ -2381,7 +2421,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     If lblTotalBytes.Caption = "대기 중..." Then lblTotalBytes.Caption = "-"
     If lblDownloadedBytes.Caption = "대기 중..." Then
         lblDownloadedBytes.Caption = "-"
-    Else
+    ElseIf pbTotalProgress.Value = 100 Then
         lblTotalBytes.Caption = lblDownloadedBytes.Caption
     End If
     If lblTotalSizeThread.Caption = "대기 중..." Then lblTotalSizeThread.Caption = "-"
@@ -2565,7 +2605,7 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
     SpeedCount = 0
     lblFilename.Caption = fso.GetFilename(DownloadPath)
     If Len(lblFilename.Caption) > 22 Then lblFilename.Caption = Left$(lblFilename.Caption, 22) & "..."
-    SPResult = SP.Run("""" & CachePath & "node.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" " & Replace(Replace(URL, " ", "%20"), """", "%22") & " """ & FileName & """ " & trThreadCount.Value & " " & (chkNoCleanup.Value * -1) & " " & cbWhenExist.ListIndex)
+    SPResult = SP.Run("""" & CachePath & "node.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" " & Replace(Replace(URL, " ", "%20"), """", "%22") & " """ & FileName & """ " & trThreadCount.Value & " " & (chkNoCleanup.Value * -1) & " " & cbWhenExist.ListIndex & " " & chkContinueDownload.Value)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -2575,6 +2615,8 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
                    Caption
             If Not BatchStarted Then cmdGo.Enabled = -1
             cmdStop.Enabled = 0
+            cmdStop.Visible = 0
+            cmdGo.Visible = -1
             OnStop
         Case SP_CREATEPROCFAILED
             MsgBox "Run failed, could not create process", _
@@ -2582,6 +2624,8 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
                    Caption
             If Not BatchStarted Then cmdGo.Enabled = -1
             cmdStop.Enabled = 0
+            cmdStop.Visible = 0
+            cmdGo.Visible = -1
             OnStop
     End Select
 End Sub
@@ -2712,14 +2756,14 @@ Private Sub cmdStartBatch_Click()
 End Sub
 
 Private Sub cmdStop_Click()
-    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", "다운로드 취소", Me, 48) = vbYes Then
+    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "다운로드 취소", Me, 32) = vbYes Then
         OnStop False
         cmdOpen.Enabled = 0
     End If
 End Sub
 
 Private Sub cmdStopBatch_Click()
-    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", "다운로드 취소", Me, 48) = vbYes Then
+    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "다운로드 취소", Me, 32) = vbYes Then
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "중지"
         lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = 255
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = 255
@@ -2849,6 +2893,8 @@ Private Sub Form_Load()
         txtURL.SelLength = Len(txtURL.Text)
     End If
     chkPlaySound.Value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
+    chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 1)
+    chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
     
     cbWhenExist.Clear
     cbWhenExist.AddItem "중단"
@@ -2869,7 +2915,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     If cmdStop.Enabled = -1 Or BatchStarted Then
-        If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", "다운로드 취소", Me, 48) <> vbYes Then
+        If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "다운로드 취소", Me, 32) <> vbYes Then
             Cancel = 1
             Exit Sub
         Else
@@ -2892,9 +2938,11 @@ Private Sub Form_Unload(Cancel As Integer)
         SaveSetting "DownloadBooster", "UserData", "FileURL", Trim$(txtURL.Text)
     End If
     SaveSetting "DownloadBooster", "Options", "PlaySound", chkPlaySound.Value
+    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkContinueDownload.Value
     SaveSetting "DownloadBooster", "UserData", "FormTop", Me.Top
     SaveSetting "DownloadBooster", "UserData", "FormLeft", Me.Left
     SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
+    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
     Unload Me
 End Sub
 
