@@ -75,9 +75,9 @@ function startDownload(url) {
 		} else if(!total) {
 			total = 0
 		}
-		if(continuedownload && res.headers['accept-ranges'] != 'bytes') {
+		if(continuedownload && (res.headers['accept-ranges'] != 'bytes' || !total)) {
 			print('STATUS', 'UNABLETOCONTINUE');
-			continuedownload = 0;
+			continuedownload = false;
 		}
 		var comp = 0;
 		var downloader = [];
