@@ -26,7 +26,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   6840
       TabIndex        =   122
-      Top             =   3360
+      Top             =   3330
       Width           =   2210
    End
    Begin prjDownloadBooster.CommandButtonW cmdStop 
@@ -64,11 +64,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdDelete 
       Height          =   375
-      Left            =   4560
+      Left            =   4200
       TabIndex        =   24
       Top             =   7710
-      Width           =   1215
-      _ExtentX        =   2143
+      Width           =   1335
+      _ExtentX        =   2355
       _ExtentY        =   661
       Enabled         =   0   'False
       ImageList       =   "imgMinus"
@@ -108,7 +108,7 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
-      Left            =   5760
+      Left            =   5520
       TabIndex        =   68
       Top             =   7710
       Width           =   255
@@ -142,11 +142,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdStartBatch 
       Height          =   375
-      Left            =   6120
+      Left            =   5880
       TabIndex        =   25
       Top             =   7710
-      Width           =   1455
-      _ExtentX        =   2566
+      Width           =   1575
+      _ExtentX        =   2778
       _ExtentY        =   661
       Enabled         =   0   'False
       ImageList       =   "imgPlay"
@@ -1744,35 +1744,35 @@ Begin VB.Form frmMain
       Width           =   2055
    End
    Begin prjDownloadBooster.CommandButtonW cmdClear 
-      Height          =   300
-      Left            =   7560
+      Height          =   330
+      Left            =   7440
       TabIndex        =   27
       TabStop         =   0   'False
-      Top             =   105
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   529
+      Top             =   90
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   582
       ImageList       =   "imgErase"
       Caption         =   "초기화(&Y) "
    End
    Begin prjDownloadBooster.CommandButtonW cmdAdd 
       Height          =   375
-      Left            =   3000
+      Left            =   2520
       TabIndex        =   23
       Top             =   7710
-      Width           =   1455
-      _ExtentX        =   2566
+      Width           =   1575
+      _ExtentX        =   2778
       _ExtentY        =   661
       ImageList       =   "imgPlus"
       Caption         =   " 추가(&R)..."
    End
    Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
       Height          =   375
-      Left            =   7680
+      Left            =   7560
       TabIndex        =   26
       Top             =   7710
-      Width           =   1455
-      _ExtentX        =   2566
+      Width           =   1575
+      _ExtentX        =   2778
       _ExtentY        =   661
       Enabled         =   0   'False
       ImageList       =   "imgStopYellow"
@@ -1831,7 +1831,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Frame Frame2 
       Caption         =   " 설정 "
-      Height          =   2415
+      Height          =   2325
       Left            =   6720
       TabIndex        =   28
       Top             =   1320
@@ -1900,29 +1900,29 @@ Begin VB.Form frmMain
       SelStart        =   1
    End
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
-      Height          =   300
-      Left            =   7560
+      Height          =   330
+      Left            =   7440
       TabIndex        =   4
-      Top             =   465
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   529
+      Top             =   435
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   582
       ImageList       =   "imgOpenFolder"
-      Caption         =   "찾아보기(&B)..."
+      Caption         =   " 찾아보기(&B)..."
    End
    Begin VB.TextBox txtFileName 
-      Height          =   270
+      Height          =   300
       Left            =   1560
       TabIndex        =   3
-      Top             =   480
-      Width           =   5895
+      Top             =   450
+      Width           =   5775
    End
    Begin VB.TextBox txtURL 
-      Height          =   270
+      Height          =   300
       Left            =   1560
       TabIndex        =   1
-      Top             =   120
-      Width           =   5895
+      Top             =   105
+      Width           =   5775
    End
    Begin prjDownloadBooster.CommandButtonW cmdGo 
       Default         =   -1  'True
@@ -1965,7 +1965,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   240
       TabIndex        =   2
-      Top             =   510
+      Top             =   490
       Width           =   1215
    End
    Begin VB.Label lblURL 
@@ -1973,7 +1973,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   240
       TabIndex        =   0
-      Top             =   150
+      Top             =   135
       Width           =   1215
    End
    Begin prjDownloadBooster.ShellPipe SP 
@@ -2297,8 +2297,6 @@ Sub OnStart()
     
     lblThreadCount.Enabled = 0
     
-    cmdBatch.Enabled = 0
-    
     cmdStartBatch.Enabled = 0
     
     cmdOpen.Enabled = 0
@@ -2390,8 +2388,6 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         sbStatusBar.Panels(3).Text = ""
         sbStatusBar.Panels(4).Text = ""
     End If
-    
-    cmdBatch.Enabled = -1
     
     If Not BatchStarted Then
         timElapsed.Enabled = 0
@@ -2585,6 +2581,24 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = &HFF0000
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2).ForeColor = &HFF0000
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).ForeColor = &HFF0000
+        
+        On Error GoTo L1
+        If lvBatchFiles.SelectedItem.Index = CurrentBatchIdx Then
+            cmdDelete.Enabled = 0
+            cmdDeleteDropdown.Enabled = 0
+        ElseIf lvBatchFiles.SelectedItem.Text <> "" And lvBatchFiles.SelectedItem.Selected Then
+            cmdDelete.Enabled = -1
+            cmdDeleteDropdown.Enabled = -1
+        Else
+            cmdDelete.Enabled = 0
+            cmdDeleteDropdown.Enabled = 0
+        End If
+        GoTo L2
+L1:
+        cmdDelete.Enabled = 0
+        cmdDeleteDropdown.Enabled = 0
+L2:
+        On Error GoTo 0
     End If
     
     URL = Trim$(URL)
@@ -2908,7 +2922,7 @@ Private Sub Form_Load()
         cmdOpenDropdown.Visible = 0
         
         cmdDelete.SplitButton = True
-        cmdDelete.Width = 1455
+        cmdDelete.Width = 1575
         cmdDeleteDropdown.Visible = 0
     End If
 End Sub
