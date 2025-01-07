@@ -5,7 +5,7 @@ Begin VB.Form frmMain
    ClientHeight    =   8925
    ClientLeft      =   45
    ClientTop       =   570
-   ClientWidth     =   9360
+   ClientWidth     =   10305
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -19,8 +19,109 @@ Begin VB.Form frmMain
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
    ScaleHeight     =   8925
-   ScaleWidth      =   9360
+   ScaleWidth      =   10305
    StartUpPosition =   3  'Windows 기본값
+   Begin prjDownloadBooster.CommandButtonW cmdStartBatch 
+      Height          =   375
+      Left            =   5880
+      TabIndex        =   25
+      Top             =   8070
+      Width           =   1575
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Enabled         =   0   'False
+      ImageList       =   "imgPlay"
+      Caption         =   "시작(&A) "
+   End
+   Begin prjDownloadBooster.ImageList imgStopRed 
+      Left            =   9480
+      Top             =   5880
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":030A
+   End
+   Begin prjDownloadBooster.ImageList imgStopYellow 
+      Left            =   9480
+      Top             =   5160
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":1512
+   End
+   Begin prjDownloadBooster.ImageList imgPlay 
+      Left            =   9480
+      Top             =   4440
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":271A
+   End
+   Begin prjDownloadBooster.ImageList imgDownload 
+      Left            =   9480
+      Top             =   3720
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":3922
+   End
+   Begin prjDownloadBooster.ImageList imgMinus 
+      Left            =   9480
+      Top             =   3000
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":4B2A
+   End
+   Begin prjDownloadBooster.ImageList imgPlus 
+      Left            =   9480
+      Top             =   2280
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":5D32
+   End
+   Begin prjDownloadBooster.ImageList imgErase 
+      Left            =   9480
+      Top             =   1560
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      InitListImages  =   "frmMain.frx":6F3A
+   End
+   Begin prjDownloadBooster.ImageList imgOpenFile 
+      Left            =   9480
+      Top             =   840
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":7422
+   End
+   Begin prjDownloadBooster.ImageList imgOpenFolder 
+      Left            =   9480
+      Top             =   120
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":862A
+   End
    Begin VB.Frame fDummyUI4 
       BorderStyle     =   0  '없음
       Height          =   345
@@ -139,23 +240,27 @@ Begin VB.Form frmMain
       _ExtentY        =   450
       Transparent     =   -1  'True
    End
-   Begin VB.CommandButton cmdTabThreads 
-      Caption         =   "    스레드"
+   Begin prjDownloadBooster.CommandButtonW cmdTabThreads 
       Height          =   330
       Left            =   2760
       TabIndex        =   104
       Top             =   1980
       Visible         =   0   'False
       Width           =   615
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "    스레드"
    End
-   Begin VB.CommandButton cmdTabDownload 
-      Caption         =   "    요약"
+   Begin prjDownloadBooster.CommandButtonW cmdTabDownload 
       Height          =   330
       Left            =   450
       TabIndex        =   103
       Top             =   1980
       Visible         =   0   'False
       Width           =   1095
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "    요약"
    End
    Begin VB.Frame Frame3 
       BorderStyle     =   0  '없음
@@ -181,7 +286,7 @@ Begin VB.Form frmMain
       TabFixedWidth   =   53
       TabMinWidth     =   45
       TabScrollWheel  =   0   'False
-      InitTabs        =   "frmMain.frx":030A
+      InitTabs        =   "frmMain.frx":8B12
    End
    Begin VB.Frame fDownloadInfo 
       BorderStyle     =   0  '없음
@@ -1131,23 +1236,29 @@ Begin VB.Form frmMain
       Visible         =   0   'False
       Width           =   495
    End
-   Begin VB.CommandButton cmdIncreaseThreads 
-      Caption         =   ">"
+   Begin prjDownloadBooster.CommandButtonW cmdIncreaseThreads 
       Height          =   375
       Left            =   7200
       TabIndex        =   92
       TabStop         =   0   'False
       Top             =   765
       Width           =   375
+      _ExtentX        =   0
+      _ExtentY        =   0
+      ImageListAlignment=   4
+      Caption         =   ">"
    End
-   Begin VB.CommandButton cmdDecreaseThreads 
-      Caption         =   "<"
+   Begin prjDownloadBooster.CommandButtonW cmdDecreaseThreads 
       Height          =   375
       Left            =   1560
       TabIndex        =   91
       TabStop         =   0   'False
       Top             =   765
       Width           =   375
+      _ExtentX        =   0
+      _ExtentY        =   0
+      ImageListAlignment=   4
+      Caption         =   "<"
    End
    Begin VB.ComboBox cbWhenExist 
       Height          =   300
@@ -1181,66 +1292,74 @@ Begin VB.Form frmMain
       Top             =   2040
       Width           =   2055
    End
-   Begin VB.CommandButton cmdOpenBatch 
-      Caption         =   "파일 열기(&Q)"
-      Enabled         =   0   'False
+   Begin prjDownloadBooster.CommandButtonW cmdOpenBatch 
       Height          =   375
       Left            =   240
       TabIndex        =   22
       Top             =   8070
-      Width           =   1575
+      Width           =   1815
+      _ExtentX        =   3201
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      ImageList       =   "imgOpenFile"
+      Caption         =   "파일 열기(&Q) "
    End
-   Begin VB.CommandButton cmdClear 
-      Caption         =   "지우기(&Y)"
+   Begin prjDownloadBooster.CommandButtonW cmdClear 
       Height          =   300
-      Left            =   7680
+      Left            =   7560
       TabIndex        =   27
       TabStop         =   0   'False
       Top             =   105
-      Width           =   1455
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   529
+      ImageList       =   "imgErase"
+      Caption         =   "지우기(&Y)   "
    End
-   Begin VB.CommandButton cmdAdd 
-      Caption         =   "추가(&R)..."
+   Begin prjDownloadBooster.CommandButtonW cmdAdd 
       Height          =   375
       Left            =   2520
       TabIndex        =   23
       Top             =   8070
       Width           =   1575
+      _ExtentX        =   0
+      _ExtentY        =   0
+      ImageList       =   "imgPlus"
+      Caption         =   "추가(&R)..."
    End
-   Begin VB.CommandButton cmdDelete 
-      Caption         =   "삭제(&V)"
-      Enabled         =   0   'False
+   Begin prjDownloadBooster.CommandButtonW cmdDelete 
       Height          =   375
       Left            =   4200
       TabIndex        =   24
       Top             =   8070
       Width           =   1575
-   End
-   Begin VB.CommandButton cmdStopBatch 
-      Caption         =   "중지(&Z)"
+      _ExtentX        =   0
+      _ExtentY        =   0
       Enabled         =   0   'False
+      ImageList       =   "imgMinus"
+      Caption         =   "삭제(&V)  "
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
       Height          =   375
       Left            =   7560
       TabIndex        =   26
       Top             =   8070
       Width           =   1575
-   End
-   Begin VB.CommandButton cmdStartBatch 
-      Caption         =   "시작(&A)"
+      _ExtentX        =   0
+      _ExtentY        =   0
       Enabled         =   0   'False
-      Height          =   375
-      Left            =   5880
-      TabIndex        =   25
-      Top             =   8070
-      Width           =   1575
+      ImageList       =   "imgStopYellow"
+      Caption         =   "중지(&Z) "
    End
-   Begin VB.CommandButton cmdBatch 
-      Caption         =   "     일괄 처리(&W)  ▼"
+   Begin prjDownloadBooster.CommandButtonW cmdBatch 
       Height          =   375
       Left            =   7320
       TabIndex        =   20
       Top             =   5520
       Width           =   1815
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "     일괄 처리(&W)  ▼"
    End
    Begin VB.Frame fTotal 
       Caption         =   " 전체 다운로드 진행률 "
@@ -1285,47 +1404,56 @@ Begin VB.Form frmMain
          Width           =   735
       End
    End
-   Begin VB.CommandButton cmdOpen 
-      Caption         =   "파일 열기(&O)"
-      Enabled         =   0   'False
+   Begin prjDownloadBooster.CommandButtonW cmdOpen 
       Height          =   375
       Left            =   7320
       TabIndex        =   15
       Top             =   3540
       Width           =   1815
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Enabled         =   0   'False
+      ImageList       =   "imgOpenFile"
+      Caption         =   "파일 열기(&O) "
    End
-   Begin VB.CommandButton cmdOpenFolder 
-      Caption         =   "폴더 열기(&E)"
+   Begin prjDownloadBooster.CommandButtonW cmdOpenFolder 
       Height          =   375
       Left            =   7320
       TabIndex        =   16
       Top             =   3960
       Width           =   1815
+      _ExtentX        =   0
+      _ExtentY        =   0
+      ImageList       =   "imgOpenFolder"
+      Caption         =   "폴더 열기(&E) "
    End
-   Begin VB.CommandButton cmdStop 
-      Caption         =   "중지(&P)"
-      Enabled         =   0   'False
+   Begin prjDownloadBooster.CommandButtonW cmdStop 
       Height          =   375
       Left            =   7320
       TabIndex        =   19
       Top             =   4980
       Width           =   1815
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Enabled         =   0   'False
+      ImageList       =   "imgStopRed"
+      Caption         =   "중지(&P) "
    End
    Begin prjDownloadBooster.StatusBar sbStatusBar 
       Align           =   2  '아래 맞춤
       Height          =   330
       Left            =   0
       Top             =   8595
-      Width           =   9360
-      _ExtentX        =   16510
+      Width           =   10305
+      _ExtentX        =   18177
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":03D6
+      InitPanels      =   "frmMain.frx":8BDE
    End
    Begin VB.Timer timElapsed 
       Enabled         =   0   'False
       Interval        =   1000
       Left            =   6720
-      Top             =   4440
+      Top             =   4680
    End
    Begin prjDownloadBooster.Slider trThreadCount 
       Height          =   495
@@ -1342,36 +1470,42 @@ Begin VB.Form frmMain
       TipSide         =   1
       SelStart        =   1
    End
-   Begin VB.CommandButton cmdBrowse 
-      Caption         =   "찾아보기(&B)..."
+   Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   300
-      Left            =   7680
+      Left            =   7560
       TabIndex        =   4
       Top             =   465
-      Width           =   1455
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   529
+      ImageList       =   "imgOpenFolder"
+      Caption         =   "찾아보기(&B)..."
    End
    Begin VB.TextBox txtFileName 
       Height          =   270
       Left            =   1560
       TabIndex        =   3
       Top             =   480
-      Width           =   6015
+      Width           =   5895
    End
    Begin VB.TextBox txtURL 
       Height          =   270
       Left            =   1560
       TabIndex        =   1
       Top             =   120
-      Width           =   6015
+      Width           =   5895
    End
-   Begin VB.CommandButton cmdGo 
-      Caption         =   "다운로드(&S)"
+   Begin prjDownloadBooster.CommandButtonW cmdGo 
       Default         =   -1  'True
       Height          =   375
       Left            =   7320
       TabIndex        =   18
       Top             =   4560
       Width           =   1815
+      _ExtentX        =   0
+      _ExtentY        =   0
+      ImageList       =   "imgDownload"
+      Caption         =   "다운로드(&S) "
    End
    Begin VB.Frame fBatchDownload 
       Caption         =   "일괄 다운로드 "
@@ -1424,7 +1558,7 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.ShellPipe SP 
       Left            =   6720
-      Top             =   4920
+      Top             =   5040
       _ExtentX        =   635
       _ExtentY        =   635
    End
@@ -1844,7 +1978,6 @@ Sub AddBatchURLs(URL As String)
     End If
 
     Dim idx%
-    
     Dim FileName$
     Dim ServerName$
     FileName = Trim$(txtFileName.Text)
@@ -2103,14 +2236,14 @@ Private Sub cmdStartBatch_Click()
 End Sub
 
 Private Sub cmdStop_Click()
-    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", App.Title, Me, 48) = vbYes Then
+    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", "다운로드 취소", Me, 48) = vbYes Then
         OnStop False
         cmdOpen.Enabled = 0
     End If
 End Sub
 
 Private Sub cmdStopBatch_Click()
-    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", App.Title, Me, 48) = vbYes Then
+    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", "다운로드 취소", Me, 48) = vbYes Then
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "중지"
         lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = 255
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = 255
@@ -2168,6 +2301,8 @@ Private Sub Form_Load()
     fDownloadInfo.Left = fThreadInfo.Left
     fDownloadInfo.Width = fThreadInfo.Width '5925
     fDownloadInfo.Height = fThreadInfo.Height - 60
+    
+    Me.Width = 9450
     
     If GetSetting("DownloadBooster", "UserData", "LastTab", 1) = 1 Then
         fTabDownload_Click
@@ -2245,7 +2380,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     If cmdStop.Enabled = -1 Or BatchStarted Then
-        If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", App.Title, Me, 48) <> vbYes Then
+        If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기는 불가능합니다.", "다운로드 취소", Me, 48) <> vbYes Then
             Cancel = 1
             Exit Sub
         Else

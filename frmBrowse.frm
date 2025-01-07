@@ -57,7 +57,7 @@ Begin VB.Form frmBrowse
       Height          =   300
       Left            =   120
       Style           =   2  '드롭다운 목록
-      TabIndex        =   11
+      TabIndex        =   5
       Top             =   2880
       Width           =   2175
    End
@@ -73,7 +73,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   300
       Left            =   2520
-      TabIndex        =   3
+      TabIndex        =   4
       Top             =   2880
       Width           =   2175
    End
@@ -89,7 +89,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   1770
       Left            =   2520
-      TabIndex        =   0
+      TabIndex        =   3
       Top             =   720
       Width           =   2175
    End
@@ -124,7 +124,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   340
       Left            =   4920
-      TabIndex        =   5
+      TabIndex        =   8
       Top             =   510
       Width           =   1335
    End
@@ -142,12 +142,11 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   340
       Left            =   4920
-      TabIndex        =   4
+      TabIndex        =   7
       Top             =   120
       Width           =   1335
    End
    Begin VB.Label lblDirectory 
-      BackStyle       =   0  '투명
       Height          =   255
       Left            =   2520
       TabIndex        =   12
@@ -155,7 +154,6 @@ Begin VB.Form frmBrowse
       Width           =   2175
    End
    Begin VB.Label Label4 
-      BackStyle       =   0  '투명
       Caption         =   "파일 형식(&T):"
       BeginProperty Font 
          Name            =   "굴림"
@@ -168,12 +166,11 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   120
-      TabIndex        =   10
+      TabIndex        =   11
       Top             =   2640
       Width           =   1335
    End
    Begin VB.Label Label3 
-      BackStyle       =   0  '투명
       Caption         =   "드라이브(&R):"
       BeginProperty Font 
          Name            =   "굴림"
@@ -186,12 +183,11 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   2520
-      TabIndex        =   9
+      TabIndex        =   10
       Top             =   2640
       Width           =   1335
    End
    Begin VB.Label Label2 
-      BackStyle       =   0  '투명
       Caption         =   "폴더(&D):"
       BeginProperty Font 
          Name            =   "굴림"
@@ -204,12 +200,11 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   2520
-      TabIndex        =   8
+      TabIndex        =   9
       Top             =   120
       Width           =   1695
    End
    Begin VB.Label Label1 
-      BackStyle       =   0  '투명
       Caption         =   "파일 이름(&F):"
       BeginProperty Font 
          Name            =   "굴림"
@@ -222,7 +217,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   120
-      TabIndex        =   7
+      TabIndex        =   0
       Top             =   120
       Width           =   1215
    End
@@ -257,6 +252,13 @@ Private Sub Form_Load()
         txtFileName.Text = Split(fmpth, "\")(UBound(Split(fmpth, "\")))
     End If
     
+'    If Trim$(txtFileName.Text) = "" Then
+'        txtFileName.Text = lvFiles.Pattern
+'    End If
+    
+    txtFileName.SelStart = 0
+    txtFileName.SelLength = Len(txtFileName.Text)
+    
     Dim i%
     For i = 0 To selDrive.ListCount - 1
         If LCase(Left$(selDrive.List(i), 1)) = LCase(Left$(Path, 1)) Then
@@ -288,6 +290,16 @@ End Sub
 
 Private Sub OKButton_Click()
     txtFileName.Text = Trim$(txtFileName.Text)
+    
+    On Error Resume Next
+    If InStr(1, txtFileName.Text, "*") > 0 Or InStr(1, txtFileName.Text, "?") > 0 Then
+        lvFiles.Pattern = txtFileName.Text
+        txtFileName.SelStart = 0
+        txtFileName.SelLength = Len(txtFileName.Text)
+        MessageBeep 0
+        Exit Sub
+    End If
+    On Error GoTo 0
     
     If _
         InStr(1, txtFileName.Text, "\") > 0 Or _
@@ -353,6 +365,10 @@ Private Sub selDrive_Change()
     
 e:
     MsgBox "선택한 드라이브 안에 디스크가 없습니다.", 16
+End Sub
+
+Private Sub selFileType_Change()
+    selFileType_Click
 End Sub
 
 Private Sub selFileType_Click()

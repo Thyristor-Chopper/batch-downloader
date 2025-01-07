@@ -60,7 +60,7 @@ Begin VB.Form ConfirmMsgBox
    Begin VB.Image imgMBIconQuestion 
       Height          =   480
       Left            =   240
-      Picture         =   "ConfirmMsgBox.frx":000C
+      Picture         =   "ConfirmMsgBox.frx":0442
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -68,7 +68,7 @@ Begin VB.Form ConfirmMsgBox
    Begin VB.Image imgMBIconError 
       Height          =   480
       Left            =   240
-      Picture         =   "ConfirmMsgBox.frx":044E
+      Picture         =   "ConfirmMsgBox.frx":0884
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -76,7 +76,7 @@ Begin VB.Form ConfirmMsgBox
    Begin VB.Image imgMBIconWarning 
       Height          =   480
       Left            =   240
-      Picture         =   "ConfirmMsgBox.frx":0890
+      Picture         =   "ConfirmMsgBox.frx":0CC6
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -103,7 +103,7 @@ Begin VB.Form ConfirmMsgBox
    Begin VB.Image imgMBIconInfo 
       Height          =   480
       Left            =   240
-      Picture         =   "ConfirmMsgBox.frx":0CD2
+      Picture         =   "ConfirmMsgBox.frx":1108
       Top             =   240
       Visible         =   0   'False
       Width           =   480

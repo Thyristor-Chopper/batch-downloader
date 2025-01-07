@@ -223,7 +223,7 @@ Function FilterFilename(FileName As String) As String
             ret = ret & Mid(FileName, i, 1)
         End If
     Next i
-    FilterFilename = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(ret, "\", "_"), "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_")
+    FilterFilename = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(ret, "\", "_"), "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_"), "/", "_")
 End Function
 
 'https://gist.github.com/jvarn/5e11b1fd741b5f79d8a516c9c2368f17
@@ -231,14 +231,14 @@ Function URLDecode(ByVal strIn As String) As String
     On Error GoTo ErrorHandler
     
     Dim sl As Long, tl As Long
-    Dim key As String, kl As Long
+    Dim Key As String, kl As Long
     Dim hh As String, hi As String, hl As String
     Dim a As Long
     
-    key = "%"
-    kl = Len(key)
+    Key = "%"
+    kl = Len(Key)
     sl = 1: tl = 1
-    sl = InStr(sl, strIn, key, vbTextCompare)
+    sl = InStr(sl, strIn, Key, vbTextCompare)
     Do While sl > 0
         If (tl = 1 And sl <> 1) Or tl < sl Then
             URLDecode = URLDecode & Mid(strIn, tl, sl - tl)
@@ -276,7 +276,7 @@ Function URLDecode(ByVal strIn As String) As String
         End Select
         
         tl = sl
-        sl = InStr(sl, strIn, key, vbTextCompare)
+        sl = InStr(sl, strIn, Key, vbTextCompare)
     Loop
     
     URLDecode = URLDecode & Mid(strIn, tl)

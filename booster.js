@@ -33,9 +33,10 @@ if(fn.endsWith('.')) {
     fn = fn.replace(/[.]$/, '_');
     print('MODIFIEDFILENAME', fn);
 }
-if(trd <= 1 && fs.existsSync(fn + '.tmp')) fs.unlinkSync(fn + '.tmp');
-for(var i = 1; i <= trd; i++)
-    if(fs.existsSync(fn + '.part.' + i)) return process.exit(5);
+if(trd <= 1 && fs.existsSync(fn + '.part.tmp')) fs.unlinkSync(fn + '.part.tmp');
+for(var i=1; i<=trd; i++)
+    if(fs.existsSync(fn + '.part_' + i + '.tmp'))
+        fs.unlinkSync(fn + '.part_' + i + '.tmp');
 const http = require(url.startsWith('https:') ? 'https' : 'http');
 print('STATUS', 'CHECKREDIRECT');
 http.get(url.replace(/^["]/, '').replace(/["]$/, ''), res => {
@@ -71,7 +72,7 @@ http.get(url.replace(/^["]/, '').replace(/["]$/, ''), res => {
         var ready = [];
         print('STATUS', 'DOWNLOADING');
         (async function() {
-			var i;
+            var i;
             for(i=1, range=0; i<=trd; i++) {
                 const response = await get();
                 if((response.statusCode + '')[0] != 2) {
@@ -86,7 +87,7 @@ http.get(url.replace(/^["]/, '').replace(/["]$/, ''), res => {
                 totals[id] = tt[id] = Number(response.headers['content-length'] || 0);
                 range += totals[id];
                 response.on('error', () => 1);
-                response.on('data', chunk => (downloader[id] += chunk.length, fs.appendFileSync(fn + (trd <= 1 ? '.tmp' : ('.part.' + id)), chunk)));
+                response.on('data', chunk => (downloader[id] += chunk.length, fs.appendFileSync(fn + (trd <= 1 ? '.part.tmp' : ('.part_' + id + '.tmp')), chunk)));
                 response.on('end', () => comp++, completed[id] = 1);
                 await timeout(100);
             }
@@ -118,17 +119,17 @@ http.get(url.replace(/^["]/, '').replace(/["]$/, ''), res => {
                     if(trd > 1) {
                         print('STATUS', 'MERGING');
                         var s = 'COPY /B ';
-                        for(i = 1; i <= trd; i++) s += '"' + fn + '.part.' + i + '"+';
+                        for(i=1; i<=trd; i++) s += '"' + fn + '.part_' + i + '.tmp"+';
                         s = s.replace(/[+]$/, '');
                         s += ' "' + fn + '"';
                         require('child_process').exec(s, () => {
                             if(Number(process.argv[5]) == 0)
-                                for(i = 1; i <= trd; i++) fs.unlinkSync(fn + '.part.' + i, () => 1);
+                                for(i = 1; i <= trd; i++) fs.unlinkSync(fn + '.part_' + i + '.tmp', () => 1);
                             print('STATUS', 'COMPLETE');
                             process.exit(0);
                         })
                     } else {
-                        fs.renameSync(fn + '.tmp', fn);
+                        fs.renameSync(fn + '.part.tmp', fn);
                         print('STATUS', 'COMPLETE');
                         process.exit(0);
                     }
