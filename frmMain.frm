@@ -21,6 +21,30 @@ Begin VB.Form frmMain
    ScaleHeight     =   8505
    ScaleWidth      =   10155
    StartUpPosition =   3  'Windows 기본값
+   Begin prjDownloadBooster.CommandButtonW cmdOpenBatch 
+      Height          =   375
+      Left            =   240
+      TabIndex        =   22
+      Top             =   7710
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      ImageList       =   "imgOpenFile"
+      Caption         =   "열기(&W) "
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdDelete 
+      Height          =   375
+      Left            =   4560
+      TabIndex        =   24
+      Top             =   7710
+      Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      ImageList       =   "imgMinus"
+      Caption         =   "제거(&V) "
+   End
    Begin prjDownloadBooster.ImageList imgDropdownReverse 
       Left            =   9240
       Top             =   6480
@@ -39,6 +63,7 @@ Begin VB.Form frmMain
       Width           =   255
       _ExtentX        =   450
       _ExtentY        =   661
+      Enabled         =   0   'False
       ImageList       =   "imgDropdown"
       ImageListAlignment=   4
    End
@@ -60,6 +85,7 @@ Begin VB.Form frmMain
       Width           =   255
       _ExtentX        =   450
       _ExtentY        =   661
+      Enabled         =   0   'False
       ImageList       =   "imgDropdown"
       ImageListAlignment=   4
    End
@@ -77,7 +103,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   67
-      Top             =   5100
+      Top             =   4980
       Visible         =   0   'False
       Width           =   1815
       _ExtentX        =   3201
@@ -89,7 +115,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   19
-      Top             =   4680
+      Top             =   4560
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -1700,18 +1726,6 @@ Begin VB.Form frmMain
       Top             =   2040
       Width           =   2055
    End
-   Begin prjDownloadBooster.CommandButtonW cmdOpenBatch 
-      Height          =   375
-      Left            =   240
-      TabIndex        =   22
-      Top             =   7710
-      Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgOpenFile"
-      Caption         =   "열기(&W) "
-   End
    Begin prjDownloadBooster.CommandButtonW cmdClear 
       Height          =   300
       Left            =   7560
@@ -1734,18 +1748,6 @@ Begin VB.Form frmMain
       _ExtentY        =   661
       ImageList       =   "imgPlus"
       Caption         =   " 추가(&R)..."
-   End
-   Begin prjDownloadBooster.CommandButtonW cmdDelete 
-      Height          =   375
-      Left            =   4560
-      TabIndex        =   24
-      Top             =   7710
-      Width           =   1260
-      _ExtentX        =   2223
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgMinus"
-      Caption         =   "제거(&V) "
    End
    Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
       Height          =   375
@@ -1910,7 +1912,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   18
-      Top             =   4260
+      Top             =   4140
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -2584,6 +2586,10 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
     End Select
 End Sub
 
+Private Sub cmdDelete_DropDown()
+    cmdDeleteDropdown_Click
+End Sub
+
 Private Sub cmdDeleteDropdown_Click()
     Me.PopupMenu mnuDeleteDropdown, , cmdDelete.Left, cmdDelete.Top + cmdDelete.Height
 End Sub
@@ -2642,6 +2648,10 @@ End Sub
 Private Sub cmdOpenBatch_Click()
     On Error Resume Next
     Shell "cmd /c start """" """ & lvBatchFiles.SelectedItem.ListSubItems(1).Text & """"
+End Sub
+
+Private Sub cmdOpenBatch_DropDown()
+    cmdOpenDropdown_Click
 End Sub
 
 Private Sub cmdOpenDropdown_Click()
@@ -2841,10 +2851,20 @@ Private Sub Form_Load()
     chkPlaySound.Value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
     
     cbWhenExist.Clear
-    cbWhenExist.AddItem "작업 중단"
+    cbWhenExist.AddItem "중단"
     cbWhenExist.AddItem "덮어쓰기"
     cbWhenExist.AddItem "이름 변경"
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
+    
+    If WinVer >= 6.1 Then
+        cmdOpenBatch.SplitButton = True
+        cmdOpenBatch.Width = 1815
+        cmdOpenDropdown.Visible = 0
+        
+        cmdDelete.SplitButton = True
+        cmdDelete.Width = 1455
+        cmdDeleteDropdown.Visible = 0
+    End If
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -2963,18 +2983,24 @@ Private Sub lvBatchFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As
     If Selected Then
         If BatchStarted And Item.Index = CurrentBatchIdx Then
             cmdDelete.Enabled = 0
+            cmdDeleteDropdown.Enabled = 0
         Else
             cmdDelete.Enabled = -1
+            cmdDeleteDropdown.Enabled = -1
         End If
         
         If Item.ListSubItems(3).Text = "완료" Then
             cmdOpenBatch.Enabled = -1
+            cmdOpenDropdown.Enabled = -1
         Else
             cmdOpenBatch.Enabled = 0
+            cmdOpenDropdown.Enabled = 0
         End If
     Else
         cmdDelete.Enabled = 0
+        cmdDeleteDropdown.Enabled = 0
         cmdOpenBatch.Enabled = 0
+        cmdOpenDropdown.Enabled = 0
     End If
 End Sub
 

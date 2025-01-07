@@ -2,6 +2,20 @@ Attribute VB_Name = "Functions"
 Public fso
 Public ConfirmResult As VbMsgBoxResult
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
+Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
+
+Private Type OSVERSIONINFO
+  OSVSize         As Long
+  dwVerMajor      As Long
+  dwVerMinor      As Long
+  dwBuildNumber   As Long
+  PlatformID      As Long
+  szCSDVersion    As String * 128
+End Type
+
+Private Const VER_PLATFORM_WIN32s = 0
+Private Const VER_PLATFORM_WIN32_WINDOWS = 1
+Private Const VER_PLATFORM_WIN32_NT = 2
 
 Enum MsgBoxExIcon
     Critical = 16
@@ -98,7 +112,7 @@ Function ConfirmEx(Content As String, Title As String, OwnerForm As Form, Option
     LineCount = UBound(Split(Content, vbLf)) + 1
     Dim s%
     Dim ln$
-    Dim ci%, c$
+    Dim CI%, c$
     Dim LineContent$
     For s = 0 To UBound(Split(Content, vbCrLf))
         LineContent = Split(Content, vbCrLf)(s)
@@ -284,4 +298,31 @@ Function URLDecode(ByVal strIn As String) As String
     
 ErrorHandler:
     URLDecode = strIn
+End Function
+
+Function GetWindowsVersion() As Single
+    Dim osv As OSVERSIONINFO
+    osv.OSVSize = Len(osv)
+
+    If GetVersionEx(osv) = 1 Then
+        Select Case osv.PlatformID
+            Case VER_PLATFORM_WIN32s
+                GetWindowsVersion = 3.1
+            Case VER_PLATFORM_WIN32_NT
+                GetWindowsVersion = 3.1
+                GetWindowsVersion = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
+        
+            Case VER_PLATFORM_WIN32_WINDOWS:
+                Select Case osv.dwVerMinor
+                    Case 0
+                        GetWindowsVersion = 4#
+                    Case 90
+                        GetWindowsVersion = 4.9
+                    Case Else
+                        GetWindowsVersion = 4.1
+                End Select
+        End Select
+    Else
+        GetWindowsVersion = 5.2
+    End If
 End Function

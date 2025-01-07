@@ -1,5 +1,6 @@
 Attribute VB_Name = "Startup"
 Public CachePath As String
+Public WinVer As Single
 
 Sub LoadJS()
     On Error Resume Next
@@ -27,6 +28,11 @@ Sub LoadJS()
 End Sub
 
 Sub Main()
+    WinVer = GetWindowsVersion()
+    If WinVer < 5.1 Then
+        MsgBox "지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", 16
+        Exit Sub
+    End If
     CachePath = Environ$("TEMP") & "\VB_BOOSTER_CACHE.tmp\"
     LoadJS
     
