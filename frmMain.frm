@@ -2211,7 +2211,7 @@ Sub OnExit(RetVal As Long)
             BatchErrorCount = BatchErrorCount + 1
         Else
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "¿Ï·á"
-            lvBatchFiles.ListItems(CurrentBatchIdx).Checked = False
+            'lvBatchFiles.ListItems(CurrentBatchIdx).Checked = False
             lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = &H8000&
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = &H8000&
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2).ForeColor = &H8000&
