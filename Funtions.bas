@@ -209,3 +209,79 @@ Function ParseSize(Size As Double, Optional ShowBytes As Boolean = False, Option
 ErrLn4:
     ParseSize = "0 πŸ¿Ã∆Æ"
 End Function
+
+Function FilterFilename(FileName As String) As String
+    Dim str As String
+    Dim ret As String
+    ret = ""
+    str = StrConv(FileName, vbProperCase)
+    Dim i%
+    For i = 1 To Len(str)
+        If Mid(str, i, 1) = "?" Then
+            ret = ret & "_"
+        Else
+            ret = ret & Mid(FileName, i, 1)
+        End If
+    Next i
+    FilterFilename = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(ret, "\", "_"), "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_")
+End Function
+
+'https://gist.github.com/jvarn/5e11b1fd741b5f79d8a516c9c2368f17
+Function URLDecode(ByVal strIn As String) As String
+    On Error GoTo ErrorHandler
+    
+    Dim sl As Long, tl As Long
+    Dim key As String, kl As Long
+    Dim hh As String, hi As String, hl As String
+    Dim a As Long
+    
+    key = "%"
+    kl = Len(key)
+    sl = 1: tl = 1
+    sl = InStr(sl, strIn, key, vbTextCompare)
+    Do While sl > 0
+        If (tl = 1 And sl <> 1) Or tl < sl Then
+            URLDecode = URLDecode & Mid(strIn, tl, sl - tl)
+        End If
+        
+        Select Case UCase(Mid(strIn, sl + kl, 1))
+            Case "U"
+                a = Val("&H" & Mid(strIn, sl + kl + 1, 4))
+                URLDecode = URLDecode & ChrW(a)
+                sl = sl + 6
+            Case "E"
+                hh = Mid(strIn, sl + kl, 2)
+                a = Val("&H" & hh)
+                If a < 128 Then
+                    sl = sl + 3
+                    URLDecode = URLDecode & Chr(a)
+                Else
+                    hi = Mid(strIn, sl + 3 + kl, 2)
+                    hl = Mid(strIn, sl + 6 + kl, 2)
+                    a = ((Val("&H" & hh) And &HF) * 2 ^ 12) Or ((Val("&H" & hi) And &H3F) * 2 ^ 6) Or (Val("&H" & hl) And &H3F)
+                    URLDecode = URLDecode & ChrW(a)
+                    sl = sl + 9
+                End If
+            Case Else
+                hh = Mid(strIn, sl + kl, 2)
+                a = Val("&H" & hh)
+                If a < 128 Then
+                    sl = sl + 3
+                Else
+                    hi = Mid(strIn, sl + 3 + kl, 2)
+                    a = ((Val("&H" & hh) - 194) * 64) + Val("&H" & hi)
+                    sl = sl + 6
+                End If
+                URLDecode = URLDecode & ChrW(a)
+        End Select
+        
+        tl = sl
+        sl = InStr(sl, strIn, key, vbTextCompare)
+    Loop
+    
+    URLDecode = URLDecode & Mid(strIn, tl)
+    Exit Function
+    
+ErrorHandler:
+    URLDecode = strIn
+End Function

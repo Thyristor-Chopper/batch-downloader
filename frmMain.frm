@@ -1850,11 +1850,11 @@ Sub AddBatchURLs(URL As String)
     FileName = Trim$(txtFileName.Text)
     If FolderExists(FileName) Then
         If Not (Right$(FileName, 1) = "\") Then FileName = FileName & "\"
-        ServerName = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Split(URL, "/")(UBound(Split(URL, "/"))), "\", "_"), "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_")
+        ServerName = FilterFilename(URLDecode(Split(URL, "/")(UBound(Split(URL, "/")))))
         If Replace(ServerName, " ", "") = "" Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
     Else
-        ServerName = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Split(URL, "/")(UBound(Split(URL, "/"))), "\", "_"), "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_")
+        ServerName = FilterFilename(URLDecode(Split(URL, "/")(UBound(Split(URL, "/")))))
         If Replace(ServerName, " ", "") = "" Then
             ServerName = "download_" & CStr(Rnd * 1E+15)
         Else
@@ -1945,7 +1945,7 @@ Private Sub cmdDelete_Click()
     End If
 End Sub
 
-Sub StartDownload(URL As String, FileName As String)
+Sub StartDownload(ByVal URL As String, ByVal FileName As String)
     If BatchStarted Then
         If Not lvBatchFiles.ListItems(CurrentBatchIdx).Checked Then
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "Åë°ú"
@@ -1978,7 +1978,7 @@ Sub StartDownload(URL As String, FileName As String)
     Dim ServerName$
     If FolderExists(FileName) Then
         If Not (Right$(FileName, 1) = "\") Then FileName = FileName & "\"
-        ServerName = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Split(URL, "/")(UBound(Split(URL, "/"))), "\", "_"), "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_")
+        ServerName = FilterFilename(URLDecode(Split(URL, "/")(UBound(Split(URL, "/")))))
         If Replace(ServerName, " ", "") = "" Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
     End If
