@@ -16,10 +16,10 @@ Sub LoadJS()
         Put #f1, , B
         Close #f1
     End If
-    If Not FileExists(CachePath & "node.exe") Then
+    If Not FileExists(CachePath & "node_v0_11_6.exe") Then
         B = LoadResData(2, 10)
         f2 = FreeFile()
-        Open CachePath & "node.exe" For Binary Access Write As #f2
+        Open CachePath & "node_v0_11_6.exe" For Binary Access Write As #f2
         Put #f2, , B
         Close #f2
     End If
@@ -33,7 +33,7 @@ Sub Main()
         MsgBox "지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", 16
         Exit Sub
     End If
-    CachePath = Environ$("TEMP") & "\VB_BOOSTER_CACHE.tmp\"
+    CachePath = Environ$("TEMP") & "\BOOSTER_JS_CACHE\"
     LoadJS
     
     Set fso = CreateObject("Scripting.FileSystemObject")

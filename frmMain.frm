@@ -5,7 +5,7 @@ Begin VB.Form frmMain
    ClientHeight    =   8505
    ClientLeft      =   45
    ClientTop       =   570
-   ClientWidth     =   10155
+   ClientWidth     =   10455
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -19,13 +19,13 @@ Begin VB.Form frmMain
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
    ScaleHeight     =   8505
-   ScaleWidth      =   10155
+   ScaleWidth      =   10455
    StartUpPosition =   3  'Windows 기본값
    Begin VB.CheckBox chkAutoRetry 
       Caption         =   "오류 시 자동 재시도(&G)"
       Height          =   255
       Left            =   6840
-      TabIndex        =   122
+      TabIndex        =   71
       Top             =   3330
       Width           =   2210
    End
@@ -46,7 +46,7 @@ Begin VB.Form frmMain
       Caption         =   "이어받기(&Z)"
       Height          =   255
       Left            =   6840
-      TabIndex        =   121
+      TabIndex        =   70
       Top             =   3090
       Width           =   1935
    End
@@ -536,7 +536,7 @@ Begin VB.Form frmMain
             Left            =   0
             ScaleHeight     =   9015
             ScaleWidth      =   5775
-            TabIndex        =   70
+            TabIndex        =   72
             Top             =   0
             Width           =   5775
             Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
@@ -548,7 +548,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -561,7 +560,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -574,7 +572,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -587,7 +584,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -600,7 +596,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -613,7 +608,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -626,7 +620,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -639,7 +632,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -652,7 +644,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -665,7 +656,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -678,7 +668,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -691,7 +680,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -704,7 +692,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -717,7 +704,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -730,7 +716,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -743,7 +728,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -756,7 +740,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -769,7 +752,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -782,7 +764,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -795,7 +776,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -808,7 +788,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -821,7 +800,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -834,7 +812,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -847,7 +824,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -860,7 +836,6 @@ Begin VB.Form frmMain
                _ExtentX        =   7223
                _ExtentY        =   450
                Step            =   10
-               MarqueeAnimation=   -1  'True
                MarqueeSpeed    =   35
                Scrolling       =   2
             End
@@ -1145,7 +1120,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   25
                Left            =   0
-               TabIndex        =   120
+               TabIndex        =   122
                Top             =   8685
                Width           =   855
             End
@@ -1155,7 +1130,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   25
                Left            =   5040
-               TabIndex        =   119
+               TabIndex        =   121
                Top             =   8700
                Width           =   615
             End
@@ -1164,7 +1139,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   24
                Left            =   0
-               TabIndex        =   118
+               TabIndex        =   120
                Top             =   8325
                Width           =   855
             End
@@ -1174,7 +1149,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   24
                Left            =   5040
-               TabIndex        =   117
+               TabIndex        =   119
                Top             =   8325
                Width           =   615
             End
@@ -1183,7 +1158,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   23
                Left            =   0
-               TabIndex        =   116
+               TabIndex        =   118
                Top             =   7965
                Width           =   855
             End
@@ -1193,7 +1168,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   23
                Left            =   5040
-               TabIndex        =   115
+               TabIndex        =   117
                Top             =   7965
                Width           =   615
             End
@@ -1202,7 +1177,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   22
                Left            =   0
-               TabIndex        =   114
+               TabIndex        =   116
                Top             =   7605
                Width           =   855
             End
@@ -1212,7 +1187,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   22
                Left            =   5040
-               TabIndex        =   113
+               TabIndex        =   115
                Top             =   7605
                Width           =   615
             End
@@ -1221,7 +1196,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   21
                Left            =   0
-               TabIndex        =   112
+               TabIndex        =   114
                Top             =   7245
                Width           =   855
             End
@@ -1231,7 +1206,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   21
                Left            =   5040
-               TabIndex        =   111
+               TabIndex        =   113
                Top             =   7245
                Width           =   615
             End
@@ -1240,7 +1215,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   20
                Left            =   0
-               TabIndex        =   110
+               TabIndex        =   112
                Top             =   6885
                Width           =   855
             End
@@ -1250,7 +1225,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   20
                Left            =   5040
-               TabIndex        =   109
+               TabIndex        =   111
                Top             =   6885
                Width           =   615
             End
@@ -1259,7 +1234,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   19
                Left            =   0
-               TabIndex        =   108
+               TabIndex        =   110
                Top             =   6525
                Width           =   855
             End
@@ -1269,7 +1244,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   19
                Left            =   5040
-               TabIndex        =   107
+               TabIndex        =   109
                Top             =   6525
                Width           =   615
             End
@@ -1278,7 +1253,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   18
                Left            =   0
-               TabIndex        =   106
+               TabIndex        =   108
                Top             =   6165
                Width           =   855
             End
@@ -1288,7 +1263,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   18
                Left            =   5040
-               TabIndex        =   105
+               TabIndex        =   107
                Top             =   6165
                Width           =   615
             End
@@ -1297,7 +1272,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   17
                Left            =   0
-               TabIndex        =   104
+               TabIndex        =   106
                Top             =   5805
                Width           =   855
             End
@@ -1307,7 +1282,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   17
                Left            =   5040
-               TabIndex        =   103
+               TabIndex        =   105
                Top             =   5805
                Width           =   615
             End
@@ -1316,7 +1291,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   16
                Left            =   0
-               TabIndex        =   102
+               TabIndex        =   104
                Top             =   5445
                Width           =   855
             End
@@ -1326,7 +1301,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   16
                Left            =   5040
-               TabIndex        =   101
+               TabIndex        =   103
                Top             =   5445
                Width           =   615
             End
@@ -1335,7 +1310,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   15
                Left            =   0
-               TabIndex        =   100
+               TabIndex        =   102
                Top             =   5085
                Width           =   855
             End
@@ -1345,7 +1320,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   15
                Left            =   5040
-               TabIndex        =   99
+               TabIndex        =   101
                Top             =   5085
                Width           =   615
             End
@@ -1354,7 +1329,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   14
                Left            =   0
-               TabIndex        =   98
+               TabIndex        =   100
                Top             =   4725
                Width           =   855
             End
@@ -1364,7 +1339,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   14
                Left            =   5040
-               TabIndex        =   97
+               TabIndex        =   99
                Top             =   4725
                Width           =   615
             End
@@ -1373,7 +1348,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   13
                Left            =   0
-               TabIndex        =   96
+               TabIndex        =   98
                Top             =   4365
                Width           =   855
             End
@@ -1383,7 +1358,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   13
                Left            =   5040
-               TabIndex        =   95
+               TabIndex        =   97
                Top             =   4365
                Width           =   615
             End
@@ -1392,7 +1367,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   12
                Left            =   0
-               TabIndex        =   94
+               TabIndex        =   96
                Top             =   4005
                Width           =   855
             End
@@ -1402,7 +1377,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   12
                Left            =   5040
-               TabIndex        =   93
+               TabIndex        =   95
                Top             =   4005
                Width           =   615
             End
@@ -1411,7 +1386,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   11
                Left            =   0
-               TabIndex        =   92
+               TabIndex        =   94
                Top             =   3645
                Width           =   855
             End
@@ -1421,7 +1396,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   11
                Left            =   5040
-               TabIndex        =   91
+               TabIndex        =   93
                Top             =   3645
                Width           =   615
             End
@@ -1430,7 +1405,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   10
                Left            =   0
-               TabIndex        =   90
+               TabIndex        =   92
                Top             =   3285
                Width           =   855
             End
@@ -1440,7 +1415,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   10
                Left            =   5040
-               TabIndex        =   89
+               TabIndex        =   91
                Top             =   3285
                Width           =   615
             End
@@ -1449,7 +1424,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   9
                Left            =   0
-               TabIndex        =   88
+               TabIndex        =   90
                Top             =   2925
                Width           =   855
             End
@@ -1459,7 +1434,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   9
                Left            =   5040
-               TabIndex        =   87
+               TabIndex        =   89
                Top             =   2925
                Width           =   615
             End
@@ -1468,7 +1443,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   8
                Left            =   0
-               TabIndex        =   86
+               TabIndex        =   88
                Top             =   2565
                Width           =   855
             End
@@ -1478,7 +1453,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   8
                Left            =   5040
-               TabIndex        =   85
+               TabIndex        =   87
                Top             =   2565
                Width           =   615
             End
@@ -1487,7 +1462,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   7
                Left            =   0
-               TabIndex        =   84
+               TabIndex        =   86
                Top             =   2205
                Width           =   855
             End
@@ -1497,7 +1472,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   7
                Left            =   5040
-               TabIndex        =   83
+               TabIndex        =   85
                Top             =   2205
                Width           =   615
             End
@@ -1506,7 +1481,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   6
                Left            =   0
-               TabIndex        =   82
+               TabIndex        =   84
                Top             =   1845
                Width           =   855
             End
@@ -1516,7 +1491,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   6
                Left            =   5040
-               TabIndex        =   81
+               TabIndex        =   83
                Top             =   1845
                Width           =   615
             End
@@ -1525,7 +1500,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   5
                Left            =   0
-               TabIndex        =   80
+               TabIndex        =   82
                Top             =   1485
                Width           =   855
             End
@@ -1535,7 +1510,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   5
                Left            =   5040
-               TabIndex        =   79
+               TabIndex        =   81
                Top             =   1485
                Width           =   615
             End
@@ -1544,7 +1519,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   4
                Left            =   0
-               TabIndex        =   78
+               TabIndex        =   80
                Top             =   1125
                Width           =   855
             End
@@ -1554,7 +1529,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   4
                Left            =   5040
-               TabIndex        =   77
+               TabIndex        =   79
                Top             =   1125
                Width           =   615
             End
@@ -1563,7 +1538,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   3
                Left            =   0
-               TabIndex        =   76
+               TabIndex        =   78
                Top             =   765
                Width           =   855
             End
@@ -1573,7 +1548,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   3
                Left            =   5040
-               TabIndex        =   75
+               TabIndex        =   77
                Top             =   765
                Width           =   615
             End
@@ -1582,7 +1557,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   2
                Left            =   0
-               TabIndex        =   74
+               TabIndex        =   76
                Top             =   405
                Width           =   855
             End
@@ -1592,7 +1567,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   2
                Left            =   5040
-               TabIndex        =   73
+               TabIndex        =   75
                Top             =   405
                Width           =   615
             End
@@ -1601,7 +1576,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   1
                Left            =   0
-               TabIndex        =   72
+               TabIndex        =   74
                Top             =   45
                Width           =   855
             End
@@ -1611,7 +1586,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   1
                Left            =   5040
-               TabIndex        =   71
+               TabIndex        =   73
                Top             =   45
                Width           =   615
             End
@@ -1806,7 +1781,6 @@ Begin VB.Form frmMain
          _ExtentX        =   9340
          _ExtentY        =   450
          Step            =   10
-         MarqueeAnimation=   -1  'True
          MarqueeSpeed    =   35
          Scrolling       =   2
       End
@@ -1873,8 +1847,8 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   0
       Top             =   8175
-      Width           =   10155
-      _ExtentX        =   17912
+      Width           =   10455
+      _ExtentX        =   18441
       _ExtentY        =   582
       InitPanels      =   "frmMain.frx":A9C6
    End
@@ -2034,7 +2008,7 @@ Sub OnData(Data As String)
     If Left$(Data, 7) = "STATUS " Then
         Select Case Replace(Right$(Data, Len(Data) - 7), " ", "")
             Case "CHECKREDIRECT"
-                sbStatusBar.Panels(1).Text = "리다이렉트 확인 중..."
+                sbStatusBar.Panels(1).Text = "서버를 찾는 중..."
             Case "CHECKFILE"
                 sbStatusBar.Panels(1).Text = "가용성 확인 중..."
             Case "DOWNLOADING"
@@ -2043,12 +2017,14 @@ Sub OnData(Data As String)
                 sbStatusBar.Panels(1).Text = "파일 조각 결합 중..."
                 'pbTotalProgress.Scrolling = PrbScrollingMarquee
                 pbTotalProgressMarquee.Visible = -1
+                pbTotalProgressMarquee.MarqueeAnimation = -1
             Case "COMPLETE"
                 sbStatusBar.Panels(1).Text = "완료"
                 sbStatusBar.Panels(2).Text = ""
                 sbStatusBar.Panels(3).Text = ""
                 sbStatusBar.Panels(4).Text = ""
                 'pbTotalProgress.Scrolling = PrbScrollingStandard
+                pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
                 pbTotalProgress.Value = 100
             Case "UNABLETOCONTINUE"
@@ -2066,11 +2042,13 @@ Sub OnData(Data As String)
             If Not pbProgressMarquee(idx).Visible Then
                 'pbProgress(idx).Scrolling = PrbScrollingMarquee
                 pbProgressMarquee(idx).Visible = -1
+                pbProgressMarquee(idx).MarqueeAnimation = -1
             End If
             lblPercentage(idx).Caption = ""
         Else
             If pbProgressMarquee(idx).Visible Then
                 'pbProgress(idx).Scrolling = PrbScrollingStandard
+                pbProgressMarquee(idx).MarqueeAnimation = 0
                 pbProgressMarquee(idx).Visible = 0
             End If
             pbProgress(idx).Value = progress
@@ -2091,6 +2069,7 @@ Sub OnData(Data As String)
         If progress < 0 Then
             If Not pbTotalProgressMarquee.Visible Then
                 pbTotalProgressMarquee.Visible = -1
+                pbTotalProgressMarquee.MarqueeAnimation = -1
             End If
             If fTotal.Caption <> " 전체 다운로드 진행률 " Then fTotal.Caption = " 전체 다운로드 진행률 "
             If pbTotalProgress.Value <> 0 Then pbTotalProgress.Value = 0
@@ -2103,6 +2082,7 @@ Sub OnData(Data As String)
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
         Else
             If pbTotalProgressMarquee.Visible Then
+                pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
             End If
             If Split(output, ",")(0) = "-1" Then
@@ -2201,6 +2181,7 @@ Sub NextBatchDownload()
 End Sub
 
 Sub OnExit(RetVal As Long)
+    timElapsed.Enabled = 0
     If Not BatchStarted Then
         Select Case RetVal
             Case 1
@@ -2324,9 +2305,11 @@ Sub OnStart()
         'pbProgress(i).MarqueeSpeed = 35
         'pbProgress(i).Scrolling = PrbScrollingMarquee
         pbProgressMarquee(i).Visible = -1
+        pbProgressMarquee(i).MarqueeAnimation = -1
     Next i
     
     pbTotalProgressMarquee.Visible = -1
+    pbTotalProgressMarquee.MarqueeAnimation = -1
     
     lblState.Caption = "진행 중"
     sbStatusBar.Panels(1).Text = "시작 중..."
@@ -2361,10 +2344,12 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     Dim i%
     For i = 1 To trThreadCount.Value
         'pbProgress(i).Scrolling = PrbScrollingStandard
+        pbProgressMarquee(i).MarqueeAnimation = 0
         pbProgressMarquee(i).Visible = 0
     Next i
     
     If pbTotalProgressMarquee.Visible Then
+        pbTotalProgressMarquee.MarqueeAnimation = 0
         pbTotalProgressMarquee.Visible = 0
     End If
     
@@ -2523,7 +2508,7 @@ Private Sub cmdClear_Click()
     txtURL.Text = ""
 End Sub
 
-Private Sub cmdDecreaseThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub cmdDecreaseThreads_Click()
     If trThreadCount.Value > trThreadCount.Min Then trThreadCount.Value = trThreadCount.Value - 1
     If trThreadCount.Value = trThreadCount.Min Then
         cmdDecreaseThreads.Enabled = 0
@@ -2619,7 +2604,7 @@ L2:
     SpeedCount = 0
     lblFilename.Caption = fso.GetFilename(DownloadPath)
     If Len(lblFilename.Caption) > 22 Then lblFilename.Caption = Left$(lblFilename.Caption, 22) & "..."
-    SPResult = SP.Run("""" & CachePath & "node.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" " & Replace(Replace(URL, " ", "%20"), """", "%22") & " """ & FileName & """ " & trThreadCount.Value & " " & (chkNoCleanup.Value * -1) & " " & cbWhenExist.ListIndex & " " & chkContinueDownload.Value)
+    SPResult = SP.Run("""" & CachePath & "node_v0_11_6.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" " & Replace(Replace(URL, " ", "%20"), """", "%22") & " """ & FileName & """ " & trThreadCount.Value & " " & (chkNoCleanup.Value * -1) & " " & cbWhenExist.ListIndex & " " & chkContinueDownload.Value)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -2690,7 +2675,7 @@ Private Sub cmdGo_Click()
     StartDownload txtURL.Text, txtFileName.Text
 End Sub
 
-Private Sub cmdIncreaseThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub cmdIncreaseThreads_Click()
     If trThreadCount.Value < trThreadCount.Max Then trThreadCount.Value = trThreadCount.Value + 1
     If trThreadCount.Value = trThreadCount.Max Then
         cmdIncreaseThreads.Enabled = 0
@@ -2831,6 +2816,7 @@ Private Sub Form_Load()
         pbProgress(i).Width = pbProgress(i).Width - 60
         pbProgressMarquee(i).Left = pbProgressMarquee(i).Left + 60
         pbProgressMarquee(i).Width = pbProgressMarquee(i).Width - 60
+        pbProgressMarquee(i).MarqueeAnimation = 0
         pbProgressMarquee(i).Visible = 0
         lblPercentage(i).Caption = ""
     Next i

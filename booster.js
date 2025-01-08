@@ -1,17 +1,12 @@
-const fs = require('fs');
-const URL = require('url');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+var fs = require('fs');
+var URL = require('url');
 if(!Array.prototype.includes) Array.prototype.includes = function includes(find) {
-	for(var item of this)
-		if(item == find) return !0;
-	return !1;
+	var length = this.length;
+	for(var i=0; i<length; i++)
+		if(this[i] == find) return true;
+	return false;
 };
-
-function timeout(ms) {
-	return new Promise((resolve, reject) => {
-		setTimeout(() => resolve(0), ms);
-	});
-}
-
 function print() {
 	return console.log.apply(this, Array.prototype.slice.call(arguments).concat(['\r']));
 }
@@ -22,14 +17,19 @@ var url = process.argv[2] || process.exit(2);
 var fn = process.argv[3] || process.exit(2);
 var trd = Number(process.argv[4] || process.exit(3)) || process.exit(3);
 fn = fn.replace(/^["]/, '').replace(/["]$/, '');
-const parsed = require('path').parse(fn);
+var intpath = require('path');
+var parsed = {
+	dir: intpath.dirname(fn),
+	ext: intpath.extname(fn),
+	name: intpath.basename(fn).slice(0, intpath.basename(fn).length - intpath.extname(fn).length),
+};
 if(fs.existsSync(fn)) {
 	if(Number(process.argv[6]) == 0) return process.exit(4);
-	else if(Number(process.argv[6]) == 1) fs.unlinkSync(fn, () => 1);
+	else if(Number(process.argv[6]) == 1) fs.unlinkSync(fn);
 	else if(Number(process.argv[6]) == 2) fn = parsed.dir.replace(/\\$/, '') + '\\' + parsed.name + '-' + Math.floor(Math.random() * 10000000000000000) + parsed.ext;
 	print('MODIFIEDFILENAME', fn);
 }
-if(fn.endsWith('.')) {
+if(fn[fn.length - 1] == '.') {
 	fn = fn.replace(/[.]$/, '_');
 	print('MODIFIEDFILENAME', fn);
 }
@@ -51,22 +51,28 @@ if(process.argv[7] == 1) {
 		if(fs.existsSync(fn + '.part_' + i + '.tmp'))
 			fs.unlinkSync(fn + '.part_' + i + '.tmp');
 }
-const http = require(url.startsWith('https:') ? 'https' : 'http');
+var http = require(url.slice(0, 6) == 'https:' ? 'https' : 'http');
 print('STATUS', 'CHECKREDIRECT');
 checkRedirect(url);
-
 function checkRedirect(url) {
-	http.get(url.replace(/^["]/, '').replace(/["]$/, ''), res => {
+	http.get(url.replace(/^["]/, '').replace(/["]$/, ''), function(res) {
 		if(res.headers.location)
 			return checkRedirect(res.headers.location);
 		print('REALADDR', url);
 		startDownload(url);
-	});
+	}).end();
 }
-
 function startDownload(url) {
 	if(trd > 1) print('STATUS', 'CHECKFILE');
-	http.get(url, res => {
+	var parsedURL = URL.parse(url);
+	var userAgent = 'Mozilla/5.0 (Windows NT 6.1; rv:121.0) Gecko/20100101 Firefox/121.0';
+	http.get({
+		host: parsedURL.host,
+		path: parsedURL.path,
+		headers: {
+			'User-Agent': userAgent,
+		},
+	}, function(res) {
 		res.setEncoding('base64');
 		var total = Number(res.headers['content-length']);
 		if(trd > 1) {
@@ -84,9 +90,9 @@ function startDownload(url) {
 		var totals = [];
 		var unit = Math.floor(total / trd);
 		var range = 0;
-		function get(id) {
+		function get(id, callback) {
 			var startRange, endRange;
-			var headers = {};
+			var headers = { 'User-Agent': userAgent };
 			if(trd > 1) {
 				if(continuedownload && fs.existsSync(fn + '.part_' + id + '.tmp')) {
 					downloader[id] = fs.statSync(fn + '.part_' + id + '.tmp').size;
@@ -95,7 +101,7 @@ function startDownload(url) {
 					if(endRange - startRange < 0) {
 						ready.push(id);
 						totals[id] = downloader[id];
-						return Promise.resolve('NONEEDTODOWNLOAD');
+						return callback('NONEEDTODOWNLOAD');
 					}
 					totals[id] = (endRange >= total ? (total - 1) : endRange) - range + 1;
 					headers.Range = 'bytes=' + startRange + '-' + endRange;
@@ -113,40 +119,48 @@ function startDownload(url) {
 				}
 				headers.Range = 'bytes=' + startRange + '-' + endRange;
 			}
-			return new Promise((resolve, reject) => {
-				http.get({
-					host: URL.parse(url).host,
-					path: URL.parse(url).path,
-					headers,
-				}, res => resolve(res));
-			});
+			return http.get({
+				host: parsedURL.host,
+				path: parsedURL.path,
+				headers: headers,
+			}, function(res) {
+				return callback(res);
+			}).end();
 		}
 		var ready = [];
 		print('STATUS', 'DOWNLOADING');
-		(async function() {
-			var i;
-			for(i=1; i<=trd; i++) {
-				const id = i;
-				const response = await get(id);
+		(function startThreads(i) {
+			if(i > trd) return;
+			var id = i;
+			get(id, function(response) {
 				if(response == 'NONEEDTODOWNLOAD') {
+					range += totals[id];
 					comp++;
-					continue;
+					return startThreads(i + 1);
 				}
 				if((response.statusCode + '')[0] != 2) {
-					await timeout(100);
-					continue;
+					return setTimeout(function() {
+						return startThreads(i + 1);
+					}, 100);
 				}
 				ready.push(i);
 				if(!downloader[id]) downloader[id] = 0;
 				if(!totals[id]) totals[id] = Number(response.headers['content-length'] || 0);
 				range += totals[id];
-				response.on('error', () => 1);
-				response.on('data', chunk => (downloader[id] += chunk.length, fs.appendFileSync(fn + (trd <= 1 ? '.part.tmp' : ('.part_' + id + '.tmp')), chunk)));
-				response.on('end', () => comp++);
-				await timeout(100);
-			}
-		})();
-		var statusReporter = setInterval(async () => {
+				response.on('error', function() {});
+				response.on('data', function(chunk) {
+					downloader[id] += chunk.length;
+					fs.appendFileSync(fn + (trd <= 1 ? '.part.tmp' : ('.part_' + id + '.tmp')), chunk);
+				});
+				response.on('end', function() {
+					comp++;
+				});
+				return setTimeout(function() {
+					return startThreads(i + 1);
+				}, 100);
+			});
+		})(1);
+		var statusReporter = setInterval(function() {
 			try {
 				var totalbytes = '';
 				var prt = '';
@@ -172,15 +186,16 @@ function startDownload(url) {
 					if(trd > 1) {
 						print('STATUS', 'MERGING');
 						var s = 'COPY /B ';
-						for(i=1; i<=trd; i++) s += '"' + fn + '.part_' + i + '.tmp"+';
+						for(var i=1; i<=trd; i++) s += '"' + fn + '.part_' + i + '.tmp"+';
 						s = s.replace(/[+]$/, '');
 						s += ' "' + fn + '"';
-						require('child_process').exec(s, () => {
+						require('child_process').exec(s, function() {
 							if(Number(process.argv[5]) == 0)
-								for(i = 1; i <= trd; i++) fs.unlinkSync(fn + '.part_' + i + '.tmp', () => 1);
+								for(var i=1; i<=trd; i++)
+									fs.unlinkSync(fn + '.part_' + i + '.tmp');
 							print('STATUS', 'COMPLETE');
 							process.exit(0);
-						})
+						});
 					} else {
 						fs.renameSync(fn + '.part.tmp', fn);
 						print('STATUS', 'COMPLETE');
@@ -189,7 +204,7 @@ function startDownload(url) {
 				}
 			} catch (e) {}
 		}, 100);
-	});
+	}).end();
 }
 
-setInterval(() => 1, 987654321);
+setInterval(function() {}, 987654321);
