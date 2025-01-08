@@ -13,10 +13,10 @@ function print() {
 if((process.argv[2] || '').match(/^[%]\d$/)) process.argv[2] = '';
 if((process.argv[3] || '').match(/^[%]\d$/)) process.argv[3] = '';
 if((process.argv[4] || '').match(/^[%]\d$/)) process.argv[4] = '';
-var url = process.argv[2] || process.exit(2);
+var url = process.argv[2] || process.exit(102);
 url = url.replace(/^["]/, '').replace(/["]$/, '');
-var fn = process.argv[3] || process.exit(2);
-var trd = Number(process.argv[4] || process.exit(3)) || process.exit(3);
+var fn = process.argv[3] || process.exit(102);
+var trd = Number(process.argv[4] || process.exit(103)) || process.exit(103);
 fn = fn.replace(/^["]/, '').replace(/["]$/, '');
 var intpath = require('path');
 var parsed = {
@@ -25,7 +25,7 @@ var parsed = {
 	name: intpath.basename(fn).slice(0, intpath.basename(fn).length - intpath.extname(fn).length),
 };
 if(fs.existsSync(fn)) {
-	if(Number(process.argv[6]) == 0) return process.exit(4);
+	if(Number(process.argv[6]) == 0) return process.exit(104);
 	else if(Number(process.argv[6]) == 1) fs.unlinkSync(fn);
 	else if(Number(process.argv[6]) == 2) fn = parsed.dir.replace(/\\$/, '') + '\\' + parsed.name + '-' + Math.floor(Math.random() * 10000000000000000) + parsed.ext;
 	print('MODIFIEDFILENAME', fn);
@@ -80,12 +80,13 @@ function startDownload(url) {
 		method: 'HEAD',
 	}, function(res) {
 		if((res.statusCode + '')[0] != 2) {
-			return process.exit(8);
+			print('STATUSCODE', res.statusCode + '');
+			return process.exit(108);
 		}
 		var total = Number(res.headers['content-length']);
 		if(trd > 1) {
-			if(res.headers['accept-ranges'] != 'bytes') return process.exit(6);
-			if(!total) return process.exit(7);
+			if(res.headers['accept-ranges'] != 'bytes') return process.exit(106);
+			if(!total) return process.exit(107);
 		} else if(!total) {
 			total = 0;
 		}
@@ -151,9 +152,8 @@ function startDownload(url) {
 					return startThreads(i + 1);
 				}
 				if((response.statusCode + '')[0] != 2) {
-					return setTimeout(function() {
-						return startThreads(i + 1);
-					}, 100);
+					print('STATUSCODE', response.statusCode + '');
+					return process.exit(108);
 				}
 				ready.push(i);
 				if(!downloader[id]) downloader[id] = 0;

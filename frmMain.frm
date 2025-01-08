@@ -1999,6 +1999,7 @@ Dim BatchErrorCount As Integer
 Dim TahomaAvailable As Boolean
 Dim PrevDownloadedBytes As Double
 Dim SpeedCount As Integer
+Dim HttpStatusCode As String
 
 Sub OnData(Data As String)
     Dim output$
@@ -2030,6 +2031,9 @@ Sub OnData(Data As String)
             Case "UNABLETOCONTINUE"
                 MsgBox "이어받기가 불가능합니다. 처음부터 다시 다운로드합니다.", 48
         End Select
+    ElseIf Left$(Data, 11) = "STATUSCODE " Then
+        output = Right$(Data, Len(Data) - 11)
+        HttpStatusCode = Trim$(output)
     ElseIf Left$(Data, 5) = "DATA " Then
         output = Right$(Data, Len(Data) - 5)
         idx = CInt(Split(output, ",")(0))
@@ -2180,7 +2184,7 @@ Sub NextBatchDownload()
         End If
         
         If BatchErrorCount Then
-            MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
+            MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "103: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "105: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", 48
         ElseIf chkPlaySound.Value Then
             MessageBeep 64
         End If
@@ -2206,22 +2210,84 @@ Sub OnExit(RetVal As Long)
         Select Case RetVal
             Case 1
                 If chkAutoRetry.Value <> 1 Then
-                    MsgBox "유효하지 않은 주소를 입력했거나 내부 오류가 발생했습니다.", 16
+                    If pbTotalProgressMarquee.Visible And (lblDownloadedBytes.Caption = "-" Or lblDownloadedBytes.Caption = "대기 중...") Then
+                        MsgBox "해당 파일 주소에 연결할 수 없습니다. 주소가 유효하지 않거나 서버가 응답하지 않습니다.", 16
+                    Else
+                        MsgBox "서버와의 접속이 끊겼습니다. 다운로드 도중에 네트워크 오류가 발생했을 수 있습니다.", 16
+                    End If
                 End If
-            Case 2
+            Case 102
                 MsgBox "주소나 파일 이름을 지정하지 않았습니다.", 16
-            Case 3
+            Case 103
                 MsgBox "저장 경로가 존재하지 않습니다.", 16
-            Case 4
+            Case 104
                 MsgBox "저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", 16
-            Case 5
+            Case 105
                 MsgBox "내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", 16
-            Case 6
+            Case 106
                 MsgBox "파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오.", 16
-            Case 7
+            Case 107
                 MsgBox "파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 16
-            Case 8
-                MsgBox "서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", 16
+            Case 108
+                Dim statusMsg As String
+                statusMsg = ""
+                Dim ErrDesc As String
+                Dim icon As VbMsgBoxStyle
+                icon = vbCritical
+                If Len(HttpStatusCode) > 0 Then
+                    Select Case HttpStatusCode
+                        Case "400"
+                            ErrDesc = "요청이 잘못되었습니다."
+                        Case "401"
+                            ErrDesc = "접근하려면 인증 정보가 필요합니다."
+                        Case "402"
+                            ErrDesc = "접근하려면 결제가 필요합니다."
+                        Case "403"
+                            ErrDesc = "접근 권한이 없습니다."
+                        Case "404"
+                            ErrDesc = "서버에 파일이 존재하지 않습니다."
+                        Case "405"
+                            ErrDesc = "파일을 받으려면 데이타를 전송해야 합니다."
+                        Case "406"
+                            ErrDesc = "요청을 받아들일 수 없습니다."
+                        Case "407"
+                            ErrDesc = "프록시 인증이 필요합니다."
+                        Case "408"
+                            ErrDesc = "요청이 제시간 안에 마무리되지 않았습니다."
+                        Case "409"
+                            ErrDesc = "요청이 서버와 충돌했습니다."
+                        Case "410"
+                            If Month(Now) = 4 And Day(Now) = 1 Then
+                                ErrDesc = "파일이 있었는데 없었습니다."
+                                icon = vbInformation
+                            Else
+                                ErrDesc = "파일이 더 이상 서버에 없습니다."
+                            End If
+                        Case "414"
+                            ErrDesc = "주소가 너무 깁니다."
+                        Case "418"
+                            ErrDesc = "서버가 자신은 찻주전자라서 커피를 만들 수 없다고 합니다 ㅎ   "
+                            icon = vbInformation
+                        Case "451"
+                            ErrDesc = "법적인 이유로 파일을 다운로드 받을 수 없습니다."
+                        Case "500"
+                            ErrDesc = "서버 측에서 오류가 발생했습니다."
+                        Case "502"
+                            ErrDesc = "게이트웨이가 불량입니다."
+                        Case "503"
+                            ErrDesc = "서버가 일시적으로 응답할 수 없는 상태입니다."
+                        Case "504"
+                            ErrDesc = "게이트웨이 시간이 초과되었습니다."
+                        Case "505"
+                            ErrDesc = "HTTP 버전이 지원되지 않습니다."
+                        Case Else
+                            ErrDesc = "서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다."
+                            statusMsg = " HTTP 응답 코드는 ( " & HttpStatusCode & " ) 입니다."
+                    End Select
+                End If
+                MsgBox "서버가 요청을 거부했습니다. " & ErrDesc & statusMsg, icon
+            Case Else
+                MsgBox "내부 오류가 발생했습니다. 프로세스 반환 값은 ( " & RetVal & " ) 입니다.", 16
         End Select
     End If
     
@@ -2875,7 +2941,7 @@ Private Sub cmdStopBatch_Click()
             End If
         End If
         
-        If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
+        If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "103: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "105: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", 48
     End If
 End Sub
 
@@ -2966,8 +3032,8 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , "status", "상태"
     lvBatchFiles.ColumnHeaders(1).Width = 2895
     lvBatchFiles.ColumnHeaders(2).Width = 0
-    lvBatchFiles.ColumnHeaders(3).Width = 4595
-    lvBatchFiles.ColumnHeaders(4).Width = 1005
+    lvBatchFiles.ColumnHeaders(3).Width = 4495
+    lvBatchFiles.ColumnHeaders(4).Width = 1105
     lvBatchFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentCenter
     Me.Height = 6930
     
