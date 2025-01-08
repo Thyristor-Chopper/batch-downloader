@@ -14,6 +14,7 @@ if((process.argv[2] || '').match(/^[%]\d$/)) process.argv[2] = '';
 if((process.argv[3] || '').match(/^[%]\d$/)) process.argv[3] = '';
 if((process.argv[4] || '').match(/^[%]\d$/)) process.argv[4] = '';
 var url = process.argv[2] || process.exit(2);
+url = url.replace(/^["]/, '').replace(/["]$/, '');
 var fn = process.argv[3] || process.exit(2);
 var trd = Number(process.argv[4] || process.exit(3)) || process.exit(3);
 fn = fn.replace(/^["]/, '').replace(/["]$/, '');
@@ -53,11 +54,18 @@ if(process.argv[7] == 1) {
 }
 var http = require(url.slice(0, 6) == 'https:' ? 'https' : 'http');
 print('STATUS', 'CHECKREDIRECT');
+var userAgent = 'Mozilla/5.0 (Windows NT 6.1; rv:121.0) Gecko/20100101 Firefox/121.0';
 checkRedirect(url);
 function checkRedirect(url) {
-	http.get(url.replace(/^["]/, '').replace(/["]$/, ''), function(res) {
-		if(res.headers.location)
-			return checkRedirect(res.headers.location);
+	var parsedURL = URL.parse(url);
+	http.request({
+		host: parsedURL.host,
+		path: parsedURL.path,
+		headers: { 'User-Agent': userAgent },
+		method: 'HEAD',
+	}, function(res) {
+		if(res.headers.location && [301, 302, 303, 307, 308].includes(res.statusCode || 0))
+			return checkRedirect(res.headers.location.trim().replace(/^["]/, '').replace(/["]$/, ''));
 		print('REALADDR', url);
 		startDownload(url);
 	}).end();
@@ -65,21 +73,21 @@ function checkRedirect(url) {
 function startDownload(url) {
 	if(trd > 1) print('STATUS', 'CHECKFILE');
 	var parsedURL = URL.parse(url);
-	var userAgent = 'Mozilla/5.0 (Windows NT 6.1; rv:121.0) Gecko/20100101 Firefox/121.0';
-	http.get({
+	http.request({
 		host: parsedURL.host,
 		path: parsedURL.path,
-		headers: {
-			'User-Agent': userAgent,
-		},
+		headers: { 'User-Agent': userAgent },
+		method: 'HEAD',
 	}, function(res) {
-		res.setEncoding('base64');
+		if((res.statusCode + '')[0] != 2) {
+			return process.exit(8);
+		}
 		var total = Number(res.headers['content-length']);
 		if(trd > 1) {
 			if(res.headers['accept-ranges'] != 'bytes') return process.exit(6);
 			if(!total) return process.exit(7);
 		} else if(!total) {
-			total = 0
+			total = 0;
 		}
 		if(continuedownload && (res.headers['accept-ranges'] != 'bytes' || !total)) {
 			print('STATUS', 'UNABLETOCONTINUE');
@@ -123,8 +131,8 @@ function startDownload(url) {
 				host: parsedURL.host,
 				path: parsedURL.path,
 				headers: headers,
-			}, function(res) {
-				return callback(res);
+			}, function(response) {
+				return callback(response);
 			}).end();
 		}
 		var ready = [];

@@ -16,10 +16,10 @@ Sub LoadJS()
         Put #f1, , B
         Close #f1
     End If
-    If Not FileExists(CachePath & "node_v0_11_6.exe") Then
+    If Not FileExists(CachePath & "node_v0_11_11.exe") Then
         B = LoadResData(2, 10)
         f2 = FreeFile()
-        Open CachePath & "node_v0_11_6.exe" For Binary Access Write As #f2
+        Open CachePath & "node_v0_11_11.exe" For Binary Access Write As #f2
         Put #f2, , B
         Close #f2
     End If

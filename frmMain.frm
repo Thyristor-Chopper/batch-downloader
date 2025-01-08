@@ -43,7 +43,7 @@ Begin VB.Form frmMain
       Caption         =   "중지(&P) "
    End
    Begin VB.CheckBox chkContinueDownload 
-      Caption         =   "이어받기(&Z)"
+      Caption         =   "항상 이어받기(&Z)"
       Height          =   255
       Left            =   6840
       TabIndex        =   70
@@ -2058,7 +2058,15 @@ Sub OnData(Data As String)
         If trThreadCount.Value > 1 And idx = 1 And (CDbl(Split(output, ",")(2)) > 0 Or lblTotalBytes.Caption = "0 바이트") Then lblTotalSizeThread.Caption = ParseSize(CDbl(Split(output, ",")(2)), True)
     ElseIf Left$(Data, 6) = "TOTAL " Then
         output = Right$(Data, Len(Data) - 6)
-        If CLng(Split(output, ",")(2)) > 100 Then
+        Dim strTotal As String
+        Dim total As Double
+        strTotal = Split(output, ",")(0)
+        If IsNumeric(strTotal) Then
+            total = CDbl(strTotal)
+        Else
+            total = -1
+        End If
+        If (Not IsNumeric(Split(output, ",")(2))) Or CLng(Split(output, ",")(2)) > 100 Then
             progress = -1
         Else
             progress = CInt(Split(output, ",")(2))
@@ -2075,25 +2083,31 @@ Sub OnData(Data As String)
             If pbTotalProgress.Value <> 0 Then pbTotalProgress.Value = 0
             If DownloadedBytes = -1 Then
                 sbStatusBar.Panels(2).Text = ""
-            Else
+            ElseIf total <= 0 Then
                 sbStatusBar.Panels(2).Text = DownloadedBytes & " 바이트"
+            Else
+                sbStatusBar.Panels(2).Text = total & " 중 " & DownloadedBytes
             End If
-            If lblTotalBytes.Caption <> "알 수 없음" Then lblTotalBytes.Caption = "알 수 없음"
+            If total <= 0 Then
+                If lblTotalBytes.Caption <> "알 수 없음" Then lblTotalBytes.Caption = "알 수 없음"
+            Else
+                lblTotalBytes.Caption = ParseSize(total, True)
+            End If
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
         Else
             If pbTotalProgressMarquee.Visible Then
                 pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
             End If
-            If Split(output, ",")(0) = "-1" Then
+            If strTotal = "-1" Then
                 sbStatusBar.Panels(2).Text = DownloadedBytes & " 바이트"
             Else
-                sbStatusBar.Panels(2).Text = Split(output, ",")(0) & " 중 " & DownloadedBytes
+                sbStatusBar.Panels(2).Text = strTotal & " 중 " & DownloadedBytes
             End If
-            If Split(output, ",")(0) = "NaN" Or Split(output, ",")(0) = "-1" Then
+            If strTotal = "NaN" Or strTotal = "-1" Then
                 lblTotalBytes.Caption = "알 수 없음"
             Else
-                lblTotalBytes.Caption = ParseSize(CStr(Split(output, ",")(0)), True)
+                lblTotalBytes.Caption = ParseSize(total, True)
             End If
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
             pbTotalProgress.Value = progress
@@ -2200,6 +2214,8 @@ Sub OnExit(RetVal As Long)
                 MsgBox "파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오.", 16
             Case 7
                 MsgBox "파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 16
+            Case 8
+                MsgBox "서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", 16
         End Select
     End If
     
@@ -2402,7 +2418,8 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     If lblTotalBytes.Caption = "대기 중..." Then lblTotalBytes.Caption = "-"
     If lblDownloadedBytes.Caption = "대기 중..." Then
         lblDownloadedBytes.Caption = "-"
-    ElseIf pbTotalProgress.Value = 100 Then
+    End If
+    If PlayBeep And lblDownloadedBytes.Caption <> "-" Then
         lblTotalBytes.Caption = lblDownloadedBytes.Caption
     End If
     If lblTotalSizeThread.Caption = "대기 중..." Then lblTotalSizeThread.Caption = "-"
@@ -2599,12 +2616,32 @@ L2:
         If Replace(ServerName, " ", "") = "" Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
     End If
+    If Right$(FileName, 1) = "." Then FileName = Left$(FileName, Len(FileName) - 1) & "_"
     DownloadPath = FileName
     PrevDownloadedBytes = 0
     SpeedCount = 0
     lblFilename.Caption = fso.GetFilename(DownloadPath)
     If Len(lblFilename.Caption) > 22 Then lblFilename.Caption = Left$(lblFilename.Caption, 22) & "..."
-    SPResult = SP.Run("""" & CachePath & "node_v0_11_6.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" " & Replace(Replace(URL, " ", "%20"), """", "%22") & " """ & FileName & """ " & trThreadCount.Value & " " & (chkNoCleanup.Value * -1) & " " & cbWhenExist.ListIndex & " " & chkContinueDownload.Value)
+    
+    Dim ContinueDownload As Integer
+    ContinueDownload = chkContinueDownload.Value
+    If (Not BatchStarted) And chkContinueDownload.Value <> 1 Then
+        Dim PrevPartialDownload As Boolean
+        PrevPartialDownload = (trThreadCount.Value <= 1 And FileExists(FileName & ".part.tmp")) Or _
+                              (trThreadCount.Value > 1 And FileExists(FileName & ".part_" & trThreadCount.Value & ".tmp") And (Not FileExists(FileName & ".part_" & (trThreadCount.Value + 1) & ".tmp")))
+        If PrevPartialDownload Then
+            Dim ContinueMsgboxResult As VbMsgBoxResult
+            ContinueMsgboxResult = MsgBox("기존에 다운로드 받다가 중지한 파일입니다. 다운로드받은 지점부터 이어서 받으시겠습니까?" & vbCrLf & "  [아니요]를 누를 경우 처음부터 다시 다운로드됩니다.", vbYesNoCancel + 32)
+            If ContinueMsgboxResult = vbYes Then
+                ContinueDownload = 1
+            ElseIf ContinueMsgboxResult = vbCancel Then
+                OnExit 999
+                Exit Sub
+            End If
+        End If
+    End If
+    
+    SPResult = SP.Run("""" & CachePath & "node_v0_11_11.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & (chkNoCleanup.Value * -1) & " " & cbWhenExist.ListIndex & " " & ContinueDownload)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -2756,13 +2793,44 @@ End Sub
 
 Private Sub cmdStop_Click()
     If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "다운로드 취소", Me, 32) = vbYes Then
+        Dim CurrentProgress As Integer
+        Dim IsMarquee As Boolean
+        CurrentProgress = pbTotalProgress.Value
+        IsMarquee = pbTotalProgressMarquee.Visible
+        
         OnStop False
         cmdOpen.Enabled = 0
+        
+        If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
+            Dim KillTemp As Boolean
+            KillTemp = False
+            If IsMarquee Then
+                KillTemp = True
+            Else
+                KillTemp = MsgBox("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", vbYesNo + 32) <> vbYes
+            End If
+            If KillTemp Then
+                On Error Resume Next
+                If trThreadCount.Value <= 1 Then
+                    Kill DownloadPath & ".part.tmp"
+                Else
+                    Dim i%
+                    For i = 1 To trThreadCount.Value
+                        Kill DownloadPath & ".part_" & i & ".tmp"
+                    Next i
+                End If
+            End If
+        End If
     End If
 End Sub
 
 Private Sub cmdStopBatch_Click()
     If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "다운로드 취소", Me, 32) = vbYes Then
+        Dim CurrentProgress As Integer
+        Dim IsMarquee As Boolean
+        CurrentProgress = pbTotalProgress.Value
+        IsMarquee = pbTotalProgressMarquee.Visible
+        
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "중지"
         lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = 255
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = 255
@@ -2779,6 +2847,28 @@ Private Sub cmdStopBatch_Click()
         sbStatusBar.Panels(4).Text = ""
         chkOpenAfterComplete.Enabled = -1
         cmdGo.Enabled = -1
+        
+        If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
+            Dim KillTemp As Boolean
+            KillTemp = False
+            If IsMarquee Then
+                KillTemp = True
+            Else
+                KillTemp = MsgBox("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", vbYesNo + 32) <> vbYes
+            End If
+            If KillTemp Then
+                On Error Resume Next
+                If trThreadCount.Value <= 1 Then
+                    Kill DownloadPath & ".part.tmp"
+                Else
+                    Dim i%
+                    For i = 1 To trThreadCount.Value
+                        Kill DownloadPath & ".part_" & i & ".tmp"
+                    Next i
+                End If
+            End If
+        End If
+        
         If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "2: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "4: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "5: 내부 작업을 위한 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "6: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "7: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 48
     End If
 End Sub
@@ -2919,8 +3009,34 @@ Private Sub Form_Unload(Cancel As Integer)
             Cancel = 1
             Exit Sub
         Else
+            Dim CurrentProgress As Integer
+            Dim IsMarquee As Boolean
+            CurrentProgress = pbTotalProgress.Value
+            IsMarquee = pbTotalProgressMarquee.Visible
+            
             BatchStarted = False
             SP.FinishChild 0, 0
+            
+            If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
+                Dim KillTemp As Boolean
+                KillTemp = False
+                If IsMarquee Then
+                    KillTemp = True
+                Else
+                    KillTemp = MsgBox("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", vbYesNo + 32) <> vbYes
+                End If
+                If KillTemp Then
+                    On Error Resume Next
+                    If trThreadCount.Value <= 1 Then
+                        Kill DownloadPath & ".part.tmp"
+                    Else
+                        Dim i%
+                        For i = 1 To trThreadCount.Value
+                            Kill DownloadPath & ".part_" & i & ".tmp"
+                        Next i
+                    End If
+                End If
+            End If
         End If
     Else
         BatchStarted = False

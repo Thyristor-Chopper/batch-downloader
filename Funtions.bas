@@ -84,7 +84,7 @@ Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String
     CutLines = Lines
 End Function
 
-Function ConfirmEx(Content As String, Title As String, OwnerForm As Form, Optional Icon As MsgBoxExIcon = 32, Optional DefaultOption As VbMsgBoxResult = vbNo, Optional YesCaption As String = "", Optional NoCaption As String = "") As VbMsgBoxResult
+Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As Form, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal YesCaption As String = "", Optional ByVal NoCaption As String = "") As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If YesCaption = "" Then YesCaption = "예(&Y)"
     If NoCaption = "" Then NoCaption = "아니요(&N)"
@@ -162,20 +162,20 @@ Function ConfirmEx(Content As String, Title As String, OwnerForm As Form, Option
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
-Function FontExists(Name As String) As Boolean
+Function FontExists(ByVal Name As String) As Boolean
     With New StdFont
         .Name = Name
         FontExists = (StrComp(.Name, Name, vbTextCompare) = 0)
     End With
 End Function
 
-Function FolderExists(sFullPath As String) As Boolean
+Function FolderExists(ByVal sFullPath As String) As Boolean
     Dim myFSO As Object
     Set myFSO = CreateObject("Scripting.FileSystemObject")
     FolderExists = myFSO.FolderExists(sFullPath)
 End Function
 
-Function Floor(ByVal floatval As Double, Optional decimalPlaces As Long = 0) As Long
+Function Floor(ByVal floatval As Double, Optional ByVal decimalPlaces As Long = 0) As Long
     Dim intval As Long
     intval = Round(floatval)
     If intval > floatval Then
@@ -189,7 +189,7 @@ Function Floor(ByVal floatval As Double, Optional decimalPlaces As Long = 0) As 
     Floor = intval
 End Function
 
-Function ParseSize(Size As Double, Optional ShowBytes As Boolean = False, Optional Suffix As String = "") As String
+Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = False, Optional ByVal Suffix As String = "") As String
     On Error GoTo ErrLn4
     Dim ret@
     If Size >= (1024@ * 1024@ * 1024@ * 1024@) Then
@@ -224,7 +224,7 @@ ErrLn4:
     ParseSize = "0 바이트"
 End Function
 
-Function FilterFilename(FileName As String) As String
+Function FilterFilename(ByVal FileName As String) As String
     Dim str As String
     Dim ret As String
     ret = ""
