@@ -92,6 +92,10 @@ function startDownload(url) {
 		if(continuedownload && (res.headers['accept-ranges'] != 'bytes' || !total)) {
 			print('STATUS', 'UNABLETOCONTINUE');
 			continuedownload = false;
+			if(trd <= 1 && fs.existsSync(fn + '.part.tmp')) fs.unlinkSync(fn + '.part.tmp');
+			for(var i=1; i<=trd+25; i++)
+				if(fs.existsSync(fn + '.part_' + i + '.tmp'))
+					fs.unlinkSync(fn + '.part_' + i + '.tmp');
 		}
 		var comp = 0;
 		var downloader = [];
