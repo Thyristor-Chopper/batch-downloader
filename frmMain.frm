@@ -2075,9 +2075,14 @@ Sub OnData(Data As String)
         DownloadedBytes = CDbl(Split(output, ",")(1))
         
         If progress < 0 Then
-            If Not pbTotalProgressMarquee.Visible Then
-                pbTotalProgressMarquee.Visible = -1
-                pbTotalProgressMarquee.MarqueeAnimation = -1
+            If total > 0 And DownloadedBytes > 0 And DownloadedBytes <= total Then
+                progress = Floor(DownloadedBytes / total * 100)
+                GoTo progressAvailable
+            Else
+                If Not pbTotalProgressMarquee.Visible Then
+                    pbTotalProgressMarquee.Visible = -1
+                    pbTotalProgressMarquee.MarqueeAnimation = -1
+                End If
             End If
             If fTotal.Caption <> " 전체 다운로드 진행률 " Then fTotal.Caption = " 전체 다운로드 진행률 "
             If pbTotalProgress.Value <> 0 Then pbTotalProgress.Value = 0
@@ -2095,6 +2100,7 @@ Sub OnData(Data As String)
             End If
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
         Else
+progressAvailable:
             If pbTotalProgressMarquee.Visible Then
                 pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
