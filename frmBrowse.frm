@@ -236,6 +236,8 @@ Private Sub chkHidden_Click()
 End Sub
 
 Private Sub Form_Load()
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", 1) = 1 Then DisableDWMWindow Me.hWnd
+    
     selFileType.AddItem "모든 파일 (*.*)"
     selFileType.ListIndex = 0
     

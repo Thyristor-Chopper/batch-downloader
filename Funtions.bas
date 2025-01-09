@@ -3,6 +3,7 @@ Public fso
 Public ConfirmResult As VbMsgBoxResult
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
+Declare Function DwmSetWindowAttribute Lib "dwmapi.dll" (ByVal hWnd As Long, ByVal dwAttribute As Long, ByRef pvAttribute As Long, ByVal cbAttribute As Long) As Long
 
 Private Type OSVERSIONINFO
   OSVSize         As Long
@@ -24,6 +25,35 @@ Enum MsgBoxExIcon
     Information = 64
     Doraemon = 128
 End Enum
+
+Sub DisableDWMWindow(hWnd As Long)
+    If WinVer < 6.2 Then Exit Sub
+    DwmSetWindowAttribute hWnd, 2, 1, 4
+End Sub
+
+Sub EnableDWMWindow(hWnd As Long)
+    If WinVer < 6.2 Then Exit Sub
+    DwmSetWindowAttribute hWnd, 2, 0, 4
+End Sub
+
+Function ReadRegistry(ByVal KeyPath As String, ByVal KeyName, Optional ByVal Default) As Variant
+    On Error GoTo RegReadFail
+    Dim WShell As Object
+    Set WShell = CreateObject("WScript.Shell")
+    If Right$(KeyPath, 1) <> "\" Then KeyPath = KeyPath & "\"
+    ReadRegistry = WShell.RegRead(KeyPath & KeyName)
+    Exit Function
+RegReadFail:
+    ReadRegistry = Default
+End Function
+
+'https://stackoverflow.com/questions/40651/check-if-a-record-exists-in-a-vb6-collection
+Function Exists(ByVal oCol As Collection, ByVal vKey As Variant) As Boolean
+    On Error Resume Next
+    oCol.Item CStr(vKey)
+    Exists = (Err.Number = 0)
+    Err.Clear
+End Function
 
 Function TextWidth(ByVal s As String) As Single
     TextWidth = ConfirmMsgBox.TextWidth(s)

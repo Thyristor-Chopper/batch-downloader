@@ -1,10 +1,9 @@
 VERSION 5.00
 Begin VB.Form frmMain 
-   BorderStyle     =   1  '단일 고정
    Caption         =   "다운로드 부스터"
-   ClientHeight    =   8505
-   ClientLeft      =   45
-   ClientTop       =   570
+   ClientHeight    =   7740
+   ClientLeft      =   60
+   ClientTop       =   585
    ClientWidth     =   10455
    BeginProperty Font 
       Name            =   "굴림"
@@ -18,9 +17,17 @@ Begin VB.Form frmMain
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
-   ScaleHeight     =   8505
+   ScaleHeight     =   7740
    ScaleWidth      =   10455
    StartUpPosition =   3  'Windows 기본값
+   Begin VB.CheckBox chkNoDWMWindow 
+      Caption         =   "윈도우 7 모양으로(&I)"
+      Height          =   255
+      Left            =   6840
+      TabIndex        =   123
+      Top             =   3570
+      Width           =   2175
+   End
    Begin VB.CheckBox chkAutoRetry 
       Caption         =   "오류 시 자동 재시도(&G)"
       Height          =   255
@@ -33,7 +40,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   19
-      Top             =   4680
+      Top             =   4740
       Visible         =   0   'False
       Width           =   1815
       _ExtentX        =   3201
@@ -54,7 +61,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   240
       TabIndex        =   22
-      Top             =   7710
+      Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
@@ -66,7 +73,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   4200
       TabIndex        =   24
-      Top             =   7710
+      Top             =   6990
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -88,7 +95,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   1800
       TabIndex        =   69
-      Top             =   7710
+      Top             =   6990
       Width           =   255
       _ExtentX        =   450
       _ExtentY        =   661
@@ -110,7 +117,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   5520
       TabIndex        =   68
-      Top             =   7710
+      Top             =   6990
       Width           =   255
       _ExtentX        =   450
       _ExtentY        =   661
@@ -132,7 +139,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   67
-      Top             =   5100
+      Top             =   5130
       Visible         =   0   'False
       Width           =   1815
       _ExtentX        =   3201
@@ -144,7 +151,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   5880
       TabIndex        =   25
-      Top             =   7710
+      Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
@@ -1629,14 +1636,14 @@ Begin VB.Form frmMain
       End
    End
    Begin prjDownloadBooster.ListView lvBatchFiles 
-      Height          =   1635
+      Height          =   870
       Left            =   240
       TabIndex        =   21
       Top             =   6030
       Visible         =   0   'False
       Width           =   8895
       _ExtentX        =   15690
-      _ExtentY        =   2884
+      _ExtentY        =   1535
       View            =   3
       FullRowSelect   =   -1  'True
       GridLines       =   -1  'True
@@ -1734,7 +1741,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   2520
       TabIndex        =   23
-      Top             =   7710
+      Top             =   6990
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
@@ -1745,7 +1752,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7560
       TabIndex        =   26
-      Top             =   7710
+      Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
@@ -1803,9 +1810,9 @@ Begin VB.Form frmMain
          Width           =   615
       End
    End
-   Begin VB.Frame Frame2 
+   Begin VB.Frame fOptions 
       Caption         =   " 설정 "
-      Height          =   2325
+      Height          =   2565
       Left            =   6720
       TabIndex        =   28
       Top             =   1320
@@ -1823,7 +1830,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   15
-      Top             =   3840
+      Top             =   3960
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -1835,7 +1842,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   16
-      Top             =   4260
+      Top             =   4350
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -1846,7 +1853,7 @@ Begin VB.Form frmMain
       Align           =   2  '아래 맞춤
       Height          =   330
       Left            =   0
-      Top             =   8175
+      Top             =   7410
       Width           =   10455
       _ExtentX        =   18441
       _ExtentY        =   582
@@ -1903,7 +1910,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   18
-      Top             =   4680
+      Top             =   4740
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -2502,6 +2509,15 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     If lblTotalSizeThread.Caption = "대기 중..." Then lblTotalSizeThread.Caption = "-"
 End Sub
 
+Private Sub chkNoDWMWindow_Click()
+    SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", chkNoDWMWindow.Value
+    If chkNoDWMWindow.Value Then
+        DisableDWMWindow Me.hWnd
+    Else
+        EnableDWMWindow Me.hWnd
+    End If
+End Sub
+
 Private Sub cmdAdd_Click()
     On Error Resume Next
     If Replace(txtURL.Text, " ", "") <> "" Then
@@ -2566,7 +2582,7 @@ End Sub
 
 Private Sub cmdBatch_Click()
     On Error Resume Next
-    If Me.Height = 6930 Then
+    If Me.Height = 6930 + PaddedBorderWidth * 15 * 2 Then
         cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
 '        fBatchDownload.Visible = -1
@@ -2577,10 +2593,19 @@ Private Sub cmdBatch_Click()
 '        fDummyUI5.Visible = -1
 '        cmdAdd.Visible = -1
         cmdAddToQueue.Visible = -1
+        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
         
-        Me.Height = 8985
+        Dim formHeight As Integer
+        formHeight = GetSetting("DownloadBooster", "UserData", "FormHeight", 8985)
+        If formHeight < 8220 Then
+            Me.Height = 8985 + PaddedBorderWidth * 15 * 2
+        Else
+            Me.Height = formHeight + PaddedBorderWidth * 15 * 2
+        End If
     Else
-        Me.Height = 6930
+        SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
+        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15, 6930 + PaddedBorderWidth * 15 * 2
+        Me.Height = 6930 + PaddedBorderWidth * 15 * 2
         cmdBatch.ImageList = imgDropdown
         lvBatchFiles.Visible = 0
 '        fBatchDownload.Visible = 0
@@ -2751,7 +2776,7 @@ Private Sub cmdDeleteDropdown_Click()
     Me.PopupMenu mnuDeleteDropdown, , cmdDelete.Left, cmdDelete.Top + cmdDelete.Height
 End Sub
 
-Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     cmdDeleteDropdown_Click
 End Sub
 
@@ -2815,7 +2840,7 @@ Private Sub cmdOpenDropdown_Click()
     Me.PopupMenu mnuOpenDropdown, , cmdOpenBatch.Left, cmdOpenBatch.Top + cmdOpenBatch.Height
 End Sub
 
-Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     cmdOpenDropdown_Click
 End Sub
 
@@ -2992,7 +3017,7 @@ Private Sub Form_Load()
     fDownloadInfo.Width = fThreadInfo.Width '5925
     fDownloadInfo.Height = fThreadInfo.Height - 60
     
-    Me.Width = 9450
+    Me.Width = 9450 + PaddedBorderWidth * 15 * 2
     
     If GetSetting("DownloadBooster", "UserData", "LastTab", 1) = 1 Then
         fTabDownload_Click
@@ -3046,6 +3071,7 @@ Private Sub Form_Load()
     
     txtFileName.Text = GetSetting("DownloadBooster", "UserData", "SavePath", CurDir.Path)
     
+    Me.Height = 6930 + PaddedBorderWidth * 15 * 2
     If GetSetting("DownloadBooster", "UserData", "BatchExpanded", 1) <> 0 Then
         cmdBatch_Click
     End If
@@ -3062,6 +3088,7 @@ Private Sub Form_Load()
     chkPlaySound.Value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
     chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 1)
     chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
+    chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", 1)
     
     cbWhenExist.Clear
     cbWhenExist.AddItem "중단"
@@ -3078,6 +3105,25 @@ Private Sub Form_Load()
         cmdDelete.Width = 1575
         cmdDeleteDropdown.Visible = 0
     End If
+    
+    If WinVer < 6.2 Then
+        chkNoDWMWindow.Visible = 0
+        fOptions.Height = 2325
+    End If
+End Sub
+
+Private Sub Form_Resize()
+    'MsgBox Me.Height
+    If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
+    If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
+    lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
+    cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdAdd.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdDelete.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdDeleteDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdStartBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdStopBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -3134,6 +3180,7 @@ Private Sub Form_Unload(Cancel As Integer)
     SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkContinueDownload.Value
     SaveSetting "DownloadBooster", "UserData", "FormTop", Me.Top
     SaveSetting "DownloadBooster", "UserData", "FormLeft", Me.Left
+    If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
     SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
     SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
     Unload Me
@@ -3143,7 +3190,7 @@ Private Sub fTabDownload_Click()
     cmdTabDownload_Click
 End Sub
 
-Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabDownload_Click
 End Sub
 
@@ -3151,11 +3198,11 @@ Private Sub fTabThreads_Click()
     cmdTabThreads_Click
 End Sub
 
-Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabThreads_Click
 End Sub
 
-Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
+Private Sub lvBatchFiles_ContextMenu(ByVal x As Single, ByVal y As Single)
     On Error GoTo ErrLn
     If lvBatchFiles.SelectedItem.Selected Then
         If cmdDelete.Enabled Then Me.PopupMenu mnuListContext
@@ -3312,7 +3359,7 @@ Private Sub optTabDownload2_Click()
     optTabDownload_Click
 End Sub
 
-Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabDownload_Click
 End Sub
 
@@ -3324,7 +3371,7 @@ Private Sub optTabThreads2_Click()
     optTabThreads_Click
 End Sub
 
-Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabThreads_Click
 End Sub
 

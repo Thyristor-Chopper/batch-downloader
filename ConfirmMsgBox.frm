@@ -134,6 +134,7 @@ Private Sub cmdOK_Click()
 End Sub
 
 Private Sub Form_Load()
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", 1) = 1 Then DisableDWMWindow Me.hWnd
     cmdOK.Caption = "확인"
     cmdCancel.Caption = "취소"
     isOK = 0

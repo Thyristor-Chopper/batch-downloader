@@ -1,6 +1,7 @@
 Attribute VB_Name = "Startup"
 Public CachePath As String
 Public WinVer As Single
+Public PaddedBorderWidth As Integer
 
 Sub LoadJS()
     On Error Resume Next
@@ -36,7 +37,15 @@ Sub Main()
     CachePath = Environ$("TEMP") & "\BOOSTER_JS_CACHE\"
     LoadJS
     
+    Set MinWidth = New Collection
+    Set MinHeight = New Collection
+    Set MaxWidth = New Collection
+    Set MaxHeight = New Collection
+    
     Set fso = CreateObject("Scripting.FileSystemObject")
     Call InitVisualStylesFixes
+    
+    PaddedBorderWidth = ReadRegistry("HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15)
+    
     frmMain.Show vbModeless
 End Sub

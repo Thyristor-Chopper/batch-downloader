@@ -80,6 +80,10 @@ Private Sub cmdOK_Click()
     Unload Me
 End Sub
 
+Private Sub Form_Load()
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", 1) = 1 Then DisableDWMWindow Me.hWnd
+End Sub
+
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
     If (KeyCode = 13 Or KeyCode = 10) Then
         If (PrevKeyCode = 13 Or PrevKeyCode = 10) Then
@@ -91,6 +95,6 @@ Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     PrevKeyCode = 0
 End Sub
