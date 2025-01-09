@@ -2208,6 +2208,9 @@ Sub OnExit(RetVal As Long)
     timElapsed.Enabled = 0
     If Not BatchStarted Then
         Select Case RetVal
+            Case 0
+                '정상 종료
+                GoTo nextln
             Case 1
                 If chkAutoRetry.Value <> 1 Then
                     If pbTotalProgressMarquee.Visible And (lblDownloadedBytes.Caption = "-" Or lblDownloadedBytes.Caption = "대기 중...") Then
@@ -2290,6 +2293,8 @@ Sub OnExit(RetVal As Long)
                 MsgBox "내부 오류가 발생했습니다. 프로세스 반환 값은 ( " & RetVal & " ) 입니다.", 16
         End Select
     End If
+    
+nextln:
     
     If Not BatchStarted Then cmdGo.Enabled = -1
     cmdStop.Enabled = 0
