@@ -2,6 +2,8 @@ Attribute VB_Name = "Startup"
 Public CachePath As String
 Public WinVer As Single
 Public PaddedBorderWidth As Integer
+Public Const DefaultBackColor As Long = 15529449 '-1&
+Public DefaultDisableDWMWindow As Integer
 
 Sub LoadJS()
     On Error Resume Next
@@ -46,6 +48,11 @@ Sub Main()
     Call InitVisualStylesFixes
     
     PaddedBorderWidth = ReadRegistry("HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15)
+    If WinVer >= 6.2 Then
+        DefaultDisableDWMWindow = 1
+    Else
+        DefaultDisableDWMWindow = 0
+    End If
     
     frmMain.Show vbModeless
 End Sub

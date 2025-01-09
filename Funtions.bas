@@ -18,6 +18,34 @@ Private Const VER_PLATFORM_WIN32s = 0
 Private Const VER_PLATFORM_WIN32_WINDOWS = 1
 Private Const VER_PLATFORM_WIN32_NT = 2
 
+Type ChooseColorStruct
+    lStructSize As Long
+    hWndOwner As Long
+    hInstance As Long
+    RGBResult As Long
+    lpCustColors As Long
+    Flags As Long
+    lCustData As Long
+    lpfnHook As Long
+    lpTemplateName As String
+End Type
+
+Declare Function ChooseColor Lib "comdlg32.dll" Alias "ChooseColorA" _
+    (lpChooseColor As ChooseColorStruct) As Long
+Declare Function OleTranslateColor Lib "oleaut32.dll" (ByVal lOleColor _
+    As Long, ByVal lHPalette As Long, lColorRef As Long) As Long
+    
+Const CC_RGBINIT = &H1&
+Const CC_FULLOPEN = &H2&
+Const CC_PREVENTFULLOPEN = &H4&
+Const CC_SHOWHELP = &H8&
+Const CC_ENABLEHOOK = &H10&
+Const CC_ENABLETEMPLATE = &H20&
+Const CC_ENABLETEMPLATEHANDLE = &H40&
+Const CC_SOLIDCOLOR = &H80&
+Const CC_ANYCOLOR = &H100&
+Const CLR_INVALID = &HFFFF
+
 Enum MsgBoxExIcon
     Critical = 16
     Question = 32
@@ -27,14 +55,69 @@ Enum MsgBoxExIcon
 End Enum
 
 Sub DisableDWMWindow(hWnd As Long)
-    If WinVer < 6.2 Then Exit Sub
+    If WinVer < 6.1 Then Exit Sub
     DwmSetWindowAttribute hWnd, 2, 1, 4
 End Sub
 
 Sub EnableDWMWindow(hWnd As Long)
-    If WinVer < 6.2 Then Exit Sub
+    If WinVer < 6.1 Then Exit Sub
     DwmSetWindowAttribute hWnd, 2, 0, 4
 End Sub
+
+Sub SetFormBackgroundColor(frmForm As Form)
+    Dim clrBackColor As Long
+    Dim clrForeColor As Long
+    clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
+    If clrBackColor < 0 Or clrBackColor > 16777215 Then
+        frmForm.BackColor = &H8000000F
+        clrBackColor = &H8000000F
+    Else
+        frmForm.BackColor = clrBackColor
+    End If
+    clrForeColor = GetSetting("DownloadBooster", "Options", "ForeColor", -1)
+    If clrForeColor < 0 Or clrForeColor > 16777215 Then
+        frmForm.ForeColor = &H80000012
+        clrForeColor = &H80000012
+    Else
+        frmForm.ForeColor = clrForeColor
+    End If
+    
+    On Error Resume Next
+    Dim ctrl As Control
+    For Each ctrl In frmForm.Controls
+        If TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Then
+            ctrl.BackColor = clrBackColor
+            ctrl.ForeColor = clrForeColor
+        End If
+    Next ctrl
+End Sub
+
+Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpen As Boolean, Optional ByVal InitColor As OLE_COLOR) As Long
+    Dim CC As ChooseColorStruct
+    Dim aColorRef(15) As Long
+    Dim lInitColor As Long
+  
+    If InitColor <> 0 Then
+        If OleTranslateColor(InitColor, 0, lInitColor) Then
+            lInitColor = CLR_INVALID
+        End If
+    End If
+    
+    With CC
+        .lStructSize = Len(CC)
+        .hWndOwner = hParent
+        .lpCustColors = VarPtr(aColorRef(0))
+        .RGBResult = lInitColor
+        .Flags = CC_SOLIDCOLOR Or CC_ANYCOLOR Or CC_RGBINIT Or IIf(bFullOpen, _
+            CC_FULLOPEN, 0)
+    End With
+    
+    If ChooseColor(CC) Then
+        ShowColorDialog = CC.RGBResult
+    Else
+        ShowColorDialog = -1
+    End If
+End Function
 
 Function ReadRegistry(ByVal KeyPath As String, ByVal KeyName, Optional ByVal Default) As Variant
     On Error GoTo RegReadFail

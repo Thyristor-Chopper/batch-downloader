@@ -20,12 +20,33 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   10455
    StartUpPosition =   3  'Windows 기본값
+   Begin prjDownloadBooster.ImageList imgWrench 
+      Left            =   10080
+      Top             =   1320
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      InitListImages  =   "frmMain.frx":030A
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdOptions 
+      Height          =   330
+      Left            =   7200
+      TabIndex        =   124
+      Top             =   3120
+      Width           =   1815
+      _ExtentX        =   3201
+      _ExtentY        =   582
+      ImageList       =   "imgWrench"
+      Caption         =   "스킨 설정(&I)..."
+   End
    Begin VB.CheckBox chkNoDWMWindow 
       Caption         =   "윈도우 7 모양으로(&I)"
       Height          =   255
-      Left            =   6840
+      Left            =   7440
       TabIndex        =   123
-      Top             =   3570
+      Top             =   5880
+      Visible         =   0   'False
       Width           =   2175
    End
    Begin VB.CheckBox chkAutoRetry 
@@ -33,14 +54,14 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   6840
       TabIndex        =   71
-      Top             =   3330
+      Top             =   2850
       Width           =   2210
    End
    Begin prjDownloadBooster.CommandButtonW cmdStop 
       Height          =   375
       Left            =   7320
       TabIndex        =   19
-      Top             =   4740
+      Top             =   4620
       Visible         =   0   'False
       Width           =   1815
       _ExtentX        =   3201
@@ -54,7 +75,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   6840
       TabIndex        =   70
-      Top             =   3090
+      Top             =   2610
       Width           =   1935
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenBatch 
@@ -89,7 +110,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":030A
+      InitListImages  =   "frmMain.frx":07F2
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenDropdown 
       Height          =   375
@@ -111,7 +132,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":09FA
+      InitListImages  =   "frmMain.frx":0EE2
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -133,13 +154,13 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":10EA
+      InitListImages  =   "frmMain.frx":15D2
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   375
       Left            =   7320
       TabIndex        =   67
-      Top             =   5130
+      Top             =   5040
       Visible         =   0   'False
       Width           =   1815
       _ExtentX        =   3201
@@ -167,7 +188,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":22F2
+      InitListImages  =   "frmMain.frx":27DA
    End
    Begin prjDownloadBooster.ImageList imgStopYellow 
       Left            =   9480
@@ -177,7 +198,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":34FA
+      InitListImages  =   "frmMain.frx":39E2
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9480
@@ -187,7 +208,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":4702
+      InitListImages  =   "frmMain.frx":4BEA
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9480
@@ -197,7 +218,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":590A
+      InitListImages  =   "frmMain.frx":5DF2
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9480
@@ -207,7 +228,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":6B12
+      InitListImages  =   "frmMain.frx":6FFA
    End
    Begin prjDownloadBooster.ImageList imgPlus 
       Left            =   9480
@@ -217,7 +238,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":7D1A
+      InitListImages  =   "frmMain.frx":8202
    End
    Begin prjDownloadBooster.ImageList imgErase 
       Left            =   9480
@@ -227,7 +248,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":8F22
+      InitListImages  =   "frmMain.frx":940A
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9480
@@ -237,7 +258,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":930A
+      InitListImages  =   "frmMain.frx":97F2
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9480
@@ -247,14 +268,14 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":A512
+      InitListImages  =   "frmMain.frx":A9FA
    End
    Begin VB.CheckBox chkPlaySound 
-      Caption         =   "완료 시 신호음 재생(&U)"
+      Caption         =   "완료 시 신호음(&U)"
       Height          =   255
       Left            =   6840
       TabIndex        =   12
-      Top             =   2520
+      Top             =   2040
       Width           =   2205
    End
    Begin prjDownloadBooster.FrameW fTabThreads 
@@ -378,7 +399,7 @@ Begin VB.Form frmMain
       TabFixedWidth   =   53
       TabMinWidth     =   45
       TabScrollWheel  =   0   'False
-      InitTabs        =   "frmMain.frx":A8FA
+      InitTabs        =   "frmMain.frx":ADE2
    End
    Begin VB.Frame fDownloadInfo 
       BorderStyle     =   0  '없음
@@ -1656,9 +1677,10 @@ Begin VB.Form frmMain
    Begin VB.CheckBox chkRememberURL 
       Caption         =   "파일 주소 기억(&M)"
       Height          =   255
-      Left            =   6840
+      Left            =   7200
       TabIndex        =   11
-      Top             =   2280
+      Top             =   5880
+      Visible         =   0   'False
       Width           =   2055
    End
    Begin VB.DirListBox CurDir 
@@ -1698,7 +1720,7 @@ Begin VB.Form frmMain
       Left            =   7590
       Style           =   2  '드롭다운 목록
       TabIndex        =   14
-      Top             =   2775
+      Top             =   2295
       Width           =   1425
    End
    Begin VB.CheckBox chkOpenAfterComplete 
@@ -1706,15 +1728,16 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   6840
       TabIndex        =   9
-      Top             =   1800
+      Top             =   1560
       Width           =   1935
    End
    Begin VB.CheckBox chkNoCleanup 
       Caption         =   "조각 파일 유지(&N)"
       Height          =   255
-      Left            =   6840
+      Left            =   6960
       TabIndex        =   8
-      Top             =   1560
+      Top             =   5880
+      Visible         =   0   'False
       Width           =   2130
    End
    Begin VB.CheckBox chkOpenFolder 
@@ -1722,7 +1745,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   6840
       TabIndex        =   10
-      Top             =   2040
+      Top             =   1800
       Width           =   2055
    End
    Begin prjDownloadBooster.CommandButtonW cmdClear 
@@ -1812,7 +1835,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Frame fOptions 
       Caption         =   " 설정 "
-      Height          =   2565
+      Height          =   2190
       Left            =   6720
       TabIndex        =   28
       Top             =   1320
@@ -1822,7 +1845,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   120
          TabIndex        =   13
-         Top             =   1515
+         Top             =   1035
          Width           =   735
       End
    End
@@ -1830,7 +1853,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   15
-      Top             =   3960
+      Top             =   3720
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -1842,7 +1865,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   16
-      Top             =   4350
+      Top             =   4140
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -1857,7 +1880,7 @@ Begin VB.Form frmMain
       Width           =   10455
       _ExtentX        =   18441
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":A9C6
+      InitPanels      =   "frmMain.frx":AEAE
    End
    Begin VB.Timer timElapsed 
       Enabled         =   0   'False
@@ -1910,7 +1933,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   7320
       TabIndex        =   18
-      Top             =   4740
+      Top             =   4620
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -2743,7 +2766,7 @@ L2:
         End If
     End If
     
-    SPResult = SP.Run("""" & CachePath & "node_v0_11_11.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & (chkNoCleanup.Value * -1) & " " & cbWhenExist.ListIndex & " " & ContinueDownload)
+    SPResult = SP.Run("""" & CachePath & "node_v0_11_11.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -2857,6 +2880,10 @@ End Sub
 
 Private Sub cmdOpenFolderBatch_Click()
     cmdOpenFolder_Click
+End Sub
+
+Private Sub cmdOptions_Click()
+    frmOptions.Show vbModal, Me
 End Sub
 
 Private Sub cmdStartBatch_Click()
@@ -3080,7 +3107,7 @@ Private Sub Form_Load()
     chkOpenAfterComplete.Value = GetSetting("DownloadBooster", "Options", "OpenWhenComplete", 0)
     chkOpenFolder.Value = GetSetting("DownloadBooster", "Options", "OpenFolderWhenComplete", 0)
     chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 0)
-    If chkRememberURL.Value Then
+    If GetSetting("DownloadBooster", "Options", "RememberURL", 0) Then
         txtURL.Text = GetSetting("DownloadBooster", "UserData", "FileURL", "")
         txtURL.SelStart = 0
         txtURL.SelLength = Len(txtURL.Text)
@@ -3088,7 +3115,7 @@ Private Sub Form_Load()
     chkPlaySound.Value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
     chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 1)
     chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
-    chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", 1)
+    chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow)
     
     cbWhenExist.Clear
     cbWhenExist.AddItem "중단"
@@ -3106,10 +3133,13 @@ Private Sub Form_Load()
         cmdDeleteDropdown.Visible = 0
     End If
     
-    If WinVer < 6.2 Then
-        chkNoDWMWindow.Visible = 0
-        fOptions.Height = 2325
-    End If
+'    If WinVer < 6.2 Then
+'        chkNoDWMWindow.Visible = 0
+'        fOptions.Height = 2325
+'    End If
+    
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
+    SetFormBackgroundColor Me
 End Sub
 
 Private Sub Form_Resize()
@@ -3168,12 +3198,11 @@ Private Sub Form_Unload(Cancel As Integer)
     
     SaveSetting "DownloadBooster", "UserData", "SavePath", Trim$(txtFileName.Text)
     SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6931) * -1
-    SaveSetting "DownloadBooster", "Options", "NoCleanup", chkNoCleanup.Value
     SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenAfterComplete.Value
     SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenFolder.Value
     SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
-    SaveSetting "DownloadBooster", "Options", "RememberURL", chkRememberURL.Value
-    If chkRememberURL.Value Then
+    'SaveSetting "DownloadBooster", "Options", "RememberURL", chkRememberURL.Value
+    If GetSetting("DownloadBooster", "Options", "RememberURL", 0) Then
         SaveSetting "DownloadBooster", "UserData", "FileURL", Trim$(txtURL.Text)
     End If
     SaveSetting "DownloadBooster", "Options", "PlaySound", chkPlaySound.Value

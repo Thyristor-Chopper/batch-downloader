@@ -81,7 +81,8 @@ Private Sub cmdOK_Click()
 End Sub
 
 Private Sub Form_Load()
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", 1) = 1 Then DisableDWMWindow Me.hWnd
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
+    SetFormBackgroundColor Me
 End Sub
 
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
