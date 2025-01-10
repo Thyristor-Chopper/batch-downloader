@@ -1,11 +1,11 @@
 VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   3  '크기 고정 대화 상자
-   Caption         =   "스킨 설정 "
+   Caption         =   "스킨 설정"
    ClientHeight    =   5490
    ClientLeft      =   2760
-   ClientTop       =   3750
-   ClientWidth     =   6705
+   ClientTop       =   3855
+   ClientWidth     =   6750
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -20,7 +20,7 @@ Begin VB.Form frmOptions
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   5490
-   ScaleWidth      =   6705
+   ScaleWidth      =   6750
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 
@@ -34,22 +34,22 @@ Begin VB.Form frmOptions
       Top             =   960
       Width           =   3735
       Begin prjDownloadBooster.FrameW Frame5 
-         Height          =   615
+         Height          =   675
          Left            =   120
          TabIndex        =   34
          Top             =   1080
          Width           =   3135
          _ExtentX        =   5530
-         _ExtentY        =   1085
+         _ExtentY        =   1191
          Caption         =   " 인터페이스 "
          Transparent     =   -1  'True
          Begin VB.ComboBox cbLanguage 
             Height          =   300
-            Left            =   1440
+            Left            =   1080
             Style           =   2  '드롭다운 목록
             TabIndex        =   36
             Top             =   240
-            Width           =   1575
+            Width           =   1935
          End
          Begin VB.Label Label1 
             BackStyle       =   0  '투명
@@ -57,8 +57,8 @@ Begin VB.Form frmOptions
             Height          =   255
             Left            =   120
             TabIndex        =   35
-            Top             =   300
-            Width           =   1215
+            Top             =   270
+            Width           =   975
          End
       End
       Begin prjDownloadBooster.CheckBoxW chkRememberURL 
@@ -181,12 +181,12 @@ Begin VB.Form frmOptions
       Begin VB.TextBox txtLicense 
          Enabled         =   0   'False
          Height          =   495
-         Left            =   960
+         Left            =   930
          Locked          =   -1  'True
          MultiLine       =   -1  'True
-         ScrollBars      =   2  '수직
+         ScrollBars      =   3  '양방향
          TabIndex        =   26
-         Top             =   1800
+         Top             =   1680
          Width           =   1695
       End
       Begin VB.CommandButton cmdSysInfo 
@@ -210,7 +210,7 @@ Begin VB.Form frmOptions
          Height          =   810
          Left            =   930
          TabIndex        =   24
-         Top             =   1005
+         Top             =   840
          Width           =   4125
       End
       Begin VB.Label lblTitle 
@@ -625,7 +625,7 @@ Private Sub Form_Load()
     chkNoDWMWindow_Click
     
     tsTabStrip.Tabs(1).Caption = t(tsTabStrip.Tabs(1).Caption, " General ")
-    tsTabStrip.Tabs(2).Caption = t(tsTabStrip.Tabs(2).Caption, "  Skin  ")
+    tsTabStrip.Tabs(2).Caption = t(tsTabStrip.Tabs(2).Caption, " Appearance ")
     tsTabStrip.Tabs(3).Caption = t(tsTabStrip.Tabs(3).Caption, " About ")
     Frame1.Caption = t(Frame1.Caption, " Background color ")
     Frame4.Caption = t(Frame4.Caption, " Text color ")
@@ -643,7 +643,7 @@ Private Sub Form_Load()
     OKButton.Caption = t(OKButton.Caption, "OK")
     CancelButton.Caption = t(CancelButton.Caption, "Cancel")
     cmdApply.Caption = t(cmdApply.Caption, "&Apply")
-    Me.Caption = t(Me.Caption, "Skin settings")
+    Me.Caption = t(Me.Caption, "Settings")
     
     Loaded = True
 End Sub
