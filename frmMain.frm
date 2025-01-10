@@ -2269,6 +2269,8 @@ Sub OnExit(RetVal As Long)
             Case 0
                 '정상 종료
                 GoTo nextln
+            Case 999
+                GoTo nextln
             Case 1
                 If chkAutoRetry.Value <> 1 Then
                     If pbTotalProgressMarquee.Visible And (lblDownloadedBytes.Caption = "-" Or lblDownloadedBytes.Caption = "대기 중...") Then
