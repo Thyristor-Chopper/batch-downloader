@@ -35,7 +35,7 @@ Begin VB.Form frmBrowse
       Left            =   4920
       TabIndex        =   6
       Top             =   2880
-      Width           =   1350
+      Width           =   1455
    End
    Begin VB.TextBox txtFileName 
       Height          =   270
@@ -103,7 +103,7 @@ Begin VB.Form frmBrowse
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   1710
+      Height          =   1890
       Left            =   120
       System          =   -1  'True
       TabIndex        =   2
@@ -171,7 +171,7 @@ Begin VB.Form frmBrowse
       Width           =   1335
    End
    Begin VB.Label Label3 
-      Caption         =   "드라이브(&R):"
+      Caption         =   "드라이브(&V):"
       BeginProperty Font 
          Name            =   "굴림"
          Size            =   9
@@ -238,8 +238,9 @@ End Sub
 Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
+    SetFont Me
     
-    selFileType.AddItem "모든 파일 (*.*)"
+    selFileType.AddItem t("모든 파일", "All files") & " (*.*)"
     selFileType.ListIndex = 0
     
     On Error Resume Next
@@ -272,6 +273,15 @@ Private Sub Form_Load()
     
     lvDir.Path = Path
     lvDir_Change
+    
+    Label1.Caption = t(Label1.Caption, "&File name:")
+    Label4.Caption = t(Label4.Caption, "File &type:")
+    Label3.Caption = t(Label3.Caption, "Dri&ve")
+    Label2.Caption = t(Label2.Caption, "&Directory")
+    chkHidden.Caption = t(chkHidden.Caption, "Show &hidden")
+    OKButton.Caption = t(OKButton.Caption, "OK")
+    CancelButton.Caption = t(CancelButton.Caption, "Cancel")
+    Me.Caption = t(Me.Caption, "Select download path")
 End Sub
 
 Private Sub lvDir_Change()
@@ -326,7 +336,7 @@ Private Sub OKButton_Click()
         UCase(txtFileName.Text) = "LPT3" Or _
         UCase(txtFileName.Text) = "LPT4" _
     Then
-        MsgBox "파일 이름이 올바르지 않습니다.", 48
+        MsgBox t("파일 이름이 올바르지 않습니다.", "Invalid file name."), 48
         Exit Sub
     End If
 
@@ -340,10 +350,10 @@ Private Sub OKButton_Click()
     On Error Resume Next
     If FileExists(Path) Then
         If frmMain.cbWhenExist.ListIndex = 0 Then
-            MsgBox "파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", 16
+            MsgBox t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), 16
             Exit Sub
         ElseIf frmMain.cbWhenExist.ListIndex = 1 Then
-            If MsgBox("파일 이름이 이미 존재합니다. 덮어쓰시겠습니까?", 48 + vbYesNo) <> vbYes Then
+            If MsgBox(t("파일 이름이 이미 존재합니다. 덮어쓰시겠습니까?", "File name already exists. Overwrite?"), 48 + vbYesNo) <> vbYes Then
                 Exit Sub
             End If
         End If
@@ -357,7 +367,7 @@ Private Sub OKButton_Click()
     Exit Sub
     
 e:
-    MsgBox "문제가 발생했습니다!", 16
+    MsgBox t("문제가 발생했습니다!", "Error!"), 16
     Exit Sub
 End Sub
 
@@ -367,7 +377,7 @@ Private Sub selDrive_Change()
     Exit Sub
     
 e:
-    MsgBox "선택한 드라이브 안에 디스크가 없습니다.", 16
+    MsgBox t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), 16
 End Sub
 
 Private Sub selFileType_Change()

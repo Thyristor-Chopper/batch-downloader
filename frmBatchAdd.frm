@@ -83,6 +83,12 @@ End Sub
 Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
+    SetFont Me
+    
+    Me.Caption = t(Me.Caption, "Batch download")
+    cmdOK.Caption = t(cmdOK.Caption, "OK")
+    cmdCancel.Caption = t(cmdCancel.Caption, "Cancel")
+    Label1.Caption = t(Label1.Caption, "Enter one UR&L per line:")
 End Sub
 
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)

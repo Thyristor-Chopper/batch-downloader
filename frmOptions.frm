@@ -23,6 +23,77 @@ Begin VB.Form frmOptions
    ScaleWidth      =   6705
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin VB.PictureBox pbPanel 
+      AutoRedraw      =   -1  'True
+      Height          =   2265
+      Index           =   1
+      Left            =   1320
+      ScaleHeight     =   2205
+      ScaleWidth      =   3675
+      TabIndex        =   5
+      Top             =   960
+      Width           =   3735
+      Begin prjDownloadBooster.FrameW Frame5 
+         Height          =   615
+         Left            =   120
+         TabIndex        =   34
+         Top             =   1080
+         Width           =   3135
+         _ExtentX        =   5530
+         _ExtentY        =   1085
+         Caption         =   " 인터페이스 "
+         Transparent     =   -1  'True
+         Begin VB.ComboBox cbLanguage 
+            Height          =   300
+            Left            =   1440
+            Style           =   2  '드롭다운 목록
+            TabIndex        =   36
+            Top             =   240
+            Width           =   1575
+         End
+         Begin VB.Label Label1 
+            BackStyle       =   0  '투명
+            Caption         =   "언어(&L):"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   35
+            Top             =   300
+            Width           =   1215
+         End
+      End
+      Begin prjDownloadBooster.CheckBoxW chkRememberURL 
+         Height          =   255
+         Left            =   240
+         TabIndex        =   11
+         Top             =   600
+         Width           =   2655
+         _ExtentX        =   4683
+         _ExtentY        =   450
+         Caption         =   "파일 주소 기억(&M)"
+         Transparent     =   -1  'True
+      End
+      Begin prjDownloadBooster.CheckBoxW chkNoCleanup 
+         Height          =   255
+         Left            =   240
+         TabIndex        =   8
+         Top             =   360
+         Width           =   2610
+         _ExtentX        =   4604
+         _ExtentY        =   450
+         Caption         =   "조각 파일 유지(&N)"
+         Transparent     =   -1  'True
+      End
+      Begin prjDownloadBooster.FrameW Frame2 
+         Height          =   855
+         Left            =   120
+         TabIndex        =   7
+         Top             =   120
+         Width           =   3495
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Caption         =   " 다운로드 설정 "
+      End
+   End
    Begin VB.PictureBox pbWinXP 
       Height          =   375
       Left            =   4080
@@ -124,7 +195,7 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   25
          Top             =   1200
-         Width           =   1710
+         Width           =   1935
       End
       Begin VB.Image picIcon 
          Height          =   480
@@ -164,58 +235,15 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   1185
-      Index           =   2
-      Left            =   3840
-      ScaleHeight     =   1125
-      ScaleWidth      =   3675
-      TabIndex        =   5
-      Top             =   600
-      Visible         =   0   'False
-      Width           =   3735
-      Begin prjDownloadBooster.CheckBoxW chkRememberURL 
-         Height          =   255
-         Left            =   240
-         TabIndex        =   11
-         Top             =   600
-         Width           =   2055
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   "파일 주소 기억(&M)"
-         Transparent     =   -1  'True
-      End
-      Begin prjDownloadBooster.CheckBoxW chkNoCleanup 
-         Height          =   255
-         Left            =   240
-         TabIndex        =   8
-         Top             =   360
-         Width           =   2130
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   "조각 파일 유지(&N)"
-         Transparent     =   -1  'True
-      End
-      Begin prjDownloadBooster.FrameW Frame2 
-         Height          =   855
-         Left            =   120
-         TabIndex        =   7
-         Top             =   120
-         Width           =   3495
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   " 다운로드 설정 "
-      End
-   End
-   Begin VB.PictureBox pbPanel 
-      AutoRedraw      =   -1  'True
       BorderStyle     =   0  '없음
       Height          =   4425
-      Index           =   1
+      Index           =   2
       Left            =   165
       ScaleHeight     =   4425
       ScaleWidth      =   6390
       TabIndex        =   4
       Top             =   450
+      Visible         =   0   'False
       Width           =   6390
       Begin VB.PictureBox pbOptionContainer 
          BorderStyle     =   0  '없음
@@ -235,7 +263,7 @@ Begin VB.Form frmOptions
             Width           =   1590
             _ExtentX        =   2805
             _ExtentY        =   450
-            Caption         =   "사용자 지정(&E):"
+            Caption         =   "사용자 지정(&T):"
             Transparent     =   -1  'True
          End
          Begin prjDownloadBooster.OptionButtonW optSystemFore 
@@ -288,9 +316,9 @@ Begin VB.Form frmOptions
          Left            =   240
          TabIndex        =   10
          Top             =   2520
-         Width           =   2655
-         _ExtentX        =   0
-         _ExtentY        =   0
+         Width           =   3375
+         _ExtentX        =   5953
+         _ExtentY        =   450
          Caption         =   "윈도우 7 모양으로 바꾸기(&I)"
          Transparent     =   -1  'True
       End
@@ -425,17 +453,25 @@ Const gREGKEYSYSINFO = "SOFTWARE\Microsoft\Shared Tools\MSINFO"
 Const gREGVALSYSINFO = "PATH"
 Dim LineNum As Integer
 Dim AboutEasterEgg2 As Boolean
+Dim Loaded As Boolean
 
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
 
+Private Sub cbLanguage_Click()
+    If Loaded Then
+        MsgBox t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application."), 64
+        cmdApply.Enabled = -1
+    End If
+End Sub
+
 Private Sub chkNoCleanup_Click()
-    cmdApply.Enabled = -1
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
 
 Private Sub chkNoDWMWindow_Click()
-    cmdApply.Enabled = -1
+    If Loaded Then cmdApply.Enabled = -1
     
     If WinVer < 6# Then
         pbPreview.Picture = pbWinXP.Picture
@@ -456,7 +492,7 @@ Private Sub chkNoDWMWindow_Click()
 End Sub
 
 Private Sub chkRememberURL_Click()
-    cmdApply.Enabled = -1
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
 
 Private Sub cmdApply_Click()
@@ -486,6 +522,11 @@ Private Sub cmdApply_Click()
     End If
     SetFormBackgroundColor Me
     SetFormBackgroundColor frmMain
+    If cbLanguage.ListIndex = 1 Then
+        SaveSetting "DownloadBooster", "Options", "Language", 1033
+    Else
+        SaveSetting "DownloadBooster", "Options", "Language", 1042
+    End If
     cmdApply.Enabled = 0
 End Sub
 
@@ -494,19 +535,21 @@ Private Sub cmdSysInfo_Click()
 End Sub
 
 Private Sub Form_Load()
+    Loaded = False
     LineNum = 1
     AboutEasterEgg2 = False
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
+    SetFont Me
     
     Dim i%
     For i = 1 To pbPanel.Count
-        If i <> 1 Then
-            pbPanel(i).Visible = 0
-            pbPanel(i).Top = pbPanel(1).Top
-            pbPanel(i).Left = pbPanel(1).Left
-            pbPanel(i).Width = pbPanel(1).Width
-            pbPanel(i).Height = pbPanel(1).Height
+        If i <> 1 Then pbPanel(i).Visible = 0
+        If i <> 2 Then
+            pbPanel(i).Top = pbPanel(2).Top
+            pbPanel(i).Left = pbPanel(2).Left
+            pbPanel(i).Width = pbPanel(2).Width
+            pbPanel(i).Height = pbPanel(2).Height
             pbPanel(i).BorderStyle = 0
             pbPanel(i).AutoRedraw = True
         End If
@@ -519,7 +562,8 @@ Private Sub Form_Load()
     End If
     If WinVer < 6.1 Then chkNoDWMWindow.Value = 0
     chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 0)
-    If WinVer < 6.2 Then chkNoDWMWindow.Caption = "Aero 창 사용 안 함(&I)"
+    chkNoDWMWindow.Caption = t(chkNoDWMWindow.Caption, "Use W&indows 7 style")
+    If WinVer < 6.2 Then chkNoDWMWindow.Caption = t("Aero 창 사용 안 함(&I)", "Disable Aero w&indow")
     
     Dim clrBackColor As Long
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
@@ -557,10 +601,14 @@ Private Sub Form_Load()
         End If
     Next ctrl
     
+    cbLanguage.AddItem "한국어"
+    cbLanguage.AddItem "English"
+    cbLanguage.ListIndex = CInt(GetSetting("DownloadBooster", "Options", "Language", GetUserDefaultLangID()) <> 1042) * -1
+    
     picIcon.Picture = frmMain.Icon
-    lblVersion.Caption = "버전 " & App.Major & "." & App.Minor & "." & App.Revision
+    lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & "." & App.Revision
     lblTitle.Caption = App.Title
-    lblDescription.Caption = "일괄 다운로드 및 다운로드 부스팅 프로그램" & vbCrLf & vbCrLf & "이 프로그램에는 Node.js의 바이너리가 포함되어 있으며," & vbCrLf & "라이선스 전문은 다음과 같습니다."
+    lblDescription.Caption = t("일괄 다운로드 및 다운로드 부스팅 프로그램" & vbCrLf & vbCrLf & "이 프로그램에는 Node.js의 바이너리가 포함되어 있으며," & vbCrLf & "라이선스 전문은 다음과 같습니다.", "Batch download booster application." & vbCrLf & vbCrLf & "This program includes the binary of Node.js." & vbCrLf & "Check out the license of Node.js below.")
     lblDescription.Width = pbPanel(1).Width - lblDescription.Left - 180
     txtLicense.Width = lblDescription.Width
     txtLicense.Height = pbPanel(1).Height - txtLicense.Top - 90 - cmdSysInfo.Height - 90 - pbLicenseLoadProgress.Height - 30
@@ -575,6 +623,29 @@ Private Sub Form_Load()
     cmdSysInfo.Left = pbPanel(1).Width - cmdSysInfo.Width - 180
     
     chkNoDWMWindow_Click
+    
+    tsTabStrip.Tabs(1).Caption = t(tsTabStrip.Tabs(1).Caption, " General ")
+    tsTabStrip.Tabs(2).Caption = t(tsTabStrip.Tabs(2).Caption, "  Skin  ")
+    tsTabStrip.Tabs(3).Caption = t(tsTabStrip.Tabs(3).Caption, " About ")
+    Frame1.Caption = t(Frame1.Caption, " Background color ")
+    Frame4.Caption = t(Frame4.Caption, " Text color ")
+    Frame3.Caption = t(Frame3.Caption, " Window appearance ")
+    Frame2.Caption = t(Frame2.Caption, " Download options ")
+    Frame5.Caption = t(Frame5.Caption, " Interface ")
+    chkNoCleanup.Caption = t(chkNoCleanup.Caption, "Preserve segme&nts")
+    chkRememberURL.Caption = t(chkRememberURL.Caption, "Re&member URL")
+    optSystemColor.Caption = t(optSystemColor.Caption, "&System color")
+    optUserColor.Caption = t(optUserColor.Caption, "C&ustom color:")
+    optSystemFore.Caption = t(optSystemFore.Caption, "S&ystem color")
+    optUserFore.Caption = t(optUserFore.Caption, "Cus&tom color:")
+    cmdSysInfo.Caption = t(cmdSysInfo.Caption, "&System information...")
+    Label1.Caption = t(Label1.Caption, "&Language:")
+    OKButton.Caption = t(OKButton.Caption, "OK")
+    CancelButton.Caption = t(CancelButton.Caption, "Cancel")
+    cmdApply.Caption = t(cmdApply.Caption, "&Apply")
+    Me.Caption = t(Me.Caption, "Skin settings")
+    
+    Loaded = True
 End Sub
 
 Private Sub lblSelectColor_Click()
@@ -601,19 +672,19 @@ Private Sub OKButton_Click()
 End Sub
 
 Private Sub optSystemColor_Click()
-    cmdApply.Enabled = -1
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
 
 Private Sub optSystemFore_Click()
-    cmdApply.Enabled = -1
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
 
 Private Sub optUserColor_Click()
-    cmdApply.Enabled = -1
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
 
 Private Sub optUserFore_Click()
-    cmdApply.Enabled = -1
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
 
 Private Sub picIcon_DblClick()
@@ -645,11 +716,11 @@ Private Sub timLicenseLoader_Timer()
     On Error GoTo LicenseFail
     txtLicense.Text = txtLicense.Text & LoadResString(LineNum) & vbCrLf
     pbLicenseLoadProgress.Value = LineNum
-    txtLicensePlaceholder.Text = "라이선스를 불러오는 중... (" & Floor(LineNum / 812 * 100) & "%)"
+    txtLicensePlaceholder.Text = t("라이선스를 불러오는 중... (", "Loading the license text... (") & Floor(LineNum / 812 * 100) & "%)"
     LineNum = LineNum + 1
     Exit Sub
 LicenseFail:
-    txtLicense.Text = "라이선스를 불러올 수 없습니다. 다음 링크에서 확인할 수 있습니다." & vbCrLf & " https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
+    txtLicense.Text = t("라이선스를 불러올 수 없습니다. 다음 링크에서 확인할 수 있습니다.", "Unable to load the license. Check this URL:") & vbCrLf & " https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
     timLicenseLoader.Enabled = 0
     pbLicenseLoadProgress.Visible = 0
     txtLicense.Height = txtLicense.Height + pbLicenseLoadProgress.Height + 30
@@ -714,5 +785,5 @@ Sub StartSysInfo()
     
     Exit Sub
 SysInfoErr:
-    MsgBox "지금은 시스템 정보를 사용할 수 없습니다.", 48
+    MsgBox t("지금은 시스템 정보를 사용할 수 없습니다.", "System Information is unavailable."), 48
 End Sub

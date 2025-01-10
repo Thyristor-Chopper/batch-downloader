@@ -136,9 +136,10 @@ End Sub
 Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
+    SetFont Me
     
-    cmdOK.Caption = "확인"
-    cmdCancel.Caption = "취소"
+    cmdOK.Caption = t("확인", "OK")
+    cmdCancel.Caption = t("취소", "Cancel")
     isOK = 0
 End Sub
 

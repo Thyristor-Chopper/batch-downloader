@@ -9,6 +9,7 @@ Declare Function DwmIsCompositionEnabled Lib "dwmapi.dll" (ByRef pfEnabled As Lo
 Private Declare Function RegOpenKeyEx Lib "advapi32" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, ByRef phkResult As Long) As Long
 Private Declare Function RegQueryValueEx Lib "advapi32" Alias "RegQueryValueExA" (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, ByRef lpType As Long, ByVal lpData As String, ByRef lpcbData As Long) As Long
 Private Declare Function RegCloseKey Lib "advapi32" (ByVal hKey As Long) As Long
+Declare Function GetUserDefaultLangID Lib "kernel32" () As Integer
 
 Public Const HKEY_CLASSES_ROOT = &H80000000
 Public Const HKEY_CURRENT_USER = &H80000001
@@ -328,8 +329,8 @@ End Function
 
 Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As Form, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal YesCaption As String = "", Optional ByVal NoCaption As String = "") As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If YesCaption = "" Then YesCaption = "예(&Y)"
-    If NoCaption = "" Then NoCaption = "아니요(&N)"
+    If YesCaption = "" Then YesCaption = t("예(&Y)", "&Yes")
+    If NoCaption = "" Then NoCaption = t("아니요(&N)", "&No")
     Select Case Icon
         Case 48
             ConfirmMsgBox.imgMBIconWarning.Visible = True
@@ -453,15 +454,15 @@ Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = F
         'ElseIf ret >= 100@ Then ret = Fix(ret)
         ParseSize = ret & "KB" & Suffix
     Else
-        ParseSize = CStr(Size) & " 바이트"
+        ParseSize = CStr(Size) & " " & t("바이트", "Bytes")
     End If
     
     If Size >= (1024@) And ShowBytes Then
-        ParseSize = ParseSize & " (" & Size & " 바이트" & Suffix & ")"
+        ParseSize = ParseSize & " (" & Size & " " & t("바이트", "Bytes") & Suffix & ")"
     End If
     Exit Function
 ErrLn4:
-    ParseSize = "0 바이트"
+    ParseSize = "0 " & t("바이트", "Bytes")
 End Function
 
 Function FilterFilename(ByVal FileName As String) As String
@@ -593,3 +594,25 @@ Function fWinVer() As Single
     
     fWinVer = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
 End Function
+
+Function t(ByVal k, ByVal e) As Variant
+    If LangID = 1042 Then
+        t = k
+    Else
+        t = e
+    End If
+End Function
+
+Sub SetFont(frm As Form)
+    On Error Resume Next
+    If LangID = 1042 Then Exit Sub
+    Dim ctrl As Control
+    For Each ctrl In frm.Controls
+        If ctrl.Name <> "lvDummyScroll" Then
+            ctrl.FontName = "Tahoma"
+            ctrl.FontSize = 8
+            ctrl.Font.Name = "Tahoma"
+            ctrl.Font.Size = 8
+        End If
+    Next ctrl
+End Sub

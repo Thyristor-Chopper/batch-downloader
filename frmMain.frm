@@ -71,7 +71,7 @@ Begin VB.Form frmMain
       Caption         =   "중지(&P) "
    End
    Begin VB.CheckBox chkContinueDownload 
-      Caption         =   "항상 이어받기(&Z)"
+      Caption         =   "항상 이어받기(&J)"
       Height          =   255
       Left            =   6840
       TabIndex        =   70
@@ -1729,7 +1729,7 @@ Begin VB.Form frmMain
       Left            =   6840
       TabIndex        =   9
       Top             =   1560
-      Width           =   1935
+      Width           =   2175
    End
    Begin VB.CheckBox chkNoCleanup 
       Caption         =   "조각 파일 유지(&N)"
@@ -1746,7 +1746,7 @@ Begin VB.Form frmMain
       Left            =   6840
       TabIndex        =   10
       Top             =   1800
-      Width           =   2055
+      Width           =   2175
    End
    Begin prjDownloadBooster.CommandButtonW cmdClear 
       Height          =   330
@@ -1793,7 +1793,7 @@ Begin VB.Form frmMain
       _ExtentY        =   661
       ImageList       =   "imgDropdown"
       ImageListAlignment=   1
-      Caption         =   "  일괄 처리(W)"
+      Caption         =   "  일괄 처리(&H)"
    End
    Begin VB.Frame fTotal 
       Caption         =   " 전체 다운로드 진행률 "
@@ -2040,18 +2040,18 @@ Sub OnData(Data As String)
     If Left$(Data, 7) = "STATUS " Then
         Select Case Replace(Right$(Data, Len(Data) - 7), " ", "")
             Case "CHECKREDIRECT"
-                sbStatusBar.Panels(1).Text = "서버를 찾는 중..."
+                sbStatusBar.Panels(1).Text = t("서버를 찾는 중...", "Finding server...")
             Case "CHECKFILE"
-                sbStatusBar.Panels(1).Text = "가용성 확인 중..."
+                sbStatusBar.Panels(1).Text = t("가용성 확인 중...", "Checking availability...")
             Case "DOWNLOADING"
-                sbStatusBar.Panels(1).Text = "다운로드 중..."
+                sbStatusBar.Panels(1).Text = t("다운로드 중...", "Downloading...")
             Case "MERGING"
-                sbStatusBar.Panels(1).Text = "파일 조각 결합 중..."
+                sbStatusBar.Panels(1).Text = t("파일 조각 결합 중...", "Merging segments...")
                 'pbTotalProgress.Scrolling = PrbScrollingMarquee
                 pbTotalProgressMarquee.Visible = -1
                 pbTotalProgressMarquee.MarqueeAnimation = -1
             Case "COMPLETE"
-                sbStatusBar.Panels(1).Text = "완료"
+                sbStatusBar.Panels(1).Text = t("완료", "Complete")
                 sbStatusBar.Panels(2).Text = ""
                 sbStatusBar.Panels(3).Text = ""
                 sbStatusBar.Panels(4).Text = ""
@@ -2060,7 +2060,7 @@ Sub OnData(Data As String)
                 pbTotalProgressMarquee.Visible = 0
                 pbTotalProgress.Value = 100
             Case "UNABLETOCONTINUE"
-                MsgBox "이어받기가 불가능합니다. 처음부터 다시 다운로드합니다.", 48
+                MsgBox t("이어받기가 불가능합니다. 처음부터 다시 다운로드합니다.", "Unable to resume. Starting over..."), 48
         End Select
     ElseIf Left$(Data, 11) = "STATUSCODE " Then
         output = Right$(Data, Len(Data) - 11)
@@ -2119,17 +2119,17 @@ Sub OnData(Data As String)
                     pbTotalProgressMarquee.MarqueeAnimation = -1
                 End If
             End If
-            If fTotal.Caption <> " 전체 다운로드 진행률 " Then fTotal.Caption = " 전체 다운로드 진행률 "
+            If fTotal.Caption <> t(" 전체 다운로드 진행률 ", " Total Progress ") Then fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
             If pbTotalProgress.Value <> 0 Then pbTotalProgress.Value = 0
             If DownloadedBytes = -1 Then
                 sbStatusBar.Panels(2).Text = ""
             ElseIf total <= 0 Then
-                sbStatusBar.Panels(2).Text = DownloadedBytes & " 바이트"
+                sbStatusBar.Panels(2).Text = DownloadedBytes & " " & t("바이트", "Bytes")
             Else
-                sbStatusBar.Panels(2).Text = total & " 중 " & DownloadedBytes
+                sbStatusBar.Panels(2).Text = t(total & " 중 " & DownloadedBytes, DownloadedBytes & " of " & total)
             End If
             If total <= 0 Then
-                If lblTotalBytes.Caption <> "알 수 없음" Then lblTotalBytes.Caption = "알 수 없음"
+                If lblTotalBytes.Caption <> t("알 수 없음", "Unknown") Then lblTotalBytes.Caption = t("알 수 없음", "Unknown")
             Else
                 lblTotalBytes.Caption = ParseSize(total, True)
             End If
@@ -2141,26 +2141,26 @@ progressAvailable:
                 pbTotalProgressMarquee.Visible = 0
             End If
             If strTotal = "-1" Then
-                sbStatusBar.Panels(2).Text = DownloadedBytes & " 바이트"
+                sbStatusBar.Panels(2).Text = DownloadedBytes & " " & t("바이트", "Bytes")
             Else
                 sbStatusBar.Panels(2).Text = strTotal & " 중 " & DownloadedBytes
             End If
             If strTotal = "NaN" Or strTotal = "-1" Then
-                lblTotalBytes.Caption = "알 수 없음"
+                lblTotalBytes.Caption = t("알 수 없음", "Unknown")
             Else
                 lblTotalBytes.Caption = ParseSize(total, True)
             End If
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
             pbTotalProgress.Value = progress
-            fTotal.Caption = " 전체 다운로드 진행률 (" & progress & "%) "
+            fTotal.Caption = t(" 전체 다운로드 진행률 (" & progress & "%) ", " Total Progress (" & progress & "%) ")
         End If
         
         Dim Speed As Double
         SpeedCount = SpeedCount + 1
         If SpeedCount >= 10 Then
             Speed = (DownloadedBytes - PrevDownloadedBytes)
-            lblSpeed.Caption = ParseSize(Speed, True, "/초")
-            sbStatusBar.Panels(3).Text = ParseSize(Speed, False, "/초")
+            lblSpeed.Caption = ParseSize(Speed, True, "/" & t("초", "sec"))
+            sbStatusBar.Panels(3).Text = ParseSize(Speed, False, "/" & t("초", "sec"))
             PrevDownloadedBytes = DownloadedBytes
             SpeedCount = 0
         End If
@@ -2180,7 +2180,7 @@ Sub NextBatchDownload()
     Dim i%
     If Not BatchStarted Then Exit Sub
     
-    If lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "완료" Then _
+    If lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("완료", "Done") Then _
         lvBatchFiles.ListItems(CurrentBatchIdx).Checked = False
     
     If CurrentBatchIdx = lvBatchFiles.ListItems.Count Then
@@ -2215,12 +2215,13 @@ Sub NextBatchDownload()
         End If
         
         If BatchErrorCount Then
-            MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", 48
+            MsgBox t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
+                     "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), 48
         ElseIf chkPlaySound.Value Then
             MessageBeep 64
         End If
         
-        If lblState.Caption = "완료됨" Then
+        If lblState.Caption = t("완료됨", "Done") Then
             pbTotalProgress.Value = 100
             For i = 1 To trThreadCount.Value
                 pbProgress(i).Value = 100
@@ -2245,30 +2246,28 @@ Sub OnExit(RetVal As Long)
             Case 1
                 If chkAutoRetry.Value <> 1 Then
                     If pbTotalProgressMarquee.Visible And (lblDownloadedBytes.Caption = "-" Or lblDownloadedBytes.Caption = "대기 중...") Then
-                        MsgBox "해당 파일 주소에 연결할 수 없습니다. 주소가 유효하지 않거나 서버가 응답하지 않습니다.", 16
+                        MsgBox t("해당 파일 주소에 연결할 수 없습니다. 주소가 유효하지 않거나 서버가 응답하지 않습니다.", "The server does not respond or the file URL is invalid."), 16
                     Else
-                        MsgBox "서버와의 접속이 끊겼습니다. 다운로드 도중에 네트워크 오류가 발생했을 수 있습니다.", 16
+                        MsgBox t("서버와의 접속이 끊겼습니다. 다운로드 도중에 네트워크 오류가 발생했을 수 있습니다.", "Network error while downloading."), 16
                     End If
                 End If
             Case 102
                 MsgBox "주소나 파일 이름을 지정하지 않았습니다.", 16
-            Case 3
-                MsgBox "저장 경로가 존재하지 않습니다.", 16
-            Case 103
-                MsgBox "저장 경로가 존재하지 않습니다.", 16
+            Case 3, 103
+                MsgBox t("저장 경로가 존재하지 않습니다.", "Save path doesn't exist."), 16
             Case 104
-                MsgBox "저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", 16
+                MsgBox t("저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", "File name already exists."), 16
             Case 106
-                MsgBox "파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오.", 16
+                MsgBox t("파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오.", "Download boosting not supported. Try changing the thread count to 1."), 16
             Case 107
-                MsgBox "파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", 16
+                MsgBox t("파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", "Unable to boost download because the file size is not provided. Try changing the thread count to 1."), 16
             Case 108
                 Dim statusMsg As String
                 statusMsg = ""
                 Dim ErrDesc As String
                 Dim Icon As VbMsgBoxStyle
                 Icon = vbCritical
-                If Len(HttpStatusCode) > 0 Then
+                If Len(HttpStatusCode) > 0 And LangID = 1042 Then
                     Select Case HttpStatusCode
                         Case "400"
                             ErrDesc = "요청이 잘못되었습니다."
@@ -2319,9 +2318,9 @@ Sub OnExit(RetVal As Long)
                             statusMsg = " HTTP 응답 코드는 ( " & HttpStatusCode & " ) 입니다."
                     End Select
                 End If
-                MsgBox "서버가 요청을 거부했습니다. " & ErrDesc & statusMsg, Icon
+                MsgBox t("서버가 요청을 거부했습니다. " & ErrDesc & statusMsg, "Server denied your request. The file may not exist or have insufficient permissions to access it."), Icon
             Case Else
-                MsgBox "내부 오류가 발생했습니다. 프로세스 반환 값은 ( " & RetVal & " ) 입니다.", 16
+                MsgBox t("내부 오류가 발생했습니다. 프로세스 반환 값은 ( " & RetVal & " ) 입니다.", "Internal error. Process returned ( " & RetVal & " )."), 16
         End Select
     End If
     
@@ -2341,14 +2340,14 @@ nextln:
         Next i
         
         If RetVal <> 0 Then
-            lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "오류 (" & RetVal & ")"
+            lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("오류", "Error") & " (" & RetVal & ")"
             lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = 255
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = 255
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2).ForeColor = 255
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).ForeColor = 255
             BatchErrorCount = BatchErrorCount + 1
         Else
-            lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "완료"
+            lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("완료", "Done")
             'lvBatchFiles.ListItems(CurrentBatchIdx).Checked = False
             lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = &H8000&
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = &H8000&
@@ -2406,19 +2405,19 @@ Sub OnStart()
     
     cmdOpen.Enabled = 0
     
-    lblTotalBytes.Caption = "대기 중..."
-    lblDownloadedBytes.Caption = "대기 중..."
+    lblTotalBytes.Caption = t("대기 중...", "Pending...")
+    lblDownloadedBytes.Caption = t("대기 중...", "Pending...")
     If trThreadCount.Value > 1 Then
-        lblTotalSizeThread.Caption = "대기 중..."
+        lblTotalSizeThread.Caption = t("대기 중...", "Pending...")
         lblThreadCount2.Caption = trThreadCount.Value
     Else
         lblTotalSizeThread.Caption = "-"
         lblThreadCount2.Caption = "-"
     End If
-    lblElapsed.Caption = "0초"
+    lblElapsed.Caption = "0" & t("초", " seconds")
     lblSpeed.Caption = "-"
     
-    fTotal.Caption = " 전체 다운로드 진행률 "
+    fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
     pbTotalProgress.Value = 0
     For i = 1 To trThreadCount.Value
         lblPercentage(i).Caption = ""
@@ -2435,8 +2434,8 @@ Sub OnStart()
     pbTotalProgressMarquee.Visible = -1
     pbTotalProgressMarquee.MarqueeAnimation = -1
     
-    lblState.Caption = "진행 중"
-    sbStatusBar.Panels(1).Text = "시작 중..."
+    lblState.Caption = t("진행 중", "Working")
+    sbStatusBar.Panels(1).Text = t("시작 중...", "Starting...")
 End Sub
 
 Sub OnStop(Optional PlayBeep As Boolean = True)
@@ -2482,17 +2481,17 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     End If
     
     If pbTotalProgress.Value < 100 Then
-        lblState.Caption = "중지됨"
-        sbStatusBar.Panels(1).Text = "준비"
+        lblState.Caption = t("중지됨", "Stopped")
+        sbStatusBar.Panels(1).Text = t("준비", "Ready")
     
-        fTotal.Caption = " 전체 다운로드 진행률 "
+        fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
         For i = 1 To lblDownloader.UBound
             pbProgress(i).Value = 0
             lblPercentage(i).Caption = ""
         Next i
     Else
-        lblState.Caption = "완료됨"
-        sbStatusBar.Panels(1).Text = "완료"
+        lblState.Caption = t("완료됨", "Done")
+        sbStatusBar.Panels(1).Text = t("완료", "Done")
         sbStatusBar.Panels(2).Text = ""
         sbStatusBar.Panels(3).Text = ""
         sbStatusBar.Panels(4).Text = ""
@@ -2523,14 +2522,14 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         If PlayBeep And chkPlaySound.Value Then MessageBeep 64
     End If
     
-    If lblTotalBytes.Caption = "대기 중..." Then lblTotalBytes.Caption = "-"
-    If lblDownloadedBytes.Caption = "대기 중..." Then
+    If lblTotalBytes.Caption = t("대기 중...", "Pending...") Then lblTotalBytes.Caption = "-"
+    If lblDownloadedBytes.Caption = t("대기 중...", "Pending...") Then
         lblDownloadedBytes.Caption = "-"
     End If
     If PlayBeep And lblDownloadedBytes.Caption <> "-" Then
         lblTotalBytes.Caption = lblDownloadedBytes.Caption
     End If
-    If lblTotalSizeThread.Caption = "대기 중..." Then lblTotalSizeThread.Caption = "-"
+    If lblTotalSizeThread.Caption = t("대기 중...", "Pending...") Then lblTotalSizeThread.Caption = "-"
 End Sub
 
 Private Sub chkNoDWMWindow_Click()
@@ -2554,7 +2553,7 @@ End Sub
 
 Sub AddBatchURLs(URL As String)
     If Left$(URL, 7) <> "http://" And Left$(URL, 8) <> "https://" Then
-        MsgBox URL & " - 주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", 16
+        MsgBox URL & " - " & t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), 16
         Exit Sub
     End If
 
@@ -2580,7 +2579,7 @@ Sub AddBatchURLs(URL As String)
     idx = lvBatchFiles.ListItems.Add(, , ServerName).Index
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , FileName
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , URL
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "대기"
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , t("대기", "Queued")
     lvBatchFiles.ListItems(idx).Checked = -1
     If IsDownloading Or cmdStop.Enabled Or BatchStarted Then
         cmdStartBatch.Enabled = 0
@@ -2595,7 +2594,7 @@ Private Sub cmdAddToQueue_Click()
     If lvBatchFiles.ListItems.Count Then
         For i = 1 To lvBatchFiles.ListItems.Count
             If lvBatchFiles.ListItems(i).ListSubItems(2).Text = Trim$(txtURL.Text) Then
-                MsgBox "해당 주소는 이미 대기열에 추가되었습니다.", 64
+                MsgBox t("해당 주소는 이미 대기열에 추가되었습니다.", "That URL is already added"), 64
                 Exit Sub
             End If
         Next i
@@ -2676,7 +2675,7 @@ End Sub
 Sub StartDownload(ByVal URL As String, ByVal FileName As String)
     If BatchStarted Then
         If Not lvBatchFiles.ListItems(CurrentBatchIdx).Checked Then
-            lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "통과"
+            lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("통과", "Skip")
             lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = &H808080
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = &H808080
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2).ForeColor = &H808080
@@ -2685,12 +2684,12 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
             Exit Sub
         End If
         
-        If lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "완료" Then
+        If lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("완료", "Done") Then
             NextBatchDownload
             Exit Sub
         End If
     
-        lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "진행 중..."
+        lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("진행 중...", "Working...")
         lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = &HFF0000
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = &HFF0000
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2).ForeColor = &HFF0000
@@ -2743,7 +2742,7 @@ L2:
                               (trThreadCount.Value > 1 And FileExists(FileName & ".part_" & trThreadCount.Value & ".tmp") And (Not FileExists(FileName & ".part_" & (trThreadCount.Value + 1) & ".tmp")))
         If PrevPartialDownload Then
             Dim ContinueMsgboxResult As VbMsgBoxResult
-            ContinueMsgboxResult = MsgBox("기존에 다운로드 받다가 중지한 파일입니다. 다운로드받은 지점부터 이어서 받으시겠습니까?" & vbCrLf & "  [아니요]를 누를 경우 처음부터 다시 다운로드됩니다.", vbYesNoCancel + 32)
+            ContinueMsgboxResult = MsgBox(t("기존에 다운로드 받다가 중지한 파일입니다. 다운로드받은 지점부터 이어서 받으시겠습니까?" & vbCrLf & "  [아니요]를 누를 경우 처음부터 다시 다운로드됩니다.", "This file was previously downloaded partially. Would you like to resume?" & vbCrLf & "  We will download from the start if you choose No."), vbYesNoCancel + 32)
             If ContinueMsgboxResult = vbYes Then
                 ContinueDownload = 1
             ElseIf ContinueMsgboxResult = vbCancel Then
@@ -2795,12 +2794,12 @@ Private Sub cmdGo_Click()
     Dim TextLine As String
     
     If Replace(txtURL.Text, " ", "") = "" Then
-        MsgBox "파일 주소를 입력하십시오.", 64
+        MsgBox t("파일 주소를 입력하십시오.", "Specify the file URL."), 64
         Exit Sub
     End If
     
     If Left$(txtURL.Text, 7) <> "http://" And Left$(txtURL.Text, 8) <> "https://" Then
-        MsgBox "주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", 16
+        MsgBox t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), 16
         Exit Sub
     End If
     
@@ -2809,13 +2808,13 @@ Private Sub cmdGo_Click()
     Dim i%
     For i = LBound(SplittedPath) To UBound(SplittedPath)
         If Trim$(SplittedPath(i)) <> "" And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
-            MsgBox "저장 경로가 유효하지 않습니다.", 16
+            MsgBox t("저장 경로가 유효하지 않습니다.", "Invalid save path."), 16
             Exit Sub
         End If
     Next i
     
     If (Not FolderExists(Trim$(txtFileName.Text))) And (Not FolderExists(fso.GetParentFolderName(Trim$(txtFileName.Text)))) Then
-        MsgBox "저장 경로가 존재하지 않습니다.", 16
+        MsgBox t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), 16
         Exit Sub
     End If
 
@@ -2889,13 +2888,13 @@ Private Sub cmdStartBatch_Click()
     Dim i%
     For i = LBound(SplittedPath) To UBound(SplittedPath)
         If Trim$(SplittedPath(i)) <> "" And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
-            MsgBox "저장 경로가 유효하지 않습니다.", 16
+            MsgBox t("저장 경로가 유효하지 않습니다.", "Invalid save path."), 16
             Exit Sub
         End If
     Next i
     
     If (Not FolderExists(Trim$(txtFileName.Text))) And (Not FolderExists(fso.GetParentFolderName(Trim$(txtFileName.Text)))) Then
-        MsgBox "저장 경로가 존재하지 않습니다.", 16
+        MsgBox t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), 16
         Exit Sub
     End If
     
@@ -2913,7 +2912,7 @@ Private Sub cmdStartBatch_Click()
 End Sub
 
 Private Sub cmdStop_Click()
-    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "다운로드 취소", Me, 32) = vbYes Then
+    If ConfirmEx(t("다운로드를 중지하시겠습니까? 지원되는 경우 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later if supported."), t("다운로드 취소", "Cancel download"), Me, 32) = vbYes Then
         Dim CurrentProgress As Integer
         Dim IsMarquee As Boolean
         CurrentProgress = pbTotalProgress.Value
@@ -2928,7 +2927,7 @@ Private Sub cmdStop_Click()
             If IsMarquee Then
                 KillTemp = True
             Else
-                KillTemp = MsgBox("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", vbYesNo + 32) <> vbYes
+                KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbYesNo + 32) <> vbYes
             End If
             If KillTemp Then
                 On Error Resume Next
@@ -2946,7 +2945,7 @@ Private Sub cmdStop_Click()
 End Sub
 
 Private Sub cmdStopBatch_Click()
-    If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "다운로드 취소", Me, 32) = vbYes Then
+    If ConfirmEx(t("다운로드를 중지하시겠습니까? 지원되는 경우 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later if supported."), t("다운로드 취소", "Cancel download"), Me, 32) = vbYes Then
         Dim CurrentProgress As Integer
         Dim IsMarquee As Boolean
         CurrentProgress = pbTotalProgress.Value
@@ -2975,7 +2974,7 @@ Private Sub cmdStopBatch_Click()
             If IsMarquee Then
                 KillTemp = True
             Else
-                KillTemp = MsgBox("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", vbYesNo + 32) <> vbYes
+                KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbYesNo + 32) <> vbYes
             End If
             If KillTemp Then
                 On Error Resume Next
@@ -2990,7 +2989,8 @@ Private Sub cmdStopBatch_Click()
             End If
         End If
         
-        If BatchErrorCount Then MsgBox "하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", 48
+        If BatchErrorCount Then MsgBox t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
+                                         "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), 48
     End If
 End Sub
 
@@ -3008,8 +3008,9 @@ End Sub
 
 Private Sub Form_Load()
     On Error Resume Next
+    sbStatusBar.Panels(1).Text = t("준비", "Ready")
     AboutEasterEgg = False
-    Me.Caption = Me.Caption & " v" & App.Major & "." & App.Minor & "." & App.Revision
+    Me.Caption = t(Me.Caption, "Download Booster") & " v" & App.Major & "." & App.Minor & "." & App.Revision
     TahomaAvailable = FontExists("Tahoma")
     
     Dim Lft%
@@ -3023,7 +3024,7 @@ Private Sub Form_Load()
     
     Dim i%
     For i = 1 To lblDownloader.UBound
-        lblDownloader(i).Caption = "스레드 " & i & ":"
+        lblDownloader(i).Caption = t("스레드", "Thread") & " " & i & ":"
         pbProgress(i).Left = pbProgress(i).Left + 60
         pbProgress(i).Width = pbProgress(i).Width - 60
         pbProgressMarquee(i).Left = pbProgressMarquee(i).Left + 60
@@ -3076,10 +3077,10 @@ Private Sub Form_Load()
     trThreadCount.Value = GetSetting("DownloadBooster", "UserData", "ThreadCount", GetSetting("DownloadBooster", "Options", "ThreadCount", 1))
     trThreadCount_Scroll
     
-    lvBatchFiles.ColumnHeaders.Add , "filename", "파일 이름"
-    lvBatchFiles.ColumnHeaders.Add , "fullpath", "전체 경로"
-    lvBatchFiles.ColumnHeaders.Add , "url", "파일 주소"
-    lvBatchFiles.ColumnHeaders.Add , "status", "상태"
+    lvBatchFiles.ColumnHeaders.Add , "filename", t("파일 이름", "File Name")
+    lvBatchFiles.ColumnHeaders.Add , "fullpath", t("전체 경로", "Full Path")
+    lvBatchFiles.ColumnHeaders.Add , "url", t("파일 주소", "File URL")
+    lvBatchFiles.ColumnHeaders.Add , "status", t("상태", "Status")
     lvBatchFiles.ColumnHeaders(1).Width = 2895
     lvBatchFiles.ColumnHeaders(2).Width = 0
     lvBatchFiles.ColumnHeaders(3).Width = 4495
@@ -3111,9 +3112,9 @@ Private Sub Form_Load()
     chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow)
     
     cbWhenExist.Clear
-    cbWhenExist.AddItem "중단"
-    cbWhenExist.AddItem "덮어쓰기"
-    cbWhenExist.AddItem "이름 변경"
+    cbWhenExist.AddItem t("중단", "Abort")
+    cbWhenExist.AddItem t("덮어쓰기", "Overwrite")
+    cbWhenExist.AddItem t("이름 변경", "Rename")
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
     
     If WinVer >= 6.1 Then
@@ -3130,9 +3131,48 @@ Private Sub Form_Load()
 '        chkNoDWMWindow.Visible = 0
 '        fOptions.Height = 2325
 '    End If
+
+    '언어설정
+    lblURL.Caption = t(lblURL.Caption, "File &address:")
+    lblFilePath.Caption = t(lblFilePath.Caption, "Save &file to:")
+    lblThreadCountLabel.Caption = t(lblThreadCountLabel.Caption, "Threads:")
+    cmdClear.Caption = t(cmdClear.Caption, "Clear")
+    cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
+    fTotal.Caption = t(fTotal.Caption, " Total Progress ")
+    fTabDownload.Caption = t(fTabDownload.Caption, " Total ")
+    fTabThreads.Caption = t(fTabThreads.Caption, " Threads ")
+    cmdOptions.Caption = t(cmdOptions.Caption, "More sett&ings...")
+    cmdOpen.Caption = t(cmdOpen.Caption, "&Open")
+    cmdOpenFolder.Caption = t(cmdOpenFolder.Caption, "Op&en folder")
+    cmdGo.Caption = t(cmdGo.Caption, "&Download")
+    cmdStop.Caption = t(cmdStop.Caption, "Sto&p")
+    cmdAddToQueue.Caption = t(cmdAddToQueue.Caption, "Add to &queue")
+    cmdBatch.Caption = t(cmdBatch.Caption, "Batc&h download")
+    lblState.Caption = t(lblState.Caption, "Stopped")
+    cmdOpenBatch.Caption = t(cmdOpenBatch.Caption, "Open(&W)")
+    cmdAdd.Caption = t(cmdAdd.Caption, "Add(&R)")
+    cmdDelete.Caption = t(cmdDelete.Caption, "Remo&ve")
+    cmdStartBatch.Caption = t(cmdStartBatch.Caption, "&Start")
+    cmdStopBatch.Caption = t(cmdStopBatch.Caption, "Stop(&Z)")
+    Label8.Caption = t(Label8.Caption, "File name:")
+    Label2.Caption = t(Label2.Caption, "Total:")
+    Label3.Caption = t(Label3.Caption, "Recieved:")
+    Label4.Caption = t(Label4.Caption, "Elapsed:")
+    Label5.Caption = t(Label5.Caption, "Speed:")
+    Label6.Caption = t(Label6.Caption, "Threads:")
+    Label7.Caption = t(Label7.Caption, "Size per thread:")
+    fOptions.Caption = t(fOptions.Caption, " Settings ")
+    chkOpenAfterComplete.Caption = t(chkOpenAfterComplete.Caption, "Open when &complete")
+    chkOpenFolder.Caption = t(chkOpenFolder.Caption, "Open fo&lder when done")
+    chkPlaySound.Caption = t(chkPlaySound.Caption, "Beep when complete(&U)")
+    chkContinueDownload.Caption = t(chkContinueDownload.Caption, "Always resume(&J)")
+    chkAutoRetry.Caption = t(chkAutoRetry.Caption, "Auto retry on error(&G)")
+    Label1.Caption = t(Label1.Caption, "Exists(&K):")
+    '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
+    SetFont Me
 End Sub
 
 Private Sub Form_Resize()
@@ -3151,7 +3191,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     If cmdStop.Enabled = -1 Or BatchStarted Then
-        If ConfirmEx("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "다운로드 취소", Me, 32) <> vbYes Then
+        If ConfirmEx(t("다운로드를 중지하시겠습니까? 지원되는 경우 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later if supported."), t("다운로드 취소", "Cancel download"), Me, 32) <> vbYes Then
             Cancel = 1
             Exit Sub
         Else
@@ -3169,7 +3209,7 @@ Private Sub Form_Unload(Cancel As Integer)
                 If IsMarquee Then
                     KillTemp = True
                 Else
-                    KillTemp = MsgBox("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", vbYesNo + 32) <> vbYes
+                    KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbYesNo + 32) <> vbYes
                 End If
                 If KillTemp Then
                     On Error Resume Next
@@ -3245,13 +3285,13 @@ Private Sub lvBatchFiles_ItemCheck(ByVal Item As LvwListItem, ByVal Checked As B
     
     If Not (BatchStarted And Item.Index = CurrentBatchIdx) Then
         If Not Checked Then
-            Item.ListSubItems(3).Text = "통과"
+            Item.ListSubItems(3).Text = t("통과", "Skip")
             Item.ForeColor = &H808080
             Item.ListSubItems(1).ForeColor = &H808080
             Item.ListSubItems(2).ForeColor = &H808080
             Item.ListSubItems(3).ForeColor = &H808080
         Else
-            Item.ListSubItems(3).Text = "대기"
+            Item.ListSubItems(3).Text = t("대기", "Queued")
             Item.ForeColor = 0
             Item.ListSubItems(1).ForeColor = 0
             Item.ListSubItems(2).ForeColor = 0
@@ -3299,7 +3339,7 @@ Private Sub lvBatchFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As
             cmdDeleteDropdown.Enabled = -1
         End If
         
-        If Item.ListSubItems(3).Text = "완료" Then
+        If Item.ListSubItems(3).Text = t("완료", "Done") Then
             cmdOpenBatch.Enabled = -1
             cmdOpenDropdown.Enabled = -1
         Else
@@ -3428,17 +3468,17 @@ Private Sub timElapsed_Timer()
     Dim Minutes As Integer
     Dim Seconds As Integer
     If Elapsed >= 3600 Then
-        sbStatusBar.Panels(4).Text = CStr(Floor(Elapsed / 3600)) & "시간 "
+        sbStatusBar.Panels(4).Text = CStr(Floor(Elapsed / 3600)) & t("시간 ", " hours ")
     Else
         sbStatusBar.Panels(4).Text = ""
     End If
     
     If Elapsed >= 60 Then
-        sbStatusBar.Panels(4).Text = sbStatusBar.Panels(4).Text & Floor((Elapsed Mod 3600) / 60) & "분 "
+        sbStatusBar.Panels(4).Text = sbStatusBar.Panels(4).Text & Floor((Elapsed Mod 3600) / 60) & t("분 ", " minutes ")
     End If
-    sbStatusBar.Panels(4).Text = sbStatusBar.Panels(4).Text & (Elapsed Mod 60) & "초 경과"
+    sbStatusBar.Panels(4).Text = sbStatusBar.Panels(4).Text & (Elapsed Mod 60) & t("초 경과", " seconds elapsed")
     
-    lblElapsed.Caption = Replace(sbStatusBar.Panels(4).Text, " 경과", "")
+    lblElapsed.Caption = Replace(sbStatusBar.Panels(4).Text, " " & t("경과", "elapsed"), "")
 End Sub
 
 Private Sub trThreadCount_Change()
@@ -3452,9 +3492,9 @@ End Sub
 
 Private Sub trThreadCount_Scroll()
     If trThreadCount.Value = 1 Then
-        lblThreadCount.Caption = "(부스트 없음)"
+        lblThreadCount.Caption = "(" & t("부스트 없음", "No boost") & ")"
     Else
-        lblThreadCount.Caption = "(" & trThreadCount.Value & "개 스레드)"
+        lblThreadCount.Caption = "(" & trThreadCount.Value & t("개 스레드)", " threads)")
     End If
     Dim i%
     For i = 1 To trThreadCount.Value
