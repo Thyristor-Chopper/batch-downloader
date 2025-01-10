@@ -1,9 +1,32 @@
 Attribute VB_Name = "Functions"
-Public fso
+Public fso As Scripting.FileSystemObject
 Public ConfirmResult As VbMsgBoxResult
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 Declare Function DwmSetWindowAttribute Lib "dwmapi.dll" (ByVal hWnd As Long, ByVal dwAttribute As Long, ByRef pvAttribute As Long, ByVal cbAttribute As Long) As Long
+Declare Function DwmIsCompositionEnabled Lib "dwmapi.dll" (ByRef pfEnabled As Long) As Long
+Private Declare Function RegOpenKeyEx Lib "advapi32" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, ByRef phkResult As Long) As Long
+Private Declare Function RegQueryValueEx Lib "advapi32" Alias "RegQueryValueExA" (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, ByRef lpType As Long, ByVal lpData As String, ByRef lpcbData As Long) As Long
+Private Declare Function RegCloseKey Lib "advapi32" (ByVal hKey As Long) As Long
+
+Public Const HKEY_CLASSES_ROOT = &H80000000
+Public Const HKEY_CURRENT_USER = &H80000001
+Public Const HKEY_LOCAL_MACHINE = &H80000002
+Public Const HKEY_USERS = &H80000003
+Const ERROR_SUCCESS = 0
+Const REG_SZ = 1                         ' Unicode null 종료 문자열
+Const REG_DWORD = 4                      ' 32비트 숫자
+
+Const READ_CONTROL = &H20000
+Const KEY_QUERY_VALUE = &H1
+Const KEY_SET_VALUE = &H2
+Const KEY_CREATE_SUB_KEY = &H4
+Const KEY_ENUMERATE_SUB_KEYS = &H8
+Const KEY_NOTIFY = &H10
+Const KEY_CREATE_LINK = &H20
+Const KEY_ALL_ACCESS = KEY_QUERY_VALUE + KEY_SET_VALUE + _
+                       KEY_CREATE_SUB_KEY + KEY_ENUMERATE_SUB_KEYS + _
+                       KEY_NOTIFY + KEY_CREATE_LINK + READ_CONTROL
 
 Private Type OSVERSIONINFO
   OSVSize         As Long
@@ -64,6 +87,21 @@ Sub EnableDWMWindow(hWnd As Long)
     DwmSetWindowAttribute hWnd, 2, 0, 4
 End Sub
 
+Function IsDWMEnabled() As Boolean
+    If WinVer < 6.1 Then
+        IsDWMEnabled = False
+        Exit Function
+    End If
+    Dim DwmEnabled As Long
+    DwmEnabled = 0
+    DwmIsCompositionEnabled DwmEnabled
+    If DwmEnabled > 0 Then
+        IsDWMEnabled = True
+    Else
+        IsDWMEnabled = False
+    End If
+End Function
+
 Sub SetFormBackgroundColor(frmForm As Form)
     Dim clrBackColor As Long
     Dim clrForeColor As Long
@@ -119,15 +157,68 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
     End If
 End Function
 
-Function ReadRegistry(ByVal KeyPath As String, ByVal KeyName, Optional ByVal Default) As Variant
-    On Error GoTo RegReadFail
-    Dim WShell As Object
-    Set WShell = CreateObject("WScript.Shell")
-    If Right$(KeyPath, 1) <> "\" Then KeyPath = KeyPath & "\"
-    ReadRegistry = WShell.RegRead(KeyPath & KeyName)
-    Exit Function
-RegReadFail:
-    ReadRegistry = Default
+'Function ReadRegistry(ByVal KeyPath As String, ByVal KeyName, Optional ByVal Default) As Variant
+'    On Error GoTo RegReadFail
+'    Dim WShell As Object
+'    Set WShell = CreateObject("WScript.Shell")
+'    If Right$(KeyPath, 1) <> "\" Then KeyPath = KeyPath & "\"
+'    ReadRegistry = WShell.RegRead(KeyPath & KeyName)
+'    Exit Function
+'RegReadFail:
+'    ReadRegistry = Default
+'End Function
+
+Public Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKeyRef As String, Optional ByVal Default As Variant = "") As Variant
+    Dim i As Long                                           ' 루프 카운터
+    Dim RC As Long                                          ' 반환 코드
+    Dim hKey As Long                                        ' 열려 있는 레지스트리 키 처리
+    Dim hDepth As Long                                      '
+    Dim KeyValType As Long                                  ' 레지스트리 키의 데이터 형식
+    Dim tmpVal As String                                    ' 레지스트리 키 값을 임시로 저장
+    Dim KeyValSize As Long                                  ' 레지스트리 키 변수의 크기
+    '------------------------------------------------------------
+    ' Open RegKey Under KeyRoot {HKEY_LOCAL_MACHINE...}
+    '------------------------------------------------------------
+    RC = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey) ' 레지스트리 키를 엽니다.
+    
+    If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다...
+    
+    tmpVal = String$(1024, 0)                             ' 변수의 크기를 할당합니다.
+    KeyValSize = 1024                                       ' 변수 크기를 표시합니다.
+    
+    '------------------------------------------------------------
+    ' 레지스트리 키 값을 읽어옵니다...
+    '------------------------------------------------------------
+    RC = RegQueryValueEx(hKey, SubKeyRef, 0, _
+                         KeyValType, tmpVal, KeyValSize)    ' 키 값을 가져오고 작성합니다.
+                        
+    If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다.
+    
+    If (Asc(Mid(tmpVal, KeyValSize, 1)) = 0) Then           ' Win95는 Null 종료 문자열을 추가합니다...
+        tmpVal = Left(tmpVal, KeyValSize - 1)               ' Null을 찾았습니다. 문자열에서 추출합니다.
+    Else                                                    ' WinNT는 Null 종료 문자열 추가하지 않습니다...
+        tmpVal = Left(tmpVal, KeyValSize)                   ' Null을 찾지 못했습니다. 문자열에서만 추출합니다.
+    End If
+    '------------------------------------------------------------
+    ' Determine Key Value Type For Conversion...
+    '------------------------------------------------------------
+    Select Case KeyValType                                  ' 데이터 형식을 검색합니다.
+    Case REG_SZ                                             ' 문자열 레지스트리 키 데이터 형식
+        KeyVal = tmpVal                                     ' 문자열 값을 복사합니다.
+    Case REG_DWORD                                          ' 이진 단어 레지스트리 키 데이터 형식
+        For i = Len(tmpVal) To 1 Step -1                    ' 각각 비트를 변환합니다.
+            KeyVal = KeyVal + Hex(Asc(Mid(tmpVal, i, 1)))   ' 값 문자를 문자별로 작성합니다.
+        Next
+        KeyVal = Format$("&h" + KeyVal)                     ' 이진 단어를 문자열로 변환합니다.
+    End Select
+    
+    GetKeyValue = KeyVal
+    RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
+    Exit Function                                           ' 종료합니다.
+    
+GetKeyError:      ' 오류가 발생하면 지웁니다...
+    GetKeyValue = Default
+    RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
 End Function
 
 'https://stackoverflow.com/questions/40651/check-if-a-record-exists-in-a-vb6-collection
@@ -283,9 +374,7 @@ Function FontExists(ByVal Name As String) As Boolean
 End Function
 
 Function FolderExists(ByVal sFullPath As String) As Boolean
-    Dim myFSO As Object
-    Set myFSO = CreateObject("Scripting.FileSystemObject")
-    FolderExists = myFSO.FolderExists(sFullPath)
+    FolderExists = fso.FolderExists(sFullPath)
 End Function
 
 Function Floor(ByVal floatval As Double, Optional ByVal decimalPlaces As Long = 0) As Long

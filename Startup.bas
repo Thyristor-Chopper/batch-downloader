@@ -44,10 +44,10 @@ Sub Main()
     Set MaxWidth = New Collection
     Set MaxHeight = New Collection
     
-    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set fso = New Scripting.FileSystemObject
     Call InitVisualStylesFixes
     
-    PaddedBorderWidth = ReadRegistry("HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15)
+    PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15)
     If WinVer >= 6.2 Then
         DefaultDisableDWMWindow = 1
     Else

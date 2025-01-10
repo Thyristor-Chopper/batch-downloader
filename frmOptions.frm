@@ -2,10 +2,10 @@ VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "스킨 설정 "
-   ClientHeight    =   4905
+   ClientHeight    =   5475
    ClientLeft      =   2760
    ClientTop       =   3750
-   ClientWidth     =   6135
+   ClientWidth     =   6705
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -19,136 +19,256 @@ Begin VB.Form frmOptions
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4905
-   ScaleWidth      =   6135
+   ScaleHeight     =   5475
+   ScaleWidth      =   6705
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin VB.Timer timLicenseLoader 
+      Enabled         =   0   'False
+      Interval        =   10
+      Left            =   960
+      Top             =   5040
+   End
    Begin VB.PictureBox pbPanel 
+      Height          =   2535
+      Index           =   3
+      Left            =   840
+      ScaleHeight     =   2475
+      ScaleWidth      =   5355
+      TabIndex        =   21
+      Top             =   1800
+      Width           =   5415
+      Begin VB.TextBox txtLicensePlaceholder 
+         Height          =   270
+         Left            =   960
+         Locked          =   -1  'True
+         ScrollBars      =   2  '수직
+         TabIndex        =   27
+         Top             =   1800
+         Width           =   1215
+      End
+      Begin prjDownloadBooster.ProgressBar pbLicenseLoadProgress 
+         Height          =   255
+         Left            =   1680
+         Top             =   1440
+         Width           =   2655
+         _ExtentX        =   4683
+         _ExtentY        =   450
+         Max             =   812
+         Step            =   10
+      End
+      Begin VB.TextBox txtLicense 
+         Enabled         =   0   'False
+         Height          =   495
+         Left            =   960
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   2  '수직
+         TabIndex        =   26
+         Top             =   1800
+         Width           =   1695
+      End
+      Begin VB.CommandButton cmdSysInfo 
+         Caption         =   "시스템 정보(&S)..."
+         Height          =   345
+         Left            =   2520
+         TabIndex        =   25
+         Top             =   0
+         Width           =   1710
+      End
+      Begin VB.Image picIcon 
+         Height          =   480
+         Left            =   120
+         Top             =   120
+         Width           =   480
+      End
+      Begin VB.Label lblDescription 
+         BackStyle       =   0  '투명
+         Caption         =   "응용 프로그램 설명"
+         ForeColor       =   &H00000000&
+         Height          =   810
+         Left            =   930
+         TabIndex        =   24
+         Top             =   1005
+         Width           =   4125
+      End
+      Begin VB.Label lblTitle 
+         BackStyle       =   0  '투명
+         Caption         =   "응용 프로그램 제목"
+         ForeColor       =   &H00000000&
+         Height          =   480
+         Left            =   930
+         TabIndex        =   23
+         Top             =   120
+         Width           =   3885
+      End
+      Begin VB.Label lblVersion 
+         BackStyle       =   0  '투명
+         Caption         =   "버전"
+         Height          =   225
+         Left            =   930
+         TabIndex        =   22
+         Top             =   480
+         Width           =   3885
+      End
+   End
+   Begin VB.PictureBox pbPanel 
+      AutoRedraw      =   -1  'True
       Height          =   1185
       Index           =   2
-      Left            =   3600
+      Left            =   3840
       ScaleHeight     =   1125
       ScaleWidth      =   3675
       TabIndex        =   5
-      Top             =   2400
+      Top             =   600
       Visible         =   0   'False
       Width           =   3735
-      Begin VB.CheckBox chkRememberURL 
-         Caption         =   "파일 주소 기억(&M)"
+      Begin prjDownloadBooster.CheckBoxW chkRememberURL 
          Height          =   255
          Left            =   240
          TabIndex        =   11
          Top             =   600
          Width           =   2055
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Caption         =   "파일 주소 기억(&M)"
+         Transparent     =   -1  'True
       End
-      Begin VB.CheckBox chkNoCleanup 
-         Caption         =   "조각 파일 유지(&N)"
+      Begin prjDownloadBooster.CheckBoxW chkNoCleanup 
          Height          =   255
          Left            =   240
          TabIndex        =   8
          Top             =   360
          Width           =   2130
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Caption         =   "조각 파일 유지(&N)"
+         Transparent     =   -1  'True
       End
-      Begin VB.Frame Frame2 
-         Caption         =   " 다운로드 설정 "
+      Begin prjDownloadBooster.FrameW Frame2 
          Height          =   855
          Left            =   120
          TabIndex        =   7
          Top             =   120
          Width           =   3495
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Caption         =   " 다운로드 설정 "
       End
    End
    Begin VB.PictureBox pbPanel 
+      AutoRedraw      =   -1  'True
       BorderStyle     =   0  '없음
-      Height          =   3825
+      Height          =   4425
       Index           =   1
       Left            =   165
-      ScaleHeight     =   3825
-      ScaleWidth      =   5790
+      ScaleHeight     =   4425
+      ScaleWidth      =   6390
       TabIndex        =   4
-      Top             =   435
-      Width           =   5790
-      Begin VB.PictureBox Picture2 
+      Top             =   450
+      Width           =   6390
+      Begin VB.PictureBox pbOptionContainer 
          BorderStyle     =   0  '없음
-         Height          =   735
+         Height          =   615
+         Index           =   2
          Left            =   240
-         ScaleHeight     =   735
-         ScaleWidth      =   1575
+         ScaleHeight     =   615
+         ScaleWidth      =   1680
          TabIndex        =   18
-         Top             =   1680
-         Width           =   1575
-         Begin VB.OptionButton optUserFore 
-            Caption         =   "사용자 지정(&E)"
+         Top             =   1440
+         Width           =   1680
+         Begin prjDownloadBooster.OptionButtonW optUserFore 
             Height          =   255
             Left            =   0
             TabIndex        =   20
-            Top             =   450
+            Top             =   330
             Width           =   1575
+            _ExtentX        =   0
+            _ExtentY        =   0
+            Caption         =   "사용자 지정(&E):"
+            Transparent     =   -1  'True
          End
-         Begin VB.OptionButton optSystemFore 
-            Caption         =   "시스템 색상(&Y)"
+         Begin prjDownloadBooster.OptionButtonW optSystemFore 
             Height          =   255
             Left            =   0
             TabIndex        =   19
             Top             =   0
             Width           =   1815
+            _ExtentX        =   0
+            _ExtentY        =   0
+            Caption         =   "시스템 색상(&Y)"
+            Transparent     =   -1  'True
          End
       End
-      Begin VB.PictureBox Picture1 
+      Begin VB.PictureBox pbOptionContainer 
          BorderStyle     =   0  '없음
-         Height          =   735
+         Height          =   615
+         Index           =   1
          Left            =   240
-         ScaleHeight     =   735
-         ScaleWidth      =   1575
+         ScaleHeight     =   615
+         ScaleWidth      =   1680
          TabIndex        =   15
          Top             =   360
-         Width           =   1575
-         Begin VB.OptionButton optSystemColor 
-            Caption         =   "시스템 색상(&S)"
+         Width           =   1680
+         Begin prjDownloadBooster.OptionButtonW optSystemColor 
             Height          =   255
             Left            =   0
             TabIndex        =   17
             Top             =   0
             Width           =   1815
+            _ExtentX        =   0
+            _ExtentY        =   0
+            Caption         =   "시스템 색상(&S)"
+            Transparent     =   -1  'True
          End
-         Begin VB.OptionButton optUserColor 
-            Caption         =   "사용자 지정(&U)"
+         Begin prjDownloadBooster.OptionButtonW optUserColor 
             Height          =   255
             Left            =   0
             TabIndex        =   16
-            Top             =   450
+            Top             =   330
             Width           =   1575
+            _ExtentX        =   0
+            _ExtentY        =   0
+            Caption         =   "사용자 지정(&U):"
+            Transparent     =   -1  'True
          End
       End
-      Begin VB.CheckBox chkNoDWMWindow 
-         Caption         =   "윈도우 7 모양으로 바꾸기(&I)"
+      Begin prjDownloadBooster.CheckBoxW chkNoDWMWindow 
          Height          =   255
          Left            =   240
          TabIndex        =   10
-         Top             =   3000
+         Top             =   2520
          Width           =   2655
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Caption         =   "윈도우 7 모양으로 바꾸기(&I)"
+         Transparent     =   -1  'True
       End
-      Begin VB.Frame Frame3 
-         Caption         =   " 스타일 "
+      Begin prjDownloadBooster.FrameW Frame3 
          Height          =   615
          Left            =   120
          TabIndex        =   9
-         Top             =   2760
-         Width           =   3015
+         Top             =   2280
+         Width           =   2895
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Caption         =   " 스타일 "
       End
-      Begin VB.Frame Frame1 
-         Caption         =   " 배경색 "
-         Height          =   1215
+      Begin prjDownloadBooster.FrameW Frame1 
+         Height          =   975
          Left            =   120
          TabIndex        =   6
          Top             =   120
          Width           =   3375
+         _ExtentX        =   5953
+         _ExtentY        =   1720
+         Caption         =   " 배경색 "
          Begin VB.Label lblSelectColor 
             BackStyle       =   0  '투명
             Height          =   495
             Left            =   1800
             TabIndex        =   12
-            Top             =   600
+            Top             =   480
             Width           =   1455
          End
          Begin VB.Shape pgColor 
@@ -159,23 +279,25 @@ Begin VB.Form frmOptions
             Height          =   375
             Left            =   1800
             Shape           =   4  '둥근 사각형
-            Top             =   630
+            Top             =   510
             Width           =   1455
          End
       End
-      Begin VB.Frame Frame4 
-         Caption         =   " 글자색 "
-         Height          =   1215
+      Begin prjDownloadBooster.FrameW Frame4 
+         Height          =   975
          Left            =   120
          TabIndex        =   13
-         Top             =   1440
+         Top             =   1200
          Width           =   3375
+         _ExtentX        =   5953
+         _ExtentY        =   1720
+         Caption         =   " 글자색 "
          Begin VB.Label lblSelectFore 
             BackStyle       =   0  '투명
             Height          =   495
             Left            =   1800
             TabIndex        =   14
-            Top             =   600
+            Top             =   510
             Width           =   1455
          End
          Begin VB.Shape pgFore 
@@ -186,7 +308,7 @@ Begin VB.Form frmOptions
             Height          =   375
             Left            =   1800
             Shape           =   4  '둥근 사각형
-            Top             =   630
+            Top             =   510
             Width           =   1455
          End
       End
@@ -194,40 +316,43 @@ Begin VB.Form frmOptions
    Begin VB.CommandButton cmdApply 
       Caption         =   "적용(&A)"
       Enabled         =   0   'False
-      Height          =   375
-      Left            =   4560
+      Height          =   360
+      Left            =   5280
       TabIndex        =   3
-      Top             =   4440
-      Width           =   1455
+      Top             =   5040
+      Width           =   1320
    End
    Begin prjDownloadBooster.TabStrip tsTabStrip 
-      Height          =   4215
+      Height          =   4815
       Left            =   120
       TabIndex        =   2
       Top             =   120
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   7435
+      Width           =   6495
+      _ExtentX        =   11456
+      _ExtentY        =   8493
+      MultiRow        =   0   'False
       TabFixedWidth   =   53
+      TabScrollWheel  =   0   'False
+      Transparent     =   -1  'True
       InitTabs        =   "frmOptions.frx":0442
    End
    Begin VB.CommandButton CancelButton 
       Cancel          =   -1  'True
       Caption         =   "취소"
-      Height          =   375
-      Left            =   3000
+      Height          =   360
+      Left            =   3840
       TabIndex        =   1
-      Top             =   4440
-      Width           =   1455
+      Top             =   5040
+      Width           =   1320
    End
    Begin VB.CommandButton OKButton 
       Caption         =   "확인"
       Default         =   -1  'True
-      Height          =   375
-      Left            =   1440
+      Height          =   360
+      Left            =   2400
       TabIndex        =   0
-      Top             =   4440
-      Width           =   1455
+      Top             =   5040
+      Width           =   1320
    End
 End
 Attribute VB_Name = "frmOptions"
@@ -235,6 +360,12 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Const gREGKEYSYSINFOLOC = "SOFTWARE\Microsoft\Shared Tools Location"
+Const gREGVALSYSINFOLOC = "MSINFO"
+Const gREGKEYSYSINFO = "SOFTWARE\Microsoft\Shared Tools\MSINFO"
+Const gREGVALSYSINFO = "PATH"
+Dim LineNum As Integer
+
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
@@ -255,12 +386,14 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "NoCleanup", chkNoCleanup.Value
     If WinVer >= 6.1 Then SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", chkNoDWMWindow.Value
     SaveSetting "DownloadBooster", "Options", "RememberURL", chkRememberURL.Value
-    If chkNoDWMWindow.Value Then
-        DisableDWMWindow Me.hWnd
-        DisableDWMWindow frmMain.hWnd
-    Else
-        EnableDWMWindow Me.hWnd
-        EnableDWMWindow frmMain.hWnd
+    If chkNoDWMWindow.Enabled = True Then
+        If chkNoDWMWindow.Value Then
+            DisableDWMWindow Me.hWnd
+            DisableDWMWindow frmMain.hWnd
+        Else
+            EnableDWMWindow Me.hWnd
+            EnableDWMWindow frmMain.hWnd
+        End If
     End If
     If optSystemColor.Value Then
         SaveSetting "DownloadBooster", "Options", "BackColor", "-1"
@@ -279,18 +412,33 @@ Private Sub cmdApply_Click()
     cmdApply.Enabled = 0
 End Sub
 
+Private Sub cmdSysInfo_Click()
+    Call StartSysInfo
+End Sub
+
 Private Sub Form_Load()
+    LineNum = 1
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     
-    pbPanel(2).Top = pbPanel(1).Top
-    pbPanel(2).Left = pbPanel(1).Left
-    pbPanel(2).Width = pbPanel(1).Width
-    pbPanel(2).Height = pbPanel(1).Height
-    pbPanel(2).BorderStyle = 0
-    If WinVer < 6.1 Then chkNoDWMWindow.Enabled = 0
+    Dim i%
+    For i = 1 To pbPanel.Count
+        If i <> 1 Then
+            pbPanel(i).Visible = 0
+            pbPanel(i).Top = pbPanel(1).Top
+            pbPanel(i).Left = pbPanel(1).Left
+            pbPanel(i).Width = pbPanel(1).Width
+            pbPanel(i).Height = pbPanel(1).Height
+            pbPanel(i).BorderStyle = 0
+            pbPanel(i).AutoRedraw = True
+        End If
+    Next i
     chkNoCleanup.Value = GetSetting("DownloadBooster", "Options", "NoCleanup", 0)
     chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow)
+    If (Not IsDWMEnabled()) Then
+        chkNoDWMWindow.Enabled = False
+        chkNoDWMWindow.Value = 1
+    End If
     If WinVer < 6.1 Then chkNoDWMWindow.Value = 0
     chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 0)
     If WinVer < 6.2 Then chkNoDWMWindow.Caption = "Aero 효과 사용 안 함(&I)"
@@ -316,6 +464,37 @@ Private Sub Form_Load()
     End If
     
     cmdApply.Enabled = 0
+    'On Error Resume Next
+    Dim ctrl As Control
+    For Each ctrl In Me.Controls
+        If TypeName(ctrl) = "PictureBox" Then
+            ctrl.AutoRedraw = True
+            tsTabStrip.DrawBackground ctrl.hWnd, ctrl.hDC
+        End If
+    Next ctrl
+    For Each ctrl In Me.Controls
+        If TypeName(ctrl) = "FrameW" Then
+            ctrl.Transparent = True
+            ctrl.Refresh
+        End If
+    Next ctrl
+    
+    picIcon.Picture = frmMain.Icon
+    lblVersion.Caption = "버전 " & App.Major & "." & App.Minor & "." & App.Revision
+    lblTitle.Caption = App.Title
+    lblDescription.Caption = "일괄 다운로드 및 다운로드 부스팅 프로그램" & vbCrLf & vbCrLf & "이 프로그램에는 Node.js의 바이너리가 포함되어 있으며, 라이선스 전문은 다음과 같습니다."
+    lblDescription.Width = pbPanel(1).Width - lblDescription.Left - 180
+    txtLicense.Width = lblDescription.Width
+    txtLicense.Height = pbPanel(1).Height - txtLicense.Top - 90 - cmdSysInfo.Height - 90 - pbLicenseLoadProgress.Height - 30
+    txtLicensePlaceholder.Width = txtLicense.Width
+    txtLicensePlaceholder.Height = txtLicense.Height
+    txtLicensePlaceholder.Top = txtLicense.Top
+    txtLicensePlaceholder.Left = txtLicense.Left
+    pbLicenseLoadProgress.Width = txtLicense.Width
+    pbLicenseLoadProgress.Top = txtLicense.Top + txtLicense.Height + 30
+    pbLicenseLoadProgress.Left = txtLicense.Left
+    cmdSysInfo.Top = pbPanel(1).Height - cmdSysInfo.Height - 90
+    cmdSysInfo.Left = pbPanel(1).Width - cmdSysInfo.Width - 180
 End Sub
 
 Private Sub lblSelectColor_Click()
@@ -357,8 +536,81 @@ Private Sub optUserFore_Click()
     cmdApply.Enabled = -1
 End Sub
 
+Private Sub timLicenseLoader_Timer()
+    If LineNum > 812 Then
+        timLicenseLoader.Enabled = 0
+        pbLicenseLoadProgress.Visible = 0
+        txtLicense.Height = txtLicense.Height + pbLicenseLoadProgress.Height + 30
+        txtLicense.Enabled = -1
+        txtLicensePlaceholder.Visible = 0
+        Exit Sub
+    End If
+    
+    On Error GoTo LicenseFail
+    txtLicense.Text = txtLicense.Text & LoadResString(LineNum) & vbCrLf
+    pbLicenseLoadProgress.Value = LineNum
+    txtLicensePlaceholder.Text = "라이선스를 불러오는 중... (" & Floor(LineNum / 812 * 100) & "%)"
+    LineNum = LineNum + 1
+    Exit Sub
+LicenseFail:
+    txtLicense.Text = "라이선스를 불러올 수 없습니다. 다음 링크에서 확인할 수 있습니다." & vbCrLf & " https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
+    timLicenseLoader.Enabled = 0
+    pbLicenseLoadProgress.Visible = 0
+    txtLicense.Height = txtLicense.Height + pbLicenseLoadProgress.Height + 30
+    txtLicense.Enabled = -1
+    txtLicensePlaceholder.Visible = 0
+End Sub
+
 Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
-    pbPanel(1).Visible = 0
-    pbPanel(2).Visible = 0
-    pbPanel(TabItem.Index).Visible = -1
+    Dim i%
+    For i = 1 To pbPanel.Count
+        If i = TabItem.Index Then
+            pbPanel(i).Visible = -1
+        Else
+            pbPanel(i).Visible = 0
+        End If
+    Next i
+    
+    If TabItem.Index = 3 And txtLicense.Text = "" Then
+        timLicenseLoader.Enabled = -1
+'        On Error GoTo LicenseFail
+'        For i = 1 To 812
+'            txtLicense.Text = txtLicense.Text & LoadResString(i) & vbCrLf
+'        Next i
+'        Exit Sub
+'LicenseFail:
+'        txtLicense.Text = "라이선스를 불러올 수 없습니다. 다음 링크에서 확인할 수 있습니다." & vbCrLf & " https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
+    End If
+End Sub
+
+Sub StartSysInfo()
+    On Error GoTo SysInfoErr
+  
+    Dim RC As Long
+    Dim SysInfoPath As String
+    
+    ' 시스템 정보 프로그램의 경로와 이름을 레지스트리에서 가져 옵니다...
+    SysInfoPath = GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFO, gREGVALSYSINFO, "")
+    If SysInfoPath = "" Then
+        SysInfoPath = GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFOLOC, gREGVALSYSINFOLOC, "")
+        If SysInfoPath <> "" Then
+            ' 알려진 32비트 파일 버전의 존재 여부를 확인합니다.
+            If Dir(SysInfoPath & "\MSINFO32.EXE") <> "" Then
+                SysInfoPath = SysInfoPath & "\MSINFO32.EXE"
+                
+            ' 오류 - 파일을 찾을 수 없습니다...
+            Else
+                GoTo SysInfoErr
+            End If
+        ' 오류 - 레지스트리 항목을 찾을 수 없습니다...
+        Else
+            GoTo SysInfoErr
+        End If
+    End If
+    
+    Call Shell(SysInfoPath, vbNormalFocus)
+    
+    Exit Sub
+SysInfoErr:
+    MsgBox "지금은 시스템 정보를 사용할 수 없습니다.", 48
 End Sub

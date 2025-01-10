@@ -38,7 +38,7 @@ Begin VB.Form frmMain
       _ExtentX        =   3201
       _ExtentY        =   582
       ImageList       =   "imgWrench"
-      Caption         =   "스킨 설정(&I)..."
+      Caption         =   "기타 설정(&I)..."
    End
    Begin VB.CheckBox chkNoDWMWindow 
       Caption         =   "윈도우 7 모양으로(&I)"
@@ -2166,7 +2166,7 @@ progressAvailable:
     ElseIf Left$(Data, 17) = "MODIFIEDFILENAME " Then
         output = Right$(Data, Len(Data) - 17)
         DownloadPath = output
-        lblFilename.Caption = fso.GetFilename(output)
+        lblFilename.Caption = fso.GetFileName(output)
         If BatchStarted Then
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).Text = output
             lvBatchFiles.ListItems(CurrentBatchIdx).Text = lblFilename.Caption
@@ -2605,16 +2605,9 @@ End Sub
 
 Private Sub cmdBatch_Click()
     On Error Resume Next
-    If Me.Height = 6930 + PaddedBorderWidth * 15 * 2 Then
+    If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then
         cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
-'        fBatchDownload.Visible = -1
-'        fDummyUI1.Visible = -1
-'        fDummyUI2.Visible = -1
-'        fDummyUI3.Visible = -1
-'        fDummyUI4.Visible = -1
-'        fDummyUI5.Visible = -1
-'        cmdAdd.Visible = -1
         cmdAddToQueue.Visible = -1
         SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
         
@@ -2631,13 +2624,6 @@ Private Sub cmdBatch_Click()
         Me.Height = 6930 + PaddedBorderWidth * 15 * 2
         cmdBatch.ImageList = imgDropdown
         lvBatchFiles.Visible = 0
-'        fBatchDownload.Visible = 0
-'        fDummyUI1.Visible = 0
-'        fDummyUI2.Visible = 0
-'        fDummyUI3.Visible = 0
-'        fDummyUI4.Visible = 0
-'        fDummyUI5.Visible = 0
-'        cmdAdd.Visible = 0
         cmdAddToQueue.Visible = 0
     End If
 End Sub
@@ -2745,7 +2731,7 @@ L2:
     DownloadPath = FileName
     PrevDownloadedBytes = 0
     SpeedCount = 0
-    lblFilename.Caption = fso.GetFilename(DownloadPath)
+    lblFilename.Caption = fso.GetFileName(DownloadPath)
     If Len(lblFilename.Caption) > 22 Then lblFilename.Caption = Left$(lblFilename.Caption, 22) & "..."
     
     Dim ContinueDownload As Integer
@@ -2799,7 +2785,7 @@ Private Sub cmdDeleteDropdown_Click()
     Me.PopupMenu mnuDeleteDropdown, , cmdDelete.Left, cmdDelete.Top + cmdDelete.Height
 End Sub
 
-Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     cmdDeleteDropdown_Click
 End Sub
 
@@ -2863,7 +2849,7 @@ Private Sub cmdOpenDropdown_Click()
     Me.PopupMenu mnuOpenDropdown, , cmdOpenBatch.Left, cmdOpenBatch.Top + cmdOpenBatch.Height
 End Sub
 
-Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     cmdOpenDropdown_Click
 End Sub
 
@@ -3219,7 +3205,7 @@ Private Sub fTabDownload_Click()
     cmdTabDownload_Click
 End Sub
 
-Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabDownload_Click
 End Sub
 
@@ -3227,11 +3213,11 @@ Private Sub fTabThreads_Click()
     cmdTabThreads_Click
 End Sub
 
-Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabThreads_Click
 End Sub
 
-Private Sub lvBatchFiles_ContextMenu(ByVal x As Single, ByVal y As Single)
+Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
     On Error GoTo ErrLn
     If lvBatchFiles.SelectedItem.Selected Then
         If cmdDelete.Enabled Then Me.PopupMenu mnuListContext
@@ -3388,7 +3374,7 @@ Private Sub optTabDownload2_Click()
     optTabDownload_Click
 End Sub
 
-Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabDownload_Click
 End Sub
 
@@ -3400,7 +3386,7 @@ Private Sub optTabThreads2_Click()
     optTabThreads_Click
 End Sub
 
-Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabThreads_Click
 End Sub
 
