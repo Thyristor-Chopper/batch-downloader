@@ -32,11 +32,11 @@ Begin VB.Form frmOptions
    Begin VB.PictureBox pbPanel 
       Height          =   2535
       Index           =   3
-      Left            =   840
+      Left            =   2880
       ScaleHeight     =   2475
       ScaleWidth      =   5355
       TabIndex        =   21
-      Top             =   1800
+      Top             =   2040
       Width           =   5415
       Begin VB.TextBox txtLicensePlaceholder 
          Height          =   270
@@ -182,9 +182,9 @@ Begin VB.Form frmOptions
             Left            =   0
             TabIndex        =   20
             Top             =   330
-            Width           =   1575
-            _ExtentX        =   0
-            _ExtentY        =   0
+            Width           =   1590
+            _ExtentX        =   2805
+            _ExtentY        =   450
             Caption         =   "사용자 지정(&E):"
             Transparent     =   -1  'True
          End
@@ -226,9 +226,9 @@ Begin VB.Form frmOptions
             Left            =   0
             TabIndex        =   16
             Top             =   330
-            Width           =   1575
-            _ExtentX        =   0
-            _ExtentY        =   0
+            Width           =   1590
+            _ExtentX        =   2805
+            _ExtentY        =   450
             Caption         =   "사용자 지정(&U):"
             Transparent     =   -1  'True
          End
