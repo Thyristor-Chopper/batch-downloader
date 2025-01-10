@@ -3,6 +3,7 @@ Public fso As Scripting.FileSystemObject
 Public ConfirmResult As VbMsgBoxResult
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
+Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
 Declare Function DwmSetWindowAttribute Lib "dwmapi.dll" (ByVal hWnd As Long, ByVal dwAttribute As Long, ByRef pvAttribute As Long, ByVal cbAttribute As Long) As Long
 Declare Function DwmIsCompositionEnabled Lib "dwmapi.dll" (ByRef pfEnabled As Long) As Long
 Private Declare Function RegOpenKeyEx Lib "advapi32" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, ByRef phkResult As Long) As Long
@@ -76,6 +77,39 @@ Enum MsgBoxExIcon
     Information = 64
     Doraemon = 128
 End Enum
+
+Private Declare Function GetKeyState Lib "user32" (ByVal vKey As Long) As Integer
+
+Private Const VK_SHIFT As Long = &H10
+Private Const VK_CONTROL As Long = &H11
+Private Const VK_MENU As Long = &H12
+Private Const VK_CAPITAL = &H14
+Private Const VK_NUMLOCK = &H90
+Private Const VK_SCROLL = &H91
+
+Enum GetKeyStateKeyboardCodes
+ gksKeyboardShift = VK_SHIFT
+ gksKeyboardctrl = VK_CONTROL
+ gksKeyboardalt = VK_MENU
+ gksKeyboardCapsLock = VK_CAPITAL
+ gksKeyboardNumLock = VK_NUMLOCK
+ gksKeyboardScrollLock = VK_SCROLL
+End Enum
+
+'https://www.mrexcel.com/board/threads/test-if-shift-key-was-held-when-commandbutton-gets-clicked.194874/
+Function IsKeyPressed(ByVal lKey As GetKeyStateKeyboardCodes) As Boolean
+    Dim iResult As Integer
+    iResult = GetKeyState(lKey)
+    
+    Select Case lKey
+        Case gksKeyboardCapsLock, gksKeyboardNumLock, gksKeyboardScrollLock
+            iResult = iResult And 1
+        Case Else
+            iResult = iResult And &H8000
+    End Select
+    
+    IsKeyPressed = (iResult <> 0)
+End Function
 
 Sub DisableDWMWindow(hWnd As Long)
     If WinVer < 6.1 Then Exit Sub
@@ -508,6 +542,7 @@ End Function
 
 Function GetWindowsVersion() As Single
     Dim osv As OSVERSIONINFO
+    Dim ver As Single
     osv.OSVSize = Len(osv)
 
     If GetVersionEx(osv) = 1 Then
@@ -516,7 +551,11 @@ Function GetWindowsVersion() As Single
                 GetWindowsVersion = 3.1
             Case VER_PLATFORM_WIN32_NT
                 GetWindowsVersion = 3.1
-                GetWindowsVersion = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
+                ver = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
+                If ver >= 6.2 Then
+                    ver = fWinVer()
+                End If
+                GetWindowsVersion = ver
         
             Case VER_PLATFORM_WIN32_WINDOWS:
                 Select Case osv.dwVerMinor
@@ -531,4 +570,26 @@ Function GetWindowsVersion() As Single
     Else
         GetWindowsVersion = 5.2
     End If
+End Function
+
+Function fWinVer() As Single
+    Dim osv As OSVERSIONINFO
+    osv.OSVSize = Len(osv)
+    If GetVersionEx(osv) <> 1 Then
+        fWinVer = "5.1.2600"
+        WinVer = 5.1
+        Build = 2600&
+        Exit Function
+    End If
+    
+    If osv.PlatformID = VER_PLATFORM_WIN32_NT Then
+        If RtlGetVersion(osv) <> 0 Then
+            fWinVer = "5.1.2600"
+            WinVer = 5.1
+            Build = 2600&
+            Exit Function
+        End If
+    End If
+    
+    fWinVer = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
 End Function

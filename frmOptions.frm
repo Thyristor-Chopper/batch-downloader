@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "스킨 설정 "
-   ClientHeight    =   5475
+   ClientHeight    =   5490
    ClientLeft      =   2760
    ClientTop       =   3750
    ClientWidth     =   6705
@@ -19,10 +19,60 @@ Begin VB.Form frmOptions
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5475
+   ScaleHeight     =   5490
    ScaleWidth      =   6705
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin VB.PictureBox pbWinXP 
+      Height          =   375
+      Left            =   4080
+      Picture         =   "frmOptions.frx":0442
+      ScaleHeight     =   315
+      ScaleWidth      =   795
+      TabIndex        =   33
+      Top             =   6000
+      Width           =   855
+   End
+   Begin VB.PictureBox pbDWM7 
+      Height          =   375
+      Left            =   3120
+      Picture         =   "frmOptions.frx":1783
+      ScaleHeight     =   315
+      ScaleWidth      =   675
+      TabIndex        =   32
+      Top             =   6000
+      Width           =   735
+   End
+   Begin VB.PictureBox pbNoDWM 
+      Height          =   375
+      Left            =   2280
+      Picture         =   "frmOptions.frx":2DDB
+      ScaleHeight     =   315
+      ScaleWidth      =   555
+      TabIndex        =   31
+      Top             =   6000
+      Width           =   615
+   End
+   Begin VB.PictureBox pbDWM8 
+      Height          =   375
+      Left            =   1320
+      Picture         =   "frmOptions.frx":4046
+      ScaleHeight     =   315
+      ScaleWidth      =   435
+      TabIndex        =   30
+      Top             =   6000
+      Width           =   495
+   End
+   Begin VB.PictureBox pbDWM10 
+      Height          =   375
+      Left            =   720
+      Picture         =   "frmOptions.frx":5093
+      ScaleHeight     =   315
+      ScaleWidth      =   315
+      TabIndex        =   29
+      Top             =   6000
+      Width           =   375
+   End
    Begin VB.Timer timLicenseLoader 
       Enabled         =   0   'False
       Interval        =   10
@@ -32,25 +82,25 @@ Begin VB.Form frmOptions
    Begin VB.PictureBox pbPanel 
       Height          =   2535
       Index           =   3
-      Left            =   2880
+      Left            =   3840
       ScaleHeight     =   2475
-      ScaleWidth      =   5355
+      ScaleWidth      =   2595
       TabIndex        =   21
-      Top             =   2040
-      Width           =   5415
+      Top             =   1920
+      Width           =   2655
       Begin VB.TextBox txtLicensePlaceholder 
          Height          =   270
-         Left            =   960
+         Left            =   240
          Locked          =   -1  'True
          ScrollBars      =   2  '수직
          TabIndex        =   27
-         Top             =   1800
+         Top             =   1320
          Width           =   1215
       End
       Begin prjDownloadBooster.ProgressBar pbLicenseLoadProgress 
          Height          =   255
-         Left            =   1680
-         Top             =   1440
+         Left            =   1560
+         Top             =   1200
          Width           =   2655
          _ExtentX        =   4683
          _ExtentY        =   450
@@ -71,9 +121,9 @@ Begin VB.Form frmOptions
       Begin VB.CommandButton cmdSysInfo 
          Caption         =   "시스템 정보(&S)..."
          Height          =   345
-         Left            =   2520
+         Left            =   120
          TabIndex        =   25
-         Top             =   0
+         Top             =   1200
          Width           =   1710
       End
       Begin VB.Image picIcon 
@@ -245,14 +295,23 @@ Begin VB.Form frmOptions
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.FrameW Frame3 
-         Height          =   615
+         Height          =   1935
          Left            =   120
          TabIndex        =   9
          Top             =   2280
-         Width           =   2895
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   " 스타일 "
+         Width           =   6015
+         _ExtentX        =   10610
+         _ExtentY        =   3413
+         Caption         =   " 창 모양 "
+         Begin VB.PictureBox pbPreview 
+            Height          =   1215
+            Left            =   360
+            ScaleHeight     =   1155
+            ScaleWidth      =   5475
+            TabIndex        =   28
+            Top             =   600
+            Width           =   5535
+         End
       End
       Begin prjDownloadBooster.FrameW Frame1 
          Height          =   975
@@ -334,7 +393,7 @@ Begin VB.Form frmOptions
       TabFixedWidth   =   53
       TabScrollWheel  =   0   'False
       Transparent     =   -1  'True
-      InitTabs        =   "frmOptions.frx":0442
+      InitTabs        =   "frmOptions.frx":5CFF
    End
    Begin VB.CommandButton CancelButton 
       Cancel          =   -1  'True
@@ -365,6 +424,7 @@ Const gREGVALSYSINFOLOC = "MSINFO"
 Const gREGKEYSYSINFO = "SOFTWARE\Microsoft\Shared Tools\MSINFO"
 Const gREGVALSYSINFO = "PATH"
 Dim LineNum As Integer
+Dim AboutEasterEgg2 As Boolean
 
 Private Sub CancelButton_Click()
     Unload Me
@@ -376,6 +436,23 @@ End Sub
 
 Private Sub chkNoDWMWindow_Click()
     cmdApply.Enabled = -1
+    
+    If WinVer < 6# Then
+        pbPreview.Picture = pbWinXP.Picture
+        Exit Sub
+    End If
+    
+    If chkNoDWMWindow.Value Then
+        pbPreview.Picture = pbNoDWM.Picture
+    Else
+        If WinVer >= 10# Then
+            pbPreview.Picture = pbDWM10.Picture
+        ElseIf WinVer >= 6.2 Then
+            pbPreview.Picture = pbDWM8.Picture
+        Else
+            pbPreview.Picture = pbDWM7.Picture
+        End If
+    End If
 End Sub
 
 Private Sub chkRememberURL_Click()
@@ -418,6 +495,7 @@ End Sub
 
 Private Sub Form_Load()
     LineNum = 1
+    AboutEasterEgg2 = False
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     
@@ -441,7 +519,7 @@ Private Sub Form_Load()
     End If
     If WinVer < 6.1 Then chkNoDWMWindow.Value = 0
     chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 0)
-    If WinVer < 6.2 Then chkNoDWMWindow.Caption = "Aero 효과 사용 안 함(&I)"
+    If WinVer < 6.2 Then chkNoDWMWindow.Caption = "Aero 창 사용 안 함(&I)"
     
     Dim clrBackColor As Long
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
@@ -482,7 +560,7 @@ Private Sub Form_Load()
     picIcon.Picture = frmMain.Icon
     lblVersion.Caption = "버전 " & App.Major & "." & App.Minor & "." & App.Revision
     lblTitle.Caption = App.Title
-    lblDescription.Caption = "일괄 다운로드 및 다운로드 부스팅 프로그램" & vbCrLf & vbCrLf & "이 프로그램에는 Node.js의 바이너리가 포함되어 있으며, 라이선스 전문은 다음과 같습니다."
+    lblDescription.Caption = "일괄 다운로드 및 다운로드 부스팅 프로그램" & vbCrLf & vbCrLf & "이 프로그램에는 Node.js의 바이너리가 포함되어 있으며," & vbCrLf & "라이선스 전문은 다음과 같습니다."
     lblDescription.Width = pbPanel(1).Width - lblDescription.Left - 180
     txtLicense.Width = lblDescription.Width
     txtLicense.Height = pbPanel(1).Height - txtLicense.Top - 90 - cmdSysInfo.Height - 90 - pbLicenseLoadProgress.Height - 30
@@ -495,6 +573,8 @@ Private Sub Form_Load()
     pbLicenseLoadProgress.Left = txtLicense.Left
     cmdSysInfo.Top = pbPanel(1).Height - cmdSysInfo.Height - 90
     cmdSysInfo.Left = pbPanel(1).Width - cmdSysInfo.Width - 180
+    
+    chkNoDWMWindow_Click
 End Sub
 
 Private Sub lblSelectColor_Click()
@@ -534,6 +614,22 @@ End Sub
 
 Private Sub optUserFore_Click()
     cmdApply.Enabled = -1
+End Sub
+
+Private Sub picIcon_DblClick()
+    If frmMain.AboutEasterEgg And AboutEasterEgg2 And IsKeyPressed(gksKeyboardShift) And IsKeyPressed(gksKeyboardalt) And IsKeyPressed(gksKeyboardctrl) Then
+        If WinVer < 5.1 Then
+            frmGameWin95.Show 1, Me
+        ElseIf WinVer < 6# Then
+            frmGameWinXP.Show 1, Me
+        ElseIf WinVer < 6.2 Then
+            frmGameVista.Show 1, Me
+        ElseIf WinVer < 6.4 Then
+            frmGameWin95.Show 1, Me
+        Else
+            frmGame.Show 1, Me
+        End If
+    End If
 End Sub
 
 Private Sub timLicenseLoader_Timer()
@@ -580,6 +676,12 @@ Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
 '        Exit Sub
 'LicenseFail:
 '        txtLicense.Text = "라이선스를 불러올 수 없습니다. 다음 링크에서 확인할 수 있습니다." & vbCrLf & " https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
+    End If
+    
+    If IsKeyPressed(gksKeyboardShift) And IsKeyPressed(gksKeyboardalt) And IsKeyPressed(gksKeyboardctrl) Then
+        AboutEasterEgg2 = -1
+    Else
+        AboutEasterEgg2 = 0
     End If
 End Sub
 

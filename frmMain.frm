@@ -2030,6 +2030,7 @@ Dim TahomaAvailable As Boolean
 Dim PrevDownloadedBytes As Double
 Dim SpeedCount As Integer
 Dim HttpStatusCode As String
+Public AboutEasterEgg As Boolean
 
 Sub OnData(Data As String)
     Dim output$
@@ -2785,7 +2786,7 @@ Private Sub cmdDeleteDropdown_Click()
     Me.PopupMenu mnuDeleteDropdown, , cmdDelete.Left, cmdDelete.Top + cmdDelete.Height
 End Sub
 
-Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     cmdDeleteDropdown_Click
 End Sub
 
@@ -2849,7 +2850,7 @@ Private Sub cmdOpenDropdown_Click()
     Me.PopupMenu mnuOpenDropdown, , cmdOpenBatch.Left, cmdOpenBatch.Top + cmdOpenBatch.Height
 End Sub
 
-Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     cmdOpenDropdown_Click
 End Sub
 
@@ -2869,6 +2870,11 @@ Private Sub cmdOpenFolderBatch_Click()
 End Sub
 
 Private Sub cmdOptions_Click()
+    If IsKeyPressed(gksKeyboardShift) And IsKeyPressed(gksKeyboardalt) And IsKeyPressed(gksKeyboardctrl) Then
+        AboutEasterEgg = -1
+    Else
+        AboutEasterEgg = 0
+    End If
     frmOptions.Show vbModal, Me
 End Sub
 
@@ -3002,6 +3008,7 @@ End Sub
 
 Private Sub Form_Load()
     On Error Resume Next
+    AboutEasterEgg = False
     Me.Caption = Me.Caption & " v" & App.Major & "." & App.Minor & "." & App.Revision
     TahomaAvailable = FontExists("Tahoma")
     
@@ -3205,7 +3212,7 @@ Private Sub fTabDownload_Click()
     cmdTabDownload_Click
 End Sub
 
-Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabDownload_Click
 End Sub
 
@@ -3213,11 +3220,11 @@ Private Sub fTabThreads_Click()
     cmdTabThreads_Click
 End Sub
 
-Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabThreads_Click
 End Sub
 
-Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
+Private Sub lvBatchFiles_ContextMenu(ByVal x As Single, ByVal y As Single)
     On Error GoTo ErrLn
     If lvBatchFiles.SelectedItem.Selected Then
         If cmdDelete.Enabled Then Me.PopupMenu mnuListContext
@@ -3374,7 +3381,7 @@ Private Sub optTabDownload2_Click()
     optTabDownload_Click
 End Sub
 
-Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabDownload_Click
 End Sub
 
@@ -3386,7 +3393,7 @@ Private Sub optTabThreads2_Click()
     optTabThreads_Click
 End Sub
 
-Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabThreads_Click
 End Sub
 
