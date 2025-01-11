@@ -461,7 +461,7 @@ End Sub
 
 Private Sub cbLanguage_Click()
     If Loaded Then
-        MsgBox t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application."), 64
+        Alert t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application."), App.Title, Me, 64
         cmdApply.Enabled = -1
     End If
 End Sub
@@ -785,5 +785,5 @@ Sub StartSysInfo()
     
     Exit Sub
 SysInfoErr:
-    MsgBox t("지금은 시스템 정보를 사용할 수 없습니다.", "System Information is unavailable."), 48
+    Alert t("지금은 시스템 정보를 사용할 수 없습니다.", "System Information is unavailable."), App.Title, Me, 48
 End Sub

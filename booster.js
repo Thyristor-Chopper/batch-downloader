@@ -97,6 +97,8 @@ function startDownload(url) {
 			for(var i=1; i<=trd+25; i++)
 				if(fs.existsSync(fn + '.part_' + i + '.tmp'))
 					fs.unlinkSync(fn + '.part_' + i + '.tmp');
+		} else if(res.headers['accept-ranges'] != 'bytes' || !total) {
+			print('STATUS', 'RESUMEUNSUPPORTED');
 		}
 		var comp = 0;
 		var downloader = [];

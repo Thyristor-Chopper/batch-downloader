@@ -276,8 +276,8 @@ Private Sub Form_Load()
     
     Label1.Caption = t(Label1.Caption, "&File name:")
     Label4.Caption = t(Label4.Caption, "File &type:")
-    Label3.Caption = t(Label3.Caption, "Dri&ve")
-    Label2.Caption = t(Label2.Caption, "&Directory")
+    Label3.Caption = t(Label3.Caption, "Dri&ve:")
+    Label2.Caption = t(Label2.Caption, "&Directory:")
     chkHidden.Caption = t(chkHidden.Caption, "Show &hidden")
     OKButton.Caption = t(OKButton.Caption, "OK")
     CancelButton.Caption = t(CancelButton.Caption, "Cancel")
@@ -336,7 +336,7 @@ Private Sub OKButton_Click()
         UCase(txtFileName.Text) = "LPT3" Or _
         UCase(txtFileName.Text) = "LPT4" _
     Then
-        MsgBox t("파일 이름이 올바르지 않습니다.", "Invalid file name."), 48
+        Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 48
         Exit Sub
     End If
 
@@ -350,10 +350,10 @@ Private Sub OKButton_Click()
     On Error Resume Next
     If FileExists(Path) Then
         If frmMain.cbWhenExist.ListIndex = 0 Then
-            MsgBox t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), 16
+            Alert t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), App.Title, Me, 16
             Exit Sub
         ElseIf frmMain.cbWhenExist.ListIndex = 1 Then
-            If MsgBox(t("파일 이름이 이미 존재합니다. 덮어쓰시겠습니까?", "File name already exists. Overwrite?"), 48 + vbYesNo) <> vbYes Then
+            If Confirm(t("파일 이름이 이미 존재합니다. 덮어쓰시겠습니까?", "File name already exists. Overwrite?"), App.Title, Me, 48) <> vbYes Then
                 Exit Sub
             End If
         End If
@@ -367,7 +367,7 @@ Private Sub OKButton_Click()
     Exit Sub
     
 e:
-    MsgBox t("문제가 발생했습니다!", "Error!"), 16
+    Alert t("문제가 발생했습니다!", "Error!"), App.Title, Me, 16
     Exit Sub
 End Sub
 
@@ -377,7 +377,7 @@ Private Sub selDrive_Change()
     Exit Sub
     
 e:
-    MsgBox t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), 16
+    Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, Me, 16
 End Sub
 
 Private Sub selFileType_Change()

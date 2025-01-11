@@ -2057,6 +2057,7 @@ Dim PrevDownloadedBytes As Double
 Dim SpeedCount As Integer
 Dim HttpStatusCode As String
 Public AboutEasterEgg As Boolean
+Dim ResumeUnsupported As Boolean
 
 Sub OnData(Data As String)
     Dim output$
@@ -2086,7 +2087,9 @@ Sub OnData(Data As String)
                 pbTotalProgressMarquee.Visible = 0
                 pbTotalProgress.Value = 100
             Case "UNABLETOCONTINUE"
-                MsgBox t("이어받기가 불가능합니다. 처음부터 다시 다운로드합니다.", "Unable to resume. Starting over..."), 48
+                Alert t("이어받기가 불가능합니다. 처음부터 다시 다운로드합니다.", "Unable to resume. Starting over..."), App.Title, , 48, 5000
+            Case "RESUMEUNSUPPORTED"
+                ResumeUnsupported = True
         End Select
     ElseIf Left$(Data, 11) = "STATUSCODE " Then
         output = Right$(Data, Len(Data) - 11)
@@ -2241,8 +2244,8 @@ Sub NextBatchDownload()
         End If
         
         If BatchErrorCount Then
-            MsgBox t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
-                     "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), 48
+            Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
+                     "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), App.Title, Me, 48
         ElseIf chkPlaySound.Value Then
             MessageBeep 64
         End If
@@ -2274,21 +2277,21 @@ Sub OnExit(RetVal As Long)
             Case 1
                 If chkAutoRetry.Value <> 1 Then
                     If pbTotalProgressMarquee.Visible And (lblDownloadedBytes.Caption = "-" Or lblDownloadedBytes.Caption = "대기 중...") Then
-                        MsgBox t("해당 파일 주소에 연결할 수 없습니다. 주소가 유효하지 않거나 서버가 응답하지 않습니다.", "The server does not respond or the file URL is invalid."), 16
+                        Alert t("해당 파일 주소에 연결할 수 없습니다. 주소가 유효하지 않거나 서버가 응답하지 않습니다.", "The server does not respond or the file URL is invalid."), App.Title, Me, 16
                     Else
-                        MsgBox t("서버와의 접속이 끊겼습니다. 다운로드 도중에 네트워크 오류가 발생했을 수 있습니다.", "Network error while downloading."), 16
+                        Alert t("서버와의 접속이 끊겼습니다. 다운로드 도중에 네트워크 오류가 발생했을 수 있습니다.", "Network error while downloading."), App.Title, Me, 16
                     End If
                 End If
             Case 102
-                MsgBox "주소나 파일 이름을 지정하지 않았습니다.", 16
+                Alert "주소나 파일 이름을 지정하지 않았습니다.", App.Title, Me, 16
             Case 3, 103
-                MsgBox t("저장 경로가 존재하지 않습니다.", "Save path doesn't exist."), 16
+                Alert t("저장 경로가 존재하지 않습니다.", "Save path doesn't exist."), App.Title, Me, 16
             Case 104
-                MsgBox t("저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", "File name already exists."), 16
+                Alert t("저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", "File name already exists."), App.Title, Me, 16
             Case 106
-                MsgBox t("파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오.", "Download boosting not supported. Try changing the thread count to 1."), 16
+                Alert t("파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오.", "Download boosting not supported. Try changing the thread count to 1."), App.Title, Me, 16
             Case 107
-                MsgBox t("파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", "Unable to boost download because the file size is not provided. Try changing the thread count to 1."), 16
+                Alert t("파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", "Unable to boost download because the file size is not provided. Try changing the thread count to 1."), App.Title, Me, 16
             Case 108
                 Dim statusMsg As String
                 statusMsg = ""
@@ -2346,9 +2349,9 @@ Sub OnExit(RetVal As Long)
                             statusMsg = " HTTP 응답 코드는 ( " & HttpStatusCode & " ) 입니다."
                     End Select
                 End If
-                MsgBox t("서버가 요청을 거부했습니다. " & ErrDesc & statusMsg, "Server denied your request. The file may not exist or have insufficient permissions to access it."), Icon
+                Alert t("서버가 요청을 거부했습니다. " & ErrDesc & statusMsg, "Server denied your request. The file may not exist or have insufficient permissions to access it."), App.Title, Me, Icon
             Case Else
-                MsgBox t("내부 오류가 발생했습니다. 프로세스 반환 값은 ( " & RetVal & " ) 입니다.", "Internal error. Process returned ( " & RetVal & " )."), 16
+                Alert t("내부 오류가 발생했습니다. 프로세스 반환 값은 ( " & RetVal & " ) 입니다.", "Internal error. Process returned ( " & RetVal & " )."), App.Title, Me, 16
         End Select
     End If
     
@@ -2400,6 +2403,7 @@ End Sub
 
 Sub OnStart()
     IsDownloading = True
+    ResumeUnsupported = False
     cmdGo.Enabled = 0
     If Not BatchStarted Then
         cmdStop.Enabled = -1
@@ -2596,7 +2600,7 @@ End Sub
 
 Sub AddBatchURLs(URL As String)
     If Left$(URL, 7) <> "http://" And Left$(URL, 8) <> "https://" Then
-        MsgBox URL & " - " & t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), 16
+        Alert URL & " - " & t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), App.Title, Me, 16
         Exit Sub
     End If
 
@@ -2637,7 +2641,7 @@ Private Sub cmdAddToQueue_Click()
     If lvBatchFiles.ListItems.Count Then
         For i = 1 To lvBatchFiles.ListItems.Count
             If lvBatchFiles.ListItems(i).ListSubItems(2).Text = Trim$(txtURL.Text) Then
-                MsgBox t("해당 주소는 이미 대기열에 추가되었습니다.", "That URL is already added"), 64
+                Alert t("해당 주소는 이미 대기열에 추가되었습니다.", "That URL is already added"), App.Title, Me, 64
                 Exit Sub
             End If
         Next i
@@ -2785,7 +2789,7 @@ L2:
                               (trThreadCount.Value > 1 And FileExists(FileName & ".part_" & trThreadCount.Value & ".tmp") And (Not FileExists(FileName & ".part_" & (trThreadCount.Value + 1) & ".tmp")))
         If PrevPartialDownload Then
             Dim ContinueMsgboxResult As VbMsgBoxResult
-            ContinueMsgboxResult = MsgBox(t("기존에 다운로드 받다가 중지한 파일입니다. 다운로드받은 지점부터 이어서 받으시겠습니까?" & vbCrLf & "  [아니요]를 누를 경우 처음부터 다시 다운로드됩니다.", "This file was previously downloaded partially. Would you like to resume?" & vbCrLf & "  We will download from the start if you choose No."), vbYesNoCancel + 32)
+            ContinueMsgboxResult = ConfirmCancel(t("기존에 다운로드 받다가 중지한 파일입니다. 다운로드받은 지점부터 이어서 받으시겠습니까?" & vbCrLf & "　[아니요]를 누를 경우 처음부터 다시 다운로드됩니다.", "This file was previously downloaded partially. Would you like to resume?" & vbCrLf & "  We will download from the start if you choose No."), App.Title, Me)
             If ContinueMsgboxResult = vbYes Then
                 ContinueDownload = 1
             ElseIf ContinueMsgboxResult = vbCancel Then
@@ -2837,12 +2841,12 @@ Private Sub cmdGo_Click()
     Dim TextLine As String
     
     If Replace(txtURL.Text, " ", "") = "" Then
-        MsgBox t("파일 주소를 입력하십시오.", "Specify the file URL."), 64
+        Alert t("파일 주소를 입력하십시오.", "Specify the file URL."), App.Title, Me, 64
         Exit Sub
     End If
     
     If Left$(txtURL.Text, 7) <> "http://" And Left$(txtURL.Text, 8) <> "https://" Then
-        MsgBox t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), 16
+        Alert t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), App.Title, Me, 16
         Exit Sub
     End If
     
@@ -2851,13 +2855,13 @@ Private Sub cmdGo_Click()
     Dim i%
     For i = LBound(SplittedPath) To UBound(SplittedPath)
         If Trim$(SplittedPath(i)) <> "" And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
-            MsgBox t("저장 경로가 유효하지 않습니다.", "Invalid save path."), 16
+            Alert t("저장 경로가 유효하지 않습니다.", "Invalid save path."), App.Title, Me, 16
             Exit Sub
         End If
     Next i
     
     If (Not FolderExists(Trim$(txtFileName.Text))) And (Not FolderExists(fso.GetParentFolderName(Trim$(txtFileName.Text)))) Then
-        MsgBox t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), 16
+        Alert t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), App.Title, Me, 16
         Exit Sub
     End If
 
@@ -2931,13 +2935,13 @@ Private Sub cmdStartBatch_Click()
     Dim i%
     For i = LBound(SplittedPath) To UBound(SplittedPath)
         If Trim$(SplittedPath(i)) <> "" And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
-            MsgBox t("저장 경로가 유효하지 않습니다.", "Invalid save path."), 16
+            Alert t("저장 경로가 유효하지 않습니다.", "Invalid save path."), App.Title, Me, 16
             Exit Sub
         End If
     Next i
     
     If (Not FolderExists(Trim$(txtFileName.Text))) And (Not FolderExists(fso.GetParentFolderName(Trim$(txtFileName.Text)))) Then
-        MsgBox t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), 16
+        Alert t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), App.Title, Me, 16
         Exit Sub
     End If
     
@@ -2955,11 +2959,17 @@ Private Sub cmdStartBatch_Click()
 End Sub
 
 Private Sub cmdStop_Click()
-    If ConfirmEx(t("다운로드를 중지하시겠습니까? 지원되는 경우 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later if supported."), t("다운로드 취소", "Cancel download"), Me, 32) = vbYes Then
+    Dim IsMarquee As Boolean
+    IsMarquee = pbTotalProgressMarquee.Visible
+    Dim ConfirmResult As VbMsgBoxResult
+    If IsMarquee Or ResumeUnsupported Then
+        ConfirmResult = ConfirmEx(t("다운로드를 중지하시겠습니까? 현재 파일은 이어받기가 지원되지 않으므로 처음부터 다시 다운로드받아야 합니다.", "Cancel download? Resuming is not supported for this file."), t("다운로드 취소", "Cancel download"), Me, 48)
+    Else
+        ConfirmResult = Confirm(t("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later."), t("다운로드 취소", "Cancel download"), Me)
+    End If
+    If ConfirmResult = vbYes Then
         Dim CurrentProgress As Integer
-        Dim IsMarquee As Boolean
         CurrentProgress = pbTotalProgress.Value
-        IsMarquee = pbTotalProgressMarquee.Visible
         
         OnStop False
         cmdOpen.Enabled = 0
@@ -2967,10 +2977,10 @@ Private Sub cmdStop_Click()
         If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
             Dim KillTemp As Boolean
             KillTemp = False
-            If IsMarquee Then
+            If IsMarquee Or ResumeUnsupported Then
                 KillTemp = True
             Else
-                KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbYesNo + 32) <> vbYes
+                KillTemp = Confirm(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), App.Title, Me) <> vbYes
             End If
             If KillTemp Then
                 On Error Resume Next
@@ -2988,11 +2998,17 @@ Private Sub cmdStop_Click()
 End Sub
 
 Private Sub cmdStopBatch_Click()
-    If ConfirmEx(t("다운로드를 중지하시겠습니까? 지원되는 경우 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later if supported."), t("다운로드 취소", "Cancel download"), Me, 32) = vbYes Then
+    Dim IsMarquee As Boolean
+    IsMarquee = pbTotalProgressMarquee.Visible
+    Dim ConfirmResult As VbMsgBoxResult
+    If IsMarquee Or ResumeUnsupported Then
+        ConfirmResult = ConfirmEx(t("다운로드를 중지하시겠습니까? 현재 파일은 이어받기가 지원되지 않으므로 처음부터 다시 다운로드받아야 합니다.", "Cancel download? Resuming is not supported for this file."), t("다운로드 취소", "Cancel download"), Me, 48)
+    Else
+        ConfirmResult = Confirm(t("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later."), t("다운로드 취소", "Cancel download"), Me)
+    End If
+    If ConfirmResult = vbYes Then
         Dim CurrentProgress As Integer
-        Dim IsMarquee As Boolean
         CurrentProgress = pbTotalProgress.Value
-        IsMarquee = pbTotalProgressMarquee.Visible
         
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = "중지"
         lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = 255
@@ -3014,10 +3030,10 @@ Private Sub cmdStopBatch_Click()
         If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
             Dim KillTemp As Boolean
             KillTemp = False
-            If IsMarquee Then
+            If IsMarquee Or ResumeUnsupported Then
                 KillTemp = True
             Else
-                KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbYesNo + 32) <> vbYes
+                KillTemp = Confirm(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), App.Title, Me) <> vbYes
             End If
             If KillTemp Then
                 On Error Resume Next
@@ -3032,8 +3048,8 @@ Private Sub cmdStopBatch_Click()
             End If
         End If
         
-        If BatchErrorCount Then MsgBox t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
-                                         "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), 48
+        If BatchErrorCount Then Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
+                                         "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), App.Title, Me, 48
     End If
 End Sub
 
@@ -3051,6 +3067,7 @@ End Sub
 
 Private Sub Form_Load()
     On Error Resume Next
+    ResumeUnsupported = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")
     AboutEasterEgg = False
     Me.Caption = t(Me.Caption, "Download Booster") & " v" & App.Major & "." & App.Minor & "." & App.Revision
@@ -3226,7 +3243,6 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Form_Resize()
-    'MsgBox Me.Height
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
     If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
     lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
@@ -3241,14 +3257,20 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     If cmdStop.Enabled = -1 Or BatchStarted Then
-        If ConfirmEx(t("다운로드를 중지하시겠습니까? 지원되는 경우 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later if supported."), t("다운로드 취소", "Cancel download"), Me, 32) <> vbYes Then
+        Dim IsMarquee As Boolean
+        IsMarquee = pbTotalProgressMarquee.Visible
+        Dim ConfirmResult As VbMsgBoxResult
+        If IsMarquee Or ResumeUnsupported Then
+            ConfirmResult = ConfirmEx(t("다운로드를 중지하시겠습니까? 현재 파일은 이어받기가 지원되지 않으므로 처음부터 다시 다운로드받아야 합니다.", "Cancel download? Resuming is not supported for this file."), t("다운로드 취소", "Cancel download"), Me, 48)
+        Else
+            ConfirmResult = Confirm(t("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later."), t("다운로드 취소", "Cancel download"), Me)
+        End If
+        If ConfirmResult <> vbYes Then
             Cancel = 1
             Exit Sub
         Else
             Dim CurrentProgress As Integer
-            Dim IsMarquee As Boolean
             CurrentProgress = pbTotalProgress.Value
-            IsMarquee = pbTotalProgressMarquee.Visible
             
             BatchStarted = False
             SP.FinishChild 0, 0
@@ -3256,10 +3278,10 @@ Private Sub Form_Unload(Cancel As Integer)
             If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
                 Dim KillTemp As Boolean
                 KillTemp = False
-                If IsMarquee Then
+                If IsMarquee Or ResumeUnsupported Then
                     KillTemp = True
                 Else
-                    KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbYesNo + 32) <> vbYes
+                    KillTemp = Confirm(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), App.Title, Me) <> vbYes
                 End If
                 If KillTemp Then
                     On Error Resume Next
@@ -3295,7 +3317,18 @@ Private Sub Form_Unload(Cancel As Integer)
     If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
     SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
     SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
-    Unload Me
+    On Error Resume Next
+    Unload ConfirmMsgBox
+    Unload OKMsgBox
+    Unload YesNoMsgBox
+    Unload YesNoCancelMsgBox
+    Unload frmBatchAdd
+    Unload frmBrowse
+    Unload frmOptions
+    Unload frmGame
+    Unload frmGameVista
+    Unload frmGameWin95
+    Unload frmGameWinXP
 End Sub
 
 Private Sub fTabDownload_Click()
@@ -3432,7 +3465,7 @@ End Sub
 
 Private Sub mnuClearBatch_Click()
     If lvBatchFiles.ListItems.Count Then
-        If MsgBox(t("대기열을 비우시겠습니까?", "Clear the queue?"), 32 + vbYesNo) <> vbYes Then Exit Sub
+        If Confirm(t("대기열을 비우시겠습니까?", "Clear the queue?"), App.Title, Me) <> vbYes Then Exit Sub
         Dim i%
         i = 1
         Do While i <= lvBatchFiles.ListItems.Count

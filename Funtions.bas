@@ -1,6 +1,8 @@
 Attribute VB_Name = "Functions"
 Public fso As Scripting.FileSystemObject
 Public ConfirmResult As VbMsgBoxResult
+Public YesNoMsgBoxResult As VbMsgBoxResult
+Public YesNoCancelMsgBoxResult As VbMsgBoxResult
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
@@ -10,7 +12,10 @@ Private Declare Function RegOpenKeyEx Lib "advapi32" Alias "RegOpenKeyExA" (ByVa
 Private Declare Function RegQueryValueEx Lib "advapi32" Alias "RegQueryValueExA" (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, ByRef lpType As Long, ByVal lpData As String, ByRef lpcbData As Long) As Long
 Private Declare Function RegCloseKey Lib "advapi32" (ByVal hKey As Long) As Long
 Declare Function GetUserDefaultLangID Lib "kernel32" () As Integer
+Declare Function GetSystemMenu Lib "user32" (ByVal hWnd As Long, ByVal bRevert As Long) As Long
+Declare Function DeleteMenu Lib "user32" (ByVal hMenu As Long, ByVal nPosition As Long, ByVal wFlags As Long) As Long
 
+Global Const MF_BYPOSITION = &H400
 Public Const HKEY_CLASSES_ROOT = &H80000000
 Public Const HKEY_CURRENT_USER = &H80000001
 Public Const HKEY_LOCAL_MACHINE = &H80000002
@@ -269,10 +274,20 @@ Function Exists(ByVal oCol As Collection, ByVal vKey As Variant) As Boolean
 End Function
 
 Function TextWidth(ByVal s As String) As Single
+    On Error Resume Next
+    If LangID <> 1042 Then
+        ConfirmMsgBox.Font.Name = "Tahoma"
+        ConfirmMsgBox.Font.Size = 8
+    End If
     TextWidth = ConfirmMsgBox.TextWidth(s)
 End Function
 
 Function TextHeight(ByVal s As String) As Single
+    On Error Resume Next
+    If LangID <> 1042 Then
+        ConfirmMsgBox.Font.Name = "Tahoma"
+        ConfirmMsgBox.Font.Size = 8
+    End If
     TextHeight = ConfirmMsgBox.TextHeight(s)
 End Function
 
@@ -325,6 +340,117 @@ Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String
         Loop
     Next
     CutLines = Lines
+End Function
+
+Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As Form = Nothing, Optional Icon As MsgBoxExIcon = 64, Optional timeout As Integer = -1)
+    If Title = "" Then Title = App.Title
+    Select Case Icon
+        Case 48
+            OKMsgBox.imgMBIconWarning.Visible = True
+        Case 16
+            OKMsgBox.imgMBIconError.Visible = True
+        Case 64
+            OKMsgBox.imgMBIconInfo.Visible = True
+    End Select
+    
+    Content = Replace(Content, "&", "&&")
+    Content = Replace(Content, vbCrLf & vbCrLf, vbCrLf & " " & vbCrLf)
+    
+    Dim i As Integer
+    Dim LineCount As Integer
+    Dim LContent As Integer
+    Dim MAX_WIDTH As Long
+    MAX_WIDTH = Screen.Width / 2
+    Content = Join(CutLines(Content, MAX_WIDTH), vbCrLf)
+    LContent = 0
+    LineCount = UBound(Split(Content, vbLf)) + 1
+    Dim s%
+    Dim ln$
+    Dim CI%, c$
+    Dim LineContent$
+    For s = 0 To UBound(Split(Content, vbCrLf))
+        LineContent = Split(Content, vbCrLf)(s)
+        If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
+    Next s
+    
+    If LContent = 0 Then LContent = frmAbout.TextWidth(Content)
+    If LineCount > 1 Then OKMsgBox.lblContent.Top = 280
+    OKMsgBox.lblContent.Height = 185 * LineCount
+    OKMsgBox.Height = 1615 + LineCount * 180 - 300 + 190
+    OKMsgBox.Caption = Title
+    OKMsgBox.lblContent.Caption = Content
+    OKMsgBox.Width = 2040 + LContent - 640
+    OKMsgBox.cmdOK.Left = OKMsgBox.Width / 2 - 810
+    OKMsgBox.cmdOK.Top = 840 + (LineCount * 185) - 350
+    If LineCount < 2 Then
+        OKMsgBox.Height = OKMsgBox.Height + 180
+        OKMsgBox.cmdOK.Top = OKMsgBox.cmdOK.Top + 180
+    End If
+    MessageBeep Icon
+    If timeout >= 0 Then
+        OKMsgBox.timeout.Interval = timeout
+        OKMsgBox.timeout.Enabled = -1
+    End If
+    If Not (OwnerForm Is Nothing) Then
+        OKMsgBox.Show vbModal, OwnerForm
+    Else
+        OKMsgBox.Show
+    End If
+End Sub
+
+Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional Icon As MsgBoxExIcon = 32, Optional BtnReversed As Boolean = False) As VbMsgBoxResult
+    If Title = "" Then Title = App.Title
+    Select Case Icon
+        Case 48
+            YesNoMsgBox.imgMBIconWarning.Visible = True
+        Case 16
+            YesNoMsgBox.imgMBIconError.Visible = True
+        Case 64
+            YesNoMsgBox.imgMBIconInfo.Visible = True
+        Case 32
+            YesNoMsgBox.imgMBIconQuestion.Visible = True
+    End Select
+    
+    Content = Replace(Content, "&", "&&")
+    Content = Replace(Content, vbCrLf & vbCrLf, vbCrLf & " " & vbCrLf)
+    
+    Dim i As Integer
+    Dim LineCount As Integer
+    Dim LContent As Integer
+    Dim MAX_WIDTH As Long
+    MAX_WIDTH = Screen.Width / 2
+    Content = Join(CutLines(Content, MAX_WIDTH), vbCrLf)
+    LContent = 0
+    LineCount = UBound(Split(Content, vbLf)) + 1
+    Dim s%
+    Dim ln$
+    Dim CI%, c$
+    Dim LineContent$
+    For s = 0 To UBound(Split(Content, vbCrLf))
+        LineContent = Split(Content, vbCrLf)(s)
+        If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
+    Next s
+    
+    If LContent = 0 Then LContent = strlen(Content)
+    If LineCount > 1 Then YesNoMsgBox.lblContent.Top = 280
+    YesNoMsgBox.lblContent.Height = 185 * LineCount
+    YesNoMsgBox.Height = 1615 + LineCount * 180 - 300 + 190
+    YesNoMsgBox.Caption = Title
+    YesNoMsgBox.lblContent.Caption = Content
+    YesNoMsgBox.Width = 2040 + LContent - 640
+    YesNoMsgBox.cmdOK.Left = YesNoMsgBox.Width / 2 - 810 - YesNoMsgBox.cmdOK.Width / 2
+    YesNoMsgBox.cmdOK.Top = 840 + (LineCount * 185) - 350
+    YesNoMsgBox.cmdCancel.Left = YesNoMsgBox.Width / 2 - 810 - YesNoMsgBox.cmdOK.Width / 2 - 120 + YesNoMsgBox.cmdOK.Width + 240
+    YesNoMsgBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
+    If LineCount < 2 Then
+        YesNoMsgBox.Height = YesNoMsgBox.Height + 180
+        YesNoMsgBox.cmdOK.Top = YesNoMsgBox.cmdOK.Top + 180
+        YesNoMsgBox.cmdCancel.Top = YesNoMsgBox.cmdCancel.Top + 180
+    End If
+    MessageBeep Icon
+    YesNoMsgBox.Show vbModal, OwnerForm
+    
+    Confirm = YesNoMsgBoxResult
 End Function
 
 Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As Form, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal YesCaption As String = "", Optional ByVal NoCaption As String = "") As VbMsgBoxResult
@@ -397,11 +523,67 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     End If
     ConfirmMsgBox.optYes.Caption = YesCaption
     ConfirmMsgBox.optNo.Caption = NoCaption
-    ConfirmMsgBox.BeepSnd = Icon
     MessageBeep Icon
     ConfirmMsgBox.Show vbModal, OwnerForm
     
     ConfirmEx = ConfirmResult
+End Function
+
+Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
+    Select Case Icon
+        Case 48
+            YesNoCancelMsgBox.imgMBIconWarning.Visible = True
+        Case 16
+            YesNoCancelMsgBox.imgMBIconError.Visible = True
+        Case 64
+            YesNoCancelMsgBox.imgMBIconInfo.Visible = True
+        Case 32
+            YesNoCancelMsgBox.imgMBIconQuestion.Visible = True
+    End Select
+    
+    Content = Replace(Content, "&", "&&")
+    Content = Replace(Content, vbCrLf & vbCrLf, vbCrLf & " " & vbCrLf)
+    
+    Dim i As Integer
+    Dim LineCount As Integer
+    Dim LContent As Integer
+    Dim MAX_WIDTH As Long
+    MAX_WIDTH = Screen.Width / 2
+    Content = Join(CutLines(Content, MAX_WIDTH), vbCrLf)
+    LContent = 0
+    LineCount = UBound(Split(Content, vbLf)) + 1
+    Dim s%
+    Dim ln$
+    Dim CI%, c$
+    Dim LineContent$
+    For s = 0 To UBound(Split(Content, vbCrLf))
+        LineContent = Split(Content, vbCrLf)(s)
+        If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
+    Next s
+    
+    If LContent = 0 Then LContent = strlen(Content)
+    If LineCount > 1 Then YesNoCancelMsgBox.lblContent.Top = 280
+    YesNoCancelMsgBox.lblContent.Height = 185 * LineCount
+    YesNoCancelMsgBox.Height = 1615 + LineCount * 180 - 300 + 190
+    YesNoCancelMsgBox.Caption = Title
+    YesNoCancelMsgBox.lblContent.Caption = Content
+    YesNoCancelMsgBox.Width = 2040 + LContent - 640
+    YesNoCancelMsgBox.cmdYes.Left = YesNoCancelMsgBox.Width / 2 - 900 - YesNoCancelMsgBox.cmdYes.Width
+    YesNoCancelMsgBox.cmdYes.Top = 840 + (LineCount * 185) - 350
+    YesNoCancelMsgBox.cmdNo.Left = YesNoCancelMsgBox.Width / 2 - 810
+    YesNoCancelMsgBox.cmdNo.Top = 840 + (LineCount * 185) - 350
+    YesNoCancelMsgBox.cmdCancel.Left = YesNoCancelMsgBox.Width / 2 - 900 + YesNoCancelMsgBox.cmdYes.Width + 190
+    YesNoCancelMsgBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
+    If LineCount < 2 Then
+        YesNoCancelMsgBox.Height = YesNoCancelMsgBox.Height + 180
+        YesNoCancelMsgBox.cmdYes.Top = YesNoCancelMsgBox.cmdYes.Top + 180
+        YesNoCancelMsgBox.cmdNo.Top = YesNoCancelMsgBox.cmdNo.Top + 180
+        YesNoCancelMsgBox.cmdCancel.Top = YesNoCancelMsgBox.cmdCancel.Top + 180
+    End If
+    MessageBeep Icon
+    YesNoCancelMsgBox.Show vbModal, OwnerForm
+    
+    ConfirmCancel = YesNoCancelMsgBoxResult
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
