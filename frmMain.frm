@@ -3285,8 +3285,8 @@ Sub SetBackgroundImage()
     For Each ctrl In Me.Controls
         If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then
             ctrl.Refresh
-        ElseIf TypeName(ctrl) = "PictureBox" Then
-            ctrl.AutoRedraw = True
+        'ElseIf TypeName(ctrl) = "PictureBox" Then
+            'ctrl.AutoRedraw = True
             'tsTabStrip.DrawBackground ctrl.hWnd, ctrl.hDC
         End If
     Next ctrl
