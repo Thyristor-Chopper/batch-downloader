@@ -95,7 +95,7 @@ Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me
-    cmdOK.Caption = t("Ω¬¿Œ", "Accept")
+    cmdOK.Caption = t("»Æ¿Œ", "OK")
 End Sub
 
 Private Sub timeout_Timer()

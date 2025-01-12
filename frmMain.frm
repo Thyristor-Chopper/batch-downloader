@@ -358,7 +358,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Frame Frame6 
       Height          =   420
-      Left            =   2760
+      Left            =   1440
       TabIndex        =   58
       Top             =   1920
       Visible         =   0   'False
@@ -403,13 +403,13 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdTabThreads 
       Height          =   330
-      Left            =   2760
+      Left            =   1680
       TabIndex        =   52
       Top             =   1980
       Visible         =   0   'False
-      Width           =   615
-      _ExtentX        =   0
-      _ExtentY        =   0
+      Width           =   1095
+      _ExtentX        =   1931
+      _ExtentY        =   582
       Caption         =   "    스레드"
    End
    Begin prjDownloadBooster.CommandButtonW cmdTabDownload 
@@ -438,8 +438,8 @@ Begin VB.Form frmMain
       TabIndex        =   48
       Top             =   1995
       Visible         =   0   'False
-      Width           =   1785
-      _ExtentX        =   3149
+      Width           =   1995
+      _ExtentX        =   3519
       _ExtentY        =   556
       MultiRow        =   0   'False
       Style           =   2
@@ -452,12 +452,28 @@ Begin VB.Form frmMain
    Begin VB.Frame fDownloadInfo 
       BorderStyle     =   0  '없음
       Caption         =   " "
-      Height          =   2415
-      Left            =   1320
+      Height          =   3375
+      Left            =   1440
       TabIndex        =   33
-      Top             =   2880
+      Top             =   2400
       Visible         =   0   'False
       Width           =   3495
+      Begin VB.Label lblRemaining 
+         Caption         =   "-"
+         Height          =   255
+         Left            =   1320
+         TabIndex        =   127
+         Top             =   2520
+         Width           =   4335
+      End
+      Begin VB.Label Label10 
+         Caption         =   "남은 시간:"
+         Height          =   255
+         Left            =   0
+         TabIndex        =   126
+         Top             =   2520
+         Width           =   1215
+      End
       Begin VB.Label Label8 
          Caption         =   "파일 이름:"
          Height          =   255
@@ -2192,6 +2208,10 @@ progressAvailable:
             sbStatusBar.Panels(3).Text = ParseSize(Speed, False, "/" & t("초", "sec"))
             PrevDownloadedBytes = DownloadedBytes
             SpeedCount = 0
+            
+            If progress >= 0 And strTotal <> "-1" And IsNumeric(strTotal) Then
+                lblRemaining = FormatTime((CDbl(strTotal) - CDbl(DownloadedBytes)) / Speed)
+            End If
         End If
     ElseIf Left$(Data, 17) = "MODIFIEDFILENAME " Then
         output = Right$(Data, Len(Data) - 17)
@@ -2448,6 +2468,7 @@ Sub OnStart()
     End If
     lblElapsed.Caption = "0" & t("초", " seconds")
     lblSpeed.Caption = "-"
+    lblRemaining.Caption = "-"
     
     fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
     pbTotalProgress.Value = 0
@@ -2567,6 +2588,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         lblTotalBytes.Caption = lblDownloadedBytes.Caption
     End If
     If lblTotalSizeThread.Caption = t("대기 중...", "Pending...") Then lblTotalSizeThread.Caption = "-"
+    lblRemaining.Caption = "-"
 End Sub
 
 Private Sub chkNoDWMWindow_Click()
@@ -3059,10 +3081,65 @@ Private Sub cmdTabDownload_Click()
     optTabDownload_Click
 End Sub
 
+Private Sub cmdTabDownload_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+    cmdTabDownload_Click
+End Sub
+
 Private Sub cmdTabThreads_Click()
     optTabThreads.Value = True
     optTabThreads2.Value = True
     optTabThreads_Click
+End Sub
+
+Private Sub cmdTabThreads_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+    cmdTabThreads_Click
+End Sub
+
+Sub SetTabStyle()
+    If GetSetting("DownloadBooster", "Options", "TabStyle", 4) = 4 Then
+        fTabThreads.Visible = -1
+        fTabDownload.Visible = -1
+        optTabThreads2.Visible = -1
+        optTabDownload2.Visible = -1
+        
+        optTabDownload2.Left = 435
+        optTabThreads2.Left = 1320
+        
+        cmdTabDownload.Visible = 0
+        cmdTabThreads.Visible = 0
+        
+        tsTabs.Visible = 0
+    ElseIf GetSetting("DownloadBooster", "Options", "TabStyle", 4) = 3 Then
+        fTabThreads.Visible = 0
+        fTabDownload.Visible = 0
+        optTabThreads2.Visible = -1
+        optTabDownload2.Visible = -1
+        
+        optTabDownload2.Left = 495
+        optTabThreads2.Left = 1725
+        
+        cmdTabDownload.Visible = -1
+        cmdTabThreads.Visible = -1
+        
+        tsTabs.Visible = 0
+    ElseIf GetSetting("DownloadBooster", "Options", "TabStyle", 4) = 0 Or GetSetting("DownloadBooster", "Options", "TabStyle", 4) = 1 Or GetSetting("DownloadBooster", "Options", "TabStyle", 4) = 2 Then
+        fTabThreads.Visible = 0
+        fTabDownload.Visible = 0
+        optTabThreads2.Visible = 0
+        optTabDownload2.Visible = 0
+        
+        cmdTabDownload.Visible = 0
+        cmdTabThreads.Visible = 0
+        
+        If GetSetting("DownloadBooster", "Options", "TabStyle", 4) = 0 Then
+            tsTabs.Style = TbsStyleButtons
+        ElseIf GetSetting("DownloadBooster", "Options", "TabStyle", 4) = 1 Then
+            tsTabs.Style = TbsStyleFlatButtons
+        Else
+            tsTabs.Style = TbsStyleTabs
+        End If
+        tsTabs.Visible = -1
+    End If
 End Sub
 
 Private Sub Form_Load()
@@ -3072,6 +3149,8 @@ Private Sub Form_Load()
     AboutEasterEgg = False
     Me.Caption = t(Me.Caption, "Download Booster") & " v" & App.Major & "." & App.Minor & "." & App.Revision
     TahomaAvailable = FontExists("Tahoma")
+    
+    SetTabStyle
     
     Dim Lft%
     Dim Top%
@@ -3235,6 +3314,11 @@ Private Sub Form_Load()
     mnuDeleteItem.Caption = t(mnuDeleteItem.Caption, "&Remove")
     mnuOpenFolder.Caption = t(mnuOpenFolder.Caption, "Open &folder")
     cmdAbout.Caption = t(cmdAbout.Caption, "Abo&ut application...")
+    Label10.Caption = t(Label10.Caption, "Remaining:")
+    cmdTabThreads.Caption = t(cmdTabThreads.Caption, "    Threads")
+    cmdTabDownload.Caption = t(cmdTabDownload.Caption, "    Total")
+    tsTabs.Tabs(1).Caption = t(tsTabs.Tabs(1).Caption, "Total")
+    tsTabs.Tabs(2).Caption = t(tsTabs.Tabs(2).Caption, "Threads")
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
@@ -3556,20 +3640,7 @@ End Sub
 
 Private Sub timElapsed_Timer()
     Elapsed = Elapsed + 1
-    Dim Hour As Integer
-    Dim Minutes As Integer
-    Dim Seconds As Integer
-    If Elapsed >= 3600 Then
-        sbStatusBar.Panels(4).Text = CStr(Floor(Elapsed / 3600)) & t("시간 ", " hours ")
-    Else
-        sbStatusBar.Panels(4).Text = ""
-    End If
-    
-    If Elapsed >= 60 Then
-        sbStatusBar.Panels(4).Text = sbStatusBar.Panels(4).Text & Floor((Elapsed Mod 3600) / 60) & t("분 ", " minutes ")
-    End If
-    sbStatusBar.Panels(4).Text = sbStatusBar.Panels(4).Text & (Elapsed Mod 60) & t("초 경과", " seconds elapsed")
-    
+    sbStatusBar.Panels(4).Text = FormatTime(Elapsed) & t(" 경과", " elapsed")
     lblElapsed.Caption = Replace(sbStatusBar.Panels(4).Text, " " & t("경과", "elapsed"), "")
 End Sub
 

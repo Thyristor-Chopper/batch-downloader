@@ -798,3 +798,21 @@ Sub SetFont(frm As Form)
         End If
     Next ctrl
 End Sub
+
+Function FormatTime(Sec) As String
+    Dim Hour As Integer
+    Dim Minutes As Integer
+    Dim Seconds As Integer
+    Dim ret As String
+    If Sec >= 3600 Then
+        ret = CStr(Floor(Sec / 3600)) & t("시간 ", " hours, ")
+    Else
+        ret = ""
+    End If
+    
+    If Sec >= 60 Then
+        ret = ret & Floor((Sec Mod 3600) / 60) & t("분 ", " minutes and ")
+    End If
+    ret = ret & (Sec Mod 60) & t("초", " seconds")
+    FormatTime = ret
+End Function

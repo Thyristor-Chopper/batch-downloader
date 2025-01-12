@@ -27,11 +27,11 @@ Begin VB.Form frmOptions
       AutoRedraw      =   -1  'True
       Height          =   2265
       Index           =   1
-      Left            =   1320
+      Left            =   -1200
       ScaleHeight     =   2205
       ScaleWidth      =   3675
       TabIndex        =   5
-      Top             =   960
+      Top             =   4080
       Width           =   3735
       Begin prjDownloadBooster.FrameW Frame5 
          Height          =   675
@@ -153,11 +153,11 @@ Begin VB.Form frmOptions
    Begin VB.PictureBox pbPanel 
       Height          =   2535
       Index           =   3
-      Left            =   3840
+      Left            =   4200
       ScaleHeight     =   2475
       ScaleWidth      =   2595
       TabIndex        =   21
-      Top             =   1920
+      Top             =   4080
       Width           =   2655
       Begin VB.TextBox txtLicensePlaceholder 
          Height          =   270
@@ -245,6 +245,34 @@ Begin VB.Form frmOptions
       Top             =   450
       Visible         =   0   'False
       Width           =   6390
+      Begin prjDownloadBooster.FrameW Frame6 
+         Height          =   855
+         Left            =   3720
+         TabIndex        =   37
+         Top             =   2160
+         Width           =   2415
+         _ExtentX        =   4260
+         _ExtentY        =   1508
+         Caption         =   " 기타 설정 "
+         Transparent     =   -1  'True
+         Begin VB.ComboBox cbTabStyle 
+            Height          =   300
+            Left            =   360
+            Style           =   2  '드롭다운 목록
+            TabIndex        =   39
+            Top             =   480
+            Width           =   1935
+         End
+         Begin VB.Label Label2 
+            BackStyle       =   0  '투명
+            Caption         =   "탭 모양(&E):"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   38
+            Top             =   240
+            Width           =   1335
+         End
+      End
       Begin VB.PictureBox pbOptionContainer 
          BorderStyle     =   0  '없음
          Height          =   615
@@ -253,7 +281,7 @@ Begin VB.Form frmOptions
          ScaleHeight     =   615
          ScaleWidth      =   1680
          TabIndex        =   18
-         Top             =   1440
+         Top             =   3480
          Width           =   1680
          Begin prjDownloadBooster.OptionButtonW optUserFore 
             Height          =   255
@@ -286,7 +314,7 @@ Begin VB.Form frmOptions
          ScaleHeight     =   615
          ScaleWidth      =   1680
          TabIndex        =   15
-         Top             =   360
+         Top             =   2400
          Width           =   1680
          Begin prjDownloadBooster.OptionButtonW optSystemColor 
             Height          =   255
@@ -315,7 +343,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Left            =   240
          TabIndex        =   10
-         Top             =   2520
+         Top             =   360
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   450
@@ -326,7 +354,7 @@ Begin VB.Form frmOptions
          Height          =   1935
          Left            =   120
          TabIndex        =   9
-         Top             =   2280
+         Top             =   120
          Width           =   6015
          _ExtentX        =   10610
          _ExtentY        =   3413
@@ -345,7 +373,7 @@ Begin VB.Form frmOptions
          Height          =   975
          Left            =   120
          TabIndex        =   6
-         Top             =   120
+         Top             =   2160
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   1720
@@ -374,7 +402,7 @@ Begin VB.Form frmOptions
          Height          =   975
          Left            =   120
          TabIndex        =   13
-         Top             =   1200
+         Top             =   3240
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   1720
@@ -466,6 +494,10 @@ Private Sub cbLanguage_Click()
     End If
 End Sub
 
+Private Sub cbTabStyle_Click()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
 Private Sub chkNoCleanup_Click()
     If Loaded Then cmdApply.Enabled = -1
 End Sub
@@ -527,6 +559,8 @@ Private Sub cmdApply_Click()
     Else
         SaveSetting "DownloadBooster", "Options", "Language", 1042
     End If
+    SaveSetting "DownloadBooster", "Options", "TabStyle", cbTabStyle.ListIndex
+    frmMain.SetTabStyle
     cmdApply.Enabled = 0
 End Sub
 
@@ -605,6 +639,13 @@ Private Sub Form_Load()
     cbLanguage.AddItem "English"
     cbLanguage.ListIndex = CInt(GetSetting("DownloadBooster", "Options", "Language", GetUserDefaultLangID()) <> 1042) * -1
     
+    cbTabStyle.AddItem t("단추형 탭", "Buttoned tabs")
+    cbTabStyle.AddItem t("납작이 탭", "Flat buttons")
+    cbTabStyle.AddItem t("일반 탭", "Normal tabs")
+    cbTabStyle.AddItem t("단추", "Push buttons")
+    cbTabStyle.AddItem t("라디오 단추", "Radio buttons")
+    cbTabStyle.ListIndex = CInt(GetSetting("DownloadBooster", "Options", "TabStyle", 4))
+    
     picIcon.Picture = frmMain.Icon
     lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & "." & App.Revision
     lblTitle.Caption = App.Title
@@ -644,6 +685,8 @@ Private Sub Form_Load()
     CancelButton.Caption = t(CancelButton.Caption, "Cancel")
     cmdApply.Caption = t(cmdApply.Caption, "&Apply")
     Me.Caption = t(Me.Caption, "Settings")
+    Frame6.Caption = t(Frame6.Caption, " Other settings ")
+    Label2.Caption = t(Label2.Caption, "Tab styl&e:")
     
     Loaded = True
 End Sub
