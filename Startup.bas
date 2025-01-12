@@ -39,7 +39,11 @@ Sub Main()
         MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
         Exit Sub
     End If
-    CachePath = Environ$("TEMP") & "\BOOSTER_JS_CACHE\"
+    If Trim$(Environ$("TEMP")) = "" Then
+        CachePath = Environ$("SystemDrive") & "\BOOSTER_JS_CACHE\"
+    Else
+        CachePath = Environ$("TEMP") & "\BOOSTER_JS_CACHE\"
+    End If
     LoadJS
     
     Set MinWidth = New Collection

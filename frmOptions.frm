@@ -2,10 +2,10 @@ VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "스킨 설정"
-   ClientHeight    =   5490
+   ClientHeight    =   6570
    ClientLeft      =   2760
    ClientTop       =   3855
-   ClientWidth     =   6750
+   ClientWidth     =   13200
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -19,25 +19,25 @@ Begin VB.Form frmOptions
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5490
-   ScaleWidth      =   6750
+   ScaleHeight     =   6570
+   ScaleWidth      =   13200
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   2265
+      Height          =   2865
       Index           =   1
-      Left            =   -1200
-      ScaleHeight     =   2205
-      ScaleWidth      =   3675
+      Left            =   6840
+      ScaleHeight     =   2805
+      ScaleWidth      =   6195
       TabIndex        =   5
-      Top             =   4080
-      Width           =   3735
+      Top             =   2640
+      Width           =   6255
       Begin prjDownloadBooster.FrameW Frame5 
          Height          =   675
          Left            =   120
          TabIndex        =   34
-         Top             =   1080
+         Top             =   2040
          Width           =   3135
          _ExtentX        =   5530
          _ExtentY        =   1191
@@ -65,33 +65,105 @@ Begin VB.Form frmOptions
          Height          =   255
          Left            =   240
          TabIndex        =   11
-         Top             =   600
-         Width           =   2655
-         _ExtentX        =   4683
+         Top             =   1080
+         Width           =   2415
+         _ExtentX        =   4260
          _ExtentY        =   450
          Caption         =   "파일 주소 기억(&M)"
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CheckBoxW chkNoCleanup 
          Height          =   255
-         Left            =   240
+         Left            =   3000
          TabIndex        =   8
-         Top             =   360
-         Width           =   2610
-         _ExtentX        =   4604
+         Top             =   600
+         Width           =   2250
+         _ExtentX        =   3969
          _ExtentY        =   450
          Caption         =   "조각 파일 유지(&N)"
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.FrameW Frame2 
-         Height          =   855
+         Height          =   1815
          Left            =   120
          TabIndex        =   7
          Top             =   120
-         Width           =   3495
-         _ExtentX        =   0
-         _ExtentY        =   0
+         Width           =   6015
+         _ExtentX        =   10610
+         _ExtentY        =   3201
          Caption         =   " 다운로드 설정 "
+         Begin VB.ComboBox cbWhenExist 
+            Height          =   300
+            Left            =   2160
+            Style           =   2  '드롭다운 목록
+            TabIndex        =   46
+            Top             =   1320
+            Width           =   1455
+         End
+         Begin prjDownloadBooster.CheckBoxW chkAutoRetry 
+            Height          =   255
+            Left            =   2880
+            TabIndex        =   44
+            Top             =   720
+            Width           =   3045
+            _ExtentX        =   5371
+            _ExtentY        =   450
+            Caption         =   "네트워크 오류 시 자동 재시도(&U)"
+            Transparent     =   -1  'True
+         End
+         Begin prjDownloadBooster.CheckBoxW chkAlwaysResume 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   43
+            Top             =   720
+            Width           =   2535
+            _ExtentX        =   4471
+            _ExtentY        =   450
+            Caption         =   "항상 이어받기(&A)"
+            Transparent     =   -1  'True
+         End
+         Begin prjDownloadBooster.CheckBoxW chkBeepWhenComplete 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   42
+            Top             =   480
+            Width           =   3255
+            _ExtentX        =   0
+            _ExtentY        =   0
+            Caption         =   "완료 후 신호음 재생(&B)"
+            Transparent     =   -1  'True
+         End
+         Begin prjDownloadBooster.CheckBoxW chkOpenDirWhenComplete 
+            Height          =   255
+            Left            =   2880
+            TabIndex        =   41
+            Top             =   240
+            Width           =   2415
+            _ExtentX        =   4260
+            _ExtentY        =   450
+            Caption         =   "완료 후 폴더 열기(&P)"
+            Transparent     =   -1  'True
+         End
+         Begin prjDownloadBooster.CheckBoxW chkOpenWhenComplete 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   40
+            Top             =   240
+            Width           =   2655
+            _ExtentX        =   4683
+            _ExtentY        =   450
+            Caption         =   "완료 후 파일 열기(&O)"
+            Transparent     =   -1  'True
+         End
+         Begin VB.Label Label3 
+            BackStyle       =   0  '투명
+            Caption         =   "중복 파일명 처리(&D):"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   45
+            Top             =   1365
+            Width           =   1935
+         End
       End
    End
    Begin VB.PictureBox pbWinXP 
@@ -151,14 +223,25 @@ Begin VB.Form frmOptions
       Top             =   5040
    End
    Begin VB.PictureBox pbPanel 
-      Height          =   2535
+      Height          =   2415
       Index           =   3
-      Left            =   4200
-      ScaleHeight     =   2475
-      ScaleWidth      =   2595
+      Left            =   6840
+      ScaleHeight     =   2355
+      ScaleWidth      =   4395
       TabIndex        =   21
-      Top             =   4080
-      Width           =   2655
+      Top             =   120
+      Width           =   4455
+      Begin prjDownloadBooster.LinkLabel lblReadOnline 
+         Height          =   255
+         Left            =   2400
+         TabIndex        =   47
+         Top             =   1920
+         Width           =   1815
+         _ExtentX        =   3201
+         _ExtentY        =   450
+         Caption         =   "frmOptions.frx":5CFF
+         Transparent     =   -1  'True
+      End
       Begin VB.TextBox txtLicensePlaceholder 
          Height          =   270
          Left            =   240
@@ -180,7 +263,7 @@ Begin VB.Form frmOptions
       End
       Begin VB.TextBox txtLicense 
          Enabled         =   0   'False
-         Height          =   495
+         Height          =   615
          Left            =   930
          Locked          =   -1  'True
          MultiLine       =   -1  'True
@@ -246,13 +329,13 @@ Begin VB.Form frmOptions
       Visible         =   0   'False
       Width           =   6390
       Begin prjDownloadBooster.FrameW Frame6 
-         Height          =   855
+         Height          =   975
          Left            =   3720
          TabIndex        =   37
          Top             =   2160
          Width           =   2415
          _ExtentX        =   4260
-         _ExtentY        =   1508
+         _ExtentY        =   1720
          Caption         =   " 기타 설정 "
          Transparent     =   -1  'True
          Begin VB.ComboBox cbTabStyle 
@@ -449,7 +532,7 @@ Begin VB.Form frmOptions
       TabFixedWidth   =   53
       TabScrollWheel  =   0   'False
       Transparent     =   -1  'True
-      InitTabs        =   "frmOptions.frx":5CFF
+      InitTabs        =   "frmOptions.frx":5D41
    End
    Begin VB.CommandButton CancelButton 
       Cancel          =   -1  'True
@@ -482,6 +565,8 @@ Const gREGVALSYSINFO = "PATH"
 Dim LineNum As Integer
 Dim AboutEasterEgg2 As Boolean
 Dim Loaded As Boolean
+Dim ColorChanged As Boolean
+Dim TabStyleChanged As Boolean
 
 Private Sub CancelButton_Click()
     Unload Me
@@ -495,6 +580,25 @@ Private Sub cbLanguage_Click()
 End Sub
 
 Private Sub cbTabStyle_Click()
+    If Loaded Then
+        cmdApply.Enabled = -1
+        TabStyleChanged = True
+    End If
+End Sub
+
+Private Sub cbWhenExist_Click()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
+Private Sub chkAlwaysResume_Click()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
+Private Sub chkAutoRetry_Click()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
+Private Sub chkBeepWhenComplete_Click()
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 
@@ -523,14 +627,37 @@ Private Sub chkNoDWMWindow_Click()
     End If
 End Sub
 
+Private Sub chkOpenDirWhenComplete_Click()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
+Private Sub chkOpenWhenComplete_Click()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
 Private Sub chkRememberURL_Click()
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 
 Private Sub cmdApply_Click()
+    If WinVer >= 6.1 And chkNoDWMWindow.Enabled Then SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", chkNoDWMWindow.Value
     SaveSetting "DownloadBooster", "Options", "NoCleanup", chkNoCleanup.Value
-    If WinVer >= 6.1 Then SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", chkNoDWMWindow.Value
     SaveSetting "DownloadBooster", "Options", "RememberURL", chkRememberURL.Value
+    
+    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenWhenComplete.Value
+    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenDirWhenComplete.Value
+    SaveSetting "DownloadBooster", "Options", "PlaySound", chkBeepWhenComplete.Value
+    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkAlwaysResume.Value
+    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
+    SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
+    frmMain.cbWhenExist.ListIndex = cbWhenExist.ListIndex
+    
+    frmMain.chkOpenAfterComplete.Value = chkOpenWhenComplete.Value
+    frmMain.chkOpenFolder.Value = chkOpenDirWhenComplete.Value
+    frmMain.chkPlaySound.Value = chkBeepWhenComplete.Value
+    frmMain.chkContinueDownload.Value = chkAlwaysResume.Value
+    frmMain.chkAutoRetry.Value = chkAutoRetry.Value
+    
     If chkNoDWMWindow.Enabled = True Then
         If chkNoDWMWindow.Value Then
             DisableDWMWindow Me.hWnd
@@ -552,15 +679,20 @@ Private Sub cmdApply_Click()
     ElseIf optUserFore.Value Then
         SaveSetting "DownloadBooster", "Options", "ForeColor", CLng(pgFore.BackColor)
     End If
-    SetFormBackgroundColor Me
-    SetFormBackgroundColor frmMain
+    If ColorChanged Then
+        SetFormBackgroundColor Me
+        SetFormBackgroundColor frmMain
+    End If
     If cbLanguage.ListIndex = 1 Then
         SaveSetting "DownloadBooster", "Options", "Language", 1033
     Else
         SaveSetting "DownloadBooster", "Options", "Language", 1042
     End If
     SaveSetting "DownloadBooster", "Options", "TabStyle", cbTabStyle.ListIndex
-    frmMain.SetTabStyle
+    If TabStyleChanged Then frmMain.SetTabStyle
+    
+    ColorChanged = False
+    TabStyleChanged = False
     cmdApply.Enabled = 0
 End Sub
 
@@ -570,11 +702,16 @@ End Sub
 
 Private Sub Form_Load()
     Loaded = False
+    ColorChanged = False
     LineNum = 1
     AboutEasterEgg2 = False
+    TabStyleChanged = False
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me
+    
+    Me.Width = 6840
+    Me.Height = 5970
     
     Dim i%
     For i = 1 To pbPanel.Count
@@ -597,7 +734,12 @@ Private Sub Form_Load()
     If WinVer < 6.1 Then chkNoDWMWindow.Value = 0
     chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 0)
     chkNoDWMWindow.Caption = t(chkNoDWMWindow.Caption, "Use W&indows 7 style")
-    If WinVer < 6.2 Then chkNoDWMWindow.Caption = t("Aero 창 사용 안 함(&I)", "Disable Aero w&indow")
+    If WinVer < 6# Then
+        chkNoDWMWindow.Caption = t("DWM 창 비활성화(&I)", "Disable DWM w&indow")
+        chkNoDWMWindow.Value = 1
+    ElseIf WinVer < 6.2 Then
+        chkNoDWMWindow.Caption = t("Aero 창 사용 안 함(&I)", "Disable Aero w&indow")
+    End If
     
     Dim clrBackColor As Long
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
@@ -635,16 +777,30 @@ Private Sub Form_Load()
         End If
     Next ctrl
     
+    chkOpenWhenComplete.Value = frmMain.chkOpenAfterComplete.Value
+    chkOpenDirWhenComplete.Value = frmMain.chkOpenFolder.Value
+    chkBeepWhenComplete.Value = frmMain.chkPlaySound.Value
+    chkAlwaysResume.Value = frmMain.chkContinueDownload.Value
+    chkAutoRetry.Value = frmMain.chkAutoRetry.Value
+    
+    cbLanguage.Clear
     cbLanguage.AddItem "한국어"
     cbLanguage.AddItem "English"
     cbLanguage.ListIndex = CInt(GetSetting("DownloadBooster", "Options", "Language", GetUserDefaultLangID()) <> 1042) * -1
     
+    cbTabStyle.Clear
     cbTabStyle.AddItem t("단추형 탭", "Buttoned tabs")
     cbTabStyle.AddItem t("납작이 탭", "Flat buttons")
     cbTabStyle.AddItem t("일반 탭", "Normal tabs")
     cbTabStyle.AddItem t("단추", "Push buttons")
-    cbTabStyle.AddItem t("라디오 단추", "Radio buttons")
+    cbTabStyle.AddItem t("라디오", "Radio")
     cbTabStyle.ListIndex = CInt(GetSetting("DownloadBooster", "Options", "TabStyle", 4))
+    
+    cbWhenExist.Clear
+    cbWhenExist.AddItem t("중단", "Abort")
+    cbWhenExist.AddItem t("덮어쓰기", "Overwrite")
+    cbWhenExist.AddItem t("이름 변경", "Rename")
+    cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
     
     picIcon.Picture = frmMain.Icon
     lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & "." & App.Revision
@@ -662,6 +818,8 @@ Private Sub Form_Load()
     pbLicenseLoadProgress.Left = txtLicense.Left
     cmdSysInfo.Top = pbPanel(1).Height - cmdSysInfo.Height - 90
     cmdSysInfo.Left = pbPanel(1).Width - cmdSysInfo.Width - 180
+    lblReadOnline.Top = txtLicense.Top + txtLicense.Height + 30 + pbLicenseLoadProgress.Height + 60
+    lblReadOnline.Left = txtLicense.Left
     
     chkNoDWMWindow_Click
     
@@ -687,8 +845,19 @@ Private Sub Form_Load()
     Me.Caption = t(Me.Caption, "Settings")
     Frame6.Caption = t(Frame6.Caption, " Other settings ")
     Label2.Caption = t(Label2.Caption, "Tab styl&e:")
+    chkOpenWhenComplete.Caption = t(chkOpenWhenComplete.Caption, "&Open file when complete")
+    chkOpenDirWhenComplete.Caption = t(chkOpenDirWhenComplete.Caption, "O&pen folder when complete")
+    chkBeepWhenComplete.Caption = t(chkBeepWhenComplete.Caption, "&Beep when complete")
+    chkAlwaysResume.Caption = t(chkAlwaysResume.Caption, "&Always resume")
+    chkAutoRetry.Caption = t(chkAutoRetry.Caption, "A&uto retry on network error")
+    Label3.Caption = t(Label3.Caption, "If filename alrea&dy exists:")
+    lblReadOnline.Caption = t(lblReadOnline.Caption, "<A>[Read online]</A>")
     
     Loaded = True
+End Sub
+
+Private Sub lblReadOnline_LinkActivate(ByVal Link As LlbLink, ByVal Reason As LlbLinkActivateReasonConstants)
+    Shell "cmd /c start """" https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
 End Sub
 
 Private Sub lblSelectColor_Click()
@@ -698,6 +867,7 @@ Private Sub lblSelectColor_Click()
     pgColor.BackColor = Color
     cmdApply.Enabled = -1
     optUserColor.Value = True
+    ColorChanged = True
 End Sub
 
 Private Sub lblSelectFore_Click()
@@ -707,6 +877,7 @@ Private Sub lblSelectFore_Click()
     pgFore.BackColor = Color
     cmdApply.Enabled = -1
     optUserFore.Value = True
+    ColorChanged = True
 End Sub
 
 Private Sub OKButton_Click()
@@ -715,19 +886,31 @@ Private Sub OKButton_Click()
 End Sub
 
 Private Sub optSystemColor_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        ColorChanged = True
+    End If
 End Sub
 
 Private Sub optSystemFore_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        ColorChanged = True
+    End If
 End Sub
 
 Private Sub optUserColor_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        ColorChanged = True
+    End If
 End Sub
 
 Private Sub optUserFore_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        ColorChanged = True
+    End If
 End Sub
 
 Private Sub picIcon_DblClick()

@@ -2591,6 +2591,18 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     lblRemaining.Caption = "-"
 End Sub
 
+Private Sub cbWhenExist_Click()
+    SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
+End Sub
+
+Private Sub chkAutoRetry_Click()
+    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
+End Sub
+
+Private Sub chkContinueDownload_Click()
+    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkContinueDownload.Value
+End Sub
+
 Private Sub chkNoDWMWindow_Click()
     SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", chkNoDWMWindow.Value
     If chkNoDWMWindow.Value Then
@@ -2598,6 +2610,18 @@ Private Sub chkNoDWMWindow_Click()
     Else
         EnableDWMWindow Me.hWnd
     End If
+End Sub
+
+Private Sub chkOpenAfterComplete_Click()
+    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenAfterComplete.Value
+End Sub
+
+Private Sub chkOpenFolder_Click()
+    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenFolder.Value
+End Sub
+
+Private Sub chkPlaySound_Click()
+    SaveSetting "DownloadBooster", "Options", "PlaySound", chkPlaySound.Value
 End Sub
 
 Private Sub cmdAbout_Click()
@@ -3387,20 +3411,22 @@ Private Sub Form_Unload(Cancel As Integer)
     
     SaveSetting "DownloadBooster", "UserData", "SavePath", Trim$(txtFileName.Text)
     SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6931) * -1
-    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenAfterComplete.Value
-    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenFolder.Value
+    
+'    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenAfterComplete.Value
+'    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenFolder.Value
+'    SaveSetting "DownloadBooster", "Options", "PlaySound", chkPlaySound.Value
+'    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkContinueDownload.Value
+'    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
+    
     SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
     'SaveSetting "DownloadBooster", "Options", "RememberURL", chkRememberURL.Value
     If GetSetting("DownloadBooster", "Options", "RememberURL", 0) Then
         SaveSetting "DownloadBooster", "UserData", "FileURL", Trim$(txtURL.Text)
     End If
-    SaveSetting "DownloadBooster", "Options", "PlaySound", chkPlaySound.Value
-    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkContinueDownload.Value
     SaveSetting "DownloadBooster", "UserData", "FormTop", Me.Top
     SaveSetting "DownloadBooster", "UserData", "FormLeft", Me.Left
     If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
     SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
-    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
     On Error Resume Next
     Unload ConfirmMsgBox
     Unload OKMsgBox
