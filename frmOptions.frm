@@ -328,23 +328,53 @@ Begin VB.Form frmOptions
       Top             =   450
       Visible         =   0   'False
       Width           =   6390
-      Begin prjDownloadBooster.FrameW Frame6 
+      Begin prjDownloadBooster.FrameW FrameW1 
          Height          =   975
-         Left            =   3720
-         TabIndex        =   37
+         Left            =   3120
+         TabIndex        =   48
          Top             =   2160
-         Width           =   2415
-         _ExtentX        =   4260
+         Width           =   2775
+         _ExtentX        =   4895
          _ExtentY        =   1720
+         Caption         =   " 배경 그림 "
+         Transparent     =   -1  'True
+         Begin VB.CommandButton cmdChooseBackground 
+            Caption         =   "그림 선택(&C)..."
+            Height          =   330
+            Left            =   360
+            TabIndex        =   50
+            Top             =   510
+            Width           =   1935
+         End
+         Begin prjDownloadBooster.CheckBoxW chkEnableBackgroundImage 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   49
+            Top             =   240
+            Width           =   2415
+            _ExtentX        =   4260
+            _ExtentY        =   450
+            Caption         =   "배경 그림 사용(&B)"
+            Transparent     =   -1  'True
+         End
+      End
+      Begin prjDownloadBooster.FrameW Frame6 
+         Height          =   735
+         Left            =   3120
+         TabIndex        =   37
+         Top             =   3240
+         Width           =   2775
+         _ExtentX        =   4895
+         _ExtentY        =   1296
          Caption         =   " 기타 설정 "
          Transparent     =   -1  'True
          Begin VB.ComboBox cbTabStyle 
             Height          =   300
-            Left            =   360
+            Left            =   1200
             Style           =   2  '드롭다운 목록
             TabIndex        =   39
-            Top             =   480
-            Width           =   1935
+            Top             =   240
+            Width           =   1455
          End
          Begin VB.Label Label2 
             BackStyle       =   0  '투명
@@ -352,8 +382,8 @@ Begin VB.Form frmOptions
             Height          =   255
             Left            =   120
             TabIndex        =   38
-            Top             =   240
-            Width           =   1335
+            Top             =   285
+            Width           =   1080
          End
       End
       Begin VB.PictureBox pbOptionContainer 
@@ -457,28 +487,27 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   6
          Top             =   2160
-         Width           =   3375
-         _ExtentX        =   5953
+         Width           =   2775
+         _ExtentX        =   4895
          _ExtentY        =   1720
          Caption         =   " 배경색 "
          Begin VB.Label lblSelectColor 
             BackStyle       =   0  '투명
-            Height          =   495
+            Height          =   255
             Left            =   1800
             TabIndex        =   12
-            Top             =   480
+            Top             =   240
             Width           =   1455
          End
          Begin VB.Shape pgColor 
             BackStyle       =   1  '투명하지 않음
             BorderColor     =   &H00404040&
             FillColor       =   &H00808080&
-            FillStyle       =   2  '수평선
-            Height          =   375
+            Height          =   255
             Left            =   1800
             Shape           =   4  '둥근 사각형
-            Top             =   510
-            Width           =   1455
+            Top             =   585
+            Width           =   855
          End
       End
       Begin prjDownloadBooster.FrameW Frame4 
@@ -486,28 +515,27 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   13
          Top             =   3240
-         Width           =   3375
-         _ExtentX        =   5953
+         Width           =   2775
+         _ExtentX        =   4895
          _ExtentY        =   1720
          Caption         =   " 글자색 "
          Begin VB.Label lblSelectFore 
             BackStyle       =   0  '투명
-            Height          =   495
+            Height          =   255
             Left            =   1800
             TabIndex        =   14
-            Top             =   510
+            Top             =   240
             Width           =   1455
          End
          Begin VB.Shape pgFore 
             BackStyle       =   1  '투명하지 않음
             BorderColor     =   &H00404040&
             FillColor       =   &H00808080&
-            FillStyle       =   2  '수평선
-            Height          =   375
+            Height          =   255
             Left            =   1800
             Shape           =   4  '둥근 사각형
-            Top             =   510
-            Width           =   1455
+            Top             =   585
+            Width           =   855
          End
       End
    End
@@ -567,6 +595,7 @@ Dim AboutEasterEgg2 As Boolean
 Dim Loaded As Boolean
 Dim ColorChanged As Boolean
 Dim TabStyleChanged As Boolean
+Public ImageChanged As Boolean
 
 Private Sub CancelButton_Click()
     Unload Me
@@ -600,6 +629,19 @@ End Sub
 
 Private Sub chkBeepWhenComplete_Click()
     If Loaded Then cmdApply.Enabled = -1
+End Sub
+
+Private Sub chkEnableBackgroundImage_Click()
+    If Loaded Then
+        cmdApply.Enabled = -1
+        ImageChanged = True
+    End If
+    
+    If chkEnableBackgroundImage.Value = 0 Then
+        cmdChooseBackground.Enabled = 0
+    Else
+        cmdChooseBackground.Enabled = -1
+    End If
 End Sub
 
 Private Sub chkNoCleanup_Click()
@@ -690,10 +732,18 @@ Private Sub cmdApply_Click()
     End If
     SaveSetting "DownloadBooster", "Options", "TabStyle", cbTabStyle.ListIndex
     If TabStyleChanged Then frmMain.SetTabStyle
+    If ImageChanged Then
+        SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", chkEnableBackgroundImage.Value
+        frmMain.SetBackgroundImage
+    End If
     
     ColorChanged = False
     TabStyleChanged = False
     cmdApply.Enabled = 0
+End Sub
+
+Private Sub cmdChooseBackground_Click()
+    frmCustomBackground.Show vbModal, Me
 End Sub
 
 Private Sub cmdSysInfo_Click()
@@ -702,6 +752,7 @@ End Sub
 
 Private Sub Form_Load()
     Loaded = False
+    ImageChanged = False
     ColorChanged = False
     LineNum = 1
     AboutEasterEgg2 = False
@@ -712,6 +763,16 @@ Private Sub Form_Load()
     
     Me.Width = 6840
     Me.Height = 5970
+    
+    lblSelectColor.Top = pgColor.Top
+    lblSelectColor.Left = pgColor.Left
+    lblSelectColor.Width = pgColor.Width
+    lblSelectColor.Height = pgColor.Height
+    
+    lblSelectFore.Top = pgFore.Top
+    lblSelectFore.Left = pgFore.Left
+    lblSelectFore.Width = pgFore.Width
+    lblSelectFore.Height = pgFore.Height
     
     Dim i%
     For i = 1 To pbPanel.Count
@@ -740,6 +801,9 @@ Private Sub Form_Load()
     ElseIf WinVer < 6.2 Then
         chkNoDWMWindow.Caption = t("Aero 창 사용 안 함(&I)", "Disable Aero w&indow")
     End If
+    
+    chkEnableBackgroundImage.Value = GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0)
+    If chkEnableBackgroundImage.Value = 0 Then cmdChooseBackground.Enabled = 0
     
     Dim clrBackColor As Long
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
@@ -852,6 +916,9 @@ Private Sub Form_Load()
     chkAutoRetry.Caption = t(chkAutoRetry.Caption, "A&uto retry on network error")
     Label3.Caption = t(Label3.Caption, "If filename alrea&dy exists:")
     lblReadOnline.Caption = t(lblReadOnline.Caption, "<A>[Read online]</A>")
+    FrameW1.Caption = t(FrameW1.Caption, " Background image ")
+    chkEnableBackgroundImage.Caption = t(chkEnableBackgroundImage.Caption, "Use &background image")
+    cmdChooseBackground.Caption = t(cmdChooseBackground.Caption, "&Choose image...")
     
     Loaded = True
 End Sub
