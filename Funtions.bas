@@ -145,16 +145,18 @@ End Function
 Sub SetFormBackgroundColor(frmForm As Form)
     Dim clrBackColor As Long
     Dim clrForeColor As Long
+    Dim DisableVisualStyle As Boolean
+    DisableVisualStyle = CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
     If clrBackColor < 0 Or clrBackColor > 16777215 Then
-        frmForm.BackColor = &H8000000F
+        If frmForm.BackColor <> &H8000000F Then frmForm.BackColor = &H8000000F
         clrBackColor = &H8000000F
     Else
         frmForm.BackColor = clrBackColor
     End If
     clrForeColor = GetSetting("DownloadBooster", "Options", "ForeColor", -1)
     If clrForeColor < 0 Or clrForeColor > 16777215 Then
-        frmForm.ForeColor = &H80000012
+        If frmForm.ForeColor <> &H80000012 Then frmForm.ForeColor = &H80000012
         clrForeColor = &H80000012
     Else
         frmForm.ForeColor = clrForeColor
@@ -163,12 +165,18 @@ Sub SetFormBackgroundColor(frmForm As Form)
     On Error Resume Next
     Dim ctrl As Control
     For Each ctrl In frmForm.Controls
-        If TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Then
-            ctrl.ForeColor = clrForeColor
+        If TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
+            If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then ctrl.VisualStyles = True
+            If DisableVisualStyle And ctrl.VisualStyles = True Then ctrl.VisualStyles = False
+            If TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "ListBoxW" Then GoTo nextfor
+            If ctrl.Tag <> "nocolorchange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" Then ctrl.ForeColor = clrForeColor
             If TypeName(ctrl) = "PictureBox" Then
                 If ctrl.AutoRedraw = True Then GoTo nextfor
             End If
-            ctrl.BackColor = clrBackColor
+            If ctrl.Tag <> "nobackcolorchange" And ctrl.BackColor <> clrBackColor Then
+                ctrl.BackColor = clrBackColor
+                If TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "FrameW" Then ctrl.Refresh
+            End If
         End If
 nextfor:
     Next ctrl

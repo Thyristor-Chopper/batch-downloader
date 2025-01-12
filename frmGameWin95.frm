@@ -24,7 +24,7 @@ Begin VB.Form frmGameWin95
    ScaleWidth      =   4815
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
-   Begin VB.CommandButton cmdGiveUp 
+   Begin prjDownloadBooster.CommandButtonW cmdGiveUp 
       Caption         =   "기권(&G)"
       Height          =   375
       Left            =   3480
@@ -32,7 +32,7 @@ Begin VB.Form frmGameWin95
       Top             =   1080
       Width           =   1215
    End
-   Begin VB.CommandButton cmdReset 
+   Begin prjDownloadBooster.CommandButtonW cmdReset 
       Caption         =   "초기화(&R)"
       Height          =   375
       Left            =   3480
@@ -40,7 +40,7 @@ Begin VB.Form frmGameWin95
       Top             =   600
       Width           =   1215
    End
-   Begin VB.CommandButton cmdQuit 
+   Begin prjDownloadBooster.CommandButtonW cmdQuit 
       Caption         =   "그만(&C)"
       Height          =   375
       Left            =   3480
@@ -48,7 +48,7 @@ Begin VB.Form frmGameWin95
       Top             =   120
       Width           =   1215
    End
-   Begin VB.CommandButton cmdGo 
+   Begin prjDownloadBooster.CommandButtonW cmdGo 
       Caption         =   "결과 확인"
       Height          =   320
       Left            =   2160
@@ -56,7 +56,7 @@ Begin VB.Form frmGameWin95
       Top             =   480
       Width           =   1095
    End
-   Begin VB.TextBox txtZ 
+   Begin prjDownloadBooster.TextBoxW txtZ 
       Alignment       =   2  '가운데 맞춤
       Height          =   270
       Left            =   1440
@@ -65,7 +65,7 @@ Begin VB.Form frmGameWin95
       Top             =   480
       Width           =   375
    End
-   Begin VB.TextBox txtY 
+   Begin prjDownloadBooster.TextBoxW txtY 
       Alignment       =   2  '가운데 맞춤
       Height          =   270
       Left            =   840
@@ -74,7 +74,7 @@ Begin VB.Form frmGameWin95
       Top             =   480
       Width           =   375
    End
-   Begin VB.TextBox txtX 
+   Begin prjDownloadBooster.TextBoxW txtX 
       Alignment       =   2  '가운데 맞춤
       Height          =   270
       Left            =   240

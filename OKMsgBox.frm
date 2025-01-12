@@ -29,7 +29,7 @@ Begin VB.Form OKMsgBox
       Left            =   480
       Top             =   840
    End
-   Begin VB.CommandButton cmdOK 
+   Begin prjDownloadBooster.CommandButtonW cmdOK 
       Cancel          =   -1  'True
       Caption         =   "»Æ¿Œ"
       Default         =   -1  'True

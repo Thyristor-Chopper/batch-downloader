@@ -23,7 +23,7 @@ Begin VB.Form YesNoMsgBox
    ScaleWidth      =   28440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
-   Begin VB.CommandButton cmdCancel 
+   Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Caption         =   "아니요(&N)"
       Default         =   -1  'True
       Height          =   320
@@ -32,7 +32,7 @@ Begin VB.Form YesNoMsgBox
       Top             =   840
       Width           =   1455
    End
-   Begin VB.CommandButton cmdOK 
+   Begin prjDownloadBooster.CommandButtonW cmdOK 
       Caption         =   "예(&Y)"
       Height          =   320
       Left            =   2760

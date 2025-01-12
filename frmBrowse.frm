@@ -29,13 +29,15 @@ Begin VB.Form frmBrowse
       Left            =   5400
       Top             =   1560
    End
-   Begin VB.CheckBox chkHidden 
-      Caption         =   "¼û±è Ç¥½Ã(&H)"
+   Begin prjDownloadBooster.CheckBoxW chkHidden 
       Height          =   255
       Left            =   4920
       TabIndex        =   6
       Top             =   2880
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "¼û±è Ç¥½Ã(&H)"
    End
    Begin VB.TextBox txtFileName 
       Height          =   270

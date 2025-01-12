@@ -24,7 +24,7 @@ Begin VB.Form frmGame
    ScaleWidth      =   4560
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
-   Begin VB.CommandButton Btn 
+   Begin prjDownloadBooster.CommandButtonW Btn 
       Height          =   375
       Left            =   1440
       TabIndex        =   0

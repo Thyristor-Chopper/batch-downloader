@@ -25,7 +25,7 @@ Begin VB.Form frmGameWinXP
    ScaleWidth      =   5640
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '¼ÒÀ¯ÀÚ °¡¿îµ¥
-   Begin VB.TextBox txtDeal 
+   Begin prjDownloadBooster.TextBoxW txtDeal 
       Height          =   270
       Left            =   4200
       TabIndex        =   19
@@ -39,7 +39,7 @@ Begin VB.Form frmGameWinXP
       Left            =   1560
       Top             =   2880
    End
-   Begin VB.CommandButton cmdGo 
+   Begin prjDownloadBooster.CommandButtonW cmdGo 
       Caption         =   "½ÃÀÛ! (&S)"
       Height          =   285
       Left            =   2280
@@ -47,7 +47,7 @@ Begin VB.Form frmGameWinXP
       Top             =   3000
       Width           =   1455
    End
-   Begin VB.CommandButton cmdQuit 
+   Begin prjDownloadBooster.CommandButtonW cmdQuit 
       Caption         =   "±×¸¸(&Q)"
       Height          =   285
       Left            =   3960
@@ -55,7 +55,7 @@ Begin VB.Form frmGameWinXP
       Top             =   3000
       Width           =   1455
    End
-   Begin VB.TextBox txtMyNumber 
+   Begin prjDownloadBooster.TextBoxW txtMyNumber 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
       Height          =   270
       Index           =   6
@@ -65,7 +65,7 @@ Begin VB.Form frmGameWinXP
       Top             =   600
       Width           =   255
    End
-   Begin VB.TextBox txtMyNumber 
+   Begin prjDownloadBooster.TextBoxW txtMyNumber 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
       Height          =   270
       Index           =   5
@@ -75,7 +75,7 @@ Begin VB.Form frmGameWinXP
       Top             =   600
       Width           =   255
    End
-   Begin VB.TextBox txtMyNumber 
+   Begin prjDownloadBooster.TextBoxW txtMyNumber 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
       Height          =   270
       Index           =   4
@@ -85,7 +85,7 @@ Begin VB.Form frmGameWinXP
       Top             =   600
       Width           =   255
    End
-   Begin VB.TextBox txtMyNumber 
+   Begin prjDownloadBooster.TextBoxW txtMyNumber 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
       Height          =   270
       Index           =   3
@@ -95,7 +95,7 @@ Begin VB.Form frmGameWinXP
       Top             =   600
       Width           =   255
    End
-   Begin VB.TextBox txtMyNumber 
+   Begin prjDownloadBooster.TextBoxW txtMyNumber 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
       Height          =   270
       Index           =   2
@@ -105,7 +105,7 @@ Begin VB.Form frmGameWinXP
       Top             =   600
       Width           =   255
    End
-   Begin VB.TextBox txtMyNumber 
+   Begin prjDownloadBooster.TextBoxW txtMyNumber 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
       Height          =   270
       Index           =   1

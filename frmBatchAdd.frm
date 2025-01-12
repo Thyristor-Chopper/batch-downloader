@@ -23,7 +23,7 @@ Begin VB.Form frmBatchAdd
    ScaleWidth      =   5985
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
-   Begin VB.TextBox txtURLs 
+   Begin prjDownloadBooster.TextBoxW txtURLs 
       Height          =   2535
       Left            =   120
       MultiLine       =   -1  'True
@@ -32,7 +32,7 @@ Begin VB.Form frmBatchAdd
       Top             =   360
       Width           =   4215
    End
-   Begin VB.CommandButton cmdCancel 
+   Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
       Caption         =   "취소"
       Height          =   340
@@ -41,7 +41,7 @@ Begin VB.Form frmBatchAdd
       Top             =   510
       Width           =   1335
    End
-   Begin VB.CommandButton cmdOK 
+   Begin prjDownloadBooster.CommandButtonW cmdOK 
       Caption         =   "확인"
       Height          =   340
       Left            =   4560
@@ -102,6 +102,6 @@ Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     PrevKeyCode = 0
 End Sub

@@ -23,7 +23,7 @@ Begin VB.Form ConfirmMsgBox
    ScaleWidth      =   28440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
-   Begin VB.OptionButton optNo 
+   Begin prjDownloadBooster.OptionButtonW optNo 
       Caption         =   "아니요(&N)"
       Height          =   255
       Left            =   1080
@@ -31,7 +31,7 @@ Begin VB.Form ConfirmMsgBox
       Top             =   1200
       Width           =   1575
    End
-   Begin VB.OptionButton optYes 
+   Begin prjDownloadBooster.OptionButtonW optYes 
       Caption         =   "예(&Y)"
       Height          =   255
       Left            =   1080
@@ -39,7 +39,7 @@ Begin VB.Form ConfirmMsgBox
       Top             =   840
       Width           =   1575
    End
-   Begin VB.CommandButton cmdCancel 
+   Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
       Caption         =   "취소"
       Height          =   320
@@ -48,7 +48,7 @@ Begin VB.Form ConfirmMsgBox
       Top             =   1560
       Width           =   1455
    End
-   Begin VB.CommandButton cmdOK 
+   Begin prjDownloadBooster.CommandButtonW cmdOK 
       Caption         =   "확인"
       Default         =   -1  'True
       Height          =   320

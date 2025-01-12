@@ -24,14 +24,16 @@ Begin VB.Form frmCustomBackground
    ScaleWidth      =   6495
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
-   Begin VB.CheckBox chkHidden 
-      BackColor       =   &H00F8EFE5&
-      Caption         =   "숨김 표시(&H)"
+   Begin prjDownloadBooster.CheckBoxW chkHidden 
       Height          =   255
       Left            =   4920
       TabIndex        =   14
       Top             =   2760
       Width           =   1575
+      _ExtentX        =   0
+      _ExtentY        =   0
+      BackColor       =   16314341
+      Caption         =   "숨김 표시(&H)"
    End
    Begin VB.Timer timDelayer 
       Enabled         =   0   'False
@@ -282,11 +284,11 @@ Private Sub Form_Load()
     SetFont Me
     
     selFileType.Clear
-    selFileType.AddItem "모든 그림 (*.JPG; *.GIF; *.BMP; *.DIB; *.WMF; *.EMF)"
+    selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.GIF; *.BMP; *.DIB; *.WMF; *.EMF)"
     selFileType.AddItem "JPEG (*.JPG)"
-    selFileType.AddItem "비트맵 (*.BMP; *.DIB)"
+    selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
     selFileType.AddItem "GIF (*.GIF)"
-    selFileType.AddItem "그래픽 (*.WMF; *.EMF)"
+    selFileType.AddItem t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
     selFileType.ListIndex = 0
     
     lvDir_Change

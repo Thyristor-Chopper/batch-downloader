@@ -110,7 +110,6 @@ Begin VB.Form frmMain
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "오류 시 자동 재시도(&G)"
-      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW cmdStop 
       Height          =   330
@@ -135,7 +134,6 @@ Begin VB.Form frmMain
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "항상 이어받기(&J)"
-      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenBatch 
       Height          =   375
@@ -154,7 +152,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   4200
       TabIndex        =   24
-      Top             =   6990
+      Top             =   6960
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -177,7 +175,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   1800
       TabIndex        =   69
-      Top             =   6990
+      Top             =   6960
       Width           =   255
       _ExtentX        =   450
       _ExtentY        =   661
@@ -200,7 +198,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   5520
       TabIndex        =   68
-      Top             =   6990
+      Top             =   6960
       Width           =   255
       _ExtentX        =   450
       _ExtentY        =   661
@@ -344,13 +342,12 @@ Begin VB.Form frmMain
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "완료 시 신호음(&M)"
-      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.FrameW fTabThreads 
       Height          =   165
       Left            =   1545
       TabIndex        =   60
-      Top             =   2055
+      Top             =   2070
       Width           =   615
       _ExtentX        =   1085
       _ExtentY        =   291
@@ -362,7 +359,7 @@ Begin VB.Form frmMain
       Height          =   165
       Left            =   660
       TabIndex        =   59
-      Top             =   2055
+      Top             =   2070
       Width           =   495
       _ExtentX        =   873
       _ExtentY        =   291
@@ -371,13 +368,13 @@ Begin VB.Form frmMain
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.OptionButtonW optTabThreads2 
-      Height          =   255
+      Height          =   195
       Left            =   1320
       TabIndex        =   57
-      Top             =   2010
+      Top             =   2055
       Width           =   255
-      _ExtentX        =   0
-      _ExtentY        =   0
+      _ExtentX        =   450
+      _ExtentY        =   344
       Value           =   -1  'True
       Transparent     =   -1  'True
    End
@@ -392,13 +389,13 @@ Begin VB.Form frmMain
       _ExtentY        =   0
    End
    Begin prjDownloadBooster.OptionButtonW optTabDownload2 
-      Height          =   255
+      Height          =   195
       Left            =   435
       TabIndex        =   56
-      Top             =   2010
+      Top             =   2055
       Width           =   255
-      _ExtentX        =   0
-      _ExtentY        =   0
+      _ExtentX        =   450
+      _ExtentY        =   344
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.FrameW Frame5 
@@ -1744,18 +1741,20 @@ Begin VB.Form frmMain
             End
          End
       End
-      Begin VB.TextBox txtDummyScroll 
-         BorderStyle     =   0  '없음
-         Enabled         =   0   'False
+      Begin prjDownloadBooster.TextBoxW txtDummyScroll 
          Height          =   3450
          Left            =   5640
-         MultiLine       =   -1  'True
-         ScrollBars      =   2  '수직
          TabIndex        =   43
          TabStop         =   0   'False
          Top             =   0
          Visible         =   0   'False
          Width           =   375
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Enabled         =   0   'False
+         BorderStyle     =   0
+         MultiLine       =   -1  'True
+         ScrollBars      =   2
       End
       Begin prjDownloadBooster.ListBoxW lvDummyScroll 
          Height          =   3450
@@ -1825,24 +1824,25 @@ Begin VB.Form frmMain
       Caption         =   "<"
       Transparent     =   -1  'True
    End
-   Begin VB.ComboBox cbWhenExist 
+   Begin prjDownloadBooster.ComboBoxW cbWhenExist 
       Height          =   300
       Left            =   7590
-      Style           =   2  '드롭다운 목록
       TabIndex        =   14
       Top             =   2265
       Width           =   1425
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Style           =   2
    End
    Begin prjDownloadBooster.CheckBoxW chkOpenAfterComplete 
       Height          =   255
       Left            =   6840
       TabIndex        =   9
       Top             =   1560
-      Width           =   2175
-      _ExtentX        =   0
-      _ExtentY        =   0
+      Width           =   1935
+      _ExtentX        =   3413
+      _ExtentY        =   450
       Caption         =   "완료 후 열기(&C)"
-      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CheckBoxW chkNoCleanup 
       Height          =   255
@@ -1864,7 +1864,6 @@ Begin VB.Form frmMain
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "완료 후 폴더 열기(&L)"
-      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW cmdClear 
       Height          =   330
@@ -1883,7 +1882,7 @@ Begin VB.Form frmMain
       Height          =   375
       Left            =   2520
       TabIndex        =   23
-      Top             =   6990
+      Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
@@ -1949,6 +1948,29 @@ Begin VB.Form frmMain
          Step            =   10
          MarqueeSpeed    =   35
       End
+      Begin VB.Label lblOverlay 
+         Alignment       =   2  '가운데 맞춤
+         BackStyle       =   0  '투명
+         Caption         =   "전체 다운로드 현황"
+         Height          =   255
+         Index           =   1
+         Left            =   120
+         TabIndex        =   129
+         Top             =   30
+         Visible         =   0   'False
+         Width           =   2775
+      End
+      Begin VB.Shape pgOverlay 
+         BackColor       =   &H00FFFFFF&
+         BackStyle       =   1  '투명하지 않음
+         Height          =   225
+         Index           =   1
+         Left            =   120
+         Shape           =   4  '둥근 사각형
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   2775
+      End
       Begin VB.Label lblState 
          BackStyle       =   0  '투명
          Caption         =   "중지됨"
@@ -1969,14 +1991,90 @@ Begin VB.Form frmMain
       _ExtentY        =   0
       Caption         =   " 설정 "
       Transparent     =   -1  'True
+      Begin VB.Label lblOverlay 
+         Alignment       =   2  '가운데 맞춤
+         BackStyle       =   0  '투명
+         Caption         =   "설정"
+         Height          =   255
+         Index           =   0
+         Left            =   120
+         TabIndex        =   128
+         Top             =   30
+         Visible         =   0   'False
+         Width           =   855
+      End
+      Begin VB.Shape pgOverlay 
+         BackColor       =   &H00FFFFFF&
+         BackStyle       =   1  '투명하지 않음
+         Height          =   225
+         Index           =   0
+         Left            =   120
+         Shape           =   4  '둥근 사각형
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   855
+      End
+      Begin VB.Shape pbRounder 
+         BackColor       =   &H8000000F&
+         BackStyle       =   1  '투명하지 않음
+         BorderStyle     =   0  '투명
+         Height          =   135
+         Index           =   3
+         Left            =   2160
+         Top             =   0
+         Width           =   255
+      End
+      Begin VB.Shape pbRounder 
+         BackColor       =   &H8000000F&
+         BackStyle       =   1  '투명하지 않음
+         BorderStyle     =   0  '투명
+         Height          =   135
+         Index           =   2
+         Left            =   1800
+         Top             =   0
+         Width           =   255
+      End
+      Begin VB.Shape pbRounder 
+         BackColor       =   &H8000000F&
+         BackStyle       =   1  '투명하지 않음
+         BorderStyle     =   0  '투명
+         Height          =   135
+         Index           =   1
+         Left            =   1440
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   255
+      End
+      Begin VB.Shape pbRounder 
+         BackColor       =   &H8000000F&
+         BackStyle       =   1  '투명하지 않음
+         BorderStyle     =   0  '투명
+         Height          =   135
+         Index           =   0
+         Left            =   1080
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   255
+      End
       Begin VB.Label Label1 
          BackStyle       =   0  '투명
          Caption         =   "중복(&K):"
          Height          =   255
          Left            =   120
          TabIndex        =   13
+         Tag             =   "nocolorchange"
          Top             =   990
          Width           =   735
+      End
+      Begin VB.Shape pgSettingsBackground 
+         BackColor       =   &H8000000F&
+         BackStyle       =   1  '투명하지 않음
+         BorderColor     =   &H80000010&
+         Height          =   1545
+         Left            =   60
+         Top             =   210
+         Visible         =   0   'False
+         Width           =   2295
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpen 
@@ -2038,19 +2136,23 @@ Begin VB.Form frmMain
       Caption         =   " 찾아보기(&B)..."
       Transparent     =   -1  'True
    End
-   Begin VB.TextBox txtFileName 
+   Begin prjDownloadBooster.TextBoxW txtFileName 
       Height          =   300
       Left            =   1560
       TabIndex        =   3
       Top             =   450
       Width           =   5775
+      _ExtentX        =   0
+      _ExtentY        =   0
    End
-   Begin VB.TextBox txtURL 
+   Begin prjDownloadBooster.TextBoxW txtURL 
       Height          =   300
       Left            =   1560
       TabIndex        =   1
       Top             =   105
       Width           =   5775
+      _ExtentX        =   0
+      _ExtentY        =   0
    End
    Begin prjDownloadBooster.CommandButtonW cmdGo 
       Default         =   -1  'True
@@ -2075,6 +2177,17 @@ Begin VB.Form frmMain
       _ExtentY        =   0
       Caption         =   "                               "
       Transparent     =   -1  'True
+      Begin VB.Shape pgOverlay 
+         BackColor       =   &H00FFFFFF&
+         BackStyle       =   1  '투명하지 않음
+         Height          =   225
+         Index           =   2
+         Left            =   120
+         Shape           =   4  '둥근 사각형
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   1935
+      End
    End
    Begin VB.Label lblThreadCount 
       BackStyle       =   0  '투명
@@ -2123,7 +2236,7 @@ Begin VB.Form frmMain
       Left            =   0
       Stretch         =   -1  'True
       Top             =   0
-      Width           =   255
+      Width           =   135
    End
    Begin VB.Menu mnuListContext 
       Caption         =   "mnuListContext"
@@ -3334,6 +3447,22 @@ Private Sub Form_Load()
     fDownloadInfo.Width = fThreadInfo.Width '5925
     fDownloadInfo.Height = fThreadInfo.Height - 60
     
+    For i = 0 To 3
+        pbRounder(i).Width = 30
+        pbRounder(i).Height = 30
+    Next i
+    pbRounder(0).Left = pgSettingsBackground.Left
+    pbRounder(0).Top = pgSettingsBackground.Top
+    
+    pbRounder(1).Left = pgSettingsBackground.Left + pgSettingsBackground.Width - 15
+    pbRounder(1).Top = pgSettingsBackground.Top
+    
+    pbRounder(2).Left = pgSettingsBackground.Left
+    pbRounder(2).Top = pgSettingsBackground.Top + pgSettingsBackground.Height - 15
+    
+    pbRounder(3).Left = pgSettingsBackground.Left + pgSettingsBackground.Width - 15
+    pbRounder(3).Top = pgSettingsBackground.Top + pgSettingsBackground.Height - 15
+    
     Me.Width = 9450 + PaddedBorderWidth * 15 * 2
     
     If GetSetting("DownloadBooster", "UserData", "LastTab", 1) = 1 Then
@@ -3458,11 +3587,13 @@ Private Sub Form_Load()
     Label6.Caption = t(Label6.Caption, "Threads:")
     Label7.Caption = t(Label7.Caption, "Size per thread:")
     fOptions.Caption = t(fOptions.Caption, " Settings ")
+    
     chkOpenAfterComplete.Caption = t(chkOpenAfterComplete.Caption, "Open when &complete")
     chkOpenFolder.Caption = t(chkOpenFolder.Caption, "Open fo&lder when done")
     chkPlaySound.Caption = t(chkPlaySound.Caption, "Beep when co&mplete")
     chkContinueDownload.Caption = t(chkContinueDownload.Caption, "Always resume(&J)")
     chkAutoRetry.Caption = t(chkAutoRetry.Caption, "Auto retry on error(&G)")
+    
     Label1.Caption = t(Label1.Caption, "Exists(&K):")
     mnuAddItem.Caption = t(mnuAddItem.Caption, "&Add URL...")
     mnuClearBatch.Caption = t(mnuClearBatch.Caption, "&Clear list")
@@ -3476,10 +3607,58 @@ Private Sub Form_Load()
     cmdTabDownload.Caption = t(cmdTabDownload.Caption, "    Total")
     tsTabs.Tabs(1).Caption = t(tsTabs.Tabs(1).Caption, "Total")
     tsTabs.Tabs(2).Caption = t(tsTabs.Tabs(2).Caption, "Threads")
+    lblOverlay(0).Caption = fOptions.Caption
+    lblOverlay(1).Caption = fTotal.Caption
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
+    If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Then
+        pgSettingsBackground.Visible = -1
+        chkOpenAfterComplete.Tag = "nobackcolorchange"
+        chkOpenFolder.Tag = "nobackcolorchange"
+        chkPlaySound.Tag = "nobackcolorchange"
+        chkContinueDownload.Tag = "nobackcolorchange"
+        chkAutoRetry.Tag = "nobackcolorchange"
+        
+        pbRounder(0).Visible = -1
+        pbRounder(1).Visible = -1
+        pbRounder(2).Visible = -1
+        pbRounder(3).Visible = -1
+        
+        chkOpenAfterComplete.Transparent = 0
+        chkOpenFolder.Transparent = 0
+        chkPlaySound.Transparent = 0
+        chkContinueDownload.Transparent = 0
+        chkAutoRetry.Transparent = 0
+    Else
+        chkOpenAfterComplete.Transparent = -1
+        chkOpenFolder.Transparent = -1
+        chkPlaySound.Transparent = -1
+        chkContinueDownload.Transparent = -1
+        chkAutoRetry.Transparent = -1
+    End If
+    
     SetFormBackgroundColor Me
+    
+    If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
+        For i = pgOverlay.LBound To pgOverlay.UBound
+            pgOverlay(i).Visible = -1
+            lblOverlay(i).Visible = -1
+        Next i
+        optTabDownload2.Transparent = 0
+        optTabDownload2.BackColor = pgOverlay(0).BackColor
+        optTabDownload2.Refresh
+        optTabThreads2.Transparent = 0
+        optTabThreads2.BackColor = pgOverlay(0).BackColor
+        optTabThreads2.Refresh
+        fTabDownload.Transparent = 0
+        fTabDownload.BackColor = pgOverlay(0).BackColor
+        fTabDownload.Refresh
+        fTabThreads.Transparent = 0
+        fTabThreads.BackColor = pgOverlay(0).BackColor
+        fTabThreads.Refresh
+    End If
+    
     SetFont Me
 End Sub
 
