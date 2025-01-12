@@ -384,10 +384,10 @@ Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As For
     If LContent = 0 Then LContent = frmAbout.TextWidth(Content)
     If LineCount > 1 Then OKMsgBox.lblContent.Top = 280
     OKMsgBox.lblContent.Height = 185 * LineCount
-    OKMsgBox.Height = 1615 + LineCount * 180 - 300 + 190
+    OKMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
     OKMsgBox.Caption = Title
     OKMsgBox.lblContent.Caption = Content
-    OKMsgBox.Width = 2040 + LContent - 640
+    OKMsgBox.Width = 2040 + LContent - 640 - 225
     OKMsgBox.cmdOK.Left = OKMsgBox.Width / 2 - 810
     OKMsgBox.cmdOK.Top = 840 + (LineCount * 185) - 350
     If LineCount < 2 Then
@@ -442,10 +442,10 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
     If LContent = 0 Then LContent = strlen(Content)
     If LineCount > 1 Then YesNoMsgBox.lblContent.Top = 280
     YesNoMsgBox.lblContent.Height = 185 * LineCount
-    YesNoMsgBox.Height = 1615 + LineCount * 180 - 300 + 190
+    YesNoMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
     YesNoMsgBox.Caption = Title
     YesNoMsgBox.lblContent.Caption = Content
-    YesNoMsgBox.Width = 2040 + LContent - 640
+    YesNoMsgBox.Width = 2040 + LContent - 640 - 225
     YesNoMsgBox.cmdOK.Left = YesNoMsgBox.Width / 2 - 810 - YesNoMsgBox.cmdOK.Width / 2
     YesNoMsgBox.cmdOK.Top = 840 + (LineCount * 185) - 350
     YesNoMsgBox.cmdCancel.Left = YesNoMsgBox.Width / 2 - 810 - YesNoMsgBox.cmdOK.Width / 2 - 120 + YesNoMsgBox.cmdOK.Width + 240

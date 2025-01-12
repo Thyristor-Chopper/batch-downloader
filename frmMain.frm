@@ -87,7 +87,7 @@ Begin VB.Form frmMain
       _ExtentX        =   3625
       _ExtentY        =   529
       ImageList       =   "imgWrench"
-      Caption         =   "기타 설정(&I)..."
+      Caption         =   "추가 옵션(&I)..."
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CheckBoxW chkNoDWMWindow 
@@ -1989,7 +1989,7 @@ Begin VB.Form frmMain
       Width           =   2415
       _ExtentX        =   0
       _ExtentY        =   0
-      Caption         =   " 설정 "
+      Caption         =   " 옵션 "
       Transparent     =   -1  'True
       Begin VB.Label lblOverlay 
          Alignment       =   2  '가운데 맞춤
@@ -3566,7 +3566,7 @@ Private Sub Form_Load()
     fTotal.Caption = t(fTotal.Caption, " Total Progress ")
     fTabDownload.Caption = t(fTabDownload.Caption, " Total ")
     fTabThreads.Caption = t(fTabThreads.Caption, " Threads ")
-    cmdOptions.Caption = t(cmdOptions.Caption, "More sett&ings...")
+    cmdOptions.Caption = t(cmdOptions.Caption, "More opt&ions...")
     cmdOpen.Caption = t(cmdOpen.Caption, "&Open")
     cmdOpenFolder.Caption = t(cmdOpenFolder.Caption, "Op&en folder")
     cmdGo.Caption = t(cmdGo.Caption, "&Download")
