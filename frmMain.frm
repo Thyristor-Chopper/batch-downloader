@@ -2846,7 +2846,7 @@ Private Sub cmdAbout_Click()
     Else
         AboutEasterEgg = 0
     End If
-    frmOptions.tsTabStrip.Tabs(3).Selected = True
+    frmOptions.tsTabStrip.Tabs(4).Selected = True
     frmOptions.Show vbModal, Me
 End Sub
 
@@ -3061,28 +3061,31 @@ L2:
         End If
     End If
     
-    SPResult = SP.Run("""" & CachePath & "node_v0_11_11.exe"" """ & CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"" """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload)
+    Dim NodePath$, ScriptPath$
+    NodePath = GetSetting("DownloadBooster", "Options", "NodePath", "")
+    ScriptPath = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
+    If NodePath = "" Then NodePath = CachePath & "node_v0_11_11.exe"
+    If ScriptPath = "" Then ScriptPath = CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
+    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
         Case SP_CREATEPIPEFAILED
-            MsgBox "Run failed, could not create pipe", _
-                   vbOKOnly Or vbExclamation, _
-                   Caption
+            Alert t("다운로드 시작에 실패했습니다. 다운로더 프로세스로부터 정보를 받아올 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to receieve data from the downloader process. Check if the directory settings are valid."), App.Title, Me, 16
             If Not BatchStarted Then cmdGo.Enabled = -1
             cmdStop.Enabled = 0
             cmdStop.Visible = 0
+            cmdGo.Enabled = -1
             cmdGo.Visible = -1
-            OnStop
+            OnStop False
         Case SP_CREATEPROCFAILED
-            MsgBox "Run failed, could not create process", _
-                   vbOKOnly Or vbExclamation, _
-                   Caption
+            Alert t("다운로드 시작에 실패했습니다. 다운로더 프로세스를 생성할 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to create the downloader process. Check if the directory settings are valid."), App.Title, Me, 16
             If Not BatchStarted Then cmdGo.Enabled = -1
             cmdStop.Enabled = 0
             cmdStop.Visible = 0
+            cmdGo.Enabled = -1
             cmdGo.Visible = -1
-            OnStop
+            OnStop False
     End Select
 End Sub
 

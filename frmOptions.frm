@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "옵션"
-   ClientHeight    =   5820
+   ClientHeight    =   8535
    ClientLeft      =   2760
    ClientTop       =   3855
    ClientWidth     =   12315
@@ -19,10 +19,97 @@ Begin VB.Form frmOptions
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5820
+   ScaleHeight     =   8535
    ScaleWidth      =   12315
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin VB.PictureBox pbPanel 
+      AutoRedraw      =   -1  'True
+      Height          =   2415
+      Index           =   3
+      Left            =   120
+      ScaleHeight     =   2355
+      ScaleWidth      =   6195
+      TabIndex        =   53
+      Top             =   5880
+      Width           =   6255
+      Begin prjDownloadBooster.FrameW FrameW2 
+         Height          =   1335
+         Left            =   120
+         TabIndex        =   54
+         Top             =   600
+         Width           =   5775
+         _ExtentX        =   10186
+         _ExtentY        =   2355
+         Caption         =   " 경로 설정 "
+         Transparent     =   -1  'True
+         Begin prjDownloadBooster.TextBoxW txtYtdlPath 
+            Height          =   255
+            Left            =   2040
+            TabIndex        =   60
+            Top             =   960
+            Visible         =   0   'False
+            Width           =   3615
+            _ExtentX        =   6376
+            _ExtentY        =   450
+         End
+         Begin prjDownloadBooster.TextBoxW txtNodePath 
+            Height          =   255
+            Left            =   2040
+            TabIndex        =   56
+            Top             =   240
+            Width           =   3615
+            _ExtentX        =   6376
+            _ExtentY        =   450
+         End
+         Begin prjDownloadBooster.TextBoxW txtScriptPath 
+            Height          =   255
+            Left            =   2040
+            TabIndex        =   57
+            Top             =   600
+            Width           =   3615
+            _ExtentX        =   6376
+            _ExtentY        =   450
+         End
+         Begin VB.Label Label7 
+            BackStyle       =   0  '투명
+            Caption         =   "&youtube-dl/yt-dlp:"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   61
+            Top             =   990
+            Visible         =   0   'False
+            Width           =   1695
+         End
+         Begin VB.Label Label5 
+            BackStyle       =   0  '투명
+            Caption         =   "다운로드 스크립트(&D):"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   58
+            Top             =   630
+            Width           =   1935
+         End
+         Begin VB.Label Label4 
+            BackStyle       =   0  '투명
+            Caption         =   "&Node.js:"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   55
+            Top             =   270
+            Width           =   1455
+         End
+      End
+      Begin VB.Label Label6 
+         BackStyle       =   0  '투명
+         Caption         =   "기본값을 사용하려면 필드를 비워두십시오. 이 옵션은 고급 사용자를     위한 것이며 일반적으로 변경할 필요가 없습니다."
+         Height          =   375
+         Left            =   120
+         TabIndex        =   59
+         Top             =   120
+         Width           =   5895
+      End
+   End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
       Height          =   2865
@@ -235,7 +322,7 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       Height          =   2415
-      Index           =   3
+      Index           =   4
       Left            =   6840
       ScaleHeight     =   2355
       ScaleWidth      =   4395
@@ -887,10 +974,42 @@ Private Sub cmdApply_Click()
         frmMain.fTabThreads.Refresh
     End If
     On Error GoTo 0
+    Dim NoDisable As Boolean
+    NoDisable = False
+    If Trim$(txtNodePath.Text) <> "" Then
+        If FileExists(Trim$(txtNodePath.Text)) Then
+            SaveSetting "DownloadBooster", "Options", "NodePath", Trim$(txtNodePath.Text)
+        Else
+            Alert t("Node.js 경로가 존재하지 않습니다.", "Node.js path does not exist."), App.Title, Me, 16
+            NoDisable = True
+        End If
+    Else
+        SaveSetting "DownloadBooster", "Options", "NodePath", ""
+    End If
+    If Trim$(txtScriptPath.Text) <> "" Then
+        If FileExists(Trim$(txtScriptPath.Text)) Then
+            SaveSetting "DownloadBooster", "Options", "ScriptPath", Trim$(txtScriptPath.Text)
+        Else
+            Alert t("다운로드 스크립트 경로가 존재하지 않습니다.", "Download script path does not exist."), App.Title, Me, 16
+            NoDisable = True
+        End If
+    Else
+        SaveSetting "DownloadBooster", "Options", "ScriptPath", ""
+    End If
+    If Trim$(txtYtdlPath.Text) <> "" Then
+        If FileExists(Trim$(txtYtdlPath.Text)) Then
+            SaveSetting "DownloadBooster", "Options", "YtdlPath", Trim$(txtYtdlPath.Text)
+        Else
+            Alert t("Youtube-dl 경로가 존재하지 않습니다.", "Youtube-dl path does not exist."), App.Title, Me, 16
+            NoDisable = True
+        End If
+    Else
+        SaveSetting "DownloadBooster", "Options", "YtdlPath", ""
+    End If
     
     ColorChanged = False
     TabStyleChanged = False
-    cmdApply.Enabled = 0
+    If Not NoDisable Then cmdApply.Enabled = 0
 End Sub
 
 Private Sub cmdChooseBackground_Click()
@@ -1021,6 +1140,10 @@ Private Sub Form_Load()
     cbWhenExist.AddItem t("이름 변경", "Rename")
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
     
+    txtNodePath.Text = GetSetting("DownloadBooster", "Options", "NodePath", "")
+    txtScriptPath.Text = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
+    txtYtdlPath.Text = GetSetting("DownloadBooster", "Options", "YtdlPath", "")
+    
     picIcon.Picture = frmMain.Icon
     lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & "." & App.Revision
     lblTitle.Caption = App.Title
@@ -1044,7 +1167,8 @@ Private Sub Form_Load()
     
     tsTabStrip.Tabs(1).Caption = t(tsTabStrip.Tabs(1).Caption, " General ")
     tsTabStrip.Tabs(2).Caption = t(tsTabStrip.Tabs(2).Caption, " Appearance ")
-    tsTabStrip.Tabs(3).Caption = t(tsTabStrip.Tabs(3).Caption, " About ")
+    tsTabStrip.Tabs(3).Caption = t(tsTabStrip.Tabs(3).Caption, " Directories ")
+    tsTabStrip.Tabs(4).Caption = t(tsTabStrip.Tabs(4).Caption, " About ")
     Frame1.Caption = t(Frame1.Caption, " Background color ")
     Frame4.Caption = t(Frame4.Caption, " Text color ")
     Frame3.Caption = t(Frame3.Caption, " Window appearance ")
@@ -1075,6 +1199,9 @@ Private Sub Form_Load()
     chkEnableBackgroundImage.Caption = t(chkEnableBackgroundImage.Caption, "Use &background image")
     cmdChooseBackground.Caption = t(cmdChooseBackground.Caption, "&Choose image...")
     chkNoTheming.Caption = t(chkNoTheming.Caption, "&Use classic theme")
+    Label6.Caption = t(Label6.Caption, "Leave the field blank to use defaults. This option is advanced users and there is no need to change for normal use.")
+    FrameW2.Caption = t(FrameW2.Caption, " Directory settings ")
+    Label5.Caption = t(Label5.Caption, "&Download script:")
     
     Loaded = True
 End Sub
@@ -1187,7 +1314,7 @@ Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
         End If
     Next i
     
-    If TabItem.Index = 3 And txtLicense.Text = "" Then
+    If TabItem.Index = 4 And txtLicense.Text = "" Then
         timLicenseLoader.Enabled = -1
 '        On Error GoTo LicenseFail
 '        For i = 1 To 812
@@ -1235,4 +1362,16 @@ Sub StartSysInfo()
     Exit Sub
 SysInfoErr:
     Alert t("지금은 시스템 정보를 사용할 수 없습니다.", "System Information is unavailable."), App.Title, Me, 48
+End Sub
+
+Private Sub txtNodePath_Change()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
+Private Sub txtScriptPath_Change()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
+Private Sub txtYtdlPath_Change()
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
