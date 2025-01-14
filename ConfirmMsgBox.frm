@@ -24,38 +24,46 @@ Begin VB.Form ConfirmMsgBox
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
    Begin prjDownloadBooster.OptionButtonW optNo 
-      Caption         =   "아니요(&N)"
       Height          =   255
       Left            =   1080
       TabIndex        =   4
       Top             =   1200
       Width           =   1575
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "아니요(&N)"
    End
    Begin prjDownloadBooster.OptionButtonW optYes 
-      Caption         =   "예(&Y)"
       Height          =   255
       Left            =   1080
       TabIndex        =   3
       Top             =   840
       Width           =   1575
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "예(&Y)"
    End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
-      Caption         =   "취소"
       Height          =   320
       Left            =   4320
       TabIndex        =   2
       Top             =   1560
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
-      Caption         =   "확인"
       Default         =   -1  'True
       Height          =   320
       Left            =   2760
       TabIndex        =   0
       Top             =   1560
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "확인"
    End
    Begin VB.Image imgMBIconQuestion 
       Height          =   480
@@ -81,6 +89,14 @@ Begin VB.Form ConfirmMsgBox
       Visible         =   0   'False
       Width           =   480
    End
+   Begin VB.Image imgMBIconInfo 
+      Height          =   480
+      Left            =   240
+      Picture         =   "ConfirmMsgBox.frx":1108
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   480
+   End
    Begin VB.Label lblContent 
       BackColor       =   &H00F8EFE5&
       BackStyle       =   0  '투명
@@ -99,14 +115,6 @@ Begin VB.Form ConfirmMsgBox
       TabIndex        =   1
       Top             =   360
       Width           =   27255
-   End
-   Begin VB.Image imgMBIconInfo 
-      Height          =   480
-      Left            =   240
-      Picture         =   "ConfirmMsgBox.frx":1108
-      Top             =   240
-      Visible         =   0   'False
-      Width           =   480
    End
 End
 Attribute VB_Name = "ConfirmMsgBox"

@@ -383,7 +383,7 @@ Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As For
     
     If LContent = 0 Then LContent = frmAbout.TextWidth(Content)
     If LineCount > 1 Then OKMsgBox.lblContent.Top = 280
-    OKMsgBox.lblContent.Height = 185 * LineCount
+    OKMsgBox.lblContent.Height = 185 * LineCount + 60
     OKMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
     OKMsgBox.Caption = Title
     OKMsgBox.lblContent.Caption = Content
@@ -441,7 +441,7 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
     
     If LContent = 0 Then LContent = strlen(Content)
     If LineCount > 1 Then YesNoMsgBox.lblContent.Top = 280
-    YesNoMsgBox.lblContent.Height = 185 * LineCount
+    YesNoMsgBox.lblContent.Height = 185 * LineCount + 60
     YesNoMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
     YesNoMsgBox.Caption = Title
     YesNoMsgBox.lblContent.Caption = Content
@@ -498,7 +498,7 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     
     If LContent = 0 Then LContent = strlen(Content)
     If LineCount > 1 Then ConfirmMsgBox.lblContent.Top = 280
-    ConfirmMsgBox.lblContent.Height = 185 * LineCount
+    ConfirmMsgBox.lblContent.Height = 185 * LineCount + 60
     ConfirmMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 + 705
     ConfirmMsgBox.Caption = Title
     ConfirmMsgBox.lblContent.Caption = Content

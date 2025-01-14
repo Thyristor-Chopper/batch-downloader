@@ -2846,8 +2846,7 @@ Private Sub cmdAbout_Click()
     Else
         AboutEasterEgg = 0
     End If
-    frmOptions.tsTabStrip.Tabs(4).Selected = True
-    frmOptions.Show vbModal, Me
+    frmAbout.Show vbModal, Me
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -3181,11 +3180,6 @@ Private Sub cmdOpenFolderBatch_Click()
 End Sub
 
 Private Sub cmdOptions_Click()
-    If IsKeyPressed(gksKeyboardShift) And IsKeyPressed(gksKeyboardalt) And IsKeyPressed(gksKeyboardctrl) Then
-        AboutEasterEgg = -1
-    Else
-        AboutEasterEgg = 0
-    End If
     frmOptions.Show vbModal, Me
 End Sub
 
