@@ -1,11 +1,12 @@
 Attribute VB_Name = "Functions"
+Option Explicit
+
+Public MsgBoxMode As Byte
 Public fso As Scripting.FileSystemObject
-Public ConfirmResult As VbMsgBoxResult
-Public YesNoMsgBoxResult As VbMsgBoxResult
-Public YesNoCancelMsgBoxResult As VbMsgBoxResult
+Public MsgBoxResult As VbMsgBoxResult
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
-Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
+'Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
 Declare Function DwmSetWindowAttribute Lib "dwmapi.dll" (ByVal hWnd As Long, ByVal dwAttribute As Long, ByRef pvAttribute As Long, ByVal cbAttribute As Long) As Long
 Declare Function DwmIsCompositionEnabled Lib "dwmapi.dll" (ByRef pfEnabled As Long) As Long
 Private Declare Function RegOpenKeyEx Lib "advapi32" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, ByRef phkResult As Long) As Long
@@ -209,18 +210,7 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
     End If
 End Function
 
-'Function ReadRegistry(ByVal KeyPath As String, ByVal KeyName, Optional ByVal Default) As Variant
-'    On Error GoTo RegReadFail
-'    Dim WShell As Object
-'    Set WShell = CreateObject("WScript.Shell")
-'    If Right$(KeyPath, 1) <> "\" Then KeyPath = KeyPath & "\"
-'    ReadRegistry = WShell.RegRead(KeyPath & KeyName)
-'    Exit Function
-'RegReadFail:
-'    ReadRegistry = Default
-'End Function
-
-Public Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKeyRef As String, Optional ByVal Default As Variant = "") As Variant
+Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKeyRef As String, Optional ByVal Default As Variant = "") As Variant
     Dim i As Long                                           ' 루프 카운터
     Dim RC As Long                                          ' 반환 코드
     Dim hKey As Long                                        ' 열려 있는 레지스트리 키 처리
@@ -228,6 +218,7 @@ Public Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVa
     Dim KeyValType As Long                                  ' 레지스트리 키의 데이터 형식
     Dim tmpVal As String                                    ' 레지스트리 키 값을 임시로 저장
     Dim KeyValSize As Long                                  ' 레지스트리 키 변수의 크기
+    Dim KeyVal
     '------------------------------------------------------------
     ' Open RegKey Under KeyRoot {HKEY_LOCAL_MACHINE...}
     '------------------------------------------------------------
@@ -284,19 +275,19 @@ End Function
 Function TextWidth(ByVal s As String) As Single
     On Error Resume Next
     If LangID <> 1042 Then
-        ConfirmMsgBox.Font.Name = "Tahoma"
-        ConfirmMsgBox.Font.Size = 8
+        YesNoCancelMsgBox.Font.Name = "Tahoma"
+        YesNoCancelMsgBox.Font.Size = 8
     End If
-    TextWidth = ConfirmMsgBox.TextWidth(s)
+    TextWidth = YesNoCancelMsgBox.TextWidth(s)
 End Function
 
 Function TextHeight(ByVal s As String) As Single
     On Error Resume Next
     If LangID <> 1042 Then
-        ConfirmMsgBox.Font.Name = "Tahoma"
-        ConfirmMsgBox.Font.Size = 8
+        YesNoCancelMsgBox.Font.Name = "Tahoma"
+        YesNoCancelMsgBox.Font.Size = 8
     End If
-    TextHeight = ConfirmMsgBox.TextHeight(s)
+    TextHeight = YesNoCancelMsgBox.TextHeight(s)
 End Function
 
 Function strlen(ByVal s As String) As Integer
@@ -351,14 +342,22 @@ Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String
 End Function
 
 Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As Form = Nothing, Optional Icon As MsgBoxExIcon = 64, Optional timeout As Integer = -1)
+    If MsgBoxMode = 2 Then
+        MsgBoxResult = vbNo
+    Else
+        MsgBoxResult = vbCancel
+    End If
+    Unload YesNoCancelMsgBox
+    MsgBoxMode = 1
+    
     If Title = "" Then Title = App.Title
     Select Case Icon
         Case 48
-            OKMsgBox.imgMBIconWarning.Visible = True
+            YesNoCancelMsgBox.imgMBIconWarning.Visible = True
         Case 16
-            OKMsgBox.imgMBIconError.Visible = True
+            YesNoCancelMsgBox.imgMBIconError.Visible = True
         Case 64
-            OKMsgBox.imgMBIconInfo.Visible = True
+            YesNoCancelMsgBox.imgMBIconInfo.Visible = True
     End Select
     
     Content = Replace(Content, "&", "&&")
@@ -382,41 +381,67 @@ Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As For
     Next s
     
     If LContent = 0 Then LContent = frmAbout.TextWidth(Content)
-    If LineCount > 1 Then OKMsgBox.lblContent.Top = 280
-    OKMsgBox.lblContent.Height = 185 * LineCount + 60
-    OKMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
-    OKMsgBox.Caption = Title
-    OKMsgBox.lblContent.Caption = Content
-    OKMsgBox.Width = 2040 + LContent - 640 - 225
-    OKMsgBox.cmdOK.Left = OKMsgBox.Width / 2 - 810
-    OKMsgBox.cmdOK.Top = 840 + (LineCount * 185) - 350
+    If LineCount > 1 Then YesNoCancelMsgBox.lblContent.Top = 280
+    YesNoCancelMsgBox.lblContent.Height = 185 * LineCount + 60
+    YesNoCancelMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
+    YesNoCancelMsgBox.Caption = Title
+    YesNoCancelMsgBox.lblContent.Caption = Content
+    YesNoCancelMsgBox.Width = 2040 + LContent - 640 - 225
+    YesNoCancelMsgBox.cmdOK.Left = YesNoCancelMsgBox.Width / 2 - 810
+    YesNoCancelMsgBox.cmdOK.Top = 840 + (LineCount * 185) - 350
     If LineCount < 2 Then
-        OKMsgBox.Height = OKMsgBox.Height + 180
-        OKMsgBox.cmdOK.Top = OKMsgBox.cmdOK.Top + 180
+        YesNoCancelMsgBox.Height = YesNoCancelMsgBox.Height + 180
+        YesNoCancelMsgBox.cmdOK.Top = YesNoCancelMsgBox.cmdOK.Top + 180
     End If
     MessageBeep Icon
     If timeout >= 0 Then
-        OKMsgBox.timeout.Interval = timeout
-        OKMsgBox.timeout.Enabled = -1
+        YesNoCancelMsgBox.timeout.Interval = timeout
+        YesNoCancelMsgBox.timeout.Enabled = -1
     End If
+    YesNoCancelMsgBox.cmdOK.Caption = t("확인", "OK")
+    
+    YesNoCancelMsgBox.cmdOK.Visible = -1
+    YesNoCancelMsgBox.cmdCancel.Visible = 0
+    YesNoCancelMsgBox.cmdYes.Visible = 0
+    YesNoCancelMsgBox.cmdNo.Visible = 0
+    YesNoCancelMsgBox.optYes.Visible = 0
+    YesNoCancelMsgBox.optNo.Visible = 0
+    
+    YesNoCancelMsgBox.cmdCancel.Cancel = 0
+    YesNoCancelMsgBox.cmdCancel.Default = 0
+    YesNoCancelMsgBox.cmdYes.Cancel = 0
+    YesNoCancelMsgBox.cmdYes.Default = 0
+    YesNoCancelMsgBox.cmdNo.Cancel = 0
+    YesNoCancelMsgBox.cmdNo.Default = 0
+    YesNoCancelMsgBox.cmdOK.Cancel = -1
+    YesNoCancelMsgBox.cmdOK.Default = -1
+    
     If Not (OwnerForm Is Nothing) Then
-        OKMsgBox.Show vbModal, OwnerForm
+        YesNoCancelMsgBox.Show vbModal, OwnerForm
     Else
-        OKMsgBox.Show
+        YesNoCancelMsgBox.Show
     End If
 End Sub
 
 Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional Icon As MsgBoxExIcon = 32, Optional BtnReversed As Boolean = False) As VbMsgBoxResult
+    If MsgBoxMode = 2 Then
+        MsgBoxResult = vbNo
+    Else
+        MsgBoxResult = vbCancel
+    End If
+    Unload YesNoCancelMsgBox
+    MsgBoxMode = 2
+    
     If Title = "" Then Title = App.Title
     Select Case Icon
         Case 48
-            YesNoMsgBox.imgMBIconWarning.Visible = True
+            YesNoCancelMsgBox.imgMBIconWarning.Visible = True
         Case 16
-            YesNoMsgBox.imgMBIconError.Visible = True
+            YesNoCancelMsgBox.imgMBIconError.Visible = True
         Case 64
-            YesNoMsgBox.imgMBIconInfo.Visible = True
+            YesNoCancelMsgBox.imgMBIconInfo.Visible = True
         Case 32
-            YesNoMsgBox.imgMBIconQuestion.Visible = True
+            YesNoCancelMsgBox.imgMBIconQuestion.Visible = True
     End Select
     
     Content = Replace(Content, "&", "&&")
@@ -440,40 +465,65 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
     Next s
     
     If LContent = 0 Then LContent = strlen(Content)
-    If LineCount > 1 Then YesNoMsgBox.lblContent.Top = 280
-    YesNoMsgBox.lblContent.Height = 185 * LineCount + 60
-    YesNoMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
-    YesNoMsgBox.Caption = Title
-    YesNoMsgBox.lblContent.Caption = Content
-    YesNoMsgBox.Width = 2040 + LContent - 640 - 225
-    YesNoMsgBox.cmdOK.Left = YesNoMsgBox.Width / 2 - 810 - YesNoMsgBox.cmdOK.Width / 2
-    YesNoMsgBox.cmdOK.Top = 840 + (LineCount * 185) - 350
-    YesNoMsgBox.cmdCancel.Left = YesNoMsgBox.Width / 2 - 810 - YesNoMsgBox.cmdOK.Width / 2 - 120 + YesNoMsgBox.cmdOK.Width + 240
-    YesNoMsgBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
+    If LineCount > 1 Then YesNoCancelMsgBox.lblContent.Top = 280
+    YesNoCancelMsgBox.lblContent.Height = 185 * LineCount + 60
+    YesNoCancelMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
+    YesNoCancelMsgBox.Caption = Title
+    YesNoCancelMsgBox.lblContent.Caption = Content
+    YesNoCancelMsgBox.Width = 2040 + LContent - 640 - 225
+    YesNoCancelMsgBox.cmdYes.Left = YesNoCancelMsgBox.Width / 2 - 810 - YesNoCancelMsgBox.cmdYes.Width / 2
+    YesNoCancelMsgBox.cmdYes.Top = 840 + (LineCount * 185) - 350
+    YesNoCancelMsgBox.cmdNo.Left = YesNoCancelMsgBox.Width / 2 - 810 - YesNoCancelMsgBox.cmdYes.Width / 2 - 120 + YesNoCancelMsgBox.cmdYes.Width + 240
+    YesNoCancelMsgBox.cmdNo.Top = 840 + (LineCount * 185) - 350
     If LineCount < 2 Then
-        YesNoMsgBox.Height = YesNoMsgBox.Height + 180
-        YesNoMsgBox.cmdOK.Top = YesNoMsgBox.cmdOK.Top + 180
-        YesNoMsgBox.cmdCancel.Top = YesNoMsgBox.cmdCancel.Top + 180
+        YesNoCancelMsgBox.Height = YesNoCancelMsgBox.Height + 180
+        YesNoCancelMsgBox.cmdYes.Top = YesNoCancelMsgBox.cmdYes.Top + 180
+        YesNoCancelMsgBox.cmdNo.Top = YesNoCancelMsgBox.cmdNo.Top + 180
     End If
     MessageBeep Icon
-    YesNoMsgBox.Show vbModal, OwnerForm
+    YesNoCancelMsgBox.cmdYes.Caption = t("예(&Y)", "&Yes")
+    YesNoCancelMsgBox.cmdNo.Caption = t("아니요(&N)", "&No")
     
-    Confirm = YesNoMsgBoxResult
+    YesNoCancelMsgBox.cmdOK.Visible = 0
+    YesNoCancelMsgBox.cmdCancel.Visible = 0
+    YesNoCancelMsgBox.cmdYes.Visible = -1
+    YesNoCancelMsgBox.cmdNo.Visible = -1
+    YesNoCancelMsgBox.optYes.Visible = 0
+    YesNoCancelMsgBox.optNo.Visible = 0
+    
+    YesNoCancelMsgBox.cmdCancel.Cancel = 0
+    YesNoCancelMsgBox.cmdCancel.Default = 0
+    YesNoCancelMsgBox.cmdYes.Cancel = 0
+    YesNoCancelMsgBox.cmdYes.Default = 0
+    YesNoCancelMsgBox.cmdNo.Cancel = 0
+    YesNoCancelMsgBox.cmdNo.Default = -1
+    YesNoCancelMsgBox.cmdOK.Cancel = 0
+    YesNoCancelMsgBox.cmdOK.Default = 0
+    
+    YesNoCancelMsgBox.Show vbModal, OwnerForm
+    
+    Confirm = MsgBoxResult
 End Function
 
-Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As Form, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal YesCaption As String = "", Optional ByVal NoCaption As String = "") As VbMsgBoxResult
+Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As Form, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
+    If MsgBoxMode = 2 Then
+        MsgBoxResult = vbNo
+    Else
+        MsgBoxResult = vbCancel
+    End If
+    Unload YesNoCancelMsgBox
+    MsgBoxMode = 3
+    
     If Title = "" Then Title = App.Title
-    If YesCaption = "" Then YesCaption = t("예(&Y)", "&Yes")
-    If NoCaption = "" Then NoCaption = t("아니요(&N)", "&No")
     Select Case Icon
         Case 48
-            ConfirmMsgBox.imgMBIconWarning.Visible = True
+            YesNoCancelMsgBox.imgMBIconWarning.Visible = True
         Case 16
-            ConfirmMsgBox.imgMBIconError.Visible = True
+            YesNoCancelMsgBox.imgMBIconError.Visible = True
         Case 64
-            ConfirmMsgBox.imgMBIconInfo.Visible = True
+            YesNoCancelMsgBox.imgMBIconInfo.Visible = True
         Case 32
-            ConfirmMsgBox.imgMBIconQuestion.Visible = True
+            YesNoCancelMsgBox.imgMBIconQuestion.Visible = True
     End Select
     
     Content = Replace(Content, "&", "&&")
@@ -497,47 +547,74 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     Next s
     
     If LContent = 0 Then LContent = strlen(Content)
-    If LineCount > 1 Then ConfirmMsgBox.lblContent.Top = 280
-    ConfirmMsgBox.lblContent.Height = 185 * LineCount + 60
-    ConfirmMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 + 705
-    ConfirmMsgBox.Caption = Title
-    ConfirmMsgBox.lblContent.Caption = Content
-    ConfirmMsgBox.Width = 2040 + LContent - 640
-    ConfirmMsgBox.cmdOK.Left = ConfirmMsgBox.Width / 2 - 810 - ConfirmMsgBox.cmdOK.Width / 2
-    ConfirmMsgBox.cmdOK.Top = 840 + (LineCount * 185) - 350 + 705
-    ConfirmMsgBox.cmdCancel.Left = ConfirmMsgBox.Width / 2 - 810 - ConfirmMsgBox.cmdOK.Width / 2 - 120 + ConfirmMsgBox.cmdOK.Width + 240
-    ConfirmMsgBox.cmdCancel.Top = 840 + (LineCount * 185) - 350 + 705
-    ConfirmMsgBox.optYes.Top = ConfirmMsgBox.cmdOK.Top - 620
-    ConfirmMsgBox.optNo.Top = ConfirmMsgBox.cmdOK.Top - 320
+    If LineCount > 1 Then YesNoCancelMsgBox.lblContent.Top = 280
+    YesNoCancelMsgBox.lblContent.Height = 185 * LineCount + 60
+    YesNoCancelMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 + 705
+    YesNoCancelMsgBox.Caption = Title
+    YesNoCancelMsgBox.lblContent.Caption = Content
+    YesNoCancelMsgBox.Width = 2040 + LContent - 640
+    YesNoCancelMsgBox.cmdOK.Left = YesNoCancelMsgBox.Width / 2 - 810 - YesNoCancelMsgBox.cmdOK.Width / 2
+    YesNoCancelMsgBox.cmdOK.Top = 840 + (LineCount * 185) - 350 + 705
+    YesNoCancelMsgBox.cmdCancel.Left = YesNoCancelMsgBox.Width / 2 - 810 - YesNoCancelMsgBox.cmdOK.Width / 2 - 120 + YesNoCancelMsgBox.cmdOK.Width + 240
+    YesNoCancelMsgBox.cmdCancel.Top = 840 + (LineCount * 185) - 350 + 705
+    YesNoCancelMsgBox.optYes.Top = YesNoCancelMsgBox.cmdOK.Top - 620
+    YesNoCancelMsgBox.optNo.Top = YesNoCancelMsgBox.cmdOK.Top - 320
     If LineCount > 1 Then
-        ConfirmMsgBox.optYes.Top = ConfirmMsgBox.optYes.Top - 80
-        ConfirmMsgBox.optNo.Top = ConfirmMsgBox.optNo.Top - 80
+        YesNoCancelMsgBox.optYes.Top = YesNoCancelMsgBox.optYes.Top - 80
+        YesNoCancelMsgBox.optNo.Top = YesNoCancelMsgBox.optNo.Top - 80
     End If
     If IsEmpty(DefaultOption) Then
-        ConfirmMsgBox.optYes.Value = False
-        ConfirmMsgBox.optNo.Value = False
-        ConfirmMsgBox.cmdOK.Enabled = False
+        YesNoCancelMsgBox.optYes.Value = False
+        YesNoCancelMsgBox.optNo.Value = False
+        YesNoCancelMsgBox.cmdOK.Enabled = False
     ElseIf DefaultOption = vbYes Then
-        ConfirmMsgBox.optYes.Value = True
-        ConfirmMsgBox.cmdOK.Enabled = True
+        YesNoCancelMsgBox.optYes.Value = True
+        YesNoCancelMsgBox.cmdOK.Enabled = True
     Else
-        ConfirmMsgBox.optNo.Value = True
-        ConfirmMsgBox.cmdOK.Enabled = True
+        YesNoCancelMsgBox.optNo.Value = True
+        YesNoCancelMsgBox.cmdOK.Enabled = True
     End If
     If LineCount < 2 Then
-        ConfirmMsgBox.Height = ConfirmMsgBox.Height + 180
-        ConfirmMsgBox.cmdOK.Top = ConfirmMsgBox.cmdOK.Top + 180
-        ConfirmMsgBox.cmdCancel.Top = ConfirmMsgBox.cmdCancel.Top + 180
+        YesNoCancelMsgBox.Height = YesNoCancelMsgBox.Height + 180
+        YesNoCancelMsgBox.cmdOK.Top = YesNoCancelMsgBox.cmdOK.Top + 180
+        YesNoCancelMsgBox.cmdCancel.Top = YesNoCancelMsgBox.cmdCancel.Top + 180
     End If
-    ConfirmMsgBox.optYes.Caption = YesCaption
-    ConfirmMsgBox.optNo.Caption = NoCaption
+    YesNoCancelMsgBox.optYes.Caption = t("예(&Y)", "&Yes")
+    YesNoCancelMsgBox.optNo.Caption = t("아니요(&N)", "&No")
+    YesNoCancelMsgBox.cmdOK.Caption = t("확인", "OK")
+    YesNoCancelMsgBox.cmdCancel.Caption = t("취소", "Cancel")
     MessageBeep Icon
-    ConfirmMsgBox.Show vbModal, OwnerForm
     
-    ConfirmEx = ConfirmResult
+    YesNoCancelMsgBox.cmdOK.Visible = -1
+    YesNoCancelMsgBox.cmdCancel.Visible = -1
+    YesNoCancelMsgBox.cmdYes.Visible = 0
+    YesNoCancelMsgBox.cmdNo.Visible = 0
+    YesNoCancelMsgBox.optYes.Visible = -1
+    YesNoCancelMsgBox.optNo.Visible = -1
+    
+    YesNoCancelMsgBox.cmdCancel.Cancel = -1
+    YesNoCancelMsgBox.cmdCancel.Default = -1
+    YesNoCancelMsgBox.cmdYes.Cancel = 0
+    YesNoCancelMsgBox.cmdYes.Default = 0
+    YesNoCancelMsgBox.cmdNo.Cancel = 0
+    YesNoCancelMsgBox.cmdNo.Default = 0
+    YesNoCancelMsgBox.cmdOK.Cancel = 0
+    YesNoCancelMsgBox.cmdOK.Default = 0
+    
+    YesNoCancelMsgBox.Show vbModal, OwnerForm
+    
+    ConfirmEx = MsgBoxResult
 End Function
 
 Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
+    If MsgBoxMode = 2 Then
+        MsgBoxResult = vbNo
+    Else
+        MsgBoxResult = vbCancel
+    End If
+    Unload YesNoCancelMsgBox
+    MsgBoxMode = 4
+    
     Select Case Icon
         Case 48
             YesNoCancelMsgBox.imgMBIconWarning.Visible = True
@@ -589,9 +666,30 @@ Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Op
         YesNoCancelMsgBox.cmdCancel.Top = YesNoCancelMsgBox.cmdCancel.Top + 180
     End If
     MessageBeep Icon
+    
+    YesNoCancelMsgBox.cmdOK.Visible = 0
+    YesNoCancelMsgBox.cmdCancel.Visible = -1
+    YesNoCancelMsgBox.cmdYes.Visible = -1
+    YesNoCancelMsgBox.cmdNo.Visible = -1
+    YesNoCancelMsgBox.optYes.Visible = 0
+    YesNoCancelMsgBox.optNo.Visible = 0
+    
+    YesNoCancelMsgBox.cmdYes.Caption = t("예(&Y)", "&Yes")
+    YesNoCancelMsgBox.cmdNo.Caption = t("아니요(&N)", "&No")
+    YesNoCancelMsgBox.cmdCancel.Caption = t("취소", "Cancel")
+    
+    YesNoCancelMsgBox.cmdCancel.Cancel = -1
+    YesNoCancelMsgBox.cmdCancel.Default = -1
+    YesNoCancelMsgBox.cmdYes.Cancel = 0
+    YesNoCancelMsgBox.cmdYes.Default = 0
+    YesNoCancelMsgBox.cmdNo.Cancel = 0
+    YesNoCancelMsgBox.cmdNo.Default = 0
+    YesNoCancelMsgBox.cmdOK.Cancel = 0
+    YesNoCancelMsgBox.cmdOK.Default = 0
+    
     YesNoCancelMsgBox.Show vbModal, OwnerForm
     
-    ConfirmCancel = YesNoCancelMsgBoxResult
+    ConfirmCancel = MsgBoxResult
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
@@ -614,7 +712,7 @@ Function Floor(ByVal floatval As Double, Optional ByVal decimalPlaces As Long = 
     End If
 
     If decimalPlaces > 0 Then
-        floatval = Float / (10 ^ decimalPlaces)
+        floatval = floatval / (10 ^ decimalPlaces)
     End If
 
     Floor = intval
@@ -743,9 +841,9 @@ Function GetWindowsVersion() As Single
             Case VER_PLATFORM_WIN32_NT
                 GetWindowsVersion = 3.1
                 ver = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
-                If ver >= 6.2 Then
-                    ver = fWinVer()
-                End If
+'                If ver >= 6.2 Then
+'                    ver = fWinVer()
+'                End If
                 GetWindowsVersion = ver
         
             Case VER_PLATFORM_WIN32_WINDOWS:
@@ -763,27 +861,27 @@ Function GetWindowsVersion() As Single
     End If
 End Function
 
-Function fWinVer() As Single
-    Dim osv As OSVERSIONINFO
-    osv.OSVSize = Len(osv)
-    If GetVersionEx(osv) <> 1 Then
-        fWinVer = "5.1.2600"
-        WinVer = 5.1
-        Build = 2600&
-        Exit Function
-    End If
-    
-    If osv.PlatformID = VER_PLATFORM_WIN32_NT Then
-        If RtlGetVersion(osv) <> 0 Then
-            fWinVer = "5.1.2600"
-            WinVer = 5.1
-            Build = 2600&
-            Exit Function
-        End If
-    End If
-    
-    fWinVer = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
-End Function
+'Function fWinVer() As Single
+'    Dim osv As OSVERSIONINFO
+'    osv.OSVSize = Len(osv)
+'    If GetVersionEx(osv) <> 1 Then
+'        fWinVer = "5.1.2600"
+'        WinVer = 5.1
+'        Build = 2600&
+'        Exit Function
+'    End If
+'
+'    If osv.PlatformID = VER_PLATFORM_WIN32_NT Then
+'        If RtlGetVersion(osv) <> 0 Then
+'            fWinVer = "5.1.2600"
+'            WinVer = 5.1
+'            Build = 2600&
+'            Exit Function
+'        End If
+'    End If
+'
+'    fWinVer = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
+'End Function
 
 Function t(ByVal k, ByVal e) As Variant
     If LangID = 1042 Then
@@ -799,8 +897,6 @@ Sub SetFont(frm As Form)
     Dim ctrl As Control
     For Each ctrl In frm.Controls
         If ctrl.Name <> "lvDummyScroll" Then
-            ctrl.FontName = "Tahoma"
-            ctrl.FontSize = 8
             ctrl.Font.Name = "Tahoma"
             ctrl.Font.Size = 8
         End If

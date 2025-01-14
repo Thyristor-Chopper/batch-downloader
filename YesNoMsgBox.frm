@@ -24,26 +24,29 @@ Begin VB.Form YesNoMsgBox
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
-      Caption         =   "아니요(&N)"
       Default         =   -1  'True
       Height          =   320
       Left            =   4320
       TabIndex        =   2
       Top             =   840
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "아니요(&N)"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
-      Caption         =   "예(&Y)"
       Height          =   320
       Left            =   2760
       TabIndex        =   0
       Top             =   840
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "예(&Y)"
    End
    Begin VB.Image imgMBIconQuestion 
       Height          =   480
       Left            =   240
-      Picture         =   "YesNoMsgBox.frx":000C
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -51,7 +54,6 @@ Begin VB.Form YesNoMsgBox
    Begin VB.Image imgMBIconError 
       Height          =   480
       Left            =   240
-      Picture         =   "YesNoMsgBox.frx":044E
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -59,7 +61,6 @@ Begin VB.Form YesNoMsgBox
    Begin VB.Image imgMBIconWarning 
       Height          =   480
       Left            =   240
-      Picture         =   "YesNoMsgBox.frx":0890
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -86,7 +87,6 @@ Begin VB.Form YesNoMsgBox
    Begin VB.Image imgMBIconInfo 
       Height          =   480
       Left            =   240
-      Picture         =   "YesNoMsgBox.frx":0CD2
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -122,6 +122,11 @@ Private Sub Form_Load()
     
     cmdOK.Caption = t("예(&Y)", "&Yes")
     cmdCancel.Caption = t("아니요(&N)", "&No")
+    
+    imgMBIconQuestion.Picture = YesNoCancelMsgBox.imgMBIconQuestion.Picture
+    imgMBIconError.Picture = YesNoCancelMsgBox.imgMBIconError.Picture
+    imgMBIconWarning.Picture = YesNoCancelMsgBox.imgMBIconWarning.Picture
+    imgMBIconInfo.Picture = YesNoCancelMsgBox.imgMBIconInfo.Picture
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

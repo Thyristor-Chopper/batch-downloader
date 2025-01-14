@@ -20,7 +20,6 @@ Begin VB.Form frmGameWinXP
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   Picture         =   "frmGameWinXP.frx":000C
    ScaleHeight     =   3405
    ScaleWidth      =   5640
    ShowInTaskbar   =   0   'False
@@ -29,9 +28,11 @@ Begin VB.Form frmGameWinXP
       Height          =   270
       Left            =   4200
       TabIndex        =   19
-      Text            =   "100"
       Top             =   480
       Width           =   975
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Text            =   "frmGameWinXP.frx":000C
    End
    Begin VB.Timer timTimer 
       Enabled         =   0   'False
@@ -40,80 +41,96 @@ Begin VB.Form frmGameWinXP
       Top             =   2880
    End
    Begin prjDownloadBooster.CommandButtonW cmdGo 
-      Caption         =   "시작! (&S)"
       Height          =   285
       Left            =   2280
       TabIndex        =   9
       Top             =   3000
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "시작! (&S)"
    End
    Begin prjDownloadBooster.CommandButtonW cmdQuit 
-      Caption         =   "그만(&Q)"
       Height          =   285
       Left            =   3960
       TabIndex        =   8
       Top             =   3000
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "그만(&Q)"
    End
    Begin prjDownloadBooster.TextBoxW txtMyNumber 
-      Alignment       =   2  '가운데 맞춤
       Height          =   270
       Index           =   6
       Left            =   2640
       TabIndex        =   5
-      Text            =   "1"
       Top             =   600
       Width           =   255
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Text            =   "frmGameWinXP.frx":0032
+      Alignment       =   2
    End
    Begin prjDownloadBooster.TextBoxW txtMyNumber 
-      Alignment       =   2  '가운데 맞춤
       Height          =   270
       Index           =   5
       Left            =   2160
       TabIndex        =   4
-      Text            =   "1"
       Top             =   600
       Width           =   255
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Text            =   "frmGameWinXP.frx":0054
+      Alignment       =   2
    End
    Begin prjDownloadBooster.TextBoxW txtMyNumber 
-      Alignment       =   2  '가운데 맞춤
       Height          =   270
       Index           =   4
       Left            =   1680
       TabIndex        =   3
-      Text            =   "1"
       Top             =   600
       Width           =   255
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Text            =   "frmGameWinXP.frx":0076
+      Alignment       =   2
    End
    Begin prjDownloadBooster.TextBoxW txtMyNumber 
-      Alignment       =   2  '가운데 맞춤
       Height          =   270
       Index           =   3
       Left            =   1200
       TabIndex        =   2
-      Text            =   "1"
       Top             =   600
       Width           =   255
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Text            =   "frmGameWinXP.frx":0098
+      Alignment       =   2
    End
    Begin prjDownloadBooster.TextBoxW txtMyNumber 
-      Alignment       =   2  '가운데 맞춤
       Height          =   270
       Index           =   2
       Left            =   720
       TabIndex        =   1
-      Text            =   "1"
       Top             =   600
       Width           =   255
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Text            =   "frmGameWinXP.frx":00BA
+      Alignment       =   2
    End
    Begin prjDownloadBooster.TextBoxW txtMyNumber 
-      Alignment       =   2  '가운데 맞춤
       Height          =   270
       Index           =   1
       Left            =   240
       TabIndex        =   0
-      Text            =   "1"
       Top             =   600
       Width           =   255
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Text            =   "frmGameWinXP.frx":00DC
+      Alignment       =   2
    End
    Begin VB.Label Label4 
       BackStyle       =   0  '투명
@@ -136,7 +153,7 @@ Begin VB.Form frmGameWinXP
    Begin VB.Label Label1 
       BackStyle       =   0  '투명
       Caption         =   "사용할 복권의 숫자를 입력하십시오. "
-      ForeColor       =   &H00FFFFFF&
+      ForeColor       =   &H80000008&
       Height          =   255
       Left            =   240
       TabIndex        =   16
@@ -356,7 +373,7 @@ Begin VB.Form frmGameWinXP
    Begin VB.Label lblScore 
       BackStyle       =   0  '투명
       Caption         =   "0"
-      ForeColor       =   &H00FFFFFF&
+      ForeColor       =   &H80000008&
       Height          =   255
       Left            =   840
       TabIndex        =   7
@@ -366,7 +383,7 @@ Begin VB.Form frmGameWinXP
    Begin VB.Label Label2 
       BackStyle       =   0  '투명
       Caption         =   "점수:"
-      ForeColor       =   &H00FFFFFF&
+      ForeColor       =   &H80000008&
       Height          =   255
       Left            =   240
       TabIndex        =   6

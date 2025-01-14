@@ -352,6 +352,8 @@ Private Sub OKButton_Click()
     SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex)
     frmOptions.ImageChanged = True
     frmOptions.cmdApply.Enabled = True
+    frmOptions.imgPreview.Picture = LoadPicture(lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex))
+    frmOptions.cmdSample.Refresh
     Unload Me
     Exit Sub
     

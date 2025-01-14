@@ -26,28 +26,34 @@ Begin VB.Form frmBatchAdd
    Begin prjDownloadBooster.TextBoxW txtURLs 
       Height          =   2535
       Left            =   120
-      MultiLine       =   -1  'True
-      ScrollBars      =   3  '양방향
       TabIndex        =   1
       Top             =   360
       Width           =   4215
+      _ExtentX        =   0
+      _ExtentY        =   0
+      MultiLine       =   -1  'True
+      ScrollBars      =   3
    End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
-      Caption         =   "취소"
       Height          =   340
       Left            =   4560
       TabIndex        =   3
       Top             =   510
       Width           =   1335
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
-      Caption         =   "확인"
       Height          =   340
       Left            =   4560
       TabIndex        =   2
       Top             =   120
       Width           =   1335
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "확인"
    End
    Begin VB.Label Label1 
       Caption         =   "각 줄에 파일 주소를 입력하십시오(&L)."

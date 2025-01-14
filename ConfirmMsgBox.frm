@@ -68,7 +68,6 @@ Begin VB.Form ConfirmMsgBox
    Begin VB.Image imgMBIconQuestion 
       Height          =   480
       Left            =   240
-      Picture         =   "ConfirmMsgBox.frx":0442
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -76,7 +75,6 @@ Begin VB.Form ConfirmMsgBox
    Begin VB.Image imgMBIconError 
       Height          =   480
       Left            =   240
-      Picture         =   "ConfirmMsgBox.frx":0884
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -84,7 +82,6 @@ Begin VB.Form ConfirmMsgBox
    Begin VB.Image imgMBIconWarning 
       Height          =   480
       Left            =   240
-      Picture         =   "ConfirmMsgBox.frx":0CC6
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -92,7 +89,6 @@ Begin VB.Form ConfirmMsgBox
    Begin VB.Image imgMBIconInfo 
       Height          =   480
       Left            =   240
-      Picture         =   "ConfirmMsgBox.frx":1108
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -145,10 +141,13 @@ Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me
-    
-    cmdOK.Caption = t("확인", "OK")
-    cmdCancel.Caption = t("취소", "Cancel")
+
     isOK = 0
+    
+    imgMBIconQuestion.Picture = YesNoCancelMsgBox.imgMBIconQuestion.Picture
+    imgMBIconError.Picture = YesNoCancelMsgBox.imgMBIconError.Picture
+    imgMBIconWarning.Picture = YesNoCancelMsgBox.imgMBIconWarning.Picture
+    imgMBIconInfo.Picture = YesNoCancelMsgBox.imgMBIconInfo.Picture
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

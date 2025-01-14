@@ -23,33 +23,74 @@ Begin VB.Form YesNoCancelMsgBox
    ScaleWidth      =   28440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
+   Begin VB.Timer timeout 
+      Enabled         =   0   'False
+      Left            =   360
+      Top             =   960
+   End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
-      Caption         =   "취소"
-      Default         =   -1  'True
       Height          =   320
       Left            =   5880
       TabIndex        =   3
       Top             =   840
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW cmdNo 
-      Caption         =   "아니요(&N)"
       Height          =   320
       Left            =   4320
       TabIndex        =   2
       Top             =   840
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "아니요(&N)"
    End
    Begin prjDownloadBooster.CommandButtonW cmdYes 
-      Caption         =   "예(&Y)"
       Height          =   320
       Left            =   2760
       TabIndex        =   0
       Top             =   840
       Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "예(&Y)"
    End
-   Begin VB.Image imgMBIconQuestion 
+   Begin prjDownloadBooster.OptionButtonW optNo 
+      Height          =   255
+      Left            =   1080
+      TabIndex        =   4
+      Top             =   1320
+      Width           =   1575
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "아니요(&N)"
+   End
+   Begin prjDownloadBooster.OptionButtonW optYes 
+      Height          =   255
+      Left            =   1080
+      TabIndex        =   5
+      Top             =   960
+      Width           =   1575
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "예(&Y)"
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdOK 
+      Default         =   -1  'True
+      Height          =   315
+      Left            =   7440
+      TabIndex        =   6
+      Top             =   840
+      Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "확인"
+   End
+   Begin VB.Image imgMBIconInfo 
       Height          =   480
       Left            =   240
       Picture         =   "YesNoCancelMsgBox.frx":000C
@@ -57,7 +98,7 @@ Begin VB.Form YesNoCancelMsgBox
       Visible         =   0   'False
       Width           =   480
    End
-   Begin VB.Image imgMBIconError 
+   Begin VB.Image imgMBIconWarning 
       Height          =   480
       Left            =   240
       Picture         =   "YesNoCancelMsgBox.frx":044E
@@ -65,10 +106,18 @@ Begin VB.Form YesNoCancelMsgBox
       Visible         =   0   'False
       Width           =   480
    End
-   Begin VB.Image imgMBIconWarning 
+   Begin VB.Image imgMBIconError 
       Height          =   480
       Left            =   240
       Picture         =   "YesNoCancelMsgBox.frx":0890
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   480
+   End
+   Begin VB.Image imgMBIconQuestion 
+      Height          =   480
+      Left            =   240
+      Picture         =   "YesNoCancelMsgBox.frx":0CD2
       Top             =   240
       Visible         =   0   'False
       Width           =   480
@@ -83,14 +132,6 @@ Begin VB.Form YesNoCancelMsgBox
       Top             =   360
       Width           =   27255
    End
-   Begin VB.Image imgMBIconInfo 
-      Height          =   480
-      Left            =   240
-      Picture         =   "YesNoCancelMsgBox.frx":0CD2
-      Top             =   240
-      Visible         =   0   'False
-      Width           =   480
-   End
 End
 Attribute VB_Name = "YesNoCancelMsgBox"
 Attribute VB_GlobalNameSpace = False
@@ -98,21 +139,36 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim MSET As Boolean
+Public Mode As Byte
 
 Private Sub cmdNo_Click()
-    Functions.YesNoCancelMsgBoxResult = vbNo
+    Functions.MsgBoxResult = vbNo
+    MSET = -1
+    Unload Me
+End Sub
+
+Private Sub cmdOK_Click()
+    If optYes.Visible Then
+        If optYes.Value = True Then
+            Functions.MsgBoxResult = vbYes
+        Else
+            Functions.MsgBoxResult = vbNo
+        End If
+    Else
+        Functions.MsgBoxResult = vbOK
+    End If
     MSET = -1
     Unload Me
 End Sub
 
 Private Sub cmdYes_Click()
-    Functions.YesNoCancelMsgBoxResult = vbYes
+    Functions.MsgBoxResult = vbYes
     MSET = -1
     Unload Me
 End Sub
 
 Private Sub cmdCancel_Click()
-    Functions.YesNoCancelMsgBoxResult = vbCancel
+    Functions.MsgBoxResult = vbCancel
     MSET = -1
     Unload Me
 End Sub
@@ -122,12 +178,25 @@ Private Sub Form_Load()
     SetFormBackgroundColor Me
     SetFont Me
     MSET = 0
-    
-    cmdYes.Caption = t("예(&Y)", "&Yes")
-    cmdNo.Caption = t("아니요(&N)", "&No")
-    cmdCancel.Caption = t("취소", "Cancel")
+    If Functions.MsgBoxMode = 2 Then
+        Dim SystemMenu As Long
+        SystemMenu = GetSystemMenu(Me.hWnd, 0)
+        DeleteMenu SystemMenu, 6, MF_BYPOSITION
+    End If
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-    If Not MSET Then Functions.YesNoCancelMsgBoxResult = vbCancel
+    If Not MSET Then Functions.MsgBoxResult = vbCancel
+End Sub
+
+Private Sub timeout_Timer()
+    cmdOK_Click
+End Sub
+
+Private Sub optNo_Click()
+    cmdOK.Enabled = True
+End Sub
+
+Private Sub optYes_Click()
+    cmdOK.Enabled = True
 End Sub

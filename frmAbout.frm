@@ -50,7 +50,7 @@ Begin VB.Form frmAbout
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   450
-      Caption         =   "frmAbout.frx":0742
+      Caption         =   "frmAbout.frx":000C
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.TextBoxW txtLicensePlaceholder 
@@ -207,26 +207,10 @@ Private Sub lblReadOnline_LinkActivate(ByVal Link As LlbLink, ByVal Reason As Ll
     Shell "cmd /c start """" https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
 End Sub
 
-Private Sub picIcon_DblClick()
-    If frmMain.AboutEasterEgg And IsKeyPressed(gksKeyboardShift) And IsKeyPressed(gksKeyboardalt) And IsKeyPressed(gksKeyboardctrl) Then
-        If WinVer < 5.1 Then
-            frmGameWin95.Show 1, Me
-        ElseIf WinVer < 6# Then
-            frmGameWinXP.Show 1, Me
-        ElseIf WinVer < 6.2 Then
-            frmGameVista.Show 1, Me
-        ElseIf WinVer < 6.4 Then
-            frmGameWin95.Show 1, Me
-        Else
-            frmGame.Show 1, Me
-        End If
-    End If
-End Sub
-
 Sub StartSysInfo()
     On Error GoTo SysInfoErr
   
-    Dim rc As Long
+    Dim RC As Long
     Dim SysInfoPath As String
     
     ' 시스템 정보 프로그램의 경로와 이름을 레지스트리에서 가져 옵니다...

@@ -1,4 +1,6 @@
 Attribute VB_Name = "Startup"
+Option Explicit
+
 Public CachePath As String
 Public WinVer As Single
 Public PaddedBorderWidth As Integer
@@ -10,22 +12,21 @@ Sub LoadJS()
     On Error Resume Next
     MkDir CachePath
     On Error GoTo 0
-    Dim f1 As Integer
-    Dim f2 As Integer
+    Dim ff As Integer
     Dim B() As Byte
     If Not FileExists(CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js") Then
         B = LoadResData(1, 10)
-        f1 = FreeFile()
-        Open CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js" For Binary Access Write As #f1
-        Put #f1, , B
-        Close #f1
+        ff = FreeFile()
+        Open CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
     End If
     If Not FileExists(CachePath & "node_v0_11_11.exe") Then
         B = LoadResData(2, 10)
-        f2 = FreeFile()
-        Open CachePath & "node_v0_11_11.exe" For Binary Access Write As #f2
-        Put #f2, , B
-        Close #f2
+        ff = FreeFile()
+        Open CachePath & "node_v0_11_11.exe" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
     End If
     
     Exit Sub
@@ -61,5 +62,6 @@ Sub Main()
         DefaultDisableDWMWindow = 0
     End If
     
+    'frmMsgboxTest.Show
     frmMain.Show vbModeless
 End Sub
