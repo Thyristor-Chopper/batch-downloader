@@ -3501,6 +3501,7 @@ Sub LoadLiveBadukSkin()
         fTotal.Visible = 0
         Frame4.Visible = 0
         lblLBCaption.Visible = -1
+        fDownloadInfo.Refresh
         
         pbTotalProgress.Top = 1800 - 90
         pbTotalProgressMarquee.Top = 1800 - 90
@@ -3515,9 +3516,12 @@ Sub LoadLiveBadukSkin()
         imgBottomRight.Visible = 0
         imgCenter.Visible = 0
         
-        fTotal.Visible = -1
-        Frame4.Visible = -1
         lblLBCaption.Visible = 0
+        fTotal.Visible = -1
+        fTotal.Refresh
+        Frame4.Visible = -1
+        Frame4.Refresh
+        fDownloadInfo.Refresh
 
         pbTotalProgress.Top = 1560
         pbTotalProgressMarquee.Top = 1560
