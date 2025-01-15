@@ -731,6 +731,7 @@ Private Sub cbSkin_Click()
         cmdApply.Enabled = -1
         tygApply.Enabled = -1
         SkinChanged = True
+        VisualStyleChanged = True
     End If
 End Sub
 
