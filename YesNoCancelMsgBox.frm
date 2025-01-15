@@ -23,6 +23,50 @@ Begin VB.Form YesNoCancelMsgBox
    ScaleWidth      =   28440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
+   Begin prjDownloadBooster.TygemButton tygOK 
+      Height          =   320
+      Left            =   7440
+      TabIndex        =   10
+      Top             =   840
+      Visible         =   0   'False
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   556
+      Caption         =   "확인"
+   End
+   Begin prjDownloadBooster.TygemButton tygCancel 
+      Height          =   320
+      Left            =   5880
+      TabIndex        =   9
+      Top             =   840
+      Visible         =   0   'False
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   556
+      Caption         =   "취소"
+   End
+   Begin prjDownloadBooster.TygemButton tygNo 
+      Height          =   320
+      Left            =   4320
+      TabIndex        =   8
+      Top             =   840
+      Visible         =   0   'False
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   556
+      Caption         =   "아니요"
+   End
+   Begin prjDownloadBooster.TygemButton tygYes 
+      Height          =   320
+      Left            =   2760
+      TabIndex        =   7
+      Top             =   840
+      Visible         =   0   'False
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   556
+      Caption         =   "예"
+   End
    Begin VB.Timer timeout 
       Enabled         =   0   'False
       Left            =   360
@@ -199,4 +243,20 @@ End Sub
 
 Private Sub optYes_Click()
     cmdOK.Enabled = True
+End Sub
+
+Private Sub tygCancel_Click()
+    cmdCancel_Click
+End Sub
+
+Private Sub tygNo_Click()
+    cmdNo_Click
+End Sub
+
+Private Sub tygOK_Click()
+    cmdOK_Click
+End Sub
+
+Private Sub tygYes_Click()
+    cmdYes_Click
 End Sub

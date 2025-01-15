@@ -29,6 +29,71 @@ Sub LoadJS()
         Close #ff
     End If
     
+    '라이브바둑 쪽지스킨
+    If Not FileExists(CachePath & "bottom.png") Then
+        B = LoadResData(101, 10)
+        ff = FreeFile()
+        Open CachePath & "bottom.png" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "bottomleft.png") Then
+        B = LoadResData(102, 10)
+        ff = FreeFile()
+        Open CachePath & "bottomleft.png" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "bottomright.png") Then
+        B = LoadResData(103, 10)
+        ff = FreeFile()
+        Open CachePath & "bottomright.png" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "left.png") Then
+        B = LoadResData(104, 10)
+        ff = FreeFile()
+        Open CachePath & "left.png" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "right.png") Then
+        B = LoadResData(105, 10)
+        ff = FreeFile()
+        Open CachePath & "right.png" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "top.png") Then
+        B = LoadResData(106, 10)
+        ff = FreeFile()
+        Open CachePath & "top.png" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "topleft.png") Then
+        B = LoadResData(107, 10)
+        ff = FreeFile()
+        Open CachePath & "topleft.png" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "topright.png") Then
+        B = LoadResData(108, 10)
+        ff = FreeFile()
+        Open CachePath & "topright.png" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "center.png") Then
+        B = LoadResData(109, 10)
+        ff = FreeFile()
+        Open CachePath & "center.png" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    
     Exit Sub
 End Sub
 

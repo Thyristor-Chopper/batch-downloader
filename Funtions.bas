@@ -147,6 +147,8 @@ Sub SetFormBackgroundColor(frmForm As Form)
     Dim clrBackColor As Long
     Dim clrForeColor As Long
     Dim DisableVisualStyle As Boolean
+    Dim EnableLBSkin As Boolean
+    EnableLBSkin = CBool(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)))
     DisableVisualStyle = CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
     If clrBackColor < 0 Or clrBackColor > 16777215 Then
@@ -166,11 +168,14 @@ Sub SetFormBackgroundColor(frmForm As Form)
     On Error Resume Next
     Dim ctrl As Control
     For Each ctrl In frmForm.Controls
-        If TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
+        If TypeName(ctrl) = "TygemButton" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
+            If TypeName(ctrl) = "TygemButton" Then
+                ctrl.Visible = EnableLBSkin
+            End If
             If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then ctrl.VisualStyles = True
             If DisableVisualStyle And ctrl.VisualStyles = True Then ctrl.VisualStyles = False
             If TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "ListBoxW" Then GoTo nextfor
-            If ctrl.Tag <> "nocolorchange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" Then ctrl.ForeColor = clrForeColor
+            If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" Then ctrl.ForeColor = clrForeColor
             If TypeName(ctrl) = "PictureBox" Then
                 If ctrl.AutoRedraw = True Then GoTo nextfor
             End If
@@ -424,12 +429,28 @@ Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As For
     End If
     YesNoCancelMsgBox.cmdOK.Caption = t("확인", "OK")
     
+    YesNoCancelMsgBox.tygOK.Caption = t("확인", "OK")
+    
+    YesNoCancelMsgBox.tygOK.Top = YesNoCancelMsgBox.cmdOK.Top
+    YesNoCancelMsgBox.tygOK.Left = YesNoCancelMsgBox.cmdOK.Left
+    YesNoCancelMsgBox.tygCancel.Top = YesNoCancelMsgBox.cmdCancel.Top
+    YesNoCancelMsgBox.tygCancel.Left = YesNoCancelMsgBox.cmdCancel.Left
+    YesNoCancelMsgBox.tygYes.Top = YesNoCancelMsgBox.cmdYes.Top
+    YesNoCancelMsgBox.tygYes.Left = YesNoCancelMsgBox.cmdYes.Left
+    YesNoCancelMsgBox.tygNo.Top = YesNoCancelMsgBox.cmdNo.Top
+    YesNoCancelMsgBox.tygNo.Left = YesNoCancelMsgBox.cmdNo.Left
+    
     YesNoCancelMsgBox.cmdOK.Visible = -1
     YesNoCancelMsgBox.cmdCancel.Visible = 0
     YesNoCancelMsgBox.cmdYes.Visible = 0
     YesNoCancelMsgBox.cmdNo.Visible = 0
     YesNoCancelMsgBox.optYes.Visible = 0
     YesNoCancelMsgBox.optNo.Visible = 0
+    
+    YesNoCancelMsgBox.tygOK.Visible = -1
+    YesNoCancelMsgBox.tygCancel.Visible = 0
+    YesNoCancelMsgBox.tygYes.Visible = 0
+    YesNoCancelMsgBox.tygNo.Visible = 0
     
     YesNoCancelMsgBox.cmdCancel.Cancel = 0
     YesNoCancelMsgBox.cmdCancel.Default = 0
@@ -508,12 +529,20 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
     YesNoCancelMsgBox.cmdYes.Caption = t("예(&Y)", "&Yes")
     YesNoCancelMsgBox.cmdNo.Caption = t("아니요(&N)", "&No")
     
+    YesNoCancelMsgBox.tygYes.Caption = t("예", "Yes")
+    YesNoCancelMsgBox.tygNo.Caption = t("아니요", "No")
+    
     YesNoCancelMsgBox.cmdOK.Visible = 0
     YesNoCancelMsgBox.cmdCancel.Visible = 0
     YesNoCancelMsgBox.cmdYes.Visible = -1
     YesNoCancelMsgBox.cmdNo.Visible = -1
     YesNoCancelMsgBox.optYes.Visible = 0
     YesNoCancelMsgBox.optNo.Visible = 0
+    
+    YesNoCancelMsgBox.tygOK.Visible = 0
+    YesNoCancelMsgBox.tygCancel.Visible = 0
+    YesNoCancelMsgBox.tygYes.Visible = -1
+    YesNoCancelMsgBox.tygNo.Visible = -1
     
     YesNoCancelMsgBox.cmdCancel.Cancel = 0
     YesNoCancelMsgBox.cmdCancel.Default = 0
@@ -607,6 +636,9 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     YesNoCancelMsgBox.optNo.Caption = t("아니요(&N)", "&No")
     YesNoCancelMsgBox.cmdOK.Caption = t("확인", "OK")
     YesNoCancelMsgBox.cmdCancel.Caption = t("취소", "Cancel")
+    
+    YesNoCancelMsgBox.tygOK.Caption = t("확인", "OK")
+    YesNoCancelMsgBox.tygCancel.Caption = t("취소", "Cancel")
     MessageBeep Icon
     
     YesNoCancelMsgBox.cmdOK.Visible = -1
@@ -615,6 +647,11 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     YesNoCancelMsgBox.cmdNo.Visible = 0
     YesNoCancelMsgBox.optYes.Visible = -1
     YesNoCancelMsgBox.optNo.Visible = -1
+    
+    YesNoCancelMsgBox.tygOK.Visible = -1
+    YesNoCancelMsgBox.tygCancel.Visible = -1
+    YesNoCancelMsgBox.tygYes.Visible = 0
+    YesNoCancelMsgBox.tygNo.Visible = 0
     
     YesNoCancelMsgBox.cmdCancel.Cancel = -1
     YesNoCancelMsgBox.cmdCancel.Default = -1
@@ -701,6 +738,15 @@ Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Op
     YesNoCancelMsgBox.cmdYes.Caption = t("예(&Y)", "&Yes")
     YesNoCancelMsgBox.cmdNo.Caption = t("아니요(&N)", "&No")
     YesNoCancelMsgBox.cmdCancel.Caption = t("취소", "Cancel")
+    
+    YesNoCancelMsgBox.tygOK.Visible = 0
+    YesNoCancelMsgBox.tygCancel.Visible = -1
+    YesNoCancelMsgBox.tygYes.Visible = -1
+    YesNoCancelMsgBox.tygNo.Visible = -1
+    
+    YesNoCancelMsgBox.tygYes.Caption = t("예", "Yes")
+    YesNoCancelMsgBox.tygNo.Caption = t("아니요", "No")
+    YesNoCancelMsgBox.tygCancel.Caption = t("취소", "Cancel")
     
     YesNoCancelMsgBox.cmdCancel.Cancel = -1
     YesNoCancelMsgBox.cmdCancel.Default = -1
@@ -922,7 +968,7 @@ Sub SetFont(frm As Form)
     For Each ctrl In frm.Controls
         If ctrl.Name <> "lvDummyScroll" Then
             ctrl.Font.Name = "Tahoma"
-            ctrl.Font.Size = 8
+            If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = 8
         End If
     Next ctrl
 End Sub

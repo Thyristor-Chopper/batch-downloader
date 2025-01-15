@@ -23,6 +23,40 @@ Begin VB.Form frmOptions
    ScaleWidth      =   12405
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.TygemButton tygOK 
+      Height          =   360
+      Left            =   2040
+      TabIndex        =   50
+      Top             =   5040
+      Visible         =   0   'False
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   635
+      Caption         =   "확인"
+   End
+   Begin prjDownloadBooster.TygemButton tygCancel 
+      Height          =   360
+      Left            =   3480
+      TabIndex        =   49
+      Top             =   5040
+      Visible         =   0   'False
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   635
+      Caption         =   "취소"
+   End
+   Begin prjDownloadBooster.TygemButton tygApply 
+      Height          =   360
+      Left            =   4920
+      TabIndex        =   48
+      Top             =   5040
+      Visible         =   0   'False
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   635
+      Enabled         =   0   'False
+      Caption         =   "적용"
+   End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
       Height          =   2055
@@ -30,13 +64,13 @@ Begin VB.Form frmOptions
       Left            =   6360
       ScaleHeight     =   1995
       ScaleWidth      =   5955
-      TabIndex        =   36
+      TabIndex        =   35
       Top             =   120
       Width           =   6015
       Begin prjDownloadBooster.FrameW FrameW2 
          Height          =   1335
          Left            =   120
-         TabIndex        =   37
+         TabIndex        =   36
          Top             =   600
          Width           =   5775
          _ExtentX        =   10186
@@ -46,7 +80,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.TextBoxW txtYtdlPath 
             Height          =   255
             Left            =   2040
-            TabIndex        =   43
+            TabIndex        =   42
             Top             =   960
             Visible         =   0   'False
             Width           =   3615
@@ -56,7 +90,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.TextBoxW txtNodePath 
             Height          =   255
             Left            =   2040
-            TabIndex        =   39
+            TabIndex        =   38
             Top             =   240
             Width           =   3615
             _ExtentX        =   6376
@@ -65,7 +99,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.TextBoxW txtScriptPath 
             Height          =   255
             Left            =   2040
-            TabIndex        =   40
+            TabIndex        =   39
             Top             =   600
             Width           =   3615
             _ExtentX        =   6376
@@ -76,7 +110,7 @@ Begin VB.Form frmOptions
             Caption         =   "&youtube-dl/yt-dlp:"
             Height          =   255
             Left            =   120
-            TabIndex        =   44
+            TabIndex        =   43
             Top             =   990
             Visible         =   0   'False
             Width           =   1695
@@ -86,7 +120,7 @@ Begin VB.Form frmOptions
             Caption         =   "다운로드 스크립트(&D):"
             Height          =   255
             Left            =   120
-            TabIndex        =   41
+            TabIndex        =   40
             Top             =   630
             Width           =   1935
          End
@@ -95,7 +129,7 @@ Begin VB.Form frmOptions
             Caption         =   "&Node.js:"
             Height          =   255
             Left            =   120
-            TabIndex        =   38
+            TabIndex        =   37
             Top             =   270
             Width           =   1455
          End
@@ -105,7 +139,7 @@ Begin VB.Form frmOptions
          Caption         =   "기본값을 사용하려면 필드를 비워두십시오. 이 옵션은 고급 사용자를     위한 것이며 일반적으로 변경할 필요가 없습니다."
          Height          =   480
          Left            =   120
-         TabIndex        =   42
+         TabIndex        =   41
          Top             =   120
          Width           =   5775
       End
@@ -277,13 +311,24 @@ Begin VB.Form frmOptions
          Left            =   120
          ScaleHeight     =   1335
          ScaleWidth      =   4395
-         TabIndex        =   45
+         TabIndex        =   44
          Top             =   120
          Width           =   4395
+         Begin prjDownloadBooster.TygemButton tygSample 
+            Height          =   285
+            Left            =   2340
+            TabIndex        =   52
+            Top             =   780
+            Visible         =   0   'False
+            Width           =   1575
+            _ExtentX        =   2778
+            _ExtentY        =   503
+            Caption         =   "단추"
+         End
          Begin prjDownloadBooster.CommandButtonW cmdSample 
             Height          =   285
             Left            =   2340
-            TabIndex        =   46
+            TabIndex        =   45
             TabStop         =   0   'False
             Top             =   780
             Width           =   1575
@@ -369,10 +414,21 @@ Begin VB.Form frmOptions
          _ExtentY        =   1720
          Caption         =   " 배경 그림 "
          Transparent     =   -1  'True
+         Begin prjDownloadBooster.TygemButton tygChooseBackground 
+            Height          =   330
+            Left            =   2040
+            TabIndex        =   51
+            Top             =   210
+            Visible         =   0   'False
+            Width           =   495
+            _ExtentX        =   873
+            _ExtentY        =   582
+            Caption         =   "..."
+         End
          Begin prjDownloadBooster.ComboBoxW cbImagePosition 
             Height          =   300
             Left            =   960
-            TabIndex        =   47
+            TabIndex        =   46
             Top             =   600
             Width           =   1575
             _ExtentX        =   2778
@@ -406,7 +462,7 @@ Begin VB.Form frmOptions
             Caption         =   "위치(&P):"
             Height          =   255
             Left            =   120
-            TabIndex        =   48
+            TabIndex        =   47
             Top             =   645
             Width           =   840
          End
@@ -419,18 +475,27 @@ Begin VB.Form frmOptions
          Width           =   2655
          _ExtentX        =   4683
          _ExtentY        =   1720
-         Caption         =   " 인터페이스 "
+         Caption         =   " 스킨 "
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CheckBoxW chkNoTheming 
+         Begin prjDownloadBooster.ComboBoxW cbSkin 
+            Height          =   300
+            Left            =   360
+            TabIndex        =   53
+            Top             =   480
+            Width           =   2175
+            _ExtentX        =   3836
+            _ExtentY        =   529
+            Style           =   2
+            Text            =   "ComboBoxW1"
+         End
+         Begin VB.Label Label8 
+            BackStyle       =   0  '투명
+            Caption         =   "스킨 선택(&K):"
             Height          =   255
             Left            =   120
-            TabIndex        =   35
+            TabIndex        =   54
             Top             =   240
-            Width           =   2415
-            _ExtentX        =   4260
-            _ExtentY        =   450
-            Caption         =   "고전 스타일 사용(&C)"
-            Transparent     =   -1  'True
+            Width           =   2175
          End
       End
       Begin VB.PictureBox pbOptionContainer 
@@ -638,50 +703,80 @@ Dim Loaded As Boolean
 Dim ColorChanged As Boolean
 Public ImageChanged As Boolean
 Dim VisualStyleChanged As Boolean
+Dim SkinChanged As Boolean
 
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
 
 Private Sub cbImagePosition_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub cbLanguage_Click()
     If Loaded Then
         Alert t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application."), App.Title, Me, 64
         cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
+End Sub
+
+Private Sub cbSkin_Click()
+    cmdSample.VisualStyles = (cbSkin.ListIndex = 0 Or cbSkin.ListIndex = 2)
+    tygSample.Visible = (cbSkin.ListIndex = 2)
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+        SkinChanged = True
     End If
 End Sub
 
 Private Sub cbWhenExist_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub chkAlwaysResume_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub chkAutoRetry_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub chkBeepWhenComplete_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub chkEnableBackgroundImage_Click()
     If Loaded Then
         cmdApply.Enabled = -1
+        tygApply.Enabled = -1
         ImageChanged = True
     End If
     
     If chkEnableBackgroundImage.Value = 0 Then
         cmdChooseBackground.Enabled = 0
+        tygChooseBackground.Enabled = 0
         imgPreview.Visible = 0
         cmdSample.Refresh
     Else
         cmdChooseBackground.Enabled = -1
+        tygChooseBackground.Enabled = -1
         
         On Error Resume Next
         If LCase(Right$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""), 4)) = ".png" Then
@@ -696,31 +791,47 @@ Private Sub chkEnableBackgroundImage_Click()
 End Sub
 
 Private Sub chkNoCleanup_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub chkNoDWMWindow_Click()
-    If Loaded Then cmdApply.Enabled = -1
-End Sub
-
-Private Sub chkNoTheming_Click()
     If Loaded Then
         cmdApply.Enabled = -1
-        VisualStyleChanged = True
+        tygApply.Enabled = -1
     End If
-    cmdSample.VisualStyles = (Not CBool(chkNoTheming.Value * (-1)))
 End Sub
 
+'Private Sub chkNoTheming_Click()
+'    If Loaded Then
+'        cmdApply.Enabled = -1
+'        tygApply.Enabled = -1
+'        VisualStyleChanged = True
+'    End If
+'    cmdSample.VisualStyles = (Not CBool(chkNoTheming.Value * (-1)))
+'End Sub
+
 Private Sub chkOpenDirWhenComplete_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub chkOpenWhenComplete_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub chkRememberURL_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub cmdApply_Click()
@@ -787,10 +898,12 @@ Private Sub cmdApply_Click()
         frmMain.chkContinueDownload.Transparent = 0
         frmMain.chkAutoRetry.Transparent = 0
     End If
-    SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", Abs(chkNoTheming.Value) * (-1)
-    If ColorChanged Or VisualStyleChanged Then
+    SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
+    SaveSetting "DownloadBooster", "Options", "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
+    If ColorChanged Or VisualStyleChanged Or SkinChanged Then
         SetFormBackgroundColor Me
         SetFormBackgroundColor frmMain
+        frmMain.LoadLiveBadukSkin
     End If
     If VisualStyleChanged Then
         On Error Resume Next
@@ -891,7 +1004,11 @@ Private Sub cmdApply_Click()
     ColorChanged = False
     ImageChanged = False
     VisualStyleChanged = False
-    If Not NoDisable Then cmdApply.Enabled = 0
+    SkinChanged = False
+    If Not NoDisable Then
+        cmdApply.Enabled = 0
+        tygApply.Enabled = 0
+    End If
 End Sub
 
 Private Sub cmdChooseBackground_Click()
@@ -907,6 +1024,7 @@ Private Sub Form_Load()
     Loaded = False
     ImageChanged = False
     ColorChanged = False
+    SkinChanged = False
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me
@@ -958,7 +1076,10 @@ Private Sub Form_Load()
     End If
     
     chkEnableBackgroundImage.Value = GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0)
-    If chkEnableBackgroundImage.Value = 0 Then cmdChooseBackground.Enabled = 0
+    If chkEnableBackgroundImage.Value = 0 Then
+        cmdChooseBackground.Enabled = 0
+        tygChooseBackground.Enabled = 0
+    End If
     
     Dim clrBackColor As Long
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
@@ -983,6 +1104,7 @@ Private Sub Form_Load()
     lnForePreview.BorderColor = pgFore.BackColor
     
     cmdApply.Enabled = 0
+    tygApply.Enabled = 0
     'On Error Resume Next
     Dim ctrl As Control
     For Each ctrl In Me.Controls
@@ -1004,8 +1126,21 @@ Private Sub Form_Load()
     chkAlwaysResume.Value = frmMain.chkContinueDownload.Value
     chkAutoRetry.Value = frmMain.chkAutoRetry.Value
     
-    chkNoTheming.Value = Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
-    cmdSample.VisualStyles = (Not CBool(chkNoTheming.Value * (-1)))
+    cbSkin.Clear
+    cbSkin.AddItem t("시스템 스타일", "System style")
+    cbSkin.AddItem t("고전 스타일", "Classic style")
+    cbSkin.AddItem t("타이젬 바둑 스타일", "LiveBaduk style")
+    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
+        cbSkin.ListIndex = 2
+    ElseIf Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))) Then
+        cbSkin.ListIndex = 1
+    Else
+        cbSkin.ListIndex = 0
+    End If
+    
+    'chkNoTheming.Value = Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
+    cmdSample.VisualStyles = (Not CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))))
+    tygSample.Visible = Abs(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0))) * (-1)
     
     cbLanguage.Clear
     cbLanguage.AddItem "한국어"
@@ -1061,7 +1196,7 @@ Private Sub Form_Load()
     CancelButton.Caption = t(CancelButton.Caption, "Cancel")
     cmdApply.Caption = t(cmdApply.Caption, "&Apply")
     Me.Caption = t(Me.Caption, "Options")
-    Frame6.Caption = t(Frame6.Caption, " Interface ")
+    Frame6.Caption = t(Frame6.Caption, " Skin ")
     chkOpenWhenComplete.Caption = t(chkOpenWhenComplete.Caption, "&Open file when complete")
     chkOpenDirWhenComplete.Caption = t(chkOpenDirWhenComplete.Caption, "O&pen folder when complete")
     chkBeepWhenComplete.Caption = t(chkBeepWhenComplete.Caption, "&Beep when complete")
@@ -1071,12 +1206,17 @@ Private Sub Form_Load()
     FrameW1.Caption = t(FrameW1.Caption, " Background image ")
     chkEnableBackgroundImage.Caption = t(chkEnableBackgroundImage.Caption, "Use &background image")
     'cmdChooseBackground.Caption = t(cmdChooseBackground.Caption, "C&hoose image...")
-    chkNoTheming.Caption = t(chkNoTheming.Caption, "&Use classic theme")
+    'chkNoTheming.Caption = t(chkNoTheming.Caption, "&Use classic theme")
     Label6.Caption = t(Label6.Caption, "Leave the field blank to use defaults. This option is for advanced users and there is no need to change for normal use.")
     FrameW2.Caption = t(FrameW2.Caption, " Directory settings ")
     Label5.Caption = t(Label5.Caption, "&Download script:")
     cmdSample.Caption = t(cmdSample.Caption, "Button")
+    tygSample.Caption = cmdSample.Caption
     Label2.Caption = t(Label2.Caption, "&Position:")
+    Label8.Caption = t(Label8.Caption, "Select s&kin:")
+    tygOK.Caption = t(tygOK.Caption, "OK")
+    tygCancel.Caption = t(tygCancel.Caption, "Cancel")
+    tygApply.Caption = t(tygApply.Caption, "Apply")
     
     Loaded = True
 End Sub
@@ -1087,6 +1227,7 @@ Private Sub lblSelectColor_Click()
     If Color = -1 Then Exit Sub
     pgColor.BackColor = Color
     cmdApply.Enabled = -1
+    tygApply.Enabled = -1
     optUserColor.Value = True
     ColorChanged = True
     pgBackPreview.BackColor = pgColor.BackColor
@@ -1099,6 +1240,7 @@ Private Sub lblSelectFore_Click()
     If Color = -1 Then Exit Sub
     pgFore.BackColor = Color
     cmdApply.Enabled = -1
+    tygApply.Enabled = -1
     optUserFore.Value = True
     ColorChanged = True
     lnForePreview.BorderColor = pgFore.BackColor
@@ -1112,6 +1254,7 @@ End Sub
 Private Sub optSystemColor_Click()
     If Loaded Then
         cmdApply.Enabled = -1
+        tygApply.Enabled = -1
         ColorChanged = True
     End If
     pgBackPreview.BackColor = &H8000000F
@@ -1121,6 +1264,7 @@ End Sub
 Private Sub optSystemFore_Click()
     If Loaded Then
         cmdApply.Enabled = -1
+        tygApply.Enabled = -1
         ColorChanged = True
     End If
     lnForePreview.BorderColor = &H80000012
@@ -1129,6 +1273,7 @@ End Sub
 Private Sub optUserColor_Click()
     If Loaded Then
         cmdApply.Enabled = -1
+        tygApply.Enabled = -1
         ColorChanged = True
     End If
     pgBackPreview.BackColor = pgColor.BackColor
@@ -1138,6 +1283,7 @@ End Sub
 Private Sub optUserFore_Click()
     If Loaded Then
         cmdApply.Enabled = -1
+        tygApply.Enabled = -1
         ColorChanged = True
     End If
     lnForePreview.BorderColor = pgFore.BackColor
@@ -1187,13 +1333,38 @@ SysInfoErr:
 End Sub
 
 Private Sub txtNodePath_Change()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub txtScriptPath_Change()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
 End Sub
 
 Private Sub txtYtdlPath_Change()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
+End Sub
+
+Private Sub tygApply_Click()
+    cmdApply_Click
+End Sub
+
+Private Sub tygCancel_Click()
+    CancelButton_Click
+End Sub
+
+Private Sub tygChooseBackground_Click()
+    cmdChooseBackground_Click
+End Sub
+
+Private Sub tygOK_Click()
+    OKButton_Click
 End Sub

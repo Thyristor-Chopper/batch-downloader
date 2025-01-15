@@ -28,8 +28,8 @@ Public MaxWidth As Collection
 Public MaxHeight As Collection
 
 Private Type POINTAPI
-    x As Long
-    y As Long
+    X As Long
+    Y As Long
 End Type
 
 Private Type MINMAXINFO
@@ -66,10 +66,10 @@ Function NewWndProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long
     If uMsg = WM_GETMINMAXINFO Then
         Dim lpMMI As MINMAXINFO
         CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-        lpMMI.ptMinTrackSize.x = MinWidth(CStr(hWnd))
-        lpMMI.ptMinTrackSize.y = MinHeight(CStr(hWnd))
-        lpMMI.ptMaxTrackSize.x = MaxWidth(CStr(hWnd))
-        lpMMI.ptMaxTrackSize.y = MaxHeight(CStr(hWnd))
+        lpMMI.ptMinTrackSize.X = MinWidth(CStr(hWnd))
+        lpMMI.ptMinTrackSize.Y = MinHeight(CStr(hWnd))
+        lpMMI.ptMaxTrackSize.X = MaxWidth(CStr(hWnd))
+        lpMMI.ptMaxTrackSize.Y = MaxHeight(CStr(hWnd))
         CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
         
         NewWndProc = 1&
