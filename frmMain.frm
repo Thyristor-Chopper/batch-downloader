@@ -20,6 +20,26 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   10530
    StartUpPosition =   3  'Windows 기본값
+   Begin prjDownloadBooster.ImageList imgWrench 
+      Left            =   9240
+      Top             =   6600
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      ColorDepth      =   4
+      InitListImages  =   "frmMain.frx":030A
+   End
+   Begin prjDownloadBooster.ImageList imgErase 
+      Left            =   9840
+      Top             =   6600
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":07F2
+   End
    Begin prjDownloadBooster.StatusBar sbStatusBar 
       Align           =   2  '아래 맞춤
       Height          =   330
@@ -28,7 +48,7 @@ Begin VB.Form frmMain
       Width           =   10530
       _ExtentX        =   18574
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":030A
+      InitPanels      =   "frmMain.frx":0BDA
    End
    Begin prjDownloadBooster.ListView lvBatchFiles 
       Height          =   870
@@ -67,6 +87,7 @@ Begin VB.Form frmMain
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
+      ImageList       =   "imgWrench"
       Caption         =   "추가 옵션(&I)..."
       Transparent     =   -1  'True
    End
@@ -138,7 +159,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":060E
+      InitListImages  =   "frmMain.frx":0EDE
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenDropdown 
       Height          =   375
@@ -161,7 +182,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":0CFE
+      InitListImages  =   "frmMain.frx":15CE
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -184,7 +205,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":13EE
+      InitListImages  =   "frmMain.frx":1CBE
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
@@ -220,7 +241,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":25F6
+      InitListImages  =   "frmMain.frx":2EC6
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -230,7 +251,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":37FE
+      InitListImages  =   "frmMain.frx":40CE
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -240,7 +261,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":4A06
+      InitListImages  =   "frmMain.frx":52D6
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -250,7 +271,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":5C0E
+      InitListImages  =   "frmMain.frx":64DE
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -260,7 +281,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":6E16
+      InitListImages  =   "frmMain.frx":76E6
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -270,7 +291,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":801E
+      InitListImages  =   "frmMain.frx":88EE
    End
    Begin prjDownloadBooster.CheckBoxW chkPlaySound 
       Height          =   255
@@ -1697,6 +1718,7 @@ Begin VB.Form frmMain
       Width           =   1695
       _ExtentX        =   2990
       _ExtentY        =   582
+      ImageList       =   "imgErase"
       Caption         =   "초기화(&Y) "
       Transparent     =   -1  'True
    End
@@ -1912,6 +1934,7 @@ Begin VB.Form frmMain
       Width           =   1695
       _ExtentX        =   2990
       _ExtentY        =   582
+      ImageList       =   "imgOpenFolder"
       Caption         =   " 찾아보기(&B)..."
       Transparent     =   -1  'True
    End
@@ -2068,6 +2091,7 @@ Dim PrevDownloadedBytes As Double
 Dim SpeedCount As Integer
 Dim HttpStatusCode As String
 Dim ResumeUnsupported As Boolean
+Public ImagePosition As Integer
 
 Sub OnData(Data As String)
     Dim output$
@@ -2657,6 +2681,10 @@ Sub AddBatchURLs(URL As String)
 End Sub
 
 Private Sub cmdAddToQueue_Click()
+    If Replace(txtURL.Text, " ", "") = "" Then
+        Alert t("파일 주소를 입력하십시오.", "Specify the file URL."), App.Title, Me, 64
+        Exit Sub
+    End If
     On Error GoTo justadd
     Dim i%
     If lvBatchFiles.ListItems.Count Then
@@ -3072,12 +3100,48 @@ Private Sub cmdStopBatch_Click()
     End If
 End Sub
 
+Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
+    On Error Resume Next
+    If imgBackground.Visible Then
+        Select Case ImagePosition
+            Case 0 '늘이기
+                If imgBackground.Stretch <> True Then imgBackground.Stretch = True
+                imgBackground.Width = Me.Width
+                imgBackground.Height = Me.Height
+            Case 1 '높이에 맞추기
+                If imgBackground.Stretch <> True Then imgBackground.Stretch = True
+                imgBackground.Height = Me.Height
+                imgBackground.Width = imgBackground.Picture.Width / imgBackground.Picture.Height * Me.Height
+            Case 2 '너비에 맞추기
+                If imgBackground.Stretch <> True Then imgBackground.Stretch = True
+                imgBackground.Width = Me.Width
+                imgBackground.Height = imgBackground.Picture.Height / imgBackground.Picture.Width * Me.Width
+            Case 3 '원본 크기
+                If imgBackground.Stretch = True Then imgBackground.Stretch = False
+        End Select
+        If ImagePosition < 2 Or ForceRefresh Then
+            On Error Resume Next
+            Dim ctrl As Control
+            For Each ctrl In Me.Controls
+                If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
+            Next ctrl
+            trThreadCount.VisualStyles = False
+            trThreadCount.VisualStyles = True
+        End If
+    End If
+End Sub
+
 Sub SetBackgroundImage()
     On Error Resume Next
     If GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 And Trim$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")) <> "" Then
-        imgBackground.Picture = LoadPicture(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))
+        If LCase(Right$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""), 4)) = ".png" Then
+            Set imgBackground.Picture = LoadPngIntoPictureWithAlpha(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))
+        Else
+            imgBackground.Picture = LoadPicture(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))
+        End If
         imgBackground.Visible = -1
         pbProgressOuterContainer.BorderStyle = 1
+        SetBackgroundPosition True
     Else
         imgBackground.Visible = 0
         pbProgressOuterContainer.BorderStyle = 0
@@ -3102,6 +3166,7 @@ Private Sub Form_Load()
     Me.Caption = t(Me.Caption, "Download Booster") & " v" & App.Major & "." & App.Minor & "." & App.Revision
     TahomaAvailable = FontExists("Tahoma")
     
+    ImagePosition = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
     SetBackgroundImage
     imgBackground.Width = Me.Width
     imgBackground.Height = Me.Height
@@ -3179,7 +3244,7 @@ Private Sub Form_Load()
         txtURL.SelLength = Len(txtURL.Text)
     End If
     chkPlaySound.Value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
-    chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 1)
+    chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 0)
     chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
     
     cbWhenExist.Clear
@@ -3305,17 +3370,7 @@ Private Sub Form_Resize()
     cmdDeleteDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdStartBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdStopBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
-    If imgBackground.Visible Then
-        imgBackground.Width = Me.Width
-        imgBackground.Height = Me.Height
-        On Error Resume Next
-        Dim ctrl As Control
-        For Each ctrl In Me.Controls
-            If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
-        Next ctrl
-        trThreadCount.VisualStyles = False
-        trThreadCount.VisualStyles = True
-    End If
+    SetBackgroundPosition
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

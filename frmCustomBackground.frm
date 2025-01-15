@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmCustomBackground 
    BackColor       =   &H00F8EFE5&
    BorderStyle     =   3  '크기 고정 대화 상자
-   Caption         =   "사용자 사진 선택"
+   Caption         =   "배경 그림 선택"
    ClientHeight    =   4965
    ClientLeft      =   2760
    ClientTop       =   3750
@@ -284,11 +284,14 @@ Private Sub Form_Load()
     SetFont Me
     
     selFileType.Clear
-    selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.GIF; *.BMP; *.DIB; *.WMF; *.EMF)"
+    selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
     selFileType.AddItem "JPEG (*.JPG)"
-    selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
     selFileType.AddItem "GIF (*.GIF)"
+    selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
+    selFileType.AddItem "PNG (*.PNG)"
     selFileType.AddItem t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
+    selFileType.AddItem t("아이콘", "Icon") & " (*.ICO)"
+    selFileType.AddItem t("커서", "Cursor") & " (*.CUR)"
     selFileType.ListIndex = 0
     
     lvDir_Change
@@ -337,7 +340,11 @@ End Sub
 
 Private Sub lvFiles_Click()
     On Error Resume Next
-    imgPreview.Picture = LoadPicture(lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex))
+    If LCase(Right$(lvFiles.List(lvFiles.ListIndex), 4)) = ".png" Then
+        Set imgPreview.Picture = LoadPngIntoPictureWithAlpha(lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex))
+    Else
+        imgPreview.Picture = LoadPicture(lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex))
+    End If
     If Not timDelayer.Enabled Then txtFileName.Text = lvFiles.List(lvFiles.ListIndex)
 End Sub
 
@@ -348,17 +355,25 @@ End Sub
 Private Sub OKButton_Click()
     If lvFiles.ListIndex < 0 Then Exit Sub
     On Error GoTo e
-    LoadPicture lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex)
+    If LCase(Right$(lvFiles.List(lvFiles.ListIndex), 4)) = ".png" Then
+        LoadPngIntoPictureWithAlpha lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex)
+    Else
+        LoadPicture lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex)
+    End If
     SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex)
     frmOptions.ImageChanged = True
     frmOptions.cmdApply.Enabled = True
-    frmOptions.imgPreview.Picture = LoadPicture(lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex))
+    If LCase(Right$(lvFiles.List(lvFiles.ListIndex), 4)) = ".png" Then
+        Set frmOptions.imgPreview.Picture = LoadPngIntoPictureWithAlpha(lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex))
+    Else
+        frmOptions.imgPreview.Picture = LoadPicture(lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex))
+    End If
     frmOptions.cmdSample.Refresh
     Unload Me
     Exit Sub
     
 e:
-    Alert "그림이 손상되었거나 올바르지 않습니다.", "오류", Me, 16
+    Alert t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), App.Title, Me, 16
 End Sub
 
 Private Sub selDrive_Change()
@@ -367,7 +382,7 @@ Private Sub selDrive_Change()
     Exit Sub
     
 e:
-    Alert "시스템에 부착된 장치를 사용할 수 없습니다.", "오류", Me, 16
+    Alert t("시스템에 부착된 장치를 사용할 수 없습니다.", "There is no disk in the selected drive"), App.Title, Me, 16
 End Sub
 
 Private Sub selFileType_Click()

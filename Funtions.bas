@@ -183,9 +183,9 @@ nextfor:
     Next ctrl
 End Sub
 
-Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpen As Boolean, Optional ByVal InitColor As OLE_COLOR) As Long
+Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpen As Boolean, Optional ByVal InitColor As OLE_COLOR, Optional ByVal SolidOnly As Boolean = False) As Long
     Dim CC As ChooseColorStruct
-    Dim aColorRef(15) As Long
+    Static aColorRef(15) As Long
     Dim lInitColor As Long
   
     If InitColor <> 0 Then
@@ -194,13 +194,37 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
         End If
     End If
     
+    aColorRef(0) = RGB(233, 245, 236)
+    aColorRef(1) = RGB(233, 237, 243)
+    aColorRef(2) = RGB(185, 209, 234)
+    aColorRef(3) = RGB(235, 233, 245)
+    aColorRef(4) = RGB(252, 251, 224)
+    aColorRef(5) = RGB(244, 232, 232)
+    aColorRef(6) = RGB(248, 228, 244)
+    aColorRef(7) = RGB(223, 233, 244)
+    
+    aColorRef(8) = RGB(249, 242, 230)
+    aColorRef(9) = RGB(222, 235, 248)
+    aColorRef(10) = RGB(227, 244, 232)
+    aColorRef(11) = RGB(236, 230, 211)
+    aColorRef(12) = RGB(212, 208, 200)
+    aColorRef(13) = RGB(192, 192, 192)
+    aColorRef(14) = 16777215
+    aColorRef(15) = 0&
+    
+    Dim SolidColor As Long
+    If SolidOnly Then
+        SolidColor = CC_SOLIDCOLOR
+    Else
+        SolidColor = 0&
+    End If
+    
     With CC
         .lStructSize = Len(CC)
         .hWndOwner = hParent
         .lpCustColors = VarPtr(aColorRef(0))
         .RGBResult = lInitColor
-        .Flags = CC_SOLIDCOLOR Or CC_ANYCOLOR Or CC_RGBINIT Or IIf(bFullOpen, _
-            CC_FULLOPEN, 0)
+        .Flags = SolidColor Or CC_ANYCOLOR Or CC_RGBINIT Or IIf(bFullOpen, CC_FULLOPEN, 0)
     End With
     
     If ChooseColor(CC) Then
