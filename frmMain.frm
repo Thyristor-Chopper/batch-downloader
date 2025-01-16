@@ -2998,6 +2998,7 @@ Private Sub cmdBatch_Click()
         cmdAddToQueue.Visible = 0
         tygBatch.Caption = t("ÀÏ°ý Ã³¸® >>", "Batch >>")
     End If
+    SetBackgroundPosition
 End Sub
 
 Private Sub cmdBrowse_Click()

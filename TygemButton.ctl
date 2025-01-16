@@ -323,8 +323,10 @@ Private Type POINTAPI
     Y As Long
 End Type
 Private bHovering As Boolean
+Private bMouseDown As Boolean
 
 Private Sub MouseOut()
+    If bMouseDown Then Exit Sub
     bHovering = False
     imgTop(1).Visible = 0
     imgLeft(1).Visible = 0
@@ -335,7 +337,11 @@ Private Sub MouseOut()
     imgBottomLeft(1).Visible = 0
     imgBottomRight(1).Visible = 0
     imgCenter(1).Visible = 0
-    lblCaption.ForeColor = &H0&
+    If m_Enabled Then
+        lblCaption.ForeColor = &H0&
+    Else
+        lblCaption.ForeColor = RGB(128, 128, 128)
+    End If
     tmrMouse.Enabled = 0
 End Sub
 
@@ -437,6 +443,7 @@ Private Sub UserControl_Initialize()
         imgCenter(i).Top = imgCenter(0).Top
         imgCenter(i).Left = imgCenter(0).Left
     Next i
+    bMouseDown = False
 End Sub
 
 Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -446,6 +453,7 @@ Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Singl
     lblCaption.Top = (UserControl.Height / 2 - lblCaption.Height / 2) + 20
     lblCaption.Tag = "mousedown"
     lblCaption.ForeColor = &H0&
+    bMouseDown = True
 End Sub
  
 Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -473,6 +481,7 @@ Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single,
     lblCaption.Left = 0
     lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2
     lblCaption.Tag = ""
+    bMouseDown = False
 End Sub
 
 Private Sub UserControl_Resize()
