@@ -25,6 +25,24 @@ Begin VB.Form frmAbout
    ScaleWidth      =   6338.599
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.TygemButton tygOK 
+      Height          =   345
+      Left            =   4485
+      TabIndex        =   8
+      Top             =   3840
+      Width           =   2070
+      _ExtentX        =   3651
+      _ExtentY        =   609
+   End
+   Begin prjDownloadBooster.TygemButton tygSysInfo 
+      Height          =   345
+      Left            =   4485
+      TabIndex        =   9
+      Top             =   4275
+      Width           =   2070
+      _ExtentX        =   3651
+      _ExtentY        =   609
+   End
    Begin VB.Timer timLicenseLoader 
       Enabled         =   0   'False
       Interval        =   10
@@ -196,9 +214,11 @@ Private Sub Form_Load()
     pbLicenseLoadProgress.Left = txtLicense.Left
     lblReadOnline.Top = txtLicense.Top + txtLicense.Height + 30 + pbLicenseLoadProgress.Height + 60
     lblReadOnline.Left = txtLicense.Left
+    cmdOK.Caption = t(cmdOK.Caption, "OK")
     cmdSysInfo.Caption = t(cmdSysInfo.Caption, "&System information...")
     lblReadOnline.Caption = t(lblReadOnline.Caption, "<A>[Read online]</A>")
-    cmdOK.Caption = t(cmdOK.Caption, "OK")
+    tygOK.Caption = t("확인", "OK")
+    tygSysInfo.Caption = t("시스템 정보...", "System information...")
     
     timLicenseLoader.Enabled = -1
 End Sub
@@ -262,4 +282,12 @@ LicenseFail:
     txtLicense.Height = txtLicense.Height + pbLicenseLoadProgress.Height + 30
     txtLicense.Enabled = -1
     txtLicensePlaceholder.Visible = 0
+End Sub
+
+Private Sub tygOK_Click()
+    cmdOK_Click
+End Sub
+
+Private Sub tygSysInfo_Click()
+    cmdSysInfo_Click
 End Sub

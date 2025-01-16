@@ -1,9 +1,9 @@
 VERSION 5.00
 Begin VB.UserControl TygemButton 
-   ClientHeight    =   2130
+   ClientHeight    =   1515
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   3555
+   ClientWidth     =   1665
    BeginProperty Font 
       Name            =   "±¼¸²"
       Size            =   9
@@ -13,14 +13,14 @@ Begin VB.UserControl TygemButton
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
-   ScaleHeight     =   2130
-   ScaleWidth      =   3555
+   ScaleHeight     =   1515
+   ScaleWidth      =   1665
    ToolboxBitmap   =   "TygemButton.ctx":0000
    Begin VB.Timer tmrMouse 
       Enabled         =   0   'False
       Interval        =   10
-      Left            =   2400
-      Top             =   360
+      Left            =   1200
+      Top             =   0
    End
    Begin VB.Image imgOverlay 
       Height          =   390
@@ -311,6 +311,12 @@ Dim m_Caption As String
 Const m_def_BackColor = &H8000000F
 Dim m_BackColor As OLE_COLOR
 
+Const m_def_FontName = "±¼¸²"
+Dim m_FontName As String
+
+Const m_def_FontSize = 9
+Dim m_FontSize As Integer
+
 Event Click()
 Event MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Event MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -385,6 +391,26 @@ Property Let Caption(ByVal New_Caption As String)
     m_Caption = New_Caption
     PropertyChanged "Caption"
     lblCaption.Caption = m_Caption
+End Property
+
+Property Get FontName() As String
+    FontName = m_FontName
+End Property
+
+Property Let FontName(ByVal New_FontName As String)
+    m_FontName = New_FontName
+    PropertyChanged "FontName"
+    lblCaption.Font.Name = m_FontName
+End Property
+
+Property Get FontSize() As String
+    FontSize = m_FontSize
+End Property
+
+Property Let FontSize(ByVal New_FontSize As String)
+    m_FontSize = New_FontSize
+    PropertyChanged "FontSize"
+    lblCaption.Font.Size = m_FontSize
 End Property
 
 Public Property Get BackColor() As OLE_COLOR
@@ -510,6 +536,8 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     m_Enabled = PropBag.ReadProperty("Enabled", m_def_Enabled)
     m_Caption = PropBag.ReadProperty("Caption", m_def_Caption)
     m_BackColor = PropBag.ReadProperty("BackColor", m_def_BackColor)
+    m_FontName = PropBag.ReadProperty("FontName", m_def_FontName)
+    m_FontSize = PropBag.ReadProperty("FontSize", m_def_FontSize)
     If m_Enabled Then
         lblCaption.ForeColor = &H0&
         imgTop(2).Visible = 0
@@ -534,7 +562,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
         imgCenter(2).Visible = -1
     End If
     lblCaption.Caption = m_Caption
-    UserControl.BackColor = PropBag.ReadProperty("BackColor", &H8000000F)
+    UserControl.BackColor = m_BackColor
 End Sub
 
 Private Sub UserControl_Terminate()
@@ -544,6 +572,7 @@ End Sub
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     Call PropBag.WriteProperty("Enabled", m_Enabled, m_def_Enabled)
     Call PropBag.WriteProperty("Caption", m_Caption, m_def_Caption)
-    Call PropBag.WriteProperty("BackColor", UserControl.BackColor, &H8000000F)
+    Call PropBag.WriteProperty("BackColor", m_BackColor, m_def_BackColor)
+    Call PropBag.WriteProperty("FontSize", m_FontSize, m_def_FontSize)
 End Sub
 

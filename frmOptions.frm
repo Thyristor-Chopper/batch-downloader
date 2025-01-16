@@ -26,7 +26,7 @@ Begin VB.Form frmOptions
    Begin prjDownloadBooster.TygemButton tygOK 
       Height          =   360
       Left            =   2040
-      TabIndex        =   50
+      TabIndex        =   52
       Top             =   5040
       Visible         =   0   'False
       Width           =   1335
@@ -37,7 +37,7 @@ Begin VB.Form frmOptions
    Begin prjDownloadBooster.TygemButton tygCancel 
       Height          =   360
       Left            =   3480
-      TabIndex        =   49
+      TabIndex        =   51
       Top             =   5040
       Visible         =   0   'False
       Width           =   1335
@@ -48,7 +48,7 @@ Begin VB.Form frmOptions
    Begin prjDownloadBooster.TygemButton tygApply 
       Height          =   360
       Left            =   4920
-      TabIndex        =   48
+      TabIndex        =   50
       Top             =   5040
       Visible         =   0   'False
       Width           =   1335
@@ -317,7 +317,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.TygemButton tygSample 
             Height          =   285
             Left            =   2340
-            TabIndex        =   52
+            TabIndex        =   54
             Top             =   780
             Visible         =   0   'False
             Width           =   1575
@@ -417,7 +417,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.TygemButton tygChooseBackground 
             Height          =   330
             Left            =   2040
-            TabIndex        =   51
+            TabIndex        =   53
             Top             =   210
             Visible         =   0   'False
             Width           =   495
@@ -428,7 +428,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.ComboBoxW cbImagePosition 
             Height          =   300
             Left            =   960
-            TabIndex        =   46
+            TabIndex        =   47
             Top             =   600
             Width           =   1575
             _ExtentX        =   2778
@@ -462,7 +462,7 @@ Begin VB.Form frmOptions
             Caption         =   "위치(&P):"
             Height          =   255
             Left            =   120
-            TabIndex        =   47
+            TabIndex        =   46
             Top             =   645
             Width           =   840
          End
@@ -480,7 +480,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.ComboBoxW cbSkin 
             Height          =   300
             Left            =   360
-            TabIndex        =   53
+            TabIndex        =   49
             Top             =   480
             Width           =   2175
             _ExtentX        =   3836
@@ -493,7 +493,7 @@ Begin VB.Form frmOptions
             Caption         =   "스킨 선택(&K):"
             Height          =   255
             Left            =   120
-            TabIndex        =   54
+            TabIndex        =   48
             Top             =   240
             Width           =   2175
          End
@@ -1050,7 +1050,10 @@ Private Sub Form_Load()
     
     Dim i%
     For i = 1 To pbPanel.Count
-        If i <> 1 Then pbPanel(i).Visible = 0
+        If i <> 1 Then
+            pbPanel(i).Visible = 0
+            pbPanel(i).Enabled = 0
+        End If
         If i <> 2 Then
             pbPanel(i).Top = pbPanel(2).Top
             pbPanel(i).Left = pbPanel(2).Left
@@ -1295,8 +1298,10 @@ Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
     For i = 1 To pbPanel.Count
         If i = TabItem.Index Then
             pbPanel(i).Visible = -1
+            pbPanel(i).Enabled = -1
         Else
             pbPanel(i).Visible = 0
+            pbPanel(i).Enabled = 0
         End If
     Next i
 End Sub

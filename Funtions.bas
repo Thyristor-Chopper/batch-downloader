@@ -553,6 +553,15 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
     YesNoCancelMsgBox.cmdOK.Cancel = 0
     YesNoCancelMsgBox.cmdOK.Default = 0
     
+    YesNoCancelMsgBox.tygOK.Top = YesNoCancelMsgBox.cmdOK.Top
+    YesNoCancelMsgBox.tygOK.Left = YesNoCancelMsgBox.cmdOK.Left
+    YesNoCancelMsgBox.tygCancel.Top = YesNoCancelMsgBox.cmdCancel.Top
+    YesNoCancelMsgBox.tygCancel.Left = YesNoCancelMsgBox.cmdCancel.Left
+    YesNoCancelMsgBox.tygYes.Top = YesNoCancelMsgBox.cmdYes.Top
+    YesNoCancelMsgBox.tygYes.Left = YesNoCancelMsgBox.cmdYes.Left
+    YesNoCancelMsgBox.tygNo.Top = YesNoCancelMsgBox.cmdNo.Top
+    YesNoCancelMsgBox.tygNo.Left = YesNoCancelMsgBox.cmdNo.Left
+    
     YesNoCancelMsgBox.Show vbModal, OwnerForm
     
     Confirm = MsgBoxResult
@@ -662,6 +671,15 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     YesNoCancelMsgBox.cmdOK.Cancel = 0
     YesNoCancelMsgBox.cmdOK.Default = 0
     
+    YesNoCancelMsgBox.tygOK.Top = YesNoCancelMsgBox.cmdOK.Top
+    YesNoCancelMsgBox.tygOK.Left = YesNoCancelMsgBox.cmdOK.Left
+    YesNoCancelMsgBox.tygCancel.Top = YesNoCancelMsgBox.cmdCancel.Top
+    YesNoCancelMsgBox.tygCancel.Left = YesNoCancelMsgBox.cmdCancel.Left
+    YesNoCancelMsgBox.tygYes.Top = YesNoCancelMsgBox.cmdYes.Top
+    YesNoCancelMsgBox.tygYes.Left = YesNoCancelMsgBox.cmdYes.Left
+    YesNoCancelMsgBox.tygNo.Top = YesNoCancelMsgBox.cmdNo.Top
+    YesNoCancelMsgBox.tygNo.Left = YesNoCancelMsgBox.cmdNo.Left
+    
     YesNoCancelMsgBox.Show vbModal, OwnerForm
     
     ConfirmEx = MsgBoxResult
@@ -756,6 +774,15 @@ Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Op
     YesNoCancelMsgBox.cmdNo.Default = 0
     YesNoCancelMsgBox.cmdOK.Cancel = 0
     YesNoCancelMsgBox.cmdOK.Default = 0
+    
+    YesNoCancelMsgBox.tygOK.Top = YesNoCancelMsgBox.cmdOK.Top
+    YesNoCancelMsgBox.tygOK.Left = YesNoCancelMsgBox.cmdOK.Left
+    YesNoCancelMsgBox.tygCancel.Top = YesNoCancelMsgBox.cmdCancel.Top
+    YesNoCancelMsgBox.tygCancel.Left = YesNoCancelMsgBox.cmdCancel.Left
+    YesNoCancelMsgBox.tygYes.Top = YesNoCancelMsgBox.cmdYes.Top
+    YesNoCancelMsgBox.tygYes.Left = YesNoCancelMsgBox.cmdYes.Left
+    YesNoCancelMsgBox.tygNo.Top = YesNoCancelMsgBox.cmdNo.Top
+    YesNoCancelMsgBox.tygNo.Left = YesNoCancelMsgBox.cmdNo.Left
     
     YesNoCancelMsgBox.Show vbModal, OwnerForm
     
@@ -964,11 +991,15 @@ End Function
 Sub SetFont(frm As Form)
     On Error Resume Next
     If LangID = 1042 Then Exit Sub
+    frm.Font.Name = "Tahoma"
+    frm.Font.Size = 8
     Dim ctrl As Control
     For Each ctrl In frm.Controls
         If ctrl.Name <> "lvDummyScroll" Then
             ctrl.Font.Name = "Tahoma"
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = 8
+            ctrl.FontName = "Tahoma"
+            If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = 8
         End If
     Next ctrl
 End Sub

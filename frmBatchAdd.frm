@@ -23,6 +23,24 @@ Begin VB.Form frmBatchAdd
    ScaleWidth      =   5985
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.TygemButton tygCancel 
+      Height          =   345
+      Left            =   4560
+      TabIndex        =   5
+      Top             =   510
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   609
+   End
+   Begin prjDownloadBooster.TygemButton tygOK 
+      Height          =   345
+      Left            =   4560
+      TabIndex        =   4
+      Top             =   120
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   609
+   End
    Begin prjDownloadBooster.TextBoxW txtURLs 
       Height          =   2535
       Left            =   120
@@ -94,6 +112,8 @@ Private Sub Form_Load()
     Me.Caption = t(Me.Caption, "Batch download")
     cmdOK.Caption = t(cmdOK.Caption, "OK")
     cmdCancel.Caption = t(cmdCancel.Caption, "Cancel")
+    tygOK.Caption = cmdOK.Caption
+    tygCancel.Caption = cmdCancel.Caption
     Label1.Caption = t(Label1.Caption, "Enter one UR&L per line:")
 End Sub
 
@@ -110,4 +130,12 @@ End Sub
 
 Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     PrevKeyCode = 0
+End Sub
+
+Private Sub tygCancel_Click()
+    cmdCancel_Click
+End Sub
+
+Private Sub tygOK_Click()
+    cmdOK_Click
 End Sub

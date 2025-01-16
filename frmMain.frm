@@ -160,21 +160,21 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.TygemButton tygOptions 
       Height          =   300
-      Left            =   6960
+      Left            =   7080
       TabIndex        =   121
       Top             =   3090
-      Width           =   2055
-      _ExtentX        =   3625
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   529
       Caption         =   "추가 옵션..."
    End
    Begin prjDownloadBooster.TygemButton tygAbout 
       Height          =   300
-      Left            =   6960
+      Left            =   7080
       TabIndex        =   120
       Top             =   3435
-      Width           =   2055
-      _ExtentX        =   3625
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   529
       Caption         =   "프로그램 정보..."
    End
@@ -2509,7 +2509,7 @@ Sub NextBatchDownload()
             cmdOpenFolder_Click
         End If
         cmdGo.Enabled = -1
-        tygGo.Enabled = cmdGo.Enabled
+        tygGo.Enabled = -1
         
         If lvBatchFiles.ListItems.Count > 0 Then
             Dim Enable As Boolean
@@ -2647,7 +2647,7 @@ nextln:
     
     If Not BatchStarted Then
         cmdGo.Enabled = -1
-        tygGo.Enabled = cmdGo.Enabled
+        tygGo.Enabled = -1
     End If
     cmdStop.Enabled = 0
     cmdStop.Left = Me.Width + 1200
@@ -2699,7 +2699,7 @@ Sub OnStart()
     IsDownloading = True
     ResumeUnsupported = False
     cmdGo.Enabled = 0
-    tygGo.Enabled = cmdGo.Enabled
+    tygGo.Enabled = 0
     If Not BatchStarted Then
         cmdStop.Enabled = -1
         cmdStop.Left = cmdGo.Left
@@ -2775,7 +2775,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     IsDownloading = False
     If Not BatchStarted Then
         cmdGo.Enabled = -1
-        tygGo.Enabled = cmdGo.Enabled
+        tygGo.Enabled = -1
     End If
     cmdStop.Enabled = 0
     cmdStop.Left = Me.Width + 1200
@@ -3143,27 +3143,31 @@ L2:
             SP.ClosePipe
         Case SP_CREATEPIPEFAILED
             Alert t("다운로드 시작에 실패했습니다. 다운로더 프로세스로부터 정보를 받아올 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to receieve data from the downloader process. Check if the directory settings are valid."), App.Title, Me, 16
-            If Not BatchStarted Then cmdGo.Enabled = -1
-            tygGo.Enabled = cmdGo.Enabled
+            If Not BatchStarted Then
+                cmdGo.Enabled = -1
+                tygGo.Enabled = -1
+            End If
             cmdStop.Enabled = 0
             cmdStop.Left = Me.Width + 1200
             tygStop.Enabled = cmdStop.Enabled
             tygStop.Left = cmdStop.Left
             cmdGo.Enabled = -1
             cmdGo.Visible = -1
-            tygGo.Enabled = cmdGo.Enabled
+            tygGo.Enabled = -1
             OnStop False
         Case SP_CREATEPROCFAILED
             Alert t("다운로드 시작에 실패했습니다. 다운로더 프로세스를 생성할 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to create the downloader process. Check if the directory settings are valid."), App.Title, Me, 16
-            If Not BatchStarted Then cmdGo.Enabled = -1
-            tygGo.Enabled = cmdGo.Enabled
+            If Not BatchStarted Then
+                cmdGo.Enabled = -1
+                tygGo.Enabled = -1
+            End If
             cmdStop.Enabled = 0
             cmdStop.Left = Me.Width + 1200
             tygStop.Enabled = cmdStop.Enabled
             tygStop.Left = cmdStop.Left
             cmdGo.Enabled = -1
             cmdGo.Visible = -1
-            tygGo.Enabled = cmdGo.Enabled
+            tygGo.Enabled = -1
             OnStop False
     End Select
 End Sub
@@ -3298,7 +3302,7 @@ Private Sub cmdStartBatch_Click()
     cmdOpen.Enabled = 0
     tygOpen.Enabled = 0
     cmdGo.Enabled = 0
-    tygGo.Enabled = cmdGo.Enabled
+    tygGo.Enabled = 0
     StartDownload lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2), lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1)
 End Sub
 
@@ -3368,13 +3372,13 @@ Private Sub cmdStopBatch_Click()
         tygStopbatch.Enabled = 0
         OnStop False
         cmdGo.Enabled = 0
-        tygGo.Enabled = cmdGo.Enabled
+        tygGo.Enabled = 0
         timElapsed.Enabled = 0
         sbStatusBar.Panels(3).Text = ""
         sbStatusBar.Panels(4).Text = ""
         chkOpenAfterComplete.Enabled = -1
         cmdGo.Enabled = -1
-        tygGo.Enabled = cmdGo.Enabled
+        tygGo.Enabled = -1
         
         If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
             Dim KillTemp As Boolean
