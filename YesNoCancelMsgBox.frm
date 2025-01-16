@@ -27,6 +27,7 @@ Begin VB.Form YesNoCancelMsgBox
       Height          =   320
       Left            =   7440
       TabIndex        =   10
+      Tag             =   "novisibilitychange"
       Top             =   840
       Visible         =   0   'False
       Width           =   1455
@@ -38,6 +39,7 @@ Begin VB.Form YesNoCancelMsgBox
       Height          =   320
       Left            =   5880
       TabIndex        =   9
+      Tag             =   "novisibilitychange"
       Top             =   840
       Visible         =   0   'False
       Width           =   1455
@@ -49,6 +51,7 @@ Begin VB.Form YesNoCancelMsgBox
       Height          =   320
       Left            =   4320
       TabIndex        =   8
+      Tag             =   "novisibilitychange"
       Top             =   840
       Visible         =   0   'False
       Width           =   1455
@@ -60,6 +63,7 @@ Begin VB.Form YesNoCancelMsgBox
       Height          =   320
       Left            =   2760
       TabIndex        =   7
+      Tag             =   "novisibilitychange"
       Top             =   840
       Visible         =   0   'False
       Width           =   1455
@@ -230,6 +234,10 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    If cmdYes.Visible And cmdNo.Visible And (Not cmdCancel.Visible) And (Not MSET) Then
+        Cancel = 1
+        Exit Sub
+    End If
     If Not MSET Then Functions.MsgBoxResult = vbCancel
 End Sub
 
