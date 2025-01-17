@@ -237,13 +237,16 @@ Begin VB.Form frmMain
       Width           =   8895
       _ExtentX        =   15690
       _ExtentY        =   1535
+      VisualTheme     =   1
       View            =   3
       FullRowSelect   =   -1  'True
       GridLines       =   -1  'True
       LabelEdit       =   2
       Checkboxes      =   -1  'True
       HideSelection   =   0   'False
+      ShowLabelTips   =   -1  'True
       ClickableColumnHeaders=   0   'False
+      HighlightColumnHeaders=   -1  'True
       AutoSelectFirstItem=   0   'False
    End
    Begin prjDownloadBooster.CommandButtonW cmdAbout 
