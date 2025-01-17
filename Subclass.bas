@@ -41,6 +41,7 @@ Private Type MINMAXINFO
 End Type
  
 Private mPrevProc As Long
+Private mPrevProc2 As Long
  
 Sub SetWindowSizeLimit(hWnd As Long, minW As Integer, maxW As Integer, minH As Integer, maxH As Integer)
     If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
@@ -55,9 +56,27 @@ Sub SetWindowSizeLimit(hWnd As Long, minW As Integer, maxW As Integer, minH As I
         mPrevProc = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf NewWndProc)
 End Sub
  
+Sub SetWindowSizeLimit2(hWnd As Long, minW As Integer, maxW As Integer, minH As Integer, maxH As Integer)
+    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
+    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
+    If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
+    If Exists(MaxHeight, hWnd) Then MaxHeight.Remove CStr(hWnd)
+    MinWidth.Add minW / 15, CStr(hWnd)
+    MinHeight.Add minH / 15, CStr(hWnd)
+    MaxWidth.Add maxW / 15, CStr(hWnd)
+    MaxHeight.Add maxH / 15, CStr(hWnd)
+    If mPrevProc2 <= 0& Then _
+        mPrevProc2 = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf NewWndProc2)
+End Sub
+ 
 Sub Unhook(hWnd As Long)
     Call SetWindowLong(hWnd, GWL_WNDPROC, mPrevProc)
     mPrevProc = 0&
+End Sub
+ 
+Sub Unhook2(hWnd As Long)
+    Call SetWindowLong(hWnd, GWL_WNDPROC, mPrevProc2)
+    mPrevProc2 = 0&
 End Sub
  
 Function NewWndProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
@@ -76,11 +95,33 @@ Function NewWndProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long
         Exit Function
     End If
     
- 
     If mPrevProc > 0& Then
         NewWndProc = CallWindowProc(mPrevProc, hWnd, uMsg, wParam, lParam)
     Else
         NewWndProc = DefWindowProc(hWnd, uMsg, wParam, lParam)
+    End If
+End Function
+ 
+Function NewWndProc2(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    On Error Resume Next
+ 
+    If uMsg = WM_GETMINMAXINFO Then
+        Dim lpMMI As MINMAXINFO
+        CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
+        lpMMI.ptMinTrackSize.X = MinWidth(CStr(hWnd))
+        lpMMI.ptMinTrackSize.Y = MinHeight(CStr(hWnd))
+        lpMMI.ptMaxTrackSize.X = MaxWidth(CStr(hWnd))
+        lpMMI.ptMaxTrackSize.Y = MaxHeight(CStr(hWnd))
+        CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
+        
+        NewWndProc2 = 1&
+        Exit Function
+    End If
+    
+    If mPrevProc2 > 0& Then
+        NewWndProc2 = CallWindowProc(mPrevProc2, hWnd, uMsg, wParam, lParam)
+    Else
+        NewWndProc2 = DefWindowProc(hWnd, uMsg, wParam, lParam)
     End If
 End Function
 

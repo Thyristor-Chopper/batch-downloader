@@ -2288,11 +2288,23 @@ Begin VB.Form frmMain
    Begin VB.Menu mnuListContext 
       Caption         =   "mnuListContext"
       Visible         =   0   'False
+      Begin VB.Menu mnuOpenBatch 
+         Caption         =   "열기(&O)"
+      End
+      Begin VB.Menu mnuOpenFolder2 
+         Caption         =   "폴더 열기(&F)"
+      End
+      Begin VB.Menu mnuSepOpen 
+         Caption         =   "-"
+      End
       Begin VB.Menu mnuEdit 
          Caption         =   "편집(&E)..."
       End
       Begin VB.Menu mnuSep2 
          Caption         =   "-"
+      End
+      Begin VB.Menu mnuAddItem2 
+         Caption         =   "새 주소 추가(&A)..."
       End
       Begin VB.Menu mnuDeleteItem 
          Caption         =   "제거(&R)"
@@ -2303,27 +2315,19 @@ Begin VB.Form frmMain
       End
       Begin VB.Menu mnuSep1 
          Caption         =   "-"
-         Visible         =   0   'False
       End
       Begin VB.Menu mnuMoveUp 
          Caption         =   "위로 이동(&U)"
-         Enabled         =   0   'False
-         Visible         =   0   'False
       End
       Begin VB.Menu mnuMoveDown 
          Caption         =   "아래로 이동(&D)"
-         Enabled         =   0   'False
-         Visible         =   0   'False
       End
    End
    Begin VB.Menu mnuListContext2 
       Caption         =   "mnuListContext2"
       Visible         =   0   'False
       Begin VB.Menu mnuAddItem 
-         Caption         =   "새 파일 추가(&A)..."
-      End
-      Begin VB.Menu mnuSep3 
-         Caption         =   "-"
+         Caption         =   "새 주소 추가(&A)..."
       End
       Begin VB.Menu mnuClearBatch2 
          Caption         =   "모두 제거(&C)"
@@ -2355,6 +2359,7 @@ Dim CurrentBatchIdx As Integer
 Dim DownloadPath As String
 Dim IsDownloading As Boolean
 Dim BatchErrorCount As Integer
+Dim BatchErrorAllCount As Integer
 Dim TahomaAvailable As Boolean
 Dim PrevDownloadedBytes As Double
 Dim SpeedCount As Integer
@@ -2559,7 +2564,7 @@ Sub NextBatchDownload()
         If BatchErrorCount Then
             Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "103: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
                      "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), App.Title, Me, 48
-        ElseIf chkPlaySound.Value Then
+        ElseIf chkPlaySound.Value And BatchErrorAllCount <= 0 Then
             MessageBeep 64
         End If
         
@@ -2694,7 +2699,8 @@ nextln:
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = 255
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2).ForeColor = 255
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).ForeColor = 255
-            BatchErrorCount = BatchErrorCount + 1
+            If RetVal <> 999& Then BatchErrorCount = BatchErrorCount + 1
+            BatchErrorAllCount = BatchErrorAllCount + 1
         Else
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("완료", "Done")
             'lvBatchFiles.ListItems(CurrentBatchIdx).Checked = False
@@ -2952,7 +2958,11 @@ Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
         Exit Sub
     End If
     
-    If Trim$(SavePath) = "" Then SavePath = Trim$(txtFileName.Text)
+    If Trim$(SavePath) = "" Then SavePath = txtFileName.Text
+    SavePath = Trim$(SavePath)
+    Do While Replace(SavePath, "\\", "\") <> SavePath
+        SavePath = Replace(SavePath, "\\", "\")
+    Loop
 
     Dim idx%
     Dim FileName$
@@ -3024,7 +3034,7 @@ Private Sub cmdBatch_Click()
         End If
     Else
         SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
-        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15, 6930 + PaddedBorderWidth * 15 * 2
+        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
         Me.Height = 6930 + PaddedBorderWidth * 15 * 2
         cmdBatch.ImageList = imgDropdown
         lvBatchFiles.Visible = 0
@@ -3131,7 +3141,26 @@ L2:
     
     URL = Trim$(URL)
     FileName = Trim$(FileName)
+    
     OnStart
+    
+    Dim SplittedPath() As String
+    SplittedPath = Split(Trim$(FileName), "\")
+    Dim i%
+    For i = LBound(SplittedPath) To UBound(SplittedPath)
+        If Trim$(SplittedPath(i)) <> "" And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
+            Alert t("저장 경로가 유효하지 않습니다.", "Invalid save path."), App.Title, Me, 16
+            OnExit 999
+            Exit Sub
+        End If
+    Next i
+    
+    If (Not FolderExists(Trim$(FileName))) And ((Not FolderExists(fso.GetParentFolderName(Trim$(FileName)))) Or Right$(FileName, 1) = "\") Then
+        Alert t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), App.Title, Me, 16
+        OnExit 999
+        Exit Sub
+    End If
+    
     If Replace(FileName, " ", "") = "" Then
         FileName = Replace(CurDir.Path & "\", "\\", "\")
     End If
@@ -3233,8 +3262,13 @@ Private Sub cmdGo_Click()
         Exit Sub
     End If
     
+    txtFileName.Text = Trim$(txtFileName.Text)
+    Do While Replace(txtFileName.Text, "\\", "\") <> txtFileName.Text
+        txtFileName.Text = Replace(txtFileName.Text, "\\", "\")
+    Loop
+    
     Dim SplittedPath() As String
-    SplittedPath = Split(Trim$(txtFileName.Text), "\")
+    SplittedPath = Split(txtFileName.Text, "\")
     Dim i%
     For i = LBound(SplittedPath) To UBound(SplittedPath)
         If Trim$(SplittedPath(i)) <> "" And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
@@ -3309,22 +3343,8 @@ Private Sub cmdStartBatch_Click()
         Exit Sub
     End If
     
-    Dim SplittedPath() As String
-    SplittedPath = Split(Trim$(txtFileName.Text), "\")
-    Dim i%
-    For i = LBound(SplittedPath) To UBound(SplittedPath)
-        If Trim$(SplittedPath(i)) <> "" And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
-            Alert t("저장 경로가 유효하지 않습니다.", "Invalid save path."), App.Title, Me, 16
-            Exit Sub
-        End If
-    Next i
-    
-    If (Not FolderExists(Trim$(txtFileName.Text))) And (Not FolderExists(fso.GetParentFolderName(Trim$(txtFileName.Text)))) Then
-        Alert t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), App.Title, Me, 16
-        Exit Sub
-    End If
-    
     BatchErrorCount = 0
+    BatchErrorAllCount = 0
     CurrentBatchIdx = 1
     BatchStarted = True
     cmdStartBatch.Enabled = 0
@@ -3744,6 +3764,9 @@ Private Sub Form_Load()
     mnuEdit.Caption = t(mnuEdit.Caption, "&Edit...")
     mnuMoveUp.Caption = t(mnuMoveUp.Caption, "Move &up")
     mnuMoveDown.Caption = t(mnuMoveDown.Caption, "Move &down")
+    mnuAddItem2.Caption = t(mnuAddItem2.Caption, "&Add URL...")
+    mnuOpenBatch.Caption = t(mnuOpenBatch.Caption, "&Open")
+    mnuOpenFolder2.Caption = t(mnuOpenFolder2.Caption, "Open &folder")
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
@@ -3887,6 +3910,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmGameWin95
     Unload frmGameWinXP
     Unload frmCustomBackground
+    Unhook Me.hWnd
 End Sub
 
 Private Sub fTabDownload_Click()
@@ -3910,7 +3934,18 @@ End Sub
 Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
     On Error GoTo ErrLn
     If lvBatchFiles.SelectedItem.Selected Then
-        If cmdDelete.Enabled Then Me.PopupMenu mnuListContext
+        If cmdDelete.Enabled Then
+            mnuOpenBatch.Visible = cmdOpenBatch.Enabled
+            mnuOpenFolder2.Visible = cmdOpenBatch.Enabled
+            mnuSepOpen.Visible = cmdOpenBatch.Enabled
+            mnuMoveUp.Enabled = (lvBatchFiles.SelectedItem.Index <> 1) And (Not BatchStarted)
+            mnuMoveDown.Enabled = (lvBatchFiles.SelectedItem.Index <> lvBatchFiles.ListItems.Count) And (Not BatchStarted)
+            If cmdOpenBatch.Enabled Then
+                Me.PopupMenu mnuListContext, , , , mnuOpenBatch
+            Else
+                Me.PopupMenu mnuListContext, , , , mnuEdit
+            End If
+        End If
     Else
         GoTo ErrLn
     End If
@@ -3973,7 +4008,7 @@ Private Sub lvBatchFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As
     If Not Item.Selected Then Exit Sub
     If cmdOpenBatch.Enabled And Item.ListSubItems(3).Text = t("완료", "Done") Then
         cmdOpenBatch_Click
-    Else
+    ElseIf (Not BatchStarted) Or (BatchStarted And CurrentBatchIdx <> Item.Index) Then
         mnuEdit_Click
     End If
 End Sub
@@ -4035,6 +4070,10 @@ Private Sub mnuAddItem_Click()
     cmdAdd_Click
 End Sub
 
+Private Sub mnuAddItem2_Click()
+    mnuAddItem_Click
+End Sub
+
 Private Sub mnuClearBatch_Click()
     If lvBatchFiles.ListItems.Count Then
         If Confirm(t("대기열을 비우시겠습니까?", "Clear the queue?"), App.Title, Me) <> vbYes Then Exit Sub
@@ -4087,26 +4126,68 @@ Private Sub mnuEdit_Click()
     frmEditBatch.Show vbModal, Me
 End Sub
 
-Private Sub mnuMoveUp_Click()
+Private Sub mnuMoveDown_Click()
     On Error GoTo exitsub
-    Dim SelItem, UpItem, NewItem As LvwListItem
-    Set SelItem = lvBatchFiles.SelectedItem
-    If SelItem.Index <= 1 Then Exit Sub
-    Set UpItem = lvBatchFiles.ListItems(SelItem.Index - 1)
-    lvBatchFiles.ListItems.Remove UpItem.Index
-    Set NewItem = lvBatchFiles.ListItems.Add(SelItem.Index, , "x")
-    NewItem.Checked = UpItem.Checked
-    Set NewItem.ListSubItems = UpItem.ListSubItems
-    NewItem.ForeColor = UpItem.ForeColor
-    NewItem.Text = UpItem.Text
+    Dim CurIdx, DownIdx, NewIdx As Integer
+    CurIdx = lvBatchFiles.SelectedItem.Index
+    If CurIdx >= lvBatchFiles.ListItems.Count Then Exit Sub
+    DownIdx = CurIdx + 1
+    NewIdx = lvBatchFiles.ListItems.Add(CurIdx, , lvBatchFiles.ListItems(DownIdx).Text).Index
+    DownIdx = DownIdx + 1
+    lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(1).Text
+    lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(2).Text
+    lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(3).Text
+    lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(DownIdx).ForeColor
+    lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(DownIdx).ListSubItems(1).ForeColor
+    lvBatchFiles.ListItems(NewIdx).ListSubItems(2).ForeColor = lvBatchFiles.ListItems(DownIdx).ListSubItems(2).ForeColor
+    lvBatchFiles.ListItems(NewIdx).ListSubItems(3).ForeColor = lvBatchFiles.ListItems(DownIdx).ListSubItems(3).ForeColor
+    lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(DownIdx).Checked
+    
+    lvBatchFiles.ListItems.Remove DownIdx
     
 exitsub:
-    Debug.Print Now
     Exit Sub
 End Sub
 
+Private Sub mnuMoveUp_Click()
+    On Error GoTo exitsub
+    Dim CurIdx, UpIdx, NewIdx As Integer
+    CurIdx = lvBatchFiles.SelectedItem.Index
+    If CurIdx <= 1 Then Exit Sub
+    UpIdx = CurIdx - 1
+    NewIdx = lvBatchFiles.ListItems.Add(CurIdx + 1, , lvBatchFiles.ListItems(UpIdx).Text).Index
+    lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(1).Text
+    lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(2).Text
+    lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(3).Text
+    lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(UpIdx).ForeColor
+    lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(UpIdx).ListSubItems(1).ForeColor
+    lvBatchFiles.ListItems(NewIdx).ListSubItems(2).ForeColor = lvBatchFiles.ListItems(UpIdx).ListSubItems(2).ForeColor
+    lvBatchFiles.ListItems(NewIdx).ListSubItems(3).ForeColor = lvBatchFiles.ListItems(UpIdx).ListSubItems(3).ForeColor
+    lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(UpIdx).Checked
+    
+    lvBatchFiles.ListItems.Remove UpIdx
+    
+exitsub:
+    Exit Sub
+End Sub
+
+Private Sub mnuOpenBatch_Click()
+    cmdOpenBatch_Click
+End Sub
+
 Private Sub mnuOpenFolder_Click()
-    cmdOpenFolder_Click
+    Dim pth$
+    pth = lvBatchFiles.SelectedItem.ListSubItems(1).Text
+    If pth = "" Then pth = txtFileName.Text
+    If FolderExists(pth) Then
+        Shell "cmd /c start """" explorer.exe """ & pth & """"
+    Else
+        Shell "cmd /c start """" explorer.exe """ & fso.GetParentFolderName(pth) & """"
+    End If
+End Sub
+
+Private Sub mnuOpenFolder2_Click()
+    mnuOpenFolder_Click
 End Sub
 
 Private Sub optTabDownload2_Click()

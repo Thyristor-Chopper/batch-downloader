@@ -1,10 +1,9 @@
 VERSION 5.00
 Begin VB.Form frmBatchAdd 
-   BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "일괄 다운로드"
    ClientHeight    =   3795
-   ClientLeft      =   45
-   ClientTop       =   435
+   ClientLeft      =   60
+   ClientTop       =   450
    ClientWidth     =   5985
    BeginProperty Font 
       Name            =   "굴림"
@@ -17,7 +16,6 @@ Begin VB.Form frmBatchAdd
    EndProperty
    Icon            =   "frmBatchAdd.frx":0000
    LinkTopic       =   "Form1"
-   MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   3795
    ScaleWidth      =   5985
@@ -155,6 +153,7 @@ Private Sub cmdOK_Click()
             frmMain.AddBatchURLs URLs(i), txtSavePath.Text
         End If
     Next i
+    
     Unload Me
 End Sub
 
@@ -172,6 +171,37 @@ Private Sub Form_Load()
     Label2.Caption = t(Label2.Caption, "&Save to:")
     cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
     tygBrowse.Caption = t("찾아보기...", "Browse...")
+    
+    Me.Icon = frmMain.Icon
+    
+    SetWindowSizeLimit2 Me.hWnd, 5145 + PaddedBorderWidth * 15 * 2, Screen.Width + 1200, 2310 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
+    On Error Resume Next
+    Me.Width = GetSetting("DownloadBooster", "UserData", "BatchURLAddWidth", Me.Width - PaddedBorderWidth * 15 * 2) + PaddedBorderWidth * 15 * 2
+    Me.Height = GetSetting("DownloadBooster", "UserData", "BatchURLAddHeight", Me.Height - PaddedBorderWidth * 15 * 2) + PaddedBorderWidth * 15 * 2
+End Sub
+
+Private Sub Form_Resize()
+    cmdOK.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1545
+    tygOK.Left = cmdOK.Left
+    cmdCancel.Left = cmdOK.Left
+    tygCancel.Left = cmdOK.Left
+    txtURLs.Width = Me.Width - PaddedBorderWidth * 15 * 2 - 1890
+    txtURLs.Height = Me.Height - PaddedBorderWidth * 15 * 2 - 1770
+    Label2.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 1140
+    txtSavePath.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 900
+    cmdBrowse.Left = cmdOK.Left
+    tygBrowse.Left = cmdOK.Left
+    cmdBrowse.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 945
+    tygBrowse.Top = cmdBrowse.Top
+    txtSavePath.Width = txtURLs.Width
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    If Me.WindowState = 0 Then
+        SaveSetting "DownloadBooster", "UserData", "BatchURLAddWidth", Me.Width - PaddedBorderWidth * 15 * 2
+        SaveSetting "DownloadBooster", "UserData", "BatchURLAddHeight", Me.Height - PaddedBorderWidth * 15 * 2
+    End If
+    Unhook2 Me.hWnd
 End Sub
 
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
