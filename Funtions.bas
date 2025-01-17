@@ -862,7 +862,7 @@ ErrLn4:
     ParseSize = "0 " & t("πŸ¿Ã∆Æ", "Bytes")
 End Function
 
-Function FilterFilename(ByVal FileName As String) As String
+Function FilterFilename(ByVal FileName As String, Optional ByVal PreserveBackslash As Boolean = False) As String
     Dim str As String
     Dim ret As String
     ret = ""
@@ -875,7 +875,13 @@ Function FilterFilename(ByVal FileName As String) As String
             ret = ret & Mid(FileName, i, 1)
         End If
     Next i
-    FilterFilename = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(ret, "\", "_"), "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_"), "/", "_")
+    ret = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(ret, "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_"), "/", "_")
+    If Not PreserveBackslash Then
+        ret = Replace(ret, "\", "_")
+    ElseIf Mid$(ret, 2, 1) = "_" Then
+        ret = Left$(ret, 1) & ":" & Right$(ret, Len(ret) - 2)
+    End If
+    FilterFilename = ret
 End Function
 
 'https://gist.github.com/jvarn/5e11b1fd741b5f79d8a516c9c2368f17

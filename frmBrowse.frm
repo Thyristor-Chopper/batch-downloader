@@ -250,7 +250,11 @@ Private Sub Form_Load()
     Path = lvDir.Path
     
     Dim fmpth As String
-    fmpth = Trim$(frmMain.txtFileName.Text)
+    If Tags.BrowsePresetPath = "" Then
+        fmpth = Trim$(frmMain.txtFileName.Text)
+    Else
+        fmpth = Tags.BrowsePresetPath
+    End If
     If FolderExists(fmpth) Then
         Path = fmpth
     Else
@@ -363,7 +367,14 @@ Private Sub OKButton_Click()
     
     On Error GoTo e
     If Right$(Path, 2) = "\\" Then Path = Left$(Path, Len(Path) - 1)
-    frmMain.txtFileName = Path
+    Select Case Tags.BrowseTargetForm
+        Case 1
+            frmEditBatch.txtFilePath.Text = Path
+        Case 2
+            frmBatchAdd.txtSavePath.Text = Path
+        Case Else
+            frmMain.txtFileName.Text = Path
+    End Select
     
     Unload Me
     Exit Sub

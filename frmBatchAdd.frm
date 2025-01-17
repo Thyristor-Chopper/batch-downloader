@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmBatchAdd 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "일괄 다운로드"
-   ClientHeight    =   3045
+   ClientHeight    =   3795
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   5985
@@ -19,10 +19,31 @@ Begin VB.Form frmBatchAdd
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   3045
+   ScaleHeight     =   3795
    ScaleWidth      =   5985
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.TygemButton tygBrowse 
+      Height          =   330
+      Left            =   4560
+      TabIndex        =   8
+      Top             =   3360
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   582
+      Caption         =   "찾아보기..."
+      BackColor       =   0
+      FontSize        =   0
+   End
+   Begin prjDownloadBooster.TextBoxW txtSavePath 
+      Height          =   255
+      Left            =   120
+      TabIndex        =   7
+      Top             =   3405
+      Width           =   4215
+      _ExtentX        =   7435
+      _ExtentY        =   450
+   End
    Begin prjDownloadBooster.TygemButton tygCancel 
       Height          =   345
       Left            =   4560
@@ -73,6 +94,25 @@ Begin VB.Form frmBatchAdd
       _ExtentY        =   0
       Caption         =   "확인"
    End
+   Begin prjDownloadBooster.CommandButtonW cmdBrowse 
+      Height          =   330
+      Left            =   4560
+      TabIndex        =   9
+      Top             =   3360
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   582
+      Caption         =   "찾아보기(&B)..."
+   End
+   Begin VB.Label Label2 
+      BackStyle       =   0  '투명
+      Caption         =   "저장 경로(&S):"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   6
+      Top             =   3165
+      Width           =   2775
+   End
    Begin VB.Label Label1 
       Caption         =   "각 줄에 파일 주소를 입력하십시오(&L)."
       Height          =   255
@@ -89,16 +129,30 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim PrevKeyCode As Integer
 
+Private Sub cmdBrowse_Click()
+    Unload frmBrowse
+    Tags.BrowsePresetPath = Trim$(txtSavePath.Text)
+    Tags.BrowseTargetForm = 2
+    frmBrowse.Show vbModal, Me
+End Sub
+
 Private Sub cmdCancel_Click()
     Unload Me
 End Sub
 
 Private Sub cmdOK_Click()
+    txtSavePath.Text = Trim$(txtSavePath.Text)
+    If Not FolderExists(txtSavePath.Text) Then
+        Alert t("저장 경로가 존재하지 않습니다. [찾아보기] 기능으로 폴더를 찾아볼 수 있습니다.", "Save path does not exist. Use Broewse to browse folders."), App.Title, Me, 16
+        Exit Sub
+    End If
+    txtSavePath.Text = FilterFilename(txtSavePath.Text, True)
+
     Dim URLs() As String
     URLs = Split(txtURLs.Text, vbCrLf)
     For i = 0 To UBound(URLs)
         If Replace(URLs(i), " ", "") <> "" Then
-            frmMain.AddBatchURLs URLs(i)
+            frmMain.AddBatchURLs URLs(i), txtSavePath.Text
         End If
     Next i
     Unload Me
@@ -115,6 +169,9 @@ Private Sub Form_Load()
     tygOK.Caption = cmdOK.Caption
     tygCancel.Caption = cmdCancel.Caption
     Label1.Caption = t(Label1.Caption, "Enter one UR&L per line:")
+    Label2.Caption = t(Label2.Caption, "&Save to:")
+    cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
+    tygBrowse.Caption = t("찾아보기...", "Browse...")
 End Sub
 
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -130,6 +187,10 @@ End Sub
 
 Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     PrevKeyCode = 0
+End Sub
+
+Private Sub tygBrowse_Click()
+    cmdBrowse_Click
 End Sub
 
 Private Sub tygCancel_Click()

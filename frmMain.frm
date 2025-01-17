@@ -245,7 +245,6 @@ Begin VB.Form frmMain
       Checkboxes      =   -1  'True
       HideSelection   =   0   'False
       ShowLabelTips   =   -1  'True
-      ClickableColumnHeaders=   0   'False
       HighlightColumnHeaders=   -1  'True
       AutoSelectFirstItem=   0   'False
    End
@@ -2106,7 +2105,6 @@ Begin VB.Form frmMain
       _ExtentY        =   0
    End
    Begin prjDownloadBooster.CommandButtonW cmdGo 
-      Default         =   -1  'True
       Height          =   330
       Left            =   7320
       TabIndex        =   16
@@ -2290,18 +2288,42 @@ Begin VB.Form frmMain
    Begin VB.Menu mnuListContext 
       Caption         =   "mnuListContext"
       Visible         =   0   'False
+      Begin VB.Menu mnuEdit 
+         Caption         =   "편집(&E)..."
+      End
+      Begin VB.Menu mnuSep2 
+         Caption         =   "-"
+      End
       Begin VB.Menu mnuDeleteItem 
          Caption         =   "제거(&R)"
+         Shortcut        =   {DEL}
       End
       Begin VB.Menu mnuClearBatch3 
          Caption         =   "모두 제거(&C)"
+      End
+      Begin VB.Menu mnuSep1 
+         Caption         =   "-"
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuMoveUp 
+         Caption         =   "위로 이동(&U)"
+         Enabled         =   0   'False
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuMoveDown 
+         Caption         =   "아래로 이동(&D)"
+         Enabled         =   0   'False
+         Visible         =   0   'False
       End
    End
    Begin VB.Menu mnuListContext2 
       Caption         =   "mnuListContext2"
       Visible         =   0   'False
       Begin VB.Menu mnuAddItem 
-         Caption         =   "추가(&A)..."
+         Caption         =   "새 파일 추가(&A)..."
+      End
+      Begin VB.Menu mnuSep3 
+         Caption         =   "-"
       End
       Begin VB.Menu mnuClearBatch2 
          Caption         =   "모두 제거(&C)"
@@ -2535,7 +2557,7 @@ Sub NextBatchDownload()
         End If
         
         If BatchErrorCount Then
-            Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
+            Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "103: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
                      "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), App.Title, Me, 48
         ElseIf chkPlaySound.Value Then
             MessageBeep 64
@@ -2915,19 +2937,27 @@ Private Sub cmdAdd_Click()
         frmBatchAdd.txtURLs.SelStart = 0
         frmBatchAdd.txtURLs.SelLength = Len(Trim$(txtURL.Text)) + 2
     End If
+    txtFileName.Text = Trim$(txtFileName.Text)
+    If FolderExists(txtFileName.Text) Then
+        frmBatchAdd.txtSavePath.Text = txtFileName.Text
+    Else
+        frmBatchAdd.txtSavePath.Text = fso.GetParentFolderName(txtFileName.Text)
+    End If
     frmBatchAdd.Show vbModal, Me
 End Sub
 
-Sub AddBatchURLs(URL As String)
+Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
     If Left$(URL, 7) <> "http://" And Left$(URL, 8) <> "https://" Then
         Alert URL & " - " & t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), App.Title, Me, 16
         Exit Sub
     End If
+    
+    If Trim$(SavePath) = "" Then SavePath = Trim$(txtFileName.Text)
 
     Dim idx%
     Dim FileName$
     Dim ServerName$
-    FileName = Trim$(txtFileName.Text)
+    FileName = SavePath
     If FolderExists(FileName) Then
         If Not (Right$(FileName, 1) = "\") Then FileName = FileName & "\"
         ServerName = FilterFilename(URLDecode(Split(URL, "/")(UBound(Split(URL, "/")))))
@@ -3005,6 +3035,8 @@ Private Sub cmdBatch_Click()
 End Sub
 
 Private Sub cmdBrowse_Click()
+    Tags.BrowsePresetPath = ""
+    Tags.BrowseTargetForm = 0
     frmBrowse.Show vbModal, Me
 End Sub
 
@@ -3211,7 +3243,7 @@ Private Sub cmdGo_Click()
         End If
     Next i
     
-    If (Not FolderExists(Trim$(txtFileName.Text))) And (Not FolderExists(fso.GetParentFolderName(Trim$(txtFileName.Text)))) Then
+    If (Not FolderExists(Trim$(txtFileName.Text))) And ((Not FolderExists(fso.GetParentFolderName(Trim$(txtFileName.Text)))) Or Right$(txtFileName.Text, 1) = "\") Then
         Alert t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), App.Title, Me, 16
         Exit Sub
     End If
@@ -3404,7 +3436,7 @@ Private Sub cmdStopBatch_Click()
             End If
         End If
         
-        If BatchErrorCount Then Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "3: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
+        If BatchErrorCount Then Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "103: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
                                          "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), App.Title, Me, 48
     End If
 End Sub
@@ -3708,6 +3740,10 @@ Private Sub Form_Load()
     tygOpen.Caption = t("열기", "Open")
     tygGo.Caption = t("다운로드", "Download")
     tygStop.Caption = t("중지", "Stop")
+    
+    mnuEdit.Caption = t(mnuEdit.Caption, "&Edit...")
+    mnuMoveUp.Caption = t(mnuMoveUp.Caption, "Move &up")
+    mnuMoveDown.Caption = t(mnuMoveDown.Caption, "Move &down")
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
@@ -3934,8 +3970,11 @@ End Sub
 
 Private Sub lvBatchFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Integer)
     On Error Resume Next
-    If cmdOpenBatch.Enabled And Item.Selected Then
+    If Not Item.Selected Then Exit Sub
+    If cmdOpenBatch.Enabled And Item.ListSubItems(3).Text = t("완료", "Done") Then
         cmdOpenBatch_Click
+    Else
+        mnuEdit_Click
     End If
 End Sub
 
@@ -4032,6 +4071,38 @@ End Sub
 
 Private Sub mnuOpen_Click()
     cmdOpenBatch_Click
+End Sub
+
+Private Sub mnuEdit_Click()
+    frmEditBatch.txtURL.Text = lvBatchFiles.SelectedItem.ListSubItems(2).Text
+    frmEditBatch.txtFilePath.Text = lvBatchFiles.SelectedItem.ListSubItems(1).Text
+    Tags.FileNameOnly = lvBatchFiles.SelectedItem.Text
+    On Error Resume Next
+    frmEditBatch.txtURL.SelStart = 0
+    frmEditBatch.txtURL.SelLength = Len(frmEditBatch.txtURL.Text)
+    'frmEditBatch.Label2.Enabled = (lvBatchFiles.SelectedItem.ListSubItems(3).Text <> t("완료", "Done"))
+    'frmEditBatch.txtFilePath.Enabled = frmEditBatch.Label2.Enabled
+    frmEditBatch.OriginalURL = lvBatchFiles.SelectedItem.ListSubItems(2).Text
+    frmEditBatch.OriginalPath = lvBatchFiles.SelectedItem.ListSubItems(1).Text
+    frmEditBatch.Show vbModal, Me
+End Sub
+
+Private Sub mnuMoveUp_Click()
+    On Error GoTo exitsub
+    Dim SelItem, UpItem, NewItem As LvwListItem
+    Set SelItem = lvBatchFiles.SelectedItem
+    If SelItem.Index <= 1 Then Exit Sub
+    Set UpItem = lvBatchFiles.ListItems(SelItem.Index - 1)
+    lvBatchFiles.ListItems.Remove UpItem.Index
+    Set NewItem = lvBatchFiles.ListItems.Add(SelItem.Index, , "x")
+    NewItem.Checked = UpItem.Checked
+    Set NewItem.ListSubItems = UpItem.ListSubItems
+    NewItem.ForeColor = UpItem.ForeColor
+    NewItem.Text = UpItem.Text
+    
+exitsub:
+    Debug.Print Now
+    Exit Sub
 End Sub
 
 Private Sub mnuOpenFolder_Click()
