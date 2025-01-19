@@ -99,11 +99,14 @@ End Sub
 
 Sub Main()
     LangID = GetSetting("DownloadBooster", "Options", "Language", GetUserDefaultLangID())
+    If LangID = 0 Then LangID = GetUserDefaultLangID()
     App.Title = t(App.Title, "Download Booster")
     WinVer = GetWindowsVersion()
     If WinVer < 5.1 Then
-        MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
-        Exit Sub
+        If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") = "1")) Then
+            MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
+            Exit Sub
+        End If
     End If
     If Trim$(Environ$("TEMP")) = "" Then
         CachePath = Environ$("SystemDrive") & "\BOOSTER_JS_CACHE\"

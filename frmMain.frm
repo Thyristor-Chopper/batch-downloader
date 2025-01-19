@@ -20,6 +20,77 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   11115
    StartUpPosition =   3  'Windows 기본값
+   Begin prjDownloadBooster.TygemButton tygEdit 
+      Height          =   375
+      Left            =   5880
+      TabIndex        =   136
+      Top             =   6960
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      Caption         =   "편집..."
+      BackColor       =   0
+      FontSize        =   0
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdEdit 
+      Height          =   375
+      Left            =   5880
+      TabIndex        =   135
+      Top             =   6960
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      ImageList       =   "imgEdit"
+      Caption         =   "편집(&N)..."
+      Transparent     =   -1  'True
+   End
+   Begin prjDownloadBooster.ImageList imgEdit 
+      Left            =   9240
+      Top             =   5880
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      ColorDepth      =   4
+      InitListImages  =   "frmMain.frx":030A
+   End
+   Begin prjDownloadBooster.TygemButton tygStopBatch 
+      Height          =   375
+      Left            =   7560
+      TabIndex        =   131
+      Top             =   6960
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      Caption         =   "중지"
+   End
+   Begin prjDownloadBooster.TygemButton tygStartBatch 
+      Height          =   375
+      Left            =   7560
+      TabIndex        =   130
+      Top             =   6960
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      Caption         =   "시작"
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
+      Height          =   375
+      Left            =   7560
+      TabIndex        =   24
+      Top             =   6960
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      ImageList       =   "imgStopRed"
+      Caption         =   "중지(&Z) "
+      Transparent     =   -1  'True
+   End
    Begin prjDownloadBooster.TygemButton tygStop 
       Height          =   330
       Left            =   7320
@@ -51,28 +122,6 @@ Begin VB.Form frmMain
       _ExtentY        =   582
       Enabled         =   0   'False
       Caption         =   "열기"
-   End
-   Begin prjDownloadBooster.TygemButton tygStopbatch 
-      Height          =   375
-      Left            =   7560
-      TabIndex        =   131
-      Top             =   6960
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      Caption         =   "중지"
-   End
-   Begin prjDownloadBooster.TygemButton tygStartBatch 
-      Height          =   375
-      Left            =   5880
-      TabIndex        =   130
-      Top             =   6960
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      Caption         =   "시작"
    End
    Begin prjDownloadBooster.TygemButton tygDelete 
       Height          =   375
@@ -206,7 +255,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       ColorDepth      =   4
-      InitListImages  =   "frmMain.frx":030A
+      InitListImages  =   "frmMain.frx":07F2
    End
    Begin prjDownloadBooster.ImageList imgErase 
       Left            =   9840
@@ -216,7 +265,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":07F2
+      InitListImages  =   "frmMain.frx":0CDA
    End
    Begin prjDownloadBooster.StatusBar sbStatusBar 
       Align           =   2  '아래 맞춤
@@ -226,7 +275,7 @@ Begin VB.Form frmMain
       Width           =   11115
       _ExtentX        =   19606
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":0BDA
+      InitPanels      =   "frmMain.frx":10C2
    End
    Begin prjDownloadBooster.ListView lvBatchFiles 
       Height          =   870
@@ -338,7 +387,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":0EDE
+      InitListImages  =   "frmMain.frx":13C6
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenDropdown 
       Height          =   375
@@ -361,7 +410,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":15CE
+      InitListImages  =   "frmMain.frx":1AB6
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -384,7 +433,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":1CBE
+      InitListImages  =   "frmMain.frx":21A6
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
@@ -401,7 +450,7 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdStartBatch 
       Height          =   375
-      Left            =   5880
+      Left            =   7560
       TabIndex        =   23
       Top             =   6960
       Width           =   1575
@@ -420,7 +469,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2EC6
+      InitListImages  =   "frmMain.frx":33AE
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -430,7 +479,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":40CE
+      InitListImages  =   "frmMain.frx":45B6
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -440,7 +489,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":52D6
+      InitListImages  =   "frmMain.frx":57BE
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -450,7 +499,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":64DE
+      InitListImages  =   "frmMain.frx":69C6
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -460,7 +509,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":76E6
+      InitListImages  =   "frmMain.frx":7BCE
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -470,7 +519,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":88EE
+      InitListImages  =   "frmMain.frx":8DD6
    End
    Begin prjDownloadBooster.CheckBoxW chkPlaySound 
       Height          =   255
@@ -1913,19 +1962,6 @@ Begin VB.Form frmMain
       Caption         =   " 추가(&R)..."
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
-      Height          =   375
-      Left            =   7560
-      TabIndex        =   24
-      Top             =   6960
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgStopRed"
-      Caption         =   "중지(&Z) "
-      Transparent     =   -1  'True
-   End
    Begin prjDownloadBooster.CommandButtonW cmdBatch 
       Height          =   330
       Left            =   7320
@@ -2163,14 +2199,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopLeft 
       Height          =   435
       Left            =   120
-      Picture         =   "frmMain.frx":8CD6
+      Picture         =   "frmMain.frx":91BE
       Top             =   1200
       Width           =   1725
    End
    Begin VB.Image imgTop 
       Height          =   435
       Left            =   1845
-      Picture         =   "frmMain.frx":B484
+      Picture         =   "frmMain.frx":B96C
       Stretch         =   -1  'True
       Top             =   1200
       Width           =   3585
@@ -2178,14 +2214,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopRight 
       Height          =   435
       Left            =   5430
-      Picture         =   "frmMain.frx":10656
+      Picture         =   "frmMain.frx":10B3E
       Top             =   1200
       Width           =   150
    End
    Begin VB.Image imgLeft 
       Height          =   2310
       Left            =   120
-      Picture         =   "frmMain.frx":10A38
+      Picture         =   "frmMain.frx":10F20
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   1725
@@ -2193,14 +2229,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomLeft 
       Height          =   180
       Left            =   120
-      Picture         =   "frmMain.frx":1DBD2
+      Picture         =   "frmMain.frx":1E0BA
       Top             =   3945
       Width           =   1725
    End
    Begin VB.Image imgBottom 
       Height          =   180
       Left            =   1845
-      Picture         =   "frmMain.frx":1EC64
+      Picture         =   "frmMain.frx":1F14C
       Stretch         =   -1  'True
       Top             =   3945
       Width           =   3585
@@ -2208,14 +2244,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomRight 
       Height          =   180
       Left            =   5430
-      Picture         =   "frmMain.frx":20E66
+      Picture         =   "frmMain.frx":2134E
       Top             =   3945
       Width           =   150
    End
    Begin VB.Image imgRight 
       Height          =   2310
       Left            =   5415
-      Picture         =   "frmMain.frx":21028
+      Picture         =   "frmMain.frx":21510
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   165
@@ -2530,7 +2566,9 @@ Sub NextBatchDownload()
         cmdStartBatch.Enabled = -1
         tygStartBatch.Enabled = -1
         cmdStopBatch.Enabled = 0
-        tygStopbatch.Enabled = 0
+        tygStopBatch.Enabled = 0
+        cmdStopBatch.Left = Me.Width + 1200
+        tygStopBatch.Left = cmdStopBatch.Left
         timElapsed.Enabled = 0
         sbStatusBar.Panels(3).Text = ""
         sbStatusBar.Panels(4).Text = ""
@@ -3121,20 +3159,28 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
             cmdDelete.Enabled = 0
             tygDelete.Enabled = 0
             cmdDeleteDropdown.Enabled = 0
+            cmdEdit.Enabled = 0
+            tygEdit.Enabled = 0
         ElseIf lvBatchFiles.SelectedItem.Text <> "" And lvBatchFiles.SelectedItem.Selected Then
             cmdDelete.Enabled = -1
             tygDelete.Enabled = -1
             cmdDeleteDropdown.Enabled = -1
+            cmdEdit.Enabled = -1
+            tygEdit.Enabled = -1
         Else
             cmdDelete.Enabled = 0
             tygDelete.Enabled = 0
             cmdDeleteDropdown.Enabled = 0
+            cmdEdit.Enabled = 0
+            tygEdit.Enabled = 0
         End If
         GoTo L2
 L1:
         cmdDelete.Enabled = 0
         tygDelete.Enabled = 0
         cmdDeleteDropdown.Enabled = 0
+        cmdEdit.Enabled = 0
+        tygEdit.Enabled = 0
 L2:
         On Error GoTo 0
     End If
@@ -3248,6 +3294,10 @@ Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, X A
     cmdDeleteDropdown_Click
 End Sub
 
+Private Sub cmdEdit_Click()
+    mnuEdit_Click
+End Sub
+
 Private Sub cmdGo_Click()
     Dim SPResult As SP_RESULTS
     Dim TextLine As String
@@ -3350,7 +3400,10 @@ Private Sub cmdStartBatch_Click()
     cmdStartBatch.Enabled = 0
     tygStartBatch.Enabled = 0
     cmdStopBatch.Enabled = -1
-    tygStopbatch.Enabled = -1
+    tygStopBatch.Enabled = -1
+    cmdStopBatch.Left = cmdStartBatch.Left
+    tygStopBatch.Left = cmdStopBatch.Left
+    cmdStopBatch.Refresh
     Elapsed = 0
     timElapsed.Enabled = -1
     chkOpenAfterComplete.Enabled = 0
@@ -3424,7 +3477,9 @@ Private Sub cmdStopBatch_Click()
         cmdStartBatch.Enabled = -1
         tygStartBatch.Enabled = -1
         cmdStopBatch.Enabled = 0
-        tygStopbatch.Enabled = 0
+        tygStopBatch.Enabled = 0
+        cmdStopBatch.Left = Me.Width + 1200
+        tygStopBatch.Left = cmdStopBatch.Left
         OnStop False
         cmdGo.Enabled = 0
         tygGo.Enabled = 0
@@ -3633,6 +3688,9 @@ Private Sub Form_Load()
     cmdStop.Left = Me.Width + 1200
     tygStop.Left = cmdStop.Left
     
+    cmdStopBatch.Left = Me.Width + 1200
+    tygStopBatch.Left = cmdStopBatch.Left
+    
     If GetSetting("DownloadBooster", "UserData", "LastTab", 1) = 1 Then
         fTabDownload_Click
     Else
@@ -3714,7 +3772,7 @@ Private Sub Form_Load()
     cmdBatch.Caption = t(cmdBatch.Caption, "Batc&h download")
     lblState.Caption = t(lblState.Caption, "Stopped")
     cmdOpenBatch.Caption = t(cmdOpenBatch.Caption, "Open(&W)")
-    cmdAdd.Caption = t(cmdAdd.Caption, "Add U&RL")
+    cmdAdd.Caption = t(cmdAdd.Caption, "Add U&RL...")
     cmdDelete.Caption = t(cmdDelete.Caption, "Remo&ve")
     cmdStartBatch.Caption = t(cmdStartBatch.Caption, "&Start")
     cmdStopBatch.Caption = t(cmdStopBatch.Caption, "Stop(&Z)")
@@ -3756,7 +3814,7 @@ Private Sub Form_Load()
     tygAdd.Caption = t("추가...", "Add...")
     tygDelete.Caption = t("제거", "Remove")
     tygStartBatch.Caption = t("시작", "Start")
-    tygStopbatch.Caption = t("중지", "Stop")
+    tygStopBatch.Caption = t("중지", "Stop")
     tygOpen.Caption = t("열기", "Open")
     tygGo.Caption = t("다운로드", "Download")
     tygStop.Caption = t("중지", "Stop")
@@ -3767,6 +3825,9 @@ Private Sub Form_Load()
     mnuAddItem2.Caption = t(mnuAddItem2.Caption, "&Add URL...")
     mnuOpenBatch.Caption = t(mnuOpenBatch.Caption, "&Open")
     mnuOpenFolder2.Caption = t(mnuOpenFolder2.Caption, "Open &folder")
+    
+    cmdEdit.Caption = t(cmdEdit.Caption, "Edit(&N)...")
+    tygEdit.Caption = t(tygEdit.Caption, "Edit...")
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
@@ -3826,11 +3887,13 @@ Private Sub Form_Resize()
     cmdDeleteDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdStartBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdStopBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdEdit.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     tygOpenBatch.Top = cmdOpenBatch.Top
     tygAdd.Top = cmdAdd.Top
     tygDelete.Top = cmdDelete.Top
     tygStartBatch.Top = cmdStartBatch.Top
-    tygStopbatch.Top = cmdStopBatch.Top
+    tygStopBatch.Top = cmdStopBatch.Top
+    tygEdit.Top = cmdEdit.Top
     SetBackgroundPosition
 End Sub
 
@@ -4019,10 +4082,14 @@ Private Sub lvBatchFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As
             cmdDelete.Enabled = 0
             tygDelete.Enabled = 0
             cmdDeleteDropdown.Enabled = 0
+            cmdEdit.Enabled = 0
+            tygEdit.Enabled = 0
         Else
             cmdDelete.Enabled = -1
             tygDelete.Enabled = -1
             cmdDeleteDropdown.Enabled = -1
+            cmdEdit.Enabled = -1
+            tygEdit.Enabled = -1
         End If
         
         If Item.ListSubItems(3).Text = t("완료", "Done") Then
@@ -4041,6 +4108,9 @@ Private Sub lvBatchFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As
         cmdOpenBatch.Enabled = 0
         cmdOpenDropdown.Enabled = 0
         tygOpenBatch.Enabled = 0
+        
+        cmdEdit.Enabled = 0
+        tygEdit.Enabled = 0
     End If
 End Sub
 
@@ -4076,7 +4146,7 @@ End Sub
 
 Private Sub mnuClearBatch_Click()
     If lvBatchFiles.ListItems.Count Then
-        If Confirm(t("대기열을 비우시겠습니까?", "Clear the queue?"), App.Title, Me) <> vbYes Then Exit Sub
+        If Confirm(t("대기열의 모든 항목을 삭제하시겠습니까?", "Are you sure you want to clear the queue?"), App.Title, Me) <> vbYes Then Exit Sub
         Dim i%
         i = 1
         Do While i <= lvBatchFiles.ListItems.Count
@@ -4113,6 +4183,7 @@ Private Sub mnuOpen_Click()
 End Sub
 
 Private Sub mnuEdit_Click()
+    On Error GoTo exitsub22
     frmEditBatch.txtURL.Text = lvBatchFiles.SelectedItem.ListSubItems(2).Text
     frmEditBatch.txtFilePath.Text = lvBatchFiles.SelectedItem.ListSubItems(1).Text
     Tags.FileNameOnly = lvBatchFiles.SelectedItem.Text
@@ -4124,6 +4195,8 @@ Private Sub mnuEdit_Click()
     frmEditBatch.OriginalURL = lvBatchFiles.SelectedItem.ListSubItems(2).Text
     frmEditBatch.OriginalPath = lvBatchFiles.SelectedItem.ListSubItems(1).Text
     frmEditBatch.Show vbModal, Me
+exitsub22:
+    Exit Sub
 End Sub
 
 Private Sub mnuMoveDown_Click()
@@ -4137,11 +4210,12 @@ Private Sub mnuMoveDown_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(1).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(2).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(3).Text
+    lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(DownIdx).Checked
     lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(DownIdx).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(DownIdx).ListSubItems(1).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(2).ForeColor = lvBatchFiles.ListItems(DownIdx).ListSubItems(2).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(3).ForeColor = lvBatchFiles.ListItems(DownIdx).ListSubItems(3).ForeColor
-    lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(DownIdx).Checked
+    lvBatchFiles.ListItems(NewIdx).ListSubItems(3).Text = lvBatchFiles.ListItems(DownIdx).ListSubItems(3).Text
     
     lvBatchFiles.ListItems.Remove DownIdx
     
@@ -4159,11 +4233,12 @@ Private Sub mnuMoveUp_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(1).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(2).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(3).Text
+    lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(UpIdx).Checked
     lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(UpIdx).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(UpIdx).ListSubItems(1).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(2).ForeColor = lvBatchFiles.ListItems(UpIdx).ListSubItems(2).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(3).ForeColor = lvBatchFiles.ListItems(UpIdx).ListSubItems(3).ForeColor
-    lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(UpIdx).Checked
+    lvBatchFiles.ListItems(NewIdx).ListSubItems(3).Text = lvBatchFiles.ListItems(UpIdx).ListSubItems(3).Text
     
     lvBatchFiles.ListItems.Remove UpIdx
     
@@ -4354,6 +4429,10 @@ End Sub
 
 Private Sub tygDelete_Click()
     cmdDelete_Click
+End Sub
+
+Private Sub tygEdit_Click()
+    cmdEdit_Click
 End Sub
 
 Private Sub tygGo_Click()

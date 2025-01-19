@@ -923,10 +923,12 @@ Private Sub cmdApply_Click()
         Next ctrl
         On Error GoTo 0
     End If
-    If cbLanguage.ListIndex = 1 Then
-        SaveSetting "DownloadBooster", "Options", "Language", 1033
-    Else
+    If cbLanguage.ListIndex = 0 Then
+        SaveSetting "DownloadBooster", "Options", "Language", "0"
+    ElseIf cbLanguage.ListIndex = 1 Then
         SaveSetting "DownloadBooster", "Options", "Language", 1042
+    Else
+        SaveSetting "DownloadBooster", "Options", "Language", 1033
     End If
     SaveSetting "DownloadBooster", "Options", "ImagePosition", cbImagePosition.ListIndex
     frmMain.ImagePosition = cbImagePosition.ListIndex
@@ -1147,9 +1149,18 @@ Private Sub Form_Load()
     tygSample.Visible = Abs(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0))) * (-1)
     
     cbLanguage.Clear
+    cbLanguage.AddItem t("자동", "Auto")
     cbLanguage.AddItem "한국어"
     cbLanguage.AddItem "English"
-    cbLanguage.ListIndex = CInt(GetSetting("DownloadBooster", "Options", "Language", GetUserDefaultLangID()) <> 1042) * -1
+    Dim LangSet As String
+    LangSet = GetSetting("DownloadBooster", "Options", "Language", "0")
+    If LangSet = "0" Then
+        cbLanguage.ListIndex = 0
+    ElseIf LangSet = "1042" Then
+        cbLanguage.ListIndex = 1
+    Else
+        cbLanguage.ListIndex = 2
+    End If
     
     cbWhenExist.Clear
     cbWhenExist.AddItem t("중단", "Abort")
