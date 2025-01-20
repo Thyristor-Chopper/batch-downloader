@@ -288,6 +288,8 @@ Private Sub Form_Load()
     OKButton.Caption = t(OKButton.Caption, "OK")
     CancelButton.Caption = t(CancelButton.Caption, "Cancel")
     Me.Caption = t(Me.Caption, "Select download path")
+    
+    txtFileName.Visible = (Tags.BrowseTargetForm <> 2)
 End Sub
 
 Private Sub lvDir_Change()
@@ -303,7 +305,7 @@ Private Sub lvFiles_Click()
 End Sub
 
 Private Sub lvFiles_DblClick()
-    If frmMain.cbWhenExist.ListIndex <> 0 Then _
+    If frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2 Then _
         OKButton_Click
 End Sub
 
@@ -348,10 +350,14 @@ Private Sub OKButton_Click()
 
     Dim Data$, Path$
     
-    If Right$(lvFiles.Path, 1) = "\" Then
-        Path = lvFiles.Path & txtFileName.Text
+    If Tags.BrowseTargetForm = 2 Then
+        Path = lvFiles.Path
     Else
-        Path = lvFiles.Path & "\" & txtFileName.Text
+        If Right$(lvFiles.Path, 1) = "\" Then
+            Path = lvFiles.Path & txtFileName.Text
+        Else
+            Path = lvFiles.Path & "\" & txtFileName.Text
+        End If
     End If
     On Error Resume Next
     If FileExists(Path) Then

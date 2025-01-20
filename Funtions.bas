@@ -172,8 +172,14 @@ Sub SetFormBackgroundColor(frmForm As Form)
             If TypeName(ctrl) = "TygemButton" And ctrl.Tag <> "novisibilitychange" Then
                 ctrl.Visible = EnableLBSkin
             End If
-            If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then ctrl.VisualStyles = True
-            If DisableVisualStyle And ctrl.VisualStyles = True Then ctrl.VisualStyles = False
+            If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
+                ctrl.VisualStyles = True
+                'If TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Then ctrl.Style = 0
+            End If
+            If DisableVisualStyle And ctrl.VisualStyles = True Then
+                ctrl.VisualStyles = False
+                'If TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Then ctrl.Style = 1
+            End If
             If TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "ListBoxW" Then GoTo nextfor
             If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" Then ctrl.ForeColor = clrForeColor
             If TypeName(ctrl) = "PictureBox" Then
