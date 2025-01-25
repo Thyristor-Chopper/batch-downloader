@@ -281,13 +281,13 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     ' Determine Key Value Type For Conversion...
     '------------------------------------------------------------
     Select Case KeyValType                                  ' 데이터 형식을 검색합니다.
-    Case REG_SZ                                             ' 문자열 레지스트리 키 데이터 형식
-        KeyVal = tmpVal                                     ' 문자열 값을 복사합니다.
     Case REG_DWORD                                          ' 이진 단어 레지스트리 키 데이터 형식
         For i = Len(tmpVal) To 1 Step -1                    ' 각각 비트를 변환합니다.
             KeyVal = KeyVal + Hex(Asc(Mid(tmpVal, i, 1)))   ' 값 문자를 문자별로 작성합니다.
         Next
         KeyVal = Format$("&h" + KeyVal)                     ' 이진 단어를 문자열로 변환합니다.
+    Case Else                                               ' 문자열 레지스트리 키 데이터 형식
+        KeyVal = tmpVal                                     ' 문자열 값을 복사합니다.
     End Select
     
     GetKeyValue = KeyVal

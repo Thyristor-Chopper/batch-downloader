@@ -53,9 +53,13 @@ if(process.argv[7] == 1) {
 			fs.unlinkSync(fn + '.part_' + i + '.tmp');
 }
 var http = require(url.slice(0, 6) == 'https:' ? 'https' : 'http');
-print('STATUS', 'CHECKREDIRECT');
 var userAgent = 'Mozilla/5.0 (Windows NT 6.1; rv:121.0) Gecko/20100101 Firefox/121.0';
-checkRedirect(url);
+if(process.argv[8] == 1) {
+	startDownload(url);
+} else {
+	print('STATUS', 'CHECKREDIRECT');
+	checkRedirect(url);
+}
 function checkRedirect(url) {
 	var parsedURL = URL.parse(url);
 	http.request({
@@ -203,7 +207,16 @@ function startDownload(url) {
 						for(var i=1; i<=trd; i++) s += '"' + fn + '.part_' + i + '.tmp"+';
 						s = s.replace(/[+]$/, '');
 						s += ' "' + fn + '"';
+						
+						var mergedsize = 0;
+						var sizeReporter = setInterval(function() {
+							fs.stat(fn, function(err, stat) {
+								if(!err && stat) print('MERGESIZE', stat.size.toString());
+							});
+						}, 100);
 						require('child_process').exec(s, function() {
+							clearInterval(sizeReporter);
+							print('MERGESIZE', total);
 							if(Number(process.argv[5]) == 0)
 								for(var i=1; i<=trd; i++)
 									fs.unlinkSync(fn + '.part_' + i + '.tmp');

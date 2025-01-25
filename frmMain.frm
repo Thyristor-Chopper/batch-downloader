@@ -577,17 +577,35 @@ Begin VB.Form frmMain
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.FrameW fDownloadInfo 
-      Height          =   2775
-      Left            =   1440
+      Height          =   3375
+      Left            =   1320
       TabIndex        =   30
-      Top             =   2520
+      Top             =   2400
       Visible         =   0   'False
-      Width           =   3495
-      _ExtentX        =   6165
-      _ExtentY        =   4895
+      Width           =   3855
+      _ExtentX        =   6800
+      _ExtentY        =   5953
       BorderStyle     =   0
       Caption         =   " "
       Transparent     =   -1  'True
+      Begin VB.Label lblMergeStatus 
+         BackStyle       =   0  '투명
+         Caption         =   "-"
+         Height          =   255
+         Left            =   1320
+         TabIndex        =   138
+         Top             =   2880
+         Width           =   4335
+      End
+      Begin VB.Label Label9 
+         BackStyle       =   0  '투명
+         Caption         =   "조각 결합 현황:"
+         Height          =   255
+         Left            =   0
+         TabIndex        =   137
+         Top             =   2880
+         Width           =   1335
+      End
       Begin VB.Label lblRemaining 
          BackStyle       =   0  '투명
          Caption         =   "-"
@@ -2402,6 +2420,7 @@ Dim SpeedCount As Integer
 Dim HttpStatusCode As String
 Dim ResumeUnsupported As Boolean
 Public ImagePosition As Integer
+Dim TotalSize As Double
 
 Sub OnData(Data As String)
     Dim output$
@@ -2421,6 +2440,8 @@ Sub OnData(Data As String)
                 'pbTotalProgress.Scrolling = PrbScrollingMarquee
                 pbTotalProgressMarquee.Visible = -1
                 pbTotalProgressMarquee.MarqueeAnimation = -1
+                cmdStop.Enabled = 0
+                tygStop.Enabled = 0
             Case "COMPLETE"
                 sbStatusBar.Panels(1).Text = t("완료", "Complete")
                 sbStatusBar.Panels(2).Text = ""
@@ -2522,6 +2543,7 @@ progressAvailable:
                 lblTotalBytes.Caption = t("알 수 없음", "Unknown")
             Else
                 lblTotalBytes.Caption = ParseSize(total, True)
+                TotalSize = total
             End If
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
             pbTotalProgress.Value = progress
@@ -2537,7 +2559,7 @@ progressAvailable:
             PrevDownloadedBytes = DownloadedBytes
             SpeedCount = 0
             
-            If progress >= 0 And strTotal <> "-1" And IsNumeric(strTotal) Then
+            If progress >= 0 And strTotal <> "-1" And IsNumeric(strTotal) And Speed > 0 Then
                 lblRemaining = FormatTime((CDbl(strTotal) - CDbl(DownloadedBytes)) / Speed)
             End If
         End If
@@ -2550,6 +2572,13 @@ progressAvailable:
             lvBatchFiles.ListItems(CurrentBatchIdx).Text = lblFilename.Caption
         End If
         If Len(lblFilename.Caption) > 22 Then lblFilename.Caption = Left$(lblFilename.Caption, 22) & "..."
+    ElseIf Left$(Data, 10) = "MERGESIZE " Then
+        On Error GoTo exitif
+        Dim MergedSize As Double
+        MergedSize = CDbl(Right$(Data, Len(Data) - 10))
+        If TotalSize <= 0 Then GoTo exitif
+        lblMergeStatus.Caption = t(ParseSize(TotalSize) & " 중 " & ParseSize(MergedSize), ParseSize(MergedSize) & " of " & ParseSize(TotalSize)) & " (" & ((MergedSize / TotalSize) * 100) & "%)"
+exitif:
     End If
 End Sub
 
@@ -2769,6 +2798,7 @@ Sub OnStart()
     ResumeUnsupported = False
     cmdGo.Enabled = 0
     tygGo.Enabled = 0
+    TotalSize = 0
     If Not BatchStarted Then
         cmdStop.Enabled = -1
         cmdStop.Left = cmdGo.Left
@@ -2818,6 +2848,7 @@ Sub OnStart()
     lblElapsed.Caption = "0" & t("초", " seconds")
     lblSpeed.Caption = "-"
     lblRemaining.Caption = "-"
+    lblMergeStatus.Caption = "-"
     
     fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
     pbTotalProgress.Value = 0
@@ -3247,7 +3278,7 @@ L2:
     ScriptPath = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
     If NodePath = "" Then NodePath = CachePath & "node_v0_11_11.exe"
     If ScriptPath = "" Then ScriptPath = CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
-    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload)
+    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0))
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -3828,6 +3859,8 @@ Private Sub Form_Load()
     
     cmdEdit.Caption = t(cmdEdit.Caption, "Edit(&N)...")
     tygEdit.Caption = t(tygEdit.Caption, "Edit...")
+    
+    Label9.Caption = t(Label9.Caption, "Merge status:")
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
