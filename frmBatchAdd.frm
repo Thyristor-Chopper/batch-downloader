@@ -161,6 +161,7 @@ Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me
+    SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
     Me.Caption = t(Me.Caption, "Batch download")
     cmdOK.Caption = t(cmdOK.Caption, "OK")
@@ -181,6 +182,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Form_Resize()
+    If Me.WindowState = 1 Then Exit Sub
     cmdOK.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1545
     tygOK.Left = cmdOK.Left
     cmdCancel.Left = cmdOK.Left

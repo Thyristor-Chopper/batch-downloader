@@ -2,10 +2,10 @@ VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "옵션"
-   ClientHeight    =   5475
+   ClientHeight    =   6045
    ClientLeft      =   2760
    ClientTop       =   3855
-   ClientWidth     =   12405
+   ClientWidth     =   12540
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -19,8 +19,8 @@ Begin VB.Form frmOptions
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5475
-   ScaleWidth      =   12405
+   ScaleHeight     =   6045
+   ScaleWidth      =   12540
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin prjDownloadBooster.TygemButton tygOK 
@@ -65,7 +65,7 @@ Begin VB.Form frmOptions
       ScaleHeight     =   2715
       ScaleWidth      =   5955
       TabIndex        =   34
-      Top             =   2640
+      Top             =   3240
       Width           =   6015
       Begin prjDownloadBooster.FrameW FrameW3 
          Height          =   855
@@ -201,33 +201,66 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   2505
+      Height          =   3105
       Index           =   1
       Left            =   6360
-      ScaleHeight     =   2445
+      ScaleHeight     =   3045
       ScaleWidth      =   5595
       TabIndex        =   5
       Top             =   120
       Width           =   5655
       Begin prjDownloadBooster.FrameW Frame5 
-         Height          =   675
+         Height          =   1275
          Left            =   120
          TabIndex        =   20
          Top             =   1680
-         Width           =   3135
-         _ExtentX        =   5530
-         _ExtentY        =   1191
+         Width           =   4455
+         _ExtentX        =   7858
+         _ExtentY        =   2249
          Caption         =   " 인터페이스 "
          Transparent     =   -1  'True
+         Begin prjDownloadBooster.CheckBoxW chkAeroWindow 
+            Height          =   255
+            Left            =   2160
+            TabIndex        =   61
+            Top             =   960
+            Visible         =   0   'False
+            Width           =   2175
+            _ExtentX        =   3836
+            _ExtentY        =   450
+            Enabled         =   0   'False
+            Caption         =   "유리 창 효과 사용(&R)"
+            Transparent     =   -1  'True
+         End
+         Begin prjDownloadBooster.CheckBoxW chkAlwaysOnTop 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   60
+            Top             =   960
+            Width           =   1935
+            _ExtentX        =   3413
+            _ExtentY        =   450
+            Caption         =   "언제나 위(&W)"
+            Transparent     =   -1  'True
+         End
          Begin prjDownloadBooster.ComboBoxW cbLanguage 
             Height          =   300
-            Left            =   1080
+            Left            =   1440
             TabIndex        =   22
             Top             =   240
-            Width           =   1935
-            _ExtentX        =   0
-            _ExtentY        =   0
+            Width           =   2775
+            _ExtentX        =   4895
+            _ExtentY        =   529
             Style           =   2
+         End
+         Begin VB.Label Label9 
+            BackStyle       =   0  '투명
+            Caption         =   "..."
+            Height          =   255
+            Left            =   120
+            TabIndex        =   59
+            Top             =   600
+            Width           =   4215
          End
          Begin VB.Label Label1 
             BackStyle       =   0  '투명
@@ -651,10 +684,10 @@ Begin VB.Form frmOptions
             BorderColor     =   &H00404040&
             FillColor       =   &H00808080&
             Height          =   255
-            Left            =   1920
+            Left            =   2040
             Shape           =   4  '둥근 사각형
             Top             =   585
-            Width           =   495
+            Width           =   375
          End
       End
       Begin prjDownloadBooster.FrameW Frame4 
@@ -679,10 +712,10 @@ Begin VB.Form frmOptions
             BorderColor     =   &H00404040&
             FillColor       =   &H00808080&
             Height          =   255
-            Left            =   1920
+            Left            =   2040
             Shape           =   4  '둥근 사각형
             Top             =   585
-            Width           =   495
+            Width           =   375
          End
       End
    End
@@ -762,7 +795,7 @@ End Sub
 
 Private Sub cbLanguage_Click()
     If Loaded Then
-        Alert t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application."), App.Title, Me, 64
+        'Alert t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application."), App.Title, Me, 64
         cmdApply.Enabled = -1
         tygApply.Enabled = -1
     End If
@@ -780,6 +813,13 @@ Private Sub cbSkin_Click()
 End Sub
 
 Private Sub cbWhenExist_Click()
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
+End Sub
+
+Private Sub chkAlwaysOnTop_Click()
     If Loaded Then
         cmdApply.Enabled = -1
         tygApply.Enabled = -1
@@ -1072,6 +1112,20 @@ Private Sub cmdApply_Click()
         SaveSetting "DownloadBooster", "Options", "YtdlPath", ""
     End If
     
+    Dim hSysMenu As Long
+    Dim mii As MENUITEMINFO
+    hSysMenu = GetSystemMenu(frmMain.hWnd, 0)
+    MainFormOnTop = (chkAlwaysOnTop.Value = 1)
+    SetWindowPos frmMain.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    With mii
+        .cbSize = Len(mii)
+        .fMask = MIIM_STATE
+        .fState = MFS_ENABLED Or IIf(MainFormOnTop, MFS_CHECKED, 0)
+    End With
+    SetMenuItemInfo hSysMenu, 1000, 0, mii
+    SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(CInt(MainFormOnTop))
+    
     ColorChanged = False
     ImageChanged = False
     VisualStyleChanged = False
@@ -1099,6 +1153,7 @@ Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me
+    SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
     Me.Width = 6495 '6840
     Me.Height = 5970
@@ -1137,6 +1192,7 @@ Private Sub Form_Load()
     chkNoRedirectCheck.Value = GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0)
     chkForceGet.Value = GetSetting("DownloadBooster", "Options", "ForceGet", 0)
     chkIgnore300.Value = GetSetting("DownloadBooster", "Options", "Ignore300", 0)
+    chkAlwaysOnTop.Value = Abs(CInt(MainFormOnTop))
     chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow)
     If (Not IsDWMEnabled()) Then
         chkNoDWMWindow.Enabled = False
@@ -1309,6 +1365,9 @@ Private Sub Form_Load()
     chkNoRedirectCheck.Caption = t(chkNoRedirectCheck.Caption, "Don't check fo&r redirects")
     chkForceGet.Caption = t(chkForceGet.Caption, "Force GET re&quest on file check")
     chkIgnore300.Caption = t(chkIgnore300.Caption, "&Ignore 3XX reponse code")
+    Label9.Caption = t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application.")
+    chkAlwaysOnTop.Caption = t(chkAlwaysOnTop.Caption, "Al&ways on top")
+    chkAeroWindow.Caption = t(chkAeroWindow.Caption, "Use Ae&ro glass window")
     
     Loaded = True
 End Sub

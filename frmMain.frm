@@ -2,8 +2,8 @@ VERSION 5.00
 Begin VB.Form frmMain 
    Caption         =   "다운로드 부스터"
    ClientHeight    =   7740
-   ClientLeft      =   60
-   ClientTop       =   480
+   ClientLeft      =   165
+   ClientTop       =   555
    ClientWidth     =   11115
    BeginProperty Font 
       Name            =   "굴림"
@@ -2407,6 +2407,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Option Explicit
+
 Dim Elapsed As Long
 Dim BatchStarted As Boolean
 Dim CurrentBatchIdx As Integer
@@ -2852,6 +2854,7 @@ Sub OnStart()
     
     fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
     pbTotalProgress.Value = 0
+    Dim i%
     For i = 1 To trThreadCount.Value
         lblPercentage(i).Caption = ""
         pbProgress(i).Value = 0
@@ -3085,14 +3088,20 @@ justadd:
     AddBatchURLs txtURL.Text
 End Sub
 
-Private Sub cmdBatch_Click()
+Sub cmdBatch_Click()
     On Error Resume Next
+    
+    Dim hSysMenu As Long
+    Dim mii As MENUITEMINFO
+    hSysMenu = GetSystemMenu(Me.hWnd, 0)
+    
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then
         cmdBatch.ImageList = imgDropdownReverse
         tygBatch.Caption = t("<< 일괄 처리", "<< Batch")
         lvBatchFiles.Visible = -1
         cmdAddToQueue.Visible = -1
         SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
+        'sbStatusBar.AllowSizeGrip = True
         
         Dim formHeight As Integer
         formHeight = GetSetting("DownloadBooster", "UserData", "FormHeight", 8985)
@@ -3101,14 +3110,33 @@ Private Sub cmdBatch_Click()
         Else
             Me.Height = formHeight + PaddedBorderWidth * 15 * 2
         End If
+        
+        CheckMenuRadioItem hSysMenu, 1001, 1002, 1002, MF_BYCOMMAND
+        
+        With mii
+            .cbSize = Len(mii)
+            .fMask = MIIM_STATE
+            .fState = MFS_ENABLED
+        End With
+        SetMenuItemInfo hSysMenu, 1003, 0, mii
     Else
         SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
         SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
+        'sbStatusBar.AllowSizeGrip = False
         Me.Height = 6930 + PaddedBorderWidth * 15 * 2
         cmdBatch.ImageList = imgDropdown
         lvBatchFiles.Visible = 0
         cmdAddToQueue.Visible = 0
         tygBatch.Caption = t("일괄 처리 >>", "Batch >>")
+        
+        CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
+        
+        With mii
+            .cbSize = Len(mii)
+            .fMask = MIIM_STATE
+            .fState = MFS_GRAYED
+        End With
+        SetMenuItemInfo hSysMenu, 1003, 0, mii
     End If
     SetBackgroundPosition
 End Sub
@@ -3278,6 +3306,7 @@ L2:
     ScriptPath = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
     If NodePath = "" Then NodePath = CachePath & "node_v0_11_11.exe"
     If ScriptPath = "" Then ScriptPath = CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
+    Dim SPResult As SP_RESULTS
     SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & GetSetting("DownloadBooster", "Options", "ForceGet", 0) & " " & GetSetting("DownloadBooster", "Options", "Ignore300", 0))
     Select Case SPResult
         Case SP_SUCCESS
@@ -3754,8 +3783,94 @@ Private Sub Form_Load()
     txtFileName.Text = GetSetting("DownloadBooster", "UserData", "SavePath", CurDir.Path)
     
     Me.Height = 6930 + PaddedBorderWidth * 15 * 2
+    
+    Dim hSysMenu As Long
+    Dim MenuCount As Long
+    hSysMenu = GetSystemMenu(Me.hWnd, 0)
+    'DeleteMenu hSysMenu, 0, MF_BYPOSITION
+    MenuCount = GetMenuItemCount(hSysMenu)
+    Dim mii As MENUITEMINFO
+    
+    '구분선
+    With mii
+        .cbSize = Len(mii)
+        .fMask = MIIM_ID Or MIIM_TYPE
+        .fType = MFT_SEPARATOR
+        .wID = 0
+    End With
+    InsertMenuItem hSysMenu, MenuCount - 2, 1, mii
+    
+    If GetSetting("DownloadBooster", "Options", "AlwaysOnTop", 0) = 1 Then
+        MainFormOnTop = True
+        SetWindowPos hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    Else
+        MainFormOnTop = False
+    End If
+    
+    '항상 위에 표시
+    With mii
+        .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
+        .fType = MFT_STRING
+        .fState = MFS_ENABLED
+        .wID = 1000
+        .dwTypeData = t("언제나 위(&A)", "&Always On Top")
+        .cch = Len(.dwTypeData)
+    End With
+    InsertMenuItem hSysMenu, MenuCount - 1, 1, mii
+    
+    '높이 리셋
+    With mii
+        .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
+        .fType = MFT_STRING
+        .fState = MFS_ENABLED
+        .wID = 1003
+        .dwTypeData = t("창 크기 초기화(&E)", "R&eset window size")
+        .cch = Len(.dwTypeData)
+    End With
+    InsertMenuItem hSysMenu, MenuCount, 1, mii
+    
+    '구분선
+    With mii
+        .cbSize = Len(mii)
+        .fMask = MIIM_ID Or MIIM_TYPE
+        .fType = MFT_SEPARATOR
+        .wID = 1
+    End With
+    InsertMenuItem hSysMenu, MenuCount + 1, 1, mii
+    
+    '일괄처리목록감추기
+    With mii
+        .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
+        .fType = MFT_STRING
+        .fState = MFS_ENABLED
+        .wID = 1001
+        .dwTypeData = t("간단히 보기(&I)", "S&imple Mode")
+        .cch = Len(.dwTypeData)
+    End With
+    InsertMenuItem hSysMenu, MenuCount + 2, 1, mii
+    
+    '일괄처리목록표시
+    With mii
+        .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
+        .fType = MFT_STRING
+        .fState = MFS_ENABLED
+        .wID = 1002
+        .dwTypeData = t("일괄 처리 보기(&B)", "&Batch Mode")
+        .cch = Len(.dwTypeData)
+    End With
+    InsertMenuItem hSysMenu, MenuCount + 3, 1, mii
+    
     If GetSetting("DownloadBooster", "UserData", "BatchExpanded", 1) <> 0 Then
         cmdBatch_Click
+    Else
+        CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
+        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
+        With mii
+            .cbSize = Len(mii)
+            .fMask = MIIM_STATE
+            .fState = MFS_GRAYED
+        End With
+        SetMenuItemInfo hSysMenu, 1003, 0, mii
     End If
     
     chkOpenAfterComplete.Value = GetSetting("DownloadBooster", "Options", "OpenWhenComplete", 0)
@@ -3909,9 +4024,14 @@ Private Sub Form_Load()
     SetFont Me
 End Sub
 
+Sub OnDWMChange()
+    '
+End Sub
+
 Private Sub Form_Resize()
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
     If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
+    If Me.WindowState = 1 Then Exit Sub
     lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
     cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
@@ -3994,19 +4114,14 @@ Private Sub Form_Unload(Cancel As Integer)
     If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
     SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
     On Error Resume Next
-    Unload ConfirmMsgBox
-    Unload OKMsgBox
-    Unload YesNoMsgBox
     Unload YesNoCancelMsgBox
     Unload frmBatchAdd
     Unload frmBrowse
     Unload frmOptions
-    Unload frmGame
-    Unload frmGameVista
-    Unload frmGameWin95
-    Unload frmGameWinXP
     Unload frmCustomBackground
     Unhook Me.hWnd
+    GetSystemMenu Me.hWnd, 1
+    'If Not InIDE Then End
 End Sub
 
 Private Sub fTabDownload_Click()
