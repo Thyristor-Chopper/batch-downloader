@@ -66,7 +66,7 @@ function checkRedirect(url) {
 		host: parsedURL.host,
 		path: parsedURL.path,
 		headers: { 'User-Agent': userAgent },
-		method: 'HEAD',
+		method: (process.argv[9] == 1) ? 'GET' : 'HEAD',
 	}, function(res) {
 		if(res.headers.location && [301, 302, 303, 307, 308].includes(res.statusCode || 0))
 			return checkRedirect(res.headers.location.trim().replace(/^["]/, '').replace(/["]$/, ''));
@@ -81,9 +81,9 @@ function startDownload(url) {
 		host: parsedURL.host,
 		path: parsedURL.path,
 		headers: { 'User-Agent': userAgent },
-		method: 'HEAD',
+		method: (process.argv[9] == 1) ? 'GET' : 'HEAD',
 	}, function(res) {
-		if((res.statusCode + '')[0] != 2) {
+		if(process.argv[10] == 1 ? (!(Number((res.statusCode + '')[0]) <= 3)) : ((res.statusCode + '')[0] != 2)) {
 			print('STATUSCODE', res.statusCode + '');
 			return process.exit(108);
 		}
@@ -157,7 +157,7 @@ function startDownload(url) {
 					comp++;
 					return startThreads(i + 1);
 				}
-				if((response.statusCode + '')[0] != 2) {
+				if(process.argv[10] == 1 ? (!(Number((response.statusCode + '')[0]) <= 3)) : ((response.statusCode + '')[0] != 2)) {
 					print('STATUSCODE', response.statusCode + '');
 					return process.exit(108);
 				}

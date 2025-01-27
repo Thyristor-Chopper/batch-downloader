@@ -2577,7 +2577,7 @@ progressAvailable:
         Dim MergedSize As Double
         MergedSize = CDbl(Right$(Data, Len(Data) - 10))
         If TotalSize <= 0 Then GoTo exitif
-        lblMergeStatus.Caption = t(ParseSize(TotalSize) & " Сп " & ParseSize(MergedSize), ParseSize(MergedSize) & " of " & ParseSize(TotalSize)) & " (" & ((MergedSize / TotalSize) * 100) & "%)"
+        lblMergeStatus.Caption = t(ParseSize(TotalSize) & " Сп " & ParseSize(MergedSize), ParseSize(MergedSize) & " of " & ParseSize(TotalSize)) & " (" & Fix((MergedSize / TotalSize) * 100) & "%)"
 exitif:
     End If
 End Sub
@@ -3278,7 +3278,7 @@ L2:
     ScriptPath = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
     If NodePath = "" Then NodePath = CachePath & "node_v0_11_11.exe"
     If ScriptPath = "" Then ScriptPath = CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
-    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0))
+    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & GetSetting("DownloadBooster", "Options", "ForceGet", 0) & " " & GetSetting("DownloadBooster", "Options", "Ignore300", 0))
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe

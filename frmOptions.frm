@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "옵션"
-   ClientHeight    =   5550
+   ClientHeight    =   5475
    ClientLeft      =   2760
    ClientTop       =   3855
    ClientWidth     =   12405
@@ -19,7 +19,7 @@ Begin VB.Form frmOptions
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5550
+   ScaleHeight     =   5475
    ScaleWidth      =   12405
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
@@ -59,31 +59,53 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   2655
+      Height          =   2775
       Index           =   3
       Left            =   6360
-      ScaleHeight     =   2595
+      ScaleHeight     =   2715
       ScaleWidth      =   5955
       TabIndex        =   34
       Top             =   2640
       Width           =   6015
       Begin prjDownloadBooster.FrameW FrameW3 
-         Height          =   615
+         Height          =   855
          Left            =   120
          TabIndex        =   54
          Top             =   1800
-         Width           =   5295
-         _ExtentX        =   9340
-         _ExtentY        =   1085
+         Width           =   5415
+         _ExtentX        =   9551
+         _ExtentY        =   1508
          Caption         =   " 고급 다운로드 설정 "
          Transparent     =   -1  'True
+         Begin prjDownloadBooster.CheckBoxW chkIgnore300 
+            Height          =   255
+            Left            =   2760
+            TabIndex        =   58
+            Top             =   480
+            Width           =   2535
+            _ExtentX        =   4471
+            _ExtentY        =   450
+            Caption         =   "300번대 응답 코드 무시(&I)"
+            Transparent     =   -1  'True
+         End
+         Begin prjDownloadBooster.CheckBoxW chkForceGet 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   57
+            Top             =   480
+            Width           =   2640
+            _ExtentX        =   4657
+            _ExtentY        =   450
+            Caption         =   "파일 검사 시 GET 요청(&Q)"
+            Transparent     =   -1  'True
+         End
          Begin prjDownloadBooster.CheckBoxW chkNoRedirectCheck 
             Height          =   255
-            Left            =   2520
+            Left            =   2760
             TabIndex        =   56
             Top             =   240
-            Width           =   2655
-            _ExtentX        =   4683
+            Width           =   2415
+            _ExtentX        =   4260
             _ExtentY        =   450
             Caption         =   "리다이렉트 검사 안 함(&R)"
             Transparent     =   -1  'True
@@ -813,6 +835,20 @@ Private Sub chkEnableBackgroundImage_Click()
     End If
 End Sub
 
+Private Sub chkForceGet_Click()
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
+End Sub
+
+Private Sub chkIgnore300_Click()
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
+End Sub
+
 Private Sub chkNoCleanup_Click()
     If Loaded Then
         cmdApply.Enabled = -1
@@ -871,6 +907,8 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "NoCleanup", chkNoCleanup.Value
     SaveSetting "DownloadBooster", "Options", "RememberURL", chkRememberURL.Value
     SaveSetting "DownloadBooster", "Options", "NoRedirectCheck", chkNoRedirectCheck.Value
+    SaveSetting "DownloadBooster", "Options", "ForceGet", chkForceGet.Value
+    SaveSetting "DownloadBooster", "Options", "Ignore300", chkIgnore300.Value
     
     SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenWhenComplete.Value
     SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenDirWhenComplete.Value
@@ -1097,6 +1135,8 @@ Private Sub Form_Load()
     Next i
     chkNoCleanup.Value = GetSetting("DownloadBooster", "Options", "NoCleanup", 0)
     chkNoRedirectCheck.Value = GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0)
+    chkForceGet.Value = GetSetting("DownloadBooster", "Options", "ForceGet", 0)
+    chkIgnore300.Value = GetSetting("DownloadBooster", "Options", "Ignore300", 0)
     chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow)
     If (Not IsDWMEnabled()) Then
         chkNoDWMWindow.Enabled = False
@@ -1267,6 +1307,8 @@ Private Sub Form_Load()
     tygApply.Caption = t(tygApply.Caption, "Apply")
     FrameW3.Caption = t(FrameW3.Caption, " Advanced download settings ")
     chkNoRedirectCheck.Caption = t(chkNoRedirectCheck.Caption, "Don't check fo&r redirects")
+    chkForceGet.Caption = t(chkForceGet.Caption, "Force GET re&quest on file check")
+    chkIgnore300.Caption = t(chkIgnore300.Caption, "&Ignore 3XX reponse code")
     
     Loaded = True
 End Sub
