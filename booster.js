@@ -7,6 +7,20 @@ if(!Array.prototype.includes) Array.prototype.includes = function includes(find)
 		if(this[i] == find) return true;
 	return false;
 };
+if(!Object.assign)
+	Object.assign = function assign(target, varArgs) {
+		if(!target) throw new TypeError('Cannot convert undefined or null to object');
+		var to = Object(target);
+		for(var index=1; index<arguments.length; index++) {
+			var nextSource = arguments[index];
+			if(nextSource != null) {
+				for(var nextKey in nextSource)
+					if(Object.prototype.hasOwnProperty.call(nextSource, nextKey))
+						to[nextKey] = nextSource[nextKey];
+			}
+		}
+		return to;
+	};
 function print() {
 	return console.log.apply(this, Array.prototype.slice.call(arguments).concat(['\r']));
 }
@@ -53,7 +67,18 @@ if(process.argv[7] == 1) {
 			fs.unlinkSync(fn + '.part_' + i + '.tmp');
 }
 var http = require(url.slice(0, 6) == 'https:' ? 'https' : 'http');
-var userAgent = 'Mozilla/5.0 (Windows NT 6.1; rv:121.0) Gecko/20100101 Firefox/121.0';
+var rawHeaders = Buffer((process.argv[11] || ''), 'base64').toString().split('\n');
+var rawSessionHeaders = Buffer((process.argv[12] || ''), 'base64').toString().split('\n');
+var headers = {}, sessionHeaders = {};
+rawHeaders.forEach(function(item) {
+	if(item.indexOf(': ') < 0) return;
+	headers[item.slice(0, item.indexOf(': '))] = item.slice(item.indexOf(': ') + 2);
+});
+rawSessionHeaders.forEach(function(item) {
+	if(item.indexOf(': ') < 0) return;
+	sessionHeaders[item.slice(0, item.indexOf(': '))] = item.slice(item.indexOf(': ') + 2);
+});
+Object.assign(headers, sessionHeaders);
 if(process.argv[8] == 1) {
 	startDownload(url);
 } else {
@@ -65,7 +90,7 @@ function checkRedirect(url) {
 	http.request({
 		host: parsedURL.host,
 		path: parsedURL.path,
-		headers: { 'User-Agent': userAgent },
+		headers: headers,
 		method: (process.argv[9] == 1) ? 'GET' : 'HEAD',
 	}, function(res) {
 		if(res.headers.location && [301, 302, 303, 307, 308].includes(res.statusCode || 0))
@@ -80,7 +105,7 @@ function startDownload(url) {
 	http.request({
 		host: parsedURL.host,
 		path: parsedURL.path,
-		headers: { 'User-Agent': userAgent },
+		headers: headers,
 		method: (process.argv[9] == 1) ? 'GET' : 'HEAD',
 	}, function(res) {
 		if(process.argv[10] == 1 ? (!(Number((res.statusCode + '')[0]) <= 3)) : ((res.statusCode + '')[0] != 2)) {
@@ -104,6 +129,10 @@ function startDownload(url) {
 		} else if(res.headers['accept-ranges'] != 'bytes' || !total) {
 			print('STATUS', 'RESUMEUNSUPPORTED');
 		}
+		if(process.argv[9] == 1) try {
+			res.connection.end();
+			res.connection.destroy();
+		} catch(e) {}
 		var comp = 0;
 		var downloader = [];
 		var totals = [];
@@ -111,7 +140,7 @@ function startDownload(url) {
 		var range = 0;
 		function get(id, callback) {
 			var startRange, endRange;
-			var headers = { 'User-Agent': userAgent };
+			var reqHeaders = Object.assign({}, headers);
 			if(trd > 1) {
 				if(continuedownload && fs.existsSync(fn + '.part_' + id + '.tmp')) {
 					downloader[id] = fs.statSync(fn + '.part_' + id + '.tmp').size;
@@ -123,9 +152,9 @@ function startDownload(url) {
 						return callback('NONEEDTODOWNLOAD');
 					}
 					totals[id] = (endRange >= total ? (total - 1) : endRange) - range + 1;
-					headers.Range = 'bytes=' + startRange + '-' + endRange;
+					reqHeaders.Range = 'bytes=' + startRange + '-' + endRange;
 				} else {
-					headers.Range = 'bytes=' + range + '-' + (range + unit);
+					reqHeaders.Range = 'bytes=' + range + '-' + (range + unit);
 				}
 			} else if(continuedownload) {
 				downloader[id] = fs.statSync(fn + '.part.tmp').size;
@@ -136,12 +165,12 @@ function startDownload(url) {
 					print('STATUS', 'COMPLETE');
 					process.exit(0);
 				}
-				headers.Range = 'bytes=' + startRange + '-' + endRange;
+				reqHeaders.Range = 'bytes=' + startRange + '-' + endRange;
 			}
 			return http.get({
 				host: parsedURL.host,
 				path: parsedURL.path,
-				headers: headers,
+				headers: reqHeaders,
 			}, function(response) {
 				return callback(response);
 			}).end();

@@ -24,7 +24,7 @@ Begin VB.Form YesNoCancelMsgBox
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
    Begin prjDownloadBooster.TygemButton tygOK 
-      Height          =   320
+      Height          =   315
       Left            =   7440
       TabIndex        =   10
       Tag             =   "novisibilitychange"
@@ -36,7 +36,7 @@ Begin VB.Form YesNoCancelMsgBox
       Caption         =   "확인"
    End
    Begin prjDownloadBooster.TygemButton tygCancel 
-      Height          =   320
+      Height          =   315
       Left            =   5880
       TabIndex        =   9
       Tag             =   "novisibilitychange"
@@ -60,7 +60,7 @@ Begin VB.Form YesNoCancelMsgBox
       Caption         =   "아니요"
    End
    Begin prjDownloadBooster.TygemButton tygYes 
-      Height          =   320
+      Height          =   315
       Left            =   2760
       TabIndex        =   7
       Tag             =   "novisibilitychange"
@@ -80,7 +80,7 @@ Begin VB.Form YesNoCancelMsgBox
       Cancel          =   -1  'True
       Height          =   320
       Left            =   5880
-      TabIndex        =   3
+      TabIndex        =   5
       Top             =   840
       Width           =   1455
       _ExtentX        =   0
@@ -90,7 +90,7 @@ Begin VB.Form YesNoCancelMsgBox
    Begin prjDownloadBooster.CommandButtonW cmdNo 
       Height          =   320
       Left            =   4320
-      TabIndex        =   2
+      TabIndex        =   4
       Top             =   840
       Width           =   1455
       _ExtentX        =   0
@@ -100,7 +100,7 @@ Begin VB.Form YesNoCancelMsgBox
    Begin prjDownloadBooster.CommandButtonW cmdYes 
       Height          =   320
       Left            =   2760
-      TabIndex        =   0
+      TabIndex        =   3
       Top             =   840
       Width           =   1455
       _ExtentX        =   0
@@ -110,7 +110,7 @@ Begin VB.Form YesNoCancelMsgBox
    Begin prjDownloadBooster.OptionButtonW optNo 
       Height          =   255
       Left            =   1080
-      TabIndex        =   4
+      TabIndex        =   1
       Top             =   1320
       Width           =   1575
       _ExtentX        =   0
@@ -120,7 +120,7 @@ Begin VB.Form YesNoCancelMsgBox
    Begin prjDownloadBooster.OptionButtonW optYes 
       Height          =   255
       Left            =   1080
-      TabIndex        =   5
+      TabIndex        =   0
       Top             =   960
       Width           =   1575
       _ExtentX        =   0
@@ -131,7 +131,7 @@ Begin VB.Form YesNoCancelMsgBox
       Default         =   -1  'True
       Height          =   315
       Left            =   7440
-      TabIndex        =   6
+      TabIndex        =   2
       Top             =   840
       Width           =   1455
       _ExtentX        =   0
@@ -176,7 +176,7 @@ Begin VB.Form YesNoCancelMsgBox
       Caption         =   "내용"
       Height          =   495
       Left            =   960
-      TabIndex        =   1
+      TabIndex        =   6
       Top             =   360
       Width           =   27255
    End
@@ -230,7 +230,7 @@ Private Sub Form_Load()
     If Functions.MsgBoxMode = 2 Then
         Dim SystemMenu As Long
         SystemMenu = GetSystemMenu(Me.hWnd, 0)
-        DeleteMenu SystemMenu, 6, MF_BYPOSITION
+        DeleteMenu SystemMenu, SC_CLOSE, MF_BYCOMMAND
     End If
 End Sub
 
@@ -240,6 +240,7 @@ Private Sub Form_Unload(Cancel As Integer)
         Exit Sub
     End If
     If Not MSET Then Functions.MsgBoxResult = vbCancel
+    GetSystemMenu Me.hWnd, 1
 End Sub
 
 Private Sub timeout_Timer()

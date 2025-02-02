@@ -63,7 +63,7 @@ Begin VB.Form frmBatchAdd
    Begin prjDownloadBooster.TextBoxW txtURLs 
       Height          =   2535
       Left            =   120
-      TabIndex        =   1
+      TabIndex        =   0
       Top             =   360
       Width           =   4215
       _ExtentX        =   0
@@ -115,7 +115,7 @@ Begin VB.Form frmBatchAdd
       Caption         =   "각 줄에 파일 주소를 입력하십시오(&L)."
       Height          =   255
       Left            =   120
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   120
       Width           =   4215
    End
@@ -173,7 +173,9 @@ Private Sub Form_Load()
     cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
     tygBrowse.Caption = t("찾아보기...", "Browse...")
     
+    On Error Resume Next
     Me.Icon = frmMain.Icon
+    On Error GoTo 0
     
     SetWindowSizeLimit2 Me.hWnd, 5145 + PaddedBorderWidth * 15 * 2, Screen.Width + 1200, 2310 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
     On Error Resume Next

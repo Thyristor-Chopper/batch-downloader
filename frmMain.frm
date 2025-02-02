@@ -20,6 +20,29 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   11115
    StartUpPosition =   3  'Windows 기본값
+   Begin prjDownloadBooster.TygemButton tygEditHeaders 
+      Height          =   330
+      Left            =   7440
+      TabIndex        =   140
+      Top             =   795
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   582
+      Caption         =   "헤더 편집..."
+      BackColor       =   0
+      FontSize        =   0
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdEditHeaders 
+      Height          =   330
+      Left            =   7440
+      TabIndex        =   139
+      Top             =   795
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   582
+      ImageList       =   "imgWrench"
+      Caption         =   "헤더 편집(&P)..."
+   End
    Begin prjDownloadBooster.TygemButton tygEdit 
       Height          =   375
       Left            =   5880
@@ -1900,27 +1923,27 @@ Begin VB.Form frmMain
       Width           =   495
    End
    Begin prjDownloadBooster.CommandButtonW cmdIncreaseThreads 
-      Height          =   315
+      Height          =   330
       Left            =   6960
       TabIndex        =   38
       TabStop         =   0   'False
       Top             =   795
       Width           =   375
       _ExtentX        =   661
-      _ExtentY        =   556
+      _ExtentY        =   582
       ImageListAlignment=   4
       Caption         =   ">"
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW cmdDecreaseThreads 
-      Height          =   315
+      Height          =   330
       Left            =   1560
       TabIndex        =   37
       TabStop         =   0   'False
       Top             =   795
       Width           =   375
       _ExtentX        =   661
-      _ExtentY        =   556
+      _ExtentY        =   582
       ImageListAlignment=   4
       Caption         =   "<"
       Transparent     =   -1  'True
@@ -2291,13 +2314,14 @@ Begin VB.Form frmMain
       Width           =   615
    End
    Begin VB.Label lblThreadCount 
+      Alignment       =   1  '오른쪽 맞춤
       BackStyle       =   0  '투명
-      Caption         =   "(일반 다운로드)"
+      Caption         =   "(1)"
       Height          =   255
-      Left            =   7440
+      Left            =   960
       TabIndex        =   7
       Top             =   870
-      Width           =   1455
+      Width           =   495
    End
    Begin VB.Label lblThreadCountLabel 
       BackStyle       =   0  '투명
@@ -2333,6 +2357,7 @@ Begin VB.Form frmMain
       _ExtentY        =   635
    End
    Begin VB.Image imgBackground 
+      BorderStyle     =   1  '단일 고정
       Height          =   135
       Left            =   0
       Stretch         =   -1  'True
@@ -2444,6 +2469,7 @@ Sub OnData(Data As String)
                 pbTotalProgressMarquee.MarqueeAnimation = -1
                 cmdStop.Enabled = 0
                 tygStop.Enabled = 0
+                If GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", "0") = "1" Then timElapsed.Enabled = 0
             Case "COMPLETE"
                 sbStatusBar.Panels(1).Text = t("완료", "Complete")
                 sbStatusBar.Panels(2).Text = ""
@@ -2524,6 +2550,7 @@ Sub OnData(Data As String)
             Else
                 sbStatusBar.Panels(2).Text = t(ParseSize(total) & " 중 " & ParseSize(DownloadedBytes), ParseSize(DownloadedBytes) & " of " & ParseSize(total))
             End If
+            If DownloadedBytes <> -1 Then timElapsed.Enabled = -1
             If total <= 0 Then
                 If lblTotalBytes.Caption <> t("알 수 없음", "Unknown") Then lblTotalBytes.Caption = t("알 수 없음", "Unknown")
             Else
@@ -2535,6 +2562,7 @@ progressAvailable:
             If pbTotalProgressMarquee.Visible Then
                 pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
+                timElapsed.Enabled = -1
             End If
             If strTotal = "-1" Then
                 sbStatusBar.Panels(2).Text = ParseSize(DownloadedBytes)
@@ -2648,6 +2676,11 @@ Sub NextBatchDownload()
         Exit Sub
     End If
     
+    If GetSetting("DownloadBooster", "Options", "LazyElapsed", "0") = "1" Then
+        timElapsed.Enabled = 0
+    Else
+        timElapsed.Enabled = -1
+    End If
     CurrentBatchIdx = CurrentBatchIdx + 1
     StartDownload lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2), lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1)
 End Sub
@@ -3307,7 +3340,7 @@ L2:
     If NodePath = "" Then NodePath = CachePath & "node_v0_11_11.exe"
     If ScriptPath = "" Then ScriptPath = CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
     Dim SPResult As SP_RESULTS
-    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & GetSetting("DownloadBooster", "Options", "ForceGet", 0) & " " & GetSetting("DownloadBooster", "Options", "Ignore300", 0))
+    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & GetSetting("DownloadBooster", "Options", "ForceGet", 0) & " " & GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & Functions.HeaderCache & " " & Functions.SessionHeaderCache)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -3358,6 +3391,10 @@ Private Sub cmdEdit_Click()
     mnuEdit_Click
 End Sub
 
+Private Sub cmdEditHeaders_Click()
+    frmEditHeader.Show vbModal, Me
+End Sub
+
 Private Sub cmdGo_Click()
     Dim SPResult As SP_RESULTS
     Dim TextLine As String
@@ -3393,7 +3430,7 @@ Private Sub cmdGo_Click()
     End If
 
     Elapsed = 0
-    timElapsed.Enabled = -1
+    If GetSetting("DownloadBooster", "Options", "LazyElapsed", "0") <> "1" Then timElapsed.Enabled = -1
     StartDownload txtURL.Text, txtFileName.Text
 End Sub
 
@@ -3594,8 +3631,17 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
                 imgBackground.Height = imgBackground.Picture.Height / imgBackground.Picture.Width * Me.Width
             Case 3 '원본 크기
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
+            Case 4 '가운데
+                If imgBackground.Stretch = True Then imgBackground.Stretch = False
         End Select
-        If ImagePosition < 2 Or ForceRefresh Then
+        If ImagePosition = 4 Then
+            imgBackground.Top = (Me.Height - imgBackground.Picture.Height) \ 2
+            imgBackground.Left = (Me.Width - imgBackground.Picture.Width) \ 2
+        Else
+            imgBackground.Top = 0
+            imgBackground.Left = 0
+        End If
+        If ImagePosition < 2 Or ImagePosition = 4 Or ForceRefresh Then
             On Error Resume Next
             Dim ctrl As Control
             For Each ctrl In Me.Controls
@@ -3787,18 +3833,12 @@ Private Sub Form_Load()
     Dim hSysMenu As Long
     Dim MenuCount As Long
     hSysMenu = GetSystemMenu(Me.hWnd, 0)
-    'DeleteMenu hSysMenu, 0, MF_BYPOSITION
+    DeleteMenu hSysMenu, 0, MF_BYCOMMAND
+    'DeleteMenu hSysMenu, SC_RESTORE, MF_BYCOMMAND
     MenuCount = GetMenuItemCount(hSysMenu)
     Dim mii As MENUITEMINFO
     
-    '구분선
-    With mii
-        .cbSize = Len(mii)
-        .fMask = MIIM_ID Or MIIM_TYPE
-        .fType = MFT_SEPARATOR
-        .wID = 0
-    End With
-    InsertMenuItem hSysMenu, MenuCount - 2, 1, mii
+    mii.cbSize = Len(mii)
     
     If GetSetting("DownloadBooster", "Options", "AlwaysOnTop", 0) = 1 Then
         MainFormOnTop = True
@@ -3816,8 +3856,8 @@ Private Sub Form_Load()
         .dwTypeData = t("언제나 위(&A)", "&Always On Top")
         .cch = Len(.dwTypeData)
     End With
-    InsertMenuItem hSysMenu, MenuCount - 1, 1, mii
-    
+    InsertMenuItem hSysMenu, 0, 1, mii
+
     '높이 리셋
     With mii
         .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
@@ -3827,17 +3867,17 @@ Private Sub Form_Load()
         .dwTypeData = t("창 크기 초기화(&E)", "R&eset window size")
         .cch = Len(.dwTypeData)
     End With
-    InsertMenuItem hSysMenu, MenuCount, 1, mii
-    
+    InsertMenuItem hSysMenu, 1, 1, mii
+
     '구분선
     With mii
         .cbSize = Len(mii)
         .fMask = MIIM_ID Or MIIM_TYPE
         .fType = MFT_SEPARATOR
-        .wID = 1
+        .wID = 2000
     End With
-    InsertMenuItem hSysMenu, MenuCount + 1, 1, mii
-    
+    InsertMenuItem hSysMenu, 2, 1, mii
+
     '일괄처리목록감추기
     With mii
         .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
@@ -3847,8 +3887,8 @@ Private Sub Form_Load()
         .dwTypeData = t("간단히 보기(&I)", "S&imple Mode")
         .cch = Len(.dwTypeData)
     End With
-    InsertMenuItem hSysMenu, MenuCount + 2, 1, mii
-    
+    InsertMenuItem hSysMenu, 3, 1, mii
+
     '일괄처리목록표시
     With mii
         .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
@@ -3858,7 +3898,16 @@ Private Sub Form_Load()
         .dwTypeData = t("일괄 처리 보기(&B)", "&Batch Mode")
         .cch = Len(.dwTypeData)
     End With
-    InsertMenuItem hSysMenu, MenuCount + 3, 1, mii
+    InsertMenuItem hSysMenu, 4, 1, mii
+
+    '구분선
+    With mii
+        .cbSize = Len(mii)
+        .fMask = MIIM_ID Or MIIM_TYPE
+        .fType = MFT_SEPARATOR
+        .wID = 2001
+    End With
+    InsertMenuItem hSysMenu, 5, 1, mii
     
     If GetSetting("DownloadBooster", "UserData", "BatchExpanded", 1) <> 0 Then
         cmdBatch_Click
@@ -3870,7 +3919,7 @@ Private Sub Form_Load()
             .fMask = MIIM_STATE
             .fState = MFS_GRAYED
         End With
-        SetMenuItemInfo hSysMenu, 1003, 0, mii
+        SetMenuItemInfo hSysMenu, 1003, MF_BYCOMMAND, mii
     End If
     
     chkOpenAfterComplete.Value = GetSetting("DownloadBooster", "Options", "OpenWhenComplete", 0)
@@ -3976,6 +4025,9 @@ Private Sub Form_Load()
     tygEdit.Caption = t(tygEdit.Caption, "Edit...")
     
     Label9.Caption = t(Label9.Caption, "Merge status:")
+    
+    cmdEditHeaders.Caption = t(cmdEditHeaders.Caption, "Edit headers(&P)...")
+    tygEditHeaders.Caption = t(tygEditHeaders.Caption, "Edit headers...")
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
@@ -4096,6 +4148,8 @@ Private Sub Form_Unload(Cancel As Integer)
         SP.FinishChild 0, 0
     End If
     
+    Functions.AppExiting = True
+    
     SaveSetting "DownloadBooster", "UserData", "SavePath", Trim$(txtFileName.Text)
     SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6931) * -1
     
@@ -4119,6 +4173,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmBrowse
     Unload frmOptions
     Unload frmCustomBackground
+    Unload frmEditHeader
     Unhook Me.hWnd
     GetSystemMenu Me.hWnd, 1
     'If Not InIDE Then End
@@ -4473,9 +4528,9 @@ End Sub
 
 Private Sub trThreadCount_Scroll()
     If trThreadCount.Value = 1 Then
-        lblThreadCount.Caption = "(" & t("부스트 없음", "No boost") & ")"
+        lblThreadCount.Caption = "(1)"
     Else
-        lblThreadCount.Caption = "(" & trThreadCount.Value & t("개 스레드)", " threads)")
+        lblThreadCount.Caption = "(" & trThreadCount.Value & ")"
     End If
     Dim i%
     For i = 1 To trThreadCount.Value
@@ -4581,6 +4636,10 @@ End Sub
 
 Private Sub tygEdit_Click()
     cmdEdit_Click
+End Sub
+
+Private Sub tygEditHeaders_Click()
+    cmdEditHeaders_Click
 End Sub
 
 Private Sub tygGo_Click()

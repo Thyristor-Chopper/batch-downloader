@@ -247,6 +247,8 @@ Private Sub Form_Load()
     selFileType.ListIndex = 0
     
     On Error Resume Next
+    Me.Icon = frmMain.imgOpenFolder.ListImages(1).Picture
+    
     Dim Path$
     Path = lvDir.Path
     

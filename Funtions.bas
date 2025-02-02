@@ -26,6 +26,15 @@ Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hM
 Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
 Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
 
+Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
+Private Const CRYPT_STRING_BASE64 = &H1
+
+Public HeaderCache As String
+
+Public Const SC_MOVE = &HF010&
+Public Const SC_RESTORE = &HF120&
+Public Const SC_SIZE = &HF000&
+Public Const SC_CLOSE = &HF060&
 Global Const MF_BYPOSITION = &H400
 Global Const MF_BYCOMMAND = &H0&
 Public Const HKEY_CLASSES_ROOT = &H80000000
@@ -46,6 +55,10 @@ Const KEY_CREATE_LINK = &H20
 Const KEY_ALL_ACCESS = KEY_QUERY_VALUE + KEY_SET_VALUE + _
                        KEY_CREATE_SUB_KEY + KEY_ENUMERATE_SUB_KEYS + _
                        KEY_NOTIFY + KEY_CREATE_LINK + READ_CONTROL
+
+Public AppExiting As Boolean
+Public SessionHeaders As Dictionary
+Public SessionHeaderCache As String
 
 Private Type OSVERSIONINFO
   OSVSize         As Long
@@ -203,7 +216,7 @@ Sub SetFormBackgroundColor(frmForm As Form)
     On Error Resume Next
     Dim ctrl As Control
     For Each ctrl In frmForm.Controls
-        If TypeName(ctrl) = "TygemButton" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
+        If TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "TygemButton" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
             If TypeName(ctrl) = "TygemButton" And ctrl.Tag <> "novisibilitychange" Then
                 ctrl.Visible = EnableLBSkin
             End If
@@ -1064,9 +1077,7 @@ Sub SetFont(frm As Form)
 End Sub
 
 Function FormatTime(Sec) As String
-    Dim Hour As Integer
-    Dim Minutes As Integer
-    Dim Seconds As Integer
+    Dim Hour As Integer, Minutes As Integer, Seconds As Integer
     Dim ret As String
     If Sec >= 3600 Then
         ret = CStr(Floor(Sec / 3600)) & t("Ω√∞£ ", " hours, ")
@@ -1080,3 +1091,27 @@ Function FormatTime(Sec) As String
     ret = ret & (Sec Mod 60) & t("√ ", " seconds")
     FormatTime = ret
 End Function
+
+Function btoa(str As String) As String
+    On Error Resume Next
+    Dim Data() As Byte
+    Data = StrConv(str, vbFromUnicode)
+    Dim ss As String, s As Long
+    ss = String$(2 * UBound(Data) + 6, 0)
+    s = Len(ss) + 1
+    CryptBinaryToString VarPtr(Data(0)), UBound(Data) + 1, CRYPT_STRING_BASE64, StrPtr(ss), s
+    btoa = Left$(ss, s)
+End Function
+
+Sub BuildHeaderCache()
+    Dim Headers() As String
+    Dim RawHeaders As String
+    RawHeaders = ""
+    Headers = GetAllSettings("DownloadBooster", "Options\Headers")
+    Dim i%
+    For i = LBound(Headers) To UBound(Headers)
+        RawHeaders = RawHeaders & LCase(Headers(i, 0)) & ": " & Headers(i, 1) & vbLf
+    Next i
+    If Right$(RawHeaders, 1) = vbLf Then RawHeaders = Left$(RawHeaders, Len(RawHeaders) - 1)
+    HeaderCache = btoa(RawHeaders)
+End Sub

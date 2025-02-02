@@ -225,6 +225,10 @@ Private Sub Form_Load()
     Label1.Caption = t(Label1.Caption, "File &address:")
     Label2.Caption = t(Label2.Caption, "&Save to:")
     Me.Caption = t(Me.Caption, "Edit")
+    
+    On Error Resume Next
+    Me.Icon = frmMain.imgEdit.ListImages(1).Picture
+    On Error GoTo 0
 End Sub
 
 Private Sub tygBrowse_Click()

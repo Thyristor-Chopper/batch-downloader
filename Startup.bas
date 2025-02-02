@@ -109,7 +109,11 @@ Sub Main()
         End If
     End If
     If Trim$(Environ$("TEMP")) = "" Then
-        CachePath = Environ$("SystemDrive") & "\BOOSTER_JS_CACHE\"
+        If Environ$("SystemDrive") = "" Then
+            CachePath = "C:\BOOSTER_JS_CACHE\"
+        Else
+            CachePath = Environ$("SystemDrive") & "\BOOSTER_JS_CACHE\"
+        End If
     Else
         CachePath = Environ$("TEMP") & "\BOOSTER_JS_CACHE\"
     End If
@@ -119,6 +123,9 @@ Sub Main()
     Set MinHeight = New Collection
     Set MaxWidth = New Collection
     Set MaxHeight = New Collection
+    
+    Set SessionHeaders = New Dictionary
+    SessionHeaderCache = ""
     
     Set fso = New Scripting.FileSystemObject
     Call InitVisualStylesFixes
@@ -130,6 +137,13 @@ Sub Main()
         DefaultDisableDWMWindow = 0
     End If
     
+    If GetSetting("DownloadBooster", "UserData", "HeaderSettingsInitialized", "0") = "0" Then
+        SaveSetting "DownloadBooster", "UserData", "HeaderSettingsInitialized", 1
+        SaveSetting "DownloadBooster", "Options\Headers", "User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:102.0) Gecko/20100101 Firefox/102.0 PaleMoon/33.2"
+    End If
+    BuildHeaderCache
+    
     'frmMsgboxTest.Show
+    Functions.AppExiting = False
     frmMain.Show vbModeless
 End Sub
