@@ -150,6 +150,7 @@ Begin VB.Form frmAbout
    Begin VB.Image picIcon 
       Height          =   480
       Left            =   240
+      Picture         =   "frmAbout.frx":004E
       Top             =   240
       Width           =   480
    End
@@ -199,7 +200,7 @@ Private Sub Form_Load()
     
     LineNum = 1
     Me.Caption = t(App.Title & " 정보", "About " & App.Title)
-    picIcon.Picture = frmMain.Icon
+    'picIcon.Picture = frmMain.Icon
     lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & "." & App.Revision
     lblTitle.Caption = App.Title
     lblDescription.Caption = t("이 프로그램에는 Node.js의 바이너리가 포함되어 있으며," & vbCrLf & "라이선스 전문은 다음과 같습니다.", "This program includes the binary of Node.js." & vbCrLf & "Check out the license of Node.js below.")
