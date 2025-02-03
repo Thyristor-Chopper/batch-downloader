@@ -453,7 +453,7 @@ Sub ListFiles()
     lvFiles.ColumnHeaders(3).Width = 1800
     lvFiles.ColumnHeaders(4).Text = t("수정한 날짜", "Modified")
     lvFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentLeft
-    lvFiles.ColumnHeaders(4).Width = 2070
+    lvFiles.ColumnHeaders(4).Width = 2040
 
     Dim li As LvwListItem
     Dim k As Double
@@ -532,6 +532,8 @@ Sub ListFiles()
             Icon = 2
             If LCase(fso.GetExtensionName(Name)) = "lnk" Then
                 ReadShortcut Path & Name, LnkInfo
+                If Left$(LnkInfo.FileName, 1) = """" And Right$(LnkInfo.FileName, 1) = """" Then _
+                    LnkInfo.FileName = Mid$(LnkInfo.FileName, 2, Len(LnkInfo.FileName) - 2)
                 If FolderExists(LnkInfo.FileName) Then
                     Icon = 1
                 ElseIf Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then
@@ -577,7 +579,7 @@ Private Sub Form_Load()
     lvFiles.ColumnHeaders.Add , , t("이름", "Name"), 2295
     lvFiles.ColumnHeaders.Add(, , t("크기", "Size"), 1455).Alignment = LvwColumnHeaderAlignmentRight
     lvFiles.ColumnHeaders.Add , , t("종류", "Type"), 1800
-    lvFiles.ColumnHeaders.Add , , t("수정한 날짜", "Modified"), 2070
+    lvFiles.ColumnHeaders.Add , , t("수정한 날짜", "Modified"), 2040
     
     selFileType.Clear
     If Tags.BrowseTargetForm = 3 Then
@@ -961,6 +963,8 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
     If Item.IconIndex <= 2 And UCase(fso.GetExtensionName(Item.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         Dim LnkInfo As Link
         ReadShortcut FullPath, LnkInfo
+        If Left$(LnkInfo.FileName, 1) = """" And Right$(LnkInfo.FileName, 1) = """" Then _
+            LnkInfo.FileName = Mid$(LnkInfo.FileName, 2, Len(LnkInfo.FileName) - 2)
         If FolderExists(LnkInfo.FileName) Then
             lvDir.Path = LnkInfo.FileName
         ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Then
