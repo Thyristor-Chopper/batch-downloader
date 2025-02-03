@@ -363,6 +363,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim Pattern$
+Dim IsMyComputer As Boolean
 
 Sub ShowDesktopItems()
     Dim li As LvwListItem
@@ -385,13 +386,20 @@ Private Sub cbFolderList_Click()
     Dim i%
     Dim Path$
     
+    For i = 1 To tbPlaces.Buttons.Count
+        tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
+    Next i
+    
     Select Case cbFolderList.SelectedItem.Index
         Case 1
             lvDir.Path = GetSpecialfolder(CSIDL_RECENT)
+            tbPlaces.Buttons(1).Value = TbrButtonValuePressed
         Case 2
             lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
+            tbPlaces.Buttons(2).Value = TbrButtonValuePressed
         Case 3
             lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
+            tbPlaces.Buttons(3).Value = TbrButtonValuePressed
         Case 4
             ShowMyComputer
             Exit Sub
@@ -433,6 +441,8 @@ Private Sub chkHidden_Click()
 End Sub
 
 Sub ListFiles()
+    IsMyComputer = False
+    
     lvFiles.ColumnHeaders(2).Text = t("크기", "Size")
     lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentRight
     lvFiles.ColumnHeaders(2).Width = 1455
@@ -558,6 +568,8 @@ Private Sub Form_Load()
     SetFont Me
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
+    IsMyComputer = False
+    
     lvFiles.ColumnHeaders.Add , , t("이름", "Name"), 2295
     lvFiles.ColumnHeaders.Add(, , t("크기", "Size"), 1455).Alignment = LvwColumnHeaderAlignmentRight
     lvFiles.ColumnHeaders.Add , , t("종류", "Type"), 1800
@@ -681,6 +693,8 @@ Private Sub Form_Load()
 End Sub
 
 Sub ShowMyComputer()
+    IsMyComputer = True
+    
     lvFiles.ColumnHeaders(2).Text = t("종류", "Type")
     lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentLeft
     lvFiles.ColumnHeaders(2).Width = 1800
@@ -820,6 +834,8 @@ Private Sub lvDir_Change()
         cbFolderList.ComboItems(1).Selected = True
     ElseIf lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP) Then
         cbFolderList.ComboItems(2).Selected = True
+    ElseIf lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL) Then
+        cbFolderList.ComboItems(3).Selected = True
     Else
         cbFolderList.ComboItems(ItemSelectPos).Selected = True
     End If
@@ -1052,11 +1068,19 @@ Private Sub OKButton_Click()
             txtFileName.Text = fso.GetFilename(txtFileName.Text)
         End If
     ElseIf FolderExists(txtFileName.Text) Then
+        If txtFileName.Text = "." Or txtFileName.Text = ".." Then
+            txtFileName.Text = ""
+            Exit Sub
+        End If
         lvDir.Path = txtFileName.Text
         txtFileName.Text = ""
     ElseIf FolderExists(fso.GetParentFolderName(txtFileName.Text)) Then
         lvDir.Path = fso.GetParentFolderName(txtFileName.Text)
         txtFileName.Text = fso.GetFilename(txtFileName.Text)
+        If txtFileName.Text = "." Or txtFileName.Text = ".." Then
+            txtFileName.Text = ""
+            Exit Sub
+        End If
     ElseIf InStr(1, txtFileName.Text, "\") > 0 Then
         Alert t("입력한 폴더의 경로가 존재하지 않습니다.", "The specified folder path does not exist."), App.Title, Me, 48
         Exit Sub
@@ -1207,6 +1231,10 @@ Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
         Case 6
             lvDir.Path = Environ$("USERPROFILE")
     End Select
+    
+    If IsMyComputer Then
+        lvDir_Change
+    End If
     
     'ListFiles
     
