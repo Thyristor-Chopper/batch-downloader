@@ -25,11 +25,11 @@ Begin VB.Form frmExplorer
    StartUpPosition =   1  '소유자 가운데
    Begin prjDownloadBooster.CheckBoxW chkShowFiles 
       Height          =   255
-      Left            =   5760
+      Left            =   6240
       TabIndex        =   17
       Top             =   5340
-      Width           =   1695
-      _ExtentX        =   2990
+      Width           =   2175
+      _ExtentX        =   3836
       _ExtentY        =   450
       Caption         =   "파일 표시(&S)"
    End
@@ -176,10 +176,10 @@ Begin VB.Form frmExplorer
       Left            =   1680
       TabIndex        =   5
       Top             =   5340
-      Width           =   1695
-      _ExtentX        =   2990
+      Width           =   2175
+      _ExtentX        =   3836
       _ExtentY        =   450
-      Caption         =   "숨김 표시(&H)"
+      Caption         =   "숨김 파일 표시(&H)"
    End
    Begin VB.TextBox txtFileName 
       Height          =   270
@@ -276,7 +276,7 @@ Begin VB.Form frmExplorer
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
-      Left            =   3480
+      Left            =   3960
       TabIndex        =   16
       Top             =   5340
       Width           =   2175
@@ -367,12 +367,13 @@ Dim IsMyComputer As Boolean
 
 Sub ShowDesktopItems()
     Dim li As LvwListItem
-    Set li = lvFiles.ListItems.Add(, , t("내 컴퓨터", "My Computer"), 9, 14)
+    
+    Set li = lvFiles.ListItems.Add(, , t("내 문서", "My Documents"), 10, 13)
     li.ListSubItems.Add , , "-"
     li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
     li.ListSubItems.Add , , "-"
     
-    Set li = lvFiles.ListItems.Add(, , t("내 문서", "My Documents"), 10, 13)
+    Set li = lvFiles.ListItems.Add(, , t("내 컴퓨터", "My Computer"), 9, 14)
     li.ListSubItems.Add , , "-"
     li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
     li.ListSubItems.Add , , "-"
@@ -438,6 +439,7 @@ End Sub
 
 Private Sub chkHidden_Click()
     ListFiles
+    SaveSetting "DownloadBooster", "UserData", "ShowHidden", chkHidden.Value
 End Sub
 
 Sub ListFiles()
@@ -478,7 +480,7 @@ Sub ListFiles()
         If lvDir.Path <> GetSpecialfolder(CSIDL_DESKTOP) And lvDir.Path <> GetSpecialfolder(CSIDL_RECENT) Then
             Set li = lvFiles.ListItems.Add(, , "..", 1, 1)
             li.ListSubItems.Add , , "-"
-            li.ListSubItems.Add , , t("파일 폴더", "Folder")
+            li.ListSubItems.Add , , t("상위 폴더", "Parent Folder")
             li.ListSubItems.Add , , "-" 'FileDateTime(fso.GetParentFolderName(Path))
         End If
     End If
@@ -556,10 +558,12 @@ End Sub
 
 Private Sub chkShowFiles_Click()
     ListFiles
+    SaveSetting "DownloadBooster", "UserData", "ShowFiles", chkShowFiles.Value
 End Sub
 
 Private Sub chkUnixHidden_Click()
     ListFiles
+    SaveSetting "DownloadBooster", "UserData", "ShowUnixHidden", chkUnixHidden.Value
 End Sub
 
 Private Sub Form_Load()
@@ -644,7 +648,7 @@ Private Sub Form_Load()
     Label4.Visible = Tags.BrowseTargetForm <> 2
     selFileType.Visible = Tags.BrowseTargetForm <> 2
     Label2.Caption = t(Label2.Caption, "F&ind in:")
-    chkHidden.Caption = t(chkHidden.Caption, "Show &hidden")
+    chkHidden.Caption = t(chkHidden.Caption, "Show &hidden files")
     chkUnixHidden.Caption = t(chkUnixHidden.Caption, "Show &Unix hidden")
     CancelButton.Caption = t(CancelButton.Caption, "Cancel")
     Me.Caption = t(Me.Caption, "Select download path")
@@ -690,6 +694,10 @@ Private Sub Form_Load()
     lvFiles.Groups.Add , , t("이동식 저장소가 있는 장치", "Drives with Removable Storage")
     lvFiles.Groups.Add , , t("네트워크 드라이브", "Network Drives")
     lvFiles.Groups.Add , , t("기타", "Others")
+    
+    chkHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowHidden", 0)
+    chkUnixHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowUnixHidden", 1)
+    chkShowFiles.Value = GetSetting("DownloadBooster", "UserData", "ShowFiles", 0)
 End Sub
 
 Sub ShowMyComputer()
@@ -985,6 +993,10 @@ folderinaccessible:
 End Sub
 
 Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
+    If Item.IconIndex = 1 And Tags.BrowseTargetForm = 2 Then
+        If Item.Text <> ".." Then _
+            txtFileName.Text = Item.Text
+    End If
     If (frmMain.cbWhenExist.ListIndex = 0 And Tags.BrowseTargetForm <> 3) Or (Not Selected) Then Exit Sub
     If Item.IconIndex = 1 Or Item.IconIndex > 2 Then Exit Sub
     If Tags.BrowseTargetForm <> 2 Then txtFileName.Text = Item.Text
@@ -1007,6 +1019,9 @@ Private Sub lvFiles_KeyDown(KeyCode As Integer, Shift As Integer)
         ListFiles
     ElseIf KeyCode = 113 And (Not lvFiles.SelectedItem Is Nothing) Then
         If lvFiles.SelectedItem.Selected Then lvFiles.StartLabelEdit
+    ElseIf KeyCode = 8 Then
+        If tbToolBar.Buttons(2).Enabled And Len(lvDir.Path) > 3 Then _
+            lvDir.Path = fso.GetParentFolderName(lvDir.Path)
     End If
 End Sub
 
@@ -1053,6 +1068,8 @@ Private Sub OKButton_Click()
         MessageBeep 0
         Exit Sub
     End If
+
+    Dim Data$, Path$
     
     If Tags.BrowseTargetForm = 3 Then
         If FolderExists(txtFileName.Text) Then
@@ -1069,7 +1086,11 @@ Private Sub OKButton_Click()
         End If
     ElseIf FolderExists(txtFileName.Text) Then
         If txtFileName.Text = "." Or txtFileName.Text = ".." Then
+            lvDir.Path = txtFileName.Text
+            MessageBeep 0
             txtFileName.Text = ""
+'            txtFileName.SelStart = 0
+'            txtFileName.SelLength = Len(txtFileName.Text)
             Exit Sub
         End If
         lvDir.Path = txtFileName.Text
@@ -1078,16 +1099,20 @@ Private Sub OKButton_Click()
         lvDir.Path = fso.GetParentFolderName(txtFileName.Text)
         txtFileName.Text = fso.GetFilename(txtFileName.Text)
         If txtFileName.Text = "." Or txtFileName.Text = ".." Then
-            txtFileName.Text = ""
             Exit Sub
+        End If
+    ElseIf Tags.BrowseTargetForm = 2 Then
+        Path = lvDir.Path
+        If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
+        If FolderExists(Path & txtFileName.Text) Then
+            lvDir.Path = Path & txtFileName.Text
+            txtFileName.Text = ""
         End If
     ElseIf InStr(1, txtFileName.Text, "\") > 0 Then
         Alert t("입력한 폴더의 경로가 존재하지 않습니다.", "The specified folder path does not exist."), App.Title, Me, 48
         Exit Sub
     End If
     On Error GoTo 0
-
-    Dim Data$, Path$
     
     If Tags.BrowseTargetForm = 3 Then
         Path = lvDir.Path
@@ -1141,10 +1166,14 @@ imgerr:
         UCase(txtFileName.Text) = "LPT2" Or _
         UCase(txtFileName.Text) = "LPT3" Or _
         UCase(txtFileName.Text) = "LPT4" Or _
-        Replace(txtFileName.Text, ".", "") = "" Or _
+        (txtFileName.Text <> "" And Replace(txtFileName.Text, ".", "") = "") Or _
         Right$(txtFileName.Text, 1) = "." _
     Then
-        Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 48
+        If Tags.BrowseTargetForm = 2 Then
+            Alert t("폴더 경로가 존재하지 않습니다.", "Invalid folder path."), App.Title, Me, 48
+        Else
+            Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 48
+        End If
         Exit Sub
     End If
 
