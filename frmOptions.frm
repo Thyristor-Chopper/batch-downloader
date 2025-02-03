@@ -29,17 +29,17 @@ Begin VB.Form frmOptions
       Index           =   2
       Left            =   6240
       ScaleHeight     =   4155
-      ScaleWidth      =   5715
+      ScaleWidth      =   5955
       TabIndex        =   59
       Top             =   5040
-      Width           =   5775
+      Width           =   6015
       Begin prjDownloadBooster.FrameW FrameW3 
          Height          =   855
          Left            =   120
          TabIndex        =   60
          Top             =   120
-         Width           =   5535
-         _ExtentX        =   9763
+         Width           =   5775
+         _ExtentX        =   10186
          _ExtentY        =   1508
          Caption         =   " 연결 설정 "
          Begin prjDownloadBooster.CheckBoxW chkIgnore300 
@@ -160,24 +160,35 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   3585
+      Height          =   3825
       Index           =   1
       Left            =   120
-      ScaleHeight     =   3525
+      ScaleHeight     =   3765
       ScaleWidth      =   5835
       TabIndex        =   5
       Top             =   600
       Width           =   5895
       Begin prjDownloadBooster.FrameW Frame5 
-         Height          =   1755
+         Height          =   1995
          Left            =   120
          TabIndex        =   20
          Top             =   1680
          Width           =   4335
          _ExtentX        =   7646
-         _ExtentY        =   3096
+         _ExtentY        =   3519
          Caption         =   " 인터페이스 "
          Transparent     =   -1  'True
+         Begin prjDownloadBooster.CheckBoxW chkForceOldDialog 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   73
+            Top             =   960
+            Width           =   4095
+            _ExtentX        =   7223
+            _ExtentY        =   450
+            Caption         =   "윈도우 3.1 대화 상자 사용(&S)"
+            Transparent     =   -1  'True
+         End
          Begin prjDownloadBooster.CheckBoxW chkExcludeMergeFromElapsed 
             Height          =   255
             Left            =   120
@@ -228,7 +239,7 @@ Begin VB.Form frmOptions
             Height          =   300
             Left            =   1440
             TabIndex        =   22
-            Top             =   1080
+            Top             =   1320
             Width           =   2775
             _ExtentX        =   4895
             _ExtentY        =   529
@@ -240,7 +251,7 @@ Begin VB.Form frmOptions
             Height          =   255
             Left            =   120
             TabIndex        =   54
-            Top             =   1440
+            Top             =   1680
             Width           =   4200
          End
          Begin VB.Label Label1 
@@ -250,7 +261,7 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   21
             Tag             =   "nocolorchange"
-            Top             =   1125
+            Top             =   1365
             Width           =   975
          End
       End
@@ -393,7 +404,7 @@ Begin VB.Form frmOptions
       ScaleHeight     =   2355
       ScaleWidth      =   5955
       TabIndex        =   34
-      Top             =   4320
+      Top             =   4560
       Width           =   6015
       Begin prjDownloadBooster.FrameW FrameW4 
          Height          =   615
@@ -1016,6 +1027,13 @@ Private Sub chkForceGet_Click()
     End If
 End Sub
 
+Private Sub chkForceOldDialog_Click()
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+    End If
+End Sub
+
 Private Sub chkIgnore300_Click()
     If Loaded Then
         cmdApply.Enabled = -1
@@ -1103,6 +1121,7 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "Ignore300", chkIgnore300.Value
     SaveSetting "DownloadBooster", "Options", "LazyElapsed", chkLazyElapsed.Value
     SaveSetting "DownloadBooster", "Options", "ExcludeMergeFromElapsed", chkExcludeMergeFromElapsed.Value
+    SaveSetting "DownloadBooster", "Options", "ForceWin31Dialog", chkForceOldDialog.Value
     
     SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenWhenComplete.Value
     SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenDirWhenComplete.Value
@@ -1267,17 +1286,17 @@ Private Sub cmdApply_Click()
     End If
     
     Dim hSysMenu As Long
-    Dim mii As MENUITEMINFO
+    Dim MII As MENUITEMINFO
     hSysMenu = GetSystemMenu(frmMain.hWnd, 0)
     MainFormOnTop = (chkAlwaysOnTop.Value = 1)
     SetWindowPos frmMain.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
-    With mii
-        .cbSize = Len(mii)
+    With MII
+        .cbSize = Len(MII)
         .fMask = MIIM_STATE
         .fState = MFS_ENABLED Or IIf(MainFormOnTop, MFS_CHECKED, 0)
     End With
-    SetMenuItemInfo hSysMenu, 1000, 0, mii
+    SetMenuItemInfo hSysMenu, 1000, 0, MII
     SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(CInt(MainFormOnTop))
     
     On Error Resume Next
@@ -1302,7 +1321,12 @@ Private Sub cmdApply_Click()
 End Sub
 
 Private Sub cmdChooseBackground_Click()
-    frmCustomBackground.Show vbModal, Me
+    If GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", "0") = "1" Then
+        frmCustomBackground.Show vbModal, Me
+        Exit Sub
+    End If
+    Tags.BrowseTargetForm = 3
+    frmExplorer.Show vbModal, Me
 End Sub
 
 Private Sub cmdSysInfo_Click()
@@ -1506,6 +1530,7 @@ Private Sub Form_Load()
     chkAlwaysOnTop.Value = Abs(CInt(MainFormOnTop))
     chkLazyElapsed.Value = GetSetting("DownloadBooster", "Options", "LazyElapsed", 0)
     chkExcludeMergeFromElapsed.Value = GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", 0)
+    chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
     chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow)
     If (Not IsDWMEnabled()) Then
         chkNoDWMWindow.Enabled = False
@@ -1553,7 +1578,7 @@ Private Sub Form_Load()
     
     cmdApply.Enabled = 0
     tygApply.Enabled = 0
-    'On Error Resume Next
+    
     Dim ctrl As Control
     For Each ctrl In Me.Controls
         If TypeName(ctrl) = "PictureBox" Then
@@ -1692,6 +1717,7 @@ Private Sub Form_Load()
     chkExcludeMergeFromElapsed.Caption = t(chkExcludeMergeFromElapsed.Caption, "Exclude merging time from elapsed time")
     FrameW3.Caption = t(FrameW3.Caption, " Network settings ")
     FrameW4.Caption = t(FrameW4.Caption, " Advanced download options ")
+    chkForceOldDialog.Caption = t(chkForceOldDialog.Caption, "U&se Windows 3.1 dialogs")
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775

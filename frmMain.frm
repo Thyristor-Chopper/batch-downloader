@@ -3125,7 +3125,7 @@ Sub cmdBatch_Click()
     On Error Resume Next
     
     Dim hSysMenu As Long
-    Dim mii As MENUITEMINFO
+    Dim MII As MENUITEMINFO
     hSysMenu = GetSystemMenu(Me.hWnd, 0)
     
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then
@@ -3146,12 +3146,12 @@ Sub cmdBatch_Click()
         
         CheckMenuRadioItem hSysMenu, 1001, 1002, 1002, MF_BYCOMMAND
         
-        With mii
-            .cbSize = Len(mii)
+        With MII
+            .cbSize = Len(MII)
             .fMask = MIIM_STATE
             .fState = MFS_ENABLED
         End With
-        SetMenuItemInfo hSysMenu, 1003, 0, mii
+        SetMenuItemInfo hSysMenu, 1003, 0, MII
     Else
         SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
         SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
@@ -3164,12 +3164,12 @@ Sub cmdBatch_Click()
         
         CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
         
-        With mii
-            .cbSize = Len(mii)
+        With MII
+            .cbSize = Len(MII)
             .fMask = MIIM_STATE
             .fState = MFS_GRAYED
         End With
-        SetMenuItemInfo hSysMenu, 1003, 0, mii
+        SetMenuItemInfo hSysMenu, 1003, 0, MII
     End If
     SetBackgroundPosition
 End Sub
@@ -3177,7 +3177,11 @@ End Sub
 Private Sub cmdBrowse_Click()
     Tags.BrowsePresetPath = ""
     Tags.BrowseTargetForm = 0
-    frmBrowse.Show vbModal, Me
+    If GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", "0") = "1" Then
+        frmBrowse.Show vbModal, Me
+        Exit Sub
+    End If
+    frmExplorer.Show vbModal, Me
 End Sub
 
 Private Sub cmdClear_Click()
@@ -3836,9 +3840,9 @@ Private Sub Form_Load()
     DeleteMenu hSysMenu, 0, MF_BYCOMMAND
     'DeleteMenu hSysMenu, SC_RESTORE, MF_BYCOMMAND
     MenuCount = GetMenuItemCount(hSysMenu)
-    Dim mii As MENUITEMINFO
+    Dim MII As MENUITEMINFO
     
-    mii.cbSize = Len(mii)
+    MII.cbSize = Len(MII)
     
     If GetSetting("DownloadBooster", "Options", "AlwaysOnTop", 0) = 1 Then
         MainFormOnTop = True
@@ -3848,7 +3852,7 @@ Private Sub Form_Load()
     End If
     
     '항상 위에 표시
-    With mii
+    With MII
         .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
         .fType = MFT_STRING
         .fState = MFS_ENABLED
@@ -3856,10 +3860,10 @@ Private Sub Form_Load()
         .dwTypeData = t("언제나 위(&A)", "&Always On Top")
         .cch = Len(.dwTypeData)
     End With
-    InsertMenuItem hSysMenu, 0, 1, mii
+    InsertMenuItem hSysMenu, 0, 1, MII
 
     '높이 리셋
-    With mii
+    With MII
         .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
         .fType = MFT_STRING
         .fState = MFS_ENABLED
@@ -3867,19 +3871,19 @@ Private Sub Form_Load()
         .dwTypeData = t("창 크기 초기화(&E)", "R&eset window size")
         .cch = Len(.dwTypeData)
     End With
-    InsertMenuItem hSysMenu, 1, 1, mii
+    InsertMenuItem hSysMenu, 1, 1, MII
 
     '구분선
-    With mii
-        .cbSize = Len(mii)
+    With MII
+        .cbSize = Len(MII)
         .fMask = MIIM_ID Or MIIM_TYPE
         .fType = MFT_SEPARATOR
         .wID = 2000
     End With
-    InsertMenuItem hSysMenu, 2, 1, mii
+    InsertMenuItem hSysMenu, 2, 1, MII
 
     '일괄처리목록감추기
-    With mii
+    With MII
         .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
         .fType = MFT_STRING
         .fState = MFS_ENABLED
@@ -3887,10 +3891,10 @@ Private Sub Form_Load()
         .dwTypeData = t("간단히 보기(&I)", "S&imple Mode")
         .cch = Len(.dwTypeData)
     End With
-    InsertMenuItem hSysMenu, 3, 1, mii
+    InsertMenuItem hSysMenu, 3, 1, MII
 
     '일괄처리목록표시
-    With mii
+    With MII
         .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
         .fType = MFT_STRING
         .fState = MFS_ENABLED
@@ -3898,28 +3902,28 @@ Private Sub Form_Load()
         .dwTypeData = t("일괄 처리 보기(&B)", "&Batch Mode")
         .cch = Len(.dwTypeData)
     End With
-    InsertMenuItem hSysMenu, 4, 1, mii
+    InsertMenuItem hSysMenu, 4, 1, MII
 
     '구분선
-    With mii
-        .cbSize = Len(mii)
+    With MII
+        .cbSize = Len(MII)
         .fMask = MIIM_ID Or MIIM_TYPE
         .fType = MFT_SEPARATOR
         .wID = 2001
     End With
-    InsertMenuItem hSysMenu, 5, 1, mii
+    InsertMenuItem hSysMenu, 5, 1, MII
     
     If GetSetting("DownloadBooster", "UserData", "BatchExpanded", 1) <> 0 Then
         cmdBatch_Click
     Else
         CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
         SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
-        With mii
-            .cbSize = Len(mii)
+        With MII
+            .cbSize = Len(MII)
             .fMask = MIIM_STATE
             .fState = MFS_GRAYED
         End With
-        SetMenuItemInfo hSysMenu, 1003, MF_BYCOMMAND, mii
+        SetMenuItemInfo hSysMenu, 1003, MF_BYCOMMAND, MII
     End If
     
     chkOpenAfterComplete.Value = GetSetting("DownloadBooster", "Options", "OpenWhenComplete", 0)
@@ -4174,6 +4178,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmOptions
     Unload frmCustomBackground
     Unload frmEditHeader
+    Unload frmExplorer
     Unhook Me.hWnd
     GetSystemMenu Me.hWnd, 1
     'If Not InIDE Then End

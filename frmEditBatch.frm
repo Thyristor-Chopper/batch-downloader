@@ -148,14 +148,52 @@ Public OriginalURL As String
 Public OriginalPath As String
 
 Private Sub cmdBrowse_Click()
-    Unload frmBrowse
     Tags.BrowsePresetPath = Trim$(txtFilePath.Text)
     Tags.BrowseTargetForm = 1
-    frmBrowse.Show vbModal, Me
+    
+    If GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", "0") = "1" Then
+        Unload frmBrowse
+        frmBrowse.Show vbModal, Me
+    Else
+        Unload frmExplorer
+        frmExplorer.Show vbModal, Me
+    End If
+    
     If FolderExists(txtFilePath.Text) Then
         If Right$(txtFilePath.Text, 1) <> "\" Then txtFilePath.Text = txtFilePath.Text & "\"
         txtFilePath.Text = txtFilePath.Text & Tags.FileNameOnly
     End If
+    Exit Sub
+    
+'    Dim OpenFile As OPENFILENAME
+'    Dim lReturn As Long
+'    txtFilePath.Text = Trim$(txtFilePath.Text)
+'    With OpenFile
+'        .lStructSize = Len(OpenFile)
+'        .hWndOwner = Me.hWnd
+'        .hInstance = App.hInstance
+'        .lpstrFilter = t("모든 파일", "All files") & " (*.*)" & vbNullChar & "*.*" & vbNullChar
+'        .nFilterIndex = 1
+'        .lpstrFile = String(257, 0)
+'        If FolderExists(txtFilePath.Text) Then
+'            .lpstrInitialDir = txtFilePath.Text
+'        Else
+'            .lpstrInitialDir = fso.GetParentFolderName(txtFilePath.Text)
+'            .lpstrFile = txtFilePath.Text
+'        End If
+'        .lpstrFileTitle = .lpstrFile
+'        .nMaxFile = strlen(.lpstrFile) + 2
+'        .nMaxFileTitle = Len(.lpstrFileTitle) - 1
+'        .lpstrTitle = t("다운로드 경로 찾아보기", "Browse download path")
+'        .Flags = OFN_LONGNAMES Or OFN_PATHMUSTEXIST
+'        If GetSetting("DownloadBooster", "Options", "ForceXPDialog", "0") = "0" Then
+'            .Flags = .Flags Or OFN_EXPLORER
+'        End If
+'    End With
+'    lReturn = GetSaveFileName(OpenFile)
+'    If lReturn <> 0 Then
+'        txtFilePath.Text = OpenFile.lpstrFile
+'    End If
 End Sub
 
 Private Sub cmdCancel_Click()

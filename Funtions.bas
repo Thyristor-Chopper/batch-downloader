@@ -1,4 +1,9 @@
 Attribute VB_Name = "Functions"
+'참고자료
+'- https://www.vbforums.com/showthread.php?457171-RESOLVED-How-to-get-Desktop-Path-in-VB
+'- https://www.vbforums.com/showthread.php?445574-Reading-shortcut-information
+'- https://www.vbforums.com/showthread.php?430704-RESOLVED-Get-drive-size-space
+
 Option Explicit
 
 Public MsgBoxMode As Byte
@@ -16,20 +21,168 @@ Declare Function GetUserDefaultLangID Lib "kernel32" () As Integer
 Declare Function GetSystemMenu Lib "user32" (ByVal hWnd As Long, ByVal bRevert As Long) As Long
 Declare Function DeleteMenu Lib "user32" (ByVal hMenu As Long, ByVal nPosition As Long, ByVal wFlags As Long) As Long
 Declare Function ModifyMenu Lib "user32" Alias "ModifyMenuA" (ByVal hMenu As Long, ByVal nPosition As Long, ByVal wFlags As Long, ByVal wIDNewItem As Long, ByVal lpString As Any) As Long
-Declare Function InsertMenuItem Lib "user32" Alias "InsertMenuItemA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpmii As MENUITEMINFO) As Long
-Declare Function GetMenuItemInfo Lib "user32" Alias "GetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpmii As MENUITEMINFO) As Long
+Declare Function InsertMenuItem Lib "user32" Alias "InsertMenuItemA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
+Declare Function GetMenuItemInfo Lib "user32" Alias "GetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
 Declare Function GetMenu Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function GetSubMenu Lib "user32" (ByVal hMenu As Long, ByVal nPos As Long) As Long
 Declare Function GetMenuItemID Lib "user32" (ByVal hMenu As Long, ByVal nPos As Long) As Long
 Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As Long
-Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpmii As MENUITEMINFO) As Long
+Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
 Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
 Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
-
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
-Private Const CRYPT_STRING_BASE64 = &H1
+'Declare Function GetOpenFileName Lib "comdlg32" Alias "GetOpenFileNameA" (pOpenfilename As OPENFILENAME) As Long
+'Declare Function GetSaveFileName Lib "comdlg32" Alias "GetSaveFileNameA" (pOpenfilename As OPENFILENAME) As Long
+'Declare Function SHGetPathFromIDList Lib "shell32" Alias "SHGetPathFromIDListA" (ByVal pidl As Long, ByVal pszPath As String) As Long
+'Declare Function SHBrowseForFolder Lib "shell32" Alias "SHBrowseForFolderA" (lpBrowseInfo As BROWSEINFO) As Long
+'Declare Function SHSimpleIDListFromPath Lib "shell32" Alias "#162" (ByVal szPath As String) As Long
+'Declare Sub CoTaskMemFree Lib "ole32" (ByVal pv As Long)
+'
+'Public Const MAX_PATH = 260
+'
+'Public Const OFN_ALLOWMULTISELECT As Long = &H200
+'Public Const OFN_CREATEPROMPT As Long = &H2000
+'Public Const OFN_ENABLEHOOK As Long = &H20
+'Public Const OFN_ENABLETEMPLATE As Long = &H40
+'Public Const OFN_ENABLETEMPLATEHANDLE As Long = &H80
+'Public Const OFN_EXPLORER As Long = &H80000
+'Public Const OFN_EXTENSIONDIFFERENT As Long = &H400
+'Public Const OFN_FILEMUSTEXIST As Long = &H1000
+'Public Const OFN_HIDEREADONLY As Long = &H4
+'Public Const OFN_LONGNAMES As Long = &H200000
+'Public Const OFN_NOCHANGEDIR As Long = &H8
+'Public Const OFN_NODEREFERENCELINKS As Long = &H100000
+'Public Const OFN_NOLONGNAMES As Long = &H40000
+'Public Const OFN_NONETWORKBUTTON As Long = &H20000
+'Public Const OFN_NOREADONLYRETURN As Long = &H8000&
+'Public Const OFN_NOTESTFILECREATE As Long = &H10000
+'Public Const OFN_NOVALIDATE As Long = &H100
+'Public Const OFN_OVERWRITEPROMPT As Long = &H2
+'Public Const OFN_PATHMUSTEXIST As Long = &H800
+'Public Const OFN_READONLY As Long = &H1
+'Public Const OFN_SHAREAWARE As Long = &H4000
+'Public Const OFN_SHAREFALLTHROUGH As Long = 2
+'Public Const OFN_SHAREWARN As Long = 0
+'Public Const OFN_SHARENOWARN As Long = 1
+'Public Const OFN_SHOWHELP As Long = &H10
+'Public Const OFS_MAXPATHNAME As Long = MAX_PATH
+'
+'Public Const BIF_RETURNONLYFSDIRS = &H1
+'Public Const BIF_DONTGOBELOWDOMAIN = &H2
+'Public Const BIF_STATUSTEXT = &H4
+'Public Const BIF_RETURNFSANCESTORS = &H8
+'Public Const BIF_EDITBOX = &H10
+'Public Const BIF_VALIDATE = &H20
+'Public Const BIF_NEWDIALOGSTYLE = &H40
+'Public Const BIF_BROWSEFORCOMPUTER = &H1000
+'Public Const BIF_BROWSEFORPRINTER = &H2000
+'
+'Type OPENFILENAME
+'    lStructSize As Long
+'    hWndOwner As Long
+'    hInstance As Long
+'    lpstrFilter As String
+'    lpstrCustomFilter As String
+'    nMaxCustFilter As Long
+'    nFilterIndex As Long
+'    lpstrFile As String
+'    nMaxFile As Long
+'    lpstrFileTitle As String
+'    nMaxFileTitle As Long
+'    lpstrInitialDir As String
+'    lpstrTitle As String
+'    Flags As Long
+'    nFileOffset As Integer
+'    nFileExtension As Integer
+'    lpstrDefExt As String
+'    lCustData As Long
+'    lpfnHook As Long
+'    lpTemplateName As String
+'End Type
+'
+'Type BROWSEINFO
+'    hOwner           As Long
+'    pIDLRoot         As Long
+'    pszDisplayName   As String
+'    lpszTitle        As String
+'    ulFlags          As Long
+'    lpfn             As Long
+'    lParam           As Long
+'    iImage           As Long
+'End Type
 
-Public HeaderCache As String
+Private Type ItemID
+    cb As Long
+    abID As Byte
+End Type
+
+Private Type ITEMIDLIST
+    mkid As ItemID
+End Type
+
+Type Link
+    Attributes As Long
+    FileName As String
+    Description As String
+    RelPath As String
+    WorkingDir As String
+    Arguments As String
+    CustomIcon As String
+End Type
+
+Private Declare Function SHGetSpecialFolderLocation Lib "shell32.dll" (ByVal hWndOwner As Long, ByVal nFolder As Long, pidl As ITEMIDLIST) As Long
+Private Declare Function SHGetPathFromIDList Lib "shell32.dll" Alias "SHGetPathFromIDListA" (ByVal pidl As Long, ByVal pszPath As String) As Long
+
+Enum DriveTypes
+    DRIVE_UNKNOWN = 0
+    DRIVE_NO_ROOT_DIR = 1
+    DRIVE_REMOVABLE = 2
+    DRIVE_FIXED = 3
+    DRIVE_REMOTE = 4
+    DRIVE_CDROM = 5    'can be a CD or a DVD
+    DRIVE_RAMDISK = 6
+End Enum
+
+Declare Function GetDriveType Lib "kernel32" Alias "GetDriveTypeA" (ByVal lpRootPathName As String) As Long
+
+Private Type LARGE_INTEGER
+    lowpart As Long
+    highpart As Long
+End Type
+Private Declare Function GetDiskFreeSpaceEx Lib "kernel32" Alias "GetDiskFreeSpaceExA" (ByVal lpRootPathName As String, lpFreeBytesAvailableToCaller As LARGE_INTEGER, lpTotalNumberOfBytes As LARGE_INTEGER, lpTotalNumberOfFreeBytes As LARGE_INTEGER) As Long
+
+Public Const CSIDL_DESKTOP = &H0
+Public Const CSIDL_INTERNET = &H1
+Public Const CSIDL_PROGRAMS = &H2
+Public Const CSIDL_CONTROLS = &H3
+Public Const CSIDL_PRINTERS = &H4
+Public Const CSIDL_PERSONAL = &H5
+Public Const CSIDL_FAVORITES = &H6
+Public Const CSIDL_STARTUP = &H7
+Public Const CSIDL_RECENT = &H8
+Public Const CSIDL_SENDTO = &H9
+Public Const CSIDL_BITBUCKET = &HA
+Public Const CSIDL_STARTMENU = &HB
+Public Const CSIDL_DESKTOPDIRECTORY = &H10
+Public Const CSIDL_DRIVES = &H11
+Public Const CSIDL_NETWORK = &H12
+Public Const CSIDL_NETHOOD = &H13
+Public Const CSIDL_FONTS = &H14
+Public Const CSIDL_TEMPLATES = &H15
+Public Const CSIDL_COMMON_STARTMENU = &H16
+Public Const CSIDL_COMMON_PROGRAMS = &H17
+Public Const CSIDL_COMMON_STARTUP = &H18
+Public Const CSIDL_COMMON_DESKTOPDIRECTORY = &H19
+Public Const CSIDL_APPDATA = &H1A
+Public Const CSIDL_PRINTHOOD = &H1B
+Public Const CSIDL_ALTSTARTUP = &H1D
+Public Const CSIDL_COMMON_ALTSTARTUP = &H1E
+Public Const CSIDL_COMMON_FAVORITES = &H1F
+Public Const CSIDL_INTERNET_CACHE = &H20
+Public Const CSIDL_COOKIES = &H21
+Public Const CSIDL_HISTORY = &H22
+
+Private Const CRYPT_STRING_BASE64 = &H1
 
 Public Const SC_MOVE = &HF010&
 Public Const SC_RESTORE = &HF120&
@@ -57,7 +210,9 @@ Const KEY_ALL_ACCESS = KEY_QUERY_VALUE + KEY_SET_VALUE + _
                        KEY_NOTIFY + KEY_CREATE_LINK + READ_CONTROL
 
 Public AppExiting As Boolean
+
 Public SessionHeaders As Dictionary
+Public HeaderCache As String
 Public SessionHeaderCache As String
 
 Private Type OSVERSIONINFO
@@ -86,8 +241,8 @@ Type MENUITEMINFO
     fState As Long
     wID As Long
     hSubMenu As Long
-    hbmpChecked As Long
-    hbmpUnchecked As Long
+    hBmpChecked As Long
+    hBmpUnchecked As Long
     dwItemData As Long
     dwTypeData As String
     cch As Long
@@ -216,24 +371,26 @@ Sub SetFormBackgroundColor(frmForm As Form)
     On Error Resume Next
     Dim ctrl As Control
     For Each ctrl In frmForm.Controls
-        If TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "TygemButton" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
+        If TypeName(ctrl) = "ToolBar" Or TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "TygemButton" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
             If TypeName(ctrl) = "TygemButton" And ctrl.Tag <> "novisibilitychange" Then
                 ctrl.Visible = EnableLBSkin
             End If
-            If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
-                ctrl.VisualStyles = True
-                'If TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Then ctrl.Style = 0
-            End If
-            If DisableVisualStyle And ctrl.VisualStyles = True Then
-                ctrl.VisualStyles = False
-                'If TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Then ctrl.Style = 1
+            If ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
+                If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
+                    ctrl.VisualStyles = True
+                    'If TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Then ctrl.Style = 0
+                End If
+                If DisableVisualStyle And ctrl.VisualStyles = True Then
+                    ctrl.VisualStyles = False
+                    'If TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Then ctrl.Style = 1
+                End If
             End If
             If TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "ListBoxW" Then GoTo nextfor
             If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" Then ctrl.ForeColor = clrForeColor
             If TypeName(ctrl) = "PictureBox" Then
                 If ctrl.AutoRedraw = True Then GoTo nextfor
             End If
-            If ctrl.Tag <> "nobackcolorchange" And ctrl.BackColor <> clrBackColor Then
+            If ctrl.Tag <> "nobackcolorchange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" And ctrl.BackColor <> clrBackColor Then
                 ctrl.BackColor = clrBackColor
                 If TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "FrameW" Then ctrl.Refresh
             End If
@@ -373,8 +530,8 @@ Function TextHeight(ByVal s As String) As Single
     TextHeight = YesNoCancelMsgBox.TextHeight(s)
 End Function
 
-Function strlen(ByVal s As String) As Integer
-    strlen = LenB(StrConv(s, vbFromUnicode))
+Function StrLen(ByVal s As String) As Integer
+    StrLen = LenB(StrConv(s, vbFromUnicode))
 End Function
 
 Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String()
@@ -566,7 +723,7 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
         If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
     Next s
     
-    If LContent = 0 Then LContent = strlen(Content)
+    If LContent = 0 Then LContent = StrLen(Content)
     If LineCount > 1 Then YesNoCancelMsgBox.lblContent.Top = 280
     YesNoCancelMsgBox.lblContent.Height = 185 * LineCount + 60
     YesNoCancelMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
@@ -668,7 +825,7 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
         If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
     Next s
     
-    If LContent = 0 Then LContent = strlen(Content)
+    If LContent = 0 Then LContent = StrLen(Content)
     If LineCount > 1 Then YesNoCancelMsgBox.lblContent.Top = 280
     YesNoCancelMsgBox.lblContent.Height = 185 * LineCount + 60
     YesNoCancelMsgBox.Height = 1615 + LineCount * 180 - 300 + 190 + 705
@@ -788,7 +945,7 @@ Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Op
         If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
     Next s
     
-    If LContent = 0 Then LContent = strlen(Content)
+    If LContent = 0 Then LContent = StrLen(Content)
     If LineCount > 1 Then YesNoCancelMsgBox.lblContent.Top = 280
     YesNoCancelMsgBox.lblContent.Height = 185 * LineCount
     YesNoCancelMsgBox.Height = 1615 + LineCount * 180 - 300 + 190
@@ -917,13 +1074,13 @@ ErrLn4:
 End Function
 
 Function FilterFilename(ByVal FileName As String, Optional ByVal PreserveBackslash As Boolean = False) As String
-    Dim str As String
+    Dim Str As String
     Dim ret As String
     ret = ""
-    str = StrConv(FileName, vbProperCase)
+    Str = StrConv(FileName, vbProperCase)
     Dim i%
-    For i = 1 To Len(str)
-        If Mid(str, i, 1) = "?" Then
+    For i = 1 To Len(Str)
+        If Mid(Str, i, 1) = "?" Then
             ret = ret & "_"
         Else
             ret = ret & Mid(FileName, i, 1)
@@ -944,7 +1101,7 @@ Function URLDecode(ByVal strIn As String) As String
     
     Dim sl As Long, tl As Long
     Dim Key As String, kl As Long
-    Dim hh As String, hi As String, hl As String
+    Dim hh As String, Hi As String, hl As String
     Dim a As Long
     
     Key = "%"
@@ -968,9 +1125,9 @@ Function URLDecode(ByVal strIn As String) As String
                     sl = sl + 3
                     URLDecode = URLDecode & Chr(a)
                 Else
-                    hi = Mid(strIn, sl + 3 + kl, 2)
+                    Hi = Mid(strIn, sl + 3 + kl, 2)
                     hl = Mid(strIn, sl + 6 + kl, 2)
-                    a = ((Val("&H" & hh) And &HF) * 2 ^ 12) Or ((Val("&H" & hi) And &H3F) * 2 ^ 6) Or (Val("&H" & hl) And &H3F)
+                    a = ((Val("&H" & hh) And &HF) * 2 ^ 12) Or ((Val("&H" & Hi) And &H3F) * 2 ^ 6) Or (Val("&H" & hl) And &H3F)
                     URLDecode = URLDecode & ChrW(a)
                     sl = sl + 9
                 End If
@@ -980,8 +1137,8 @@ Function URLDecode(ByVal strIn As String) As String
                 If a < 128 Then
                     sl = sl + 3
                 Else
-                    hi = Mid(strIn, sl + 3 + kl, 2)
-                    a = ((Val("&H" & hh) - 194) * 64) + Val("&H" & hi)
+                    Hi = Mid(strIn, sl + 3 + kl, 2)
+                    a = ((Val("&H" & hh) - 194) * 64) + Val("&H" & Hi)
                     sl = sl + 6
                 End If
                 URLDecode = URLDecode & ChrW(a)
@@ -1092,10 +1249,10 @@ Function FormatTime(Sec) As String
     FormatTime = ret
 End Function
 
-Function btoa(str As String) As String
+Function btoa(Str As String) As String
     On Error Resume Next
     Dim Data() As Byte
-    Data = StrConv(str, vbFromUnicode)
+    Data = StrConv(Str, vbFromUnicode)
     Dim ss As String, s As Long
     ss = String$(2 * UBound(Data) + 6, 0)
     s = Len(ss) + 1
@@ -1115,3 +1272,212 @@ Sub BuildHeaderCache()
     If Right$(RawHeaders, 1) = vbLf Then RawHeaders = Left$(RawHeaders, Len(RawHeaders) - 1)
     HeaderCache = btoa(RawHeaders)
 End Sub
+
+Function GetSpecialfolder(CSIDL As Long) As String
+    Dim lngRetVal As Long
+    Dim IDL As ITEMIDLIST
+    Dim strPath As String
+    lngRetVal = SHGetSpecialFolderLocation(100, CSIDL, IDL)
+    If lngRetVal = 0 Then
+        strPath$ = Space$(512)
+        lngRetVal = SHGetPathFromIDList(ByVal IDL.mkid.cb, ByVal strPath$)
+        GetSpecialfolder = Left$(strPath, InStr(strPath, Chr$(0)) - 1)
+        Exit Function
+    End If
+    GetSpecialfolder = ""
+End Function
+
+'-------------------
+' Resolve a shortcut
+'-------------------
+Function ReadShortcut(Path As String, Shortcut As Link) As Boolean
+    Dim FileNo As Integer
+    Dim LongValue As Long
+    Dim IntValue As Integer
+    Dim LinkFlags As Long
+    Dim NextPtr As Long
+    Dim Ptr(6) As Long
+    Dim idx As Integer
+    Dim PtrBasePath As Long
+    Dim PtrNetworkVolumeInfo As Long
+    Dim PtrFilename As Long
+    Dim Str As String
+    
+    ' Initialise link results
+    With Shortcut
+        .FileName = ""
+        .Description = ""
+        .RelPath = ""
+        .WorkingDir = ""
+        .Arguments = ""
+        .CustomIcon = ""
+    End With
+    For idx = 0 To 6
+        Ptr(idx) = 0
+    Next
+    
+    ' Open file with .lnk extension
+    FileNo = FreeFile
+    Str = Path
+    If Right(Str, 4) <> ".lnk" Then Str = Str & ".lnk"
+    Open Str For Binary Access Read As FileNo
+    
+    ' First double-word of link file must be 'L'
+    Get FileNo, 1, LongValue
+    If LongValue = 76 Then
+        ' Skip 16 bytes file GUID and get File Flags
+        Get FileNo, 21, LinkFlags
+        
+        ' Read File Attributes
+        Get FileNo, , Shortcut.Attributes
+        
+        ' Check if ID List section is defined (Ignored)
+        NextPtr = 77
+        If LinkFlags And 1 Then
+            ' Position pointer to next block
+            Get FileNo, NextPtr, IntValue
+            NextPtr = NextPtr + IntValue + 2
+        End If
+        
+        ' Check if Filename section is defined (Mandatory)
+        If LinkFlags And 2 Then
+            Get FileNo, NextPtr + 16, PtrBasePath
+            Get FileNo, , PtrNetworkVolumeInfo
+            Get FileNo, , PtrFilename
+            
+            ' Read base path
+            If PtrBasePath Then
+                Shortcut.FileName = ReadSingleString(FileNo, NextPtr + PtrBasePath)
+            ' Or network path
+            ElseIf PtrNetworkVolumeInfo Then
+                Shortcut.FileName = ReadSingleString(FileNo, NextPtr + PtrNetworkVolumeInfo + &H14)
+            End If
+            
+            ' Read remaining filename
+            If PtrFilename Then
+                Str = ReadSingleString(FileNo, NextPtr + PtrFilename)
+                If Str <> "" Then
+                    If Right(Shortcut.FileName, 1) <> "\" Then
+                        Shortcut.FileName = Shortcut.FileName & "\"
+                    End If
+                    Shortcut.FileName = Shortcut.FileName & Str
+                End If
+            End If
+            
+            ' Position pointer to next block
+            Get FileNo, NextPtr, IntValue
+            NextPtr = NextPtr + IntValue
+        End If
+    End If
+        
+    ' Check if Description section is defined (Optional)
+    If LinkFlags And 4 Then
+        ' Read string length followed by double-byte string
+        Get FileNo, NextPtr, IntValue
+        NextPtr = NextPtr + IntValue * 2 + 2
+        Shortcut.Description = ReadDoubleString(FileNo, IntValue)
+    End If
+    
+    ' Check if Relative Path section is defined (Optional)
+    If LinkFlags And 8 Then
+        ' Read string length followed by double-byte string
+        Get FileNo, NextPtr, IntValue
+        NextPtr = NextPtr + IntValue * 2 + 2
+        Shortcut.RelPath = ReadDoubleString(FileNo, IntValue)
+    End If
+    
+    ' Check if Working Directory section is defined (Optional)
+    If LinkFlags And 16 Then
+        ' Read string length followed by double-byte string
+        Get FileNo, NextPtr, IntValue
+        NextPtr = NextPtr + IntValue * 2 + 2
+        Shortcut.WorkingDir = ReadDoubleString(FileNo, IntValue)
+    End If
+    
+     ' Check if Arguments section is defined (Optional)
+    If LinkFlags And 32 Then
+        ' Read string length followed by double-byte string
+        Get FileNo, NextPtr, IntValue
+        NextPtr = NextPtr + IntValue * 2 + 2
+        Shortcut.Arguments = ReadDoubleString(FileNo, IntValue)
+    End If
+    
+    ' Check if CustomIcon section is defined (Optional)
+    If LinkFlags And 64 Then
+        ' Read string length followed by double-byte string
+        Get FileNo, NextPtr, IntValue
+        NextPtr = NextPtr + IntValue * 2 + 2
+        Shortcut.CustomIcon = ReadDoubleString(FileNo, IntValue)
+    End If
+        
+    Close FileNo
+    ReadShortcut = (Shortcut.FileName <> "")
+End Function
+
+'----------------------------------------
+' Read a single-byte string from the file
+'----------------------------------------
+Private Function ReadSingleString(FileNo As Integer, offset As Long) As String
+    Dim Str As String
+    Dim ByteValue As Byte
+    
+    Seek FileNo, offset
+    Get FileNo, , ByteValue
+    Str = ""
+    
+    Do While ByteValue <> 0
+        Str = Str & ChrW$(ByteValue)
+        Get FileNo, , ByteValue
+    Loop
+    
+    ReadSingleString = Str
+End Function
+
+'--------------------------------------------------------
+' Read a double-byte string value preceeded by its length
+'--------------------------------------------------------
+Private Function ReadDoubleString(FileNo As Integer, StrLen As Integer) As String
+    Dim IntValue As Integer
+    Dim Str As String
+    
+    Str = ""
+    Do While StrLen > 0
+        Get FileNo, , IntValue
+        Str = Str & ChrW$(IntValue)
+        StrLen = StrLen - 1
+    Loop
+    
+    ReadDoubleString = Str
+End Function
+
+Sub GetDiskSpace(sDrive As String, ByRef dblTotal As Double, ByRef dblFree As Double)
+    Dim lresult As Long
+    Dim liAvailable As LARGE_INTEGER
+    Dim liTotal As LARGE_INTEGER
+    Dim liFree As LARGE_INTEGER
+    If Right(sDrive, 1) <> "" Then sDrive = sDrive & ""
+    lresult = GetDiskFreeSpaceEx(sDrive, liAvailable, liTotal, liFree)
+    
+    'dblAvailable = CLargeInt(liAvailable.lowpart, liAvailable.highpart)
+    dblTotal = CLargeInt(liTotal.lowpart, liTotal.highpart)
+    dblFree = CLargeInt(liFree.lowpart, liFree.highpart)
+End Sub
+ 
+Private Function CLargeInt(Lo As Long, Hi As Long) As Double
+    'This function converts the LARGE_INTEGER data type to a double
+    Dim dblLo As Double, dblHi As Double
+    
+    If Lo < 0 Then
+        dblLo = 2 ^ 32 + Lo
+    Else
+        dblLo = Lo
+    End If
+    
+    If Hi < 0 Then
+        dblHi = 2 ^ 32 + Hi
+    Else
+        dblHi = Hi
+    End If
+    CLargeInt = dblLo + dblHi * 2 ^ 32
+End Function
+

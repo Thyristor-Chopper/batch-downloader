@@ -143,7 +143,9 @@ Sub Main()
     End If
     BuildHeaderCache
     
+    Randomize
     'frmMsgboxTest.Show
     Functions.AppExiting = False
     frmMain.Show vbModeless
+    'frmExplorer.Show
 End Sub

@@ -70,11 +70,11 @@ var http = require(url.slice(0, 6) == 'https:' ? 'https' : 'http');
 var rawHeaders = Buffer((process.argv[11] || ''), 'base64').toString().split('\n');
 var rawSessionHeaders = Buffer((process.argv[12] || ''), 'base64').toString().split('\n');
 var headers = {}, sessionHeaders = {};
-rawHeaders.forEach(function(item) {
+if(rawHeaders.length) rawHeaders.forEach(function(item) {
 	if(item.indexOf(': ') < 0) return;
 	headers[item.slice(0, item.indexOf(': '))] = item.slice(item.indexOf(': ') + 2);
 });
-rawSessionHeaders.forEach(function(item) {
+if(rawSessionHeaders.length) rawSessionHeaders.forEach(function(item) {
 	if(item.indexOf(': ') < 0) return;
 	sessionHeaders[item.slice(0, item.indexOf(': '))] = item.slice(item.indexOf(': ') + 2);
 });

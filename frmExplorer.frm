@@ -1,0 +1,1248 @@
+VERSION 5.00
+Begin VB.Form frmExplorer 
+   BorderStyle     =   3  '크기 고정 대화 상자
+   Caption         =   "다운로드 경로 선택"
+   ClientHeight    =   8325
+   ClientLeft      =   2760
+   ClientTop       =   3870
+   ClientWidth     =   9750
+   BeginProperty Font 
+      Name            =   "굴림"
+      Size            =   9
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   Icon            =   "frmExplorer.frx":0000
+   LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   ScaleHeight     =   8325
+   ScaleWidth      =   9750
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.CheckBoxW chkShowFiles 
+      Height          =   255
+      Left            =   5760
+      TabIndex        =   17
+      Top             =   5340
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   450
+      Caption         =   "파일 표시(&S)"
+   End
+   Begin prjDownloadBooster.ImageList imgPlaces 
+      Left            =   8640
+      Top             =   7200
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   32
+      ImageHeight     =   32
+      InitListImages  =   "frmExplorer.frx":000C
+   End
+   Begin VB.PictureBox pbPlacesBarContainer 
+      BackColor       =   &H00808080&
+      Height          =   5175
+      Left            =   120
+      ScaleHeight     =   5115
+      ScaleWidth      =   1410
+      TabIndex        =   15
+      Tag             =   "nobackcolorchange"
+      Top             =   480
+      Width           =   1470
+      Begin prjDownloadBooster.ToolBar tbPlaces 
+         Height          =   5175
+         Left            =   0
+         Tag             =   "nobackcolorchange novisualstylechange"
+         Top             =   0
+         Width           =   1410
+         _ExtentX        =   2487
+         _ExtentY        =   9128
+         VisualStyles    =   0   'False
+         ImageList       =   "imgPlaces"
+         BackColor       =   8421504
+         Style           =   1
+         Orientation     =   1
+         Divider         =   0   'False
+         AllowCustomize  =   0   'False
+         ButtonHeight    =   35
+         ButtonWidth     =   94
+         MinButtonWidth  =   94
+         MaxButtonWidth  =   94
+         InitButtons     =   "frmExplorer.frx":1A64
+      End
+   End
+   Begin VB.DirListBox lvDir 
+      BeginProperty Font 
+         Name            =   "굴림"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   300
+      Left            =   120
+      TabIndex        =   2
+      Top             =   6360
+      Visible         =   0   'False
+      Width           =   2175
+   End
+   Begin prjDownloadBooster.ImageCombo cbFolderList 
+      Height          =   315
+      Left            =   1680
+      TabIndex        =   13
+      Top             =   120
+      Width           =   6615
+      _ExtentX        =   11668
+      _ExtentY        =   582
+      ImageList       =   "imgFolderSmall"
+      Style           =   2
+      MaxDropDownItems=   20
+   End
+   Begin prjDownloadBooster.ImageList imgFolderSmall 
+      Left            =   8640
+      Top             =   6480
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmExplorer.frx":2074
+   End
+   Begin prjDownloadBooster.ImageList imgFolder 
+      Left            =   8640
+      Top             =   5760
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   32
+      ImageHeight     =   32
+      InitListImages  =   "frmExplorer.frx":6AAC
+   End
+   Begin VB.PictureBox picPreviewFrame 
+      BackColor       =   &H00F8EFE5&
+      Height          =   2415
+      Left            =   2880
+      ScaleHeight     =   2355
+      ScaleWidth      =   5235
+      TabIndex        =   11
+      Top             =   5760
+      Width           =   5295
+      Begin VB.Image imgPreview 
+         Height          =   2415
+         Left            =   0
+         Stretch         =   -1  'True
+         Top             =   0
+         Width           =   5295
+      End
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdViews 
+      Height          =   330
+      Left            =   9120
+      TabIndex        =   10
+      Top             =   120
+      Visible         =   0   'False
+      Width           =   375
+      _ExtentX        =   661
+      _ExtentY        =   582
+      Caption         =   "v"
+   End
+   Begin prjDownloadBooster.ListView lvFiles 
+      Height          =   3960
+      Left            =   1680
+      TabIndex        =   9
+      Top             =   480
+      Width           =   7935
+      _ExtentX        =   13996
+      _ExtentY        =   6985
+      VisualTheme     =   1
+      Icons           =   "imgFolder"
+      SmallIcons      =   "imgFolderSmall"
+      Arrange         =   2
+      AllowColumnReorder=   -1  'True
+      HideSelection   =   0   'False
+      ShowInfoTips    =   -1  'True
+      ShowLabelTips   =   -1  'True
+      ShowColumnTips  =   -1  'True
+      HighlightColumnHeaders=   -1  'True
+      UseColumnChevron=   -1  'True
+      AutoSelectFirstItem=   0   'False
+   End
+   Begin prjDownloadBooster.CheckBoxW chkHidden 
+      Height          =   255
+      Left            =   1680
+      TabIndex        =   5
+      Top             =   5340
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   450
+      Caption         =   "숨김 표시(&H)"
+   End
+   Begin VB.TextBox txtFileName 
+      Height          =   270
+      Left            =   2880
+      TabIndex        =   1
+      Top             =   4590
+      Width           =   5175
+   End
+   Begin VB.ComboBox selFileType 
+      BeginProperty Font 
+         Name            =   "굴림"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   300
+      Left            =   2880
+      Style           =   2  '드롭다운 목록
+      TabIndex        =   4
+      Top             =   4950
+      Width           =   5175
+   End
+   Begin VB.DriveListBox selDrive 
+      BeginProperty Font 
+         Name            =   "굴림"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   300
+      Left            =   120
+      TabIndex        =   3
+      Top             =   6720
+      Visible         =   0   'False
+      Width           =   2175
+   End
+   Begin VB.CommandButton CancelButton 
+      Cancel          =   -1  'True
+      Caption         =   "취소"
+      BeginProperty Font 
+         Name            =   "굴림"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   340
+      Left            =   8160
+      TabIndex        =   7
+      Top             =   4920
+      Width           =   1455
+   End
+   Begin VB.CommandButton OKButton 
+      Caption         =   "확인"
+      Default         =   -1  'True
+      BeginProperty Font 
+         Name            =   "굴림"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   340
+      Left            =   8160
+      TabIndex        =   6
+      Top             =   4560
+      Width           =   1455
+   End
+   Begin prjDownloadBooster.ToolBar tbToolBar 
+      Height          =   330
+      Left            =   8400
+      Top             =   120
+      Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   582
+      ImageList       =   "imgFolderSmall"
+      Style           =   1
+      Divider         =   0   'False
+      ShowTips        =   -1  'True
+      Wrappable       =   0   'False
+      AllowCustomize  =   0   'False
+      ButtonWidth     =   23
+      InitButtons     =   "frmExplorer.frx":A16C
+   End
+   Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
+      Height          =   255
+      Left            =   3480
+      TabIndex        =   16
+      Top             =   5340
+      Width           =   2175
+      _ExtentX        =   3836
+      _ExtentY        =   450
+      Caption         =   "리눅스 숨김 표시(&U)"
+   End
+   Begin VB.Label Label2 
+      Alignment       =   1  '오른쪽 맞춤
+      BackStyle       =   0  '투명
+      Caption         =   "찾는 위치(&I):"
+      Height          =   255
+      Left            =   240
+      TabIndex        =   14
+      Top             =   180
+      Width           =   1335
+   End
+   Begin VB.Label Label5 
+      BackStyle       =   0  '투명
+      Caption         =   "미리보기(&P):"
+      Height          =   255
+      Left            =   1680
+      TabIndex        =   12
+      Top             =   5760
+      Width           =   1215
+   End
+   Begin VB.Label Label4 
+      Caption         =   "파일 형식(&T):"
+      BeginProperty Font 
+         Name            =   "굴림"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   1680
+      TabIndex        =   8
+      Top             =   5010
+      Width           =   1215
+   End
+   Begin VB.Label Label1 
+      Caption         =   "파일 이름(&F):"
+      BeginProperty Font 
+         Name            =   "굴림"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   1680
+      TabIndex        =   0
+      Top             =   4620
+      Width           =   1215
+   End
+   Begin VB.Menu mnuView 
+      Caption         =   "보기(&V)"
+      Visible         =   0   'False
+      Begin VB.Menu mnuLargeIcons 
+         Caption         =   "큰 아이콘(&L)"
+      End
+      Begin VB.Menu mnuSmallIcons 
+         Caption         =   "작은 아이콘(&S)"
+      End
+      Begin VB.Menu mnuList 
+         Caption         =   "간단히(&L)"
+      End
+      Begin VB.Menu mnuDetails 
+         Caption         =   "자세히(&D)"
+      End
+      Begin VB.Menu mnuTiles 
+         Caption         =   "나란히 보기(&T)"
+      End
+   End
+End
+Attribute VB_Name = "frmExplorer"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Dim Pattern$
+
+Sub ShowDesktopItems()
+    Dim li As LvwListItem
+    Set li = lvFiles.ListItems.Add(, , t("내 컴퓨터", "My Computer"), 9, 14)
+    li.ListSubItems.Add , , "-"
+    li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
+    li.ListSubItems.Add , , "-"
+    
+    Set li = lvFiles.ListItems.Add(, , t("내 문서", "My Documents"), 10, 13)
+    li.ListSubItems.Add , , "-"
+    li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
+    li.ListSubItems.Add , , "-"
+End Sub
+
+Private Sub CancelButton_Click()
+    Unload Me
+End Sub
+
+Private Sub cbFolderList_Click()
+    Dim i%
+    Dim Path$
+    
+    Select Case cbFolderList.SelectedItem.Index
+        Case 1
+            lvDir.Path = GetSpecialfolder(CSIDL_RECENT)
+        Case 2
+            lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
+        Case 3
+            lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
+        Case 4
+            ShowMyComputer
+            Exit Sub
+    End Select
+    
+    If cbFolderList.SelectedItem.Indentation = 2 Then
+        On Error GoTo driveunavailable
+        'selDrive.ListIndex = cbFolderList.SelectedItem.Index - 5
+        Dim DriveLetter$
+        DriveLetter = LCase(Left$(cbFolderList.SelectedItem.Text, 1))
+        For i = 0 To selDrive.ListCount
+            If LCase(Left$(selDrive.List(i), 1)) = DriveLetter Then
+                selDrive.ListIndex = i
+                lvDir.Path = DriveLetter & ":\"
+                ListFiles
+                Exit Sub
+            End If
+        Next i
+        Exit Sub
+driveunavailable:
+        Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, Me, 16
+    ElseIf cbFolderList.SelectedItem.Indentation > 2 Then
+        Path = UCase(Left$(cbFolderList.ComboItems(cbFolderList.SelectedItem.Index - cbFolderList.SelectedItem.Indentation + 2).Text, 1)) & ":\"
+        For i = cbFolderList.SelectedItem.Index - cbFolderList.SelectedItem.Indentation + 3 To cbFolderList.SelectedItem.Index
+            Path = Path & cbFolderList.ComboItems(i).Text & "\"
+        Next i
+        lvDir.Path = Path
+    ElseIf cbFolderList.SelectedItem.Indentation = 1 And cbFolderList.SelectedItem.Index > 4 Then
+        Path = GetSpecialfolder(CSIDL_DESKTOP)
+        If Right$(Path, 1) <> "\" Then Path = Path & "\"
+        lvDir.Path = Path & cbFolderList.SelectedItem.Text
+    End If
+    
+    ListFiles
+End Sub
+
+Private Sub chkHidden_Click()
+    ListFiles
+End Sub
+
+Sub ListFiles()
+    lvFiles.ColumnHeaders(2).Text = t("크기", "Size")
+    lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentRight
+    lvFiles.ColumnHeaders(2).Width = 1455
+    lvFiles.ColumnHeaders(3).Text = t("종류", "Type")
+    lvFiles.ColumnHeaders(3).Alignment = LvwColumnHeaderAlignmentLeft
+    lvFiles.ColumnHeaders(3).Width = 1800
+    lvFiles.ColumnHeaders(4).Text = t("수정한 날짜", "Modified")
+    lvFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentLeft
+    lvFiles.ColumnHeaders(4).Width = 2070
+
+    Dim li As LvwListItem
+    Dim k As Double
+    Dim i%
+    On Error Resume Next
+    If Not lvFiles.SelectedItem Is Nothing Then
+        lvFiles.SelectedItem.Selected = False
+        Set lvFiles.SelectedItem = Nothing
+    End If
+    lvFiles.ListItems.Clear
+    
+    If lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP) Then _
+        ShowDesktopItems
+    
+    Dim Path$, Name$
+    Path = lvDir.Path
+    If Right$(Path, 1) <> "\" Then Path = Path & "\"
+    Name = Dir(Path, vbDirectory)
+    On Error Resume Next
+    Dim Shown As Boolean
+    tbToolBar.Buttons(2).Enabled = False
+    If Len(lvDir.Path) > 3 Then
+        tbToolBar.Buttons(2).Enabled = True
+        If lvDir.Path <> GetSpecialfolder(CSIDL_DESKTOP) And lvDir.Path <> GetSpecialfolder(CSIDL_RECENT) Then
+            Set li = lvFiles.ListItems.Add(, , "..", 1, 1)
+            li.ListSubItems.Add , , "-"
+            li.ListSubItems.Add , , t("파일 폴더", "Folder")
+            li.ListSubItems.Add , , "-" 'FileDateTime(fso.GetParentFolderName(Path))
+        End If
+    End If
+    Do While Name <> ""
+        If Name <> "." And Name <> ".." Then
+            If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
+                Shown = True
+                If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." And Name <> ".." Then Shown = False
+                
+                If Shown Then
+                    Set li = lvFiles.ListItems.Add(, , Name, 1, 1)
+                    li.ListSubItems.Add , , "-"
+                    li.ListSubItems.Add , , t("파일 폴더", "File Folder")
+                    If Name = ".." Then
+                        li.ListSubItems.Add , , "-" 'FileDateTime(fso.GetParentFolderName(Path))
+                    Else
+                        li.ListSubItems.Add , , FileDateTime(Path & Name)
+                    End If
+                End If
+            End If
+        End If
+        Name = Dir
+    Loop
+    
+    Dim PatternMatched As Boolean
+    Dim PatternsSplit() As String
+    Dim CurrentPattern$
+    Dim ExtName$
+    Dim Icon%
+    Dim LnkInfo As Link
+    PatternsSplit = Split(Pattern, ";")
+    Dim ShowHidden As VbFileAttribute
+    ShowHidden = 0
+    If chkHidden.Value = 1 Then ShowHidden = vbHidden
+    Name = Dir(Path, vbNormal Or vbReadOnly Or vbArchive Or ShowHidden)
+    Do While Name <> ""
+        If (GetAttr(Path & Name) And vbDirectory) <> vbDirectory Then
+            PatternMatched = False
+            For i = LBound(PatternsSplit) To UBound(PatternsSplit)
+                CurrentPattern = Trim$(PatternsSplit(i))
+                If CurrentPattern = "*.*" Then CurrentPattern = "*"
+                PatternMatched = (LCase(Name) Like LCase(CurrentPattern))
+                If PatternMatched Then Exit For
+            Next i
+            
+            Shown = True
+            If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." Then Shown = False
+            
+            Icon = 2
+            If LCase(fso.GetExtensionName(Name)) = "lnk" Then
+                ReadShortcut Path & Name, LnkInfo
+                If FolderExists(LnkInfo.FileName) Then
+                    Icon = 1
+                ElseIf Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then
+                    Shown = False
+                End If
+            Else
+                If Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then Shown = False
+            End If
+            
+            If PatternMatched And Shown Then
+                Set li = lvFiles.ListItems.Add(, , Name, Icon, Icon)
+                li.ListSubItems.Add , , ParseSize(FileLen(Path & Name))
+                ExtName = Trim$(GetKeyValue(HKEY_CLASSES_ROOT, GetKeyValue(HKEY_CLASSES_ROOT, "." & LCase(fso.GetExtensionName(Name)), "", "BOOSTER_NO_FILE_EXT_REGISTERED"), "", UCase(fso.GetExtensionName(Name)) & " " & t("파일", "File")))
+                li.ListSubItems.Add , , ExtName
+                li.ListSubItems.Add , , FileDateTime(Path & Name)
+            End If
+        End If
+        Name = Dir
+    Loop
+    
+    tbToolBar.Buttons(3).Enabled = True
+    lvFiles.GroupView = False
+End Sub
+
+Private Sub chkShowFiles_Click()
+    ListFiles
+End Sub
+
+Private Sub chkUnixHidden_Click()
+    ListFiles
+End Sub
+
+Private Sub Form_Load()
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
+    SetFormBackgroundColor Me
+    SetFont Me
+    SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    
+    lvFiles.ColumnHeaders.Add , , t("이름", "Name"), 2295
+    lvFiles.ColumnHeaders.Add(, , t("크기", "Size"), 1455).Alignment = LvwColumnHeaderAlignmentRight
+    lvFiles.ColumnHeaders.Add , , t("종류", "Type"), 1800
+    lvFiles.ColumnHeaders.Add , , t("수정한 날짜", "Modified"), 2070
+    
+    selFileType.Clear
+    If Tags.BrowseTargetForm = 3 Then
+        selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
+        selFileType.AddItem "JPEG (*.JPG)"
+        selFileType.AddItem "GIF (*.GIF)"
+        selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
+        selFileType.AddItem "PNG (*.PNG)"
+        selFileType.AddItem t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
+        selFileType.AddItem t("아이콘", "Icon") & " (*.ICO)"
+        selFileType.AddItem t("커서", "Cursor") & " (*.CUR)"
+    Else
+        selFileType.AddItem t("모든 파일", "All files") & " (*.*)"
+    End If
+    selFileType.ListIndex = 0
+    
+    On Error Resume Next
+    Me.Icon = frmMain.imgOpenFolder.ListImages(1).Picture
+    
+    Dim Path$
+    Path = lvDir.Path
+    
+    Dim fmpth As String
+    If Tags.BrowseTargetForm = 3 Then
+        fmpth = GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")
+    Else
+        If Tags.BrowsePresetPath = "" Then
+            fmpth = Trim$(frmMain.txtFileName.Text)
+        Else
+            fmpth = Tags.BrowsePresetPath
+        End If
+    End If
+    If FolderExists(fmpth) Then
+        Path = fmpth
+    ElseIf FolderExists(fso.GetParentFolderName(fmpth)) Then
+        Path = fso.GetParentFolderName(fmpth)
+        txtFileName.Text = Split(fmpth, "\")(UBound(Split(fmpth, "\")))
+    End If
+    
+'    If Trim$(txtFileName.Text) = "" Then
+'        txtFileName.Text = lvFiles.Pattern
+'    End If
+    
+    txtFileName.SelStart = 0
+    txtFileName.SelLength = Len(txtFileName.Text)
+    
+    Dim i%
+    For i = 0 To selDrive.ListCount - 1
+        If LCase(Left$(selDrive.List(i), 1)) = LCase(Left$(Path, 1)) Then
+            selDrive.ListIndex = i
+            Exit For
+        End If
+    Next i
+    
+    lvDir.Path = Path
+    selFileType_Click
+    
+    Label1.Caption = t(Label1.Caption, "&File name:")
+    OKButton.Caption = t(OKButton.Caption, "OK")
+    If Tags.BrowseTargetForm = 2 Then
+        Label1.Caption = t("폴더 이름(&F):", "&Folder name:")
+        txtFileName.Width = 6735
+        OKButton.Top = CancelButton.Top
+        OKButton.Left = CancelButton.Left - 120 - OKButton.Width
+        OKButton.Caption = t("폴더 선택(&E)", "S&elect Folder")
+    End If
+    Label4.Caption = t(Label4.Caption, "File &type:")
+    Label4.Visible = Tags.BrowseTargetForm <> 2
+    selFileType.Visible = Tags.BrowseTargetForm <> 2
+    Label2.Caption = t(Label2.Caption, "F&ind in:")
+    chkHidden.Caption = t(chkHidden.Caption, "Show &hidden")
+    chkUnixHidden.Caption = t(chkUnixHidden.Caption, "Show &Unix hidden")
+    CancelButton.Caption = t(CancelButton.Caption, "Cancel")
+    Me.Caption = t(Me.Caption, "Select download path")
+    If Tags.BrowseTargetForm = 3 Then Me.Caption = t("배경 사진 선택", "Choose background image")
+    chkShowFiles.Visible = (Tags.BrowseTargetForm = 2)
+    chkShowFiles.Caption = t(chkShowFiles.Caption, "&Show files")
+    Label5.Caption = t(Label5.Caption, "&Preview:")
+    
+    tbPlaces.Buttons(1).Caption = t("내 최근 문서", "Recent")
+    tbPlaces.Buttons(2).Caption = t("바탕 화면", "Desktop")
+    tbPlaces.Buttons(3).Caption = t("내 문서", "My Documents")
+    tbPlaces.Buttons(4).Caption = t("내 컴퓨터", "My Computer")
+    tbPlaces.Buttons(5).Caption = t("즐겨찾기", "Favorites")
+    tbPlaces.Buttons(6).Caption = t("내 프로필", "My Profile")
+    
+    tbToolBar.Buttons(1).ToolTipText = t("뒤로", "Back")
+    tbToolBar.Buttons(2).ToolTipText = t("한 수준 위로", "Up one level")
+    tbToolBar.Buttons(3).ToolTipText = t("새 폴더 만들기", "New folder")
+    tbToolBar.Buttons(4).ToolTipText = t("보기", "Icon size")
+    
+    lvDir_Change
+    
+    If Tags.BrowseTargetForm = 3 Then
+        'Me.Height = 8280
+    Else
+        Me.Height = 6165
+    End If
+    
+    lvFiles.View = GetSetting("DownloadBooster", "UserData", "FileListView", LvwViewConstants.LvwViewReport)
+    
+    If Tags.BrowseTargetForm = 3 And lvFiles.ListItems.Count > 0 Then
+        For i = 1 To lvFiles.ListItems.Count
+            If LCase(lvFiles.ListItems(i).Text) = LCase(fso.GetFilename(fmpth)) Then
+                lvFiles.ListItems(i).Selected = True
+                lvFiles.ListItems(i).EnsureVisible
+                Exit For
+            End If
+        Next i
+    End If
+    
+    lvFiles.Groups.Add , , t("이 컴퓨터에 저장된 파일", "Files Stored on This Computer")
+    lvFiles.Groups.Add , , t("하드 디스크 드라이브", "Hard Disk Drives")
+    lvFiles.Groups.Add , , t("이동식 저장소가 있는 장치", "Drives with Removable Storage")
+    lvFiles.Groups.Add , , t("네트워크 드라이브", "Network Drives")
+    lvFiles.Groups.Add , , t("기타", "Others")
+End Sub
+
+Sub ShowMyComputer()
+    lvFiles.ColumnHeaders(2).Text = t("종류", "Type")
+    lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentLeft
+    lvFiles.ColumnHeaders(2).Width = 1800
+    lvFiles.ColumnHeaders(3).Text = t("전체 크기", "Total Space")
+    lvFiles.ColumnHeaders(3).Alignment = LvwColumnHeaderAlignmentRight
+    lvFiles.ColumnHeaders(3).Width = 1455
+    lvFiles.ColumnHeaders(4).Text = t("사용 가능", "Free Space")
+    lvFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentRight
+    lvFiles.ColumnHeaders(4).Width = 1455
+    
+    lvFiles.GroupView = True
+    Dim Icon%
+    lvFiles.ListItems.Clear
+    Dim k%
+    Dim Item As LvwListItem
+    Dim DriveType$
+    Dim Group As LvwGroup
+    Dim TotalSpace As Double
+    Dim FreeSpace As Double
+    On Error Resume Next
+    For k = 0 To selDrive.ListCount - 1
+        Select Case GetDriveType(Left$(selDrive.List(k), 2))
+            Case DRIVE_FIXED, DRIVE_UNKNOWN, DRIVE_NO_ROOT_DIR
+                Icon = 6
+                DriveType = t("로컬 디스크", "Local Disk")
+                Set Group = lvFiles.Groups(2)
+            Case DRIVE_REMOVABLE
+                If LCase(Left$(selDrive.List(k), 1)) < "c" Then
+                    Icon = 3
+                    DriveType = t("디스켓", "Diskette")
+                Else
+                    Icon = 4
+                    DriveType = t("이동식 디스크", "Removable Disk")
+                End If
+                Set Group = lvFiles.Groups(3)
+            Case DRIVE_CDROM
+                Icon = 5
+                DriveType = t("CD/DVD 드라이브", "CD/DVD Drive")
+                Set Group = lvFiles.Groups(3)
+            Case DRIVE_REMOTE
+                Icon = 7
+                DriveType = t("네트워크 드라이브", "Network Drive")
+                Set Group = lvFiles.Groups(4)
+            Case DRIVE_RAMDISK
+                Icon = 8
+                DriveType = t("RAM 디스크", "RAM Disk")
+                Set Group = lvFiles.Groups(5)
+        End Select
+        Set Item = lvFiles.ListItems.Add(, , selDrive.List(k), Icon, Icon)
+        GetDiskSpace UCase(Left$(selDrive.List(k), 2)), TotalSpace, FreeSpace
+        Item.ListSubItems.Add , , DriveType
+        Item.ListSubItems.Add , , ParseSize(TotalSpace)
+        Item.ListSubItems.Add , , ParseSize(FreeSpace)
+        Set Item.Group = Group
+    Next k
+    
+    For k = 1 To tbPlaces.Buttons.Count
+        tbPlaces.Buttons(k).Value = TbrButtonValueUnpressed
+    Next k
+    tbPlaces.Buttons(4).Value = TbrButtonValuePressed
+    cbFolderList.ComboItems(4).Selected = True
+    tbToolBar.Buttons(2).Enabled = False
+    tbToolBar.Buttons(3).Enabled = False
+End Sub
+
+Private Sub lvDir_Change()
+    Dim i%
+    Dim k%
+    Dim indentLevel%
+    Dim Item As ImcComboItem
+    cbFolderList.ComboItems.Clear
+    Dim Path$
+    Dim ItemCount%
+    Dim ItemSelectPos
+    Path = lvDir.Path
+    If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
+    Dim PathSplit() As String
+    PathSplit = Split(Path, "\")
+    ItemCount = 0
+    ItemSelectPos = 1
+    
+    cbFolderList.ComboItems.Clear
+    cbFolderList.ComboItems.Add , , t("내 최근 문서", "Recent"), 11
+    cbFolderList.ComboItems.Add , , t("바탕 화면", "Desktop"), 12
+    cbFolderList.ComboItems.Add , , t("내 문서", "My Documents"), 13, , 1
+    cbFolderList.ComboItems.Add , , t("내 컴퓨터", "My Computer"), 14, , 1
+    ItemCount = 4
+    
+    Dim Icon%
+    For k = 0 To selDrive.ListCount - 1
+        Select Case GetDriveType(Left$(selDrive.List(k), 2))
+            Case DRIVE_FIXED, DRIVE_UNKNOWN, DRIVE_NO_ROOT_DIR
+                Icon = 6
+            Case DRIVE_REMOVABLE
+                Icon = 3
+            Case DRIVE_CDROM
+                Icon = 5
+            Case DRIVE_REMOTE
+                Icon = 7
+            Case DRIVE_RAMDISK
+                Icon = 8
+        End Select
+        cbFolderList.ComboItems.Add , , selDrive.List(k), Icon, , 2
+        ItemCount = ItemCount + 1
+        If LCase(Left$(selDrive.List(k), 1)) = LCase(Left$(PathSplit(LBound(PathSplit)), 1)) Then
+            indentLevel = 3
+            For i = LBound(PathSplit) + 1 To UBound(PathSplit) - 1
+                cbFolderList.ComboItems.Add , , PathSplit(i), 10, , indentLevel
+                indentLevel = indentLevel + 1
+                ItemCount = ItemCount + 1
+            Next i
+            ItemSelectPos = (k + i + 4)
+'            For i = 0 To lvDir.ListCount - 1
+'                cbFolderList.ComboItems.Add , , Replace(lvDir.List(i), Path, "", , 1), 1, , indentLevel
+'                ItemCount = ItemCount + 1
+'            Next i
+        End If
+    Next k
+    
+    Dim Name$
+    Path = GetSpecialfolder(CSIDL_DESKTOP)
+    If Right$(Path, 1) <> "\" Then Path = Path & "\"
+    Name = Dir(Path, vbDirectory)
+    On Error Resume Next
+    Do While Name <> ""
+        If Name <> "." And Name <> ".." Then
+            If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
+                Set Item = cbFolderList.ComboItems.Add(, , Name, 1, , 1)
+                If (Path & Name) = lvDir.Path Then ItemSelectPos = Item.Index
+                ItemCount = ItemCount + 1
+            End If
+        End If
+        Name = Dir
+    Loop
+    
+    If lvDir.Path = GetSpecialfolder(CSIDL_RECENT) Then
+        cbFolderList.ComboItems(1).Selected = True
+    ElseIf lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP) Then
+        cbFolderList.ComboItems(2).Selected = True
+    Else
+        cbFolderList.ComboItems(ItemSelectPos).Selected = True
+    End If
+    
+    'ListFiles
+    SaveSetting "DownloadBooster", "UserData", "LastSaveDir", lvDir.Path
+    
+    For i = 1 To tbPlaces.Buttons.Count
+        tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
+    Next i
+    
+    Path = lvDir.Path
+    Select Case Path
+        Case GetSpecialfolder(CSIDL_RECENT)
+            tbPlaces.Buttons(1).Value = TbrButtonValuePressed
+            cbFolderList.ComboItems(1).Selected = True
+        Case GetSpecialfolder(CSIDL_DESKTOP)
+            tbPlaces.Buttons(2).Value = TbrButtonValuePressed
+            cbFolderList.ComboItems(2).Selected = True
+        Case GetSpecialfolder(CSIDL_PERSONAL)
+            tbPlaces.Buttons(3).Value = TbrButtonValuePressed
+            cbFolderList.ComboItems(3).Selected = True
+        Case GetSpecialfolder(CSIDL_FAVORITES)
+            tbPlaces.Buttons(5).Value = TbrButtonValuePressed
+        Case Environ$("USERPROFILE")
+            tbPlaces.Buttons(6).Value = TbrButtonValuePressed
+    End Select
+    
+    If ItemCount < cbFolderList.ComboItems.Count Then
+        For i = cbFolderList.ComboItems.Count To (ItemCount + 1) Step -1
+            cbFolderList.ComboItems.Remove i
+        Next i
+    End If
+End Sub
+
+Private Sub lvFiles_AfterLabelEdit(Cancel As Boolean, NewString As String)
+    On Error Resume Next
+    If lvFiles.SelectedItem Is Nothing Then Exit Sub
+    If Not lvFiles.SelectedItem.Selected Then Exit Sub
+    Dim Path$
+    Path = lvDir.Path
+    If Right$(Path, 1) <> "\" Then Path = Path & "\"
+    NewString = Trim$(NewString)
+    If FileExists(Path & NewString) Then
+        Alert t("파일 이름이 이미 존재합니다.", "File name already exists."), App.Title, Me, 16
+        Cancel = True
+        Exit Sub
+    End If
+    If _
+        InStr(1, NewString, "\") > 0 Or _
+        InStr(1, NewString, "/") > 0 Or _
+        InStr(1, NewString, """") > 0 Or _
+        InStr(1, NewString, "*") > 0 Or _
+        InStr(1, NewString, "?") > 0 Or _
+        InStr(1, NewString, "<") > 0 Or _
+        InStr(1, NewString, ">") > 0 Or _
+        InStr(1, NewString, "|") > 0 Or _
+        InStr(1, NewString, "..") > 0 Or _
+        UCase(NewString) = "CON" Or _
+        UCase(NewString) = "AUX" Or _
+        UCase(NewString) = "PRN" Or _
+        UCase(NewString) = "NUL" Or _
+        UCase(NewString) = "COM1" Or _
+        UCase(NewString) = "COM2" Or _
+        UCase(NewString) = "COM3" Or _
+        UCase(NewString) = "COM4" Or _
+        UCase(NewString) = "LPT1" Or _
+        UCase(NewString) = "LPT2" Or _
+        UCase(NewString) = "LPT3" Or _
+        UCase(NewString) = "LPT4" Or _
+        NewString = "." _
+    Then
+        Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 16
+        Cancel = True
+        Exit Sub
+    End If
+    If NewString = "" Then
+        Cancel = True
+        Exit Sub
+    End If
+    
+    Dim FullPath$
+    Path = lvDir.Path
+    If Right$(Path, 1) <> "\" Then Path = Path & "\"
+    FullPath = Path & lvFiles.SelectedItem.Text
+    Name FullPath As (Path & NewString)
+End Sub
+
+Private Sub lvFiles_BeforeLabelEdit(Cancel As Boolean)
+    On Error Resume Next
+    If lvFiles.SelectedItem Is Nothing Then Exit Sub
+    If Not lvFiles.SelectedItem.Selected Then Exit Sub
+    If lvFiles.SelectedItem.Text = ".." Then Cancel = True
+    If lvFiles.SelectedItem.IconIndex > 2 Then Cancel = True
+    
+    Dim FullPath$
+    Dim Path$
+    Path = lvDir.Path
+    If Right$(Path, 1) <> "\" Then Path = Path & "\"
+    FullPath = Path & lvFiles.SelectedItem.Text
+    If (Not FileExists(FullPath)) And (Not FolderExists(FullPath)) Then Cancel = True
+End Sub
+
+Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Integer)
+    If Item Is Nothing Then Exit Sub
+    If Not Item.Selected Then Exit Sub
+    
+    Dim FullPath$
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & Item.Text
+    Else
+        FullPath = lvDir.Path & "\" & Item.Text
+    End If
+    
+    If Item.IconIndex <= 2 And UCase(fso.GetExtensionName(Item.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+        Dim LnkInfo As Link
+        ReadShortcut FullPath, LnkInfo
+        If FolderExists(LnkInfo.FileName) Then
+            lvDir.Path = LnkInfo.FileName
+        ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Then
+            OKButton_Click
+        End If
+    ElseIf Item.IconIndex > 2 Then
+        If Item.Text = t("내 컴퓨터", "My Computer") Then
+            ShowMyComputer
+            Exit Sub
+        ElseIf Item.Text = t("내 문서", "My Documents") Then
+            lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
+            Exit Sub
+        End If
+    
+        On Error GoTo driveunavailable
+        'selDrive.ListIndex = cbFolderList.SelectedItem.Index - 5
+        lvDir.Path = UCase(Left$(Item.Text, 2)) & "\"
+        Exit Sub
+driveunavailable:
+        Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, Me, 16
+    ElseIf Item.IconIndex = 1 Then
+        On Error GoTo folderinaccessible
+        lvDir.Path = FullPath
+        Exit Sub
+folderinaccessible:
+        Alert t("폴더가 존재하지 않습니다.", "The folder does not exist"), App.Title, Me, 16
+    ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Then
+        OKButton_Click
+    End If
+End Sub
+
+Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
+    If (frmMain.cbWhenExist.ListIndex = 0 And Tags.BrowseTargetForm <> 3) Or (Not Selected) Then Exit Sub
+    If Item.IconIndex = 1 Or Item.IconIndex > 2 Then Exit Sub
+    If Tags.BrowseTargetForm <> 2 Then txtFileName.Text = Item.Text
+    
+    If Tags.BrowseTargetForm = 3 And Item.IconIndex <> 1 Then
+        Dim Path$
+        Path = lvDir.Path
+        If Right$(Path, 1) <> "\" Then Path = Path & "\"
+        If LCase(Right$(Item.Text, 4)) = ".png" Then
+            Set imgPreview.Picture = LoadPngIntoPictureWithAlpha(Path & Item.Text)
+        Else
+            imgPreview.Picture = LoadPicture(Path & Item.Text)
+        End If
+    End If
+End Sub
+
+Private Sub lvFiles_KeyDown(KeyCode As Integer, Shift As Integer)
+    On Error Resume Next
+    If KeyCode = 116 Then
+        ListFiles
+    ElseIf KeyCode = 113 And (Not lvFiles.SelectedItem Is Nothing) Then
+        If lvFiles.SelectedItem.Selected Then lvFiles.StartLabelEdit
+    End If
+End Sub
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 116 Then
+        ListFiles
+    End If
+End Sub
+
+Private Sub mnuDetails_Click()
+    lvFiles.View = LvwViewReport
+    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+End Sub
+
+Private Sub mnuLargeIcons_Click()
+    lvFiles.View = LvwViewIcon
+    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+End Sub
+
+Private Sub mnuList_Click()
+    lvFiles.View = LvwViewList
+    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+End Sub
+
+Private Sub mnuSmallIcons_Click()
+    lvFiles.View = LvwViewSmallIcon
+    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+End Sub
+
+Private Sub mnuTiles_Click()
+    lvFiles.View = LvwViewTile
+    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+End Sub
+
+Private Sub OKButton_Click()
+    txtFileName.Text = Trim$(txtFileName.Text)
+    
+    On Error Resume Next
+    If InStr(1, txtFileName.Text, "*") > 0 Or InStr(1, txtFileName.Text, "?") > 0 Then
+        Pattern = txtFileName.Text
+        txtFileName.SelStart = 0
+        txtFileName.SelLength = Len(txtFileName.Text)
+        ListFiles
+        MessageBeep 0
+        Exit Sub
+    End If
+    
+    If FolderExists(txtFileName.Text) Then
+        txtFileName.SelStart = 0
+        txtFileName.SelLength = Len(txtFileName.Text)
+        lvDir.Path = txtFileName.Text
+        MessageBeep 0
+        Exit Sub
+    End If
+    
+    If FolderExists(fso.GetParentFolderName(txtFileName.Text)) Then
+        lvDir.Path = fso.GetParentFolderName(txtFileName.Text)
+        txtFileName.Text = fso.GetFilename(txtFileName.Text)
+    End If
+    On Error GoTo 0
+
+    Dim Data$, Path$
+    
+    If Tags.BrowseTargetForm = 3 Then
+        Path = lvDir.Path
+        If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
+        If Not FileExists(Path & txtFileName.Text) Then
+            Alert txtFileName.Text & vbCrLf & "파일이 없습니다." & vbCrLf & "파일 이름을 올바르게 입력했는지 확인하십시오.", App.Title, Me, 48
+            Exit Sub
+        End If
+        
+        On Error GoTo imgerr
+        If LCase(Right$(txtFileName.Text, 4)) = ".png" Then
+            LoadPngIntoPictureWithAlpha Path & txtFileName.Text
+        Else
+            LoadPicture Path & txtFileName.Text
+        End If
+        SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", Path & txtFileName.Text
+        frmOptions.ImageChanged = True
+        frmOptions.cmdApply.Enabled = True
+        frmOptions.tygApply.Enabled = True
+        If LCase(Right$(Path & txtFileName.Text, 4)) = ".png" Then
+            Set frmOptions.imgPreview.Picture = LoadPngIntoPictureWithAlpha(Path & txtFileName.Text)
+        Else
+            frmOptions.imgPreview.Picture = LoadPicture(Path & txtFileName.Text)
+        End If
+        frmOptions.cmdSample.Refresh
+        Unload Me
+        Exit Sub
+imgerr:
+        Alert t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), App.Title, Me, 16
+        Exit Sub
+    End If
+    
+    If _
+        InStr(1, txtFileName.Text, "\") > 0 Or _
+        InStr(1, txtFileName.Text, "/") > 0 Or _
+        InStr(1, txtFileName.Text, """") > 0 Or _
+        InStr(1, txtFileName.Text, "*") > 0 Or _
+        InStr(1, txtFileName.Text, "?") > 0 Or _
+        InStr(1, txtFileName.Text, "<") > 0 Or _
+        InStr(1, txtFileName.Text, ">") > 0 Or _
+        InStr(1, txtFileName.Text, "|") > 0 Or _
+        UCase(txtFileName.Text) = "CON" Or _
+        UCase(txtFileName.Text) = "AUX" Or _
+        UCase(txtFileName.Text) = "PRN" Or _
+        UCase(txtFileName.Text) = "NUL" Or _
+        UCase(txtFileName.Text) = "COM1" Or _
+        UCase(txtFileName.Text) = "COM2" Or _
+        UCase(txtFileName.Text) = "COM3" Or _
+        UCase(txtFileName.Text) = "COM4" Or _
+        UCase(txtFileName.Text) = "LPT1" Or _
+        UCase(txtFileName.Text) = "LPT2" Or _
+        UCase(txtFileName.Text) = "LPT3" Or _
+        UCase(txtFileName.Text) = "LPT4" _
+    Then
+        Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 48
+        Exit Sub
+    End If
+
+    If Tags.BrowseTargetForm = 2 Then
+        Path = lvDir.Path
+    Else
+        If Right$(lvDir.Path, 1) = "\" Then
+            Path = lvDir.Path & txtFileName.Text
+        Else
+            Path = lvDir.Path & "\" & txtFileName.Text
+        End If
+    End If
+    On Error Resume Next
+    If FileExists(Path) Then
+        If frmMain.cbWhenExist.ListIndex = 0 Then
+            Alert t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), App.Title, Me, 16
+            Exit Sub
+        ElseIf frmMain.cbWhenExist.ListIndex = 1 Then
+            If Confirm(t("파일 이름이 이미 존재합니다. 덮어쓰시겠습니까?", "File name already exists. Overwrite?"), App.Title, Me, 48) <> vbYes Then
+                Exit Sub
+            End If
+        End If
+    End If
+
+    On Error GoTo e
+    If Right$(Path, 2) = "\\" Then Path = Left$(Path, Len(Path) - 1)
+    Select Case Tags.BrowseTargetForm
+        Case 1
+            frmEditBatch.txtFilePath.Text = Path
+        Case 2
+            frmBatchAdd.txtSavePath.Text = Path
+        Case 3
+            '
+        Case Else
+            frmMain.txtFileName.Text = Path
+    End Select
+    
+    Unload Me
+    Exit Sub
+    
+e:
+    Alert t("문제가 발생했습니다!", "Error!"), App.Title, Me, 16
+    Exit Sub
+End Sub
+
+Private Sub selDrive_Change()
+    On Error GoTo e
+    'lvDir.Path = selDrive.Drive
+    Exit Sub
+    
+e:
+    Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, Me, 16
+End Sub
+
+Private Sub selFileType_Change()
+    selFileType_Click
+End Sub
+
+Private Sub selFileType_Click()
+    Pattern = Replace(Mid$(selFileType.Text, InStr(1, selFileType.Text, "(") + 1, Len(selFileType.Text) - InStr(1, selFileType.Text, "(") - 1), " ", "")
+    ListFiles
+End Sub
+
+Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
+    Dim i%
+    For i = 1 To tbPlaces.Buttons.Count
+        tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
+    Next i
+    
+    Select Case Button.Index
+        Case 1
+            lvDir.Path = GetSpecialfolder(CSIDL_RECENT)
+            'cbFolderList.ComboItems(1).Selected = True
+        Case 2
+            lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
+            'cbFolderList.ComboItems(2).Selected = True
+        Case 3
+            lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
+        Case 4
+            ShowMyComputer
+            Exit Sub
+        Case 5
+            lvDir.Path = GetSpecialfolder(CSIDL_FAVORITES)
+        Case 6
+            lvDir.Path = Environ$("USERPROFILE")
+    End Select
+    
+    'ListFiles
+    
+    Dim Path$
+    Path = lvDir.Path
+    Select Case Path
+        Case GetSpecialfolder(CSIDL_RECENT)
+            tbPlaces.Buttons(1).Value = TbrButtonValuePressed
+        Case GetSpecialfolder(CSIDL_DESKTOP)
+            tbPlaces.Buttons(2).Value = TbrButtonValuePressed
+        Case GetSpecialfolder(CSIDL_PERSONAL)
+            tbPlaces.Buttons(3).Value = TbrButtonValuePressed
+        Case GetSpecialfolder(CSIDL_FAVORITES)
+            tbPlaces.Buttons(5).Value = TbrButtonValuePressed
+        Case Environ$("USERPROFILE")
+            tbPlaces.Buttons(6).Value = TbrButtonValuePressed
+    End Select
+End Sub
+
+Private Sub tbToolBar_ButtonClick(ByVal Button As TbrButton)
+    Select Case Button.Index
+        Case 2
+            If Len(lvDir.Path) > 3 Then _
+                lvDir.Path = fso.GetParentFolderName(lvDir.Path)
+        Case 3
+            Randomize
+            Dim DirName$
+            Dim FullPath$
+            Do
+                DirName = CStr(Fix(Rnd * 100000000))
+                If Right$(lvDir.Path, 1) = "\" Then
+                    FullPath = lvDir.Path & DirName
+                Else
+                    FullPath = lvDir.Path & "\" & DirName
+                End If
+            Loop While FileExists(FullPath) Or FolderExists(FullPath)
+            On Error Resume Next
+            MkDir FullPath
+            Dim Item As LvwListItem
+            Set Item = lvFiles.ListItems.Add(, , DirName, 1, 1)
+            Item.ListSubItems.Add , , "-"
+            Item.ListSubItems.Add , , t("파일 폴더", "File Folder")
+            Item.ListSubItems.Add , , FileDateTime(FullPath)
+            Item.EnsureVisible
+            Item.Selected = True
+            lvFiles.StartLabelEdit
+    End Select
+End Sub
+
+Private Sub tbToolBar_ButtonDropDown(ByVal Button As TbrButton)
+    If Button.Index = 4 Then Me.PopupMenu mnuView, , cmdViews.Left, cmdViews.Top + cmdViews.Height
+End Sub
