@@ -877,7 +877,6 @@ Private Sub lvFiles_AfterLabelEdit(Cancel As Boolean, NewString As String)
         InStr(1, NewString, "<") > 0 Or _
         InStr(1, NewString, ">") > 0 Or _
         InStr(1, NewString, "|") > 0 Or _
-        InStr(1, NewString, "..") > 0 Or _
         UCase(NewString) = "CON" Or _
         UCase(NewString) = "AUX" Or _
         UCase(NewString) = "PRN" Or _
@@ -890,7 +889,8 @@ Private Sub lvFiles_AfterLabelEdit(Cancel As Boolean, NewString As String)
         UCase(NewString) = "LPT2" Or _
         UCase(NewString) = "LPT3" Or _
         UCase(NewString) = "LPT4" Or _
-        NewString = "." _
+        Replace(NewString, ".", "") = "" Or _
+        Right$(NewString, 1) = "." _
     Then
         Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 16
         Cancel = True
@@ -1038,17 +1038,28 @@ Private Sub OKButton_Click()
         Exit Sub
     End If
     
-    If FolderExists(txtFileName.Text) Then
-        txtFileName.SelStart = 0
-        txtFileName.SelLength = Len(txtFileName.Text)
+    If Tags.BrowseTargetForm = 3 Then
+        If FolderExists(txtFileName.Text) Then
+            txtFileName.SelStart = 0
+            txtFileName.SelLength = Len(txtFileName.Text)
+            lvDir.Path = txtFileName.Text
+            MessageBeep 0
+            Exit Sub
+        End If
+        
+        If FolderExists(fso.GetParentFolderName(txtFileName.Text)) Then
+            lvDir.Path = fso.GetParentFolderName(txtFileName.Text)
+            txtFileName.Text = fso.GetFilename(txtFileName.Text)
+        End If
+    ElseIf FolderExists(txtFileName.Text) Then
         lvDir.Path = txtFileName.Text
-        MessageBeep 0
-        Exit Sub
-    End If
-    
-    If FolderExists(fso.GetParentFolderName(txtFileName.Text)) Then
+        txtFileName.Text = ""
+    ElseIf FolderExists(fso.GetParentFolderName(txtFileName.Text)) Then
         lvDir.Path = fso.GetParentFolderName(txtFileName.Text)
         txtFileName.Text = fso.GetFilename(txtFileName.Text)
+    ElseIf InStr(1, txtFileName.Text, "\") > 0 Then
+        Alert t("입력한 폴더의 경로가 존재하지 않습니다.", "The specified folder path does not exist."), App.Title, Me, 48
+        Exit Sub
     End If
     On Error GoTo 0
 
@@ -1105,7 +1116,9 @@ imgerr:
         UCase(txtFileName.Text) = "LPT1" Or _
         UCase(txtFileName.Text) = "LPT2" Or _
         UCase(txtFileName.Text) = "LPT3" Or _
-        UCase(txtFileName.Text) = "LPT4" _
+        UCase(txtFileName.Text) = "LPT4" Or _
+        Replace(txtFileName.Text, ".", "") = "" Or _
+        Right$(txtFileName.Text, 1) = "." _
     Then
         Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 48
         Exit Sub

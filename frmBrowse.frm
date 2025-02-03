@@ -334,7 +334,6 @@ Private Sub OKButton_Click()
         InStr(1, txtFileName.Text, "<") > 0 Or _
         InStr(1, txtFileName.Text, ">") > 0 Or _
         InStr(1, txtFileName.Text, "|") > 0 Or _
-        InStr(1, txtFileName.Text, "..") > 0 Or _
         UCase(txtFileName.Text) = "CON" Or _
         UCase(txtFileName.Text) = "AUX" Or _
         UCase(txtFileName.Text) = "PRN" Or _
@@ -347,7 +346,8 @@ Private Sub OKButton_Click()
         UCase(txtFileName.Text) = "LPT2" Or _
         UCase(txtFileName.Text) = "LPT3" Or _
         UCase(txtFileName.Text) = "LPT4" Or _
-        txtFileName.Text = "." _
+        Replace(txtFileName.Text, ".", "") = "" Or _
+        Right$(txtFileName.Text, 1) = "." _
     Then
         Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 48
         Exit Sub
