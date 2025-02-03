@@ -127,16 +127,16 @@ Begin VB.Form frmExplorer
       Height          =   2415
       Left            =   2880
       ScaleHeight     =   2355
-      ScaleWidth      =   5235
+      ScaleWidth      =   5115
       TabIndex        =   11
       Top             =   5760
-      Width           =   5295
+      Width           =   5175
       Begin VB.Image imgPreview 
-         Height          =   2415
+         Height          =   2355
          Left            =   0
          Stretch         =   -1  'True
          Top             =   0
-         Width           =   5295
+         Width           =   5115
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdViews 
@@ -1002,6 +1002,7 @@ Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
     If Tags.BrowseTargetForm <> 2 Then txtFileName.Text = Item.Text
     
     If Tags.BrowseTargetForm = 3 And Item.IconIndex <> 1 Then
+        On Error Resume Next
         Dim Path$
         Path = lvDir.Path
         If Right$(Path, 1) <> "\" Then Path = Path & "\"
@@ -1118,7 +1119,7 @@ Private Sub OKButton_Click()
         Path = lvDir.Path
         If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
         If Not FileExists(Path & txtFileName.Text) Then
-            Alert txtFileName.Text & vbCrLf & "파일이 없습니다." & vbCrLf & "파일 이름을 올바르게 입력했는지 확인하십시오.", App.Title, Me, 48
+            Alert txtFileName.Text & vbCrLf & t("파일이 없습니다.", "File does not exist.") & vbCrLf & t("파일 이름을 올바르게 입력했는지 확인하십시오.", "Check if you specified a valid file name."), App.Title, Me, 48
             Exit Sub
         End If
         
@@ -1192,7 +1193,7 @@ imgerr:
             Alert t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), App.Title, Me, 16
             Exit Sub
         ElseIf frmMain.cbWhenExist.ListIndex = 1 Then
-            If Confirm(t("파일 이름이 이미 존재합니다. 덮어쓰시겠습니까?", "File name already exists. Overwrite?"), App.Title, Me, 48) <> vbYes Then
+            If Confirm(Path & t("은(는) 이미 있습니다." & vbCrLf & "덮어쓰시겠습니까?", " already exists." & vbCrLf & "Overwrite?"), App.Title, Me, 48) <> vbYes Then
                 Exit Sub
             End If
         End If
