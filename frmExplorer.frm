@@ -40,6 +40,7 @@ Begin VB.Form frmExplorer
       _ExtentY        =   1005
       ImageWidth      =   32
       ImageHeight     =   32
+      MaskColor       =   16711935
       InitListImages  =   "frmExplorer.frx":000C
    End
    Begin VB.PictureBox pbPlacesBarContainer 
@@ -71,7 +72,7 @@ Begin VB.Form frmExplorer
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
-         InitButtons     =   "frmExplorer.frx":1A64
+         InitButtons     =   "frmExplorer.frx":1984
       End
    End
    Begin VB.DirListBox lvDir 
@@ -96,8 +97,8 @@ Begin VB.Form frmExplorer
       Left            =   1680
       TabIndex        =   13
       Top             =   120
-      Width           =   6615
-      _ExtentX        =   11668
+      Width           =   6495
+      _ExtentX        =   11456
       _ExtentY        =   582
       ImageList       =   "imgFolderSmall"
       Style           =   2
@@ -111,7 +112,7 @@ Begin VB.Form frmExplorer
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":2074
+      InitListImages  =   "frmExplorer.frx":1F94
    End
    Begin prjDownloadBooster.ImageList imgFolder 
       Left            =   8640
@@ -120,7 +121,8 @@ Begin VB.Form frmExplorer
       _ExtentY        =   1005
       ImageWidth      =   32
       ImageHeight     =   32
-      InitListImages  =   "frmExplorer.frx":6AAC
+      MaskColor       =   16711935
+      InitListImages  =   "frmExplorer.frx":54EC
    End
    Begin VB.PictureBox picPreviewFrame 
       BackColor       =   &H00F8EFE5&
@@ -272,7 +274,7 @@ Begin VB.Form frmExplorer
       Wrappable       =   0   'False
       AllowCustomize  =   0   'False
       ButtonWidth     =   23
-      InitButtons     =   "frmExplorer.frx":A16C
+      InitButtons     =   "frmExplorer.frx":877C
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
@@ -414,6 +416,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Option Explicit
 Dim Pattern$
 Dim IsMyComputer As Boolean
 
@@ -473,7 +476,7 @@ Private Sub cbFolderList_Click()
         Next i
         Exit Sub
 driveunavailable:
-        Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, Me, 16
+        Alert t("드라이브를 열 수 없습니다. 선택한 드라이브 안에 디스크가 없거나 드라이브가 잠겨 있습니다.", "The drive is inaccessible. There is no disk in the selected drive or the drive is locked."), App.Title, Me, 16
     ElseIf cbFolderList.SelectedItem.Indentation > 2 Then
         Path = UCase(Left$(cbFolderList.ComboItems(cbFolderList.SelectedItem.Index - cbFolderList.SelectedItem.Indentation + 2).Text, 1)) & ":\"
         For i = cbFolderList.SelectedItem.Index - cbFolderList.SelectedItem.Indentation + 3 To cbFolderList.SelectedItem.Index
@@ -562,7 +565,7 @@ Sub ListFiles()
     Dim CurrentPattern$
     Dim ExtName$
     Dim Icon%
-    Dim LnkInfo As Link
+    Dim LnkPath As String
     PatternsSplit = Split(Pattern, ";")
     Dim ShowHidden As VbFileAttribute
     ShowHidden = 0
@@ -583,10 +586,10 @@ Sub ListFiles()
             
             Icon = 2
             If LCase(fso.GetExtensionName(Name)) = "lnk" Then
-                ReadShortcut Path & Name, LnkInfo
-                If Left$(LnkInfo.FileName, 1) = """" And Right$(LnkInfo.FileName, 1) = """" Then _
-                    LnkInfo.FileName = Mid$(LnkInfo.FileName, 2, Len(LnkInfo.FileName) - 2)
-                If FolderExists(LnkInfo.FileName) Then
+                LnkPath = GetShortcutTarget(Path & Name)
+                If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
+                    LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
+                If FolderExists(LnkPath) Then
                     Icon = 1
                 ElseIf Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then
                     Shown = False
@@ -1009,7 +1012,7 @@ Private Sub lvFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
             mnuDelete.Enabled = ((Not IsMyComputer) And lvFiles.SelectedItem.IconIndex = 2 And lvFiles.SelectedItem.Text <> "..")
             mnuExplore.Visible = IsMyComputer Or lvFiles.SelectedItem.IconIndex = 1
             mnuOpen.Enabled = (IsMyComputer Or lvFiles.SelectedItem.IconIndex <= 2)
-            mnuProperties.Enabled = (lvFiles.SelectedItem.IconIndex <= 2)
+            mnuProperties.Enabled = (lvFiles.SelectedItem.IconIndex <= 2 Or IsMyComputer)
             If Tags.BrowseTargetForm = 2 Then mnuSelect.Enabled = (lvFiles.SelectedItem.IconIndex = 1 Or IsMyComputer)
             If mnuSelect.Enabled Then
                 Me.PopupMenu mnuFile, , , , mnuSelect
@@ -1042,12 +1045,13 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
     End If
     
     If Item.IconIndex <= 2 And UCase(fso.GetExtensionName(Item.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
-        Dim LnkInfo As Link
-        ReadShortcut FullPath, LnkInfo
-        If Left$(LnkInfo.FileName, 1) = """" And Right$(LnkInfo.FileName, 1) = """" Then _
-            LnkInfo.FileName = Mid$(LnkInfo.FileName, 2, Len(LnkInfo.FileName) - 2)
-        If FolderExists(LnkInfo.FileName) Then
-            lvDir.Path = LnkInfo.FileName
+        Dim LnkPath As String
+        LnkPath = GetShortcutTarget(FullPath)
+        If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
+            LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
+        If FolderExists(LnkPath) Then
+            lvDir.Path = LnkPath
+            If Tags.BrowseTargetForm = 2 Then txtFileName.Text = ""
         ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Then
             OKButton_Click
         End If
@@ -1069,6 +1073,7 @@ driveunavailable:
     ElseIf Item.IconIndex = 1 Then
         On Error GoTo folderinaccessible
         lvDir.Path = FullPath
+        If Tags.BrowseTargetForm = 2 Then txtFileName.Text = ""
         Exit Sub
 folderinaccessible:
         Alert t("폴더가 존재하지 않습니다.", "The folder does not exist"), App.Title, Me, 16
@@ -1079,8 +1084,9 @@ End Sub
 
 Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
     If Item.IconIndex = 1 And Tags.BrowseTargetForm = 2 Then
-        If Item.Text <> ".." Then _
+        'If Item.Text <> ".." Then
             txtFileName.Text = Item.Text
+        'End If
     End If
     If (frmMain.cbWhenExist.ListIndex = 0 And Tags.BrowseTargetForm <> 3) Or (Not Selected) Then Exit Sub
     If Item.IconIndex = 1 Or Item.IconIndex > 2 Then Exit Sub
@@ -1169,12 +1175,12 @@ Private Sub mnuExplore_Click()
     End If
     
     If lvFiles.SelectedItem.IconIndex = 1 And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
-        Dim LnkInfo As Link
-        ReadShortcut FullPath, LnkInfo
-        If Left$(LnkInfo.FileName, 1) = """" And Right$(LnkInfo.FileName, 1) = """" Then _
-            LnkInfo.FileName = Mid$(LnkInfo.FileName, 2, Len(LnkInfo.FileName) - 2)
-        If FolderExists(LnkInfo.FileName) Then
-            FullPath = LnkInfo.FileName
+        Dim LnkPath As String
+        LnkPath = GetShortcutTarget(FullPath)
+        If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
+            LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
+        If FolderExists(LnkPath) Then
+            FullPath = LnkPath
             GoTo isfolder
         End If
         Exit Sub
@@ -1220,11 +1226,11 @@ Private Sub mnuOpen_Click()
     End If
     
     If lvFiles.SelectedItem.IconIndex <= 2 And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
-        Dim LnkInfo As Link
-        ReadShortcut FullPath, LnkInfo
-        If Left$(LnkInfo.FileName, 1) = """" And Right$(LnkInfo.FileName, 1) = """" Then _
-            LnkInfo.FileName = Mid$(LnkInfo.FileName, 2, Len(LnkInfo.FileName) - 2)
-        FullPath = LnkInfo.FileName
+        Dim LnkPath As String
+        LnkPath = GetShortcutTarget(FullPath)
+        If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
+            LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
+        FullPath = LnkPath
     End If
     
     Shell "cmd.exe /c start """" """ & FullPath & """"
@@ -1299,12 +1305,45 @@ Private Sub OKButton_Click()
 
     Dim Data$, Path$
     
+    If Not lvFiles.SelectedItem Is Nothing Then
+        If lvFiles.SelectedItem.Selected Then
+            Dim FullPath$
+            If Right$(lvDir.Path, 1) = "\" Then
+                FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+            Else
+                FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+            End If
+            
+            Dim FullPath2$
+            If Right$(lvDir.Path, 1) = "\" Then
+                FullPath2 = lvDir.Path & txtFileName.Text
+            Else
+                FullPath2 = lvDir.Path & "\" & txtFileName.Text
+            End If
+        
+            If lvFiles.SelectedItem.IconIndex = 1 And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+                Dim LnkPath As String
+                LnkPath = GetShortcutTarget(FullPath)
+                If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
+                    LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
+                If FolderExists(LnkPath) Then
+                    FullPath = LnkPath
+                End If
+            End If
+            
+            If lvFiles.SelectedItem.IconIndex = 1 And FolderExists(FullPath) And (txtFileName.Text = "" Or ((Not FolderExists(txtFileName)) And (Not FolderExists(FullPath2)))) Then
+                lvDir.Path = FullPath
+                Exit Sub
+            End If
+        End If
+    End If
+    
     If Tags.BrowseTargetForm = 3 Then
         If FolderExists(txtFileName.Text) Then
             txtFileName.SelStart = 0
             txtFileName.SelLength = Len(txtFileName.Text)
             lvDir.Path = txtFileName.Text
-            MessageBeep 0
+            'MessageBeep 0
             Exit Sub
         End If
         
@@ -1315,7 +1354,7 @@ Private Sub OKButton_Click()
     ElseIf FolderExists(txtFileName.Text) Then
         If txtFileName.Text = "." Or txtFileName.Text = ".." Then
             lvDir.Path = txtFileName.Text
-            MessageBeep 0
+            'MessageBeep 0
             txtFileName.Text = ""
 '            txtFileName.SelStart = 0
 '            txtFileName.SelLength = Len(txtFileName.Text)
@@ -1334,7 +1373,10 @@ Private Sub OKButton_Click()
         If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
         If FolderExists(Path & txtFileName.Text) Then
             lvDir.Path = Path & txtFileName.Text
-            txtFileName.Text = ""
+            If txtFileName.Text <> "" Then
+                txtFileName.Text = ""
+                Exit Sub
+            End If
         End If
     ElseIf InStr(1, txtFileName.Text, "\") > 0 Then
         Alert t("입력한 폴더의 경로가 존재하지 않습니다.", "The specified folder path does not exist."), App.Title, Me, 48

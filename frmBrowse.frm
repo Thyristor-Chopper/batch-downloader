@@ -401,7 +401,7 @@ Private Sub selDrive_Change()
     Exit Sub
     
 e:
-    Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, Me, 16
+    Alert t("드라이브를 열 수 없습니다. 선택한 드라이브 안에 디스크가 없거나 드라이브가 잠겨 있습니다.", "The drive is inaccessible. There is no disk in the selected drive or the drive is locked."), App.Title, Me, 16
 End Sub
 
 Private Sub selFileType_Change()

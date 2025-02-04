@@ -4,6 +4,7 @@ Attribute VB_Name = "Functions"
 '- https://www.vbforums.com/showthread.php?445574-Reading-shortcut-information
 '- https://www.vbforums.com/showthread.php?430704-RESOLVED-Get-drive-size-space
 '- https://www.codeguru.com/visual-basic/displaying-the-file-properties-dialog/
+'- http://vbcity.com/forums/t/105530.aspx
 
 Option Explicit
 
@@ -119,16 +120,6 @@ End Type
 
 Private Type ITEMIDLIST
     mkid As ItemID
-End Type
-
-Type Link
-    Attributes As Long
-    FileName As String
-    Description As String
-    RelPath As String
-    WorkingDir As String
-    Arguments As String
-    CustomIcon As String
 End Type
 
 Private Declare Function SHGetSpecialFolderLocation Lib "shell32.dll" (ByVal hWndOwner As Long, ByVal nFolder As Long, pidl As ITEMIDLIST) As Long
@@ -396,7 +387,7 @@ Sub SetFormBackgroundColor(frmForm As Form)
     On Error Resume Next
     Dim ctrl As Control
     For Each ctrl In frmForm.Controls
-        If TypeName(ctrl) = "ToolBar" Or TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "TygemButton" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
+        If TypeName(ctrl) = "ImageCombo" Or TypeName(ctrl) = "ToolBar" Or TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "TygemButton" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
             If TypeName(ctrl) = "TygemButton" And ctrl.Tag <> "novisibilitychange" Then
                 ctrl.Visible = EnableLBSkin
             End If
@@ -1312,169 +1303,6 @@ Function GetSpecialfolder(CSIDL As Long) As String
     GetSpecialfolder = ""
 End Function
 
-'-------------------
-' Resolve a shortcut
-'-------------------
-Function ReadShortcut(Path As String, Shortcut As Link) As Boolean
-    Dim FileNo As Integer
-    Dim LongValue As Long
-    Dim IntValue As Integer
-    Dim LinkFlags As Long
-    Dim NextPtr As Long
-    Dim Ptr(6) As Long
-    Dim idx As Integer
-    Dim PtrBasePath As Long
-    Dim PtrNetworkVolumeInfo As Long
-    Dim PtrFilename As Long
-    Dim Str As String
-    
-    ' Initialise link results
-    With Shortcut
-        .FileName = ""
-        .Description = ""
-        .RelPath = ""
-        .WorkingDir = ""
-        .Arguments = ""
-        .CustomIcon = ""
-    End With
-    For idx = 0 To 6
-        Ptr(idx) = 0
-    Next
-    
-    ' Open file with .lnk extension
-    FileNo = FreeFile
-    Str = Path
-    If Right(Str, 4) <> ".lnk" Then Str = Str & ".lnk"
-    Open Str For Binary Access Read As FileNo
-    
-    ' First double-word of link file must be 'L'
-    Get FileNo, 1, LongValue
-    If LongValue = 76 Then
-        ' Skip 16 bytes file GUID and get File Flags
-        Get FileNo, 21, LinkFlags
-        
-        ' Read File Attributes
-        Get FileNo, , Shortcut.Attributes
-        
-        ' Check if ID List section is defined (Ignored)
-        NextPtr = 77
-        If LinkFlags And 1 Then
-            ' Position pointer to next block
-            Get FileNo, NextPtr, IntValue
-            NextPtr = NextPtr + IntValue + 2
-        End If
-        
-        ' Check if Filename section is defined (Mandatory)
-        If LinkFlags And 2 Then
-            Get FileNo, NextPtr + 16, PtrBasePath
-            Get FileNo, , PtrNetworkVolumeInfo
-            Get FileNo, , PtrFilename
-            
-            ' Read base path
-            If PtrBasePath Then
-                Shortcut.FileName = ReadSingleString(FileNo, NextPtr + PtrBasePath)
-            ' Or network path
-            ElseIf PtrNetworkVolumeInfo Then
-                Shortcut.FileName = ReadSingleString(FileNo, NextPtr + PtrNetworkVolumeInfo + &H14)
-            End If
-            
-            ' Read remaining filename
-            If PtrFilename Then
-                Str = ReadSingleString(FileNo, NextPtr + PtrFilename)
-                If Str <> "" Then
-                    If Right(Shortcut.FileName, 1) <> "\" Then
-                        Shortcut.FileName = Shortcut.FileName & "\"
-                    End If
-                    Shortcut.FileName = Shortcut.FileName & Str
-                End If
-            End If
-            
-            ' Position pointer to next block
-            Get FileNo, NextPtr, IntValue
-            NextPtr = NextPtr + IntValue
-        End If
-    End If
-        
-    ' Check if Description section is defined (Optional)
-    If LinkFlags And 4 Then
-        ' Read string length followed by double-byte string
-        Get FileNo, NextPtr, IntValue
-        NextPtr = NextPtr + IntValue * 2 + 2
-        Shortcut.Description = ReadDoubleString(FileNo, IntValue)
-    End If
-    
-    ' Check if Relative Path section is defined (Optional)
-    If LinkFlags And 8 Then
-        ' Read string length followed by double-byte string
-        Get FileNo, NextPtr, IntValue
-        NextPtr = NextPtr + IntValue * 2 + 2
-        Shortcut.RelPath = ReadDoubleString(FileNo, IntValue)
-    End If
-    
-    ' Check if Working Directory section is defined (Optional)
-    If LinkFlags And 16 Then
-        ' Read string length followed by double-byte string
-        Get FileNo, NextPtr, IntValue
-        NextPtr = NextPtr + IntValue * 2 + 2
-        Shortcut.WorkingDir = ReadDoubleString(FileNo, IntValue)
-    End If
-    
-     ' Check if Arguments section is defined (Optional)
-    If LinkFlags And 32 Then
-        ' Read string length followed by double-byte string
-        Get FileNo, NextPtr, IntValue
-        NextPtr = NextPtr + IntValue * 2 + 2
-        Shortcut.Arguments = ReadDoubleString(FileNo, IntValue)
-    End If
-    
-    ' Check if CustomIcon section is defined (Optional)
-    If LinkFlags And 64 Then
-        ' Read string length followed by double-byte string
-        Get FileNo, NextPtr, IntValue
-        NextPtr = NextPtr + IntValue * 2 + 2
-        Shortcut.CustomIcon = ReadDoubleString(FileNo, IntValue)
-    End If
-        
-    Close FileNo
-    ReadShortcut = (Shortcut.FileName <> "")
-End Function
-
-'----------------------------------------
-' Read a single-byte string from the file
-'----------------------------------------
-Private Function ReadSingleString(FileNo As Integer, offset As Long) As String
-    Dim Str As String
-    Dim ByteValue As Byte
-    
-    Seek FileNo, offset
-    Get FileNo, , ByteValue
-    Str = ""
-    
-    Do While ByteValue <> 0
-        Str = Str & ChrW$(ByteValue)
-        Get FileNo, , ByteValue
-    Loop
-    
-    ReadSingleString = Str
-End Function
-
-'--------------------------------------------------------
-' Read a double-byte string value preceeded by its length
-'--------------------------------------------------------
-Private Function ReadDoubleString(FileNo As Integer, StrLen As Integer) As String
-    Dim IntValue As Integer
-    Dim Str As String
-    
-    Str = ""
-    Do While StrLen > 0
-        Get FileNo, , IntValue
-        Str = Str & ChrW$(IntValue)
-        StrLen = StrLen - 1
-    Loop
-    
-    ReadDoubleString = Str
-End Function
-
 Sub GetDiskSpace(sDrive As String, ByRef dblTotal As Double, ByRef dblFree As Double)
     Dim lresult As Long
     Dim liAvailable As LARGE_INTEGER
@@ -1483,13 +1311,11 @@ Sub GetDiskSpace(sDrive As String, ByRef dblTotal As Double, ByRef dblFree As Do
     If Right(sDrive, 1) <> "" Then sDrive = sDrive & ""
     lresult = GetDiskFreeSpaceEx(sDrive, liAvailable, liTotal, liFree)
     
-    'dblAvailable = CLargeInt(liAvailable.lowpart, liAvailable.highpart)
     dblTotal = CLargeInt(liTotal.lowpart, liTotal.highpart)
     dblFree = CLargeInt(liFree.lowpart, liFree.highpart)
 End Sub
  
 Private Function CLargeInt(Lo As Long, Hi As Long) As Double
-    'This function converts the LARGE_INTEGER data type to a double
     Dim dblLo As Double, dblHi As Double
     
     If Lo < 0 Then
@@ -1519,3 +1345,41 @@ Sub DisplayFileProperties(ByVal sFullFileAndPathName As String)
 
     ShellExecuteEx shInfo
 End Sub
+
+Function GetShortcutTarget(sPath As String) As String
+    Dim shl As Shell, file As FolderItem, fld As shell32.Folder
+    Dim lnk As ShellLinkObject, i As Long, folderPath As String
+    Dim Shortcutname As String
+    
+    On Error GoTo ErrRtn
+    folderPath = fso.GetParentFolderName(sPath)
+    Set shl = New Shell
+    Set fld = shl.NameSpace(folderPath)
+    Set file = fld.Items.Item(fso.GetFilename(sPath))
+    If Err <> 0 Then
+        GetShortcutTarget = " Not Accesible"
+        Err.Clear
+        GoTo exit_sub
+   Else
+        If file.IsLink Then
+            Set lnk = file.GetLink
+            GetShortcutTarget = lnk.Path
+' MsgBox "Name: " & file.Name & vbCrLf & _
+          "Description: " & lnk.Description & vbCrLf & _
+          "Path: " & lnk.Path & vbCrLf & _
+          "WorkingDirectory: " & lnk.WorkingDirectory & vbCrLf, vbInformation
+        Else
+            GetShortcutTarget = " Not decoded"
+        End If
+    End If
+exit_sub:
+    Set lnk = Nothing
+    Set file = Nothing
+    Set fld = Nothing
+    Set shl = Nothing
+    Exit Function
+ErrRtn:
+    Err.Clear
+    Resume exit_sub
+End Function
+
