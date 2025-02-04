@@ -12,3 +12,5 @@
 <라이선스>
 이 프로젝트에는 Node.js의 실행화일이 포함되어 있음.  
 Node.js의 라이선스를 보는 곳: https://github.com/gec-chopper-control/batch-downloader/blob/master/NODEJS_LICENSE
+
+iconv-lite 라이선스 - https://github.com/gec-chopper-control/batch-downloader/blob/master/ICONV_LICENSE
