@@ -42,6 +42,7 @@ Begin VB.Form frmAbout
          Width           =   6255
          _ExtentX        =   11033
          _ExtentY        =   2778
+         Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   3
       End
