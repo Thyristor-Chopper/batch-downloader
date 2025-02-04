@@ -37,11 +37,12 @@ Begin VB.Form frmExplorer
       _ExtentY        =   1005
       ImageWidth      =   32
       ImageHeight     =   32
+      ColorDepth      =   4
       MaskColor       =   16711935
       InitListImages  =   "frmExplorer.frx":000C
    End
    Begin VB.PictureBox pbPlacesBarContainer 
-      BackColor       =   &H00808080&
+      BackColor       =   &H8000000C&
       Height          =   5175
       Left            =   120
       ScaleHeight     =   5115
@@ -60,7 +61,7 @@ Begin VB.Form frmExplorer
          _ExtentY        =   9128
          VisualStyles    =   0   'False
          ImageList       =   "imgPlaces"
-         BackColor       =   8421504
+         BackColor       =   -2147483636
          Style           =   1
          Orientation     =   1
          Divider         =   0   'False
@@ -69,7 +70,7 @@ Begin VB.Form frmExplorer
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
-         InitButtons     =   "frmExplorer.frx":3E64
+         InitButtons     =   "frmExplorer.frx":381C
       End
    End
    Begin VB.DirListBox lvDir 
@@ -108,8 +109,9 @@ Begin VB.Form frmExplorer
       _ExtentY        =   1005
       ImageWidth      =   16
       ImageHeight     =   16
+      ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":4474
+      InitListImages  =   "frmExplorer.frx":3E2C
    End
    Begin prjDownloadBooster.ImageList imgFolder 
       Left            =   8640
@@ -118,8 +120,9 @@ Begin VB.Form frmExplorer
       _ExtentY        =   1005
       ImageWidth      =   32
       ImageHeight     =   32
+      ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":79CC
+      InitListImages  =   "frmExplorer.frx":655C
    End
    Begin VB.PictureBox picPreviewFrame 
       BackColor       =   &H00F8EFE5&
@@ -144,8 +147,8 @@ Begin VB.Form frmExplorer
       TabIndex        =   10
       Top             =   120
       Visible         =   0   'False
-      Width           =   495
-      _ExtentX        =   873
+      Width           =   375
+      _ExtentX        =   661
       _ExtentY        =   582
       Caption         =   "v"
    End
@@ -271,7 +274,7 @@ Begin VB.Form frmExplorer
       Wrappable       =   0   'False
       AllowCustomize  =   0   'False
       ButtonWidth     =   23
-      InitButtons     =   "frmExplorer.frx":BECC
+      InitButtons     =   "frmExplorer.frx":950C
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
@@ -354,7 +357,7 @@ Begin VB.Form frmExplorer
             Caption         =   "작은 아이콘(&S)"
          End
          Begin VB.Menu mnuList 
-            Caption         =   "간단히(&L)"
+            Caption         =   "간단히(&I)"
          End
          Begin VB.Menu mnuDetails 
             Caption         =   "자세히(&D)"
@@ -416,6 +419,7 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim Pattern$
 Dim IsMyComputer As Boolean
+'Dim mnuTop&, mnuBottom&, mnuViewID&
 
 Sub ShowDesktopItems()
     Dim li As LvwListItem
@@ -505,7 +509,7 @@ Sub ListFiles()
     lvFiles.ColumnHeaders(3).Width = 1800
     lvFiles.ColumnHeaders(4).Text = t("수정한 날짜", "Modified")
     lvFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentLeft
-    lvFiles.ColumnHeaders(4).Width = 2235
+    lvFiles.ColumnHeaders(4).Width = 2250
 
     Dim li As LvwListItem
     Dim k As Double
@@ -723,6 +727,23 @@ Private Sub Form_Load()
     tbToolBar.Buttons(3).ToolTipText = t("새 폴더 만들기", "New folder")
     tbToolBar.Buttons(4).ToolTipText = t("보기", "Icon size")
     
+    mnuNewFolder.Caption = t(mnuNewFolder.Caption, "&New folder")
+    mnuCmd.Caption = t(mnuCmd.Caption, "Open Co&mmand Prompt")
+    mnuView.Caption = t(mnuView.Caption, "&View")
+    mnuLargeIcons.Caption = t(mnuLargeIcons.Caption, "&Large icons")
+    mnuSmallIcons.Caption = t(mnuSmallIcons.Caption, "&Small icons")
+    mnuList.Caption = t(mnuList.Caption, "L&ist")
+    mnuDetails.Caption = t(mnuDetails.Caption, "&Details")
+    mnuTiles.Caption = t(mnuTiles.Caption, "&Tiles")
+    mnuRefresh.Caption = t(mnuRefresh.Caption, "&Refresh")
+    mnuFolderProperties.Caption = t(mnuFolderProperties.Caption, "P&roperties")
+    mnuSelect.Caption = t(mnuSelect.Caption, "Se&lect")
+    mnuOpen.Caption = t(mnuOpen.Caption, "&Open")
+    mnuExplore.Caption = t(mnuExplore.Caption, "E&xplore")
+    mnuDelete.Caption = t(mnuDelete.Caption, "&Delete")
+    mnuRename.Caption = t(mnuRename.Caption, "Rena&me")
+    mnuProperties.Caption = t(mnuProperties.Caption, "P&roperties")
+    
     lvDir_Change
     
     If Tags.BrowseTargetForm = 3 Then
@@ -758,7 +779,44 @@ Private Sub Form_Load()
     SetWindowSizeLimit3 Me.hWnd, 10245 + PaddedBorderWidth * 15 * 2, Screen.Width + 1200, IIf(Tags.BrowseTargetForm = 3, 8835, 6165) + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
     Me.Width = GetSetting("DownloadBooster", "UserData", "ComdlgWidth", 10245) + PaddedBorderWidth * 15 * 2
     Me.Height = GetSetting("DownloadBooster", "UserData", "ComdlgHeight", 6165) + IIf(Tags.BrowseTargetForm = 3, 8835 - 6165, 0) + PaddedBorderWidth * 15 * 2
+    
+    Dim CurrentView As LvwViewConstants
+    CurrentView = lvFiles.View
+    Select Case CurrentView
+        Case LvwViewIcon
+            mnuLargeIcons.Checked = -1
+        Case LvwViewSmallIcon
+            mnuSmallIcons.Checked = -1
+        Case LvwViewList
+            mnuList.Checked = -1
+        Case LvwViewReport
+            mnuDetails.Checked = -1
+        Case LvwViewTile
+            mnuTiles.Checked = -1
+    End Select
 End Sub
+
+'Sub CheckViewRadio()
+'    mnuFolderFloor.Visible = -1
+'    mnuViewID = GetSubMenu(GetSubMenu(GetMenu(Me.hWnd), 0), 2)
+'    mnuTop = GetMenuItemID(mnuViewID, 0)
+'    mnuBottom = GetMenuItemID(mnuViewID, 4)
+'    Dim CurrentView As LvwViewConstants
+'    CurrentView = lvFiles.View
+'    Select Case CurrentView
+'        Case LvwViewIcon
+'            CheckMenuRadioItem mnuViewID, mnuTop, mnuBottom, mnuTop, MF_BYCOMMAND
+'        Case LvwViewSmallIcon
+'            CheckMenuRadioItem mnuViewID, mnuTop, mnuBottom, mnuTop + 1, MF_BYCOMMAND
+'        Case LvwViewList
+'            CheckMenuRadioItem mnuViewID, mnuTop, mnuBottom, mnuTop + 2, MF_BYCOMMAND
+'        Case LvwViewReport
+'            CheckMenuRadioItem mnuViewID, mnuTop, mnuBottom, mnuTop + 3, MF_BYCOMMAND
+'        Case LvwViewTile
+'            CheckMenuRadioItem mnuViewID, mnuTop, mnuBottom, mnuTop + 4, MF_BYCOMMAND
+'    End Select
+'    mnuFolderFloor.Visible = 0
+'End Sub
 
 Sub ShowMyComputer()
     IsMyComputer = True
@@ -831,7 +889,7 @@ End Sub
 Private Sub Form_Resize()
     cbFolderList.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 6495)
     tbToolBar.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1215 - 120
-    cmdViews.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 495 - 120
+    cmdViews.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 495 - 120 - 30
     lvFiles.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 7935)
     CancelButton.Left = Me.Width - PaddedBorderWidth * 15 * 2 - CancelButton.Width - 120 - 120
     If Tags.BrowseTargetForm = 3 Then
@@ -1032,7 +1090,12 @@ Private Sub lvFiles_AfterLabelEdit(Cancel As Boolean, NewString As String)
     Path = lvDir.Path
     If Right$(Path, 1) <> "\" Then Path = Path & "\"
     FullPath = Path & lvFiles.SelectedItem.Text
+    On Error GoTo renamefail
     Name FullPath As (Path & NewString)
+    Exit Sub
+renamefail:
+    Cancel = True
+    Alert t("파일 이름을 바꾸는 데 실패했습니다.", "Failed to rename the selected file."), App.Title, Me, 16
 End Sub
 
 Private Sub lvFiles_BeforeLabelEdit(Cancel As Boolean)
@@ -1074,7 +1137,7 @@ folderfloor:
         mnuNewFolder.Enabled = tbToolBar.Buttons(3).Enabled
         mnuFolderProperties.Enabled = Not IsMyComputer
         mnuCmd.Enabled = tbToolBar.Buttons(3).Enabled
-        mnuRefresh.Enabled = Not IsMyComputer
+        'mnuRefresh.Enabled = Not IsMyComputer
         Me.PopupMenu mnuFolderFloor
     End If
 End Sub
@@ -1154,7 +1217,11 @@ End Sub
 Private Sub lvFiles_KeyDown(KeyCode As Integer, Shift As Integer)
     On Error Resume Next
     If KeyCode = 116 Then
-        ListFiles
+        If IsMyComputer Then
+            ShowMyComputer
+        Else
+            ListFiles
+        End If
     ElseIf KeyCode = 113 And (Not lvFiles.SelectedItem Is Nothing) Then
         If lvFiles.SelectedItem.Selected Then lvFiles.StartLabelEdit
     ElseIf KeyCode = 8 Then
@@ -1167,7 +1234,11 @@ End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 116 Then
-        ListFiles
+        If IsMyComputer Then
+            ShowMyComputer
+        Else
+            ListFiles
+        End If
     End If
 End Sub
 
@@ -1201,6 +1272,11 @@ End Sub
 Private Sub mnuDetails_Click()
     lvFiles.View = LvwViewReport
     SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+    mnuLargeIcons.Checked = 0
+    mnuSmallIcons.Checked = 0
+    mnuList.Checked = 0
+    mnuDetails.Checked = -1
+    mnuTiles.Checked = 0
 End Sub
 
 Private Sub mnuExplore_Click()
@@ -1243,11 +1319,21 @@ End Sub
 Private Sub mnuLargeIcons_Click()
     lvFiles.View = LvwViewIcon
     SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+    mnuLargeIcons.Checked = -1
+    mnuSmallIcons.Checked = 0
+    mnuList.Checked = 0
+    mnuDetails.Checked = 0
+    mnuTiles.Checked = 0
 End Sub
 
 Private Sub mnuList_Click()
     lvFiles.View = LvwViewList
     SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+    mnuLargeIcons.Checked = 0
+    mnuSmallIcons.Checked = 0
+    mnuList.Checked = -1
+    mnuDetails.Checked = 0
+    mnuTiles.Checked = 0
 End Sub
 
 Private Sub mnuNewFolder_Click()
@@ -1303,7 +1389,11 @@ Private Sub mnuProperties_Click()
 End Sub
 
 Private Sub mnuRefresh_Click()
-    ListFiles
+    If IsMyComputer Then
+        ShowMyComputer
+    Else
+        ListFiles
+    End If
 End Sub
 
 Private Sub mnuRename_Click()
@@ -1329,11 +1419,21 @@ End Sub
 Private Sub mnuSmallIcons_Click()
     lvFiles.View = LvwViewSmallIcon
     SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+    mnuLargeIcons.Checked = 0
+    mnuSmallIcons.Checked = -1
+    mnuList.Checked = 0
+    mnuDetails.Checked = 0
+    mnuTiles.Checked = 0
 End Sub
 
 Private Sub mnuTiles_Click()
     lvFiles.View = LvwViewTile
     SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+    mnuLargeIcons.Checked = 0
+    mnuSmallIcons.Checked = 0
+    mnuList.Checked = 0
+    mnuDetails.Checked = 0
+    mnuTiles.Checked = -1
 End Sub
 
 Private Sub OKButton_Click()
@@ -1640,5 +1740,7 @@ Private Sub tbToolBar_ButtonClick(ByVal Button As TbrButton)
 End Sub
 
 Private Sub tbToolBar_ButtonDropDown(ByVal Button As TbrButton)
-    If Button.Index = 4 Then Me.PopupMenu mnuView, , cmdViews.Left, cmdViews.Top + cmdViews.Height
+    If Button.Index = 4 Then
+        Me.PopupMenu mnuView, , cmdViews.Left, cmdViews.Top + cmdViews.Height
+    End If
 End Sub
