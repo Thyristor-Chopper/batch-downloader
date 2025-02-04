@@ -1,10 +1,9 @@
 VERSION 5.00
 Begin VB.Form frmExplorer 
-   BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "다운로드 경로 선택"
    ClientHeight    =   8325
-   ClientLeft      =   2760
-   ClientTop       =   3870
+   ClientLeft      =   2775
+   ClientTop       =   3885
    ClientWidth     =   9750
    BeginProperty Font 
       Name            =   "굴림"
@@ -17,11 +16,9 @@ Begin VB.Form frmExplorer
    EndProperty
    Icon            =   "frmExplorer.frx":0000
    LinkTopic       =   "Form1"
-   MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   8325
    ScaleWidth      =   9750
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin prjDownloadBooster.CheckBoxW chkShowFiles 
       Height          =   255
@@ -72,7 +69,7 @@ Begin VB.Form frmExplorer
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
-         InitButtons     =   "frmExplorer.frx":1984
+         InitButtons     =   "frmExplorer.frx":3E64
       End
    End
    Begin VB.DirListBox lvDir 
@@ -97,8 +94,8 @@ Begin VB.Form frmExplorer
       Left            =   1680
       TabIndex        =   13
       Top             =   120
-      Width           =   6495
-      _ExtentX        =   11456
+      Width           =   6615
+      _ExtentX        =   11668
       _ExtentY        =   582
       ImageList       =   "imgFolderSmall"
       Style           =   2
@@ -112,7 +109,7 @@ Begin VB.Form frmExplorer
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":1F94
+      InitListImages  =   "frmExplorer.frx":4474
    End
    Begin prjDownloadBooster.ImageList imgFolder 
       Left            =   8640
@@ -122,23 +119,23 @@ Begin VB.Form frmExplorer
       ImageWidth      =   32
       ImageHeight     =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":54EC
+      InitListImages  =   "frmExplorer.frx":79CC
    End
    Begin VB.PictureBox picPreviewFrame 
       BackColor       =   &H00F8EFE5&
       Height          =   2415
       Left            =   2880
       ScaleHeight     =   2355
-      ScaleWidth      =   5115
+      ScaleWidth      =   4140
       TabIndex        =   11
       Top             =   5760
-      Width           =   5175
+      Width           =   4200
       Begin VB.Image imgPreview 
          Height          =   2355
          Left            =   0
          Stretch         =   -1  'True
          Top             =   0
-         Width           =   5115
+         Width           =   4140
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdViews 
@@ -147,8 +144,8 @@ Begin VB.Form frmExplorer
       TabIndex        =   10
       Top             =   120
       Visible         =   0   'False
-      Width           =   375
-      _ExtentX        =   661
+      Width           =   495
+      _ExtentX        =   873
       _ExtentY        =   582
       Caption         =   "v"
    End
@@ -274,7 +271,7 @@ Begin VB.Form frmExplorer
       Wrappable       =   0   'False
       AllowCustomize  =   0   'False
       ButtonWidth     =   23
-      InitButtons     =   "frmExplorer.frx":877C
+      InitButtons     =   "frmExplorer.frx":BECC
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
@@ -508,7 +505,7 @@ Sub ListFiles()
     lvFiles.ColumnHeaders(3).Width = 1800
     lvFiles.ColumnHeaders(4).Text = t("수정한 날짜", "Modified")
     lvFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentLeft
-    lvFiles.ColumnHeaders(4).Width = 2040
+    lvFiles.ColumnHeaders(4).Width = 2235
 
     Dim li As LvwListItem
     Dim k As Double
@@ -755,6 +752,12 @@ Private Sub Form_Load()
     chkHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowHidden", 0)
     chkUnixHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowUnixHidden", 1)
     chkShowFiles.Value = GetSetting("DownloadBooster", "UserData", "ShowFiles", 0)
+    
+    On Error Resume Next
+    Me.Icon = frmMain.Icon
+    SetWindowSizeLimit3 Me.hWnd, 10245 + PaddedBorderWidth * 15 * 2, Screen.Width + 1200, IIf(Tags.BrowseTargetForm = 3, 8835, 6165) + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
+    Me.Width = GetSetting("DownloadBooster", "UserData", "ComdlgWidth", 10245) + PaddedBorderWidth * 15 * 2
+    Me.Height = GetSetting("DownloadBooster", "UserData", "ComdlgHeight", 6165) + IIf(Tags.BrowseTargetForm = 3, 8835 - 6165, 0) + PaddedBorderWidth * 15 * 2
 End Sub
 
 Sub ShowMyComputer()
@@ -823,6 +826,49 @@ Sub ShowMyComputer()
     cbFolderList.ComboItems(4).Selected = True
     tbToolBar.Buttons(2).Enabled = False
     tbToolBar.Buttons(3).Enabled = False
+End Sub
+
+Private Sub Form_Resize()
+    cbFolderList.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 6495)
+    tbToolBar.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1215 - 120
+    cmdViews.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 495 - 120
+    lvFiles.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 7935)
+    CancelButton.Left = Me.Width - PaddedBorderWidth * 15 * 2 - CancelButton.Width - 120 - 120
+    If Tags.BrowseTargetForm = 3 Then
+        lvFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - (8835 - 3960)
+    Else
+        lvFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - (6165 - 3960)
+    End If
+    CancelButton.Top = lvFiles.Top + lvFiles.Height + 120 + OKButton.Height + 45
+    txtFileName.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 5175)
+    selFileType.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 5175)
+    Label1.Top = lvFiles.Height + lvFiles.Top + 195
+    Label4.Top = lvFiles.Height + lvFiles.Top + 195 + 360 + 15
+    txtFileName.Top = Label1.Top - 45
+    selFileType.Top = Label4.Top - 45
+    If Tags.BrowseTargetForm = 2 Then
+        OKButton.Left = CancelButton.Left - 120 - OKButton.Width
+        OKButton.Top = CancelButton.Top
+        txtFileName.Width = txtFileName.Width + 120 + OKButton.Width
+    Else
+        OKButton.Left = CancelButton.Left
+        OKButton.Top = CancelButton.Top - OKButton.Height - 60
+    End If
+    chkHidden.Top = selFileType.Top + selFileType.Height + 60
+    chkUnixHidden.Top = selFileType.Top + selFileType.Height + 60
+    chkShowFiles.Top = selFileType.Top + selFileType.Height + 60
+    pbPlacesBarContainer.Height = chkHidden.Top + chkHidden.Height - pbPlacesBarContainer.Top
+    tbPlaces.Height = pbPlacesBarContainer.Height
+    Label5.Top = chkHidden.Top + chkHidden.Height + 180
+    picPreviewFrame.Top = Label5.Top
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    If Me.WindowState = 0 Then
+        SaveSetting "DownloadBooster", "UserData", "ComdlgWidth", Me.Width - PaddedBorderWidth * 15 * 2
+        SaveSetting "DownloadBooster", "UserData", "ComdlgHeight", Me.Height - PaddedBorderWidth * 15 * 2 - IIf(Tags.BrowseTargetForm = 3, 8835 - 6165, 0)
+    End If
+    Unhook3 Me.hWnd
 End Sub
 
 Private Sub lvDir_Change()
