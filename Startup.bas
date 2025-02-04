@@ -94,6 +94,30 @@ Sub LoadJS()
         Close #ff
     End If
     
+    'iconv-lite ¸ðµâ
+    If Not FileExists(CachePath & "iconv.js") Then
+        B = LoadResData(3, 10)
+        'If B(0) = 0 Then B(0) = 34
+        ff = FreeFile()
+        Open CachePath & "iconv.js" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "dbcs-codec.js") Then
+        B = LoadResData(4, 10)
+        ff = FreeFile()
+        Open CachePath & "dbcs-codec.js" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    If Not FileExists(CachePath & "dbcs-data.js") Then
+        B = LoadResData(5, 10)
+        ff = FreeFile()
+        Open CachePath & "dbcs-data.js" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    
     Exit Sub
 End Sub
 

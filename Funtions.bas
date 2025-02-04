@@ -33,6 +33,8 @@ Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hM
 Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
 Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
+Private Const CRYPT_STRING_BASE64 As Long = 1
+Private Declare Function CryptStringToBinary Lib "crypt32" Alias "CryptStringToBinaryW" (ByVal pszString As Long, ByVal cchString As Long, ByVal dwFlags As Long, ByVal pbBinary As Long, ByRef pcbBinary As Long, ByRef pdwSkip As Long, ByRef pdwFlags As Long) As Long
 'Declare Function GetOpenFileName Lib "comdlg32" Alias "GetOpenFileNameA" (pOpenfilename As OPENFILENAME) As Long
 'Declare Function GetSaveFileName Lib "comdlg32" Alias "GetSaveFileNameA" (pOpenfilename As OPENFILENAME) As Long
 'Declare Function SHGetPathFromIDList Lib "shell32" Alias "SHGetPathFromIDListA" (ByVal pidl As Long, ByVal pszPath As String) As Long
@@ -197,8 +199,6 @@ Public Const CSIDL_COMMON_FAVORITES = &H1F
 Public Const CSIDL_INTERNET_CACHE = &H20
 Public Const CSIDL_COOKIES = &H21
 Public Const CSIDL_HISTORY = &H22
-
-Private Const CRYPT_STRING_BASE64 = &H1
 
 Public Const SC_MOVE = &HF010&
 Public Const SC_RESTORE = &HF120&
@@ -1383,3 +1383,18 @@ ErrRtn:
     Resume exit_sub
 End Function
 
+Function atob(sText As String) As Byte()
+    Dim lSize           As Long
+    Dim dwDummy         As Long
+    Dim baOutput()      As Byte
+    
+    lSize = Len(sText) + 1
+    ReDim baOutput(0 To lSize - 1) As Byte
+    Call CryptStringToBinary(StrPtr(sText), Len(sText), CRYPT_STRING_BASE64, VarPtr(baOutput(0)), lSize, 0, dwDummy)
+    If lSize > 0 Then
+        ReDim Preserve baOutput(0 To lSize - 1) As Byte
+        atob = baOutput
+    Else
+        atob = vbNullString
+    End If
+End Function

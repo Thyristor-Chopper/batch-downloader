@@ -2,10 +2,10 @@ VERSION 5.00
 Begin VB.Form frmAbout 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "MyApp 정보"
-   ClientHeight    =   4725
+   ClientHeight    =   6330
    ClientLeft      =   2340
    ClientTop       =   1935
-   ClientWidth     =   6750
+   ClientWidth     =   7770
    ClipControls    =   0   'False
    BeginProperty Font 
       Name            =   "굴림"
@@ -20,25 +20,46 @@ Begin VB.Form frmAbout
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   3261.279
+   ScaleHeight     =   4369.079
    ScaleMode       =   0  '사용자
-   ScaleWidth      =   6338.599
+   ScaleWidth      =   7296.433
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.FrameW FrameW2 
+      Height          =   1935
+      Left            =   1080
+      TabIndex        =   11
+      Top             =   3840
+      Width           =   6495
+      _ExtentX        =   11456
+      _ExtentY        =   3413
+      Caption         =   "iconv-lite"
+      Begin prjDownloadBooster.TextBoxW txtIconv 
+         Height          =   1575
+         Left            =   120
+         TabIndex        =   12
+         Top             =   240
+         Width           =   6255
+         _ExtentX        =   11033
+         _ExtentY        =   2778
+         MultiLine       =   -1  'True
+         ScrollBars      =   3
+      End
+   End
    Begin prjDownloadBooster.TygemButton tygOK 
       Height          =   345
-      Left            =   4485
-      TabIndex        =   8
-      Top             =   3840
+      Left            =   5565
+      TabIndex        =   5
+      Top             =   5880
       Width           =   2070
       _ExtentX        =   3651
       _ExtentY        =   609
    End
    Begin prjDownloadBooster.TygemButton tygSysInfo 
       Height          =   345
-      Left            =   4485
-      TabIndex        =   9
-      Top             =   4275
+      Left            =   3360
+      TabIndex        =   6
+      Top             =   5880
       Width           =   2070
       _ExtentX        =   3651
       _ExtentY        =   609
@@ -54,66 +75,76 @@ Begin VB.Form frmAbout
       Caption         =   "확인"
       Default         =   -1  'True
       Height          =   345
-      Left            =   4845
+      Left            =   5565
       TabIndex        =   0
-      Top             =   3840
-      Width           =   1710
-   End
-   Begin prjDownloadBooster.LinkLabel lblReadOnline 
-      Height          =   255
-      Left            =   2520
-      TabIndex        =   2
-      Tag             =   "nocolorchange"
-      Top             =   2040
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   450
-      Caption         =   "frmAbout.frx":000C
-      Transparent     =   -1  'True
-   End
-   Begin prjDownloadBooster.TextBoxW txtLicensePlaceholder 
-      Height          =   270
-      Left            =   360
-      TabIndex        =   3
-      Top             =   1440
-      Width           =   1215
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Locked          =   -1  'True
-      ScrollBars      =   2
-   End
-   Begin prjDownloadBooster.ProgressBar pbLicenseLoadProgress 
-      Height          =   255
-      Left            =   1680
-      Top             =   1320
-      Width           =   2655
-      _ExtentX        =   4683
-      _ExtentY        =   450
-      Max             =   812
-      Step            =   10
-   End
-   Begin prjDownloadBooster.TextBoxW txtLicense 
-      Height          =   615
-      Left            =   1050
-      TabIndex        =   4
-      Top             =   1440
-      Width           =   1695
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Enabled         =   0   'False
-      Locked          =   -1  'True
-      MultiLine       =   -1  'True
-      ScrollBars      =   3
+      Top             =   5880
+      Width           =   2070
    End
    Begin prjDownloadBooster.CommandButtonW cmdSysInfo 
       Height          =   345
-      Left            =   4845
-      TabIndex        =   5
-      Top             =   4275
-      Width           =   1710
-      _ExtentX        =   3016
+      Left            =   3360
+      TabIndex        =   2
+      Top             =   5880
+      Width           =   2070
+      _ExtentX        =   3651
       _ExtentY        =   609
       Caption         =   "시스템 정보(&S)..."
+   End
+   Begin prjDownloadBooster.FrameW FrameW1 
+      Height          =   2295
+      Left            =   1080
+      TabIndex        =   7
+      Top             =   1440
+      Width           =   6495
+      _ExtentX        =   11456
+      _ExtentY        =   4048
+      Caption         =   "Node.js"
+      Begin prjDownloadBooster.LinkLabel lblReadOnline 
+         Height          =   255
+         Left            =   120
+         TabIndex        =   8
+         Tag             =   "nocolorchange"
+         Top             =   1980
+         Width           =   1815
+         _ExtentX        =   3201
+         _ExtentY        =   450
+         Caption         =   "frmAbout.frx":000C
+         Transparent     =   -1  'True
+      End
+      Begin prjDownloadBooster.TextBoxW txtLicensePlaceholder 
+         Height          =   270
+         Left            =   120
+         TabIndex        =   9
+         Top             =   240
+         Width           =   1215
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Locked          =   -1  'True
+         ScrollBars      =   2
+      End
+      Begin prjDownloadBooster.ProgressBar pbLicenseLoadProgress 
+         Height          =   255
+         Left            =   120
+         Top             =   1680
+         Width           =   2655
+         _ExtentX        =   4683
+         _ExtentY        =   450
+         Max             =   812
+         Step            =   10
+      End
+      Begin prjDownloadBooster.TextBoxW txtLicense 
+         Height          =   1455
+         Left            =   120
+         TabIndex        =   10
+         Top             =   240
+         Width           =   6255
+         _ExtentX        =   11033
+         _ExtentY        =   2566
+         Enabled         =   0   'False
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   3
+      End
    End
    Begin VB.Label lblVersion 
       BackStyle       =   0  '투명
@@ -131,7 +162,7 @@ Begin VB.Form frmAbout
       ForeColor       =   &H00000000&
       Height          =   240
       Left            =   1050
-      TabIndex        =   7
+      TabIndex        =   4
       Tag             =   "nocolorchange"
       Top             =   240
       Width           =   3885
@@ -140,12 +171,12 @@ Begin VB.Form frmAbout
       BackStyle       =   0  '투명
       Caption         =   "응용 프로그램 설명"
       ForeColor       =   &H00000000&
-      Height          =   570
+      Height          =   450
       Left            =   1050
-      TabIndex        =   6
+      TabIndex        =   3
       Tag             =   "nocolorchange"
       Top             =   960
-      Width           =   4125
+      Width           =   6645
    End
    Begin VB.Image picIcon 
       Height          =   480
@@ -153,24 +184,6 @@ Begin VB.Form frmAbout
       Picture         =   "frmAbout.frx":004E
       Top             =   240
       Width           =   480
-   End
-   Begin VB.Line Line1 
-      BorderColor     =   &H00808080&
-      BorderStyle     =   6  '내부 단색
-      Index           =   1
-      X1              =   112.686
-      X2              =   6237.181
-      Y1              =   2515.844
-      Y2              =   2515.844
-   End
-   Begin VB.Line Line1 
-      BorderColor     =   &H00FFFFFF&
-      BorderWidth     =   2
-      Index           =   0
-      X1              =   100.479
-      X2              =   6210.888
-      Y1              =   2526.197
-      Y2              =   2526.197
    End
 End
 Attribute VB_Name = "frmAbout"
@@ -203,10 +216,10 @@ Private Sub Form_Load()
     'picIcon.Picture = frmMain.Icon
     lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & "." & App.Revision
     lblTitle.Caption = App.Title
-    lblDescription.Caption = t("이 프로그램에는 Node.js의 바이너리가 포함되어 있으며," & vbCrLf & "라이선스 전문은 다음과 같습니다.", "This program includes the binary of Node.js." & vbCrLf & "Check out the license of Node.js below.")
+    lblDescription.Caption = t("이 프로그램에는 Node.js (v0.11.11) 바이너리와 iconv-lite 모듈이 포함돼있으며" & vbCrLf & "라이선스 전문은 다음과 같습니다.", "This program includes the binary of Node.js (v0.11.11) and source code of iconv-lite. Check out the license of them below.")
     lblDescription.Width = Me.Width - lblDescription.Left - 180 - 540
-    txtLicense.Width = lblDescription.Width
-    txtLicense.Height = Line1(0).Y1 - txtLicense.Top - 90 - cmdSysInfo.Height - 90 - pbLicenseLoadProgress.Height - 30 + 120
+    'txtLicense.Width = lblDescription.Width
+    'txtLicense.Height = Line1(0).Y1 - txtLicense.Top - 90 - cmdSysInfo.Height - 90 - pbLicenseLoadProgress.Height - 30 + 120
     txtLicensePlaceholder.Width = txtLicense.Width
     txtLicensePlaceholder.Height = txtLicense.Height
     txtLicensePlaceholder.Top = txtLicense.Top
@@ -221,6 +234,19 @@ Private Sub Form_Load()
     lblReadOnline.Caption = t(lblReadOnline.Caption, "<A>[Read online]</A>")
     tygOK.Caption = t("확인", "OK")
     tygSysInfo.Caption = t("시스템 정보...", "System information...")
+    
+    txtIconv.Text = txtIconv.Text & "Copyright (c) 2011 Alexander Shtuchkin" & vbCrLf
+    txtIconv.Text = txtIconv.Text & "" & vbCrLf
+    txtIconv.Text = txtIconv.Text & "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the" & vbCrLf
+    txtIconv.Text = txtIconv.Text & "" & vbCrLf
+    txtIconv.Text = txtIconv.Text & """Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish," & vbCrLf
+    txtIconv.Text = txtIconv.Text & "distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:" & vbCrLf
+    txtIconv.Text = txtIconv.Text & "" & vbCrLf
+    txtIconv.Text = txtIconv.Text & "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software." & vbCrLf
+    txtIconv.Text = txtIconv.Text & "" & vbCrLf
+    txtIconv.Text = txtIconv.Text & "THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF" & vbCrLf
+    txtIconv.Text = txtIconv.Text & "MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE" & vbCrLf
+    txtIconv.Text = txtIconv.Text & "LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." & vbCrLf
     
     timLicenseLoader.Enabled = -1
 End Sub

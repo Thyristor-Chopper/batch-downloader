@@ -1,4 +1,5 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+var iconv = require('./iconv');
 var fs = require('fs');
 var URL = require('url');
 if(!Array.prototype.includes) Array.prototype.includes = function includes(find) {
@@ -33,42 +34,9 @@ var fn = process.argv[3] || process.exit(102);
 var trd = Number(process.argv[4] || process.exit(103)) || process.exit(103);
 fn = fn.replace(/^["]/, '').replace(/["]$/, '');
 var intpath = require('path');
-var parsed = {
-	dir: intpath.dirname(fn),
-	ext: intpath.extname(fn),
-	name: intpath.basename(fn).slice(0, intpath.basename(fn).length - intpath.extname(fn).length),
-};
-if(fs.existsSync(fn)) {
-	if(Number(process.argv[6]) == 0) return process.exit(104);
-	else if(Number(process.argv[6]) == 1) fs.unlinkSync(fn);
-	else if(Number(process.argv[6]) == 2) fn = parsed.dir.replace(/\\$/, '') + '\\' + parsed.name + '-' + Math.floor(Math.random() * 10000000000000000) + parsed.ext;
-	print('MODIFIEDFILENAME', fn);
-}
-if(fn[fn.length - 1] == '.') {
-	fn = fn.replace(/[.]$/, '_');
-	print('MODIFIEDFILENAME', fn);
-}
-var continuedownload = false;
-if(process.argv[7] == 1) {
-	if(trd <= 1 && fs.existsSync(fn + '.part.tmp')) {
-		continuedownload = true;
-	} else if(fs.existsSync(fn + '.part_' + trd + '.tmp') && !fs.existsSync(fn + '.part_' + (trd + 1) + '.tmp')) {
-		continuedownload = true;
-	} else {
-		if(trd <= 1 && fs.existsSync(fn + '.part.tmp')) fs.unlinkSync(fn + '.part.tmp');
-		for(var i=1; i<=trd+25; i++)
-			if(fs.existsSync(fn + '.part_' + i + '.tmp'))
-				fs.unlinkSync(fn + '.part_' + i + '.tmp');
-	}
-} else {
-	if(trd <= 1 && fs.existsSync(fn + '.part.tmp')) fs.unlinkSync(fn + '.part.tmp');
-	for(var i=1; i<=trd+25; i++)
-		if(fs.existsSync(fn + '.part_' + i + '.tmp'))
-			fs.unlinkSync(fn + '.part_' + i + '.tmp');
-}
 var http = require(url.slice(0, 6) == 'https:' ? 'https' : 'http');
-var rawHeaders = Buffer((process.argv[11] || ''), 'base64').toString().split('\n');
-var rawSessionHeaders = Buffer((process.argv[12] || ''), 'base64').toString().split('\n');
+var rawHeaders = Buffer((process.argv[12] || ''), 'base64').toString().split('\n');
+var rawSessionHeaders = Buffer((process.argv[13] || ''), 'base64').toString().split('\n');
 var headers = {}, sessionHeaders = {};
 if(rawHeaders.length) rawHeaders.forEach(function(item) {
 	if(item.indexOf(': ') < 0) return;
@@ -79,6 +47,9 @@ if(rawSessionHeaders.length) rawSessionHeaders.forEach(function(item) {
 	sessionHeaders[item.slice(0, item.indexOf(': '))] = item.slice(item.indexOf(': ') + 2);
 });
 Object.assign(headers, sessionHeaders);
+function safeFilename(filename) {
+	return iconv.decode(iconv.encode(filename, 'cp949'), 'cp949').replace(/\?/g, '_').replace(/\*/g, '_').replace(/\\/g, '_').replace(/\//g, '_').replace(/\:/g, '_').replace(/\"/g, '_').replace(/\|/g, '_').replace(/\</g, '_').replace(/\>/g, '_');
+}
 if(process.argv[8] == 1) {
 	startDownload(url);
 } else {
@@ -93,8 +64,13 @@ function checkRedirect(url) {
 		headers: headers,
 		method: (process.argv[9] == 1) ? 'GET' : 'HEAD',
 	}, function(res) {
-		if(res.headers.location && [301, 302, 303, 307, 308].includes(res.statusCode || 0))
+		if(process.argv[9] == 1) try {
+			res.connection.end();
+			res.connection.destroy();
+		} catch(e) {}
+		if(res.headers.location && [301, 302, 303, 307, 308].includes(res.statusCode || 0)) {
 			return checkRedirect(res.headers.location.trim().replace(/^["]/, '').replace(/["]$/, ''));
+		}
 		print('REALADDR', url);
 		startDownload(url);
 	}).end();
@@ -112,6 +88,72 @@ function startDownload(url) {
 			print('STATUSCODE', res.statusCode + '');
 			return process.exit(108);
 		}
+		
+		var parsed;
+		var disposition = res.headers['content-disposition'];
+		if(process.argv[11] == 1 && disposition) {
+			parsed = {
+				dir: intpath.dirname(fn),
+				base: intpath.basename(fn),
+			};
+			var filename = parsed.base;
+			/* https://stackoverflow.com/questions/40939380/how-to-get-file-name-from-content-disposition */
+			var utf8FilenameRegex = /filename\*=UTF-8''([\w%\-\.]+)(?:; ?|$)/i;
+			var asciiFilenameRegex = /^filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
+			if (utf8FilenameRegex.test(disposition)) {
+				filename = decodeURIComponent(utf8FilenameRegex.exec(disposition)[1]);
+			} else {
+				var filenameStart = disposition.toLowerCase().indexOf('filename=');
+				if (filenameStart >= 0) {
+					var partialDisposition = disposition.slice(filenameStart);
+					var matches = asciiFilenameRegex.exec(partialDisposition);
+					if (matches != null && matches[2])
+						filename = matches[2];
+				}
+			}
+			filename = filename.trim();
+			if(filename && filename != parsed.base) {
+				filename = safeFilename(filename);
+				fn = parsed.dir.replace(/\\$/, '') + '\\' + filename;
+				print('MODIFIEDFILENAME', iconv.encode(fn, 'cp949').toString('base64'));
+			}
+		}
+		parsed = {
+			dir: intpath.dirname(fn),
+			ext: intpath.extname(fn),
+			name: intpath.basename(fn).slice(0, intpath.basename(fn).length - intpath.extname(fn).length),
+		};
+		if(fs.existsSync(fn)) {
+			if(Number(process.argv[6]) == 0) return process.exit(104);
+			else if(Number(process.argv[6]) == 1) fs.unlinkSync(fn);
+			else if(Number(process.argv[6]) == 2) {
+				fn = parsed.dir.replace(/\\$/, '') + '\\' + parsed.name + '-' + Math.floor(Math.random() * 10000000000000000) + parsed.ext;
+				print('MODIFIEDFILENAME', iconv.encode(fn, 'cp949').toString('base64'));
+			}
+		}
+		if(fn[fn.length - 1] == '.') {
+			fn = fn.replace(/[.]$/, '_');
+			print('MODIFIEDFILENAME', iconv.encode(fn, 'cp949').toString('base64'));
+		}
+		var continuedownload = false;
+		if(process.argv[7] == 1) {
+			if(trd <= 1 && fs.existsSync(fn + '.part.tmp')) {
+				continuedownload = true;
+			} else if(fs.existsSync(fn + '.part_' + trd + '.tmp') && !fs.existsSync(fn + '.part_' + (trd + 1) + '.tmp')) {
+				continuedownload = true;
+			} else {
+				if(trd <= 1 && fs.existsSync(fn + '.part.tmp')) fs.unlinkSync(fn + '.part.tmp');
+				for(var i=1; i<=trd+25; i++)
+					if(fs.existsSync(fn + '.part_' + i + '.tmp'))
+						fs.unlinkSync(fn + '.part_' + i + '.tmp');
+			}
+		} else {
+			if(trd <= 1 && fs.existsSync(fn + '.part.tmp')) fs.unlinkSync(fn + '.part.tmp');
+			for(var i=1; i<=trd+25; i++)
+				if(fs.existsSync(fn + '.part_' + i + '.tmp'))
+					fs.unlinkSync(fn + '.part_' + i + '.tmp');
+		}
+		
 		var total = Number(res.headers['content-length']);
 		if(trd > 1) {
 			if(res.headers['accept-ranges'] != 'bytes') return process.exit(106);

@@ -2109,8 +2109,8 @@ Begin VB.Form frmMain
       Left            =   7320
       TabIndex        =   13
       Top             =   3945
-      Width           =   1815
-      _ExtentX        =   3201
+      Width           =   1575
+      _ExtentX        =   2778
       _ExtentY        =   582
       Enabled         =   0   'False
       ImageList       =   "imgOpenFile"
@@ -2214,6 +2214,19 @@ Begin VB.Form frmMain
          Visible         =   0   'False
          Width           =   1935
       End
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdOpenFileDropdown 
+      Height          =   330
+      Left            =   8880
+      TabIndex        =   141
+      Top             =   3945
+      Width           =   255
+      _ExtentX        =   450
+      _ExtentY        =   582
+      Enabled         =   0   'False
+      ImageList       =   "imgDropdown"
+      ImageListAlignment=   4
+      Transparent     =   -1  'True
    End
    Begin VB.Label lblLBCaption 
       Alignment       =   2  '가운데 맞춤
@@ -2425,6 +2438,16 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuOpenFolder 
          Caption         =   "폴더 열기(&F)"
       End
+      Begin VB.Menu mnuPropertiesBatch 
+         Caption         =   "속성 보기(&R)"
+      End
+   End
+   Begin VB.Menu mnuOpenFileDropdown 
+      Caption         =   "mnuOpenFileDropdown"
+      Visible         =   0   'False
+      Begin VB.Menu mnuProperties 
+         Caption         =   "속성 보기(&R)"
+      End
    End
 End
 Attribute VB_Name = "frmMain"
@@ -2594,7 +2617,7 @@ progressAvailable:
             End If
         End If
     ElseIf Left$(Data, 17) = "MODIFIEDFILENAME " Then
-        output = Right$(Data, Len(Data) - 17)
+        output = StrConv(atob(Right$(Data, Len(Data) - 17)), vbUnicode)
         DownloadPath = output
         lblFilename.Caption = fso.GetFilename(output)
         If BatchStarted Then
@@ -2816,6 +2839,7 @@ nextln:
     ElseIf RetVal = 0 Then
         cmdOpen.Enabled = -1
         tygOpen.Enabled = -1
+        cmdOpenFileDropdown.Enabled = -1
         If chkOpenAfterComplete.Value Then
             cmdOpen_Click
         End If
@@ -2870,6 +2894,7 @@ Sub OnStart()
     
     cmdOpen.Enabled = 0
     tygOpen.Enabled = 0
+    cmdOpenFileDropdown.Enabled = 0
     
     lblTotalBytes.Caption = t("대기 중...", "Pending...")
     lblDownloadedBytes.Caption = t("대기 중...", "Pending...")
@@ -3092,6 +3117,7 @@ Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , FileName
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , URL
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , t("대기", "Queued")
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "Y"
     lvBatchFiles.ListItems(idx).Checked = -1
     If IsDownloading Or cmdStop.Enabled Or BatchStarted Then
         cmdStartBatch.Enabled = 0
@@ -3307,11 +3333,17 @@ L2:
         FileName = Replace(CurDir.Path & "\", "\\", "\")
     End If
     Dim ServerName$
+    Dim AutoName As Boolean
+    AutoName = False
     If FolderExists(FileName) Then
         If Not (Right$(FileName, 1) = "\") Then FileName = FileName & "\"
         ServerName = FilterFilename(URLDecode(Split(URL, "/")(UBound(Split(URL, "/")))))
         If Replace(ServerName, " ", "") = "" Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
+        AutoName = True
+    End If
+    If BatchStarted And (AutoName = False) Then
+        AutoName = (lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(4).Text = "Y")
     End If
     If Right$(FileName, 1) = "." Then FileName = Left$(FileName, Len(FileName) - 1) & "_"
     DownloadPath = FileName
@@ -3344,7 +3376,7 @@ L2:
     If NodePath = "" Then NodePath = CachePath & "node_v0_11_11.exe"
     If ScriptPath = "" Then ScriptPath = CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
     Dim SPResult As SP_RESULTS
-    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & GetSetting("DownloadBooster", "Options", "ForceGet", 0) & " " & GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & Functions.HeaderCache & " " & Functions.SessionHeaderCache)
+    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & GetSetting("DownloadBooster", "Options", "ForceGet", 0) & " " & GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & Abs(CInt(AutoName)) & " " & Functions.HeaderCache & " " & Functions.SessionHeaderCache)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -3451,6 +3483,10 @@ Private Sub cmdOpen_Click()
     Shell "cmd /c start """" """ & DownloadPath & """"
 End Sub
 
+Private Sub cmdOpen_DropDown()
+    cmdOpenFileDropdown_Click
+End Sub
+
 Private Sub cmdOpenBatch_Click()
     On Error Resume Next
     Shell "cmd /c start """" """ & lvBatchFiles.SelectedItem.ListSubItems(1).Text & """"
@@ -3466,6 +3502,14 @@ End Sub
 
 Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     cmdOpenDropdown_Click
+End Sub
+
+Private Sub cmdOpenFileDropdown_Click()
+    Me.PopupMenu mnuOpenFileDropdown, , cmdOpen.Left, cmdOpen.Top + cmdOpen.Height
+End Sub
+
+Private Sub cmdOpenFileDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    cmdOpenFileDropdown_Click
 End Sub
 
 Private Sub cmdOpenFolder_Click()
@@ -3510,6 +3554,7 @@ Private Sub cmdStartBatch_Click()
     chkOpenAfterComplete.Enabled = 0
     cmdOpen.Enabled = 0
     tygOpen.Enabled = 0
+    cmdOpenFileDropdown.Enabled = 0
     cmdGo.Enabled = 0
     tygGo.Enabled = 0
     StartDownload lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2), lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1)
@@ -3531,6 +3576,7 @@ Private Sub cmdStop_Click()
         OnStop False
         cmdOpen.Enabled = 0
         tygOpen.Enabled = 0
+        cmdOpenFileDropdown.Enabled = 0
         
         If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
             Dim KillTemp As Boolean
@@ -3821,11 +3867,13 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , "fullpath", t("전체 경로", "Full Path")
     lvBatchFiles.ColumnHeaders.Add , "url", t("파일 주소", "File URL")
     lvBatchFiles.ColumnHeaders.Add , "status", t("상태", "Status")
+    lvBatchFiles.ColumnHeaders.Add , "autoname", t("파일 이름 자동 감지", "Autodetect File Name")
     lvBatchFiles.ColumnHeaders(1).Width = 2895
     lvBatchFiles.ColumnHeaders(2).Width = 0
     lvBatchFiles.ColumnHeaders(3).Width = 4495
     lvBatchFiles.ColumnHeaders(4).Width = 1105
     lvBatchFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentCenter
+    lvBatchFiles.ColumnHeaders(5).Width = 0
     Me.Height = 6930
     
     BatchStarted = False
@@ -3951,6 +3999,10 @@ Private Sub Form_Load()
         cmdDelete.SplitButton = True
         cmdDelete.Width = 1575
         cmdDeleteDropdown.Visible = 0
+        
+        cmdOpen.SplitButton = True
+        cmdOpen.Width = 1815
+        cmdOpenFileDropdown.Visible = 0
     End If
 
     '언어설정
@@ -4032,6 +4084,9 @@ Private Sub Form_Load()
     
     cmdEditHeaders.Caption = t(cmdEditHeaders.Caption, "Edit headers(&P)...")
     tygEditHeaders.Caption = t(tygEditHeaders.Caption, "Edit headers...")
+    
+    mnuProperties.Caption = t(mnuProperties.Caption, "View p&roperties")
+    mnuPropertiesBatch.Caption = t(mnuPropertiesBatch.Caption, "View p&roperties")
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
@@ -4418,6 +4473,7 @@ Private Sub mnuMoveDown_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(1).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(2).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(3).Text
+    lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(4).Text
     lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(DownIdx).Checked
     lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(DownIdx).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(DownIdx).ListSubItems(1).ForeColor
@@ -4441,6 +4497,7 @@ Private Sub mnuMoveUp_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(1).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(2).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(3).Text
+    lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(4).Text
     lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(UpIdx).Checked
     lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(UpIdx).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(UpIdx).ListSubItems(1).ForeColor
@@ -4471,6 +4528,16 @@ End Sub
 
 Private Sub mnuOpenFolder2_Click()
     mnuOpenFolder_Click
+End Sub
+
+Private Sub mnuProperties_Click()
+    On Error Resume Next
+    DisplayFileProperties DownloadPath
+End Sub
+
+Private Sub mnuPropertiesBatch_Click()
+    On Error Resume Next
+    DisplayFileProperties lvBatchFiles.SelectedItem.ListSubItems(1).Text
 End Sub
 
 Private Sub optTabDownload2_Click()

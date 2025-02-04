@@ -242,6 +242,9 @@ Private Sub cmdOK_Click()
 changeFilepath:
         frmMain.lvBatchFiles.SelectedItem.Text = Replace(txtFilePath.Text, ParentFolderName & "\", "", 1, 1)
         frmMain.lvBatchFiles.SelectedItem.ListSubItems(1).Text = txtFilePath.Text
+        If txtFilePath.Text <> Trim$(OriginalPath) Then
+            frmMain.lvBatchFiles.SelectedItem.ListSubItems(4).Text = "N"
+        End If
     End If
     
     Unload Me
