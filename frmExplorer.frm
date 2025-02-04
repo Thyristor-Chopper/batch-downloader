@@ -141,7 +141,7 @@ Begin VB.Form frmExplorer
    End
    Begin prjDownloadBooster.CommandButtonW cmdViews 
       Height          =   330
-      Left            =   9120
+      Left            =   9090
       TabIndex        =   10
       Top             =   120
       Visible         =   0   'False
@@ -337,23 +337,75 @@ Begin VB.Form frmExplorer
       Top             =   4620
       Width           =   1215
    End
-   Begin VB.Menu mnuView 
-      Caption         =   "보기(&V)"
+   Begin VB.Menu mnuFolderFloor 
+      Caption         =   "폴더"
       Visible         =   0   'False
-      Begin VB.Menu mnuLargeIcons 
-         Caption         =   "큰 아이콘(&L)"
+      Begin VB.Menu mnuNewFolder 
+         Caption         =   "새 폴더(&N)"
       End
-      Begin VB.Menu mnuSmallIcons 
-         Caption         =   "작은 아이콘(&S)"
+      Begin VB.Menu mnuCmd 
+         Caption         =   "명령 프롬프트(&M)"
       End
-      Begin VB.Menu mnuList 
-         Caption         =   "간단히(&L)"
+      Begin VB.Menu mnuView 
+         Caption         =   "보기(&V)"
+         Begin VB.Menu mnuLargeIcons 
+            Caption         =   "큰 아이콘(&L)"
+         End
+         Begin VB.Menu mnuSmallIcons 
+            Caption         =   "작은 아이콘(&S)"
+         End
+         Begin VB.Menu mnuList 
+            Caption         =   "간단히(&L)"
+         End
+         Begin VB.Menu mnuDetails 
+            Caption         =   "자세히(&D)"
+         End
+         Begin VB.Menu mnuTiles 
+            Caption         =   "나란히 보기(&T)"
+         End
       End
-      Begin VB.Menu mnuDetails 
-         Caption         =   "자세히(&D)"
+      Begin VB.Menu mnuSep4 
+         Caption         =   "-"
       End
-      Begin VB.Menu mnuTiles 
-         Caption         =   "나란히 보기(&T)"
+      Begin VB.Menu mnuRefresh 
+         Caption         =   "새로 고침(&E)"
+      End
+      Begin VB.Menu mnuSep5 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuFolderProperties 
+         Caption         =   "속성(&R)"
+      End
+   End
+   Begin VB.Menu mnuFile 
+      Caption         =   "파일(&F)"
+      Visible         =   0   'False
+      Begin VB.Menu mnuSelect 
+         Caption         =   "선택(&L)"
+      End
+      Begin VB.Menu mnuSep1 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuOpen 
+         Caption         =   "열기(&O)"
+      End
+      Begin VB.Menu mnuExplore 
+         Caption         =   "탐색(&X)"
+      End
+      Begin VB.Menu mnuSep2 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuDelete 
+         Caption         =   "삭제(&D)"
+      End
+      Begin VB.Menu mnuRename 
+         Caption         =   "이름 바꾸기(&M)"
+      End
+      Begin VB.Menu mnuSep3 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuProperties 
+         Caption         =   "속성(&R)"
       End
    End
 End
@@ -949,6 +1001,35 @@ Private Sub lvFiles_BeforeLabelEdit(Cancel As Boolean)
     If (Not FileExists(FullPath)) And (Not FolderExists(FullPath)) Then Cancel = True
 End Sub
 
+Private Sub lvFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
+    On Error Resume Next
+    If Not lvFiles.SelectedItem Is Nothing Then
+        If lvFiles.SelectedItem.Selected Then
+            mnuRename.Enabled = (lvFiles.SelectedItem.IconIndex <= 2 And lvFiles.SelectedItem.Text <> "..")
+            mnuDelete.Enabled = ((Not IsMyComputer) And lvFiles.SelectedItem.IconIndex = 2 And lvFiles.SelectedItem.Text <> "..")
+            mnuExplore.Visible = IsMyComputer Or lvFiles.SelectedItem.IconIndex = 1
+            mnuOpen.Enabled = (IsMyComputer Or lvFiles.SelectedItem.IconIndex <= 2)
+            mnuProperties.Enabled = (lvFiles.SelectedItem.IconIndex <= 2)
+            If Tags.BrowseTargetForm = 2 Then mnuSelect.Enabled = (lvFiles.SelectedItem.IconIndex = 1 Or IsMyComputer)
+            If mnuSelect.Enabled Then
+                Me.PopupMenu mnuFile, , , , mnuSelect
+            Else
+                Me.PopupMenu mnuFile
+            End If
+        Else
+            GoTo folderfloor
+        End If
+    Else
+folderfloor:
+        mnuView.Visible = True
+        mnuNewFolder.Enabled = tbToolBar.Buttons(3).Enabled
+        mnuFolderProperties.Enabled = Not IsMyComputer
+        mnuCmd.Enabled = tbToolBar.Buttons(3).Enabled
+        mnuRefresh.Enabled = Not IsMyComputer
+        Me.PopupMenu mnuFolderFloor
+    End If
+End Sub
+
 Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Integer)
     If Item Is Nothing Then Exit Sub
     If Not Item.Selected Then Exit Sub
@@ -1027,6 +1108,8 @@ Private Sub lvFiles_KeyDown(KeyCode As Integer, Shift As Integer)
     ElseIf KeyCode = 8 Then
         If tbToolBar.Buttons(2).Enabled And Len(lvDir.Path) > 3 Then _
             lvDir.Path = fso.GetParentFolderName(lvDir.Path)
+    ElseIf KeyCode = 46 And (Not lvFiles.SelectedItem Is Nothing) Then
+        If lvFiles.SelectedItem.Selected And lvFiles.SelectedItem.IconIndex = 2 Then mnuDelete_Click
     End If
 End Sub
 
@@ -1036,9 +1119,73 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
+Private Sub mnuCmd_Click()
+    Shell "cmd.exe /k cd /d """ & lvDir.Path & """", vbNormalFocus
+End Sub
+
+Private Sub mnuDelete_Click()
+    On Error Resume Next
+    If lvFiles.SelectedItem Is Nothing Then Exit Sub
+    If Not lvFiles.SelectedItem.Selected Then Exit Sub
+    If IsMyComputer Then Exit Sub
+
+    Dim FullPath$
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+    Else
+        FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+    End If
+    
+    If ConfirmEx("'" & lvFiles.SelectedItem.Text & "' " & t("항목을 영구적으로 삭제하시겠습니까?", " - delete item permanently?"), App.Title, Me, 48) = vbYes Then
+        On Error GoTo deletefail
+        Kill FullPath
+        lvFiles.ListItems.Remove lvFiles.SelectedItem.Index
+        Exit Sub
+deletefail:
+        Alert t("항목을 지우는 데 실패했습니다.", "Failed to delete the specified item."), App.Title, Me, 16
+    End If
+End Sub
+
 Private Sub mnuDetails_Click()
     lvFiles.View = LvwViewReport
     SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+End Sub
+
+Private Sub mnuExplore_Click()
+    On Error Resume Next
+    If lvFiles.SelectedItem Is Nothing Then Exit Sub
+    If Not lvFiles.SelectedItem.Selected Then Exit Sub
+
+    Dim FullPath$
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+    Else
+        FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+    End If
+    
+    If IsMyComputer Then
+        Shell "explorer.exe /e, """ & Left$(lvFiles.SelectedItem.Text, 1) & ":\""", vbNormalFocus
+        Exit Sub
+    End If
+    
+    If lvFiles.SelectedItem.IconIndex = 1 And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+        Dim LnkInfo As Link
+        ReadShortcut FullPath, LnkInfo
+        If Left$(LnkInfo.FileName, 1) = """" And Right$(LnkInfo.FileName, 1) = """" Then _
+            LnkInfo.FileName = Mid$(LnkInfo.FileName, 2, Len(LnkInfo.FileName) - 2)
+        If FolderExists(LnkInfo.FileName) Then
+            FullPath = LnkInfo.FileName
+            GoTo isfolder
+        End If
+        Exit Sub
+    End If
+    
+isfolder:
+    Shell "explorer.exe /e, """ & FullPath & """", vbNormalFocus
+End Sub
+
+Private Sub mnuFolderProperties_Click()
+    DisplayFileProperties lvDir.Path
 End Sub
 
 Private Sub mnuLargeIcons_Click()
@@ -1049,6 +1196,82 @@ End Sub
 Private Sub mnuList_Click()
     lvFiles.View = LvwViewList
     SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
+End Sub
+
+Private Sub mnuNewFolder_Click()
+    CreateNewFolder
+End Sub
+
+Private Sub mnuOpen_Click()
+    On Error Resume Next
+    If lvFiles.SelectedItem Is Nothing Then Exit Sub
+    If Not lvFiles.SelectedItem.Selected Then Exit Sub
+    
+    If IsMyComputer Then
+        Shell "explorer.exe """ & Left$(lvFiles.SelectedItem.Text, 1) & ":\""", vbNormalFocus
+        Exit Sub
+    End If
+
+    Dim FullPath$
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+    Else
+        FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+    End If
+    
+    If lvFiles.SelectedItem.IconIndex <= 2 And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+        Dim LnkInfo As Link
+        ReadShortcut FullPath, LnkInfo
+        If Left$(LnkInfo.FileName, 1) = """" And Right$(LnkInfo.FileName, 1) = """" Then _
+            LnkInfo.FileName = Mid$(LnkInfo.FileName, 2, Len(LnkInfo.FileName) - 2)
+        FullPath = LnkInfo.FileName
+    End If
+    
+    Shell "cmd.exe /c start """" """ & FullPath & """"
+End Sub
+
+Private Sub mnuProperties_Click()
+    On Error Resume Next
+    If lvFiles.SelectedItem Is Nothing Then Exit Sub
+    If Not lvFiles.SelectedItem.Selected Then Exit Sub
+    
+    If IsMyComputer Then
+        DisplayFileProperties Left$(lvFiles.SelectedItem.Text, 1) & ":\"
+        Exit Sub
+    End If
+
+    Dim FullPath$
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+    Else
+        FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+    End If
+    
+    DisplayFileProperties FullPath
+End Sub
+
+Private Sub mnuRefresh_Click()
+    ListFiles
+End Sub
+
+Private Sub mnuRename_Click()
+    On Error Resume Next
+    If Not lvFiles.SelectedItem Is Nothing Then
+        If lvFiles.SelectedItem.Selected Then
+            If IsMyComputer Then Exit Sub
+            If lvFiles.SelectedItem.IconIndex <= 2 And lvFiles.SelectedItem.Text <> ".." Then _
+                lvFiles.StartLabelEdit
+        End If
+    End If
+End Sub
+
+Private Sub mnuSelect_Click()
+    On Error Resume Next
+    If Not lvFiles.SelectedItem Is Nothing Then
+        If lvFiles.SelectedItem.Selected Then
+            lvFiles_ItemDblClick lvFiles.SelectedItem, 1
+        End If
+    End If
 End Sub
 
 Private Sub mnuSmallIcons_Click()
@@ -1288,33 +1511,43 @@ Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
     End Select
 End Sub
 
+Sub CreateNewFolder()
+    If Not tbToolBar.Buttons(3).Enabled Then Exit Sub
+
+    Randomize
+    Dim DirName$
+    Dim FullPath$
+    Do
+        DirName = CStr(Fix(Rnd * 100000000))
+        If Right$(lvDir.Path, 1) = "\" Then
+            FullPath = lvDir.Path & DirName
+        Else
+            FullPath = lvDir.Path & "\" & DirName
+        End If
+    Loop While FileExists(FullPath) Or FolderExists(FullPath)
+    On Error Resume Next
+    MkDir FullPath
+    If Not FolderExists(FullPath) Then
+        Alert t("폴더를 만드는 데 실패했습니다.", "Failed to create a folder here."), App.Title, Me, 16
+        Exit Sub
+    End If
+    Dim Item As LvwListItem
+    Set Item = lvFiles.ListItems.Add(, , DirName, 1, 1)
+    Item.ListSubItems.Add , , "-"
+    Item.ListSubItems.Add , , t("파일 폴더", "File Folder")
+    Item.ListSubItems.Add , , FileDateTime(FullPath)
+    Item.EnsureVisible
+    Item.Selected = True
+    lvFiles.StartLabelEdit
+End Sub
+
 Private Sub tbToolBar_ButtonClick(ByVal Button As TbrButton)
     Select Case Button.Index
         Case 2
             If Len(lvDir.Path) > 3 Then _
                 lvDir.Path = fso.GetParentFolderName(lvDir.Path)
         Case 3
-            Randomize
-            Dim DirName$
-            Dim FullPath$
-            Do
-                DirName = CStr(Fix(Rnd * 100000000))
-                If Right$(lvDir.Path, 1) = "\" Then
-                    FullPath = lvDir.Path & DirName
-                Else
-                    FullPath = lvDir.Path & "\" & DirName
-                End If
-            Loop While FileExists(FullPath) Or FolderExists(FullPath)
-            On Error Resume Next
-            MkDir FullPath
-            Dim Item As LvwListItem
-            Set Item = lvFiles.ListItems.Add(, , DirName, 1, 1)
-            Item.ListSubItems.Add , , "-"
-            Item.ListSubItems.Add , , t("파일 폴더", "File Folder")
-            Item.ListSubItems.Add , , FileDateTime(FullPath)
-            Item.EnsureVisible
-            Item.Selected = True
-            lvFiles.StartLabelEdit
+            CreateNewFolder
     End Select
 End Sub
 

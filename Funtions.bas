@@ -3,6 +3,7 @@ Attribute VB_Name = "Functions"
 '- https://www.vbforums.com/showthread.php?457171-RESOLVED-How-to-get-Desktop-Path-in-VB
 '- https://www.vbforums.com/showthread.php?445574-Reading-shortcut-information
 '- https://www.vbforums.com/showthread.php?430704-RESOLVED-Get-drive-size-space
+'- https://www.codeguru.com/visual-basic/displaying-the-file-properties-dialog/
 
 Option Explicit
 
@@ -149,7 +150,31 @@ Private Type LARGE_INTEGER
     lowpart As Long
     highpart As Long
 End Type
+
 Private Declare Function GetDiskFreeSpaceEx Lib "kernel32" Alias "GetDiskFreeSpaceExA" (ByVal lpRootPathName As String, lpFreeBytesAvailableToCaller As LARGE_INTEGER, lpTotalNumberOfBytes As LARGE_INTEGER, lpTotalNumberOfFreeBytes As LARGE_INTEGER) As Long
+
+Private Const SW_SHOW = 5
+Private Const SEE_MASK_INVOKEIDLIST = &HC
+Private Type SHELLEXECUTEINFO
+    cbSize As Long
+    fMask As Long
+    hWnd As Long
+    lpVerb As String
+    lpFile As String
+    lpParameters As String
+    lpDirectory As String
+    nShow As Long
+    hInstApp As Long
+    ' optional fields
+    lpIDList As Long
+    lpClass As String
+    hkeyClass As Long
+    dwHotKey As Long
+    hIcon As Long
+    hProcess As Long
+End Type
+
+Private Declare Function ShellExecuteEx Lib "shell32" (ByRef s As SHELLEXECUTEINFO) As Long
 
 Public Const CSIDL_DESKTOP = &H0
 Public Const CSIDL_INTERNET = &H1
@@ -1481,3 +1506,16 @@ Private Function CLargeInt(Lo As Long, Hi As Long) As Double
     CLargeInt = dblLo + dblHi * 2 ^ 32
 End Function
 
+Sub DisplayFileProperties(ByVal sFullFileAndPathName As String)
+    Dim shInfo As SHELLEXECUTEINFO
+
+    With shInfo
+        .cbSize = LenB(shInfo)
+        .lpFile = sFullFileAndPathName
+        .nShow = SW_SHOW
+        .fMask = SEE_MASK_INVOKEIDLIST
+        .lpVerb = "properties"
+    End With
+
+    ShellExecuteEx shInfo
+End Sub

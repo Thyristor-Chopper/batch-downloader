@@ -58,11 +58,11 @@ Begin VB.Form frmCustomBackground
       Top             =   3480
       Width           =   3735
       Begin VB.Image imgPreview 
-         Height          =   1335
+         Height          =   1275
          Left            =   0
          Stretch         =   -1  'True
          Top             =   0
-         Width           =   3735
+         Width           =   3675
       End
    End
    Begin VB.ComboBox selFileType 
