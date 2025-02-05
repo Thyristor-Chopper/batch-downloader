@@ -110,7 +110,7 @@ Begin VB.Form YesNoCancelMsgBox
    Begin prjDownloadBooster.OptionButtonW optNo 
       Height          =   255
       Left            =   1080
-      TabIndex        =   1
+      TabIndex        =   2
       Top             =   1320
       Width           =   1575
       _ExtentX        =   0
@@ -120,7 +120,7 @@ Begin VB.Form YesNoCancelMsgBox
    Begin prjDownloadBooster.OptionButtonW optYes 
       Height          =   255
       Left            =   1080
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   960
       Width           =   1575
       _ExtentX        =   0
@@ -131,7 +131,7 @@ Begin VB.Form YesNoCancelMsgBox
       Default         =   -1  'True
       Height          =   315
       Left            =   7440
-      TabIndex        =   2
+      TabIndex        =   0
       Top             =   840
       Width           =   1455
       _ExtentX        =   0

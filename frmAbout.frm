@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmAbout 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "MyApp 정보"
-   ClientHeight    =   6330
+   ClientHeight    =   6195
    ClientLeft      =   2340
    ClientTop       =   1935
    ClientWidth     =   7770
@@ -20,7 +20,7 @@ Begin VB.Form frmAbout
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4369.079
+   ScaleHeight     =   4275.9
    ScaleMode       =   0  '사용자
    ScaleWidth      =   7296.433
    ShowInTaskbar   =   0   'False
@@ -29,7 +29,7 @@ Begin VB.Form frmAbout
       Height          =   1935
       Left            =   1080
       TabIndex        =   11
-      Top             =   3840
+      Top             =   3720
       Width           =   6495
       _ExtentX        =   11456
       _ExtentY        =   3413
@@ -44,14 +44,14 @@ Begin VB.Form frmAbout
          _ExtentY        =   2778
          Locked          =   -1  'True
          MultiLine       =   -1  'True
-         ScrollBars      =   3
+         ScrollBars      =   2
       End
    End
    Begin prjDownloadBooster.TygemButton tygOK 
       Height          =   345
       Left            =   5565
       TabIndex        =   5
-      Top             =   5880
+      Top             =   5760
       Width           =   2070
       _ExtentX        =   3651
       _ExtentY        =   609
@@ -60,7 +60,7 @@ Begin VB.Form frmAbout
       Height          =   345
       Left            =   3360
       TabIndex        =   6
-      Top             =   5880
+      Top             =   5760
       Width           =   2070
       _ExtentX        =   3651
       _ExtentY        =   609
@@ -78,34 +78,34 @@ Begin VB.Form frmAbout
       Height          =   345
       Left            =   5565
       TabIndex        =   0
-      Top             =   5880
+      Top             =   5760
       Width           =   2070
    End
    Begin prjDownloadBooster.CommandButtonW cmdSysInfo 
       Height          =   345
       Left            =   3360
       TabIndex        =   2
-      Top             =   5880
+      Top             =   5760
       Width           =   2070
       _ExtentX        =   3651
       _ExtentY        =   609
       Caption         =   "시스템 정보(&S)..."
    End
    Begin prjDownloadBooster.FrameW FrameW1 
-      Height          =   2295
+      Height          =   2175
       Left            =   1080
       TabIndex        =   7
       Top             =   1440
       Width           =   6495
       _ExtentX        =   11456
-      _ExtentY        =   4048
+      _ExtentY        =   3836
       Caption         =   "Node.js"
       Begin prjDownloadBooster.LinkLabel lblReadOnline 
          Height          =   255
          Left            =   120
          TabIndex        =   8
          Tag             =   "nocolorchange"
-         Top             =   1980
+         Top             =   1860
          Width           =   1815
          _ExtentX        =   3201
          _ExtentY        =   450
@@ -126,7 +126,7 @@ Begin VB.Form frmAbout
       Begin prjDownloadBooster.ProgressBar pbLicenseLoadProgress 
          Height          =   255
          Left            =   120
-         Top             =   1680
+         Top             =   1560
          Width           =   2655
          _ExtentX        =   4683
          _ExtentY        =   450
@@ -134,13 +134,13 @@ Begin VB.Form frmAbout
          Step            =   10
       End
       Begin prjDownloadBooster.TextBoxW txtLicense 
-         Height          =   1455
+         Height          =   1335
          Left            =   120
          TabIndex        =   10
          Top             =   240
          Width           =   6255
          _ExtentX        =   11033
-         _ExtentY        =   2566
+         _ExtentY        =   2355
          Enabled         =   0   'False
          Locked          =   -1  'True
          MultiLine       =   -1  'True
@@ -238,16 +238,15 @@ Private Sub Form_Load()
     
     txtIconv.Text = txtIconv.Text & "Copyright (c) 2011 Alexander Shtuchkin" & vbCrLf
     txtIconv.Text = txtIconv.Text & "" & vbCrLf
-    txtIconv.Text = txtIconv.Text & "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the" & vbCrLf
-    txtIconv.Text = txtIconv.Text & "" & vbCrLf
-    txtIconv.Text = txtIconv.Text & """Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish," & vbCrLf
-    txtIconv.Text = txtIconv.Text & "distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:" & vbCrLf
+    txtIconv.Text = txtIconv.Text & "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the" & _
+                                    """Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish," & _
+                                    "distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:" & vbCrLf
     txtIconv.Text = txtIconv.Text & "" & vbCrLf
     txtIconv.Text = txtIconv.Text & "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software." & vbCrLf
     txtIconv.Text = txtIconv.Text & "" & vbCrLf
-    txtIconv.Text = txtIconv.Text & "THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF" & vbCrLf
-    txtIconv.Text = txtIconv.Text & "MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE" & vbCrLf
-    txtIconv.Text = txtIconv.Text & "LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." & vbCrLf
+    txtIconv.Text = txtIconv.Text & "THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF" & _
+                                    "MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE" & _
+                                    "LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
     
     timLicenseLoader.Enabled = -1
 End Sub
@@ -262,7 +261,7 @@ Sub StartSysInfo()
     Dim RC As Long
     Dim SysInfoPath As String
     
-    ' 시스템 정보 프로그램의 경로와 이름을 레지스트리에서 가져 옵니다...
+    ' 시스템 정보 프로그램의 경로와 이름을 레지스트리에서 가져옵니다...
     SysInfoPath = GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFO, gREGVALSYSINFO, "")
     If SysInfoPath = "" Then
         SysInfoPath = GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFOLOC, gREGVALSYSINFOLOC, "")

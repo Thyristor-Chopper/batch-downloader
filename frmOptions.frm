@@ -290,9 +290,9 @@ Begin VB.Form frmOptions
             Left            =   2055
             TabIndex        =   30
             Top             =   1080
-            Width           =   1455
-            _ExtentX        =   0
-            _ExtentY        =   0
+            Width           =   2040
+            _ExtentX        =   3598
+            _ExtentY        =   529
             Style           =   2
          End
          Begin prjDownloadBooster.CheckBoxW chkAutoRetry 
@@ -1630,9 +1630,9 @@ Private Sub Form_Load()
     End If
     
     cbWhenExist.Clear
-    cbWhenExist.AddItem t("중단", "Abort")
+    cbWhenExist.AddItem t("다운로드 안 하기", "Don't download")
     cbWhenExist.AddItem t("덮어쓰기", "Overwrite")
-    cbWhenExist.AddItem t("이름 변경", "Rename")
+    cbWhenExist.AddItem t("이름에 번호 붙이기", "Auto Rename")
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
     
     cbImagePosition.Clear

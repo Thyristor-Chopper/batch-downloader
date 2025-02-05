@@ -89,13 +89,22 @@ function startDownload(url) {
 			return process.exit(108);
 		}
 		
-		var parsed;
+		var parsed = {
+			dir: intpath.dirname(fn),
+			base: intpath.basename(fn),
+		};
+		var sf = safeFilename(parsed.base);
+		var fnupd = false;
+		if(sf != parsed.base) {
+			parsed.base = sf;
+			fnupd = true;
+		}
+		if(fnupd) {
+			fn = parsed.dir.replace(/\\$/, '') + '\\' + sf;
+			print('MODIFIEDFILENAME', iconv.encode(fn, 'cp949').toString('base64'));
+		}
 		var disposition = res.headers['content-disposition'];
 		if(process.argv[11] == 1 && disposition) {
-			parsed = {
-				dir: intpath.dirname(fn),
-				base: intpath.basename(fn),
-			};
 			var filename = parsed.base;
 			/* https://stackoverflow.com/questions/40939380/how-to-get-file-name-from-content-disposition */
 			var utf8FilenameRegex = /filename\*=UTF-8''([\w%\-\.]+)(?:; ?|$)/i;
@@ -118,11 +127,10 @@ function startDownload(url) {
 				print('MODIFIEDFILENAME', iconv.encode(fn, 'cp949').toString('base64'));
 			}
 		}
-		parsed = {
-			dir: intpath.dirname(fn),
-			ext: intpath.extname(fn),
-			name: intpath.basename(fn).slice(0, intpath.basename(fn).length - intpath.extname(fn).length),
-		};
+		parsed.dir = intpath.dirname(fn);
+		parsed.ext = intpath.extname(fn);
+		parsed.base = intpath.basename(fn);
+		parsed.name = parsed.base.slice(0, parsed.base.length - parsed.ext.length);
 		if(fs.existsSync(fn)) {
 			if(Number(process.argv[6]) == 0) return process.exit(104);
 			else if(Number(process.argv[6]) == 1) fs.unlinkSync(fn);

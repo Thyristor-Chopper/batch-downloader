@@ -129,7 +129,7 @@ Begin VB.Form frmEditHeader
    Begin VB.Image Image1 
       Height          =   480
       Left            =   120
-      Picture         =   "frmEditHeader.frx":00A4
+      Picture         =   "frmEditHeader.frx":00E8
       Top             =   120
       Width           =   480
    End

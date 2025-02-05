@@ -701,6 +701,16 @@ Private Sub Form_Load()
         OKButton.Top = CancelButton.Top
         OKButton.Left = CancelButton.Left - 120 - OKButton.Width
         OKButton.Caption = t("폴더 선택(&E)", "S&elect Folder")
+    ElseIf Tags.BrowseTargetForm = 0 Then
+        If txtFileName.Text = "" Then
+            OKButton.Caption = t("폴더 선택(&E)", "S&elect Folder")
+        Else
+            OKButton.Caption = t("저장(&E)", "Sav&e")
+        End If
+    ElseIf Tags.BrowseTargetForm = 1 Then
+        OKButton.Caption = t("저장(&E)", "Sav&e")
+    ElseIf Tags.BrowseTargetForm = 3 Then
+        OKButton.Caption = t("열기(&O)", "&Open")
     End If
     Label4.Caption = t(Label4.Caption, "File &type:")
     Label4.Visible = Tags.BrowseTargetForm <> 2
@@ -891,7 +901,7 @@ Private Sub Form_Resize()
     tbToolBar.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1215 - 120
     cmdViews.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 495 - 120 - 30
     lvFiles.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 7935)
-    CancelButton.Left = Me.Width - PaddedBorderWidth * 15 * 2 - CancelButton.Width - 120 - 120
+    CancelButton.Left = Me.Width - PaddedBorderWidth * 15 * 2 - CancelButton.Width - 120 - 120 - 15
     If Tags.BrowseTargetForm = 3 Then
         lvFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - (8835 - 3960)
     Else
@@ -907,7 +917,7 @@ Private Sub Form_Resize()
     If Tags.BrowseTargetForm = 2 Then
         OKButton.Left = CancelButton.Left - 120 - OKButton.Width
         OKButton.Top = CancelButton.Top
-        txtFileName.Width = txtFileName.Width + 120 + OKButton.Width
+        txtFileName.Width = txtFileName.Width + 120 + OKButton.Width - 15
     Else
         OKButton.Left = CancelButton.Left
         OKButton.Top = CancelButton.Top - OKButton.Height - 60
@@ -1121,7 +1131,7 @@ Private Sub lvFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
             mnuDelete.Enabled = ((Not IsMyComputer) And lvFiles.SelectedItem.IconIndex = 2 And lvFiles.SelectedItem.Text <> "..")
             mnuExplore.Visible = IsMyComputer Or lvFiles.SelectedItem.IconIndex = 1
             mnuOpen.Enabled = (IsMyComputer Or lvFiles.SelectedItem.IconIndex <= 2)
-            mnuProperties.Enabled = (lvFiles.SelectedItem.IconIndex <= 2 Or IsMyComputer)
+            mnuProperties.Enabled = ((lvFiles.SelectedItem.IconIndex <= 2 And lvFiles.SelectedItem.Text <> "..") Or IsMyComputer)
             If Tags.BrowseTargetForm = 2 Then mnuSelect.Enabled = (lvFiles.SelectedItem.IconIndex = 1 Or IsMyComputer)
             If mnuSelect.Enabled Then
                 Me.PopupMenu mnuFile, , , , mnuSelect
@@ -1742,5 +1752,15 @@ End Sub
 Private Sub tbToolBar_ButtonDropDown(ByVal Button As TbrButton)
     If Button.Index = 4 Then
         Me.PopupMenu mnuView, , cmdViews.Left, cmdViews.Top + cmdViews.Height
+    End If
+End Sub
+
+Private Sub txtFileName_Change()
+    If Tags.BrowseTargetForm = 0 Then
+        If txtFileName.Text = "" Then
+            OKButton.Caption = t("폴더 선택(&E)", "S&elect Folder")
+        Else
+            OKButton.Caption = t("저장(&E)", "Sav&e")
+        End If
     End If
 End Sub
