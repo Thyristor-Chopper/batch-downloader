@@ -8,26 +8,12 @@ Public Const DefaultBackColor As Long = 15529449 '-1&
 Public DefaultDisableDWMWindow As Integer
 Public LangID As Integer
 
-Sub LoadJS()
+Sub LoadPNG()
     On Error Resume Next
     MkDir CachePath
     On Error GoTo 0
     Dim ff As Integer
     Dim B() As Byte
-    If Not FileExists(CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js") Then
-        B = LoadResData(1, 10)
-        ff = FreeFile()
-        Open CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "node_v0_11_11.exe") Then
-        B = LoadResData(2, 10)
-        ff = FreeFile()
-        Open CachePath & "node_v0_11_11.exe" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
     
     '라이브바둑 쪽지스킨
     If Not FileExists(CachePath & "bottom.png") Then
@@ -93,6 +79,32 @@ Sub LoadJS()
         Put #ff, , B
         Close #ff
     End If
+End Sub
+
+Sub LoadJS()
+    On Error Resume Next
+    MkDir CachePath
+    On Error GoTo 0
+    Dim ff As Integer
+    Dim B() As Byte
+    
+    '다운로드 스크립트
+    If Not FileExists(CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js") Then
+        B = LoadResData(1, 10)
+        ff = FreeFile()
+        Open CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+    
+    'Node.js 실행화일
+    If Not FileExists(CachePath & "node_v0_11_11.exe") Then
+        B = LoadResData(2, 10)
+        ff = FreeFile()
+        Open CachePath & "node_v0_11_11.exe" For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
     
     'iconv-lite 모듈
     If Not FileExists(CachePath & "iconv.js") Then
@@ -103,22 +115,6 @@ Sub LoadJS()
         Put #ff, , B
         Close #ff
     End If
-    If Not FileExists(CachePath & "dbcs-codec.js") Then
-        B = LoadResData(4, 10)
-        ff = FreeFile()
-        Open CachePath & "dbcs-codec.js" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "dbcs-data.js") Then
-        B = LoadResData(5, 10)
-        ff = FreeFile()
-        Open CachePath & "dbcs-data.js" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    
-    Exit Sub
 End Sub
 
 Sub Main()

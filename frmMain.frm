@@ -3730,7 +3730,9 @@ Sub SetBackgroundImage()
 End Sub
 
 Sub LoadLiveBadukSkin()
-    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
+    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 Then
+        LoadPNG
+        
         imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
         imgTopRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topright.png")
         imgTop.Picture = LoadPngIntoPictureWithAlpha(CachePath & "top.png")
@@ -4277,6 +4279,7 @@ Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
     
     Exit Sub
 ErrLn:
+    mnuClearBatch2.Enabled = (lvBatchFiles.ListItems.Count > 0)
     Me.PopupMenu mnuListContext2
 End Sub
 
