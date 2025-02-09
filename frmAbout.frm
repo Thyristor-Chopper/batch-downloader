@@ -394,7 +394,7 @@ Private Sub Form_Load()
     txtCC.Text = txtCC.Text & "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software." & vbCrLf & vbCrLf
     txtCC.Text = txtCC.Text & "THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
     
-    txtPNG.Text = "https://www.vbforums.com/showthread.php?896878-PNG-with-alpha-channel-into-standard-VB6-image-control" & vbCrLf & vbCrLf
+    txtPNG.Text = "https://www.vbforums.com/showthread.php?896878" & vbCrLf & vbCrLf
     txtPNG.Text = txtPNG.Text & "Elroy, LaVolpe, Dilettante, Wqweto, Schmidt, & The Trick" & vbCrLf & vbCrLf
     txtPNG.Text = txtPNG.Text & "Any software I (Elroy) post in these forums (VBForums) written by me is provided ""AS IS"" without warranty of any kind, expressed or implied, and permission is hereby granted, free of charge and without restriction, to any person obtaining a copy. To all, peace and happiness." & vbCrLf & vbCrLf
     

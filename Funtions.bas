@@ -1347,6 +1347,7 @@ Function GetParentFolderName(ByVal Path As String) As String
     Do While Right$(GetParentFolderName, 1) = "\"
         GetParentFolderName = Left$(GetParentFolderName, Len(GetParentFolderName) - 1)
     Loop
+    If Len(GetParentFolderName) = 2 And Right$(GetParentFolderName, 1) = ":" Then GetParentFolderName = GetParentFolderName & "\"
     Exit Function
 errfso:
     GetParentFolderName = ""
