@@ -387,7 +387,7 @@ Private Sub Form_Load()
     txtMisc.Text = txtMisc.Text & "- http://vbcity.com/forums/t/105530.aspx" & vbCrLf
     txtMisc.Text = txtMisc.Text & "- https://www.vbforums.com/showthread.php?696217-How-do-I-load-an-EXE-or-DLL-file-icon" & vbCrLf
     
-    FrameW1.Caption = t(FrameW1.Caption, "License")
+    FrameW1.Caption = t(FrameW1.Caption, "&License")
 End Sub
 
 Private Sub lblReadOnline_LinkActivate(ByVal Link As LlbLink, ByVal Reason As LlbLinkActivateReasonConstants)
