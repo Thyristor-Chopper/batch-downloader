@@ -14,3 +14,5 @@
 Node.js의 라이선스를 보는 곳: https://github.com/gec-chopper-control/batch-downloader/blob/master/NODEJS_LICENSE
 
 iconv-lite 라이선스 - https://github.com/gec-chopper-control/batch-downloader/blob/master/ICONV_LICENSE
+
+Krool's Common Controls - https://github.com/gec-chopper-control/batch-downloader/blob/master/COMMONCONTROLS_LICENSE
