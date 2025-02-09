@@ -34,6 +34,7 @@ Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1
 Private Declare Function CryptStringToBinary Lib "crypt32" Alias "CryptStringToBinaryW" (ByVal pszString As Long, ByVal cchString As Long, ByVal dwFlags As Long, ByVal pbBinary As Long, ByRef pcbBinary As Long, ByRef pdwSkip As Long, ByRef pdwFlags As Long) As Long
+Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 
 Private Type ItemID
     cb As Long
@@ -442,7 +443,7 @@ GetKeyError:      ' 오류가 발생하면 지웁니다...
 End Function
 
 'https://stackoverflow.com/questions/40651/check-if-a-record-exists-in-a-vb6-collection
-Function Exists(ByVal oCol As Collection, ByVal vKey As Variant) As Boolean
+Function Exists(ByVal oCol As Collection, ByVal vKey As String) As Boolean
     On Error Resume Next
     oCol.Item CStr(vKey)
     Exists = (Err.Number = 0)

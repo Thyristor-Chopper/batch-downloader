@@ -421,6 +421,11 @@ Dim Pattern$
 Dim IsMyComputer As Boolean
 'Dim mnuTop&, mnuBottom&, mnuViewID&
 Dim Loaded As Boolean
+Dim ListedOn As String
+Dim ExtToIcon As Collection
+Dim ExtToSmallIcon As Collection
+Dim FirstListed As Boolean
+Dim LoadFinished As Boolean
 
 Sub ShowDesktopItems()
     Dim li As LvwListItem
@@ -463,6 +468,8 @@ Private Sub cbFolderList_Click()
             Exit Sub
     End Select
     
+    If IsMyComputer Then ListedOn = ""
+    
     If cbFolderList.SelectedItem.Indentation = 2 Then
         On Error GoTo driveunavailable
         'selDrive.ListIndex = cbFolderList.SelectedItem.Index - 5
@@ -495,12 +502,23 @@ driveunavailable:
 End Sub
 
 Private Sub chkHidden_Click()
+    ListedOn = ""
     If Loaded Then ListFiles
     SaveSetting "DownloadBooster", "UserData", "ShowHidden", chkHidden.Value
 End Sub
 
 Sub ListFiles()
     IsMyComputer = False
+    
+    If ListedOn <> "" And ListedOn = lvDir.Path Then Exit Sub
+    ListedOn = lvDir.Path
+    LoadFinished = False
+    cbFolderList.Enabled = 0
+    'tbPlaces.Enabled = 0
+    tbToolBar.Enabled = 0
+    chkHidden.Enabled = 0
+    chkUnixHidden.Enabled = 0
+    chkShowFiles.Enabled = 0
     
     lvFiles.ColumnHeaders(2).Text = t("크기", "Size")
     lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentRight
@@ -521,6 +539,28 @@ Sub ListFiles()
         Set lvFiles.SelectedItem = Nothing
     End If
     lvFiles.ListItems.Clear
+    
+    If imgFolder.ListImages.Count > 10 Then
+        For i = 11 To imgFolder.ListImages.Count
+            imgFolder.ListImages.Remove 11
+        Next i
+    End If
+    If imgFolderSmall.ListImages.Count > 18 Then
+        For i = 19 To imgFolderSmall.ListImages.Count
+            imgFolderSmall.ListImages.Remove 19
+        Next i
+    End If
+    
+    If ExtToIcon.Count > 0 Then
+        For i = 1 To ExtToIcon.Count
+            ExtToIcon.Remove 1
+        Next i
+    End If
+    If ExtToSmallIcon.Count > 0 Then
+        For i = 1 To ExtToSmallIcon.Count
+            ExtToSmallIcon.Remove 1
+        Next i
+    End If
     
     If lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP) Then _
         ShowDesktopItems
@@ -559,6 +599,8 @@ Sub ListFiles()
             End If
         End If
         Name = Dir
+        
+        DoEvents
     Loop
     
     Dim PatternMatched As Boolean
@@ -574,6 +616,7 @@ Sub ListFiles()
     Name = Dir(Path, vbNormal Or vbReadOnly Or vbArchive Or ShowHidden)
     Dim cnt As Double
     cnt = 0
+    Dim ext$
     Do While Name <> ""
         If (GetAttr(Path & Name) And vbDirectory) <> vbDirectory Then
             PatternMatched = False
@@ -583,10 +626,10 @@ Sub ListFiles()
                 PatternMatched = (LCase(Name) Like LCase(CurrentPattern))
                 If PatternMatched Then Exit For
             Next i
-            
+
             Shown = True
             If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." Then Shown = False
-            
+
             Icon = 2
             If LCase(GetExtensionName(Name)) = "lnk" Then
                 LnkPath = GetShortcutTarget(Path & Name)
@@ -600,14 +643,27 @@ Sub ListFiles()
             Else
                 If Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then Shown = False
             End If
-            
+
             SmallIcon = Icon
             
-            If Icon = 2 And GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0) <> 1 And cnt < 250 Then
-                Icon = imgFolder.ListImages.Add(, , GetAssocIcon(Path & Name, , True, (Left$(Name, 1) = "."))).Index
-                SmallIcon = imgFolderSmall.ListImages.Add(, , GetAssocIcon(Path & Name, , False, (Left$(Name, 1) = "."))).Index
+            ext = UCase(GetExtensionName(Name))
+            If Icon = 2 And GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0) <> 1 Then
+                If (ext = "EXE" Or ext = "LNK" Or ext = "PIF" Or ext = "ICO") And cnt < 250 Then
+                    Icon = imgFolder.ListImages.Add(, , GetAssocIcon(Path & Name, , True, (Left$(Name, 1) = "."))).Index
+                    SmallIcon = imgFolderSmall.ListImages.Add(, , GetAssocIcon(Path & Name, , False, (Left$(Name, 1) = "."))).Index
+                    cnt = cnt + 1
+                ElseIf Exists(ExtToIcon, ext) Then
+                    Icon = ExtToIcon(CStr(ext))
+                    SmallIcon = ExtToSmallIcon(CStr(ext))
+                ElseIf cnt < 250 Then
+                    Icon = imgFolder.ListImages.Add(, , GetAssocIcon("." & ext, , True, True)).Index
+                    SmallIcon = imgFolderSmall.ListImages.Add(, , GetAssocIcon("." & ext, , False, True)).Index
+                    ExtToIcon.Add Icon, CStr(ext)
+                    ExtToSmallIcon.Add SmallIcon, CStr(ext)
+                    cnt = cnt + 1
+                End If
             End If
-            
+
             If PatternMatched And Shown And Replace(Path & Name, "?", "") = (Path & Name) Then
                 Set li = lvFiles.ListItems.Add(, , Name, Icon, SmallIcon)
                 li.ListSubItems.Add , , "-"
@@ -617,22 +673,40 @@ Sub ListFiles()
                 li.ListSubItems(2).Text = ExtName
                 li.ListSubItems.Add , , "-"
                 li.ListSubItems(3).Text = FormatModified(FileDateTime(Path & Name))
-                cnt = cnt + 1
+                
+                If Tags.BrowseTargetForm = 3 And (Not FirstListed) Then
+                    If Name <> "" And LCase(Name) = LCase(GetFilename(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))) Then
+                        li.Selected = True
+                        li.EnsureVisible
+                    End If
+                End If
             End If
         End If
         Name = Dir
+        
+        DoEvents
     Loop
     
     tbToolBar.Buttons(3).Enabled = True
     lvFiles.GroupView = False
+    FirstListed = True
+    LoadFinished = True
+    cbFolderList.Enabled = True
+    'tbPlaces.Enabled = True
+    tbToolBar.Enabled = True
+    chkHidden.Enabled = True
+    chkUnixHidden.Enabled = True
+    chkShowFiles.Enabled = True
 End Sub
 
 Private Sub chkShowFiles_Click()
+    ListedOn = ""
     If Loaded Then ListFiles
     SaveSetting "DownloadBooster", "UserData", "ShowFiles", chkShowFiles.Value
 End Sub
 
 Private Sub chkUnixHidden_Click()
+    ListedOn = ""
     If Loaded Then ListFiles
     SaveSetting "DownloadBooster", "UserData", "ShowUnixHidden", chkUnixHidden.Value
 End Sub
@@ -650,13 +724,19 @@ Private Sub Form_Load()
     SetFont Me
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     Loaded = False
-    
+    FirstListed = False
     IsMyComputer = False
+    LoadFinished = True
+    
+    Set ExtToIcon = New Collection
+    Set ExtToSmallIcon = New Collection
     
     lvFiles.ColumnHeaders.Add , , t("이름", "Name"), 2295
     lvFiles.ColumnHeaders.Add(, , t("크기", "Size"), 1455).Alignment = LvwColumnHeaderAlignmentRight
     lvFiles.ColumnHeaders.Add , , t("종류", "Type"), 1800
     lvFiles.ColumnHeaders.Add , , t("수정한 날짜", "Modified"), 2040
+    
+    lvFiles.ColumnHeaders(1).SortArrow = LvwColumnHeaderSortArrowUp
     
     selFileType.Clear
     If Tags.BrowseTargetForm = 3 Then
@@ -682,6 +762,12 @@ Private Sub Form_Load()
     Dim fmpth As String
     If Tags.BrowseTargetForm = 3 Then
         fmpth = GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")
+        
+        If LCase(Right$(fmpth, 4)) = ".png" Then
+            Set imgPreview.Picture = LoadPngIntoPictureWithAlpha(fmpth)
+        Else
+            imgPreview.Picture = LoadPicture(fmpth)
+        End If
     Else
         If Tags.BrowsePresetPath = "" Then
             fmpth = Trim$(frmMain.txtFileName.Text)
@@ -783,16 +869,6 @@ Private Sub Form_Load()
     
     lvFiles.View = GetSetting("DownloadBooster", "UserData", "FileListView", LvwViewConstants.LvwViewReport)
     
-    If Tags.BrowseTargetForm = 3 And lvFiles.ListItems.Count > 0 Then
-        For i = 1 To lvFiles.ListItems.Count
-            If LCase(lvFiles.ListItems(i).Text) = LCase(GetFilename(fmpth)) Then
-                lvFiles.ListItems(i).Selected = True
-                lvFiles.ListItems(i).EnsureVisible
-                Exit For
-            End If
-        Next i
-    End If
-    
     lvFiles.Groups.Add , , t("이 컴퓨터에 저장된 파일", "Files Stored on This Computer")
     lvFiles.Groups.Add , , t("하드 디스크 드라이브", "Hard Disk Drives")
     lvFiles.Groups.Add , , t("이동식 저장소가 있는 장치", "Drives with Removable Storage")
@@ -849,6 +925,7 @@ End Sub
 
 Sub ShowMyComputer()
     IsMyComputer = True
+    LoadFinished = True
     
     lvFiles.ColumnHeaders(2).Text = t("종류", "Type")
     lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentLeft
@@ -959,6 +1036,7 @@ Private Sub Form_Unload(Cancel As Integer)
     On Error Resume Next
     imgFolder.ListImages.Clear
     imgFolderSmall.ListImages.Clear
+    Unload Me
 End Sub
 
 Private Sub lvDir_Change()
@@ -966,7 +1044,6 @@ Private Sub lvDir_Change()
     Dim k%
     Dim indentLevel%
     Dim Item As ImcComboItem
-    cbFolderList.ComboItems.Clear
     Dim Path$
     Dim ItemCount%
     Dim ItemSelectPos
@@ -1052,13 +1129,10 @@ Private Sub lvDir_Change()
     Select Case Path
         Case GetSpecialfolder(CSIDL_RECENT)
             tbPlaces.Buttons(1).Value = TbrButtonValuePressed
-            cbFolderList.ComboItems(1).Selected = True
         Case GetSpecialfolder(CSIDL_DESKTOP)
             tbPlaces.Buttons(2).Value = TbrButtonValuePressed
-            cbFolderList.ComboItems(2).Selected = True
         Case GetSpecialfolder(CSIDL_PERSONAL)
             tbPlaces.Buttons(3).Value = TbrButtonValuePressed
-            cbFolderList.ComboItems(3).Selected = True
         Case GetSpecialfolder(CSIDL_FAVORITES)
             tbPlaces.Buttons(5).Value = TbrButtonValuePressed
         Case Environ$("USERPROFILE")
@@ -1154,7 +1228,11 @@ Private Sub lvFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
             mnuExplore.Visible = IsMyComputer Or lvFiles.SelectedItem.IconIndex = 1
             mnuOpen.Enabled = (IsMyComputer Or lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10)
             mnuProperties.Enabled = (((lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> "..") Or IsMyComputer)
-            If Tags.BrowseTargetForm = 2 Then mnuSelect.Enabled = (lvFiles.SelectedItem.IconIndex = 1 Or IsMyComputer)
+            If Tags.BrowseTargetForm = 2 Then
+                mnuSelect.Enabled = (lvFiles.SelectedItem.IconIndex = 1 Or IsMyComputer) And LoadFinished
+            Else
+                mnuSelect.Enabled = LoadFinished
+            End If
             If mnuSelect.Enabled Then
                 Me.PopupMenu mnuFile, , , , mnuSelect
             Else
@@ -1169,7 +1247,7 @@ folderfloor:
         mnuNewFolder.Enabled = tbToolBar.Buttons(3).Enabled
         mnuFolderProperties.Enabled = Not IsMyComputer
         mnuCmd.Enabled = tbToolBar.Buttons(3).Enabled
-        'mnuRefresh.Enabled = Not IsMyComputer
+        mnuRefresh.Enabled = LoadFinished
         Me.PopupMenu mnuFolderFloor
     End If
 End Sub
@@ -1191,8 +1269,10 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
         If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
             LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
         If FolderExists(LnkPath) Then
-            lvDir.Path = LnkPath
-            If Tags.BrowseTargetForm = 2 Then txtFileName.Text = ""
+            If LoadFinished Then
+                lvDir.Path = LnkPath
+                If Tags.BrowseTargetForm = 2 Then txtFileName.Text = ""
+            End If
         ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Then
             OKButton_Click
         End If
@@ -1212,12 +1292,14 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
 driveunavailable:
         Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, Me, 16
     ElseIf Item.IconIndex = 1 Then
-        On Error GoTo folderinaccessible
-        lvDir.Path = FullPath
-        If Tags.BrowseTargetForm = 2 Then txtFileName.Text = ""
-        Exit Sub
+        If LoadFinished Then
+            On Error GoTo folderinaccessible
+            lvDir.Path = FullPath
+            If Tags.BrowseTargetForm = 2 Then txtFileName.Text = ""
+            Exit Sub
 folderinaccessible:
-        Alert t("폴더가 존재하지 않습니다.", "The folder does not exist"), App.Title, Me, 16
+            Alert t("폴더가 존재하지 않습니다.", "The folder does not exist"), App.Title, Me, 16
+        End If
     ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Then
         OKButton_Click
     End If
@@ -1233,7 +1315,7 @@ Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
     If Item.IconIndex = 1 Or (Item.IconIndex > 2 And Item.IconIndex <= 10) Then Exit Sub
     If Tags.BrowseTargetForm <> 2 Then txtFileName.Text = Item.Text
     
-    If Tags.BrowseTargetForm = 3 And Item.IconIndex <> 1 Then
+    If Tags.BrowseTargetForm = 3 And Item.IconIndex <> 1 And (Not IsMyComputer) Then
         On Error Resume Next
         Dim Path$
         Path = lvDir.Path
@@ -1251,13 +1333,14 @@ Private Sub lvFiles_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 116 Then
         If IsMyComputer Then
             ShowMyComputer
-        Else
+        ElseIf LoadFinished Then
+            ListedOn = ""
             ListFiles
         End If
     ElseIf KeyCode = 113 And (Not lvFiles.SelectedItem Is Nothing) Then
         If lvFiles.SelectedItem.Selected Then lvFiles.StartLabelEdit
     ElseIf KeyCode = 8 Then
-        If tbToolBar.Buttons(2).Enabled And Len(lvDir.Path) > 3 Then _
+        If tbToolBar.Buttons(2).Enabled And Len(lvDir.Path) > 3 And LoadFinished Then _
             lvDir.Path = GetParentFolderName(lvDir.Path)
     ElseIf KeyCode = 46 And (Not lvFiles.SelectedItem Is Nothing) Then
         If lvFiles.SelectedItem.Selected And (lvFiles.SelectedItem.IconIndex = 2 Or lvFiles.SelectedItem.IconIndex > 10) Then mnuDelete_Click
@@ -1268,7 +1351,8 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 116 Then
         If IsMyComputer Then
             ShowMyComputer
-        Else
+        ElseIf LoadFinished Then
+            ListedOn = ""
             ListFiles
         End If
     End If
@@ -1424,6 +1508,7 @@ Private Sub mnuRefresh_Click()
     If IsMyComputer Then
         ShowMyComputer
     Else
+        ListedOn = ""
         ListFiles
     End If
 End Sub
@@ -1476,8 +1561,9 @@ Private Sub OKButton_Click()
         Pattern = txtFileName.Text
         txtFileName.SelStart = 0
         txtFileName.SelLength = Len(txtFileName.Text)
-        ListFiles
         MessageBeep 0
+        ListedOn = ""
+        ListFiles
         Exit Sub
     End If
 
@@ -1510,7 +1596,7 @@ Private Sub OKButton_Click()
             End If
             
             If lvFiles.SelectedItem.IconIndex = 1 And FolderExists(FullPath) And (txtFileName.Text = "" Or ((Not FolderExists(txtFileName)) And (Not FolderExists(FullPath2)))) Then
-                lvDir.Path = FullPath
+                If LoadFinished Then lvDir.Path = FullPath
                 Exit Sub
             End If
         End If
@@ -1518,29 +1604,36 @@ Private Sub OKButton_Click()
     
     If Tags.BrowseTargetForm = 3 Then
         If FolderExists(txtFileName.Text) Then
-            txtFileName.SelStart = 0
-            txtFileName.SelLength = Len(txtFileName.Text)
-            lvDir.Path = txtFileName.Text
+            If LoadFinished Then
+                txtFileName.SelStart = 0
+                txtFileName.SelLength = Len(txtFileName.Text)
+                lvDir.Path = txtFileName.Text
+            End If
             'MessageBeep 0
             Exit Sub
         End If
         
         If FolderExists(GetParentFolderName(txtFileName.Text)) Then
+            If Not LoadFinished Then Exit Sub
             lvDir.Path = GetParentFolderName(txtFileName.Text)
             txtFileName.Text = GetFilename(txtFileName.Text)
         End If
     ElseIf FolderExists(txtFileName.Text) Then
         If txtFileName.Text = "." Or txtFileName.Text = ".." Then
-            lvDir.Path = txtFileName.Text
-            'MessageBeep 0
-            txtFileName.Text = ""
-'            txtFileName.SelStart = 0
-'            txtFileName.SelLength = Len(txtFileName.Text)
+            If LoadFinished Then
+                lvDir.Path = txtFileName.Text
+                'MessageBeep 0
+                txtFileName.Text = ""
+'                txtFileName.SelStart = 0
+'                txtFileName.SelLength = Len(txtFileName.Text)
+            End If
             Exit Sub
         End If
+        If Not LoadFinished Then Exit Sub
         lvDir.Path = txtFileName.Text
         txtFileName.Text = ""
     ElseIf FolderExists(GetParentFolderName(txtFileName.Text)) Then
+        If Not LoadFinished Then Exit Sub
         lvDir.Path = GetParentFolderName(txtFileName.Text)
         txtFileName.Text = GetFilename(txtFileName.Text)
         If txtFileName.Text = "." Or txtFileName.Text = ".." Then
@@ -1550,6 +1643,7 @@ Private Sub OKButton_Click()
         Path = lvDir.Path
         If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
         If FolderExists(Path & txtFileName.Text) Then
+            If Not LoadFinished Then Exit Sub
             lvDir.Path = Path & txtFileName.Text
             If txtFileName.Text <> "" Then
                 txtFileName.Text = ""
@@ -1682,22 +1776,27 @@ End Sub
 
 Private Sub selFileType_Click()
     Pattern = Replace(Mid$(selFileType.Text, InStr(1, selFileType.Text, "(") + 1, Len(selFileType.Text) - InStr(1, selFileType.Text, "(") - 1), " ", "")
+    ListedOn = ""
     If Loaded Then ListFiles
 End Sub
 
 Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
+    If Not LoadFinished Then Exit Sub
+    
     Dim i%
     For i = 1 To tbPlaces.Buttons.Count
         tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
     Next i
     
+    If IsMyComputer Then ListedOn = ""
+    
     Select Case Button.Index
         Case 1
             lvDir.Path = GetSpecialfolder(CSIDL_RECENT)
-            'cbFolderList.ComboItems(1).Selected = True
+            cbFolderList.ComboItems(1).Selected = True
         Case 2
             lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
-            'cbFolderList.ComboItems(2).Selected = True
+            cbFolderList.ComboItems(2).Selected = True
         Case 3
             lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
         Case 4
@@ -1764,6 +1863,7 @@ End Sub
 Private Sub tbToolBar_ButtonClick(ByVal Button As TbrButton)
     Select Case Button.Index
         Case 2
+            If Not LoadFinished Then Exit Sub
             If IsMyComputer Then
                 lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
             ElseIf Len(lvDir.Path) > 3 Then
