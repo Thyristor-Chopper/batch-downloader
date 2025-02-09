@@ -520,9 +520,11 @@ Private Sub timLicenseLoader_Timer()
     End If
     
     On Error GoTo LicenseFail
+    'timLicenseLoader.Enabled = 0
     Dim i%
     For i = 0 To 6
         txtLicense.Text = txtLicense.Text & LoadResString(LineNum + i) & vbCrLf
+        DoEvents
     Next i
     pbLicenseLoadProgress.Value = LineNum
     txtLicensePlaceholder.Text = t("라이선스를 불러오는 중... (", "Loading the license text... (") & Floor(LineNum / 812 * 100) & "%)"
