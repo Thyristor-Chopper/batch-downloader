@@ -911,7 +911,7 @@ Sub ShowMyComputer()
     Next k
     tbPlaces.Buttons(4).Value = TbrButtonValuePressed
     cbFolderList.ComboItems(4).Selected = True
-    tbToolBar.Buttons(2).Enabled = False
+    tbToolBar.Buttons(2).Enabled = True
     tbToolBar.Buttons(3).Enabled = False
 End Sub
 
@@ -1764,8 +1764,11 @@ End Sub
 Private Sub tbToolBar_ButtonClick(ByVal Button As TbrButton)
     Select Case Button.Index
         Case 2
-            If Len(lvDir.Path) > 3 Then _
+            If IsMyComputer Then
+                lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
+            ElseIf Len(lvDir.Path) > 3 Then
                 lvDir.Path = fso.GetParentFolderName(lvDir.Path)
+            End If
         Case 3
             CreateNewFolder
     End Select
