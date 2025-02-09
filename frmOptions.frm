@@ -160,24 +160,35 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   3825
+      Height          =   4065
       Index           =   1
       Left            =   120
-      ScaleHeight     =   3765
+      ScaleHeight     =   4005
       ScaleWidth      =   5835
       TabIndex        =   5
       Top             =   600
       Width           =   5895
       Begin prjDownloadBooster.FrameW Frame5 
-         Height          =   1995
+         Height          =   2235
          Left            =   120
          TabIndex        =   20
          Top             =   1680
          Width           =   4335
          _ExtentX        =   7646
-         _ExtentY        =   3519
+         _ExtentY        =   3942
          Caption         =   " 인터페이스 "
          Transparent     =   -1  'True
+         Begin prjDownloadBooster.CheckBoxW chkDontLoadIcons 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   74
+            Top             =   1200
+            Width           =   4095
+            _ExtentX        =   7223
+            _ExtentY        =   450
+            Caption         =   "열기 대화 상자에서 같은 파일 아이콘 사용(&M)"
+            Transparent     =   -1  'True
+         End
          Begin prjDownloadBooster.CheckBoxW chkForceOldDialog 
             Height          =   255
             Left            =   120
@@ -239,7 +250,7 @@ Begin VB.Form frmOptions
             Height          =   300
             Left            =   1440
             TabIndex        =   22
-            Top             =   1320
+            Top             =   1560
             Width           =   2775
             _ExtentX        =   4895
             _ExtentY        =   529
@@ -251,7 +262,7 @@ Begin VB.Form frmOptions
             Height          =   255
             Left            =   120
             TabIndex        =   54
-            Top             =   1680
+            Top             =   1920
             Width           =   4200
          End
          Begin VB.Label Label1 
@@ -261,7 +272,7 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   21
             Tag             =   "nocolorchange"
-            Top             =   1365
+            Top             =   1605
             Width           =   975
          End
       End
@@ -404,15 +415,15 @@ Begin VB.Form frmOptions
       ScaleHeight     =   2355
       ScaleWidth      =   5955
       TabIndex        =   34
-      Top             =   4560
+      Top             =   4800
       Width           =   6015
       Begin prjDownloadBooster.FrameW FrameW4 
          Height          =   615
          Left            =   120
          TabIndex        =   71
          Top             =   1680
-         Width           =   4815
-         _ExtentX        =   8493
+         Width           =   3375
+         _ExtentX        =   5953
          _ExtentY        =   1085
          Caption         =   " 고급 다운로드 설정 "
          Begin prjDownloadBooster.CheckBoxW chkNoCleanup 
@@ -985,6 +996,14 @@ Private Sub chkBeepWhenComplete_Click()
     End If
 End Sub
 
+Private Sub chkDontLoadIcons_Click()
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+        ImageChanged = True
+    End If
+End Sub
+
 Private Sub chkEnableBackgroundImage_Click()
     If Loaded Then
         cmdApply.Enabled = -1
@@ -1122,6 +1141,7 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "LazyElapsed", chkLazyElapsed.Value
     SaveSetting "DownloadBooster", "Options", "ExcludeMergeFromElapsed", chkExcludeMergeFromElapsed.Value
     SaveSetting "DownloadBooster", "Options", "ForceWin31Dialog", chkForceOldDialog.Value
+    SaveSetting "DownloadBooster", "Options", "DontLoadIcons", chkDontLoadIcons.Value
     
     SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenWhenComplete.Value
     SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenDirWhenComplete.Value
@@ -1532,6 +1552,7 @@ Private Sub Form_Load()
     chkExcludeMergeFromElapsed.Value = GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", 0)
     chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
     chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow)
+    chkDontLoadIcons.Value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
     If (Not IsDWMEnabled()) Then
         chkNoDWMWindow.Enabled = False
         chkNoDWMWindow.Value = 1
@@ -1718,6 +1739,7 @@ Private Sub Form_Load()
     FrameW3.Caption = t(FrameW3.Caption, " Network settings ")
     FrameW4.Caption = t(FrameW4.Caption, " Advanced download options ")
     chkForceOldDialog.Caption = t(chkForceOldDialog.Caption, "U&se Windows 3.1 dialogs")
+    chkDontLoadIcons.Caption = t(chkDontLoadIcons.Caption, "Use sa&me icons for all files in the open dialog")
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775

@@ -109,7 +109,7 @@ Begin VB.Form frmExplorer
       _ExtentY        =   1005
       ImageWidth      =   16
       ImageHeight     =   16
-      ColorDepth      =   4
+      ColorDepth      =   32
       MaskColor       =   16711935
       InitListImages  =   "frmExplorer.frx":3E2C
    End
@@ -120,7 +120,7 @@ Begin VB.Form frmExplorer
       _ExtentY        =   1005
       ImageWidth      =   32
       ImageHeight     =   32
-      ColorDepth      =   4
+      ColorDepth      =   32
       MaskColor       =   16711935
       InitListImages  =   "frmExplorer.frx":655C
    End
@@ -553,7 +553,7 @@ Sub ListFiles()
                     If Name = ".." Then
                         li.ListSubItems.Add , , "-" 'FileDateTime(fso.GetParentFolderName(Path))
                     Else
-                        li.ListSubItems.Add , , FileDateTime(Path & Name)
+                        li.ListSubItems.Add , , FormatModified(FileDateTime(Path & Name))
                     End If
                 End If
             End If
@@ -565,7 +565,7 @@ Sub ListFiles()
     Dim PatternsSplit() As String
     Dim CurrentPattern$
     Dim ExtName$
-    Dim Icon%
+    Dim Icon%, SmallIcon%
     Dim LnkPath As String
     PatternsSplit = Split(Pattern, ";")
     Dim ShowHidden As VbFileAttribute
@@ -599,12 +599,19 @@ Sub ListFiles()
                 If Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then Shown = False
             End If
             
+            SmallIcon = Icon
+            
+            If Icon = 2 And GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0) <> 1 Then
+                Icon = imgFolder.ListImages.Add(, , GetAssocIcon(Path & Name, , True, (Left$(Name, 1) = "."))).Index
+                SmallIcon = imgFolderSmall.ListImages.Add(, , GetAssocIcon(Path & Name, , False, (Left$(Name, 1) = "."))).Index
+            End If
+            
             If PatternMatched And Shown Then
-                Set li = lvFiles.ListItems.Add(, , Name, Icon, Icon)
+                Set li = lvFiles.ListItems.Add(, , Name, Icon, SmallIcon)
                 li.ListSubItems.Add , , ParseSize(FileLen(Path & Name))
                 ExtName = Trim$(GetKeyValue(HKEY_CLASSES_ROOT, GetKeyValue(HKEY_CLASSES_ROOT, "." & LCase(fso.GetExtensionName(Name)), "", "BOOSTER_NO_FILE_EXT_REGISTERED"), "", UCase(fso.GetExtensionName(Name)) & " " & t("파일", "File")))
                 li.ListSubItems.Add , , ExtName
-                li.ListSubItems.Add , , FileDateTime(Path & Name)
+                li.ListSubItems.Add , , FormatModified(FileDateTime(Path & Name))
             End If
         End If
         Name = Dir
@@ -622,6 +629,11 @@ End Sub
 Private Sub chkUnixHidden_Click()
     ListFiles
     SaveSetting "DownloadBooster", "UserData", "ShowUnixHidden", chkUnixHidden.Value
+End Sub
+
+Private Sub Form_Activate()
+    On Error Resume Next
+    txtFileName.SetFocus
 End Sub
 
 Private Sub Form_Load()
@@ -898,8 +910,8 @@ End Sub
 
 Private Sub Form_Resize()
     cbFolderList.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 6495)
-    tbToolBar.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1215 - 120
-    cmdViews.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 495 - 120 - 30
+    tbToolBar.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1215 - 120 - 120
+    cmdViews.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 495 - 120 - 30 - 120
     lvFiles.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 7935)
     CancelButton.Left = Me.Width - PaddedBorderWidth * 15 * 2 - CancelButton.Width - 120 - 120 - 15
     If Tags.BrowseTargetForm = 3 Then
@@ -937,6 +949,9 @@ Private Sub Form_Unload(Cancel As Integer)
         SaveSetting "DownloadBooster", "UserData", "ComdlgHeight", Me.Height - PaddedBorderWidth * 15 * 2 - IIf(Tags.BrowseTargetForm = 3, 8835 - 6165, 0)
     End If
     Unhook3 Me.hWnd
+    On Error Resume Next
+    imgFolder.ListImages.Clear
+    imgFolderSmall.ListImages.Clear
 End Sub
 
 Private Sub lvDir_Change()
@@ -1113,7 +1128,7 @@ Private Sub lvFiles_BeforeLabelEdit(Cancel As Boolean)
     If lvFiles.SelectedItem Is Nothing Then Exit Sub
     If Not lvFiles.SelectedItem.Selected Then Exit Sub
     If lvFiles.SelectedItem.Text = ".." Then Cancel = True
-    If lvFiles.SelectedItem.IconIndex > 2 Then Cancel = True
+    If lvFiles.SelectedItem.IconIndex > 2 And lvFiles.SelectedItem.IconIndex <= 10 Then Cancel = True
     
     Dim FullPath$
     Dim Path$
@@ -1127,11 +1142,11 @@ Private Sub lvFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
     On Error Resume Next
     If Not lvFiles.SelectedItem Is Nothing Then
         If lvFiles.SelectedItem.Selected Then
-            mnuRename.Enabled = (lvFiles.SelectedItem.IconIndex <= 2 And lvFiles.SelectedItem.Text <> "..")
-            mnuDelete.Enabled = ((Not IsMyComputer) And lvFiles.SelectedItem.IconIndex = 2 And lvFiles.SelectedItem.Text <> "..")
+            mnuRename.Enabled = ((lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> "..")
+            mnuDelete.Enabled = ((Not IsMyComputer) And (lvFiles.SelectedItem.IconIndex = 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> "..")
             mnuExplore.Visible = IsMyComputer Or lvFiles.SelectedItem.IconIndex = 1
-            mnuOpen.Enabled = (IsMyComputer Or lvFiles.SelectedItem.IconIndex <= 2)
-            mnuProperties.Enabled = ((lvFiles.SelectedItem.IconIndex <= 2 And lvFiles.SelectedItem.Text <> "..") Or IsMyComputer)
+            mnuOpen.Enabled = (IsMyComputer Or lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10)
+            mnuProperties.Enabled = (((lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> "..") Or IsMyComputer)
             If Tags.BrowseTargetForm = 2 Then mnuSelect.Enabled = (lvFiles.SelectedItem.IconIndex = 1 Or IsMyComputer)
             If mnuSelect.Enabled Then
                 Me.PopupMenu mnuFile, , , , mnuSelect
@@ -1163,7 +1178,7 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
         FullPath = lvDir.Path & "\" & Item.Text
     End If
     
-    If Item.IconIndex <= 2 And UCase(fso.GetExtensionName(Item.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+    If (Item.IconIndex <= 2 Or Item.IconIndex > 10) And UCase(fso.GetExtensionName(Item.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         Dim LnkPath As String
         LnkPath = GetShortcutTarget(FullPath)
         If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
@@ -1174,7 +1189,7 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
         ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Then
             OKButton_Click
         End If
-    ElseIf Item.IconIndex > 2 Then
+    ElseIf Item.IconIndex > 2 And Item.IconIndex <= 10 Then
         If Item.Text = t("내 컴퓨터", "My Computer") Then
             ShowMyComputer
             Exit Sub
@@ -1208,7 +1223,7 @@ Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
         'End If
     End If
     If (frmMain.cbWhenExist.ListIndex = 0 And Tags.BrowseTargetForm <> 3) Or (Not Selected) Then Exit Sub
-    If Item.IconIndex = 1 Or Item.IconIndex > 2 Then Exit Sub
+    If Item.IconIndex = 1 Or (Item.IconIndex > 2 And Item.IconIndex <= 10) Then Exit Sub
     If Tags.BrowseTargetForm <> 2 Then txtFileName.Text = Item.Text
     
     If Tags.BrowseTargetForm = 3 And Item.IconIndex <> 1 Then
@@ -1238,7 +1253,7 @@ Private Sub lvFiles_KeyDown(KeyCode As Integer, Shift As Integer)
         If tbToolBar.Buttons(2).Enabled And Len(lvDir.Path) > 3 Then _
             lvDir.Path = fso.GetParentFolderName(lvDir.Path)
     ElseIf KeyCode = 46 And (Not lvFiles.SelectedItem Is Nothing) Then
-        If lvFiles.SelectedItem.Selected And lvFiles.SelectedItem.IconIndex = 2 Then mnuDelete_Click
+        If lvFiles.SelectedItem.Selected And (lvFiles.SelectedItem.IconIndex = 2 Or lvFiles.SelectedItem.IconIndex > 10) Then mnuDelete_Click
     End If
 End Sub
 
@@ -1367,7 +1382,7 @@ Private Sub mnuOpen_Click()
         FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
     End If
     
-    If lvFiles.SelectedItem.IconIndex <= 2 And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+    If (lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         Dim LnkPath As String
         LnkPath = GetShortcutTarget(FullPath)
         If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
@@ -1411,7 +1426,7 @@ Private Sub mnuRename_Click()
     If Not lvFiles.SelectedItem Is Nothing Then
         If lvFiles.SelectedItem.Selected Then
             If IsMyComputer Then Exit Sub
-            If lvFiles.SelectedItem.IconIndex <= 2 And lvFiles.SelectedItem.Text <> ".." Then _
+            If (lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> ".." Then _
                 lvFiles.StartLabelEdit
         End If
     End If

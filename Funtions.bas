@@ -1398,3 +1398,11 @@ Function atob(sText As String) As Byte()
         atob = vbNullString
     End If
 End Function
+
+Function FormatModified(datetime) As String
+    If t(1, 2) = 1 Then
+        FormatModified = Replace(Replace(Format(datetime, "yyyy-mm-dd AM/PM h:mm"), "AM", "오전"), "PM", "오후")
+    Else
+        FormatModified = Replace(Format(datetime, "m-d-yyyy h:mm AM/PM"), "-", "/")
+    End If
+End Function

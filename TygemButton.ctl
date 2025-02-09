@@ -1,6 +1,6 @@
 VERSION 5.00
 Begin VB.UserControl TygemButton 
-   ClientHeight    =   1515
+   ClientHeight    =   1590
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   1665
@@ -13,7 +13,7 @@ Begin VB.UserControl TygemButton
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
-   ScaleHeight     =   1515
+   ScaleHeight     =   1590
    ScaleWidth      =   1665
    ToolboxBitmap   =   "TygemButton.ctx":0000
    Begin VB.Timer tmrMouse 
@@ -41,7 +41,7 @@ Begin VB.UserControl TygemButton
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00000000&
-      Height          =   180
+      Height          =   210
       Left            =   0
       TabIndex        =   0
       Top             =   0
@@ -476,7 +476,7 @@ Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Singl
     RaiseEvent MouseDown(Button, Shift, X, Y)
     If Not m_Enabled Then Exit Sub
     lblCaption.Left = 15
-    lblCaption.Top = (UserControl.Height / 2 - lblCaption.Height / 2) + 20
+    lblCaption.Top = (UserControl.Height / 2 - lblCaption.Height / 2) + 20 + 15
     lblCaption.Tag = "mousedown"
     lblCaption.ForeColor = &H0&
     bMouseDown = True
@@ -505,7 +505,7 @@ Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single,
     RaiseEvent MouseUp(Button, Shift, X, Y)
     If Not m_Enabled Then Exit Sub
     lblCaption.Left = 0
-    lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2
+    lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
     lblCaption.Tag = ""
     bMouseDown = False
 End Sub
@@ -528,7 +528,7 @@ Private Sub UserControl_Resize()
     Next i
     imgOverlay.Width = UserControl.Width
     imgOverlay.Height = UserControl.Height
-    lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2
+    lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
     lblCaption.Width = UserControl.Width
 End Sub
 
