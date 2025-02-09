@@ -144,10 +144,10 @@ Sub Main()
     Set MaxWidth = New Collection
     Set MaxHeight = New Collection
     
-    Set SessionHeaders = New Dictionary
+    Set SessionHeaders = New Collection
+    Set SessionHeaderKeys = New Collection
     SessionHeaderCache = ""
     
-    Set fso = New Scripting.FileSystemObject
     Call InitVisualStylesFixes
     
     PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15)

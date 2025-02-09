@@ -142,28 +142,6 @@ Private Sub cmdBrowse_Click()
     Else
         frmExplorer.Show vbModal, Me
     End If
-    
-'    Dim bi As BROWSEINFO
-'    Dim pidl As Long
-'    Dim Path As String
-'    Dim Pos As Integer
-'    bi.hOwner = Me.hWnd
-'    If FolderExists(txtSavePath.Text) Then
-'        bi.pIDLRoot = SHSimpleIDListFromPath(txtSavePath.Text)
-'    ElseIf FolderExists(fso.GetParentFolderName(txtSavePath.Text)) Then
-'        bi.pIDLRoot = SHSimpleIDListFromPath(fso.GetParentFolderName(txtSavePath.Text))
-'    Else
-'        bi.pIDLRoot = 0&
-'    End If
-'    bi.lpszTitle = t("일괄 다운로드할 파일들을 저장할 폴더를 선택하십시오.", "Select the folder to save the downloaded files.")
-'    bi.ulFlags = BIF_RETURNONLYFSDIRS Or BIF_DONTGOBELOWDOMAIN Or BIF_STATUSTEXT Or BIF_EDITBOX Or BIF_VALIDATE Or BIF_NEWDIALOGSTYLE
-'    pidl = SHBrowseForFolder(bi)
-'    Path = Space$(MAX_PATH)
-'    If SHGetPathFromIDList(pidl, Path) Then
-'        Pos = InStr(Path, Chr$(0))
-'        txtSavePath.Text = Left(Path, Pos - 1)
-'    End If
-'    CoTaskMemFree pidl
 End Sub
 
 Private Sub cmdCancel_Click()

@@ -538,7 +538,7 @@ Sub ListFiles()
             Set li = lvFiles.ListItems.Add(, , "..", 1, 1)
             li.ListSubItems.Add , , "-"
             li.ListSubItems.Add , , t("상위 폴더", "Parent Folder")
-            li.ListSubItems.Add , , "-" 'FileDateTime(fso.GetParentFolderName(Path))
+            li.ListSubItems.Add , , "-" 'FileDateTime(GetParentFolderName(Path))
         End If
     End If
     Do While Name <> ""
@@ -588,7 +588,7 @@ Sub ListFiles()
             If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." Then Shown = False
             
             Icon = 2
-            If LCase(fso.GetExtensionName(Name)) = "lnk" Then
+            If LCase(GetExtensionName(Name)) = "lnk" Then
                 LnkPath = GetShortcutTarget(Path & Name)
                 If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
                     LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
@@ -612,7 +612,7 @@ Sub ListFiles()
                 Set li = lvFiles.ListItems.Add(, , Name, Icon, SmallIcon)
                 li.ListSubItems.Add , , "-"
                 li.ListSubItems(1).Text = ParseSize(FileLen(Path & Name))
-                ExtName = Trim$(GetKeyValue(HKEY_CLASSES_ROOT, GetKeyValue(HKEY_CLASSES_ROOT, "." & LCase(fso.GetExtensionName(Name)), "", "BOOSTER_NO_FILE_EXT_REGISTERED"), "", UCase(fso.GetExtensionName(Name)) & " " & t("파일", "File")))
+                ExtName = Trim$(GetKeyValue(HKEY_CLASSES_ROOT, GetKeyValue(HKEY_CLASSES_ROOT, "." & LCase(GetExtensionName(Name)), "", "BOOSTER_NO_FILE_EXT_REGISTERED"), "", UCase(GetExtensionName(Name)) & " " & t("파일", "File")))
                 li.ListSubItems.Add , , t("파일", "File")
                 li.ListSubItems(2).Text = ExtName
                 li.ListSubItems.Add , , "-"
@@ -691,8 +691,8 @@ Private Sub Form_Load()
     End If
     If FolderExists(fmpth) Then
         Path = fmpth
-    ElseIf FolderExists(fso.GetParentFolderName(fmpth)) Then
-        Path = fso.GetParentFolderName(fmpth)
+    ElseIf FolderExists(GetParentFolderName(fmpth)) Then
+        Path = GetParentFolderName(fmpth)
         txtFileName.Text = Split(fmpth, "\")(UBound(Split(fmpth, "\")))
     End If
     
@@ -785,7 +785,7 @@ Private Sub Form_Load()
     
     If Tags.BrowseTargetForm = 3 And lvFiles.ListItems.Count > 0 Then
         For i = 1 To lvFiles.ListItems.Count
-            If LCase(lvFiles.ListItems(i).Text) = LCase(fso.GetFilename(fmpth)) Then
+            If LCase(lvFiles.ListItems(i).Text) = LCase(GetFilename(fmpth)) Then
                 lvFiles.ListItems(i).Selected = True
                 lvFiles.ListItems(i).EnsureVisible
                 Exit For
@@ -1185,7 +1185,7 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
         FullPath = lvDir.Path & "\" & Item.Text
     End If
     
-    If (Item.IconIndex <= 2 Or Item.IconIndex > 10) And UCase(fso.GetExtensionName(Item.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+    If (Item.IconIndex <= 2 Or Item.IconIndex > 10) And UCase(GetExtensionName(Item.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         Dim LnkPath As String
         LnkPath = GetShortcutTarget(FullPath)
         If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
@@ -1258,7 +1258,7 @@ Private Sub lvFiles_KeyDown(KeyCode As Integer, Shift As Integer)
         If lvFiles.SelectedItem.Selected Then lvFiles.StartLabelEdit
     ElseIf KeyCode = 8 Then
         If tbToolBar.Buttons(2).Enabled And Len(lvDir.Path) > 3 Then _
-            lvDir.Path = fso.GetParentFolderName(lvDir.Path)
+            lvDir.Path = GetParentFolderName(lvDir.Path)
     ElseIf KeyCode = 46 And (Not lvFiles.SelectedItem Is Nothing) Then
         If lvFiles.SelectedItem.Selected And (lvFiles.SelectedItem.IconIndex = 2 Or lvFiles.SelectedItem.IconIndex > 10) Then mnuDelete_Click
     End If
@@ -1328,7 +1328,7 @@ Private Sub mnuExplore_Click()
         Exit Sub
     End If
     
-    If lvFiles.SelectedItem.IconIndex = 1 And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+    If lvFiles.SelectedItem.IconIndex = 1 And UCase(GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         Dim LnkPath As String
         LnkPath = GetShortcutTarget(FullPath)
         If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
@@ -1389,7 +1389,7 @@ Private Sub mnuOpen_Click()
         FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
     End If
     
-    If (lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+    If (lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And UCase(GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         Dim LnkPath As String
         LnkPath = GetShortcutTarget(FullPath)
         If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
@@ -1499,7 +1499,7 @@ Private Sub OKButton_Click()
                 FullPath2 = lvDir.Path & "\" & txtFileName.Text
             End If
         
-            If lvFiles.SelectedItem.IconIndex = 1 And UCase(fso.GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
+            If lvFiles.SelectedItem.IconIndex = 1 And UCase(GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
                 Dim LnkPath As String
                 LnkPath = GetShortcutTarget(FullPath)
                 If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
@@ -1525,9 +1525,9 @@ Private Sub OKButton_Click()
             Exit Sub
         End If
         
-        If FolderExists(fso.GetParentFolderName(txtFileName.Text)) Then
-            lvDir.Path = fso.GetParentFolderName(txtFileName.Text)
-            txtFileName.Text = fso.GetFilename(txtFileName.Text)
+        If FolderExists(GetParentFolderName(txtFileName.Text)) Then
+            lvDir.Path = GetParentFolderName(txtFileName.Text)
+            txtFileName.Text = GetFilename(txtFileName.Text)
         End If
     ElseIf FolderExists(txtFileName.Text) Then
         If txtFileName.Text = "." Or txtFileName.Text = ".." Then
@@ -1540,9 +1540,9 @@ Private Sub OKButton_Click()
         End If
         lvDir.Path = txtFileName.Text
         txtFileName.Text = ""
-    ElseIf FolderExists(fso.GetParentFolderName(txtFileName.Text)) Then
-        lvDir.Path = fso.GetParentFolderName(txtFileName.Text)
-        txtFileName.Text = fso.GetFilename(txtFileName.Text)
+    ElseIf FolderExists(GetParentFolderName(txtFileName.Text)) Then
+        lvDir.Path = GetParentFolderName(txtFileName.Text)
+        txtFileName.Text = GetFilename(txtFileName.Text)
         If txtFileName.Text = "." Or txtFileName.Text = ".." Then
             Exit Sub
         End If
@@ -1767,7 +1767,7 @@ Private Sub tbToolBar_ButtonClick(ByVal Button As TbrButton)
             If IsMyComputer Then
                 lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
             ElseIf Len(lvDir.Path) > 3 Then
-                lvDir.Path = fso.GetParentFolderName(lvDir.Path)
+                lvDir.Path = GetParentFolderName(lvDir.Path)
             End If
         Case 3
             CreateNewFolder

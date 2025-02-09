@@ -9,7 +9,6 @@ Attribute VB_Name = "Functions"
 Option Explicit
 
 Public MsgBoxMode As Byte
-Public fso As Scripting.FileSystemObject
 Public MsgBoxResult As VbMsgBoxResult
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
@@ -35,85 +34,6 @@ Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1
 Private Declare Function CryptStringToBinary Lib "crypt32" Alias "CryptStringToBinaryW" (ByVal pszString As Long, ByVal cchString As Long, ByVal dwFlags As Long, ByVal pbBinary As Long, ByRef pcbBinary As Long, ByRef pdwSkip As Long, ByRef pdwFlags As Long) As Long
-'Declare Function GetOpenFileName Lib "comdlg32" Alias "GetOpenFileNameA" (pOpenfilename As OPENFILENAME) As Long
-'Declare Function GetSaveFileName Lib "comdlg32" Alias "GetSaveFileNameA" (pOpenfilename As OPENFILENAME) As Long
-'Declare Function SHGetPathFromIDList Lib "shell32" Alias "SHGetPathFromIDListA" (ByVal pidl As Long, ByVal pszPath As String) As Long
-'Declare Function SHBrowseForFolder Lib "shell32" Alias "SHBrowseForFolderA" (lpBrowseInfo As BROWSEINFO) As Long
-'Declare Function SHSimpleIDListFromPath Lib "shell32" Alias "#162" (ByVal szPath As String) As Long
-'Declare Sub CoTaskMemFree Lib "ole32" (ByVal pv As Long)
-'
-'Public Const MAX_PATH = 260
-'
-'Public Const OFN_ALLOWMULTISELECT As Long = &H200
-'Public Const OFN_CREATEPROMPT As Long = &H2000
-'Public Const OFN_ENABLEHOOK As Long = &H20
-'Public Const OFN_ENABLETEMPLATE As Long = &H40
-'Public Const OFN_ENABLETEMPLATEHANDLE As Long = &H80
-'Public Const OFN_EXPLORER As Long = &H80000
-'Public Const OFN_EXTENSIONDIFFERENT As Long = &H400
-'Public Const OFN_FILEMUSTEXIST As Long = &H1000
-'Public Const OFN_HIDEREADONLY As Long = &H4
-'Public Const OFN_LONGNAMES As Long = &H200000
-'Public Const OFN_NOCHANGEDIR As Long = &H8
-'Public Const OFN_NODEREFERENCELINKS As Long = &H100000
-'Public Const OFN_NOLONGNAMES As Long = &H40000
-'Public Const OFN_NONETWORKBUTTON As Long = &H20000
-'Public Const OFN_NOREADONLYRETURN As Long = &H8000&
-'Public Const OFN_NOTESTFILECREATE As Long = &H10000
-'Public Const OFN_NOVALIDATE As Long = &H100
-'Public Const OFN_OVERWRITEPROMPT As Long = &H2
-'Public Const OFN_PATHMUSTEXIST As Long = &H800
-'Public Const OFN_READONLY As Long = &H1
-'Public Const OFN_SHAREAWARE As Long = &H4000
-'Public Const OFN_SHAREFALLTHROUGH As Long = 2
-'Public Const OFN_SHAREWARN As Long = 0
-'Public Const OFN_SHARENOWARN As Long = 1
-'Public Const OFN_SHOWHELP As Long = &H10
-'Public Const OFS_MAXPATHNAME As Long = MAX_PATH
-'
-'Public Const BIF_RETURNONLYFSDIRS = &H1
-'Public Const BIF_DONTGOBELOWDOMAIN = &H2
-'Public Const BIF_STATUSTEXT = &H4
-'Public Const BIF_RETURNFSANCESTORS = &H8
-'Public Const BIF_EDITBOX = &H10
-'Public Const BIF_VALIDATE = &H20
-'Public Const BIF_NEWDIALOGSTYLE = &H40
-'Public Const BIF_BROWSEFORCOMPUTER = &H1000
-'Public Const BIF_BROWSEFORPRINTER = &H2000
-'
-'Type OPENFILENAME
-'    lStructSize As Long
-'    hWndOwner As Long
-'    hInstance As Long
-'    lpstrFilter As String
-'    lpstrCustomFilter As String
-'    nMaxCustFilter As Long
-'    nFilterIndex As Long
-'    lpstrFile As String
-'    nMaxFile As Long
-'    lpstrFileTitle As String
-'    nMaxFileTitle As Long
-'    lpstrInitialDir As String
-'    lpstrTitle As String
-'    Flags As Long
-'    nFileOffset As Integer
-'    nFileExtension As Integer
-'    lpstrDefExt As String
-'    lCustData As Long
-'    lpfnHook As Long
-'    lpTemplateName As String
-'End Type
-'
-'Type BROWSEINFO
-'    hOwner           As Long
-'    pIDLRoot         As Long
-'    pszDisplayName   As String
-'    lpszTitle        As String
-'    ulFlags          As Long
-'    lpfn             As Long
-'    lParam           As Long
-'    iImage           As Long
-'End Type
 
 Private Type ItemID
     cb As Long
@@ -227,7 +147,8 @@ Const KEY_ALL_ACCESS = KEY_QUERY_VALUE + KEY_SET_VALUE + _
 
 Public AppExiting As Boolean
 
-Public SessionHeaders As Dictionary
+Public SessionHeaders As Collection
+Public SessionHeaderKeys As Collection
 Public HeaderCache As String
 Public SessionHeaderCache As String
 
@@ -1037,7 +958,11 @@ Function FontExists(ByVal Name As String) As Boolean
 End Function
 
 Function FolderExists(ByVal sFullPath As String) As Boolean
-    FolderExists = fso.FolderExists(sFullPath)
+    On Error GoTo nonexist
+    FolderExists = ((GetAttr(sFullPath) And (vbDirectory Or vbVolume)) <> 0)
+    Exit Function
+nonexist:
+    FolderExists = False
 End Function
 
 Function Floor(ByVal floatval As Double, Optional ByVal decimalPlaces As Long = 0) As Long
@@ -1357,10 +1282,10 @@ Function GetShortcutTarget(sPath As String) As String
     Dim Shortcutname As String
     
     On Error GoTo ErrRtn
-    folderPath = fso.GetParentFolderName(sPath)
+    folderPath = GetParentFolderName(sPath)
     Set shl = New Shell
     Set fld = shl.NameSpace(folderPath)
-    Set file = fld.Items.Item(fso.GetFilename(sPath))
+    Set file = fld.Items.Item(GetFilename(sPath))
     If Err <> 0 Then
         GetShortcutTarget = " Not Accesible"
         Err.Clear
@@ -1410,4 +1335,40 @@ Function FormatModified(datetime) As String
     Else
         FormatModified = Replace(Format(datetime, "m-d-yyyy h:mm AM/PM"), "-", "/")
     End If
+End Function
+
+Function GetParentFolderName(ByVal Path As String) As String
+    On Error GoTo errfso
+    Do While Right$(Path, 1) = "\"
+        Path = Left$(Path, Len(Path) - 1)
+    Loop
+    If InStrRev(Path, "\") = 0 Then GoTo errfso
+    GetParentFolderName = Left$(Path, InStrRev(Path, "\") - 1)
+    Do While Right$(GetParentFolderName, 1) = "\"
+        GetParentFolderName = Left$(GetParentFolderName, Len(GetParentFolderName) - 1)
+    Loop
+    Exit Function
+errfso:
+    GetParentFolderName = ""
+End Function
+
+Function GetFilename(ByVal Path As String) As String
+    On Error GoTo errfso
+    Do While Right$(Path, 1) = "\"
+        Path = Left$(Path, Len(Path) - 1)
+    Loop
+    GetFilename = Mid$(Path, InStrRev(Path, "\") + 1)
+    Exit Function
+errfso:
+    GetFilename = ""
+End Function
+
+Function GetExtensionName(ByVal Path As String) As String
+    On Error GoTo errfso
+    Path = GetFilename(Path)
+    If InStrRev(Path, ".") = 0 Then GoTo errfso
+    GetExtensionName = Mid$(Path, InStrRev(Path, ".") + 1)
+    Exit Function
+errfso:
+    GetExtensionName = ""
 End Function

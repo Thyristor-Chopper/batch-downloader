@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmEditHeader 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "헤더 편집"
-   ClientHeight    =   5670
+   ClientHeight    =   5580
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   8640
@@ -19,7 +19,7 @@ Begin VB.Form frmEditHeader
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5670
+   ScaleHeight     =   5580
    ScaleWidth      =   8640
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
@@ -39,7 +39,7 @@ Begin VB.Form frmEditHeader
       Height          =   330
       Left            =   7320
       TabIndex        =   7
-      Top             =   5280
+      Top             =   5220
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   582
@@ -50,7 +50,7 @@ Begin VB.Form frmEditHeader
       Height          =   330
       Left            =   6000
       TabIndex        =   6
-      Top             =   5280
+      Top             =   5220
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   582
@@ -60,7 +60,7 @@ Begin VB.Form frmEditHeader
       Height          =   330
       Left            =   3360
       TabIndex        =   0
-      Top             =   5280
+      Top             =   5220
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   582
@@ -76,12 +76,13 @@ Begin VB.Form frmEditHeader
       Width           =   2535
       _ExtentX        =   4471
       _ExtentY        =   450
+      BorderStyle     =   1
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteHeader 
       Height          =   330
       Left            =   2040
       TabIndex        =   2
-      Top             =   5280
+      Top             =   5220
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   582
@@ -92,7 +93,7 @@ Begin VB.Form frmEditHeader
       Height          =   330
       Left            =   4680
       TabIndex        =   3
-      Top             =   5280
+      Top             =   5220
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   582
@@ -103,21 +104,23 @@ Begin VB.Form frmEditHeader
       Height          =   330
       Left            =   720
       TabIndex        =   4
-      Top             =   5280
+      Top             =   5220
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   582
       Caption         =   "추가(&A)"
    End
    Begin prjDownloadBooster.ListView lvHeaders 
-      Height          =   4455
+      Height          =   4440
       Left            =   720
       TabIndex        =   5
       Top             =   720
       Width           =   7815
       _ExtentX        =   13785
-      _ExtentY        =   7858
+      _ExtentY        =   7832
       VisualTheme     =   1
+      Icons           =   "imgFiles"
+      SmallIcons      =   "imgFiles"
       View            =   3
       FullRowSelect   =   -1  'True
       GridLines       =   -1  'True
@@ -126,10 +129,21 @@ Begin VB.Form frmEditHeader
       HighlightColumnHeaders=   -1  'True
       AutoSelectFirstItem=   0   'False
    End
+   Begin prjDownloadBooster.ImageList imgFiles 
+      Left            =   120
+      Top             =   2160
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      ColorDepth      =   4
+      MaskColor       =   16711935
+      InitListImages  =   "frmEditHeader.frx":00E8
+   End
    Begin VB.Image Image1 
       Height          =   480
       Left            =   120
-      Picture         =   "frmEditHeader.frx":00E8
+      Picture         =   "frmEditHeader.frx":0290
       Top             =   120
       Width           =   480
    End
@@ -169,10 +183,11 @@ Private Sub Form_Load()
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2655
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 4815
+    lvHeaders.SmallIcons = imgFiles
     
     Dim Header
-    For Each Header In SessionHeaders.Keys
-        lvHeaders.ListItems.Add(, , Header).ListSubItems.Add , , SessionHeaders(CStr(Header))
+    For Each Header In SessionHeaderKeys
+        lvHeaders.ListItems.Add(, , Header, , 1).ListSubItems.Add , , SessionHeaders(CStr(Header))
     Next Header
     
     OKClicked = False
@@ -184,7 +199,7 @@ End Sub
 
 Private Sub cmdAddHeader_Click()
     lvHeaders.SetFocus
-    Set lvHeaders.SelectedItem = lvHeaders.ListItems.Add(, , "")
+    Set lvHeaders.SelectedItem = lvHeaders.ListItems.Add(, , "", , 1)
     lvHeaders.SelectedItem.ListSubItems.Add , , ""
     lvHeaders.StartLabelEdit
 End Sub
@@ -224,7 +239,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     If Not OKClicked Then
-        If Confirm(t("변경된 내용을 취소하고 닫으시겠습니까?", "Do you want to discard changes and close?"), App.Title, Me) <> vbYes Then Cancel = 1
+        If Confirm(t("헤더 편집을 취소하시겠습니까?", "Do you want to discard changes and close?"), App.Title, Me) <> vbYes Then Cancel = 1
     End If
 End Sub
 
@@ -235,15 +250,21 @@ Private Sub lblDescription_LinkActivate(ByVal Link As LlbLink, ByVal Reason As L
 End Sub
 
 Private Sub OKButton_Click()
-    SessionHeaders.RemoveAll
+    Dim i%
+    For i = 1 To SessionHeaders.Count
+        SessionHeaders.Remove 1
+    Next i
+    For i = 1 To SessionHeaderKeys.Count
+        SessionHeaderKeys.Remove 1
+    Next i
     
     If lvHeaders.ListItems.Count > 0 Then
         Dim RawHeaders$
         RawHeaders = ""
-        Dim i%
         For i = 1 To lvHeaders.ListItems.Count
             If Trim$(lvHeaders.ListItems(i).Text) <> "" Then
-                SessionHeaders.Add CStr(Trim$(lvHeaders.ListItems(i).Text)), CStr(lvHeaders.ListItems(i).ListSubItems(1).Text)
+                SessionHeaders.Add CStr(lvHeaders.ListItems(i).ListSubItems(1).Text), CStr(Trim$(lvHeaders.ListItems(i).Text))
+                SessionHeaderKeys.Add CStr(Trim$(lvHeaders.ListItems(i).Text))
                 RawHeaders = RawHeaders & LCase(Trim$(lvHeaders.ListItems(i).Text)) & ": " & lvHeaders.ListItems(i).ListSubItems(1).Text & vbLf
             End If
         Next i

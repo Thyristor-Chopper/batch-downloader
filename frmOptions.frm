@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "옵션"
-   ClientHeight    =   9315
+   ClientHeight    =   9555
    ClientLeft      =   2760
    ClientTop       =   3855
    ClientWidth     =   12435
@@ -19,16 +19,16 @@ Begin VB.Form frmOptions
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   9315
+   ScaleHeight     =   9555
    ScaleWidth      =   12435
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   4215
+      Height          =   4335
       Index           =   2
       Left            =   6240
-      ScaleHeight     =   4155
+      ScaleHeight     =   4275
       ScaleWidth      =   5955
       TabIndex        =   59
       Top             =   5040
@@ -77,20 +77,20 @@ Begin VB.Form frmOptions
          End
       End
       Begin prjDownloadBooster.FrameW fHeaders 
-         Height          =   3015
+         Height          =   3135
          Left            =   120
          TabIndex        =   64
          Top             =   1080
          Width           =   5415
          _ExtentX        =   9551
-         _ExtentY        =   5318
+         _ExtentY        =   5530
          Caption         =   " 헤더 설정 "
          Transparent     =   -1  'True
          Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
             Height          =   330
             Left            =   2760
             TabIndex        =   65
-            Top             =   2580
+            Top             =   2700
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   582
@@ -106,12 +106,13 @@ Begin VB.Form frmOptions
             Width           =   2535
             _ExtentX        =   4471
             _ExtentY        =   450
+            BorderStyle     =   1
          End
          Begin prjDownloadBooster.CommandButtonW cmdDeleteHeader 
             Height          =   330
             Left            =   1440
             TabIndex        =   67
-            Top             =   2580
+            Top             =   2700
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   582
@@ -122,7 +123,7 @@ Begin VB.Form frmOptions
             Height          =   330
             Left            =   4080
             TabIndex        =   68
-            Top             =   2580
+            Top             =   2700
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   582
@@ -133,20 +134,20 @@ Begin VB.Form frmOptions
             Height          =   330
             Left            =   120
             TabIndex        =   69
-            Top             =   2580
+            Top             =   2700
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   582
             Caption         =   "추가(&A)"
          End
          Begin prjDownloadBooster.ListView lvHeaders 
-            Height          =   2310
+            Height          =   2400
             Left            =   120
             TabIndex        =   70
             Top             =   240
             Width           =   5175
             _ExtentX        =   9128
-            _ExtentY        =   4075
+            _ExtentY        =   4233
             VisualTheme     =   1
             View            =   3
             FullRowSelect   =   -1  'True
@@ -911,6 +912,17 @@ Begin VB.Form frmOptions
       _ExtentY        =   0
       Caption         =   "확인"
    End
+   Begin prjDownloadBooster.ImageList imgFiles 
+      Left            =   120
+      Top             =   8640
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      ColorDepth      =   4
+      MaskColor       =   16711935
+      InitListImages  =   "frmOptions.frx":0170
+   End
 End
 Attribute VB_Name = "frmOptions"
 Attribute VB_GlobalNameSpace = False
@@ -1124,7 +1136,7 @@ Private Sub cmdAddHeader_Click()
         tygApply.Enabled = -1
     End If
     lvHeaders.SetFocus
-    Set lvHeaders.SelectedItem = lvHeaders.ListItems.Add(, , "")
+    Set lvHeaders.SelectedItem = lvHeaders.ListItems.Add(, , "", , 1)
     lvHeaders.SelectedItem.ListSubItems.Add , , ""
     lvHeaders.StartLabelEdit
 End Sub
@@ -1489,6 +1501,8 @@ Private Sub Form_Load()
     Me.Icon = frmMain.imgWrench.ListImages(1).Picture
     On Error GoTo 0
     
+    lvHeaders.SmallIcons = imgFiles
+    
     lblSelectColor.Top = pgColor.Top
     lblSelectColor.Left = pgColor.Left
     lblSelectColor.Width = pgColor.Width
@@ -1565,7 +1579,7 @@ Private Sub Form_Load()
         chkNoDWMWindow.Value = 1
     ElseIf WinVer < 6.2 Then
         chkNoDWMWindow.Caption = t("Aero 창 사용 안 함(&I)", "D&isable Aero window")
-    ElseIf LCase(fso.GetFilename(GetKeyValue(HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\ThemeManager", "DllName", "%SystemRoot%\resources\Themes\Aero\aero.msstyles"))) <> "aero.msstyles" Then
+    ElseIf LCase(GetFilename(GetKeyValue(HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\ThemeManager", "DllName", "%SystemRoot%\resources\Themes\Aero\aero.msstyles"))) <> "aero.msstyles" Then
         chkNoDWMWindow.Caption = t("DWM 창 비활성화(&I)", "D&isable DWM window")
     End If
     
@@ -1765,7 +1779,7 @@ Private Sub Form_Load()
     Dim Headers() As String
     Headers = GetAllSettings("DownloadBooster", "Options\Headers")
     For i = LBound(Headers) To UBound(Headers)
-        lvHeaders.ListItems.Add(, , Headers(i, 0)).ListSubItems.Add , , Headers(i, 1)
+        lvHeaders.ListItems.Add(, , Headers(i, 0), , 1).ListSubItems.Add , , Headers(i, 1)
     Next i
     
     Loaded = True

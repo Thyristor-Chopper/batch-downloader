@@ -2618,7 +2618,7 @@ progressAvailable:
     ElseIf Left$(Data, 17) = "MODIFIEDFILENAME " Then
         output = StrConv(atob(Right$(Data, Len(Data) - 17)), vbUnicode)
         DownloadPath = output
-        lblFilename.Caption = fso.GetFilename(output)
+        lblFilename.Caption = GetFilename(output)
         If BatchStarted Then
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).Text = output
             lvBatchFiles.ListItems(CurrentBatchIdx).Text = lblFilename.Caption
@@ -3076,7 +3076,7 @@ Private Sub cmdAdd_Click()
     If FolderExists(txtFileName.Text) Then
         frmBatchAdd.txtSavePath.Text = txtFileName.Text
     Else
-        frmBatchAdd.txtSavePath.Text = fso.GetParentFolderName(txtFileName.Text)
+        frmBatchAdd.txtSavePath.Text = GetParentFolderName(txtFileName.Text)
     End If
     frmBatchAdd.Show vbModal, Me
 End Sub
@@ -3109,7 +3109,7 @@ Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
         Else
             ServerName = CStr(Rnd * 1E+15) & "_" & ServerName
         End If
-        FileName = fso.GetParentFolderName(txtFileName.Text) & "\"
+        FileName = GetParentFolderName(txtFileName.Text) & "\"
         FileName = Replace(FileName, "\\", "\") & ServerName
     End If
     idx = lvBatchFiles.ListItems.Add(, , ServerName).Index
@@ -3322,7 +3322,7 @@ L2:
         End If
     Next i
     
-    If (Not FolderExists(Trim$(FileName))) And ((Not FolderExists(fso.GetParentFolderName(Trim$(FileName)))) Or Right$(FileName, 1) = "\") Then
+    If (Not FolderExists(Trim$(FileName))) And ((Not FolderExists(GetParentFolderName(Trim$(FileName)))) Or Right$(FileName, 1) = "\") Then
         Alert t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), App.Title, Me, 16
         OnExit 999
         Exit Sub
@@ -3348,7 +3348,7 @@ L2:
     DownloadPath = FileName
     PrevDownloadedBytes = 0
     SpeedCount = 0
-    lblFilename.Caption = fso.GetFilename(DownloadPath)
+    lblFilename.Caption = GetFilename(DownloadPath)
     If Len(lblFilename.Caption) > 22 Then lblFilename.Caption = Left$(lblFilename.Caption, 22) & "..."
     
     Dim ContinueDownload As Integer
@@ -3459,7 +3459,7 @@ Private Sub cmdGo_Click()
         End If
     Next i
     
-    If (Not FolderExists(Trim$(txtFileName.Text))) And ((Not FolderExists(fso.GetParentFolderName(Trim$(txtFileName.Text)))) Or Right$(txtFileName.Text, 1) = "\") Then
+    If (Not FolderExists(Trim$(txtFileName.Text))) And ((Not FolderExists(GetParentFolderName(Trim$(txtFileName.Text)))) Or Right$(txtFileName.Text, 1) = "\") Then
         Alert t("저장 경로가 존재하지 않습니다.", "Save path does not exist."), App.Title, Me, 16
         Exit Sub
     End If
@@ -3518,7 +3518,7 @@ Private Sub cmdOpenFolder_Click()
     If FolderExists(pth) Then
         Shell "cmd /c start """" explorer.exe """ & pth & """"
     Else
-        Shell "cmd /c start """" explorer.exe """ & fso.GetParentFolderName(pth) & """"
+        Shell "cmd /c start """" explorer.exe """ & GetParentFolderName(pth) & """"
     End If
 End Sub
 
@@ -4524,7 +4524,7 @@ Private Sub mnuOpenFolder_Click()
     If FolderExists(pth) Then
         Shell "cmd /c start """" explorer.exe """ & pth & """"
     Else
-        Shell "cmd /c start """" explorer.exe """ & fso.GetParentFolderName(pth) & """"
+        Shell "cmd /c start """" explorer.exe """ & GetParentFolderName(pth) & """"
     End If
 End Sub
 

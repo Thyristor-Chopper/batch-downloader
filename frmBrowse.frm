@@ -261,7 +261,7 @@ Private Sub Form_Load()
     If FolderExists(fmpth) Then
         Path = fmpth
     Else
-        Path = fso.GetParentFolderName(fmpth)
+        Path = GetParentFolderName(fmpth)
         txtFileName.Text = Split(fmpth, "\")(UBound(Split(fmpth, "\")))
     End If
     

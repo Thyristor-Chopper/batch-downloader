@@ -164,36 +164,6 @@ Private Sub cmdBrowse_Click()
         txtFilePath.Text = txtFilePath.Text & Tags.FileNameOnly
     End If
     Exit Sub
-    
-'    Dim OpenFile As OPENFILENAME
-'    Dim lReturn As Long
-'    txtFilePath.Text = Trim$(txtFilePath.Text)
-'    With OpenFile
-'        .lStructSize = Len(OpenFile)
-'        .hWndOwner = Me.hWnd
-'        .hInstance = App.hInstance
-'        .lpstrFilter = t("모든 파일", "All files") & " (*.*)" & vbNullChar & "*.*" & vbNullChar
-'        .nFilterIndex = 1
-'        .lpstrFile = String(257, 0)
-'        If FolderExists(txtFilePath.Text) Then
-'            .lpstrInitialDir = txtFilePath.Text
-'        Else
-'            .lpstrInitialDir = fso.GetParentFolderName(txtFilePath.Text)
-'            .lpstrFile = txtFilePath.Text
-'        End If
-'        .lpstrFileTitle = .lpstrFile
-'        .nMaxFile = strlen(.lpstrFile) + 2
-'        .nMaxFileTitle = Len(.lpstrFileTitle) - 1
-'        .lpstrTitle = t("다운로드 경로 찾아보기", "Browse download path")
-'        .Flags = OFN_LONGNAMES Or OFN_PATHMUSTEXIST
-'        If GetSetting("DownloadBooster", "Options", "ForceXPDialog", "0") = "0" Then
-'            .Flags = .Flags Or OFN_EXPLORER
-'        End If
-'    End With
-'    lReturn = GetSaveFileName(OpenFile)
-'    If lReturn <> 0 Then
-'        txtFilePath.Text = OpenFile.lpstrFile
-'    End If
 End Sub
 
 Private Sub cmdCancel_Click()
@@ -215,7 +185,7 @@ Private Sub cmdOK_Click()
     If FolderExists(txtFilePath.Text) Then
         If Right$(txtFilePath.Text, 1) <> "\" Then txtFilePath.Text = txtFilePath.Text & "\"
         txtFilePath.Text = txtFilePath.Text & Trim$(Tags.FileNameOnly)
-    ElseIf Right$(txtFilePath.Text, 1) = "\" Or (Not FolderExists(fso.GetParentFolderName(txtFilePath.Text))) Then
+    ElseIf Right$(txtFilePath.Text, 1) = "\" Or (Not FolderExists(GetParentFolderName(txtFilePath.Text))) Then
         Alert t("저장 경로가 존재하지 않습니다. [찾아보기] 기능으로 폴더를 찾아볼 수 있습니다.", "Save path does not exist. Use Broewse to browse folders."), App.Title, Me, 16
         Exit Sub
     End If
@@ -223,7 +193,7 @@ Private Sub cmdOK_Click()
     
     On Error Resume Next
     Dim ParentFolderName As String
-    ParentFolderName = fso.GetParentFolderName(txtFilePath.Text)
+    ParentFolderName = GetParentFolderName(txtFilePath.Text)
     If Right$(ParentFolderName, 1) = "\" Then ParentFolderName = Left$(ParentFolderName, Len(ParentFolderName) - 1)
     frmMain.lvBatchFiles.SelectedItem.ListSubItems(2).Text = txtURL.Text
     If frmMain.lvBatchFiles.SelectedItem.ListSubItems(3).Text = t("완료", "Done") Then
