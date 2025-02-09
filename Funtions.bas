@@ -1055,6 +1055,11 @@ Function Floor(ByVal floatval As Double, Optional ByVal decimalPlaces As Long = 
 End Function
 
 Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = False, Optional ByVal Suffix As String = "") As String
+    If Size < 0 Then
+        ParseSize = "-"
+        Exit Function
+    End If
+
     On Error GoTo ErrLn4
     Dim ret@
     If Size >= (1024@ * 1024@ * 1024@ * 1024@) Then

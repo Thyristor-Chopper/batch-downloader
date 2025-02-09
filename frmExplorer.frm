@@ -420,6 +420,7 @@ Option Explicit
 Dim Pattern$
 Dim IsMyComputer As Boolean
 'Dim mnuTop&, mnuBottom&, mnuViewID&
+Dim Loaded As Boolean
 
 Sub ShowDesktopItems()
     Dim li As LvwListItem
@@ -471,7 +472,7 @@ Private Sub cbFolderList_Click()
             If LCase(Left$(selDrive.List(i), 1)) = DriveLetter Then
                 selDrive.ListIndex = i
                 lvDir.Path = DriveLetter & ":\"
-                ListFiles
+                If Loaded Then ListFiles
                 Exit Sub
             End If
         Next i
@@ -490,11 +491,11 @@ driveunavailable:
         lvDir.Path = Path & cbFolderList.SelectedItem.Text
     End If
     
-    ListFiles
+    If Loaded Then ListFiles
 End Sub
 
 Private Sub chkHidden_Click()
-    ListFiles
+    If Loaded Then ListFiles
     SaveSetting "DownloadBooster", "UserData", "ShowHidden", chkHidden.Value
 End Sub
 
@@ -546,14 +547,13 @@ Sub ListFiles()
                 Shown = True
                 If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." And Name <> ".." Then Shown = False
                 
-                If Shown Then
+                If Shown And Replace(Path & Name, "?", "") = (Path & Name) Then
                     Set li = lvFiles.ListItems.Add(, , Name, 1, 1)
                     li.ListSubItems.Add , , "-"
                     li.ListSubItems.Add , , t("파일 폴더", "File Folder")
-                    If Name = ".." Then
-                        li.ListSubItems.Add , , "-" 'FileDateTime(fso.GetParentFolderName(Path))
-                    Else
-                        li.ListSubItems.Add , , FormatModified(FileDateTime(Path & Name))
+                    li.ListSubItems.Add , , "-"
+                    If Name <> ".." Then
+                        li.ListSubItems(3).Text = FormatModified(FileDateTime(Path & Name))
                     End If
                 End If
             End If
@@ -572,6 +572,8 @@ Sub ListFiles()
     ShowHidden = 0
     If chkHidden.Value = 1 Then ShowHidden = vbHidden
     Name = Dir(Path, vbNormal Or vbReadOnly Or vbArchive Or ShowHidden)
+    Dim cnt As Double
+    cnt = 0
     Do While Name <> ""
         If (GetAttr(Path & Name) And vbDirectory) <> vbDirectory Then
             PatternMatched = False
@@ -601,17 +603,21 @@ Sub ListFiles()
             
             SmallIcon = Icon
             
-            If Icon = 2 And GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0) <> 1 Then
+            If Icon = 2 And GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0) <> 1 And cnt < 250 Then
                 Icon = imgFolder.ListImages.Add(, , GetAssocIcon(Path & Name, , True, (Left$(Name, 1) = "."))).Index
                 SmallIcon = imgFolderSmall.ListImages.Add(, , GetAssocIcon(Path & Name, , False, (Left$(Name, 1) = "."))).Index
             End If
             
-            If PatternMatched And Shown Then
+            If PatternMatched And Shown And Replace(Path & Name, "?", "") = (Path & Name) Then
                 Set li = lvFiles.ListItems.Add(, , Name, Icon, SmallIcon)
-                li.ListSubItems.Add , , ParseSize(FileLen(Path & Name))
+                li.ListSubItems.Add , , "-"
+                li.ListSubItems(1).Text = ParseSize(FileLen(Path & Name))
                 ExtName = Trim$(GetKeyValue(HKEY_CLASSES_ROOT, GetKeyValue(HKEY_CLASSES_ROOT, "." & LCase(fso.GetExtensionName(Name)), "", "BOOSTER_NO_FILE_EXT_REGISTERED"), "", UCase(fso.GetExtensionName(Name)) & " " & t("파일", "File")))
-                li.ListSubItems.Add , , ExtName
-                li.ListSubItems.Add , , FormatModified(FileDateTime(Path & Name))
+                li.ListSubItems.Add , , t("파일", "File")
+                li.ListSubItems(2).Text = ExtName
+                li.ListSubItems.Add , , "-"
+                li.ListSubItems(3).Text = FormatModified(FileDateTime(Path & Name))
+                cnt = cnt + 1
             End If
         End If
         Name = Dir
@@ -622,18 +628,20 @@ Sub ListFiles()
 End Sub
 
 Private Sub chkShowFiles_Click()
-    ListFiles
+    If Loaded Then ListFiles
     SaveSetting "DownloadBooster", "UserData", "ShowFiles", chkShowFiles.Value
 End Sub
 
 Private Sub chkUnixHidden_Click()
-    ListFiles
+    If Loaded Then ListFiles
     SaveSetting "DownloadBooster", "UserData", "ShowUnixHidden", chkUnixHidden.Value
 End Sub
 
 Private Sub Form_Activate()
     On Error Resume Next
     txtFileName.SetFocus
+    Loaded = True
+    ListFiles
 End Sub
 
 Private Sub Form_Load()
@@ -641,6 +649,7 @@ Private Sub Form_Load()
     SetFormBackgroundColor Me
     SetFont Me
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    Loaded = False
     
     IsMyComputer = False
     
@@ -701,9 +710,6 @@ Private Sub Form_Load()
             Exit For
         End If
     Next i
-    
-    lvDir.Path = Path
-    selFileType_Click
     
     Label1.Caption = t(Label1.Caption, "&File name:")
     OKButton.Caption = t(OKButton.Caption, "OK")
@@ -766,7 +772,8 @@ Private Sub Form_Load()
     mnuRename.Caption = t(mnuRename.Caption, "Rena&me")
     mnuProperties.Caption = t(mnuProperties.Caption, "P&roperties")
     
-    lvDir_Change
+    lvDir.Path = Path
+    selFileType_Click
     
     If Tags.BrowseTargetForm = 3 Then
         'Me.Height = 8280
@@ -1675,7 +1682,7 @@ End Sub
 
 Private Sub selFileType_Click()
     Pattern = Replace(Mid$(selFileType.Text, InStr(1, selFileType.Text, "(") + 1, Len(selFileType.Text) - InStr(1, selFileType.Text, "(") - 1), " ", "")
-    ListFiles
+    If Loaded Then ListFiles
 End Sub
 
 Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
