@@ -508,31 +508,34 @@ Private Sub chkHidden_Click()
 End Sub
 
 Sub ListFiles()
-    IsMyComputer = False
-    
     If ListedOn <> "" And ListedOn = lvDir.Path Then Exit Sub
     ListedOn = lvDir.Path
     LoadFinished = False
-    
-    lvFiles.ColumnHeaders(2).Text = t("크기", "Size")
-    lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentRight
-    lvFiles.ColumnHeaders(2).Width = 1455
-    lvFiles.ColumnHeaders(3).Text = t("종류", "Type")
-    lvFiles.ColumnHeaders(3).Alignment = LvwColumnHeaderAlignmentLeft
-    lvFiles.ColumnHeaders(3).Width = 1800
-    lvFiles.ColumnHeaders(4).Text = t("수정한 날짜", "Modified")
-    lvFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentLeft
-    lvFiles.ColumnHeaders(4).Width = 2250
 
     Dim li As LvwListItem
     Dim k As Double
     Dim i%
+    Dim PrevCnt As Double
+    PrevCnt = lvFiles.ListItems.Count
     On Error Resume Next
     If Not lvFiles.SelectedItem Is Nothing Then
         lvFiles.SelectedItem.Selected = False
         Set lvFiles.SelectedItem = Nothing
     End If
-    lvFiles.ListItems.Clear
+    If IsMyComputer Then
+        PrevCnt = 0
+        lvFiles.ListItems.Clear
+        IsMyComputer = False
+        lvFiles.ColumnHeaders(2).Text = t("크기", "Size")
+        lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentRight
+        lvFiles.ColumnHeaders(2).Width = 1455
+        lvFiles.ColumnHeaders(3).Text = t("종류", "Type")
+        lvFiles.ColumnHeaders(3).Alignment = LvwColumnHeaderAlignmentLeft
+        lvFiles.ColumnHeaders(3).Width = 1800
+        lvFiles.ColumnHeaders(4).Text = t("수정한 날짜", "Modified")
+        lvFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentLeft
+        lvFiles.ColumnHeaders(4).Width = 2250
+    End If
     lvFiles.GroupView = False
     
     If imgFolder.ListImages.Count > 10 Then
@@ -557,8 +560,7 @@ Sub ListFiles()
         Next i
     End If
     
-    If lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP) Then _
-        ShowDesktopItems
+    If lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP) Then ShowDesktopItems
     
     Dim totalcnt As Double
     totalcnt = 0
@@ -569,15 +571,30 @@ Sub ListFiles()
     On Error Resume Next
     Dim Shown As Boolean
     tbToolBar.Buttons(2).Enabled = False
+    
     If Len(lvDir.Path) > 3 Then
         tbToolBar.Buttons(2).Enabled = True
         If lvDir.Path <> GetSpecialfolder(CSIDL_DESKTOP) And lvDir.Path <> GetSpecialfolder(CSIDL_RECENT) Then
-            Set li = lvFiles.ListItems.Add(, , "..", 1, 1)
-            li.ListSubItems.Add , , "-"
-            li.ListSubItems.Add , , t("상위 폴더", "Parent Folder")
-            li.ListSubItems.Add , , "-" 'FileDateTime(GetParentFolderName(Path))
+            If PrevCnt > 0 Then
+                Set li = lvFiles.ListItems(1)
+                li.Icon = 1
+                li.SmallIcon = 1
+                li.Text = ".."
+                li.ListSubItems(1).Text = "-"
+                li.ListSubItems(2).Text = "-"
+                li.ListSubItems(3).Text = "-"
+            Else
+                Set li = lvFiles.ListItems.Add(, , "..", 1, 1)
+                li.ListSubItems.Add , , "-"
+                li.ListSubItems.Add , , "-"
+                li.ListSubItems.Add , , "-" 'FileDateTime(GetParentFolderName(Path))
+            End If
+            li.ListSubItems(2).Text = t("상위 폴더", "Parent Folder")
+            totalcnt = 1
+            lvFiles.ListItems(1).EnsureVisible
         End If
     End If
+    
     Do While Name <> ""
         If Name <> "." And Name <> ".." Then
             If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
@@ -585,38 +602,50 @@ Sub ListFiles()
                 If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." And Name <> ".." Then Shown = False
                 
                 If Shown And Replace(Path & Name, "?", "") = (Path & Name) Then
-                    Set li = lvFiles.ListItems.Add(, , Name, 1, 1)
-                    li.ListSubItems.Add , , "-"
-                    li.ListSubItems.Add , , t("파일 폴더", "File Folder")
-                    li.ListSubItems.Add , , "-"
+                    If totalcnt + 1 <= PrevCnt Then
+                        Set li = lvFiles.ListItems(totalcnt + 1)
+                        li.Icon = 1
+                        li.SmallIcon = 1
+                        li.Text = Name
+                        li.ListSubItems(1).Text = "-"
+                        li.ListSubItems(2).Text = "-"
+                        li.ListSubItems(3).Text = "-"
+                    Else
+                        Set li = lvFiles.ListItems.Add(, , Name, 1, 1)
+                        li.ListSubItems.Add , , "-"
+                        li.ListSubItems.Add , , "-"
+                        li.ListSubItems.Add , , "-"
+                    End If
+                    li.ListSubItems(2).Text = t("파일 폴더", "File Folder")
                     If Name <> ".." Then
                         li.ListSubItems(3).Text = FormatModified(FileDateTime(Path & Name))
                     End If
+                    
+                    If totalcnt >= 500 Then
+                        If totalcnt = 500 Then
+                            cbFolderList.Enabled = 0
+                            'tbPlaces.Enabled = 0
+                            tbToolBar.Enabled = 0
+                            chkHidden.Enabled = 0
+                            chkUnixHidden.Enabled = 0
+                            chkShowFiles.Enabled = 0
+                            selFileType.Enabled = 0
+                            OKButton.Enabled = 0
+                            CancelButton.Enabled = 0
+                            Label1.Enabled = 0
+                            Label4.Enabled = 0
+                            txtFileName.Enabled = 0
+                            Label2.Enabled = 0
+                        End If
+                        DoEvents
+                    ElseIf totalcnt <= 1 Then
+                        lvFiles.ListItems(1).EnsureVisible
+                    End If
+                    totalcnt = totalcnt + 1
                 End If
             End If
         End If
         Name = Dir
-        
-        If totalcnt >= 500 Then
-            If totalcnt = 500 Then
-                cbFolderList.Enabled = 0
-                'tbPlaces.Enabled = 0
-                tbToolBar.Enabled = 0
-                chkHidden.Enabled = 0
-                chkUnixHidden.Enabled = 0
-                chkShowFiles.Enabled = 0
-                selFileType.Enabled = 0
-                OKButton.Enabled = 0
-                CancelButton.Enabled = 0
-                Label1.Enabled = 0
-                Label4.Enabled = 0
-                txtFileName.Enabled = 0
-                Label2.Enabled = 0
-            End If
-            DoEvents
-        End If
-        
-        totalcnt = totalcnt + 1
     Loop
     
     Dim PatternMatched As Boolean
@@ -681,13 +710,25 @@ Sub ListFiles()
             End If
 
             If PatternMatched And Shown And Replace(Path & Name, "?", "") = (Path & Name) Then
-                Set li = lvFiles.ListItems.Add(, , Name, Icon, SmallIcon)
-                li.ListSubItems.Add , , "-"
+                If totalcnt + 1 <= PrevCnt Then
+                    Set li = lvFiles.ListItems(totalcnt + 1)
+                    li.Icon = Icon
+                    li.SmallIcon = SmallIcon
+                    li.Text = Name
+                    li.ListSubItems(1).Text = "-"
+                    li.ListSubItems(2).Text = "-"
+                    li.ListSubItems(3).Text = "-"
+                Else
+                    Set li = lvFiles.ListItems.Add(, , Name, Icon, SmallIcon)
+                    li.ListSubItems.Add , , "-"
+                    li.ListSubItems.Add , , "-"
+                    li.ListSubItems.Add , , "-"
+                End If
+                
                 li.ListSubItems(1).Text = ParseSize(FileLen(Path & Name))
                 ExtName = Trim$(GetKeyValue(HKEY_CLASSES_ROOT, GetKeyValue(HKEY_CLASSES_ROOT, "." & LCase(GetExtensionName(Name)), "", "BOOSTER_NO_FILE_EXT_REGISTERED"), "", UCase(GetExtensionName(Name)) & " " & t("파일", "File")))
-                li.ListSubItems.Add , , t("파일", "File")
+                li.ListSubItems(2).Text = t("파일", "File")
                 li.ListSubItems(2).Text = ExtName
-                li.ListSubItems.Add , , "-"
                 li.ListSubItems(3).Text = FormatModified(FileDateTime(Path & Name))
                 
                 If Tags.BrowseTargetForm = 3 And (Not FirstListed) Then
@@ -696,31 +737,36 @@ Sub ListFiles()
                         li.EnsureVisible
                     End If
                 End If
+                
+                If totalcnt >= 500 Then
+                    If totalcnt = 500 Then
+                        cbFolderList.Enabled = 0
+                        'tbPlaces.Enabled = 0
+                        tbToolBar.Enabled = 0
+                        chkHidden.Enabled = 0
+                        chkUnixHidden.Enabled = 0
+                        chkShowFiles.Enabled = 0
+                        selFileType.Enabled = 0
+                        OKButton.Enabled = 0
+                        CancelButton.Enabled = 0
+                        Label1.Enabled = 0
+                        Label4.Enabled = 0
+                        txtFileName.Enabled = 0
+                        Label2.Enabled = 0
+                    End If
+                    DoEvents
+                End If
+                totalcnt = totalcnt + 1
             End If
         End If
         Name = Dir
-        
-        If totalcnt >= 500 Then
-            If totalcnt = 500 Then
-                cbFolderList.Enabled = 0
-                'tbPlaces.Enabled = 0
-                tbToolBar.Enabled = 0
-                chkHidden.Enabled = 0
-                chkUnixHidden.Enabled = 0
-                chkShowFiles.Enabled = 0
-                selFileType.Enabled = 0
-                OKButton.Enabled = 0
-                CancelButton.Enabled = 0
-                Label1.Enabled = 0
-                Label4.Enabled = 0
-                txtFileName.Enabled = 0
-                Label2.Enabled = 0
-            End If
-            DoEvents
-        End If
-        
-        totalcnt = totalcnt + 1
     Loop
+    
+    If totalcnt + 1 < PrevCnt Then
+        For k = (totalcnt + 1) To PrevCnt
+            lvFiles.ListItems.Remove (totalcnt + 1)
+        Next k
+    End If
     
     tbToolBar.Buttons(3).Enabled = True
     FirstListed = True
@@ -776,7 +822,7 @@ Private Sub Form_Load()
     lvFiles.ColumnHeaders.Add , , t("이름", "Name"), 2295
     lvFiles.ColumnHeaders.Add(, , t("크기", "Size"), 1455).Alignment = LvwColumnHeaderAlignmentRight
     lvFiles.ColumnHeaders.Add , , t("종류", "Type"), 1800
-    lvFiles.ColumnHeaders.Add , , t("수정한 날짜", "Modified"), 2040
+    lvFiles.ColumnHeaders.Add , , t("수정한 날짜", "Modified"), 2250
     
     lvFiles.ColumnHeaders(1).SortArrow = LvwColumnHeaderSortArrowUp
     
