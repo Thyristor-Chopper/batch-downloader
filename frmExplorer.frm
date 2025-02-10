@@ -513,12 +513,6 @@ Sub ListFiles()
     If ListedOn <> "" And ListedOn = lvDir.Path Then Exit Sub
     ListedOn = lvDir.Path
     LoadFinished = False
-    cbFolderList.Enabled = 0
-    'tbPlaces.Enabled = 0
-    tbToolBar.Enabled = 0
-    chkHidden.Enabled = 0
-    chkUnixHidden.Enabled = 0
-    chkShowFiles.Enabled = 0
     
     lvFiles.ColumnHeaders(2).Text = t("크기", "Size")
     lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentRight
@@ -539,6 +533,7 @@ Sub ListFiles()
         Set lvFiles.SelectedItem = Nothing
     End If
     lvFiles.ListItems.Clear
+    lvFiles.GroupView = False
     
     If imgFolder.ListImages.Count > 10 Then
         For i = 11 To imgFolder.ListImages.Count
@@ -565,6 +560,8 @@ Sub ListFiles()
     If lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP) Then _
         ShowDesktopItems
     
+    Dim totalcnt As Double
+    totalcnt = 0
     Dim Path$, Name$
     Path = lvDir.Path
     If Right$(Path, 1) <> "\" Then Path = Path & "\"
@@ -600,7 +597,26 @@ Sub ListFiles()
         End If
         Name = Dir
         
-        DoEvents
+        If totalcnt >= 500 Then
+            If totalcnt = 500 Then
+                cbFolderList.Enabled = 0
+                'tbPlaces.Enabled = 0
+                tbToolBar.Enabled = 0
+                chkHidden.Enabled = 0
+                chkUnixHidden.Enabled = 0
+                chkShowFiles.Enabled = 0
+                selFileType.Enabled = 0
+                OKButton.Enabled = 0
+                CancelButton.Enabled = 0
+                Label1.Enabled = 0
+                Label4.Enabled = 0
+                txtFileName.Enabled = 0
+                Label2.Enabled = 0
+            End If
+            DoEvents
+        End If
+        
+        totalcnt = totalcnt + 1
     Loop
     
     Dim PatternMatched As Boolean
@@ -684,11 +700,29 @@ Sub ListFiles()
         End If
         Name = Dir
         
-        DoEvents
+        If totalcnt >= 500 Then
+            If totalcnt = 500 Then
+                cbFolderList.Enabled = 0
+                'tbPlaces.Enabled = 0
+                tbToolBar.Enabled = 0
+                chkHidden.Enabled = 0
+                chkUnixHidden.Enabled = 0
+                chkShowFiles.Enabled = 0
+                selFileType.Enabled = 0
+                OKButton.Enabled = 0
+                CancelButton.Enabled = 0
+                Label1.Enabled = 0
+                Label4.Enabled = 0
+                txtFileName.Enabled = 0
+                Label2.Enabled = 0
+            End If
+            DoEvents
+        End If
+        
+        totalcnt = totalcnt + 1
     Loop
     
     tbToolBar.Buttons(3).Enabled = True
-    lvFiles.GroupView = False
     FirstListed = True
     LoadFinished = True
     cbFolderList.Enabled = True
@@ -697,6 +731,13 @@ Sub ListFiles()
     chkHidden.Enabled = True
     chkUnixHidden.Enabled = True
     chkShowFiles.Enabled = True
+    selFileType.Enabled = True
+    OKButton.Enabled = True
+    CancelButton.Enabled = True
+    Label1.Enabled = True
+    Label4.Enabled = True
+    txtFileName.Enabled = True
+    Label2.Enabled = True
 End Sub
 
 Private Sub chkShowFiles_Click()
@@ -715,6 +756,7 @@ Private Sub Form_Activate()
     On Error Resume Next
     txtFileName.SetFocus
     Loaded = True
+    If Not LoadFinished Then Exit Sub
     ListFiles
 End Sub
 
@@ -926,6 +968,7 @@ End Sub
 Sub ShowMyComputer()
     IsMyComputer = True
     LoadFinished = True
+    ListedOn = ""
     
     lvFiles.ColumnHeaders(2).Text = t("종류", "Type")
     lvFiles.ColumnHeaders(2).Alignment = LvwColumnHeaderAlignmentLeft
@@ -1028,6 +1071,10 @@ Private Sub Form_Resize()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    If Not LoadFinished Then
+        Cancel = 1
+        Exit Sub
+    End If
     If Me.WindowState = 0 Then
         SaveSetting "DownloadBooster", "UserData", "ComdlgWidth", Me.Width - PaddedBorderWidth * 15 * 2
         SaveSetting "DownloadBooster", "UserData", "ComdlgHeight", Me.Height - PaddedBorderWidth * 15 * 2 - IIf(Tags.BrowseTargetForm = 3, 8835 - 6165, 0)
@@ -1244,7 +1291,7 @@ Private Sub lvFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
     Else
 folderfloor:
         mnuView.Visible = True
-        mnuNewFolder.Enabled = tbToolBar.Buttons(3).Enabled
+        mnuNewFolder.Enabled = tbToolBar.Buttons(3).Enabled And LoadFinished
         mnuFolderProperties.Enabled = Not IsMyComputer
         mnuCmd.Enabled = tbToolBar.Buttons(3).Enabled
         mnuRefresh.Enabled = LoadFinished
@@ -1287,6 +1334,7 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
     
         On Error GoTo driveunavailable
         'selDrive.ListIndex = cbFolderList.SelectedItem.Index - 5
+        ListedOn = ""
         lvDir.Path = UCase(Left$(Item.Text, 2)) & "\"
         Exit Sub
 driveunavailable:
@@ -1508,6 +1556,7 @@ Private Sub mnuRefresh_Click()
     If IsMyComputer Then
         ShowMyComputer
     Else
+        If Not LoadFinished Then Exit Sub
         ListedOn = ""
         ListFiles
     End If
@@ -1558,6 +1607,7 @@ Private Sub OKButton_Click()
     
     On Error Resume Next
     If InStr(1, txtFileName.Text, "*") > 0 Or InStr(1, txtFileName.Text, "?") > 0 Then
+        If Not LoadFinished Then Exit Sub
         Pattern = txtFileName.Text
         txtFileName.SelStart = 0
         txtFileName.SelLength = Len(txtFileName.Text)
@@ -1776,6 +1826,7 @@ End Sub
 
 Private Sub selFileType_Click()
     Pattern = Replace(Mid$(selFileType.Text, InStr(1, selFileType.Text, "(") + 1, Len(selFileType.Text) - InStr(1, selFileType.Text, "(") - 1), " ", "")
+    If Not LoadFinished Then Exit Sub
     ListedOn = ""
     If Loaded Then ListFiles
 End Sub
