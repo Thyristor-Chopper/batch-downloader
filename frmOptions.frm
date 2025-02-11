@@ -819,7 +819,7 @@ Begin VB.Form frmOptions
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   450
-         Caption         =   "윈도우 7 모양으로 바꾸기(&I)"
+         Caption         =   "Windows 7 베이직 테마 사용(&I)"
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.FrameW Frame3 

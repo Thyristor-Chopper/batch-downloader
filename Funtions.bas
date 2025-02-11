@@ -337,8 +337,12 @@ Sub SetFormBackgroundColor(frmForm As Form)
 nextfor:
     Next ctrl
     
+    SetClassicTheme frmForm
+End Sub
+
+Sub SetClassicTheme(frmForm As Form)
     If GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0) <> 0 Then
-        SetWindowRgn frmForm.hWnd, CreateRectRgn(0, 0, frmForm.Width / Screen.TwipsPerPixelX, frmForm.Height / Screen.TwipsPerPixelY), True
+        SetWindowRgn frmForm.hWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
     Else
         SetWindowRgn frmForm.hWnd, 0&, True
     End If
