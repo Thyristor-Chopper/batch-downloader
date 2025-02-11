@@ -31,6 +31,7 @@ Begin VB.Form frmOptions
       ScaleHeight     =   4275
       ScaleWidth      =   5955
       TabIndex        =   59
+      TabStop         =   0   'False
       Top             =   5040
       Width           =   6015
       Begin prjDownloadBooster.FrameW FrameW3 
@@ -161,19 +162,20 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   4065
+      Height          =   4305
       Index           =   1
       Left            =   120
-      ScaleHeight     =   4005
+      ScaleHeight     =   4245
       ScaleWidth      =   5835
       TabIndex        =   5
+      TabStop         =   0   'False
       Top             =   600
       Width           =   5895
       Begin prjDownloadBooster.FrameW Frame5 
          Height          =   2235
          Left            =   120
          TabIndex        =   20
-         Top             =   1680
+         Top             =   1920
          Width           =   4335
          _ExtentX        =   7646
          _ExtentY        =   3942
@@ -289,19 +291,30 @@ Begin VB.Form frmOptions
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.FrameW Frame2 
-         Height          =   1455
+         Height          =   1695
          Left            =   120
          TabIndex        =   7
          Top             =   120
          Width           =   5655
          _ExtentX        =   9975
-         _ExtentY        =   2566
+         _ExtentY        =   2990
          Caption         =   " 다운로드 설정 "
+         Begin prjDownloadBooster.CheckBoxW chkAutoYtdl 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   75
+            Top             =   960
+            Width           =   5295
+            _ExtentX        =   9340
+            _ExtentY        =   450
+            Caption         =   "지원되는 링크에서 자동으로 youtube-dl 사용(&Y)"
+            Transparent     =   -1  'True
+         End
          Begin prjDownloadBooster.ComboBoxW cbWhenExist 
             Height          =   300
             Left            =   2055
             TabIndex        =   30
-            Top             =   1080
+            Top             =   1320
             Width           =   2040
             _ExtentX        =   3598
             _ExtentY        =   529
@@ -369,7 +382,7 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   29
             Tag             =   "nocolorchange"
-            Top             =   1125
+            Top             =   1365
             Width           =   1935
          End
       End
@@ -410,19 +423,20 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   2415
+      Height          =   2775
       Index           =   4
       Left            =   120
-      ScaleHeight     =   2355
+      ScaleHeight     =   2715
       ScaleWidth      =   5955
       TabIndex        =   34
-      Top             =   4800
+      TabStop         =   0   'False
+      Top             =   5040
       Width           =   6015
       Begin prjDownloadBooster.FrameW FrameW4 
          Height          =   615
          Left            =   120
          TabIndex        =   71
-         Top             =   1680
+         Top             =   2040
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   1085
@@ -440,21 +454,20 @@ Begin VB.Form frmOptions
          End
       End
       Begin prjDownloadBooster.FrameW FrameW2 
-         Height          =   1455
+         Height          =   1815
          Left            =   120
          TabIndex        =   35
          Top             =   120
          Width           =   5775
          _ExtentX        =   10186
-         _ExtentY        =   2566
+         _ExtentY        =   3201
          Caption         =   " 경로 설정 "
          Transparent     =   -1  'True
          Begin prjDownloadBooster.TextBoxW txtYtdlPath 
             Height          =   255
             Left            =   2040
             TabIndex        =   40
-            Top             =   1560
-            Visible         =   0   'False
+            Top             =   1440
             Width           =   3615
             _ExtentX        =   6376
             _ExtentY        =   450
@@ -492,8 +505,7 @@ Begin VB.Form frmOptions
             Height          =   255
             Left            =   120
             TabIndex        =   41
-            Top             =   1590
-            Visible         =   0   'False
+            Top             =   1470
             Width           =   1695
          End
          Begin VB.Label Label5 
@@ -524,23 +536,35 @@ Begin VB.Form frmOptions
       ScaleHeight     =   4245
       ScaleWidth      =   5955
       TabIndex        =   4
+      TabStop         =   0   'False
       Top             =   600
       Visible         =   0   'False
       Width           =   6015
+      Begin prjDownloadBooster.CheckBoxW chkForceClassic 
+         Height          =   255
+         Left            =   240
+         TabIndex        =   76
+         Top             =   1680
+         Width           =   3735
+         _ExtentX        =   6588
+         _ExtentY        =   450
+         Caption         =   "고전 테마 사용(위 설정보다 우선함)(&C)"
+         Transparent     =   -1  'True
+      End
       Begin VB.PictureBox pbBackground 
          BorderStyle     =   0  '없음
-         Height          =   1305
+         Height          =   1080
          Left            =   120
-         ScaleHeight     =   1305
+         ScaleHeight     =   1080
          ScaleWidth      =   4395
          TabIndex        =   42
          Top             =   60
          Width           =   4395
          Begin prjDownloadBooster.TygemButton tygSample 
             Height          =   285
-            Left            =   2340
+            Left            =   1920
             TabIndex        =   52
-            Top             =   780
+            Top             =   600
             Visible         =   0   'False
             Width           =   1575
             _ExtentX        =   2778
@@ -549,10 +573,10 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.CommandButtonW cmdSample 
             Height          =   285
-            Left            =   2340
+            Left            =   1920
             TabIndex        =   43
             TabStop         =   0   'False
-            Top             =   780
+            Top             =   600
             Width           =   1575
             _ExtentX        =   2778
             _ExtentY        =   503
@@ -563,7 +587,7 @@ Begin VB.Form frmOptions
             BackColor       =   &H000000FF&
             BackStyle       =   1  '투명하지 않음
             Height          =   135
-            Left            =   3960
+            Left            =   3360
             Shape           =   3  '원형
             Top             =   120
             Width           =   135
@@ -571,9 +595,9 @@ Begin VB.Form frmOptions
          Begin VB.Line lnForePreview 
             BorderWidth     =   2
             X1              =   300
-            X2              =   2100
-            Y1              =   540
-            Y2              =   540
+            X2              =   1680
+            Y1              =   480
+            Y2              =   480
          End
          Begin VB.Image imgPreview 
             Height          =   375
@@ -588,17 +612,17 @@ Begin VB.Form frmOptions
             BorderWidth     =   2
             Index           =   0
             X1              =   300
-            X2              =   2100
+            X2              =   1680
             Y1              =   180
             Y2              =   180
          End
          Begin VB.Shape pgBackPreview 
             BackColor       =   &H8000000F&
             BackStyle       =   1  '투명하지 않음
-            Height          =   885
+            Height          =   645
             Left            =   120
             Top             =   330
-            Width           =   4095
+            Width           =   3495
          End
          Begin VB.Shape Shape3 
             BackColor       =   &H80000002&
@@ -607,7 +631,7 @@ Begin VB.Form frmOptions
             Height          =   495
             Left            =   75
             Top             =   285
-            Width           =   4200
+            Width           =   3600
          End
          Begin VB.Shape Shape1 
             BackColor       =   &H80000002&
@@ -616,15 +640,15 @@ Begin VB.Form frmOptions
             Left            =   60
             Shape           =   4  '둥근 사각형
             Top             =   60
-            Width           =   4215
+            Width           =   3615
          End
          Begin VB.Shape Shape2 
             BackColor       =   &H80000002&
             BackStyle       =   1  '투명하지 않음
-            Height          =   975
+            Height          =   735
             Left            =   60
             Top             =   300
-            Width           =   4215
+            Width           =   3615
          End
       End
       Begin prjDownloadBooster.FrameW FrameW1 
@@ -791,7 +815,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Left            =   240
          TabIndex        =   9
-         Top             =   1680
+         Top             =   1440
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   450
@@ -799,13 +823,13 @@ Begin VB.Form frmOptions
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.FrameW Frame3 
-         Height          =   615
+         Height          =   855
          Left            =   120
          TabIndex        =   8
-         Top             =   1440
+         Top             =   1200
          Width           =   3975
          _ExtentX        =   7011
-         _ExtentY        =   1085
+         _ExtentY        =   1508
          Caption         =   " 창 모양 "
       End
       Begin prjDownloadBooster.FrameW Frame1 
@@ -1051,6 +1075,14 @@ Private Sub chkExcludeMergeFromElapsed_Click()
     End If
 End Sub
 
+Private Sub chkForceClassic_Click()
+    If Loaded Then
+        cmdApply.Enabled = -1
+        tygApply.Enabled = -1
+        SkinChanged = True
+    End If
+End Sub
+
 Private Sub chkForceGet_Click()
     If Loaded Then
         cmdApply.Enabled = -1
@@ -1154,6 +1186,7 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "ExcludeMergeFromElapsed", chkExcludeMergeFromElapsed.Value
     SaveSetting "DownloadBooster", "Options", "ForceWin31Dialog", chkForceOldDialog.Value
     SaveSetting "DownloadBooster", "Options", "DontLoadIcons", chkDontLoadIcons.Value
+    SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", chkForceClassic.Value
     
     SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenWhenComplete.Value
     SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenDirWhenComplete.Value
@@ -1567,6 +1600,7 @@ Private Sub Form_Load()
     chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
     chkNoDWMWindow.Value = GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow)
     chkDontLoadIcons.Value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
+    chkForceClassic.Value = GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0)
     If (Not IsDWMEnabled()) Then
         chkNoDWMWindow.Enabled = False
         chkNoDWMWindow.Value = 1
@@ -1754,6 +1788,8 @@ Private Sub Form_Load()
     FrameW4.Caption = t(FrameW4.Caption, " Advanced download options ")
     chkForceOldDialog.Caption = t(chkForceOldDialog.Caption, "U&se Windows 3.1 dialogs")
     chkDontLoadIcons.Caption = t(chkDontLoadIcons.Caption, "Use sa&me icons for all files in the open dialog")
+    chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
+    chkForceClassic.Caption = t(chkForceClassic.Caption, "Use &classic theme (overrides the option above)")
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775

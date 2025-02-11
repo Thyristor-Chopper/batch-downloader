@@ -20,6 +20,26 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   11115
    StartUpPosition =   3  'Windows 기본값
+   Begin prjDownloadBooster.ListView lvLogTest 
+      Height          =   2775
+      Left            =   120
+      TabIndex        =   143
+      Top             =   2040
+      Width           =   6135
+      _ExtentX        =   10821
+      _ExtentY        =   4895
+      View            =   3
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdYtdlTest 
+      Height          =   1215
+      Left            =   6600
+      TabIndex        =   142
+      Top             =   4680
+      Width           =   615
+      _ExtentX        =   1085
+      _ExtentY        =   2143
+      Caption         =   "CommandButtonW1"
+   End
    Begin prjDownloadBooster.TygemButton tygEditHeaders 
       Height          =   330
       Left            =   7440
@@ -2228,6 +2248,12 @@ Begin VB.Form frmMain
       ImageListAlignment=   4
       Transparent     =   -1  'True
    End
+   Begin prjDownloadBooster.ShellPipe spYtdl 
+      Left            =   9240
+      Top             =   3360
+      _ExtentX        =   635
+      _ExtentY        =   635
+   End
    Begin VB.Label lblLBCaption 
       Alignment       =   2  '가운데 맞춤
       BackStyle       =   0  '투명
@@ -2365,7 +2391,7 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.ShellPipe SP 
       Left            =   9240
-      Top             =   4920
+      Top             =   3960
       _ExtentX        =   635
       _ExtentY        =   635
    End
@@ -3800,6 +3826,11 @@ Sub LoadLiveBadukSkin()
     End If
 End Sub
 
+Private Sub cmdYtdlTest_Click()
+    If lvLogTest.ColumnHeaders.Count < 1 Then lvLogTest.ColumnHeaders.Add , , "out", 7200
+    spYtdl.Run """" & GetSetting("DownloadBooster", "Options", "YtdlPath", "") & """ 8igShgEtHK8"
+End Sub
+
 Private Sub Form_Load()
     On Error Resume Next
 
@@ -4583,6 +4614,29 @@ Private Sub SP_Error(ByVal Number As Long, ByVal Source As String, CancelDisplay
     CancelDisplay = True
     SP.FinishChild 0
     OnStop
+End Sub
+
+Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
+    Dim LinesLF() As String, LinesCR() As String, Data() As String
+    LinesLF = Split(spYtdl.GetData(), vbLf)
+    Dim Line As String
+    Dim i%, k%
+    'For Each Line In Lines
+    For i = LBound(LinesLF) To UBound(LinesLF)
+        LinesCR = Split(LinesLF(i), vbCr)
+        For k = LBound(LinesCR) To UBound(LinesCR)
+            Line = Trim$(LinesCR(k))
+            If Line = "" Then GoTo nextLine
+            Do While Replace(Line, "  ", " ") <> Line
+                Line = Replace(Line, "  ", " ")
+            Loop
+            Data = Split(Line, " ")
+            
+            lvLogTest.ListItems.Add , , Line
+        
+nextLine:
+        Next k
+    Next i
 End Sub
 
 Private Sub timElapsed_Timer()
