@@ -34,7 +34,8 @@ Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1
 Private Declare Function CryptStringToBinary Lib "crypt32" Alias "CryptStringToBinaryW" (ByVal pszString As Long, ByVal cchString As Long, ByVal dwFlags As Long, ByVal pbBinary As Long, ByRef pcbBinary As Long, ByRef pdwSkip As Long, ByRef pdwFlags As Long) As Long
-Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+Private Declare Function SetWindowRgn Lib "user32" (ByVal hWnd As Long, ByVal hRgn As Long, ByVal bRedraw As Long) As Long
+Private Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
 
 Private Type ItemID
     cb As Long
@@ -335,6 +336,12 @@ Sub SetFormBackgroundColor(frmForm As Form)
         End If
 nextfor:
     Next ctrl
+    
+    If GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0) <> 0 Then
+        SetWindowRgn frmForm.hWnd, CreateRectRgn(0, 0, frmForm.Width / Screen.TwipsPerPixelX, frmForm.Height / Screen.TwipsPerPixelY), True
+    Else
+        SetWindowRgn frmForm.hWnd, 0&, True
+    End If
 End Sub
 
 Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpen As Boolean, Optional ByVal InitColor As OLE_COLOR, Optional ByVal SolidOnly As Boolean = False) As Long
