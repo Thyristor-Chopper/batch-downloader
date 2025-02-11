@@ -1,4 +1,4 @@
-frmMain = 33, 89, 1086, 748, , 19, 6, 898, 744, C
+frmMain = 72, 287, 1125, 946, , 19, 6, 898, 744, C
 ShellPipe = 552, 65, 1107, 523, C, 66, 87, 623, 547, C
 SPBuffer = 488, 106, 1043, 564, C
 Slider = 110, 145, 1189, 822, C, 154, 203, 1233, 880, C
@@ -82,3 +82,4 @@ TbrButtonMenus = 0, 0, 0, 0, C
 TbrButtonProperties = 0, 0, 0, 0, C
 TbrButtons = 0, 0, 0, 0, C
 GetAssocIconMod = 121, 107, 1187, 758, C
+frmYtdlOptions = 35, 246, 1101, 897, , 44, 58, 1110, 709, C

@@ -20,6 +20,16 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   11115
    StartUpPosition =   3  'Windows 기본값
+   Begin prjDownloadBooster.CommandButtonW cmdYtdlOptions 
+      Height          =   495
+      Left            =   6600
+      TabIndex        =   144
+      Top             =   4080
+      Width           =   615
+      _ExtentX        =   1085
+      _ExtentY        =   873
+      Caption         =   "ㄴ"
+   End
    Begin prjDownloadBooster.ListView lvLogTest 
       Height          =   2775
       Left            =   120
@@ -2497,6 +2507,74 @@ Dim ResumeUnsupported As Boolean
 Public ImagePosition As Integer
 Dim TotalSize As Double
 
+'youtube-dl 관련 변수
+Dim ytdlTotalFormatCount As Integer
+Dim ytdlFileName As String
+
+Sub StartYtdlDownload()
+    If lvLogTest.ColumnHeaders.Count < 2 Then
+        lvLogTest.ColumnHeaders.Add , , "주체", 1200
+        lvLogTest.ColumnHeaders.Add , , "out", 7200
+    End If
+    
+    ytdlTotalFormatCount = 1
+    spYtdl.Run """" & GetSetting("DownloadBooster", "Options", "YtdlPath", "") & """ 8igShgEtHK8"
+End Sub
+
+Private Sub cmdYtdlOptions_Click()
+    frmYtdlOptions.Show vbModal, Me
+End Sub
+
+Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
+    Dim LinesLF() As String, LinesCR() As String, Data() As String
+    LinesLF = Split(spYtdl.GetData(), vbLf)
+    Dim Line As String
+    Dim i%, k%
+    'For Each Line In Lines
+    For i = LBound(LinesLF) To UBound(LinesLF)
+        LinesCR = Split(LinesLF(i), vbCr)
+        For k = LBound(LinesCR) To UBound(LinesCR)
+            Line = Trim$(LinesCR(k))
+            If Line = "" Then GoTo nextLine
+            Do While Replace(Line, "  ", " ") <> Line
+                Line = Replace(Line, "  ", " ")
+            Loop
+            Data = Split(Line, " ")
+            
+            On Error Resume Next
+            Select Case Data(0)
+                Case "[info]"
+                    '포맷 개수
+                    If Includes(Line, "Downloading ") And Includes(Line, " format(s): ") Then
+                        ytdlTotalFormatCount = UBound(Split(Data(5), "+")) + 1
+                    End If
+                    lvLogTest.ListItems.Add(, , "정보").ListSubItems.Add , , Line
+                Case "[download]"
+                    If UBound(Data) > 1 Then
+                        If Data(1) = "Destination:" Then
+                            ytdlFileName = Replace(Line, "[download] Destination: ", "")
+                        End If
+                    End If
+                    lvLogTest.ListItems.Add(, , "다운로드").ListSubItems.Add , , Line
+                Case "[Merger]"
+                    If UBound(Data) > 3 Then
+                        If Data(1) = "Merging" And Data(3) = "into" Then
+                            ytdlFileName = Replace(Line, "[Merger] Merging formats into ", "")
+                            If Left$(ytdlFileName, 1) = """" And Right$(ytdlFileName, 1) = """" Then
+                                ytdlFileName = Mid$(ytdlFileName, 2, Len(ytdlFileName) - 2)
+                            End If
+                        End If
+                    End If
+                    lvLogTest.ListItems.Add(, , "합체").ListSubItems.Add , , Line
+                Case Else
+                    lvLogTest.ListItems.Add(, , Data(0)).ListSubItems.Add , , Line
+            End Select
+        
+nextLine:
+        Next k
+    Next i
+End Sub
+
 Sub OnData(Data As String)
     Dim output$
     Dim idx%
@@ -2838,7 +2916,7 @@ nextln:
     Dim i%
     If BatchStarted Then
         pbTotalProgress.Value = 0
-        For i = 1 To lblDownloader.UBound
+        For i = 1 To lblDownloader.ubound
             pbProgress(i).Value = 0
             lblPercentage(i).Caption = ""
         Next i
@@ -3007,7 +3085,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         sbStatusBar.Panels(1).Text = t("준비", "Ready")
     
         fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
-        For i = 1 To lblDownloader.UBound
+        For i = 1 To lblDownloader.ubound
             pbProgress(i).Value = 0
             lblPercentage(i).Caption = ""
         Next i
@@ -3827,8 +3905,7 @@ Sub LoadLiveBadukSkin()
 End Sub
 
 Private Sub cmdYtdlTest_Click()
-    If lvLogTest.ColumnHeaders.Count < 1 Then lvLogTest.ColumnHeaders.Add , , "out", 7200
-    spYtdl.Run """" & GetSetting("DownloadBooster", "Options", "YtdlPath", "") & """ 8igShgEtHK8"
+    StartYtdlDownload
 End Sub
 
 Private Sub Form_Load()
@@ -3855,7 +3932,7 @@ Private Sub Form_Load()
     End If
     
     Dim i%
-    For i = 1 To lblDownloader.UBound
+    For i = 1 To lblDownloader.ubound
         lblDownloader(i).Caption = t("스레드", "Thread") & " " & i & ":"
         lblDownloader(i).BackStyle = 0
         pbProgress(i).Left = pbProgress(i).Left + 60
@@ -4146,7 +4223,7 @@ Private Sub Form_Load()
     SetFormBackgroundColor Me
     
     If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
-        For i = pgOverlay.LBound To pgOverlay.UBound
+        For i = pgOverlay.LBound To pgOverlay.ubound
             pgOverlay(i).Visible = -1
             lblOverlay(i).Visible = -1
         Next i
@@ -4616,29 +4693,6 @@ Private Sub SP_Error(ByVal Number As Long, ByVal Source As String, CancelDisplay
     OnStop
 End Sub
 
-Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
-    Dim LinesLF() As String, LinesCR() As String, Data() As String
-    LinesLF = Split(spYtdl.GetData(), vbLf)
-    Dim Line As String
-    Dim i%, k%
-    'For Each Line In Lines
-    For i = LBound(LinesLF) To UBound(LinesLF)
-        LinesCR = Split(LinesLF(i), vbCr)
-        For k = LBound(LinesCR) To UBound(LinesCR)
-            Line = Trim$(LinesCR(k))
-            If Line = "" Then GoTo nextLine
-            Do While Replace(Line, "  ", " ") <> Line
-                Line = Replace(Line, "  ", " ")
-            Loop
-            Data = Split(Line, " ")
-            
-            lvLogTest.ListItems.Add , , Line
-        
-nextLine:
-        Next k
-    Next i
-End Sub
-
 Private Sub timElapsed_Timer()
     Elapsed = Elapsed + 1
     sbStatusBar.Panels(4).Text = FormatTime(Elapsed) & t(" 경과", " elapsed")
@@ -4667,7 +4721,7 @@ Private Sub trThreadCount_Scroll()
         lblPercentage(i).Visible = -1
         'If Not pbProgress(i).MarqueeAnimation Then pbProgress(i).MarqueeAnimation = True
     Next i
-    For i = trThreadCount.Value + 1 To lblDownloader.UBound
+    For i = trThreadCount.Value + 1 To lblDownloader.ubound
         lblDownloader(i).Visible = 0
         pbProgress(i).Visible = 0
         lblPercentage(i).Visible = 0

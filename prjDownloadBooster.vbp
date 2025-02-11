@@ -87,6 +87,7 @@ Class=TbrButtonProperties; Builds\ToolBar\TbrButtonProperties.cls
 Class=TbrButtons; Builds\ToolBar\TbrButtons.cls
 Module=GetAssocIconMod; GetAssocIcon.bas
 ResFile32="Booster.RES"
+Form=frmYtdlOptions.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

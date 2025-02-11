@@ -1032,13 +1032,13 @@ ErrLn4:
 End Function
 
 Function FilterFilename(ByVal FileName As String, Optional ByVal PreserveBackslash As Boolean = False) As String
-    Dim Str As String
+    Dim str As String
     Dim ret As String
     ret = ""
-    Str = StrConv(FileName, vbProperCase)
+    str = StrConv(FileName, vbProperCase)
     Dim i%
-    For i = 1 To Len(Str)
-        If Mid(Str, i, 1) = "?" Then
+    For i = 1 To Len(str)
+        If Mid(str, i, 1) = "?" Then
             ret = ret & "_"
         Else
             ret = ret & Mid(FileName, i, 1)
@@ -1207,10 +1207,10 @@ Function FormatTime(Sec) As String
     FormatTime = ret
 End Function
 
-Function btoa(Str As String) As String
+Function btoa(str As String) As String
     On Error Resume Next
     Dim Data() As Byte
-    Data = StrConv(Str, vbFromUnicode)
+    Data = StrConv(str, vbFromUnicode)
     Dim ss As String, s As Long
     ss = String$(2 * UBound(Data) + 6, 0)
     s = Len(ss) + 1
@@ -1384,4 +1384,8 @@ Function GetExtensionName(ByVal Path As String) As String
     Exit Function
 errfso:
     GetExtensionName = ""
+End Function
+
+Function Includes(ByVal str As String, ByVal toFind As String) As Boolean
+    Includes = (InStr(str, toFind) <> 0)
 End Function
