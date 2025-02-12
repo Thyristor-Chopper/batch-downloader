@@ -83,3 +83,5 @@ TbrButtonProperties = 0, 0, 0, 0, C
 TbrButtons = 0, 0, 0, 0, C
 GetAssocIconMod = 121, 107, 1187, 758, C
 frmYtdlOptions = 35, 246, 1101, 897, , 44, 58, 1110, 709, C
+frmMDI = 0, 0, 0, 0, C, 27, 22, 1093, 673, C
+frmTabBar = 154, 203, 1220, 854, C, 198, 261, 1264, 912, C

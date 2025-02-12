@@ -1,9 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmMain 
+   BorderStyle     =   0  '없음
    Caption         =   "다운로드 부스터"
    ClientHeight    =   7740
-   ClientLeft      =   165
-   ClientTop       =   555
+   ClientLeft      =   105
+   ClientTop       =   105
    ClientWidth     =   11115
    BeginProperty Font 
       Name            =   "굴림"
@@ -17,9 +18,10 @@ Begin VB.Form frmMain
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
+   MDIChild        =   -1  'True
    ScaleHeight     =   7740
    ScaleWidth      =   11115
-   StartUpPosition =   3  'Windows 기본값
+   ShowInTaskbar   =   0   'False
    Begin prjDownloadBooster.ComboBoxW txtURL 
       Height          =   300
       Left            =   1560
@@ -441,16 +443,6 @@ Begin VB.Form frmMain
       Caption         =   "제거(&V) "
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.ImageList imgDropdownReverse 
-      Left            =   9840
-      Top             =   5880
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      ImageWidth      =   13
-      ImageHeight     =   5
-      MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":31E6
-   End
    Begin prjDownloadBooster.CommandButtonW cmdOpenDropdown 
       Height          =   375
       Left            =   1800
@@ -472,7 +464,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":38D6
+      InitListImages  =   "frmMain.frx":31E6
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -495,7 +487,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3FC6
+      InitListImages  =   "frmMain.frx":38D6
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
@@ -531,7 +523,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":51CE
+      InitListImages  =   "frmMain.frx":4ADE
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -541,7 +533,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":63D6
+      InitListImages  =   "frmMain.frx":5CE6
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -551,7 +543,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":75DE
+      InitListImages  =   "frmMain.frx":6EEE
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -561,7 +553,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":87E6
+      InitListImages  =   "frmMain.frx":80F6
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -571,7 +563,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":99EE
+      InitListImages  =   "frmMain.frx":92FE
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -581,7 +573,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":ABF6
+      InitListImages  =   "frmMain.frx":A506
    End
    Begin prjDownloadBooster.CheckBoxW chkPlaySound 
       Height          =   255
@@ -2289,14 +2281,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopLeft 
       Height          =   435
       Left            =   120
-      Picture         =   "frmMain.frx":AFDE
+      Picture         =   "frmMain.frx":A8EE
       Top             =   1200
       Width           =   1725
    End
    Begin VB.Image imgTop 
       Height          =   435
       Left            =   1845
-      Picture         =   "frmMain.frx":D78C
+      Picture         =   "frmMain.frx":D09C
       Stretch         =   -1  'True
       Top             =   1200
       Width           =   3585
@@ -2304,14 +2296,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopRight 
       Height          =   435
       Left            =   5430
-      Picture         =   "frmMain.frx":1295E
+      Picture         =   "frmMain.frx":1226E
       Top             =   1200
       Width           =   150
    End
    Begin VB.Image imgLeft 
       Height          =   2310
       Left            =   120
-      Picture         =   "frmMain.frx":12D40
+      Picture         =   "frmMain.frx":12650
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   1725
@@ -2319,14 +2311,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomLeft 
       Height          =   180
       Left            =   120
-      Picture         =   "frmMain.frx":1FEDA
+      Picture         =   "frmMain.frx":1F7EA
       Top             =   3945
       Width           =   1725
    End
    Begin VB.Image imgBottom 
       Height          =   180
       Left            =   1845
-      Picture         =   "frmMain.frx":20F6C
+      Picture         =   "frmMain.frx":2087C
       Stretch         =   -1  'True
       Top             =   3945
       Width           =   3585
@@ -2334,14 +2326,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomRight 
       Height          =   180
       Left            =   5430
-      Picture         =   "frmMain.frx":2316E
+      Picture         =   "frmMain.frx":22A7E
       Top             =   3945
       Width           =   150
    End
    Begin VB.Image imgRight 
       Height          =   2310
       Left            =   5415
-      Picture         =   "frmMain.frx":23330
+      Picture         =   "frmMain.frx":22C40
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   165
@@ -2511,12 +2503,14 @@ Dim TotalSize As Double
 Dim ytdlTotalFormatCount As Integer
 Dim ytdlFileName As String
 
+Public FormID As Long
+
 Sub StartYtdlDownload()
     If Not FileExists(GetSetting("DownloadBooster", "Options", "YtdlPath", "")) Then
         If Confirm(t("youtube-dl 실행 파일 경로가 지정되지 않았습니다. 지금 지정하시겠습니까?", "youtube-dl executable path is not specified. Would you like to specify it now?"), App.Title, Me) = vbYes Then
             Load frmOptions
             frmOptions.tsTabStrip.Tabs(4).Selected = -1
-            frmOptions.Show vbModal, Me
+            frmOptions.Show vbModal, frmMDI
         End If
         Exit Sub
     End If
@@ -2531,7 +2525,7 @@ Sub StartYtdlDownload()
 End Sub
 
 Private Sub cmdYtdlOptions_Click()
-    frmYtdlOptions.Show vbModal, Me
+    frmYtdlOptions.Show vbModal, frmMDI
 End Sub
 
 Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
@@ -3175,7 +3169,7 @@ Private Sub chkPlaySound_Click()
 End Sub
 
 Private Sub cmdAbout_Click()
-    frmAbout.Show vbModal, Me
+    frmAbout.Show vbModal, frmMDI
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -3191,7 +3185,7 @@ Private Sub cmdAdd_Click()
     Else
         frmBatchAdd.txtSavePath.Text = GetParentFolderName(txtFileName.Text)
     End If
-    frmBatchAdd.Show vbModal, Me
+    frmBatchAdd.Show vbModal, frmMDI
 End Sub
 
 Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
@@ -3262,53 +3256,20 @@ End Sub
 Sub cmdBatch_Click()
     On Error Resume Next
     
-    Dim hSysMenu As Long
-    Dim MII As MENUITEMINFO
-    hSysMenu = GetSystemMenu(Me.hWnd, 0)
+    tygBatch.Caption = t("<< 일괄 처리", "<< Batch")
+    lvBatchFiles.Visible = -1
+    cmdAddToQueue.Visible = -1
+    SetWindowSizeLimit frmMDI.hWnd, Me.Width + 120, Me.Width + 120, 8220 + PaddedBorderWidth * 15 * 2 + frmTabBar.Height, Screen.Height + 1200
+    'sbStatusBar.AllowSizeGrip = True
     
-    If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then
-        cmdBatch.ImageList = imgDropdownReverse
-        tygBatch.Caption = t("<< 일괄 처리", "<< Batch")
-        lvBatchFiles.Visible = -1
-        cmdAddToQueue.Visible = -1
-        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
-        'sbStatusBar.AllowSizeGrip = True
-        
-        Dim formHeight As Integer
-        formHeight = GetSetting("DownloadBooster", "UserData", "FormHeight", 8985)
-        If formHeight < 8220 Then
-            Me.Height = 8985 + PaddedBorderWidth * 15 * 2
-        Else
-            Me.Height = formHeight + PaddedBorderWidth * 15 * 2
-        End If
-        
-        CheckMenuRadioItem hSysMenu, 1001, 1002, 1002, MF_BYCOMMAND
-        
-        With MII
-            .cbSize = Len(MII)
-            .fMask = MIIM_STATE
-            .fState = MFS_ENABLED
-        End With
-        SetMenuItemInfo hSysMenu, 1003, 0, MII
+    Dim formHeight As Integer
+    formHeight = GetSetting("DownloadBooster", "UserData", "FormHeight", 8985)
+    If formHeight < 8220 Then
+        Me.Height = 8985 + PaddedBorderWidth * 15 * 2
     Else
-        SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
-        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
-        'sbStatusBar.AllowSizeGrip = False
-        Me.Height = 6930 + PaddedBorderWidth * 15 * 2
-        cmdBatch.ImageList = imgDropdown
-        lvBatchFiles.Visible = 0
-        cmdAddToQueue.Visible = 0
-        tygBatch.Caption = t("일괄 처리 >>", "Batch >>")
-        
-        CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
-        
-        With MII
-            .cbSize = Len(MII)
-            .fMask = MIIM_STATE
-            .fState = MFS_GRAYED
-        End With
-        SetMenuItemInfo hSysMenu, 1003, 0, MII
+        Me.Height = formHeight + PaddedBorderWidth * 15 * 2
     End If
+    
     SetBackgroundPosition
 End Sub
 
@@ -3316,10 +3277,10 @@ Private Sub cmdBrowse_Click()
     Tags.BrowsePresetPath = ""
     Tags.BrowseTargetForm = 0
     If GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", "0") = "1" Then
-        frmBrowse.Show vbModal, Me
+        frmBrowse.Show vbModal, frmMDI
         Exit Sub
     End If
-    frmExplorer.Show vbModal, Me
+    frmExplorer.Show vbModal, frmMDI
 End Sub
 
 Private Sub cmdClear_Click()
@@ -3540,7 +3501,7 @@ Private Sub cmdEdit_Click()
 End Sub
 
 Private Sub cmdEditHeaders_Click()
-    frmEditHeader.Show vbModal, Me
+    frmEditHeader.Show vbModal, frmMDI
 End Sub
 
 Private Sub cmdGo_Click()
@@ -3673,7 +3634,7 @@ Private Sub cmdOpenFolderBatch_Click()
 End Sub
 
 Private Sub cmdOptions_Click()
-    frmOptions.Show vbModal, Me
+    frmOptions.Show vbModal, frmMDI
 End Sub
 
 Private Sub cmdStartBatch_Click()
@@ -3955,7 +3916,6 @@ Private Sub Form_Load()
 
     ResumeUnsupported = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")
-    Me.Caption = t(Me.Caption, "Download Booster") & " v" & App.Major & "." & App.Minor & "." & App.Revision
     TahomaAvailable = FontExists("Tahoma")
     
     ImagePosition = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
@@ -3963,15 +3923,6 @@ Private Sub Form_Load()
     imgBackground.Width = Me.Width
     imgBackground.Height = Me.Height
     LoadLiveBadukSkin
-    
-    Dim Lft%
-    Dim Top%
-    Top = GetSetting("DownloadBooster", "UserData", "FormTop", -1)
-    Lft = GetSetting("DownloadBooster", "UserData", "FormLeft", -1)
-    If Top >= 0 And Lft >= 0 Then
-        Me.Top = Top
-        Me.Left = Lft
-    End If
     
     Dim i%
     For i = 1 To lblDownloader.UBound
@@ -4112,18 +4063,7 @@ Private Sub Form_Load()
     End With
     InsertMenuItem hSysMenu, 5, 1, MII
     
-    If GetSetting("DownloadBooster", "UserData", "BatchExpanded", 1) <> 0 Then
-        cmdBatch_Click
-    Else
-        CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
-        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
-        With MII
-            .cbSize = Len(MII)
-            .fMask = MIIM_STATE
-            .fState = MFS_GRAYED
-        End With
-        SetMenuItemInfo hSysMenu, 1003, MF_BYCOMMAND, MII
-    End If
+    cmdBatch_Click
     
     chkOpenAfterComplete.Value = GetSetting("DownloadBooster", "Options", "OpenWhenComplete", 0)
     chkOpenFolder.Value = GetSetting("DownloadBooster", "Options", "OpenFolderWhenComplete", 0)
@@ -4293,10 +4233,9 @@ Sub OnDWMChange()
 End Sub
 
 Private Sub Form_Resize()
-    If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
-    If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
+    If Me.Height + 525 - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
     If Me.WindowState = 1 Then Exit Sub
-    lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
+    lvBatchFiles.Height = Me.Height + 525 - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
     cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdAdd.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
@@ -4611,7 +4550,7 @@ Private Sub mnuEdit_Click()
     'frmEditBatch.txtFilePath.Enabled = frmEditBatch.Label2.Enabled
     frmEditBatch.OriginalURL = lvBatchFiles.SelectedItem.ListSubItems(2).Text
     frmEditBatch.OriginalPath = lvBatchFiles.SelectedItem.ListSubItems(1).Text
-    frmEditBatch.Show vbModal, Me
+    frmEditBatch.Show vbModal, frmMDI
 exitsub22:
     Exit Sub
 End Sub

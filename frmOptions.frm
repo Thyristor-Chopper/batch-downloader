@@ -1231,6 +1231,7 @@ Private Sub cmdApply_Click()
     If ColorChanged Or VisualStyleChanged Or SkinChanged Then
         SetFormBackgroundColor Me, True
         SetFormBackgroundColor frmMain, True
+        SetFormBackgroundColor frmTabBar
         frmMain.LoadLiveBadukSkin
     End If
     If VisualStyleChanged Then
