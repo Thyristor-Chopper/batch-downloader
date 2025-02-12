@@ -261,20 +261,23 @@ Function IsKeyPressed(ByVal lKey As GetKeyStateKeyboardCodes) As Boolean
 End Function
 
 Sub DisableDWMWindow(hWnd As Long)
-    If WinVer < 6.1 Then Exit Sub
+    If WinVer < 6# Then Exit Sub
+    On Error Resume Next
     DwmSetWindowAttribute hWnd, 2, 1, 4
 End Sub
 
 Sub EnableDWMWindow(hWnd As Long)
-    If WinVer < 6.1 Then Exit Sub
+    If WinVer < 6# Then Exit Sub
+    On Error Resume Next
     DwmSetWindowAttribute hWnd, 2, 0, 4
 End Sub
 
 Function IsDWMEnabled() As Boolean
-    If WinVer < 6.1 Then
+    If WinVer < 6# Then
         IsDWMEnabled = False
         Exit Function
     End If
+    On Error GoTo nodwm
     Dim DwmEnabled As Long
     DwmEnabled = 0
     DwmIsCompositionEnabled DwmEnabled
@@ -283,6 +286,9 @@ Function IsDWMEnabled() As Boolean
     Else
         IsDWMEnabled = False
     End If
+    Exit Function
+nodwm:
+    IsDWMEnabled = False
 End Function
 
 Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
