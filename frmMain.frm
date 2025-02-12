@@ -2512,6 +2512,15 @@ Dim ytdlTotalFormatCount As Integer
 Dim ytdlFileName As String
 
 Sub StartYtdlDownload()
+    If Not FileExists(GetSetting("DownloadBooster", "Options", "YtdlPath", "")) Then
+        If Confirm(t("youtube-dl 실행 파일 경로가 지정되지 않았습니다. 지금 지정하시겠습니까?", "youtube-dl executable path is not specified. Would you like to specify it now?"), App.Title, Me) = vbYes Then
+            Load frmOptions
+            frmOptions.tsTabStrip.Tabs(4).Selected = -1
+            frmOptions.Show vbModal, Me
+        End If
+        Exit Sub
+    End If
+
     If lvLogTest.ColumnHeaders.Count < 2 Then
         lvLogTest.ColumnHeaders.Add , , "주체", 1200
         lvLogTest.ColumnHeaders.Add , , "out", 7200
