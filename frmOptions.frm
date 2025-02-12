@@ -1248,8 +1248,8 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
     SaveSetting "DownloadBooster", "Options", "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
     If ColorChanged Or VisualStyleChanged Or SkinChanged Then
-        SetFormBackgroundColor Me
-        SetFormBackgroundColor frmMain
+        SetFormBackgroundColor Me, True
+        SetFormBackgroundColor frmMain, True
         frmMain.LoadLiveBadukSkin
     End If
     If VisualStyleChanged Then

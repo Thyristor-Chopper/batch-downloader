@@ -285,7 +285,7 @@ Function IsDWMEnabled() As Boolean
     End If
 End Function
 
-Sub SetFormBackgroundColor(frmForm As Form)
+Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
     Dim clrBackColor As Long
     Dim clrForeColor As Long
     Dim DisableVisualStyle As Boolean
@@ -337,13 +337,13 @@ Sub SetFormBackgroundColor(frmForm As Form)
 nextfor:
     Next ctrl
     
-    SetClassicTheme frmForm
+    SetClassicTheme frmForm, DisableClassicTheme
 End Sub
 
-Sub SetClassicTheme(frmForm As Form)
+Sub SetClassicTheme(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
     If GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0) <> 0 Then
         SetWindowRgn frmForm.hWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
-    Else
+    ElseIf DisableClassicTheme Then
         SetWindowRgn frmForm.hWnd, 0&, True
     End If
 End Sub

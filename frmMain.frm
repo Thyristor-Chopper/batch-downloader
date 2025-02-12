@@ -2916,7 +2916,7 @@ nextln:
     Dim i%
     If BatchStarted Then
         pbTotalProgress.Value = 0
-        For i = 1 To lblDownloader.ubound
+        For i = 1 To lblDownloader.UBound
             pbProgress(i).Value = 0
             lblPercentage(i).Caption = ""
         Next i
@@ -3085,7 +3085,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         sbStatusBar.Panels(1).Text = t("준비", "Ready")
     
         fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
-        For i = 1 To lblDownloader.ubound
+        For i = 1 To lblDownloader.UBound
             pbProgress(i).Value = 0
             lblPercentage(i).Caption = ""
         Next i
@@ -3571,20 +3571,22 @@ Private Sub cmdGo_Click()
     txtURL.Text = Trim$(txtURL.Text)
     
     'MRU
-    Dim AddMRU As Boolean
-    AddMRU = True
-    For i = 0 To txtURL.ListCount - 1
-        If i > 25 Then Exit For
-        If txtURL.List(i) = txtURL.Text Then
-            AddMRU = False
-            Exit For
-        End If
-    Next i
-    If AddMRU Then txtURL.AddItem txtURL.Text, 0
-    For i = 0 To txtURL.ListCount - 1
-        If i > 25 Then Exit For
-        SaveSetting "DownloadBooster", "UserData\MRU\URL", Chr(i + 97), txtURL.List(i)
-    Next i
+    If GetSetting("DownloadBooster", "Options", "DisableURLMRU", "0") <> "1" Then
+        Dim AddMRU As Boolean
+        AddMRU = True
+        For i = 0 To txtURL.ListCount - 1
+            If i > 25 Then Exit For
+            If txtURL.List(i) = txtURL.Text Then
+                AddMRU = False
+                Exit For
+            End If
+        Next i
+        If AddMRU Then txtURL.AddItem txtURL.Text, 0
+        For i = 0 To txtURL.ListCount - 1
+            If i > 25 Then Exit For
+            SaveSetting "DownloadBooster", "UserData\MRU\URL", Chr(i + 97), txtURL.List(i)
+        Next i
+    End If
 
     Elapsed = 0
     If GetSetting("DownloadBooster", "Options", "LazyElapsed", "0") <> "1" Then timElapsed.Enabled = -1
@@ -3592,6 +3594,8 @@ Private Sub cmdGo_Click()
 End Sub
 
 Sub LoadURLMRU()
+    If GetSetting("DownloadBooster", "Options", "DisableURLMRU", "0") <> "0" Then Exit Sub
+
     Dim MRU() As String, i%
     txtURL.Clear
     MRU = GetAllSettings("DownloadBooster", "UserData\MRU\URL")
@@ -3961,7 +3965,7 @@ Private Sub Form_Load()
     End If
     
     Dim i%
-    For i = 1 To lblDownloader.ubound
+    For i = 1 To lblDownloader.UBound
         lblDownloader(i).Caption = t("스레드", "Thread") & " " & i & ":"
         lblDownloader(i).BackStyle = 0
         pbProgress(i).Left = pbProgress(i).Left + 60
@@ -4252,7 +4256,7 @@ Private Sub Form_Load()
     SetFormBackgroundColor Me
     
     If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
-        For i = pgOverlay.lbound To pgOverlay.ubound
+        For i = pgOverlay.LBound To pgOverlay.UBound
             pgOverlay(i).Visible = -1
             lblOverlay(i).Visible = -1
         Next i
@@ -4752,7 +4756,7 @@ Private Sub trThreadCount_Scroll()
         lblPercentage(i).Visible = -1
         'If Not pbProgress(i).MarqueeAnimation Then pbProgress(i).MarqueeAnimation = True
     Next i
-    For i = trThreadCount.Value + 1 To lblDownloader.ubound
+    For i = trThreadCount.Value + 1 To lblDownloader.UBound
         lblDownloader(i).Visible = 0
         pbProgress(i).Visible = 0
         lblPercentage(i).Visible = 0
