@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmMain 
    BorderStyle     =   0  '없음
    Caption         =   "다운로드 부스터"
-   ClientHeight    =   7740
+   ClientHeight    =   7455
    ClientLeft      =   105
    ClientTop       =   105
    ClientWidth     =   11115
@@ -19,7 +19,7 @@ Begin VB.Form frmMain
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
-   ScaleHeight     =   7740
+   ScaleHeight     =   7455
    ScaleWidth      =   11115
    ShowInTaskbar   =   0   'False
    Begin prjDownloadBooster.ComboBoxW txtURL 
@@ -331,16 +331,6 @@ Begin VB.Form frmMain
       MaskColor       =   16711935
       InitListImages  =   "frmMain.frx":2AFA
    End
-   Begin prjDownloadBooster.StatusBar sbStatusBar 
-      Align           =   2  '아래 맞춤
-      Height          =   330
-      Left            =   0
-      Top             =   7410
-      Width           =   11115
-      _ExtentX        =   19606
-      _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":2EE2
-   End
    Begin prjDownloadBooster.ListView lvBatchFiles 
       Height          =   870
       Left            =   240
@@ -464,7 +454,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":31E6
+      InitListImages  =   "frmMain.frx":2EE2
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -487,7 +477,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":38D6
+      InitListImages  =   "frmMain.frx":35D2
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
@@ -523,7 +513,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":4ADE
+      InitListImages  =   "frmMain.frx":47DA
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -533,7 +523,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":5CE6
+      InitListImages  =   "frmMain.frx":59E2
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -543,7 +533,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":6EEE
+      InitListImages  =   "frmMain.frx":6BEA
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -553,7 +543,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":80F6
+      InitListImages  =   "frmMain.frx":7DF2
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -563,7 +553,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":92FE
+      InitListImages  =   "frmMain.frx":8FFA
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -573,7 +563,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":A506
+      InitListImages  =   "frmMain.frx":A202
    End
    Begin prjDownloadBooster.CheckBoxW chkPlaySound 
       Height          =   255
@@ -2281,14 +2271,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopLeft 
       Height          =   435
       Left            =   120
-      Picture         =   "frmMain.frx":A8EE
+      Picture         =   "frmMain.frx":A5EA
       Top             =   1200
       Width           =   1725
    End
    Begin VB.Image imgTop 
       Height          =   435
       Left            =   1845
-      Picture         =   "frmMain.frx":D09C
+      Picture         =   "frmMain.frx":CD98
       Stretch         =   -1  'True
       Top             =   1200
       Width           =   3585
@@ -2296,14 +2286,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopRight 
       Height          =   435
       Left            =   5430
-      Picture         =   "frmMain.frx":1226E
+      Picture         =   "frmMain.frx":11F6A
       Top             =   1200
       Width           =   150
    End
    Begin VB.Image imgLeft 
       Height          =   2310
       Left            =   120
-      Picture         =   "frmMain.frx":12650
+      Picture         =   "frmMain.frx":1234C
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   1725
@@ -2311,14 +2301,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomLeft 
       Height          =   180
       Left            =   120
-      Picture         =   "frmMain.frx":1F7EA
+      Picture         =   "frmMain.frx":1F4E6
       Top             =   3945
       Width           =   1725
    End
    Begin VB.Image imgBottom 
       Height          =   180
       Left            =   1845
-      Picture         =   "frmMain.frx":2087C
+      Picture         =   "frmMain.frx":20578
       Stretch         =   -1  'True
       Top             =   3945
       Width           =   3585
@@ -2326,14 +2316,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomRight 
       Height          =   180
       Left            =   5430
-      Picture         =   "frmMain.frx":22A7E
+      Picture         =   "frmMain.frx":2277A
       Top             =   3945
       Width           =   150
    End
    Begin VB.Image imgRight 
       Height          =   2310
       Left            =   5415
-      Picture         =   "frmMain.frx":22C40
+      Picture         =   "frmMain.frx":2293C
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   165
@@ -2586,13 +2576,13 @@ Sub OnData(Data As String)
     If Left$(Data, 7) = "STATUS " Then
         Select Case Replace(Right$(Data, Len(Data) - 7), " ", "")
             Case "CHECKREDIRECT"
-                sbStatusBar.Panels(1).Text = t("서버를 찾는 중...", "Finding server...")
+                frmMDI.sbStatusBar.Panels(1).Text = t("서버를 찾는 중...", "Finding server...")
             Case "CHECKFILE"
-                sbStatusBar.Panels(1).Text = t("가용성 확인 중...", "Checking availability...")
+                frmMDI.sbStatusBar.Panels(1).Text = t("가용성 확인 중...", "Checking availability...")
             Case "DOWNLOADING"
-                sbStatusBar.Panels(1).Text = t("다운로드 중...", "Downloading...")
+                frmMDI.sbStatusBar.Panels(1).Text = t("다운로드 중...", "Downloading...")
             Case "MERGING"
-                sbStatusBar.Panels(1).Text = t("파일 조각 결합 중...", "Merging segments...")
+                frmMDI.sbStatusBar.Panels(1).Text = t("파일 조각 결합 중...", "Merging segments...")
                 'pbTotalProgress.Scrolling = PrbScrollingMarquee
                 pbTotalProgressMarquee.Visible = -1
                 pbTotalProgressMarquee.MarqueeAnimation = -1
@@ -2600,10 +2590,10 @@ Sub OnData(Data As String)
                 tygStop.Enabled = 0
                 If GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", "0") = "1" Then timElapsed.Enabled = 0
             Case "COMPLETE"
-                sbStatusBar.Panels(1).Text = t("완료", "Complete")
-                sbStatusBar.Panels(2).Text = ""
-                sbStatusBar.Panels(3).Text = ""
-                sbStatusBar.Panels(4).Text = ""
+                frmMDI.sbStatusBar.Panels(1).Text = t("완료", "Complete")
+                frmMDI.sbStatusBar.Panels(2).Text = ""
+                frmMDI.sbStatusBar.Panels(3).Text = ""
+                frmMDI.sbStatusBar.Panels(4).Text = ""
                 'pbTotalProgress.Scrolling = PrbScrollingStandard
                 pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
@@ -2673,11 +2663,11 @@ Sub OnData(Data As String)
             If fTotal.Caption <> t(" 전체 다운로드 진행률 ", " Total Progress ") Then fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
             If pbTotalProgress.Value <> 0 Then pbTotalProgress.Value = 0
             If DownloadedBytes = -1 Then
-                sbStatusBar.Panels(2).Text = ""
+                frmMDI.sbStatusBar.Panels(2).Text = ""
             ElseIf total <= 0 Then
-                sbStatusBar.Panels(2).Text = ParseSize(DownloadedBytes)
+                frmMDI.sbStatusBar.Panels(2).Text = ParseSize(DownloadedBytes)
             Else
-                sbStatusBar.Panels(2).Text = t(ParseSize(total) & " 중 " & ParseSize(DownloadedBytes), ParseSize(DownloadedBytes) & " of " & ParseSize(total))
+                frmMDI.sbStatusBar.Panels(2).Text = t(ParseSize(total) & " 중 " & ParseSize(DownloadedBytes), ParseSize(DownloadedBytes) & " of " & ParseSize(total))
             End If
             If DownloadedBytes <> -1 Then timElapsed.Enabled = -1
             If total <= 0 Then
@@ -2694,9 +2684,9 @@ progressAvailable:
                 timElapsed.Enabled = -1
             End If
             If strTotal = "-1" Then
-                sbStatusBar.Panels(2).Text = ParseSize(DownloadedBytes)
+                frmMDI.sbStatusBar.Panels(2).Text = ParseSize(DownloadedBytes)
             Else
-                sbStatusBar.Panels(2).Text = t(ParseSize(strTotal) & " 중 " & ParseSize(DownloadedBytes), ParseSize(DownloadedBytes) & " of " & ParseSize(strTotal))
+                frmMDI.sbStatusBar.Panels(2).Text = t(ParseSize(strTotal) & " 중 " & ParseSize(DownloadedBytes), ParseSize(DownloadedBytes) & " of " & ParseSize(strTotal))
             End If
             If strTotal = "NaN" Or strTotal = "-1" Then
                 lblTotalBytes.Caption = t("알 수 없음", "Unknown")
@@ -2714,7 +2704,7 @@ progressAvailable:
         If SpeedCount >= 10 Then
             Speed = (DownloadedBytes - PrevDownloadedBytes)
             lblSpeed.Caption = ParseSize(Speed, True, "/" & t("초", "sec"))
-            sbStatusBar.Panels(3).Text = ParseSize(Speed, False, "/" & t("초", "sec"))
+            frmMDI.sbStatusBar.Panels(3).Text = ParseSize(Speed, False, "/" & t("초", "sec"))
             PrevDownloadedBytes = DownloadedBytes
             SpeedCount = 0
             
@@ -2758,8 +2748,8 @@ Sub NextBatchDownload()
         cmdStopBatch.Left = Me.Width + 1200
         tygStopBatch.Left = cmdStopBatch.Left
         timElapsed.Enabled = 0
-        sbStatusBar.Panels(3).Text = ""
-        sbStatusBar.Panels(4).Text = ""
+        frmMDI.sbStatusBar.Panels(3).Text = ""
+        frmMDI.sbStatusBar.Panels(4).Text = ""
         chkOpenAfterComplete.Enabled = -1
         If chkOpenFolder.Value Then
             cmdOpenFolder_Click
@@ -3035,7 +3025,7 @@ Sub OnStart()
     pbTotalProgressMarquee.MarqueeAnimation = -1
     
     lblState.Caption = t("진행 중", "Working")
-    sbStatusBar.Panels(1).Text = t("시작 중...", "Starting...")
+    frmMDI.sbStatusBar.Panels(1).Text = t("시작 중...", "Starting...")
 End Sub
 
 Sub OnStop(Optional PlayBeep As Boolean = True)
@@ -3085,7 +3075,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     
     If pbTotalProgress.Value < 100 Then
         lblState.Caption = t("중지됨", "Stopped")
-        sbStatusBar.Panels(1).Text = t("준비", "Ready")
+        frmMDI.sbStatusBar.Panels(1).Text = t("준비", "Ready")
     
         fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
         For i = 1 To lblDownloader.UBound
@@ -3094,16 +3084,16 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         Next i
     Else
         lblState.Caption = t("완료됨", "Done")
-        sbStatusBar.Panels(1).Text = t("완료", "Done")
-        sbStatusBar.Panels(2).Text = ""
-        sbStatusBar.Panels(3).Text = ""
-        sbStatusBar.Panels(4).Text = ""
+        frmMDI.sbStatusBar.Panels(1).Text = t("완료", "Done")
+        frmMDI.sbStatusBar.Panels(2).Text = ""
+        frmMDI.sbStatusBar.Panels(3).Text = ""
+        frmMDI.sbStatusBar.Panels(4).Text = ""
     End If
     
     If Not BatchStarted Then
         timElapsed.Enabled = 0
-        sbStatusBar.Panels(3).Text = ""
-        sbStatusBar.Panels(4).Text = ""
+        frmMDI.sbStatusBar.Panels(3).Text = ""
+        frmMDI.sbStatusBar.Panels(4).Text = ""
         
         If lvBatchFiles.ListItems.Count > 0 Then
             Dim Enable As Boolean
@@ -3128,8 +3118,8 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         If PlayBeep And chkPlaySound.Value Then
             MessageBeep 64
             lblState.Caption = t("완료됨", "Done")
-            sbStatusBar.Panels(1).Text = t("완료", "Done")
-            sbStatusBar.Panels(2).Text = ""
+            frmMDI.sbStatusBar.Panels(1).Text = t("완료", "Done")
+            frmMDI.sbStatusBar.Panels(2).Text = ""
         End If
     End If
     
@@ -3219,18 +3209,18 @@ Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
         FileName = GetParentFolderName(txtFileName.Text) & "\"
         FileName = Replace(FileName, "\\", "\") & ServerName
     End If
-    idx = lvBatchFiles.ListItems.Add(, , ServerName).Index
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , FileName
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , URL
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , t("대기", "Queued")
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "Y"
-    lvBatchFiles.ListItems(idx).Checked = -1
+    idx = frmMain.lvBatchFiles.ListItems.Add(, , ServerName).Index
+    frmMain.lvBatchFiles.ListItems(idx).ListSubItems.Add , , FileName
+    frmMain.lvBatchFiles.ListItems(idx).ListSubItems.Add , , URL
+    frmMain.lvBatchFiles.ListItems(idx).ListSubItems.Add , , t("대기", "Queued")
+    frmMain.lvBatchFiles.ListItems(idx).ListSubItems.Add , , "Y"
+    frmMain.lvBatchFiles.ListItems(idx).Checked = -1
     If IsDownloading Or cmdStop.Enabled Or BatchStarted Then
-        cmdStartBatch.Enabled = 0
-        tygStartBatch.Enabled = 0
+        frmMain.cmdStartBatch.Enabled = 0
+        frmMain.tygStartBatch.Enabled = 0
     Else
-        cmdStartBatch.Enabled = -1
-        tygStartBatch.Enabled = -1
+        frmMain.cmdStartBatch.Enabled = -1
+        frmMain.tygStartBatch.Enabled = -1
     End If
 End Sub
 
@@ -3256,11 +3246,11 @@ End Sub
 Sub cmdBatch_Click()
     On Error Resume Next
     
+    cmdAddToQueue.Visible = -1
+    If FormID > 0 Then Exit Sub
     tygBatch.Caption = t("<< 일괄 처리", "<< Batch")
     lvBatchFiles.Visible = -1
-    cmdAddToQueue.Visible = -1
-    SetWindowSizeLimit frmMDI.hWnd, Me.Width + 120, Me.Width + 120, 8220 + PaddedBorderWidth * 15 * 2 + frmTabBar.Height, Screen.Height + 1200
-    'sbStatusBar.AllowSizeGrip = True
+    'frmMDI.sbStatusBar.AllowSizeGrip = True
     
     Dim formHeight As Integer
     formHeight = GetSetting("DownloadBooster", "UserData", "FormHeight", 8985)
@@ -3737,8 +3727,8 @@ Private Sub cmdStopBatch_Click()
         cmdGo.Enabled = 0
         tygGo.Enabled = 0
         timElapsed.Enabled = 0
-        sbStatusBar.Panels(3).Text = ""
-        sbStatusBar.Panels(4).Text = ""
+        frmMDI.sbStatusBar.Panels(3).Text = ""
+        frmMDI.sbStatusBar.Panels(4).Text = ""
         chkOpenAfterComplete.Enabled = -1
         cmdGo.Enabled = -1
         tygGo.Enabled = -1
@@ -3915,7 +3905,7 @@ Private Sub Form_Load()
     On Error Resume Next
 
     ResumeUnsupported = False
-    sbStatusBar.Panels(1).Text = t("준비", "Ready")
+    frmMDI.sbStatusBar.Panels(1).Text = t("준비", "Ready")
     TahomaAvailable = FontExists("Tahoma")
     
     ImagePosition = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
@@ -3976,13 +3966,13 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders(4).Width = 1105
     lvBatchFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentCenter
     lvBatchFiles.ColumnHeaders(5).Width = 0
-    Me.Height = 6930
+    'Me.Height = 6930
     
     BatchStarted = False
     
     txtFileName.Text = GetSetting("DownloadBooster", "UserData", "SavePath", CurDir.Path)
     
-    Me.Height = 6930 + PaddedBorderWidth * 15 * 2
+    'Me.Height = 6930 + PaddedBorderWidth * 15 * 2
     
     Dim hSysMenu As Long
     Dim MenuCount As Long
@@ -4233,9 +4223,10 @@ Sub OnDWMChange()
 End Sub
 
 Private Sub Form_Resize()
-    If Me.Height + 525 - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
+    If FormID > 0 Then Exit Sub
+    If Me.Height + 525 + 330 - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
     If Me.WindowState = 1 Then Exit Sub
-    lvBatchFiles.Height = Me.Height + 525 - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
+    lvBatchFiles.Height = Me.Height + 525 + 330 - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
     cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdAdd.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
@@ -4678,8 +4669,8 @@ End Sub
 
 Private Sub timElapsed_Timer()
     Elapsed = Elapsed + 1
-    sbStatusBar.Panels(4).Text = FormatTime(Elapsed) & t(" 경과", " elapsed")
-    lblElapsed.Caption = Replace(sbStatusBar.Panels(4).Text, " " & t("경과", "elapsed"), "")
+    frmMDI.sbStatusBar.Panels(4).Text = FormatTime(Elapsed) & t(" 경과", " elapsed")
+    lblElapsed.Caption = Replace(frmMDI.sbStatusBar.Panels(4).Text, " " & t("경과", "elapsed"), "")
 End Sub
 
 Private Sub trThreadCount_Change()
