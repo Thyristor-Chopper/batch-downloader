@@ -166,8 +166,6 @@ Sub Main()
     Randomize
     'frmMsgboxTest.Show
     Functions.AppExiting = False
-    'frmMain.Show vbModeless
+    frmMain.Show vbModeless
     'frmExplorer.Show
-    
-    frmMDI.Show
 End Sub
