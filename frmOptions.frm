@@ -23,6 +23,17 @@ Begin VB.Form frmOptions
    ScaleWidth      =   12630
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.ImageList imgBrowse 
+      Left            =   720
+      Top             =   8640
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      ColorDepth      =   4
+      MaskColor       =   16711935
+      InitListImages  =   "frmOptions.frx":000C
+   End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
       Height          =   4335
@@ -552,7 +563,7 @@ Begin VB.Form frmOptions
          Transparent     =   -1  'True
          Begin prjDownloadBooster.ComboBoxW cbSkin 
             Height          =   300
-            Left            =   840
+            Left            =   855
             TabIndex        =   39
             Top             =   600
             Width           =   1965
@@ -563,7 +574,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.ComboBoxW cbFrameSkin 
             Height          =   300
-            Left            =   840
+            Left            =   855
             TabIndex        =   72
             Top             =   240
             Width           =   1965
@@ -593,11 +604,10 @@ Begin VB.Form frmOptions
       End
       Begin VB.PictureBox pbBackground 
          AutoRedraw      =   -1  'True
-         BorderStyle     =   0  '없음
          Height          =   1560
          Left            =   240
-         ScaleHeight     =   1560
-         ScaleWidth      =   4515
+         ScaleHeight     =   1500
+         ScaleWidth      =   4455
          TabIndex        =   34
          Top             =   120
          Width           =   4515
@@ -608,6 +618,7 @@ Begin VB.Form frmOptions
             Width           =   2775
             _ExtentX        =   4895
             _ExtentY        =   450
+            Enabled         =   0   'False
             Value           =   64
             Step            =   10
          End
@@ -618,6 +629,7 @@ Begin VB.Form frmOptions
             Width           =   2775
             _ExtentX        =   4895
             _ExtentY        =   450
+            Enabled         =   0   'False
             Value           =   24
             Step            =   10
          End
@@ -702,7 +714,9 @@ Begin VB.Form frmOptions
             Width           =   495
             _ExtentX        =   873
             _ExtentY        =   582
-            Caption         =   "..."
+            ImageList       =   "imgBrowse"
+            ImageListAlignment=   4
+            Transparent     =   -1  'True
          End
          Begin prjDownloadBooster.CheckBoxW chkEnableBackgroundImage 
             Height          =   255
@@ -849,7 +863,7 @@ Begin VB.Form frmOptions
       TabFixedWidth   =   53
       TabScrollWheel  =   0   'False
       Transparent     =   -1  'True
-      InitTabs        =   "frmOptions.frx":000C
+      InitTabs        =   "frmOptions.frx":03F4
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -882,7 +896,7 @@ Begin VB.Form frmOptions
       ImageHeight     =   16
       ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":0170
+      InitListImages  =   "frmOptions.frx":0558
    End
 End
 Attribute VB_Name = "frmOptions"
@@ -1250,6 +1264,7 @@ Private Sub cmdApply_Click()
         SetFormBackgroundColor frmMain, True
         frmMain.LoadLiveBadukSkin
         RedrawPreview
+        cmdChooseBackground.Refresh
     End If
     If VisualStyleChanged Then
         On Error Resume Next
@@ -1266,6 +1281,8 @@ Private Sub cmdApply_Click()
             End If
             ctrl.Refresh
         Next ctrl
+        cmdChooseBackground.Refresh
+        cmdSample.Refresh
         On Error GoTo 0
     End If
     If cbLanguage.ListIndex = 0 Then
@@ -1595,7 +1612,7 @@ Private Sub Form_Load()
     chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
     chkDontLoadIcons.Value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
     
-    PrevhWnd = CreateWindowEx(WS_EX_CLIENTEDGE, "STATIC", App.Title, WS_DISABLED Or WS_CHILD Or WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_MAXIMIZEBOX Or WS_SYSMENU Or WS_THICKFRAME, 16, 4, 320, 130, pbPanel(3).hWnd, 0&, App.hInstance, 0&)
+    PrevhWnd = CreateWindowEx(WS_EX_CLIENTEDGE, "STATIC", App.Title, WS_DISABLED Or WS_CHILD Or WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_MAXIMIZEBOX Or WS_SYSMENU Or WS_THICKFRAME, 16, 4, 320, 135, pbPanel(3).hWnd, 0&, App.hInstance, 0&)
     Dim BorderWidth As Integer, CaptionHeight As Integer
     BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", 15) * (-1)
     If BorderWidth = 0 Then BorderWidth = 15
@@ -1603,7 +1620,7 @@ Private Sub Form_Load()
     pbBackground.Top = 4 * 15 + CaptionHeight + 45 + BorderWidth + PaddedBorderWidth * 15
     pbBackground.Left = 16 * 15 + 45 + BorderWidth + PaddedBorderWidth * 15
     pbBackground.Width = 320 * 15 - (BorderWidth + 45) * 2 - PaddedBorderWidth * 30
-    pbBackground.Height = 130 * 15 - (BorderWidth + 45) * 2 - CaptionHeight - PaddedBorderWidth * 30
+    pbBackground.Height = 135 * 15 - (BorderWidth + 45) * 2 - CaptionHeight - PaddedBorderWidth * 30
     
     imgPreview.Width = pbBackground.Width
     imgPreview.Height = pbBackground.Height
@@ -1619,10 +1636,10 @@ Private Sub Form_Load()
         If WinVer < 6.2 Or LCase(GetFilename(GetKeyValue(HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\ThemeManager", "DllName", "%SystemRoot%\resources\Themes\Aero\aero.msstyles"))) = "aero.msstyles" Then
             cbFrameSkin.AddItem "Windows " & IIf(WinVer < 6.1, "Vista", "7") & " " & t("베이직", "Basic")
         Else
-            cbFrameSkin.AddItem t("시스템 스타일", "System style") & " (" & t("DWM 없음", "No DWM") & ")"
+            cbFrameSkin.AddItem t("시스템", "System") & " (" & t("DWM 없음", "No DWM") & ")"
         End If
     End If
-    cbFrameSkin.AddItem t("고전 스타일", "Windows Classic style")
+    cbFrameSkin.AddItem t("고전 스타일", "Classic style")
     If GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0) <> 0 Then
         If cbFrameSkin.ListCount >= 3 Then
             cbFrameSkin.ListIndex = 2

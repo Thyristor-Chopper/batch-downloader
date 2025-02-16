@@ -84,6 +84,7 @@ Begin VB.Form frmMain
       _ExtentY        =   582
       ImageList       =   "imgWrench"
       Caption         =   "헤더 편집(&P)..."
+      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.TygemButton tygEdit 
       Height          =   375
@@ -2747,6 +2748,8 @@ progressAvailable:
         If TotalSize <= 0 Then GoTo exitif
         lblMergeStatus.Caption = t(ParseSize(TotalSize) & " 중 " & ParseSize(MergedSize), ParseSize(MergedSize) & " of " & ParseSize(TotalSize)) & " (" & Fix((MergedSize / TotalSize) * 100) & "%)"
 exitif:
+    ElseIf Left$(Data, 11) = "DELETEITEM " Then
+        Kill Right$(Data, Len(Data) - 11)
     End If
 End Sub
 
