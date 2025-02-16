@@ -1844,7 +1844,7 @@ imgerr:
         Case 2
             frmBatchAdd.txtSavePath.Text = Path
         Case 3
-            '
+            frmOptions.RedrawPreview
         Case Else
             frmMain.txtFileName.Text = Path
     End Select

@@ -540,20 +540,92 @@ Begin VB.Form frmOptions
       Top             =   600
       Visible         =   0   'False
       Width           =   6255
+      Begin prjDownloadBooster.FrameW Frame6 
+         Height          =   975
+         Left            =   3240
+         TabIndex        =   15
+         Top             =   3360
+         Width           =   2895
+         _ExtentX        =   5106
+         _ExtentY        =   1720
+         Caption         =   " 스킨 "
+         Transparent     =   -1  'True
+         Begin prjDownloadBooster.ComboBoxW cbSkin 
+            Height          =   300
+            Left            =   840
+            TabIndex        =   39
+            Top             =   600
+            Width           =   1965
+            _ExtentX        =   3466
+            _ExtentY        =   529
+            Style           =   2
+            Text            =   "ComboBoxW1"
+         End
+         Begin prjDownloadBooster.ComboBoxW cbFrameSkin 
+            Height          =   300
+            Left            =   840
+            TabIndex        =   72
+            Top             =   240
+            Width           =   1965
+            _ExtentX        =   3466
+            _ExtentY        =   529
+            Style           =   2
+            Text            =   "ComboBoxW1"
+         End
+         Begin VB.Label Label10 
+            BackStyle       =   0  '투명
+            Caption         =   "창(&W):"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   73
+            Top             =   285
+            Width           =   735
+         End
+         Begin VB.Label Label8 
+            BackStyle       =   0  '투명
+            Caption         =   "단추(&O):"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   38
+            Top             =   645
+            Width           =   735
+         End
+      End
       Begin VB.PictureBox pbBackground 
+         AutoRedraw      =   -1  'True
          BorderStyle     =   0  '없음
-         Height          =   1080
-         Left            =   120
-         ScaleHeight     =   1080
-         ScaleWidth      =   3795
+         Height          =   1560
+         Left            =   240
+         ScaleHeight     =   1560
+         ScaleWidth      =   4515
          TabIndex        =   34
-         Top             =   0
-         Width           =   3795
+         Top             =   120
+         Width           =   4515
+         Begin prjDownloadBooster.ProgressBar ProgressBar2 
+            Height          =   255
+            Left            =   600
+            Top             =   720
+            Width           =   2775
+            _ExtentX        =   4895
+            _ExtentY        =   450
+            Value           =   64
+            Step            =   10
+         End
+         Begin prjDownloadBooster.ProgressBar ProgressBar1 
+            Height          =   255
+            Left            =   600
+            Top             =   360
+            Width           =   2775
+            _ExtentX        =   4895
+            _ExtentY        =   450
+            Value           =   24
+            Step            =   10
+         End
          Begin prjDownloadBooster.TygemButton tygSample 
             Height          =   285
-            Left            =   1920
+            Left            =   2520
             TabIndex        =   44
-            Top             =   600
+            Top             =   1080
             Visible         =   0   'False
             Width           =   1575
             _ExtentX        =   2778
@@ -562,89 +634,39 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.CommandButtonW cmdSample 
             Height          =   285
-            Left            =   1920
+            Left            =   2520
             TabIndex        =   35
             TabStop         =   0   'False
-            Top             =   600
+            Top             =   1080
             Width           =   1575
             _ExtentX        =   2778
             _ExtentY        =   503
             Caption         =   "단추"
             Transparent     =   -1  'True
          End
-         Begin VB.Shape Shape4 
-            BackColor       =   &H000000FF&
-            BackStyle       =   1  '투명하지 않음
-            Height          =   135
-            Left            =   3360
-            Shape           =   3  '원형
+         Begin VB.Label Label11 
+            BackStyle       =   0  '투명
+            Caption         =   "다운로드 현황:"
+            Height          =   255
+            Left            =   240
+            TabIndex        =   74
             Top             =   120
-            Width           =   135
-         End
-         Begin VB.Line lnForePreview 
-            BorderWidth     =   2
-            X1              =   300
-            X2              =   1680
-            Y1              =   480
-            Y2              =   480
+            Width           =   2175
          End
          Begin VB.Image imgPreview 
             Height          =   375
-            Left            =   420
+            Left            =   3600
             Stretch         =   -1  'True
-            Top             =   540
+            Top             =   0
             Visible         =   0   'False
             Width           =   855
-         End
-         Begin VB.Line Line1 
-            BorderColor     =   &H80000009&
-            BorderWidth     =   2
-            Index           =   0
-            X1              =   300
-            X2              =   1680
-            Y1              =   180
-            Y2              =   180
-         End
-         Begin VB.Shape pgBackPreview 
-            BackColor       =   &H8000000F&
-            BackStyle       =   1  '투명하지 않음
-            Height          =   645
-            Left            =   120
-            Top             =   330
-            Width           =   3495
-         End
-         Begin VB.Shape Shape3 
-            BackColor       =   &H80000002&
-            BackStyle       =   1  '투명하지 않음
-            BorderStyle     =   0  '투명
-            Height          =   495
-            Left            =   75
-            Top             =   285
-            Width           =   3600
-         End
-         Begin VB.Shape Shape1 
-            BackColor       =   &H80000002&
-            BackStyle       =   1  '투명하지 않음
-            Height          =   615
-            Left            =   60
-            Shape           =   4  '둥근 사각형
-            Top             =   60
-            Width           =   3615
-         End
-         Begin VB.Shape Shape2 
-            BackColor       =   &H80000002&
-            BackStyle       =   1  '투명하지 않음
-            Height          =   735
-            Left            =   60
-            Top             =   300
-            Width           =   3615
          End
       End
       Begin prjDownloadBooster.FrameW FrameW1 
          Height          =   975
          Left            =   3240
          TabIndex        =   23
-         Top             =   3360
+         Top             =   2280
          Width           =   2895
          _ExtentX        =   5106
          _ExtentY        =   1720
@@ -703,62 +725,11 @@ Begin VB.Form frmOptions
             Width           =   840
          End
       End
-      Begin prjDownloadBooster.FrameW Frame6 
-         Height          =   1695
-         Left            =   120
-         TabIndex        =   15
-         Top             =   1200
-         Width           =   2895
-         _ExtentX        =   5106
-         _ExtentY        =   2990
-         Caption         =   " 스킨 "
-         Transparent     =   -1  'True
-         Begin prjDownloadBooster.ComboBoxW cbSkin 
-            Height          =   300
-            Left            =   240
-            TabIndex        =   39
-            Top             =   1200
-            Width           =   2565
-            _ExtentX        =   4524
-            _ExtentY        =   529
-            Style           =   2
-            Text            =   "ComboBoxW1"
-         End
-         Begin prjDownloadBooster.ComboBoxW cbFrameSkin 
-            Height          =   300
-            Left            =   240
-            TabIndex        =   72
-            Top             =   480
-            Width           =   2565
-            _ExtentX        =   4524
-            _ExtentY        =   529
-            Style           =   2
-            Text            =   "ComboBoxW1"
-         End
-         Begin VB.Label Label10 
-            BackStyle       =   0  '투명
-            Caption         =   "창 모양(&W):"
-            Height          =   255
-            Left            =   120
-            TabIndex        =   73
-            Top             =   240
-            Width           =   2175
-         End
-         Begin VB.Label Label8 
-            BackStyle       =   0  '투명
-            Caption         =   "단추 모양(&O):"
-            Height          =   255
-            Left            =   120
-            TabIndex        =   38
-            Top             =   960
-            Width           =   2175
-         End
-      End
       Begin prjDownloadBooster.FrameW Frame1 
          Height          =   975
-         Left            =   3240
+         Left            =   120
          TabIndex        =   6
-         Top             =   1200
+         Top             =   2280
          Width           =   2895
          _ExtentX        =   5106
          _ExtentY        =   1720
@@ -806,9 +777,9 @@ Begin VB.Form frmOptions
       End
       Begin prjDownloadBooster.FrameW Frame4 
          Height          =   975
-         Left            =   3240
+         Left            =   120
          TabIndex        =   10
-         Top             =   2280
+         Top             =   3360
          Width           =   2895
          _ExtentX        =   5106
          _ExtentY        =   1720
@@ -933,6 +904,43 @@ Dim VisualStyleChanged As Boolean
 Dim SkinChanged As Boolean
 Dim MouseY As Integer, SelectedListItem As LvwListItem
 
+Dim PrevhWnd As Long
+
+Private Const WS_VISIBLE As Long = &H10000000
+Private Const WS_VSCROLL As Long = &H200000
+Private Const WS_TABSTOP As Long = &H10000
+Private Const WS_THICKFRAME As Long = &H40000
+Private Const WS_MAXIMIZE As Long = &H1000000
+Private Const WS_MAXIMIZEBOX As Long = &H10000
+Private Const WS_MINIMIZE As Long = &H20000000
+Private Const WS_MINIMIZEBOX As Long = &H20000
+Private Const WS_SYSMENU As Long = &H80000
+Private Const WS_BORDER As Long = &H800000
+Private Const WS_CAPTION As Long = &HC00000
+Private Const WS_CHILD As Long = &H40000000
+Private Const WS_CHILDWINDOW As Long = (WS_CHILD)
+Private Const WS_CLIPCHILDREN As Long = &H2000000
+Private Const WS_CLIPSIBLINGS As Long = &H4000000
+Private Const WS_DISABLED As Long = &H8000000
+Private Const WS_DLGFRAME As Long = &H400000
+Private Const WS_EX_ACCEPTFILES As Long = &H10&
+Private Const WS_EX_DLGMODALFRAME As Long = &H1&
+Private Const WS_EX_NOPARENTNOTIFY As Long = &H4&
+Private Const WS_EX_TOPMOST As Long = &H8&
+Private Const WS_EX_TRANSPARENT As Long = &H20&
+Private Const WS_EX_WINDOWEDGE As Long = &H100&
+Private Const WS_EX_CLIENTEDGE As Long = &H200&
+Private Const WS_EX_STATICEDGE As Long = &H20000
+Private Const WS_GROUP As Long = &H20000
+Private Const WS_HSCROLL As Long = &H100000
+Private Const WS_ICONIC As Long = WS_MINIMIZE
+Private Const WS_OVERLAPPED As Long = &H0&
+
+Private Declare Function CreateWindowEx Lib "user32" Alias "CreateWindowExA" (ByVal dwExStyle As Long, ByVal lpClassName As String, ByVal lpWindowName As String, ByVal dwStyle As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hWndParent As Long, ByVal hMenu As Long, ByVal hInstance As Long, lpParam As Any) As Long
+Private Declare Function DestroyWindow Lib "user32" (ByVal hWnd As Long) As Long
+Private Declare Function SetWindowRgn Lib "user32" (ByVal hWnd As Long, ByVal hRgn As Long, ByVal bRedraw As Long) As Long
+Private Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
+
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
@@ -942,6 +950,12 @@ Private Sub cbFrameSkin_Click()
         cmdApply.Enabled = -1
         tygApply.Enabled = -1
         SkinChanged = True
+    End If
+    
+    If (cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1) Then
+        SetWindowRgn PrevhWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
+    Else
+        SetWindowRgn PrevhWnd, 0&, True
     End If
 End Sub
 
@@ -963,6 +977,8 @@ End Sub
 Private Sub cbSkin_Click()
     cmdSample.VisualStyles = (cbSkin.ListIndex = 0 Or cbSkin.ListIndex = 2)
     tygSample.Visible = (cbSkin.ListIndex = 2)
+    ProgressBar1.VisualStyles = cmdSample.VisualStyles
+    ProgressBar2.VisualStyles = cmdSample.VisualStyles
     If Loaded Then
         cmdApply.Enabled = -1
         tygApply.Enabled = -1
@@ -1019,6 +1035,7 @@ Private Sub chkEnableBackgroundImage_Click()
         cmdApply.Enabled = -1
         tygApply.Enabled = -1
         ImageChanged = True
+        RedrawPreview
     End If
     
     If chkEnableBackgroundImage.Value = 0 Then
@@ -1232,12 +1249,13 @@ Private Sub cmdApply_Click()
         SetFormBackgroundColor Me, True
         SetFormBackgroundColor frmMain, True
         frmMain.LoadLiveBadukSkin
+        RedrawPreview
     End If
     If VisualStyleChanged Then
         On Error Resume Next
         Dim ctrl As Control
         For Each ctrl In Me.Controls
-            If TypeName(ctrl) = "PictureBox" Then
+            If TypeName(ctrl) = "PictureBox" And ctrl.Name <> "pbBackground" Then
                 ctrl.AutoRedraw = True
                 tsTabStrip.DrawBackground ctrl.hWnd, ctrl.hDC
             End If
@@ -1356,6 +1374,7 @@ Private Sub cmdApply_Click()
     End If
     BuildHeaderCache
     
+    RedrawPreview
     ColorChanged = False
     ImageChanged = False
     VisualStyleChanged = False
@@ -1527,11 +1546,6 @@ Private Sub Form_Load()
     lblSelectFore.Width = pgFore.Width
     lblSelectFore.Height = pgFore.Height
     
-    imgPreview.Width = pgBackPreview.Width - 30
-    imgPreview.Height = pgBackPreview.Height - 30
-    imgPreview.Top = pgBackPreview.Top + 15
-    imgPreview.Left = pgBackPreview.Left + 15
-    
     Dim i%
     Dim MaxWidth%, MaxHeight%
     MaxWidth = 15
@@ -1581,6 +1595,21 @@ Private Sub Form_Load()
     chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
     chkDontLoadIcons.Value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
     
+    PrevhWnd = CreateWindowEx(WS_EX_CLIENTEDGE, "STATIC", App.Title, WS_DISABLED Or WS_CHILD Or WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_MAXIMIZEBOX Or WS_SYSMENU Or WS_THICKFRAME, 16, 4, 320, 130, pbPanel(3).hWnd, 0&, App.hInstance, 0&)
+    Dim BorderWidth As Integer, CaptionHeight As Integer
+    BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", 15) * (-1)
+    If BorderWidth = 0 Then BorderWidth = 15
+    CaptionHeight = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "CaptionHeight", 0) * (-1)
+    pbBackground.Top = 4 * 15 + CaptionHeight + 45 + BorderWidth + PaddedBorderWidth * 15
+    pbBackground.Left = 16 * 15 + 45 + BorderWidth + PaddedBorderWidth * 15
+    pbBackground.Width = 320 * 15 - (BorderWidth + 45) * 2 - PaddedBorderWidth * 30
+    pbBackground.Height = 130 * 15 - (BorderWidth + 45) * 2 - CaptionHeight - PaddedBorderWidth * 30
+    
+    imgPreview.Width = pbBackground.Width
+    imgPreview.Height = pbBackground.Height
+    imgPreview.Top = 0
+    imgPreview.Left = 0
+    
     If WinVer < 6.2 And IsDWMEnabled() Then
         cbFrameSkin.AddItem "Windows Aero"
     Else
@@ -1621,7 +1650,7 @@ Private Sub Form_Load()
         optUserColor.Value = True
         pgColor.BackColor = clrBackColor
     End If
-    pgBackPreview.BackColor = pgColor.BackColor
+    pbBackground.BackColor = pgColor.BackColor
     
     Dim clrForeColor As Long
     clrForeColor = GetSetting("DownloadBooster", "Options", "ForeColor", -1)
@@ -1632,14 +1661,14 @@ Private Sub Form_Load()
         optUserFore.Value = True
         pgFore.BackColor = clrForeColor
     End If
-    lnForePreview.BorderColor = pgFore.BackColor
+    Label11.ForeColor = pgFore.BackColor
     
     cmdApply.Enabled = 0
     tygApply.Enabled = 0
     
     Dim ctrl As Control
     For Each ctrl In Me.Controls
-        If TypeName(ctrl) = "PictureBox" Then
+        If TypeName(ctrl) = "PictureBox" And ctrl.Name <> "pbBackground" Then
             ctrl.AutoRedraw = True
             tsTabStrip.DrawBackground ctrl.hWnd, ctrl.hDC
         End If
@@ -1660,7 +1689,7 @@ Private Sub Form_Load()
     cbSkin.Clear
     cbSkin.AddItem t("시스템 스타일", "System style")
     cbSkin.AddItem t("고전 스타일", "Classic style")
-    cbSkin.AddItem t("타이젬바둑 쪽지 스타일", "LiveBaduk memo style")
+    cbSkin.AddItem t("타이젬바둑 쪽지", "LiveBaduk memo style")
     If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
         cbSkin.ListIndex = 2
     ElseIf Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))) Then
@@ -1725,7 +1754,7 @@ Private Sub Form_Load()
     tsTabStrip.Tabs(4).Caption = t(tsTabStrip.Tabs(4).Caption, " Advanced ")
     Frame1.Caption = t(Frame1.Caption, " Background color ")
     Frame4.Caption = t(Frame4.Caption, " Text color ")
-    Label10.Caption = t(Label10.Caption, "&Window appearance:")
+    Label10.Caption = t(Label10.Caption, "&Window:")
     Frame2.Caption = t(Frame2.Caption, " Download options ")
     Frame5.Caption = t(Frame5.Caption, " Interface ")
     chkNoCleanup.Caption = t(chkNoCleanup.Caption, "Preserve segme&nts")
@@ -1756,7 +1785,7 @@ Private Sub Form_Load()
     cmdSample.Caption = t(cmdSample.Caption, "Button")
     tygSample.Caption = cmdSample.Caption
     Label2.Caption = t(Label2.Caption, "&Position:")
-    Label8.Caption = t(Label8.Caption, "Butt&on appearance:")
+    Label8.Caption = t(Label8.Caption, "Butt&on:")
     tygOK.Caption = t(tygOK.Caption, "OK")
     tygCancel.Caption = t(tygCancel.Caption, "Cancel")
     tygApply.Caption = t(tygApply.Caption, "Apply")
@@ -1778,6 +1807,7 @@ Private Sub Form_Load()
     chkForceOldDialog.Caption = t(chkForceOldDialog.Caption, "U&se Windows 3.1 dialogs")
     chkDontLoadIcons.Caption = t(chkDontLoadIcons.Caption, "Use sa&me icons for all files in the open dialog")
     chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
+    Label11.Caption = t(Label11.Caption, "Download status:")
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
@@ -1818,7 +1848,7 @@ Private Sub lblSelectColor_Click()
     tygApply.Enabled = -1
     optUserColor.Value = True
     ColorChanged = True
-    pgBackPreview.BackColor = pgColor.BackColor
+    pbBackground.BackColor = pgColor.BackColor
     cmdSample.Refresh
 End Sub
 
@@ -1831,7 +1861,7 @@ Private Sub lblSelectFore_Click()
     tygApply.Enabled = -1
     optUserFore.Value = True
     ColorChanged = True
-    lnForePreview.BorderColor = pgFore.BackColor
+    Label11.ForeColor = pgFore.BackColor
 End Sub
 
 Private Sub lvHeaders_ColumnFilterChanged(ByVal ColumnHeader As LvwColumnHeader)
@@ -1867,7 +1897,7 @@ Private Sub optSystemColor_Click()
         tygApply.Enabled = -1
         ColorChanged = True
     End If
-    pgBackPreview.BackColor = &H8000000F
+    pbBackground.BackColor = &H8000000F
     cmdSample.Refresh
 End Sub
 
@@ -1877,7 +1907,7 @@ Private Sub optSystemFore_Click()
         tygApply.Enabled = -1
         ColorChanged = True
     End If
-    lnForePreview.BorderColor = &H80000012
+    Label11.ForeColor = &H80000012
 End Sub
 
 Private Sub optUserColor_Click()
@@ -1886,7 +1916,7 @@ Private Sub optUserColor_Click()
         tygApply.Enabled = -1
         ColorChanged = True
     End If
-    pgBackPreview.BackColor = pgColor.BackColor
+    pbBackground.BackColor = pgColor.BackColor
     cmdSample.Refresh
 End Sub
 
@@ -1896,7 +1926,7 @@ Private Sub optUserFore_Click()
         tygApply.Enabled = -1
         ColorChanged = True
     End If
-    lnForePreview.BorderColor = pgFore.BackColor
+    Label11.ForeColor = pgFore.BackColor
 End Sub
 
 Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
@@ -1910,6 +1940,23 @@ Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
             pbPanel(i).Enabled = 0
         End If
     Next i
+    
+    If TabItem.Index = 3 Then
+        DoEvents
+        RedrawPreview
+    End If
+End Sub
+
+Sub RedrawPreview()
+    DoEvents
+    pbBackground.Refresh
+    cmdSample.Refresh
+    Dim PrevVisible As Boolean
+    PrevVisible = tygSample.Visible
+    tygSample.Visible = 0
+    tygSample.Visible = PrevVisible
+    ProgressBar1.Refresh
+    ProgressBar2.Refresh
 End Sub
 
 Sub StartSysInfo()

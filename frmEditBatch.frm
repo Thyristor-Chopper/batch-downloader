@@ -28,6 +28,7 @@ Begin VB.Form frmEditBatch
       Left            =   240
       TabIndex        =   11
       Top             =   1440
+      Visible         =   0   'False
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   450
@@ -38,6 +39,7 @@ Begin VB.Form frmEditBatch
       Left            =   120
       TabIndex        =   10
       Top             =   1440
+      Visible         =   0   'False
       Width           =   5295
       _ExtentX        =   9340
       _ExtentY        =   3836

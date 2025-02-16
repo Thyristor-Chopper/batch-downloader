@@ -34,6 +34,7 @@ Begin VB.Form frmMain
       Left            =   6600
       TabIndex        =   143
       Top             =   4080
+      Visible         =   0   'False
       Width           =   615
       _ExtentX        =   1085
       _ExtentY        =   873
@@ -44,6 +45,7 @@ Begin VB.Form frmMain
       Left            =   1080
       TabIndex        =   142
       Top             =   3480
+      Visible         =   0   'False
       Width           =   5655
       _ExtentX        =   9975
       _ExtentY        =   2355
@@ -54,6 +56,7 @@ Begin VB.Form frmMain
       Left            =   6600
       TabIndex        =   141
       Top             =   4680
+      Visible         =   0   'False
       Width           =   615
       _ExtentX        =   1085
       _ExtentY        =   2143

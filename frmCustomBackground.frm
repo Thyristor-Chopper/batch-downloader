@@ -371,6 +371,7 @@ Private Sub OKButton_Click()
         frmOptions.imgPreview.Picture = LoadPicture(lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex))
     End If
     frmOptions.cmdSample.Refresh
+    frmOptions.RedrawPreview
     Unload Me
     Exit Sub
     

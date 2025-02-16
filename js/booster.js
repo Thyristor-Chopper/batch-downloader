@@ -296,9 +296,12 @@ function startDownload(url) {
 						require('child_process').exec(s, function() {
 							clearInterval(sizeReporter);
 							print('MERGESIZE', total);
-							if(Number(process.argv[5]) == 0)
+							if(Number(process.argv[5]) == 0) {
+								print('BEGINDELETELIST', '0');
 								for(var i=1; i<=trd; i++)
-									fs.unlinkSync(fn + '.part_' + i + '.tmp');
+									print('DELETEITEM', fn + '.part_' + i + '.tmp');
+								print('ENDDELETELIST', '0');
+							}
 							print('STATUS', 'COMPLETE');
 							process.exit(0);
 						});
