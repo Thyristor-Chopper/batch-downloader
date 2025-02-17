@@ -254,19 +254,3 @@ End Sub
 Private Sub optYes_Click()
     cmdOK.Enabled = True
 End Sub
-
-Private Sub tygCancel_Click()
-    cmdCancel_Click
-End Sub
-
-Private Sub tygNo_Click()
-    cmdNo_Click
-End Sub
-
-Private Sub tygOK_Click()
-    cmdOK_Click
-End Sub
-
-Private Sub tygYes_Click()
-    cmdYes_Click
-End Sub

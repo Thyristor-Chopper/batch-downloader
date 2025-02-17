@@ -26,7 +26,7 @@ Begin VB.Form frmEditBatch
    Begin prjDownloadBooster.CheckBoxW chkUseYtdl 
       Height          =   255
       Left            =   240
-      TabIndex        =   11
+      TabIndex        =   8
       Top             =   1440
       Visible         =   0   'False
       Width           =   1935
@@ -37,7 +37,7 @@ Begin VB.Form frmEditBatch
    Begin prjDownloadBooster.FrameW fYtdl 
       Height          =   2175
       Left            =   120
-      TabIndex        =   10
+      TabIndex        =   7
       Top             =   1440
       Visible         =   0   'False
       Width           =   5295
@@ -47,7 +47,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.ComboBoxW txtFormat 
          Height          =   300
          Left            =   1200
-         TabIndex        =   20
+         TabIndex        =   17
          Top             =   360
          Width           =   1695
          _ExtentX        =   2990
@@ -57,7 +57,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.ComboBoxW cbBitRate 
          Height          =   300
          Left            =   1560
-         TabIndex        =   19
+         TabIndex        =   16
          Top             =   1800
          Width           =   1215
          _ExtentX        =   2143
@@ -68,7 +68,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.OptionButtonW optCBR 
          Height          =   255
          Left            =   840
-         TabIndex        =   18
+         TabIndex        =   15
          Top             =   1800
          Width           =   735
          _ExtentX        =   1296
@@ -78,7 +78,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.ComboBoxW cbAudioFormat 
          Height          =   300
          Left            =   2040
-         TabIndex        =   17
+         TabIndex        =   14
          Top             =   1080
          Width           =   2055
          _ExtentX        =   3625
@@ -89,7 +89,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.ComboBoxW cbVBR 
          Height          =   300
          Left            =   1560
-         TabIndex        =   15
+         TabIndex        =   12
          Top             =   1440
          Width           =   1215
          _ExtentX        =   2143
@@ -100,7 +100,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.OptionButtonW optVBR 
          Height          =   255
          Left            =   840
-         TabIndex        =   14
+         TabIndex        =   11
          Top             =   1440
          Width           =   735
          _ExtentX        =   1296
@@ -111,7 +111,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.CheckBoxW chkExtractAudio 
          Height          =   255
          Left            =   360
-         TabIndex        =   13
+         TabIndex        =   10
          Top             =   720
          Width           =   2055
          _ExtentX        =   3625
@@ -123,7 +123,7 @@ Begin VB.Form frmEditBatch
          Caption         =   "오디오 형식(&A):"
          Height          =   255
          Left            =   600
-         TabIndex        =   16
+         TabIndex        =   13
          Top             =   1125
          Width           =   1455
       End
@@ -132,34 +132,10 @@ Begin VB.Form frmEditBatch
          Caption         =   "포맷(&F):"
          Height          =   255
          Left            =   360
-         TabIndex        =   12
+         TabIndex        =   9
          Top             =   390
          Width           =   855
       End
-   End
-   Begin prjDownloadBooster.TygemButton tygCancel 
-      Height          =   375
-      Left            =   4080
-      TabIndex        =   3
-      Top             =   3720
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      Caption         =   "취소"
-      BackColor       =   0
-      FontSize        =   0
-   End
-   Begin prjDownloadBooster.TygemButton tygOK 
-      Height          =   375
-      Left            =   2640
-      TabIndex        =   2
-      Top             =   3720
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      Caption         =   "확인"
-      BackColor       =   0
-      FontSize        =   0
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
       Default         =   -1  'True
@@ -183,22 +159,10 @@ Begin VB.Form frmEditBatch
       _ExtentY        =   661
       Caption         =   "취소"
    End
-   Begin prjDownloadBooster.TygemButton tygBrowse 
-      Height          =   300
-      Left            =   3840
-      TabIndex        =   4
-      Top             =   960
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   529
-      Caption         =   "찾아보기..."
-      BackColor       =   0
-      FontSize        =   0
-   End
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   300
       Left            =   3840
-      TabIndex        =   5
+      TabIndex        =   2
       Top             =   960
       Width           =   1335
       _ExtentX        =   2355
@@ -208,7 +172,7 @@ Begin VB.Form frmEditBatch
    Begin prjDownloadBooster.TextBoxW txtFilePath 
       Height          =   300
       Left            =   480
-      TabIndex        =   6
+      TabIndex        =   3
       Top             =   960
       Width           =   3255
       _ExtentX        =   5741
@@ -217,7 +181,7 @@ Begin VB.Form frmEditBatch
    Begin prjDownloadBooster.TextBoxW txtURL 
       Height          =   300
       Left            =   480
-      TabIndex        =   7
+      TabIndex        =   4
       Top             =   360
       Width           =   4695
       _ExtentX        =   8281
@@ -228,7 +192,7 @@ Begin VB.Form frmEditBatch
       Caption         =   "파일 주소(&A):"
       Height          =   255
       Left            =   240
-      TabIndex        =   9
+      TabIndex        =   6
       Top             =   120
       Width           =   2895
    End
@@ -236,7 +200,7 @@ Begin VB.Form frmEditBatch
       Caption         =   "저장 경로(&S):"
       Height          =   255
       Left            =   240
-      TabIndex        =   8
+      TabIndex        =   5
       Top             =   720
       Width           =   3495
    End
@@ -361,10 +325,7 @@ Private Sub Form_Load()
     
     cmdOK.Caption = t("확인", "OK")
     cmdCancel.Caption = t("취소", "Cancel")
-    tygOK.Caption = cmdOK.Caption
-    tygCancel.Caption = cmdCancel.Caption
     cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
-    tygBrowse.Caption = t("찾아보기...", "Browse...")
     Label1.Caption = t(Label1.Caption, "File &address:")
     Label2.Caption = t(Label2.Caption, "&Save to:")
     Me.Caption = t(Me.Caption, "Edit")
@@ -416,16 +377,4 @@ End Sub
 
 Private Sub optVBR_Click()
     chkUseYtdl_Click
-End Sub
-
-Private Sub tygBrowse_Click()
-    cmdBrowse_Click
-End Sub
-
-Private Sub tygCancel_Click()
-    cmdCancel_Click
-End Sub
-
-Private Sub tygOK_Click()
-    cmdOK_Click
 End Sub

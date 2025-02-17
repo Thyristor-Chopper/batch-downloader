@@ -20,31 +20,10 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   11115
    StartUpPosition =   3  'Windows 기본값
-   Begin prjDownloadBooster.CommandButtonW CommandButtonW2 
-      Height          =   375
-      Left            =   4920
-      TabIndex        =   146
-      Top             =   240
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   661
-      Caption         =   "CommandButtonW2"
-      IsTygemButton   =   -1  'True
-   End
-   Begin prjDownloadBooster.CommandButtonW CommandButtonW1 
-      Height          =   375
-      Left            =   2280
-      TabIndex        =   145
-      Top             =   240
-      Width           =   2415
-      _ExtentX        =   4260
-      _ExtentY        =   661
-      Caption         =   "CommandButtonW1"
-   End
    Begin prjDownloadBooster.ComboBoxW txtURL 
       Height          =   300
       Left            =   1560
-      TabIndex        =   144
+      TabIndex        =   127
       Top             =   105
       Width           =   5775
       _ExtentX        =   10186
@@ -53,7 +32,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdYtdlOptions 
       Height          =   495
       Left            =   6600
-      TabIndex        =   143
+      TabIndex        =   126
       Top             =   4080
       Visible         =   0   'False
       Width           =   615
@@ -64,7 +43,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.ListView lvLogTest 
       Height          =   1335
       Left            =   1080
-      TabIndex        =   142
+      TabIndex        =   125
       Top             =   3480
       Visible         =   0   'False
       Width           =   5655
@@ -75,7 +54,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdYtdlTest 
       Height          =   1215
       Left            =   6600
-      TabIndex        =   141
+      TabIndex        =   124
       Top             =   4680
       Visible         =   0   'False
       Width           =   615
@@ -83,22 +62,10 @@ Begin VB.Form frmMain
       _ExtentY        =   2143
       Caption         =   "ㅇ"
    End
-   Begin prjDownloadBooster.TygemButton tygEditHeaders 
-      Height          =   330
-      Left            =   7440
-      TabIndex        =   139
-      Top             =   795
-      Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   582
-      Caption         =   "헤더 편집..."
-      BackColor       =   0
-      FontSize        =   0
-   End
    Begin prjDownloadBooster.CommandButtonW cmdEditHeaders 
       Height          =   330
       Left            =   7440
-      TabIndex        =   138
+      TabIndex        =   122
       Top             =   795
       Width           =   1695
       _ExtentX        =   2990
@@ -107,23 +74,10 @@ Begin VB.Form frmMain
       Caption         =   "헤더 편집(&P)..."
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.TygemButton tygEdit 
-      Height          =   375
-      Left            =   5880
-      TabIndex        =   135
-      Top             =   6960
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      Caption         =   "편집..."
-      BackColor       =   0
-      FontSize        =   0
-   End
    Begin prjDownloadBooster.CommandButtonW cmdEdit 
       Height          =   375
       Left            =   5880
-      TabIndex        =   134
+      TabIndex        =   119
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
@@ -143,28 +97,6 @@ Begin VB.Form frmMain
       ColorDepth      =   4
       InitListImages  =   "frmMain.frx":212A
    End
-   Begin prjDownloadBooster.TygemButton tygStopBatch 
-      Height          =   375
-      Left            =   7560
-      TabIndex        =   130
-      Top             =   6960
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      Caption         =   "중지"
-   End
-   Begin prjDownloadBooster.TygemButton tygStartBatch 
-      Height          =   375
-      Left            =   7560
-      TabIndex        =   129
-      Top             =   6960
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      Caption         =   "시작"
-   End
    Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
       Height          =   375
       Left            =   7560
@@ -177,70 +109,6 @@ Begin VB.Form frmMain
       ImageList       =   "imgStopRed"
       Caption         =   "중지(&Z) "
       Transparent     =   -1  'True
-   End
-   Begin prjDownloadBooster.TygemButton tygStop 
-      Height          =   330
-      Left            =   7320
-      TabIndex        =   132
-      Top             =   4755
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   582
-      Enabled         =   0   'False
-      Caption         =   "중지"
-   End
-   Begin prjDownloadBooster.TygemButton tygGo 
-      Height          =   330
-      Left            =   7320
-      TabIndex        =   133
-      Top             =   4755
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   582
-      Caption         =   "다운로드"
-   End
-   Begin prjDownloadBooster.TygemButton tygOpen 
-      Height          =   330
-      Left            =   7320
-      TabIndex        =   131
-      Top             =   3960
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   582
-      Enabled         =   0   'False
-      Caption         =   "열기"
-   End
-   Begin prjDownloadBooster.TygemButton tygDelete 
-      Height          =   375
-      Left            =   4200
-      TabIndex        =   128
-      Top             =   6960
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      Caption         =   "제거"
-   End
-   Begin prjDownloadBooster.TygemButton tygOpenBatch 
-      Height          =   375
-      Left            =   240
-      TabIndex        =   127
-      Top             =   6960
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      Caption         =   "열기"
-   End
-   Begin prjDownloadBooster.TygemButton tygAdd 
-      Height          =   375
-      Left            =   2520
-      TabIndex        =   126
-      Top             =   6960
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Caption         =   "추가..."
    End
    Begin prjDownloadBooster.ProgressBar pbTotalProgressMarquee 
       Height          =   255
@@ -263,76 +131,6 @@ Begin VB.Form frmMain
       _ExtentY        =   450
       Step            =   10
       MarqueeSpeed    =   35
-   End
-   Begin prjDownloadBooster.TygemButton tygBatch 
-      Height          =   330
-      Left            =   7320
-      TabIndex        =   123
-      Top             =   5565
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   582
-      Caption         =   "일괄 처리 >>"
-   End
-   Begin prjDownloadBooster.TygemButton tygAddToQueue 
-      Height          =   330
-      Left            =   7320
-      TabIndex        =   122
-      Top             =   5130
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   582
-      Caption         =   "목록에 추가"
-   End
-   Begin prjDownloadBooster.TygemButton tygOpenFolder 
-      Height          =   330
-      Left            =   7320
-      TabIndex        =   121
-      Top             =   4320
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   582
-      Caption         =   "폴더 열기"
-   End
-   Begin prjDownloadBooster.TygemButton tygOptions 
-      Height          =   300
-      Left            =   7080
-      TabIndex        =   120
-      Top             =   3090
-      Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   529
-      Caption         =   "추가 옵션..."
-   End
-   Begin prjDownloadBooster.TygemButton tygAbout 
-      Height          =   300
-      Left            =   7080
-      TabIndex        =   119
-      Top             =   3435
-      Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   529
-      Caption         =   "프로그램 정보..."
-   End
-   Begin prjDownloadBooster.TygemButton tygBrowse 
-      Height          =   330
-      Left            =   7440
-      TabIndex        =   118
-      Top             =   435
-      Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   582
-      Caption         =   "찾아보기..."
-   End
-   Begin prjDownloadBooster.TygemButton tygReset 
-      Height          =   330
-      Left            =   7440
-      TabIndex        =   117
-      Top             =   90
-      Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   582
-      Caption         =   "초기화"
    End
    Begin prjDownloadBooster.ImageList imgWrench 
       Left            =   9240
@@ -680,7 +478,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   137
+         TabIndex        =   121
          Top             =   2880
          Width           =   4335
       End
@@ -689,7 +487,7 @@ Begin VB.Form frmMain
          Caption         =   "조각 결합 현황:"
          Height          =   255
          Left            =   0
-         TabIndex        =   136
+         TabIndex        =   120
          Top             =   2880
          Width           =   1335
       End
@@ -2273,7 +2071,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdOpenFileDropdown 
       Height          =   330
       Left            =   8880
-      TabIndex        =   140
+      TabIndex        =   123
       Top             =   3945
       Width           =   255
       _ExtentX        =   450
@@ -2305,7 +2103,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   375
       Left            =   240
-      TabIndex        =   125
+      TabIndex        =   118
       Tag             =   "nocolorsizechange"
       Top             =   1320
       Visible         =   0   'False
@@ -2383,7 +2181,7 @@ Begin VB.Form frmMain
       Caption         =   "중지됨"
       Height          =   255
       Left            =   10560
-      TabIndex        =   124
+      TabIndex        =   117
       Top             =   2760
       Width           =   615
    End
@@ -2559,10 +2357,6 @@ Private Sub cmdYtdlOptions_Click()
     frmYtdlOptions.Show vbModal, Me
 End Sub
 
-Private Sub CommandButtonW1_Click()
-    CommandButtonW1.IsTygemButton = Not CommandButtonW1.IsTygemButton
-End Sub
-
 Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
     Dim LinesLF() As String, LinesCR() As String, Data() As String
     LinesLF = Split(spYtdl.GetData(), vbLf)
@@ -2632,7 +2426,6 @@ Sub OnData(Data As String)
                 pbTotalProgressMarquee.Visible = -1
                 pbTotalProgressMarquee.MarqueeAnimation = -1
                 cmdStop.Enabled = 0
-                tygStop.Enabled = 0
                 If GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", "0") = "1" Then timElapsed.Enabled = 0
             Case "COMPLETE"
                 sbStatusBar.Panels(1).Text = t("완료", "Complete")
@@ -2789,11 +2582,8 @@ Sub NextBatchDownload()
         BatchStarted = False
         CurrentBatchIdx = 1
         cmdStartBatch.Enabled = -1
-        tygStartBatch.Enabled = -1
         cmdStopBatch.Enabled = 0
-        tygStopBatch.Enabled = 0
         cmdStopBatch.Left = Me.Width + 1200
-        tygStopBatch.Left = cmdStopBatch.Left
         timElapsed.Enabled = 0
         sbStatusBar.Panels(3).Text = ""
         sbStatusBar.Panels(4).Text = ""
@@ -2802,7 +2592,6 @@ Sub NextBatchDownload()
             cmdOpenFolder_Click
         End If
         cmdGo.Enabled = -1
-        tygGo.Enabled = -1
         
         If lvBatchFiles.ListItems.Count > 0 Then
             Dim Enable As Boolean
@@ -2814,14 +2603,11 @@ Sub NextBatchDownload()
             Next i
             If Not Enable Then
                 cmdStartBatch.Enabled = 0
-                tygStartBatch.Enabled = 0
             Else
                 cmdStartBatch.Enabled = -1
-                tygStartBatch.Enabled = -1
             End If
         Else
             cmdStartBatch.Enabled = 0
-            tygStartBatch.Enabled = 0
         End If
         
         If BatchErrorCount Then
@@ -2945,12 +2731,9 @@ nextln:
     
     If Not BatchStarted Then
         cmdGo.Enabled = -1
-        tygGo.Enabled = -1
     End If
     cmdStop.Enabled = 0
     cmdStop.Left = Me.Width + 1200
-    tygStop.Enabled = cmdStop.Enabled
-    tygStop.Left = cmdStop.Left
     cmdGo.Visible = -1
     OnStop (RetVal = 0)
     Dim i%
@@ -2981,7 +2764,6 @@ nextln:
         NextBatchDownload
     ElseIf RetVal = 0 Then
         cmdOpen.Enabled = -1
-        tygOpen.Enabled = -1
         cmdOpenFileDropdown.Enabled = -1
         If chkOpenAfterComplete.Value Then
             cmdOpen_Click
@@ -2999,20 +2781,15 @@ Sub OnStart()
     IsDownloading = True
     ResumeUnsupported = False
     cmdGo.Enabled = 0
-    tygGo.Enabled = 0
     TotalSize = 0
     If Not BatchStarted Then
         cmdStop.Enabled = -1
         cmdStop.Left = cmdGo.Left
-        tygStop.Enabled = cmdStop.Enabled
-        tygStop.Left = cmdStop.Left
         cmdStop.Refresh
         cmdGo.Visible = 0
     Else
         cmdStop.Enabled = 0
         cmdStop.Left = Me.Width + 1200
-        tygStop.Enabled = cmdStop.Enabled
-        tygStop.Left = cmdStop.Left
         cmdGo.Visible = -1
     End If
     
@@ -3033,10 +2810,8 @@ Sub OnStart()
     lblThreadCount.Enabled = 0
     
     cmdStartBatch.Enabled = 0
-    tygStartBatch.Enabled = 0
     
     cmdOpen.Enabled = 0
-    tygOpen.Enabled = 0
     cmdOpenFileDropdown.Enabled = 0
     
     lblTotalBytes.Caption = t("대기 중...", "Pending...")
@@ -3079,12 +2854,9 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     IsDownloading = False
     If Not BatchStarted Then
         cmdGo.Enabled = -1
-        tygGo.Enabled = -1
     End If
     cmdStop.Enabled = 0
     cmdStop.Left = Me.Width + 1200
-    tygStop.Enabled = cmdStop.Enabled
-    tygStop.Left = cmdStop.Left
     cmdGo.Visible = -1
     
     lblURL.Enabled = -1
@@ -3152,14 +2924,11 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
             Next i
             If Not Enable Then
                 cmdStartBatch.Enabled = 0
-                tygStartBatch.Enabled = 0
             Else
                 cmdStartBatch.Enabled = -1
-                tygStartBatch.Enabled = -1
             End If
         Else
             cmdStartBatch.Enabled = 0
-            tygStartBatch.Enabled = 0
         End If
         
         If PlayBeep And chkPlaySound.Value Then
@@ -3264,10 +3033,8 @@ Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
     lvBatchFiles.ListItems(idx).Checked = -1
     If IsDownloading Or cmdStop.Enabled Or BatchStarted Then
         cmdStartBatch.Enabled = 0
-        tygStartBatch.Enabled = 0
     Else
         cmdStartBatch.Enabled = -1
-        tygStartBatch.Enabled = -1
     End If
 End Sub
 
@@ -3299,7 +3066,6 @@ Sub cmdBatch_Click()
     
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then
         cmdBatch.ImageList = imgDropdownReverse
-        tygBatch.Caption = t("<< 일괄 처리", "<< Batch")
         lvBatchFiles.Visible = -1
         cmdAddToQueue.Visible = -1
         SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
@@ -3329,7 +3095,6 @@ Sub cmdBatch_Click()
         cmdBatch.ImageList = imgDropdown
         lvBatchFiles.Visible = 0
         cmdAddToQueue.Visible = 0
-        tygBatch.Caption = t("일괄 처리 >>", "Batch >>")
         
         CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
         
@@ -3375,7 +3140,6 @@ Private Sub cmdDelete_Click()
     lvBatchFiles.ListItems.Remove lvBatchFiles.SelectedItem.Index
     If lvBatchFiles.ListItems.Count < 1 Or cmdStop.Enabled Or BatchStarted Then
         cmdStartBatch.Enabled = 0
-        tygStartBatch.Enabled = 0
         Exit Sub
     End If
     
@@ -3389,10 +3153,8 @@ Private Sub cmdDelete_Click()
     Next i
     If Not Enable Then
         cmdStartBatch.Enabled = 0
-        tygStartBatch.Enabled = 0
     ElseIf Not IsDownloading Then
         cmdStartBatch.Enabled = -1
-        tygStartBatch.Enabled = -1
     End If
 End Sub
 
@@ -3422,30 +3184,22 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
         On Error GoTo L1
         If lvBatchFiles.SelectedItem.Index = CurrentBatchIdx Then
             cmdDelete.Enabled = 0
-            tygDelete.Enabled = 0
             cmdDeleteDropdown.Enabled = 0
             cmdEdit.Enabled = 0
-            tygEdit.Enabled = 0
         ElseIf lvBatchFiles.SelectedItem.Text <> "" And lvBatchFiles.SelectedItem.Selected Then
             cmdDelete.Enabled = -1
-            tygDelete.Enabled = -1
             cmdDeleteDropdown.Enabled = -1
             cmdEdit.Enabled = -1
-            tygEdit.Enabled = -1
         Else
             cmdDelete.Enabled = 0
-            tygDelete.Enabled = 0
             cmdDeleteDropdown.Enabled = 0
             cmdEdit.Enabled = 0
-            tygEdit.Enabled = 0
         End If
         GoTo L2
 L1:
         cmdDelete.Enabled = 0
-        tygDelete.Enabled = 0
         cmdDeleteDropdown.Enabled = 0
         cmdEdit.Enabled = 0
-        tygEdit.Enabled = 0
 L2:
         On Error GoTo 0
     End If
@@ -3527,29 +3281,21 @@ L2:
             Alert t("다운로드 시작에 실패했습니다. 다운로더 프로세스로부터 정보를 받아올 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to receieve data from the downloader process. Check if the directory settings are valid."), App.Title, Me, 16
             If Not BatchStarted Then
                 cmdGo.Enabled = -1
-                tygGo.Enabled = -1
             End If
             cmdStop.Enabled = 0
             cmdStop.Left = Me.Width + 1200
-            tygStop.Enabled = cmdStop.Enabled
-            tygStop.Left = cmdStop.Left
             cmdGo.Enabled = -1
             cmdGo.Visible = -1
-            tygGo.Enabled = -1
             OnStop False
         Case SP_CREATEPROCFAILED
             Alert t("다운로드 시작에 실패했습니다. 다운로더 프로세스를 생성할 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to create the downloader process. Check if the directory settings are valid."), App.Title, Me, 16
             If Not BatchStarted Then
                 cmdGo.Enabled = -1
-                tygGo.Enabled = -1
             End If
             cmdStop.Enabled = 0
             cmdStop.Left = Me.Width + 1200
-            tygStop.Enabled = cmdStop.Enabled
-            tygStop.Left = cmdStop.Left
             cmdGo.Enabled = -1
             cmdGo.Visible = -1
-            tygGo.Enabled = -1
             OnStop False
     End Select
 End Sub
@@ -3710,7 +3456,6 @@ End Sub
 Private Sub cmdStartBatch_Click()
     If lvBatchFiles.ListItems.Count <= 0 Then
         cmdStartBatch.Enabled = 0
-        tygStartBatch.Enabled = 0
         Exit Sub
     End If
     
@@ -3719,20 +3464,15 @@ Private Sub cmdStartBatch_Click()
     CurrentBatchIdx = 1
     BatchStarted = True
     cmdStartBatch.Enabled = 0
-    tygStartBatch.Enabled = 0
     cmdStopBatch.Enabled = -1
-    tygStopBatch.Enabled = -1
     cmdStopBatch.Left = cmdStartBatch.Left
-    tygStopBatch.Left = cmdStopBatch.Left
     cmdStopBatch.Refresh
     Elapsed = 0
     timElapsed.Enabled = -1
     chkOpenAfterComplete.Enabled = 0
     cmdOpen.Enabled = 0
-    tygOpen.Enabled = 0
     cmdOpenFileDropdown.Enabled = 0
     cmdGo.Enabled = 0
-    tygGo.Enabled = 0
     StartDownload lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2), lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1)
 End Sub
 
@@ -3751,7 +3491,6 @@ Private Sub cmdStop_Click()
         
         OnStop False
         cmdOpen.Enabled = 0
-        tygOpen.Enabled = 0
         cmdOpenFileDropdown.Enabled = 0
         
         If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
@@ -3798,20 +3537,15 @@ Private Sub cmdStopBatch_Click()
         BatchStarted = False
         CurrentBatchIdx = 1
         cmdStartBatch.Enabled = -1
-        tygStartBatch.Enabled = -1
         cmdStopBatch.Enabled = 0
-        tygStopBatch.Enabled = 0
         cmdStopBatch.Left = Me.Width + 1200
-        tygStopBatch.Left = cmdStopBatch.Left
         OnStop False
         cmdGo.Enabled = 0
-        tygGo.Enabled = 0
         timElapsed.Enabled = 0
         sbStatusBar.Panels(3).Text = ""
         sbStatusBar.Panels(4).Text = ""
         chkOpenAfterComplete.Enabled = -1
         cmdGo.Enabled = -1
-        tygGo.Enabled = -1
         
         If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
             Dim KillTemp As Boolean
@@ -4027,10 +3761,8 @@ Private Sub Form_Load()
     
     Me.Width = 9450 + PaddedBorderWidth * 15 * 2
     cmdStop.Left = Me.Width + 1200
-    tygStop.Left = cmdStop.Left
     
     cmdStopBatch.Left = Me.Width + 1200
-    tygStopBatch.Left = cmdStopBatch.Left
     
     If GetSetting("DownloadBooster", "UserData", "LastTab", 1) = 1 Then
         fTabDownload_Click
@@ -4240,21 +3972,6 @@ Private Sub Form_Load()
     lblOverlay(1).Caption = fTotal.Caption
     lblLBCaption.Caption = t(lblLBCaption.Caption, "Progress")
     
-    tygReset.Caption = t("초기화", "Clear")
-    tygBrowse.Caption = t("찾아보기...", "Browse...")
-    tygOptions.Caption = t("추가 옵션...", "More options...")
-    tygAbout.Caption = t("프로그램 정보...", "About application...")
-    tygOpenFolder.Caption = t("폴더 열기", "Open folder")
-    tygAddToQueue.Caption = t("목록에 추가", "Add to queue")
-    tygOpenBatch.Caption = t("열기", "Open")
-    tygAdd.Caption = t("추가...", "Add...")
-    tygDelete.Caption = t("제거", "Remove")
-    tygStartBatch.Caption = t("시작", "Start")
-    tygStopBatch.Caption = t("중지", "Stop")
-    tygOpen.Caption = t("열기", "Open")
-    tygGo.Caption = t("다운로드", "Download")
-    tygStop.Caption = t("중지", "Stop")
-    
     mnuEdit.Caption = t(mnuEdit.Caption, "&Edit...")
     mnuMoveUp.Caption = t(mnuMoveUp.Caption, "Move &up")
     mnuMoveDown.Caption = t(mnuMoveDown.Caption, "Move &down")
@@ -4263,12 +3980,10 @@ Private Sub Form_Load()
     mnuOpenFolder2.Caption = t(mnuOpenFolder2.Caption, "Open &folder")
     
     cmdEdit.Caption = t(cmdEdit.Caption, "Edit(&N)...")
-    tygEdit.Caption = t(tygEdit.Caption, "Edit...")
     
     Label9.Caption = t(Label9.Caption, "Merge status:")
     
     cmdEditHeaders.Caption = t(cmdEditHeaders.Caption, "Edit headers(&P)...")
-    tygEditHeaders.Caption = t(tygEditHeaders.Caption, "Edit headers...")
     
     mnuProperties.Caption = t(mnuProperties.Caption, "View p&roperties")
     mnuPropertiesBatch.Caption = t(mnuPropertiesBatch.Caption, "View p&roperties")
@@ -4339,12 +4054,6 @@ Private Sub Form_Resize()
     cmdStartBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdStopBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdEdit.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
-    tygOpenBatch.Top = cmdOpenBatch.Top
-    tygAdd.Top = cmdAdd.Top
-    tygDelete.Top = cmdDelete.Top
-    tygStartBatch.Top = cmdStartBatch.Top
-    tygStopBatch.Top = cmdStopBatch.Top
-    tygEdit.Top = cmdEdit.Top
     SetBackgroundPosition
 End Sub
 
@@ -4493,13 +4202,11 @@ Private Sub lvBatchFiles_ItemCheck(ByVal Item As LvwListItem, ByVal Checked As B
     
     If IsDownloading Or BatchStarted Then
         cmdStartBatch.Enabled = 0
-        tygStartBatch.Enabled = 0
         Exit Sub
     End If
     
     If Checked Then
         cmdStartBatch.Enabled = -1
-        tygStartBatch.Enabled = -1
         Exit Sub
     End If
 
@@ -4513,7 +4220,6 @@ Private Sub lvBatchFiles_ItemCheck(ByVal Item As LvwListItem, ByVal Checked As B
     Next i
     If Not Enable Then
         cmdStartBatch.Enabled = 0
-        tygStartBatch.Enabled = 0
     End If
 End Sub
 
@@ -4531,37 +4237,28 @@ Private Sub lvBatchFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As
     If Selected Then
         If BatchStarted And Item.Index = CurrentBatchIdx Then
             cmdDelete.Enabled = 0
-            tygDelete.Enabled = 0
             cmdDeleteDropdown.Enabled = 0
             cmdEdit.Enabled = 0
-            tygEdit.Enabled = 0
         Else
             cmdDelete.Enabled = -1
-            tygDelete.Enabled = -1
             cmdDeleteDropdown.Enabled = -1
             cmdEdit.Enabled = -1
-            tygEdit.Enabled = -1
         End If
         
         If Item.ListSubItems(3).Text = t("완료", "Done") Then
             cmdOpenBatch.Enabled = -1
             cmdOpenDropdown.Enabled = -1
-            tygOpenBatch.Enabled = -1
         Else
             cmdOpenBatch.Enabled = 0
             cmdOpenDropdown.Enabled = 0
-            tygOpenBatch.Enabled = 0
         End If
     Else
         cmdDelete.Enabled = 0
-        tygDelete.Enabled = 0
         cmdDeleteDropdown.Enabled = 0
         cmdOpenBatch.Enabled = 0
         cmdOpenDropdown.Enabled = 0
-        tygOpenBatch.Enabled = 0
         
         cmdEdit.Enabled = 0
-        tygEdit.Enabled = 0
     End If
 End Sub
 
@@ -4868,74 +4565,6 @@ Private Sub trThreadCount_Scroll()
     Else
         cmdIncreaseThreads.Enabled = -1
     End If
-End Sub
-
-Private Sub tygAbout_Click()
-    cmdAbout_Click
-End Sub
-
-Private Sub tygAdd_Click()
-    cmdAdd_Click
-End Sub
-
-Private Sub tygAddToQueue_Click()
-    cmdAddToQueue_Click
-End Sub
-
-Private Sub tygBatch_Click()
-    cmdBatch_Click
-End Sub
-
-Private Sub tygBrowse_Click()
-    cmdBrowse_Click
-End Sub
-
-Private Sub tygDelete_Click()
-    cmdDelete_Click
-End Sub
-
-Private Sub tygEdit_Click()
-    cmdEdit_Click
-End Sub
-
-Private Sub tygEditHeaders_Click()
-    cmdEditHeaders_Click
-End Sub
-
-Private Sub tygGo_Click()
-    cmdGo_Click
-End Sub
-
-Private Sub tygOpen_Click()
-    cmdOpen_Click
-End Sub
-
-Private Sub tygOpenBatch_Click()
-    cmdOpenBatch_Click
-End Sub
-
-Private Sub tygOpenFolder_Click()
-    cmdOpenFolder_Click
-End Sub
-
-Private Sub tygOptions_Click()
-    cmdOptions_Click
-End Sub
-
-Private Sub tygReset_Click()
-    cmdClear_Click
-End Sub
-
-Private Sub tygStartBatch_Click()
-    cmdStartBatch_Click
-End Sub
-
-Private Sub tygStop_Click()
-    cmdStop_Click
-End Sub
-
-Private Sub tygStopbatch_Click()
-    cmdStopBatch_Click
 End Sub
 
 Private Sub vsProgressScroll_Change()

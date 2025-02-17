@@ -1769,7 +1769,6 @@ Private Sub OKButton_Click()
         SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", Path & txtFileName.Text
         frmOptions.ImageChanged = True
         frmOptions.cmdApply.Enabled = True
-        frmOptions.tygApply.Enabled = True
         If LCase(Right$(Path & txtFileName.Text, 4)) = ".png" Then
             Set frmOptions.imgPreview.Picture = LoadPngIntoPictureWithAlpha(Path & txtFileName.Text)
         Else

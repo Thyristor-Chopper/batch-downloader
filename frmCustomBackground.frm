@@ -364,7 +364,6 @@ Private Sub OKButton_Click()
     SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex)
     frmOptions.ImageChanged = True
     frmOptions.cmdApply.Enabled = True
-    frmOptions.tygApply.Enabled = True
     If LCase(Right$(lvFiles.List(lvFiles.ListIndex), 4)) = ".png" Then
         Set frmOptions.imgPreview.Picture = LoadPngIntoPictureWithAlpha(lvFiles.Path & "\" & lvFiles.List(lvFiles.ListIndex))
     Else

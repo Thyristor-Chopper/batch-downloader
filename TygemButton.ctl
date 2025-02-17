@@ -511,6 +511,7 @@ Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single,
 End Sub
 
 Private Sub UserControl_Resize()
+    On Error Resume Next
     Dim i%
     For i = imgCenter.LBound To imgCenter.UBound
         imgTop(i).Width = UserControl.Width - (imgTopLeft(i).Width + imgTopRight(i).Width)

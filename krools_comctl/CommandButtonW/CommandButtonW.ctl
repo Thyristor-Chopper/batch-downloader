@@ -583,8 +583,6 @@ Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 Call SetVTableHandling(Me, VTableInterfaceControl)
 Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 ReDim ImageListArray(0) As String
-
-If PropIsTygemButton Then Call DestroyCommandButton
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -667,6 +665,14 @@ PropMaskColor = .ReadProperty("MaskColor", &HC0C0C0)
 PropDrawMode = .ReadProperty("DrawMode", CmdDrawModeNormal)
 PropIsTygemButton = .ReadProperty("IsTygemButton", False)
 tygButton.Visible = PropIsTygemButton
+tygButton.Enabled = Me.Enabled
+If Not PropFont Is Nothing Then
+    tygButton.FontName = PropFont.Name
+    tygButton.FontSize = PropFont.Size
+End If
+If CommandButtonHandle <> NULL_PTR Then
+    MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, UserControl.ScaleWidth + 5, 0), IIf(PropIsTygemButton, UserControl.ScaleHeight + 5, 0), UserControl.ScaleWidth, UserControl.ScaleHeight, IIf(PropTransparent, 0, 1)
+End If
 End With
 Call CreateCommandButton
 If Not PropImageListName = "(None)" Then TimerImageList.Enabled = True
@@ -714,7 +720,6 @@ Private Sub UserControl_Paint()
 If CommandButtonHandle <> NULL_PTR Then
     If CommandButtonDisplayAsDefault Xor Ambient.DisplayAsDefault Then Call UserControl_AmbientChanged("DisplayAsDefault")
 End If
-If PropIsTygemButton Then Call DestroyCommandButton
 End Sub
 
 Private Sub UserControl_OLECompleteDrag(Effect As Long)
@@ -1022,6 +1027,8 @@ End Property
 
 Public Property Let Font(ByVal NewFont As StdFont)
 Set Me.Font = NewFont
+tygButton.FontName = NewFont.Name
+tygButton.FontSize = NewFont.Size
 End Property
 
 Public Property Set Font(ByVal NewFont As StdFont)
@@ -1033,6 +1040,8 @@ CommandButtonFontHandle = CreateGDIFontFromOLEFont(PropFont)
 If CommandButtonHandle <> NULL_PTR Then SendMessage CommandButtonHandle, WM_SETFONT, CommandButtonFontHandle, ByVal 1&
 If OldFontHandle <> NULL_PTR Then DeleteObject OldFontHandle
 UserControl.PropertyChanged "Font"
+tygButton.FontName = PropFont.Name
+tygButton.FontSize = PropFont.Size
 End Property
 
 Private Sub PropFont_FontChanged(ByVal PropertyName As String)
@@ -1042,6 +1051,8 @@ CommandButtonFontHandle = CreateGDIFontFromOLEFont(PropFont)
 If CommandButtonHandle <> NULL_PTR Then SendMessage CommandButtonHandle, WM_SETFONT, CommandButtonFontHandle, ByVal 1&
 If OldFontHandle <> NULL_PTR Then DeleteObject OldFontHandle
 UserControl.PropertyChanged "Font"
+tygButton.FontName = PropFont.Name
+tygButton.FontSize = PropFont.Size
 End Sub
 
 Public Property Get VisualStyles() As Boolean
@@ -1138,9 +1149,10 @@ Public Property Let IsTygemButton(ByVal Value As Boolean)
 tygButton.Visible = Value
 PropIsTygemButton = Value
 If CommandButtonHandle <> NULL_PTR Then
-    MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, UserControl.ScaleWidth + 5, 0), IIf(PropIsTygemButton, UserControl.ScaleHeight + 5, 0), UserControl.ScaleWidth, UserControl.ScaleHeight, 0
+    MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, UserControl.ScaleWidth + 5, 0), IIf(PropIsTygemButton, UserControl.ScaleHeight + 5, 0), UserControl.ScaleWidth, UserControl.ScaleHeight, IIf(PropTransparent, 0, 1)
 End If
 UserControl.PropertyChanged "IsTygemButton"
+Refresh
 End Property
 
 Public Property Get OLEDropMode() As OLEDropModeConstants
@@ -1970,7 +1982,6 @@ Attribute Refresh.VB_UserMemId = -550
 If PropIsTygemButton Then
     tygButton.Visible = False
     tygButton.Visible = True
-    Exit Sub
 End If
 If CommandButtonTransparentBrush <> NULL_PTR Then
     DeleteObject CommandButtonTransparentBrush

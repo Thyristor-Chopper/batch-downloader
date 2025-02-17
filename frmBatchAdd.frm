@@ -21,44 +21,14 @@ Begin VB.Form frmBatchAdd
    ScaleWidth      =   5985
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
-   Begin prjDownloadBooster.TygemButton tygBrowse 
-      Height          =   330
-      Left            =   4560
-      TabIndex        =   8
-      Top             =   3360
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   582
-      Caption         =   "찾아보기..."
-      BackColor       =   0
-      FontSize        =   0
-   End
    Begin prjDownloadBooster.TextBoxW txtSavePath 
       Height          =   255
       Left            =   120
-      TabIndex        =   7
+      TabIndex        =   5
       Top             =   3405
       Width           =   4215
       _ExtentX        =   7435
       _ExtentY        =   450
-   End
-   Begin prjDownloadBooster.TygemButton tygCancel 
-      Height          =   345
-      Left            =   4560
-      TabIndex        =   5
-      Top             =   510
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   609
-   End
-   Begin prjDownloadBooster.TygemButton tygOK 
-      Height          =   345
-      Left            =   4560
-      TabIndex        =   4
-      Top             =   120
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   609
    End
    Begin prjDownloadBooster.TextBoxW txtURLs 
       Height          =   2535
@@ -95,7 +65,7 @@ Begin VB.Form frmBatchAdd
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   330
       Left            =   4560
-      TabIndex        =   9
+      TabIndex        =   6
       Top             =   3360
       Width           =   1335
       _ExtentX        =   2355
@@ -107,7 +77,7 @@ Begin VB.Form frmBatchAdd
       Caption         =   "저장 경로(&S):"
       Height          =   255
       Left            =   120
-      TabIndex        =   6
+      TabIndex        =   4
       Top             =   3165
       Width           =   2775
    End
@@ -184,12 +154,9 @@ Private Sub Form_Load()
     Me.Caption = t(Me.Caption, "Batch download")
     cmdOK.Caption = t(cmdOK.Caption, "OK")
     cmdCancel.Caption = t(cmdCancel.Caption, "Cancel")
-    tygOK.Caption = cmdOK.Caption
-    tygCancel.Caption = cmdCancel.Caption
     Label1.Caption = t(Label1.Caption, "Enter one UR&L per line:")
     Label2.Caption = t(Label2.Caption, "&Save to:")
     cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
-    tygBrowse.Caption = t("찾아보기...", "Browse...")
     
     On Error Resume Next
     Me.Icon = frmMain.Icon
@@ -204,17 +171,13 @@ End Sub
 Sub Form_Resize()
     If Me.WindowState = 1 Then Exit Sub
     cmdOK.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1545
-    tygOK.Left = cmdOK.Left
     cmdCancel.Left = cmdOK.Left
-    tygCancel.Left = cmdOK.Left
     txtURLs.Width = Me.Width - PaddedBorderWidth * 15 * 2 - 1890
     txtURLs.Height = Me.Height - PaddedBorderWidth * 15 * 2 - 1770
     Label2.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 1140
     txtSavePath.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 900
     cmdBrowse.Left = cmdOK.Left
-    tygBrowse.Left = cmdOK.Left
     cmdBrowse.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 945
-    tygBrowse.Top = cmdBrowse.Top
     txtSavePath.Width = txtURLs.Width
 End Sub
 
@@ -239,16 +202,4 @@ End Sub
 
 Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     PrevKeyCode = 0
-End Sub
-
-Private Sub tygBrowse_Click()
-    cmdBrowse_Click
-End Sub
-
-Private Sub tygCancel_Click()
-    cmdCancel_Click
-End Sub
-
-Private Sub tygOK_Click()
-    cmdOK_Click
 End Sub

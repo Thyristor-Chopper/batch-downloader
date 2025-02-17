@@ -30,7 +30,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   1440
       Width           =   4815
       Begin prjDownloadBooster.TextBoxW txtShellPipe 
@@ -64,7 +64,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   17
+      TabIndex        =   16
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -154,7 +154,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   19
+      TabIndex        =   18
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -178,7 +178,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   18
+      TabIndex        =   17
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -257,16 +257,6 @@ Begin VB.Form frmAbout
          ShowColumnTips  =   -1  'True
          SnapToGrid      =   -1  'True
       End
-   End
-   Begin prjDownloadBooster.TygemButton tygOK 
-      Height          =   345
-      Left            =   6120
-      TabIndex        =   16
-      Top             =   4800
-      Width           =   1350
-      _ExtentX        =   2381
-      _ExtentY        =   609
-      Caption         =   "확인"
    End
    Begin VB.Timer timLicenseLoader 
       Enabled         =   0   'False
@@ -367,7 +357,6 @@ Private Sub Form_Load()
     lblReadOnline.Left = txtLicense.Left
     cmdOK.Caption = t(cmdOK.Caption, "OK")
     lblReadOnline.Caption = t(lblReadOnline.Caption, "<A>[Read online]</A>")
-    tygOK.Caption = t("확인", "OK")
     
     timLicenseLoader.Enabled = -1
     
@@ -539,6 +528,3 @@ LicenseFail:
     txtLicensePlaceholder.Visible = 0
 End Sub
 
-Private Sub tygOK_Click()
-    cmdOK_Click
-End Sub

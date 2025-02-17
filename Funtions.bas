@@ -365,9 +365,24 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     On Error Resume Next
     Dim ctrl As Control
     For Each ctrl In frmForm.Controls
-        If TypeName(ctrl) = "ImageCombo" Or TypeName(ctrl) = "ToolBar" Or TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "TygemButton" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
-            If TypeName(ctrl) = "TygemButton" And ctrl.Tag <> "novisibilitychange" Then
-                ctrl.Visible = EnableLBSkin
+        If TypeName(ctrl) = "ImageCombo" Or TypeName(ctrl) = "ToolBar" Or TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
+            If TypeName(ctrl) = "CommandButtonW" And ctrl.Tag <> "notygchange" Then
+                If EnableLBSkin Then
+                    If ctrl.Width = 255 And Right$(ctrl.Name, 8) = "Dropdown" Then
+                        ctrl.Caption = "▼"
+                    ElseIf ctrl.Name = "cmdChooseBackground" Then
+                        ctrl.Caption = "..."
+                    End If
+                    ctrl.IsTygemButton = True
+                Else
+                    ctrl.IsTygemButton = False
+                    If ctrl.Width = 255 And Right$(ctrl.Name, 8) = "Dropdown" Then
+                        ctrl.Caption = ""
+                    ElseIf ctrl.Name = "cmdChooseBackground" Then
+                        ctrl.Caption = ""
+                    End If
+                    ctrl.Refresh
+                End If
             End If
             If ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
                 If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
@@ -644,17 +659,6 @@ Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As For
     End If
     YesNoCancelMsgBox.cmdOK.Caption = t("확인", "OK")
     
-    YesNoCancelMsgBox.tygOK.Caption = t("확인", "OK")
-    
-    YesNoCancelMsgBox.tygOK.Top = YesNoCancelMsgBox.cmdOK.Top
-    YesNoCancelMsgBox.tygOK.Left = YesNoCancelMsgBox.cmdOK.Left
-    YesNoCancelMsgBox.tygCancel.Top = YesNoCancelMsgBox.cmdCancel.Top
-    YesNoCancelMsgBox.tygCancel.Left = YesNoCancelMsgBox.cmdCancel.Left
-    YesNoCancelMsgBox.tygYes.Top = YesNoCancelMsgBox.cmdYes.Top
-    YesNoCancelMsgBox.tygYes.Left = YesNoCancelMsgBox.cmdYes.Left
-    YesNoCancelMsgBox.tygNo.Top = YesNoCancelMsgBox.cmdNo.Top
-    YesNoCancelMsgBox.tygNo.Left = YesNoCancelMsgBox.cmdNo.Left
-    
     YesNoCancelMsgBox.cmdOK.Visible = -1
     YesNoCancelMsgBox.cmdCancel.Visible = 0
     YesNoCancelMsgBox.cmdYes.Visible = 0
@@ -664,11 +668,6 @@ Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As For
     
     Dim EnableLBSkin As Boolean
     EnableLBSkin = CBool(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)))
-    
-    YesNoCancelMsgBox.tygOK.Visible = EnableLBSkin
-    YesNoCancelMsgBox.tygCancel.Visible = 0
-    YesNoCancelMsgBox.tygYes.Visible = 0
-    YesNoCancelMsgBox.tygNo.Visible = 0
     
     YesNoCancelMsgBox.cmdCancel.Cancel = 0
     YesNoCancelMsgBox.cmdCancel.Default = 0
@@ -747,23 +746,12 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
     YesNoCancelMsgBox.cmdYes.Caption = t("예(&Y)", "&Yes")
     YesNoCancelMsgBox.cmdNo.Caption = t("아니요(&N)", "&No")
     
-    YesNoCancelMsgBox.tygYes.Caption = t("예", "Yes")
-    YesNoCancelMsgBox.tygNo.Caption = t("아니요", "No")
-    
     YesNoCancelMsgBox.cmdOK.Visible = 0
     YesNoCancelMsgBox.cmdCancel.Visible = 0
     YesNoCancelMsgBox.cmdYes.Visible = -1
     YesNoCancelMsgBox.cmdNo.Visible = -1
     YesNoCancelMsgBox.optYes.Visible = 0
     YesNoCancelMsgBox.optNo.Visible = 0
-    
-    Dim EnableLBSkin As Boolean
-    EnableLBSkin = CBool(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)))
-    
-    YesNoCancelMsgBox.tygOK.Visible = 0
-    YesNoCancelMsgBox.tygCancel.Visible = 0
-    YesNoCancelMsgBox.tygYes.Visible = EnableLBSkin
-    YesNoCancelMsgBox.tygNo.Visible = EnableLBSkin
     
     YesNoCancelMsgBox.cmdCancel.Cancel = 0
     YesNoCancelMsgBox.cmdCancel.Default = 0
@@ -773,15 +761,6 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
     YesNoCancelMsgBox.cmdNo.Default = -1
     YesNoCancelMsgBox.cmdOK.Cancel = 0
     YesNoCancelMsgBox.cmdOK.Default = 0
-    
-    YesNoCancelMsgBox.tygOK.Top = YesNoCancelMsgBox.cmdOK.Top
-    YesNoCancelMsgBox.tygOK.Left = YesNoCancelMsgBox.cmdOK.Left
-    YesNoCancelMsgBox.tygCancel.Top = YesNoCancelMsgBox.cmdCancel.Top
-    YesNoCancelMsgBox.tygCancel.Left = YesNoCancelMsgBox.cmdCancel.Left
-    YesNoCancelMsgBox.tygYes.Top = YesNoCancelMsgBox.cmdYes.Top
-    YesNoCancelMsgBox.tygYes.Left = YesNoCancelMsgBox.cmdYes.Left
-    YesNoCancelMsgBox.tygNo.Top = YesNoCancelMsgBox.cmdNo.Top
-    YesNoCancelMsgBox.tygNo.Left = YesNoCancelMsgBox.cmdNo.Left
     
     YesNoCancelMsgBox.Show vbModal, OwnerForm
     
@@ -867,8 +846,6 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     YesNoCancelMsgBox.cmdOK.Caption = t("확인", "OK")
     YesNoCancelMsgBox.cmdCancel.Caption = t("취소", "Cancel")
     
-    YesNoCancelMsgBox.tygOK.Caption = t("확인", "OK")
-    YesNoCancelMsgBox.tygCancel.Caption = t("취소", "Cancel")
     MessageBeep Icon
     
     YesNoCancelMsgBox.cmdOK.Visible = -1
@@ -878,14 +855,6 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     YesNoCancelMsgBox.optYes.Visible = -1
     YesNoCancelMsgBox.optNo.Visible = -1
     
-    Dim EnableLBSkin As Boolean
-    EnableLBSkin = CBool(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)))
-    
-    YesNoCancelMsgBox.tygOK.Visible = EnableLBSkin
-    YesNoCancelMsgBox.tygCancel.Visible = EnableLBSkin
-    YesNoCancelMsgBox.tygYes.Visible = 0
-    YesNoCancelMsgBox.tygNo.Visible = 0
-    
     YesNoCancelMsgBox.cmdCancel.Cancel = -1
     YesNoCancelMsgBox.cmdCancel.Default = -1
     YesNoCancelMsgBox.cmdYes.Cancel = 0
@@ -894,15 +863,6 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     YesNoCancelMsgBox.cmdNo.Default = 0
     YesNoCancelMsgBox.cmdOK.Cancel = 0
     YesNoCancelMsgBox.cmdOK.Default = 0
-    
-    YesNoCancelMsgBox.tygOK.Top = YesNoCancelMsgBox.cmdOK.Top
-    YesNoCancelMsgBox.tygOK.Left = YesNoCancelMsgBox.cmdOK.Left
-    YesNoCancelMsgBox.tygCancel.Top = YesNoCancelMsgBox.cmdCancel.Top
-    YesNoCancelMsgBox.tygCancel.Left = YesNoCancelMsgBox.cmdCancel.Left
-    YesNoCancelMsgBox.tygYes.Top = YesNoCancelMsgBox.cmdYes.Top
-    YesNoCancelMsgBox.tygYes.Left = YesNoCancelMsgBox.cmdYes.Left
-    YesNoCancelMsgBox.tygNo.Top = YesNoCancelMsgBox.cmdNo.Top
-    YesNoCancelMsgBox.tygNo.Left = YesNoCancelMsgBox.cmdNo.Left
     
     YesNoCancelMsgBox.Show vbModal, OwnerForm
     
@@ -981,18 +941,6 @@ Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Op
     YesNoCancelMsgBox.cmdNo.Caption = t("아니요(&N)", "&No")
     YesNoCancelMsgBox.cmdCancel.Caption = t("취소", "Cancel")
     
-    Dim EnableLBSkin As Boolean
-    EnableLBSkin = CBool(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)))
-    
-    YesNoCancelMsgBox.tygOK.Visible = 0
-    YesNoCancelMsgBox.tygCancel.Visible = EnableLBSkin
-    YesNoCancelMsgBox.tygYes.Visible = EnableLBSkin
-    YesNoCancelMsgBox.tygNo.Visible = EnableLBSkin
-    
-    YesNoCancelMsgBox.tygYes.Caption = t("예", "Yes")
-    YesNoCancelMsgBox.tygNo.Caption = t("아니요", "No")
-    YesNoCancelMsgBox.tygCancel.Caption = t("취소", "Cancel")
-    
     YesNoCancelMsgBox.cmdCancel.Cancel = -1
     YesNoCancelMsgBox.cmdCancel.Default = -1
     YesNoCancelMsgBox.cmdYes.Cancel = 0
@@ -1001,15 +949,6 @@ Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Op
     YesNoCancelMsgBox.cmdNo.Default = 0
     YesNoCancelMsgBox.cmdOK.Cancel = 0
     YesNoCancelMsgBox.cmdOK.Default = 0
-    
-    YesNoCancelMsgBox.tygOK.Top = YesNoCancelMsgBox.cmdOK.Top
-    YesNoCancelMsgBox.tygOK.Left = YesNoCancelMsgBox.cmdOK.Left
-    YesNoCancelMsgBox.tygCancel.Top = YesNoCancelMsgBox.cmdCancel.Top
-    YesNoCancelMsgBox.tygCancel.Left = YesNoCancelMsgBox.cmdCancel.Left
-    YesNoCancelMsgBox.tygYes.Top = YesNoCancelMsgBox.cmdYes.Top
-    YesNoCancelMsgBox.tygYes.Left = YesNoCancelMsgBox.cmdYes.Left
-    YesNoCancelMsgBox.tygNo.Top = YesNoCancelMsgBox.cmdNo.Top
-    YesNoCancelMsgBox.tygNo.Left = YesNoCancelMsgBox.cmdNo.Left
     
     YesNoCancelMsgBox.Show vbModal, OwnerForm
     
