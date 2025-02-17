@@ -3877,8 +3877,11 @@ Sub SetBackgroundImage()
             ctrl.Refresh
         End If
     Next ctrl
+    Dim PrevTrackerVisualStyles As Boolean
+    PrevTrackerVisualStyles = trThreadCount.VisualStyles
     trThreadCount.VisualStyles = False
     trThreadCount.VisualStyles = True
+    trThreadCount.VisualStyles = PrevTrackerVisualStyles
 End Sub
 
 Sub LoadLiveBadukSkin()

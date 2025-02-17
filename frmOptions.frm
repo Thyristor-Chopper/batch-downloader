@@ -650,7 +650,7 @@ Begin VB.Form frmOptions
          Transparent     =   -1  'True
          Begin prjDownloadBooster.ComboBoxW cbSkin 
             Height          =   300
-            Left            =   855
+            Left            =   870
             TabIndex        =   39
             Top             =   600
             Width           =   1965
@@ -661,7 +661,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.ComboBoxW cbFrameSkin 
             Height          =   300
-            Left            =   855
+            Left            =   870
             TabIndex        =   72
             Top             =   240
             Width           =   1965
@@ -798,7 +798,7 @@ Begin VB.Form frmOptions
             BorderColor     =   &H00404040&
             FillColor       =   &H00808080&
             Height          =   255
-            Left            =   2040
+            Left            =   2160
             Shape           =   4  '둥근 사각형
             Top             =   585
             Width           =   495
@@ -848,7 +848,7 @@ Begin VB.Form frmOptions
             BorderColor     =   &H00404040&
             FillColor       =   &H00808080&
             Height          =   255
-            Left            =   2040
+            Left            =   2160
             Shape           =   4  '둥근 사각형
             Top             =   585
             Width           =   495
@@ -1571,8 +1571,6 @@ Private Sub Form_Load()
     pbBackground.BorderStyle = 0
     SetPreviewPosition
     
-    imgPreview.Width = pbBackground.Width
-    imgPreview.Height = pbBackground.Height
     imgPreview.Top = 0
     imgPreview.Left = 0
     
@@ -1812,13 +1810,16 @@ End Sub
 
 Sub SetPreviewPosition()
     If PrevhWnd Then DestroyWindow (PrevhWnd)
-    PrevhWnd = CreateWindowEx(WS_EX_CLIENTEDGE, "STATIC", App.Title, WS_DISABLED Or WS_CHILD Or WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_SYSMENU Or WS_THICKFRAME, 0, 0, 320, 135, pbPreview.hWnd, 0&, App.hInstance, 0&)
+    PrevhWnd = CreateWindowEx(WS_EX_CLIENTEDGE, "STATIC", App.Title, WS_DISABLED Or WS_CHILD Or WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_SYSMENU Or WS_THICKFRAME, 0, 0, 320 - BorderWidth / 15, 135 - BorderWidth / 15, pbPreview.hWnd, 0&, App.hInstance, 0&)
     Dim CaptionHeight As Integer
     CaptionHeight = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "CaptionHeight", 0) * (-1)
-    pbBackground.Top = 4 * 15 + CaptionHeight + 45 + BorderWidth + PaddedBorderWidth * 15 + 15
-    pbBackground.Left = 16 * 15 + 45 + BorderWidth + PaddedBorderWidth * 15
+    pbBackground.Top = 4 * 15 + CaptionHeight + 45 + PaddedBorderWidth * 15 + 15
+    pbBackground.Left = 16 * 15 + 45 + PaddedBorderWidth * 15
     pbBackground.Width = 320 * 15 - (45) * 2 - PaddedBorderWidth * 30
     pbBackground.Height = 135 * 15 - (45) * 2 - CaptionHeight - PaddedBorderWidth * 30 - 15
+    imgPreview.Width = pbBackground.Width
+    imgPreview.Height = pbBackground.Height
+    RedrawPreview
 End Sub
 
 Private Sub lblSelectColor_Click()
@@ -1939,38 +1940,6 @@ Sub RedrawPreview()
     tygSample.Visible = PrevVisible
     ProgressBar1.Refresh
     ProgressBar2.Refresh
-End Sub
-
-Sub StartSysInfo()
-    On Error GoTo SysInfoErr
-  
-    Dim RC As Long
-    Dim SysInfoPath As String
-    
-    ' 시스템 정보 프로그램의 경로와 이름을 레지스트리에서 가져 옵니다...
-    SysInfoPath = GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFO, gREGVALSYSINFO, "")
-    If SysInfoPath = "" Then
-        SysInfoPath = GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFOLOC, gREGVALSYSINFOLOC, "")
-        If SysInfoPath <> "" Then
-            ' 알려진 32비트 파일 버전의 존재 여부를 확인합니다.
-            If Dir(SysInfoPath & "\MSINFO32.EXE") <> "" Then
-                SysInfoPath = SysInfoPath & "\MSINFO32.EXE"
-                
-            ' 오류 - 파일을 찾을 수 없습니다...
-            Else
-                GoTo SysInfoErr
-            End If
-        ' 오류 - 레지스트리 항목을 찾을 수 없습니다...
-        Else
-            GoTo SysInfoErr
-        End If
-    End If
-    
-    Call Shell(SysInfoPath, vbNormalFocus)
-    
-    Exit Sub
-SysInfoErr:
-    Alert t("지금은 시스템 정보를 사용할 수 없습니다.", "System Information is unavailable."), App.Title, Me, 48
 End Sub
 
 Private Sub txtNodePath_Change()

@@ -50,6 +50,8 @@ Declare Function lstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal lpString1 As Any
 Private Declare Function lstrlen Lib "kernel32.dll" Alias "lstrlenA" (ByVal lpString As Long) As Long
 Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As String
 
+Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
+
 Public Const RGN_DIFF = 4
 Public Const RGN_OR = 2
 
@@ -1445,3 +1447,11 @@ End Function
 Function GetStrFromPtr(ByVal Ptr As Long) As String
     GetStrFromPtr = SysAllocStringByteLen(Ptr, lstrlen(Ptr))
 End Function
+
+Sub UpdateBorderWidth()
+'    Dim BorderWidth As Integer
+'    BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", -15) * (-1)
+'    If BorderWidth = 0 Then BorderWidth = 15
+'    Startup.PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15) + BorderWidth / 15
+    Startup.PaddedBorderWidth = GetSystemMetrics(33) - GetSystemMetrics(8)
+End Sub

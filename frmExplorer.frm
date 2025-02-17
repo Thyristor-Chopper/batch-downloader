@@ -1081,7 +1081,7 @@ Sub ShowMyComputer()
     tbToolBar.Buttons(3).Enabled = False
 End Sub
 
-Private Sub Form_Resize()
+Sub Form_Resize()
     cbFolderList.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 6495)
     tbToolBar.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1215 - 120 - 120
     cmdViews.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 495 - 120 - 30 - 120

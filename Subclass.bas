@@ -181,15 +181,27 @@ Function NewWndProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long
         Case WM_SETTINGCHANGE
             Select Case GetStrFromPtr(lParam)
                 Case "WindowMetrics"
-                    Dim BorderWidth As Integer
-                    BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", -15) * (-1)
-                    If BorderWidth = 0 Then BorderWidth = 15
-                    Startup.PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15) + BorderWidth / 15
+                    UpdateBorderWidth
+                    
                     If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
                     If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
-                    MinWidth.Add (9450 + Startup.PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
-                    MaxWidth.Add (9450 + Startup.PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
-                    frmMain.Width = 9450 + Startup.PaddedBorderWidth * 15 * 2
+                    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
+                    MinWidth.Add (9450 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    MaxWidth.Add (9450 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    MinHeight.Add (8220 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    
+                    frmMain.Width = 9450 + PaddedBorderWidth * 15 * 2
+                    
+                    On Error Resume Next
+                    Dim ctrl As Control
+                    For Each ctrl In frmMain.Controls
+                        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
+                    Next ctrl
+                    Dim PrevTrackerVisualStyles As Boolean
+                    PrevTrackerVisualStyles = frmMain.trThreadCount.VisualStyles
+                    frmMain.trThreadCount.VisualStyles = False
+                    frmMain.trThreadCount.VisualStyles = True
+                    frmMain.trThreadCount.VisualStyles = PrevTrackerVisualStyles
             End Select
     End Select
     
@@ -203,18 +215,31 @@ End Function
 Function NewWndProc2(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
     On Error Resume Next
  
-    If uMsg = WM_GETMINMAXINFO Then
-        Dim lpMMI As MINMAXINFO
-        CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-        lpMMI.ptMinTrackSize.X = MinWidth(CStr(hWnd))
-        lpMMI.ptMinTrackSize.Y = MinHeight(CStr(hWnd))
-        lpMMI.ptMaxTrackSize.X = MaxWidth(CStr(hWnd))
-        lpMMI.ptMaxTrackSize.Y = MaxHeight(CStr(hWnd))
-        CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
-        
-        NewWndProc2 = 1&
-        Exit Function
-    End If
+    Select Case uMsg
+        Case WM_GETMINMAXINFO
+            Dim lpMMI As MINMAXINFO
+            CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
+            lpMMI.ptMinTrackSize.X = MinWidth(CStr(hWnd))
+            lpMMI.ptMinTrackSize.Y = MinHeight(CStr(hWnd))
+            lpMMI.ptMaxTrackSize.X = MaxWidth(CStr(hWnd))
+            lpMMI.ptMaxTrackSize.Y = MaxHeight(CStr(hWnd))
+            CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
+            
+            NewWndProc2 = 1&
+            Exit Function
+        Case WM_SETTINGCHANGE
+            Select Case GetStrFromPtr(lParam)
+                Case "WindowMetrics"
+                    UpdateBorderWidth
+                    
+                    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
+                    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
+                    MinWidth.Add (5145 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    MinHeight.Add (2310 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    
+                    frmBatchAdd.Form_Resize
+            End Select
+    End Select
     
     If mPrevProc2 > 0& Then
         NewWndProc2 = CallWindowProc(mPrevProc2, hWnd, uMsg, wParam, lParam)
@@ -226,18 +251,31 @@ End Function
 Function NewWndProc3(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
     On Error Resume Next
  
-    If uMsg = WM_GETMINMAXINFO Then
-        Dim lpMMI As MINMAXINFO
-        CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-        lpMMI.ptMinTrackSize.X = MinWidth(CStr(hWnd))
-        lpMMI.ptMinTrackSize.Y = MinHeight(CStr(hWnd))
-        lpMMI.ptMaxTrackSize.X = MaxWidth(CStr(hWnd))
-        lpMMI.ptMaxTrackSize.Y = MaxHeight(CStr(hWnd))
-        CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
-        
-        NewWndProc3 = 1&
-        Exit Function
-    End If
+    Select Case uMsg
+        Case WM_GETMINMAXINFO
+            Dim lpMMI As MINMAXINFO
+            CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
+            lpMMI.ptMinTrackSize.X = MinWidth(CStr(hWnd))
+            lpMMI.ptMinTrackSize.Y = MinHeight(CStr(hWnd))
+            lpMMI.ptMaxTrackSize.X = MaxWidth(CStr(hWnd))
+            lpMMI.ptMaxTrackSize.Y = MaxHeight(CStr(hWnd))
+            CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
+            
+            NewWndProc3 = 1&
+            Exit Function
+        Case WM_SETTINGCHANGE
+            Select Case GetStrFromPtr(lParam)
+                Case "WindowMetrics"
+                    UpdateBorderWidth
+                    
+                    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
+                    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
+                    MinWidth.Add (10245 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    MinHeight.Add (IIf(Tags.BrowseTargetForm = 3, 8835, 6165) + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    
+                    frmExplorer.Form_Resize
+            End Select
+    End Select
     
     If mPrevProc3 > 0& Then
         NewWndProc3 = CallWindowProc(mPrevProc3, hWnd, uMsg, wParam, lParam)
@@ -249,16 +287,15 @@ End Function
 Function WndProc_Options(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
     On Error Resume Next
  
-    If uMsg = WM_SETTINGCHANGE Then
-        Select Case GetStrFromPtr(lParam)
-            Case "WindowMetrics"
-                Dim BorderWidth As Integer
-                BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", -15) * (-1)
-                If BorderWidth = 0 Then BorderWidth = 15
-                Startup.PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15) + BorderWidth / 15
-                frmOptions.SetPreviewPosition
-        End Select
-    End If
+    Select Case uMsg
+        Case WM_SETTINGCHANGE
+            Select Case GetStrFromPtr(lParam)
+                Case "WindowMetrics"
+                    UpdateBorderWidth
+                    frmOptions.SetPreviewPosition
+                    frmOptions.DrawTabBackground
+            End Select
+    End Select
     
     If mPrevProc_Options > 0& Then
         WndProc_Options = CallWindowProc(mPrevProc_Options, hWnd, uMsg, wParam, lParam)

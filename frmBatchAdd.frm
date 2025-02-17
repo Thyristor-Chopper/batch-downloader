@@ -201,7 +201,7 @@ Private Sub Form_Load()
     Me.Height = GetSetting("DownloadBooster", "UserData", "BatchURLAddHeight", Me.Height - PaddedBorderWidth * 15 * 2) + PaddedBorderWidth * 15 * 2
 End Sub
 
-Private Sub Form_Resize()
+Sub Form_Resize()
     If Me.WindowState = 1 Then Exit Sub
     cmdOK.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1545
     tygOK.Left = cmdOK.Left
