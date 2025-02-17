@@ -8,7 +8,8 @@ Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVa
 Private Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Private Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Private Const GWL_WNDPROC = (-4)
-Private Const WM_SIZING = &H214
+Public Const WM_NCPAINT = &H85
+Public Const WM_SIZING = &H214
 Public Const WM_GETMINMAXINFO = &H24
 Public Const WM_SYSCOMMAND = &H112
 Public Const WM_INITMENU = &H116
@@ -60,6 +61,8 @@ Private mPrevProc_Options As Long
 Public MainFormOnTop As Boolean
  
 Sub SetWindowSizeLimit(hWnd As Long, minW As Integer, maxW As Integer, minH As Integer, maxH As Integer)
+    If Not IsRunning Then Exit Sub
+    
     If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
     If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
     If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
@@ -73,6 +76,8 @@ Sub SetWindowSizeLimit(hWnd As Long, minW As Integer, maxW As Integer, minH As I
 End Sub
  
 Sub SetWindowSizeLimit2(hWnd As Long, minW As Integer, maxW As Integer, minH As Integer, maxH As Integer)
+    If Not IsRunning Then Exit Sub
+    
     If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
     If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
     If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
@@ -86,6 +91,8 @@ Sub SetWindowSizeLimit2(hWnd As Long, minW As Integer, maxW As Integer, minH As 
 End Sub
  
 Sub SetWindowSizeLimit3(hWnd As Long, minW As Integer, maxW As Integer, minH As Integer, maxH As Integer)
+    If Not IsRunning Then Exit Sub
+    
     If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
     If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
     If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
@@ -99,26 +106,36 @@ Sub SetWindowSizeLimit3(hWnd As Long, minW As Integer, maxW As Integer, minH As 
 End Sub
  
 Sub Hook_Options(hWnd As Long)
+    If Not IsRunning Then Exit Sub
+    
     If mPrevProc_Options <= 0& Then _
         mPrevProc_Options = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Options)
 End Sub
  
 Sub Unhook(hWnd As Long)
+    If Not IsRunning Then Exit Sub
+    
     Call SetWindowLong(hWnd, GWL_WNDPROC, mPrevProc)
     mPrevProc = 0&
 End Sub
  
 Sub Unhook2(hWnd As Long)
+    If Not IsRunning Then Exit Sub
+    
     Call SetWindowLong(hWnd, GWL_WNDPROC, mPrevProc2)
     mPrevProc2 = 0&
 End Sub
  
 Sub Unhook3(hWnd As Long)
+    If Not IsRunning Then Exit Sub
+    
     Call SetWindowLong(hWnd, GWL_WNDPROC, mPrevProc3)
     mPrevProc3 = 0&
 End Sub
  
 Sub Unhook_Options(hWnd As Long)
+    If Not IsRunning Then Exit Sub
+    
     Call SetWindowLong(hWnd, GWL_WNDPROC, mPrevProc_Options)
     mPrevProc_Options = 0&
 End Sub

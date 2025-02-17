@@ -4,9 +4,12 @@ Option Explicit
 Public CachePath As String
 Public WinVer As Single
 Public PaddedBorderWidth As Integer
+Public DialogBorderWidth As Integer
+Public SizingBorderWidth As Integer
 Public Const DefaultBackColor As Long = 15529449 '-1&
 Public DefaultDisableDWMWindow As Integer
 Public LangID As Integer
+Public IsRunning As Boolean
 
 Sub LoadPNG()
     On Error Resume Next
@@ -118,6 +121,8 @@ Sub LoadJS()
 End Sub
 
 Sub Main()
+    IsRunning = True
+    
     LangID = GetSetting("DownloadBooster", "Options", "Language", GetUserDefaultLangID())
     If LangID = 0 Then LangID = GetUserDefaultLangID()
     App.Title = t(App.Title, "Download Booster")

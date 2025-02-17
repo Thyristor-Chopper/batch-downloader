@@ -38,6 +38,7 @@ Private Declare Function CryptStringToBinary Lib "crypt32" Alias "CryptStringToB
 Declare Function SetWindowRgn Lib "user32" (ByVal hWnd As Long, ByVal hRgn As Long, ByVal bRedraw As Long) As Long
 Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
 Declare Function CombineRgn Lib "gdi32" (ByVal hDestRgn As Long, ByVal hSrcRgn1 As Long, ByVal hSrcRgn2 As Long, ByVal nCombineMode As Long) As Long
+Declare Function GetWindowDC Lib "user32" (ByVal hWnd As Long) As Long
 
 Declare Function CreateWindowEx Lib "user32" Alias "CreateWindowExA" (ByVal dwExStyle As Long, ByVal lpClassName As String, ByVal lpWindowName As String, ByVal dwStyle As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hWndParent As Long, ByVal hMenu As Long, ByVal hInstance As Long, lpParam As Any) As Long
 Declare Function DestroyWindow Lib "user32" (ByVal hWnd As Long) As Long
@@ -1453,5 +1454,7 @@ Sub UpdateBorderWidth()
 '    BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", -15) * (-1)
 '    If BorderWidth = 0 Then BorderWidth = 15
 '    Startup.PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15) + BorderWidth / 15
-    Startup.PaddedBorderWidth = GetSystemMetrics(33) - GetSystemMetrics(8)
+    Startup.DialogBorderWidth = GetSystemMetrics(8)
+    Startup.SizingBorderWidth = GetSystemMetrics(33)
+    Startup.PaddedBorderWidth = SizingBorderWidth - DialogBorderWidth
 End Sub

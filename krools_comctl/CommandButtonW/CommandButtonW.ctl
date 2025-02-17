@@ -5,17 +5,29 @@ Begin VB.UserControl CommandButtonW
    ClientTop       =   0
    ClientWidth     =   2400
    DefaultCancel   =   -1  'True
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  '≈ı∏Ì
    HasDC           =   0   'False
    PropertyPages   =   "CommandButtonW.ctx":0000
    ScaleHeight     =   120
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  '«»ºø
    ScaleWidth      =   160
    ToolboxBitmap   =   "CommandButtonW.ctx":0035
+   Begin prjDownloadBooster.TygemButton tygButton 
+      Height          =   375
+      Left            =   0
+      TabIndex        =   0
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   855
+      _ExtentX        =   1508
+      _ExtentY        =   661
+      BackColor       =   0
+      FontSize        =   0
+   End
    Begin VB.Timer TimerImageList 
       Enabled         =   0   'False
       Interval        =   1
-      Left            =   0
+      Left            =   1920
       Top             =   0
    End
 End
@@ -166,56 +178,7 @@ Public Event OLESetData(Data As DataObject, DataFormat As Integer)
 Attribute OLESetData.VB_Description = "Occurs at the OLE drag/drop source control when the drop target requests data that was not provided to the DataObject during the OLEDragStart event."
 Public Event OLEStartDrag(Data As DataObject, AllowedEffects As Long)
 Attribute OLEStartDrag.VB_Description = "Occurs when an OLE drag/drop operation is initiated either manually or automatically."
-#If VBA7 Then
-Private Declare PtrSafe Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Destination As Any, ByRef Source As Any, ByVal Length As Long)
-Private Declare PtrSafe Function CreateAcceleratorTable Lib "user32" Alias "CreateAcceleratorTableW" (ByVal lpAccel As LongPtr, ByVal cEntries As Long) As LongPtr
-Private Declare PtrSafe Function DestroyAcceleratorTable Lib "user32" (ByVal hAccel As LongPtr) As Long
-Private Declare PtrSafe Function VkKeyScan Lib "user32" Alias "VkKeyScanW" (ByVal cChar As Integer) As Integer
-Private Declare PtrSafe Function CreateWindowEx Lib "user32" Alias "CreateWindowExW" (ByVal dwExStyle As Long, ByVal lpClassName As LongPtr, ByVal lpWindowName As LongPtr, ByVal dwStyle As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hWndParent As LongPtr, ByVal hMenu As LongPtr, ByVal hInstance As LongPtr, ByRef lpParam As Any) As LongPtr
-Private Declare PtrSafe Function SendMessage Lib "user32" Alias "SendMessageW" (ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByRef lParam As Any) As LongPtr
-Private Declare PtrSafe Function DestroyWindow Lib "user32" (ByVal hWnd As LongPtr) As Long
-Private Declare PtrSafe Function SetWindowLong Lib "user32" Alias "SetWindowLongW" (ByVal hWnd As LongPtr, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
-Private Declare PtrSafe Function GetWindowLong Lib "user32" Alias "GetWindowLongW" (ByVal hWnd As LongPtr, ByVal nIndex As Long) As Long
-Private Declare PtrSafe Function SetParent Lib "user32" (ByVal hWndChild As LongPtr, ByVal hWndNewParent As LongPtr) As LongPtr
-Private Declare PtrSafe Function GetParent Lib "user32" (ByVal hWnd As LongPtr) As LongPtr
-Private Declare PtrSafe Function SetFocusAPI Lib "user32" Alias "SetFocus" (ByVal hWnd As LongPtr) As LongPtr
-Private Declare PtrSafe Function GetFocus Lib "user32" () As LongPtr
-Private Declare PtrSafe Function ShowWindow Lib "user32" (ByVal hWnd As LongPtr, ByVal nCmdShow As Long) As Long
-Private Declare PtrSafe Function MoveWindow Lib "user32" (ByVal hWnd As LongPtr, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
-Private Declare PtrSafe Function LockWindowUpdate Lib "user32" (ByVal hWndLock As LongPtr) As Long
-Private Declare PtrSafe Function EnableWindow Lib "user32" (ByVal hWnd As LongPtr, ByVal fEnable As Long) As Long
-Private Declare PtrSafe Function RedrawWindow Lib "user32" (ByVal hWnd As LongPtr, ByVal lprcUpdate As LongPtr, ByVal hrgnUpdate As LongPtr, ByVal fuRedraw As Long) As Long
-Private Declare PtrSafe Function InvalidateRect Lib "user32" (ByVal hWnd As LongPtr, ByRef lpRect As Any, ByVal bErase As Long) As Long
-Private Declare PtrSafe Function DeleteObject Lib "gdi32" (ByVal hObject As LongPtr) As Long
-Private Declare PtrSafe Function SetBkMode Lib "gdi32" (ByVal hDC As LongPtr, ByVal nBkMode As Long) As Long
-Private Declare PtrSafe Function SetLayout Lib "gdi32" (ByVal hDC As LongPtr, ByVal dwLayout As Long) As Long
-Private Declare PtrSafe Function ExtSelectClipRgn Lib "gdi32" (ByVal hDC As LongPtr, ByVal hRgn As LongPtr, ByVal fnMode As Long) As Long
-Private Declare PtrSafe Function CreateCompatibleDC Lib "gdi32" (ByVal hDC As LongPtr) As LongPtr
-Private Declare PtrSafe Function CreateCompatibleBitmap Lib "gdi32" (ByVal hDC As LongPtr, ByVal nWidth As Long, ByVal nHeight As Long) As LongPtr
-Private Declare PtrSafe Function SelectObject Lib "gdi32" (ByVal hDC As LongPtr, ByVal hObject As LongPtr) As LongPtr
-Private Declare PtrSafe Function DeleteDC Lib "gdi32" (ByVal hDC As LongPtr) As Long
-Private Declare PtrSafe Function CreatePatternBrush Lib "gdi32" (ByVal hBitmap As LongPtr) As LongPtr
-Private Declare PtrSafe Function ImageList_Create Lib "comctl32" (ByVal MinCX As Long, ByVal MinCY As Long, ByVal Flags As Long, ByVal cInitial As Long, ByVal cGrow As Long) As LongPtr
-Private Declare PtrSafe Function ImageList_Add Lib "comctl32" (ByVal hImageList As LongPtr, ByVal hBmpImage As LongPtr, ByVal hBMMask As LongPtr) As Long
-Private Declare PtrSafe Function ImageList_AddIcon Lib "comctl32" (ByVal hImageList As LongPtr, ByVal hIcon As LongPtr) As Long
-Private Declare PtrSafe Function ImageList_Destroy Lib "comctl32" (ByVal hImageList As LongPtr) As Long
-Private Declare PtrSafe Function GetWindowRect Lib "user32" (ByVal hWnd As LongPtr, ByRef lpRect As RECT) As Long
-Private Declare PtrSafe Function MapWindowPoints Lib "user32" (ByVal hWndFrom As LongPtr, ByVal hWndTo As LongPtr, ByRef lppt As Any, ByVal cPoints As Long) As Long
-Private Declare PtrSafe Function SetViewportOrgEx Lib "gdi32" (ByVal hDC As LongPtr, ByVal X As Long, ByVal Y As Long, ByRef lpPoint As POINTAPI) As Long
-Private Declare PtrSafe Function SetActiveWindow Lib "user32" (ByVal hWnd As LongPtr) As LongPtr
-Private Declare PtrSafe Function GetAncestor Lib "user32" (ByVal hWnd As LongPtr, ByVal gaFlags As Long) As LongPtr
-Private Declare PtrSafe Function LoadCursor Lib "user32" Alias "LoadCursorW" (ByVal hInstance As LongPtr, ByVal lpCursorName As Any) As LongPtr
-Private Declare PtrSafe Function SetCursor Lib "user32" (ByVal hCursor As LongPtr) As LongPtr
-Private Declare PtrSafe Function SetTextColor Lib "gdi32" (ByVal hDC As LongPtr, ByVal crColor As Long) As Long
-Private Declare PtrSafe Function CreateSolidBrush Lib "gdi32" (ByVal crColor As Long) As LongPtr
-Private Declare PtrSafe Function FillRect Lib "user32" (ByVal hDC As LongPtr, ByRef lpRect As RECT, ByVal hBrush As LongPtr) As Long
-Private Declare PtrSafe Function TransparentBlt Lib "msimg32" (ByVal hDestDC As LongPtr, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As LongPtr, ByVal XSrc As Long, ByVal YSrc As Long, ByVal nWidthSrc As Long, ByVal nHeightSrc As Long, ByVal crTransparent As Long) As Long
-Private Declare PtrSafe Function DrawState Lib "user32" Alias "DrawStateW" (ByVal hDC As LongPtr, ByVal hBrush As LongPtr, ByVal lpDrawStateProc As LongPtr, ByVal lData As LongPtr, ByVal wData As LongPtr, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal fFlags As Long) As Long
-Private Declare PtrSafe Function DrawFocusRect Lib "user32" (ByVal hDC As LongPtr, ByRef lpRect As RECT) As Long
-Private Declare PtrSafe Function DrawFrameControl Lib "user32" (ByVal hDC As LongPtr, ByRef lpRect As RECT, ByVal nCtlType As Long, ByVal nFlags As Long) As Long
-Private Declare PtrSafe Function DrawEdge Lib "user32" (ByVal hDC As LongPtr, ByRef qRC As RECT, ByVal Edge As Long, ByVal grfFlags As Long) As Long
-Private Declare PtrSafe Function DrawText Lib "user32" Alias "DrawTextW" (ByVal hDC As LongPtr, ByVal lpchText As LongPtr, ByVal nCount As Long, ByRef lpRect As RECT, ByVal uFormat As Long) As Long
-#Else
+
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Destination As Any, ByRef Source As Any, ByVal Length As Long)
 Private Declare Function CreateAcceleratorTable Lib "user32" Alias "CreateAcceleratorTableW" (ByVal lpAccel As Long, ByVal cEntries As Long) As Long
 Private Declare Function DestroyAcceleratorTable Lib "user32" (ByVal hAccel As Long) As Long
@@ -264,7 +227,6 @@ Private Declare Function DrawFocusRect Lib "user32" (ByVal hDC As Long, ByRef lp
 Private Declare Function DrawFrameControl Lib "user32" (ByVal hDC As Long, ByRef lpRect As RECT, ByVal nCtlType As Long, ByVal nFlags As Long) As Long
 Private Declare Function DrawEdge Lib "user32" (ByVal hDC As Long, ByRef qRC As RECT, ByVal Edge As Long, ByVal grfFlags As Long) As Long
 Private Declare Function DrawText Lib "user32" Alias "DrawTextW" (ByVal hDC As Long, ByVal lpchText As Long, ByVal nCount As Long, ByRef lpRect As RECT, ByVal uFormat As Long) As Long
-#End If
 
 #If ImplementThemedGraphical = True Then
 
@@ -298,17 +260,7 @@ iStateId As Long
 fApplyOverlay As Long
 iGlowSize As Long
 End Type
-#If VBA7 Then
-Private Declare PtrSafe Function IsThemeBackgroundPartiallyTransparent Lib "uxtheme" (ByVal Theme As LongPtr, ByVal iPartId As Long, ByVal iStateId As Long) As Long
-Private Declare PtrSafe Function DrawThemeParentBackground Lib "uxtheme" (ByVal hWnd As LongPtr, ByVal hDC As LongPtr, ByRef pRect As RECT) As Long
-Private Declare PtrSafe Function DrawThemeBackground Lib "uxtheme" (ByVal Theme As LongPtr, ByVal hDC As LongPtr, ByVal iPartId As Long, ByVal iStateId As Long, ByRef pRect As RECT, ByRef pClipRect As RECT) As Long
-Private Declare PtrSafe Function DrawThemeText Lib "uxtheme" (ByVal Theme As LongPtr, ByVal hDC As LongPtr, ByVal iPartId As Long, ByVal iStateId As Long, ByVal pszText As LongPtr, ByVal iCharCount As Long, ByVal dwTextFlags As Long, ByVal dwTextFlags2 As Long, ByRef pRect As RECT) As Long
-Private Declare PtrSafe Function DrawThemeTextEx Lib "uxtheme" (ByVal Theme As LongPtr, ByVal hDC As LongPtr, ByVal iPartId As Long, ByVal iStateId As Long, ByVal pszText As LongPtr, ByVal iCharCount As Long, ByVal dwTextFlags As Long, ByRef lpRect As RECT, ByRef lpOptions As DTTOPTS) As Long
-Private Declare PtrSafe Function GetThemeBackgroundRegion Lib "uxtheme" (ByVal Theme As LongPtr, ByVal hDC As LongPtr, ByVal iPartId As Long, ByVal iStateId As Long, ByRef pRect As RECT, ByRef hRgn As LongPtr) As Long
-Private Declare PtrSafe Function GetThemeBackgroundContentRect Lib "uxtheme" (ByVal Theme As LongPtr, ByVal hDC As LongPtr, ByVal iPartId As Long, ByVal iStateId As Long, ByRef pBoundingRect As RECT, ByRef pContentRect As RECT) As Long
-Private Declare PtrSafe Function OpenThemeData Lib "uxtheme" (ByVal hWnd As LongPtr, ByVal lpszClassList As LongPtr) As LongPtr
-Private Declare PtrSafe Function CloseThemeData Lib "uxtheme" (ByVal Theme As LongPtr) As Long
-#Else
+
 Private Declare Function IsThemeBackgroundPartiallyTransparent Lib "uxtheme" (ByVal Theme As Long, ByVal iPartId As Long, ByVal iStateId As Long) As Long
 Private Declare Function DrawThemeParentBackground Lib "uxtheme" (ByVal hWnd As Long, ByVal hDC As Long, ByRef pRect As RECT) As Long
 Private Declare Function DrawThemeBackground Lib "uxtheme" (ByVal Theme As Long, ByVal hDC As Long, ByVal iPartId As Long, ByVal iStateId As Long, ByRef pRect As RECT, ByRef pClipRect As RECT) As Long
@@ -318,17 +270,12 @@ Private Declare Function GetThemeBackgroundRegion Lib "uxtheme" (ByVal Theme As 
 Private Declare Function GetThemeBackgroundContentRect Lib "uxtheme" (ByVal Theme As Long, ByVal hDC As Long, ByVal iPartId As Long, ByVal iStateId As Long, ByRef pBoundingRect As RECT, ByRef pContentRect As RECT) As Long
 Private Declare Function OpenThemeData Lib "uxtheme" (ByVal hWnd As Long, ByVal lpszClassList As Long) As Long
 Private Declare Function CloseThemeData Lib "uxtheme" (ByVal Theme As Long) As Long
-#End If
 
 #End If
 
 Private Const ICC_STANDARD_CLASSES As Long = &H4000
 Private Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80
-#If VBA7 Then
-Private Const HWND_DESKTOP As LongPtr = &H0
-#Else
 Private Const HWND_DESKTOP As Long = &H0
-#End If
 Private Const FVIRTKEY As Long = &H1
 Private Const FSHIFT As Long = &H4
 Private Const FALT As Long = &H10
@@ -406,11 +353,7 @@ Private Const BCM_SETSHIELD As Long = (BCM_FIRST + 12)
 Private Const BST_PUSHED As Long = &H4
 Private Const BST_HOT As Long = &H200
 Private Const BST_DROPDOWNPUSHED As Long = &H400
-#If VBA7 Then
-Private Const BCCL_NOGLYPH As LongPtr = (-1)
-#Else
 Private Const BCCL_NOGLYPH As Long = (-1)
-#End If
 Private Const BCSIF_GLYPH As Long = &H1
 Private Const BCSIF_IMAGE As Long = &H2
 Private Const BCSIF_STYLE As Long = &H4
@@ -502,6 +445,7 @@ Private PropDownPicture As IPictureDisp
 Private PropUseMaskColor As Boolean
 Private PropMaskColor As OLE_COLOR
 Private PropDrawMode As CmdDrawModeConstants
+Private PropIsTygemButton As Boolean
 
 Private Sub IObjectSafety_GetInterfaceSafetyOptions(ByRef riid As OLEGuids.OLECLSID, ByRef pdwSupportedOptions As Long, ByRef pdwEnabledOptions As Long)
 Const INTERFACESAFE_FOR_UNTRUSTED_CALLER As Long = &H1, INTERFACESAFE_FOR_UNTRUSTED_DATA As Long = &H2
@@ -618,6 +562,10 @@ If DispId = DispIdImageList Then
 End If
 End Sub
 
+Private Sub tygButton_Click()
+    RaiseEvent Click
+End Sub
+
 Private Sub UserControl_Initialize()
 Call ComCtlsLoadShellMod
 Call ComCtlsInitCC(ICC_STANDARD_CLASSES)
@@ -635,6 +583,8 @@ Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 Call SetVTableHandling(Me, VTableInterfaceControl)
 Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 ReDim ImageListArray(0) As String
+
+If PropIsTygemButton Then Call DestroyCommandButton
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -671,6 +621,7 @@ Set PropDownPicture = Nothing
 PropUseMaskColor = False
 PropMaskColor = &HC0C0C0
 PropDrawMode = CmdDrawModeNormal
+PropIsTygemButton = False
 Call CreateCommandButton
 End Sub
 
@@ -714,6 +665,8 @@ Set PropDownPicture = .ReadProperty("DownPicture", Nothing)
 PropUseMaskColor = .ReadProperty("UseMaskColor", False)
 PropMaskColor = .ReadProperty("MaskColor", &HC0C0C0)
 PropDrawMode = .ReadProperty("DrawMode", CmdDrawModeNormal)
+PropIsTygemButton = .ReadProperty("IsTygemButton", False)
+tygButton.Visible = PropIsTygemButton
 End With
 Call CreateCommandButton
 If Not PropImageListName = "(None)" Then TimerImageList.Enabled = True
@@ -753,6 +706,7 @@ With PropBag
 .WriteProperty "UseMaskColor", PropUseMaskColor, False
 .WriteProperty "MaskColor", PropMaskColor, &HC0C0C0
 .WriteProperty "DrawMode", PropDrawMode, CmdDrawModeNormal
+.WriteProperty "IsTygemButton", PropIsTygemButton, False
 End With
 End Sub
 
@@ -760,6 +714,7 @@ Private Sub UserControl_Paint()
 If CommandButtonHandle <> NULL_PTR Then
     If CommandButtonDisplayAsDefault Xor Ambient.DisplayAsDefault Then Call UserControl_AmbientChanged("DisplayAsDefault")
 End If
+If PropIsTygemButton Then Call DestroyCommandButton
 End Sub
 
 Private Sub UserControl_OLECompleteDrag(Effect As Long)
@@ -827,6 +782,8 @@ End Select
 End Sub
 
 Private Sub UserControl_Resize()
+tygButton.Width = UserControl.ScaleWidth
+tygButton.Height = UserControl.ScaleHeight
 Static InProc As Boolean
 If InProc = True Then Exit Sub
 InProc = True
@@ -834,14 +791,16 @@ With UserControl
 If DPICorrectionFactor() <> 1 Then Call SyncObjectRectsToContainer(Me)
 If CommandButtonHandle <> NULL_PTR Then
     If PropTransparent = True Then
-        MoveWindow CommandButtonHandle, 0, 0, .ScaleWidth, .ScaleHeight, 0
+        MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, .ScaleWidth + 5, 0), IIf(PropIsTygemButton, .ScaleHeight + 5, 0), .ScaleWidth, .ScaleHeight, 0
+        If PropIsTygemButton Then GoTo exitif
         If CommandButtonTransparentBrush <> NULL_PTR Then
             DeleteObject CommandButtonTransparentBrush
             CommandButtonTransparentBrush = NULL_PTR
         End If
         RedrawWindow CommandButtonHandle, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE
+exitif:
     Else
-        MoveWindow CommandButtonHandle, 0, 0, .ScaleWidth, .ScaleHeight, 1
+        MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, .ScaleWidth + 5, 0), IIf(PropIsTygemButton, .ScaleHeight + 5, 0), .ScaleWidth, .ScaleHeight, 1
     End If
 End If
 End With
@@ -1142,6 +1101,7 @@ End Property
 Public Property Let BackColor(ByVal Value As OLE_COLOR)
 UserControl.BackColor = Value
 Me.Refresh
+tygButton.BackColor = Value
 UserControl.PropertyChanged "BackColor"
 End Property
 
@@ -1167,6 +1127,20 @@ Public Property Let Enabled(ByVal Value As Boolean)
 UserControl.Enabled = Value
 If CommandButtonHandle <> NULL_PTR Then EnableWindow CommandButtonHandle, IIf(Value = True, 1, 0)
 UserControl.PropertyChanged "Enabled"
+tygButton.Enabled = Value
+End Property
+
+Public Property Get IsTygemButton() As Boolean
+IsTygemButton = PropIsTygemButton
+End Property
+
+Public Property Let IsTygemButton(ByVal Value As Boolean)
+tygButton.Visible = Value
+PropIsTygemButton = Value
+If CommandButtonHandle <> NULL_PTR Then
+    MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, UserControl.ScaleWidth + 5, 0), IIf(PropIsTygemButton, UserControl.ScaleHeight + 5, 0), UserControl.ScaleWidth, UserControl.ScaleHeight, 0
+End If
+UserControl.PropertyChanged "IsTygemButton"
 End Property
 
 Public Property Get OLEDropMode() As OLEDropModeConstants
@@ -1447,6 +1421,7 @@ If CommandButtonHandle <> NULL_PTR Then
     SendMessage CommandButtonHandle, WM_SETTEXT, 0, ByVal StrPtr(PropCaption)
     Call OnControlInfoChanged(Me)
 End If
+tygButton.Caption = Value
 UserControl.PropertyChanged "Caption"
 End Property
 
@@ -1895,7 +1870,8 @@ If (dwStyle And BS_OWNERDRAW) = BS_OWNERDRAW Then
     ' The BS_OWNERDRAW style cannot be combined with any other button style.
     dwStyle = WS_CHILD Or WS_VISIBLE Or BS_OWNERDRAW
 End If
-CommandButtonHandle = CreateWindowEx(dwExStyle, StrPtr("Button"), NULL_PTR, dwStyle, 0, 0, UserControl.ScaleWidth, UserControl.ScaleHeight, UserControl.hWnd, NULL_PTR, App.hInstance, ByVal NULL_PTR)
+
+CommandButtonHandle = CreateWindowEx(dwExStyle, StrPtr("Button"), NULL_PTR, dwStyle, IIf(PropIsTygemButton, UserControl.ScaleWidth + 5, 0), IIf(PropIsTygemButton, UserControl.ScaleHeight + 5, 0), UserControl.ScaleWidth, UserControl.ScaleHeight, UserControl.hWnd, NULL_PTR, App.hInstance, ByVal NULL_PTR)
 If CommandButtonHandle <> NULL_PTR Then
     Call ComCtlsShowAllUIStates(CommandButtonHandle)
     If ComCtlsSupportLevel() >= 2 Then
@@ -1991,6 +1967,11 @@ End Sub
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Forces a complete repaint of a object."
 Attribute Refresh.VB_UserMemId = -550
+If PropIsTygemButton Then
+    tygButton.Visible = False
+    tygButton.Visible = True
+    Exit Sub
+End If
 If CommandButtonTransparentBrush <> NULL_PTR Then
     DeleteObject CommandButtonTransparentBrush
     CommandButtonTransparentBrush = NULL_PTR

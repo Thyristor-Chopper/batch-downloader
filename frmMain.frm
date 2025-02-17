@@ -20,6 +20,27 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   11115
    StartUpPosition =   3  'Windows ±âº»°ª
+   Begin prjDownloadBooster.CommandButtonW CommandButtonW2 
+      Height          =   375
+      Left            =   4920
+      TabIndex        =   146
+      Top             =   240
+      Width           =   1815
+      _ExtentX        =   3201
+      _ExtentY        =   661
+      Caption         =   "CommandButtonW2"
+      IsTygemButton   =   -1  'True
+   End
+   Begin prjDownloadBooster.CommandButtonW CommandButtonW1 
+      Height          =   375
+      Left            =   2280
+      TabIndex        =   145
+      Top             =   240
+      Width           =   2415
+      _ExtentX        =   4260
+      _ExtentY        =   661
+      Caption         =   "CommandButtonW1"
+   End
    Begin prjDownloadBooster.ComboBoxW txtURL 
       Height          =   300
       Left            =   1560
@@ -60,7 +81,7 @@ Begin VB.Form frmMain
       Width           =   615
       _ExtentX        =   1085
       _ExtentY        =   2143
-      Caption         =   "CommandButtonW1"
+      Caption         =   "¤·"
    End
    Begin prjDownloadBooster.TygemButton tygEditHeaders 
       Height          =   330
@@ -2536,6 +2557,10 @@ End Sub
 
 Private Sub cmdYtdlOptions_Click()
     frmYtdlOptions.Show vbModal, Me
+End Sub
+
+Private Sub CommandButtonW1_Click()
+    CommandButtonW1.IsTygemButton = Not CommandButtonW1.IsTygemButton
 End Sub
 
 Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
