@@ -20,10 +20,30 @@ Begin VB.Form frmExplorer
    ScaleHeight     =   8325
    ScaleWidth      =   9750
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.CommandButtonW CancelButton 
+      Height          =   340
+      Left            =   8160
+      TabIndex        =   17
+      Top             =   4920
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   609
+      Caption         =   "취소"
+   End
+   Begin prjDownloadBooster.CommandButtonW OKButton 
+      Height          =   340
+      Left            =   8160
+      TabIndex        =   16
+      Top             =   4560
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   609
+      Caption         =   "확인"
+   End
    Begin prjDownloadBooster.CheckBoxW chkShowFiles 
       Height          =   255
       Left            =   6240
-      TabIndex        =   17
+      TabIndex        =   15
       Top             =   5340
       Width           =   2175
       _ExtentX        =   3836
@@ -47,7 +67,7 @@ Begin VB.Form frmExplorer
       Left            =   120
       ScaleHeight     =   5115
       ScaleWidth      =   1410
-      TabIndex        =   15
+      TabIndex        =   13
       Tag             =   "nobackcolorchange"
       Top             =   480
       Width           =   1470
@@ -66,7 +86,7 @@ Begin VB.Form frmExplorer
          Orientation     =   1
          Divider         =   0   'False
          AllowCustomize  =   0   'False
-         ButtonHeight    =   35
+         ButtonHeight    =   51
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
@@ -91,9 +111,9 @@ Begin VB.Form frmExplorer
       Width           =   2175
    End
    Begin prjDownloadBooster.ImageCombo cbFolderList 
-      Height          =   315
+      Height          =   330
       Left            =   1680
-      TabIndex        =   13
+      TabIndex        =   11
       Top             =   120
       Width           =   6615
       _ExtentX        =   11668
@@ -130,7 +150,7 @@ Begin VB.Form frmExplorer
       Left            =   2880
       ScaleHeight     =   2355
       ScaleWidth      =   4140
-      TabIndex        =   11
+      TabIndex        =   9
       Top             =   5760
       Width           =   4200
       Begin VB.Image imgPreview 
@@ -144,7 +164,7 @@ Begin VB.Form frmExplorer
    Begin prjDownloadBooster.CommandButtonW cmdViews 
       Height          =   330
       Left            =   9090
-      TabIndex        =   10
+      TabIndex        =   8
       Top             =   120
       Visible         =   0   'False
       Width           =   375
@@ -155,7 +175,7 @@ Begin VB.Form frmExplorer
    Begin prjDownloadBooster.ListView lvFiles 
       Height          =   3960
       Left            =   1680
-      TabIndex        =   9
+      TabIndex        =   7
       Top             =   480
       Width           =   7935
       _ExtentX        =   13996
@@ -224,42 +244,6 @@ Begin VB.Form frmExplorer
       Visible         =   0   'False
       Width           =   2175
    End
-   Begin VB.CommandButton CancelButton 
-      Cancel          =   -1  'True
-      Caption         =   "취소"
-      BeginProperty Font 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   340
-      Left            =   8160
-      TabIndex        =   7
-      Top             =   4920
-      Width           =   1455
-   End
-   Begin VB.CommandButton OKButton 
-      Caption         =   "확인"
-      Default         =   -1  'True
-      BeginProperty Font 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   340
-      Left            =   8160
-      TabIndex        =   6
-      Top             =   4560
-      Width           =   1455
-   End
    Begin prjDownloadBooster.ToolBar tbToolBar 
       Height          =   330
       Left            =   8400
@@ -279,7 +263,7 @@ Begin VB.Form frmExplorer
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
       Left            =   3960
-      TabIndex        =   16
+      TabIndex        =   14
       Top             =   5340
       Width           =   2175
       _ExtentX        =   3836
@@ -292,7 +276,7 @@ Begin VB.Form frmExplorer
       Caption         =   "찾는 위치(&I):"
       Height          =   255
       Left            =   240
-      TabIndex        =   14
+      TabIndex        =   12
       Top             =   180
       Width           =   1335
    End
@@ -301,7 +285,7 @@ Begin VB.Form frmExplorer
       Caption         =   "미리보기(&P):"
       Height          =   255
       Left            =   1680
-      TabIndex        =   12
+      TabIndex        =   10
       Top             =   5760
       Width           =   1215
    End
@@ -318,7 +302,7 @@ Begin VB.Form frmExplorer
       EndProperty
       Height          =   255
       Left            =   1680
-      TabIndex        =   8
+      TabIndex        =   6
       Top             =   5010
       Width           =   1215
    End

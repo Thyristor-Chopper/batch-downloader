@@ -39,18 +39,15 @@ Declare Function SetWindowRgn Lib "user32" (ByVal hWnd As Long, ByVal hRgn As Lo
 Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
 Declare Function CombineRgn Lib "gdi32" (ByVal hDestRgn As Long, ByVal hSrcRgn1 As Long, ByVal hSrcRgn2 As Long, ByVal nCombineMode As Long) As Long
 Declare Function GetWindowDC Lib "user32" (ByVal hWnd As Long) As Long
-
+Private Declare Function ExpandEnvironmentStringsA Lib "kernel32" (ByVal lpSrc As String, ByVal lpDst As String, ByVal nSize As Long) As Long
 Declare Function CreateWindowEx Lib "user32" Alias "CreateWindowExA" (ByVal dwExStyle As Long, ByVal lpClassName As String, ByVal lpWindowName As String, ByVal dwStyle As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hWndParent As Long, ByVal hMenu As Long, ByVal hInstance As Long, lpParam As Any) As Long
 Declare Function DestroyWindow Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function PrintWindow Lib "user32" (ByVal hWnd As Long, ByVal hdcBlt As Long, ByVal nFlags As Long) As Long
-
 Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
 Declare Function lstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal lpString1 As Any, ByVal lpString2 As Any) As Long
-
 Private Declare Function lstrlen Lib "kernel32.dll" Alias "lstrlenA" (ByVal lpString As Long) As Long
 Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As String
-
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
 
 Public Const RGN_DIFF = 4
@@ -1397,3 +1394,16 @@ Sub UpdateBorderWidth()
     Startup.SizingBorderWidth = GetSystemMetrics(33)
     Startup.PaddedBorderWidth = SizingBorderWidth - DialogBorderWidth
 End Sub
+
+Function ExpandEnvironmentStrings(ByVal strInput As String) As String
+    Dim ret As Long
+    Dim strOutput As String
+    ret = ExpandEnvironmentStringsA(strInput, strOutput, ret)
+    If ret = 0& Then
+        ExpandEnvironmentStrings = strInput
+        Exit Function
+    End If
+    strOutput = Space$(ret)
+    ret = ExpandEnvironmentStringsA(strInput, strOutput, ret)
+    ExpandEnvironmentStrings = strOutput
+End Function

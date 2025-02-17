@@ -624,11 +624,11 @@ Begin VB.Form frmOptions
          Height          =   2295
          Left            =   120
          ScaleHeight     =   2235
-         ScaleWidth      =   5595
+         ScaleWidth      =   5955
          TabIndex        =   67
          Tag             =   "nobgdraw"
          Top             =   120
-         Width           =   5655
+         Width           =   6015
          Begin VB.Image imgDesktop 
             Height          =   735
             Left            =   0
@@ -1745,8 +1745,36 @@ Private Sub Form_Load()
     imgDesktop.Height = pbPreview.Height
     imgDesktop.Top = 0
     imgDesktop.Left = 0
-    On Error Resume Next
-    imgDesktop.Picture = LoadPicture(GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop", "Wallpaper"))
+    
+    Dim WallpaperPath$, ActiveDesktopWallpaperPath$
+    WallpaperPath = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop", "Wallpaper")
+    If WinVer < 6# Then
+        ActiveDesktopWallpaperPath = GetKeyValue(HKEY_CURRENT_USER, "Software\Microsoft\Internet Explorer\Desktop\General", "Wallpaper", WallpaperPath)
+    Else
+        ActiveDesktopWallpaperPath = WallpaperPath
+    End If
+    
+    If Left$(WallpaperPath, 1) = """" And Right$(WallpaperPath, 1) = """" Then WallpaperPath = Mid$(WallpaperPath, 2, Len(WallpaperPath) - 2)
+    If Left$(ActiveDesktopWallpaperPath, 1) = """" And Right$(ActiveDesktopWallpaperPath, 1) = """" Then ActiveDesktopWallpaperPath = Mid$(ActiveDesktopWallpaperPath, 2, Len(ActiveDesktopWallpaperPath) - 2)
+    
+    On Error GoTo activefail
+    If Right$(LCase(ActiveDesktopWallpaperPath), 4) = ".png" Then
+        Set imgDesktop.Picture = LoadPngIntoPictureWithAlpha(ActiveDesktopWallpaperPath)
+    Else
+        imgDesktop.Picture = LoadPicture(ActiveDesktopWallpaperPath)
+    End If
+    GoTo nextcode
+    
+activefail:
+    On Error GoTo nextcode
+    If Right$(LCase(WallpaperPath), 4) = ".png" Then
+        Set imgDesktop.Picture = LoadPngIntoPictureWithAlpha(WallpaperPath)
+    Else
+        imgDesktop.Picture = LoadPicture(WallpaperPath)
+    End If
+    
+nextcode:
+    cmdSample.ImageList = frmMain.imgDownload
     
     Loaded = True
 End Sub
