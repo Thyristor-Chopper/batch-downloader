@@ -150,7 +150,11 @@ Sub Main()
     
     Call InitVisualStylesFixes
     
-    PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15)
+    Dim BorderWidth As Integer
+    BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", -15) * (-1)
+    If BorderWidth = 0 Then BorderWidth = 15
+    PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15) + BorderWidth / 15
+    
     If WinVer >= 6.2 Then
         DefaultDisableDWMWindow = 1
     Else
@@ -167,5 +171,6 @@ Sub Main()
     'frmMsgboxTest.Show
     Functions.AppExiting = False
     frmMain.Show vbModeless
+    'frmBluemetal.Show
     'frmExplorer.Show
 End Sub

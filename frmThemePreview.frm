@@ -9,21 +9,39 @@ Begin VB.Form frmThemePreview
    ScaleHeight     =   5415
    ScaleWidth      =   7545
    StartUpPosition =   3  'Windows ±âº»°ª
+   Begin VB.Frame Frame1 
+      Caption         =   "Frame1"
+      Height          =   735
+      Left            =   360
+      TabIndex        =   3
+      Top             =   1200
+      Width           =   1335
+   End
+   Begin VB.PictureBox Picture2 
+      AutoRedraw      =   -1  'True
+      Height          =   1695
+      Left            =   480
+      ScaleHeight     =   1635
+      ScaleWidth      =   3795
+      TabIndex        =   2
+      Top             =   2880
+      Width           =   3855
+   End
    Begin VB.CommandButton Command1 
       Caption         =   "Command1"
       Height          =   375
-      Left            =   2040
+      Left            =   4560
       TabIndex        =   1
       Top             =   4200
       Width           =   2055
    End
    Begin VB.PictureBox Picture1 
       Height          =   2415
-      Left            =   1080
+      Left            =   1800
       ScaleHeight     =   2355
       ScaleWidth      =   4635
       TabIndex        =   0
-      Top             =   840
+      Top             =   240
       Visible         =   0   'False
       Width           =   4695
    End
@@ -87,13 +105,17 @@ Private Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 A
 Private Declare Function SetActiveWindow Lib "user32" (ByVal hWnd As Long) As Long
 Private Declare Function SetBkColor Lib "gdi32" (ByVal hDC As Long, ByVal crColor As Long) As Long
 Private Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
+Private Declare Function PrintWindow Lib "user32.dll" (ByVal hWnd As Long, ByVal hdcBlt As Long, ByVal nFlags As Long) As Long
 
 Private Sub Command1_Click()
-    Picture1.Visible = True
+    'Picture1.Visible = True
+    
+    PrintWindow PrevhWnd, Picture2.hDC, 0
+    Picture2.Refresh
 End Sub
 
 Private Sub Form_Load()
-    PrevhWnd = CreateWindowEx(WS_EX_CLIENTEDGE Or WS_EX_TOPMOST, "STATIC", "", WS_CHILD Or WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_MAXIMIZEBOX Or WS_SYSMENU Or WS_THICKFRAME, 10, 10, 100, 100, Picture1.hWnd, 0&, App.hInstance, 0&)
+    PrevhWnd = CreateWindowEx(0&, "button", "test", WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_MAXIMIZEBOX Or WS_SYSMENU Or WS_THICKFRAME, 10, 10, 100, 100, 0&, 0&, 0&, 0&)
     'SetBkColor GetDC(PrevhWnd), 255&
     'Picture1.Refresh
     'SetWindowRgn hWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True

@@ -7,12 +7,12 @@ Attribute VB_Name = "Subclass"
 Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 Private Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Private Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
-Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
 Private Const GWL_WNDPROC = (-4)
 Private Const WM_SIZING = &H214
 Public Const WM_GETMINMAXINFO = &H24
 Public Const WM_SYSCOMMAND = &H112
 Public Const WM_INITMENU = &H116
+Public Const WM_SETTINGCHANGE As Long = &H1A
 Const WM_DWMCOMPOSITIONCHANGED As Long = &H31E
 Const DWM_EC_DISABLECOMPOSITION As Long = 0
 Const DWM_EC_ENABLECOMPOSITION As Long = 1
@@ -55,6 +55,7 @@ End Type
 Private mPrevProc As Long
 Private mPrevProc2 As Long
 Private mPrevProc3 As Long
+Private mPrevProc_Options As Long
 
 Public MainFormOnTop As Boolean
  
@@ -97,6 +98,11 @@ Sub SetWindowSizeLimit3(hWnd As Long, minW As Integer, maxW As Integer, minH As 
         mPrevProc3 = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf NewWndProc3)
 End Sub
  
+Sub Hook_Options(hWnd As Long)
+    If mPrevProc_Options <= 0& Then _
+        mPrevProc_Options = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Options)
+End Sub
+ 
 Sub Unhook(hWnd As Long)
     Call SetWindowLong(hWnd, GWL_WNDPROC, mPrevProc)
     mPrevProc = 0&
@@ -110,6 +116,11 @@ End Sub
 Sub Unhook3(hWnd As Long)
     Call SetWindowLong(hWnd, GWL_WNDPROC, mPrevProc3)
     mPrevProc3 = 0&
+End Sub
+ 
+Sub Unhook_Options(hWnd As Long)
+    Call SetWindowLong(hWnd, GWL_WNDPROC, mPrevProc_Options)
+    mPrevProc_Options = 0&
 End Sub
  
 Function NewWndProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
@@ -167,9 +178,19 @@ Function NewWndProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long
             End If
         Case WM_DWMCOMPOSITIONCHANGED
             frmMain.OnDWMChange
-            
-            NewWndProc = 1&
-            Exit Function
+        Case WM_SETTINGCHANGE
+            Select Case GetStrFromPtr(lParam)
+                Case "WindowMetrics"
+                    Dim BorderWidth As Integer
+                    BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", -15) * (-1)
+                    If BorderWidth = 0 Then BorderWidth = 15
+                    Startup.PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15) + BorderWidth / 15
+                    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
+                    If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
+                    MinWidth.Add (9450 + Startup.PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    MaxWidth.Add (9450 + Startup.PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    frmMain.Width = 9450 + Startup.PaddedBorderWidth * 15 * 2
+            End Select
     End Select
     
     If mPrevProc > 0& Then
@@ -224,4 +245,26 @@ Function NewWndProc3(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lon
         NewWndProc3 = DefWindowProc(hWnd, uMsg, wParam, lParam)
     End If
 End Function
+
+Function WndProc_Options(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    On Error Resume Next
+ 
+    If uMsg = WM_SETTINGCHANGE Then
+        Select Case GetStrFromPtr(lParam)
+            Case "WindowMetrics"
+                Dim BorderWidth As Integer
+                BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", -15) * (-1)
+                If BorderWidth = 0 Then BorderWidth = 15
+                Startup.PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15) + BorderWidth / 15
+                frmOptions.SetPreviewPosition
+        End Select
+    End If
+    
+    If mPrevProc_Options > 0& Then
+        WndProc_Options = CallWindowProc(mPrevProc_Options, hWnd, uMsg, wParam, lParam)
+    Else
+        WndProc_Options = DefWindowProc(hWnd, uMsg, wParam, lParam)
+    End If
+End Function
+
 

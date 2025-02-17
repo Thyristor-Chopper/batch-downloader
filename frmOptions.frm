@@ -551,6 +551,93 @@ Begin VB.Form frmOptions
       Top             =   600
       Visible         =   0   'False
       Width           =   6255
+      Begin VB.PictureBox pbBackground 
+         AutoRedraw      =   -1  'True
+         Enabled         =   0   'False
+         Height          =   1560
+         Left            =   240
+         ScaleHeight     =   1500
+         ScaleWidth      =   4455
+         TabIndex        =   34
+         Tag             =   "nobgdraw"
+         Top             =   120
+         Width           =   4515
+         Begin prjDownloadBooster.ProgressBar ProgressBar2 
+            Height          =   255
+            Left            =   600
+            Top             =   720
+            Width           =   2775
+            _ExtentX        =   4895
+            _ExtentY        =   450
+            Enabled         =   0   'False
+            Value           =   64
+            Step            =   10
+            State           =   3
+         End
+         Begin prjDownloadBooster.ProgressBar ProgressBar1 
+            Height          =   255
+            Left            =   600
+            Top             =   360
+            Width           =   2775
+            _ExtentX        =   4895
+            _ExtentY        =   450
+            Enabled         =   0   'False
+            Value           =   24
+            Step            =   10
+            State           =   3
+         End
+         Begin prjDownloadBooster.TygemButton tygSample 
+            Height          =   285
+            Left            =   2520
+            TabIndex        =   44
+            Top             =   1080
+            Visible         =   0   'False
+            Width           =   1575
+            _ExtentX        =   2778
+            _ExtentY        =   503
+            Caption         =   "단추"
+         End
+         Begin prjDownloadBooster.CommandButtonW cmdSample 
+            Height          =   285
+            Left            =   2520
+            TabIndex        =   35
+            TabStop         =   0   'False
+            Top             =   1080
+            Width           =   1575
+            _ExtentX        =   2778
+            _ExtentY        =   503
+            Caption         =   "단추"
+            Transparent     =   -1  'True
+         End
+         Begin VB.Label Label11 
+            BackStyle       =   0  '투명
+            Caption         =   "다운로드 현황:"
+            Height          =   255
+            Left            =   240
+            TabIndex        =   74
+            Top             =   120
+            Width           =   2175
+         End
+         Begin VB.Image imgPreview 
+            Height          =   375
+            Left            =   3600
+            Stretch         =   -1  'True
+            Top             =   0
+            Visible         =   0   'False
+            Width           =   855
+         End
+      End
+      Begin VB.PictureBox pbPreview 
+         AutoRedraw      =   -1  'True
+         BorderStyle     =   0  '없음
+         Height          =   2055
+         Left            =   0
+         ScaleHeight     =   2055
+         ScaleWidth      =   5895
+         TabIndex        =   75
+         Top             =   0
+         Width           =   5895
+      End
       Begin prjDownloadBooster.FrameW Frame6 
          Height          =   975
          Left            =   3240
@@ -602,78 +689,6 @@ Begin VB.Form frmOptions
             Width           =   735
          End
       End
-      Begin VB.PictureBox pbBackground 
-         AutoRedraw      =   -1  'True
-         Height          =   1560
-         Left            =   240
-         ScaleHeight     =   1500
-         ScaleWidth      =   4455
-         TabIndex        =   34
-         Top             =   120
-         Width           =   4515
-         Begin prjDownloadBooster.ProgressBar ProgressBar2 
-            Height          =   255
-            Left            =   600
-            Top             =   720
-            Width           =   2775
-            _ExtentX        =   4895
-            _ExtentY        =   450
-            Enabled         =   0   'False
-            Value           =   64
-            Step            =   10
-         End
-         Begin prjDownloadBooster.ProgressBar ProgressBar1 
-            Height          =   255
-            Left            =   600
-            Top             =   360
-            Width           =   2775
-            _ExtentX        =   4895
-            _ExtentY        =   450
-            Enabled         =   0   'False
-            Value           =   24
-            Step            =   10
-         End
-         Begin prjDownloadBooster.TygemButton tygSample 
-            Height          =   285
-            Left            =   2520
-            TabIndex        =   44
-            Top             =   1080
-            Visible         =   0   'False
-            Width           =   1575
-            _ExtentX        =   2778
-            _ExtentY        =   503
-            Caption         =   "단추"
-         End
-         Begin prjDownloadBooster.CommandButtonW cmdSample 
-            Height          =   285
-            Left            =   2520
-            TabIndex        =   35
-            TabStop         =   0   'False
-            Top             =   1080
-            Width           =   1575
-            _ExtentX        =   2778
-            _ExtentY        =   503
-            Caption         =   "단추"
-            Transparent     =   -1  'True
-         End
-         Begin VB.Label Label11 
-            BackStyle       =   0  '투명
-            Caption         =   "다운로드 현황:"
-            Height          =   255
-            Left            =   240
-            TabIndex        =   74
-            Top             =   120
-            Width           =   2175
-         End
-         Begin VB.Image imgPreview 
-            Height          =   375
-            Left            =   3600
-            Stretch         =   -1  'True
-            Top             =   0
-            Visible         =   0   'False
-            Width           =   855
-         End
-      End
       Begin prjDownloadBooster.FrameW FrameW1 
          Height          =   975
          Left            =   3240
@@ -723,8 +738,8 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   24
             Top             =   240
-            Width           =   2415
-            _ExtentX        =   4260
+            Width           =   2055
+            _ExtentX        =   3625
             _ExtentY        =   450
             Caption         =   "배경 그림 사용(&B)"
             Transparent     =   -1  'True
@@ -920,41 +935,6 @@ Dim MouseY As Integer, SelectedListItem As LvwListItem
 
 Dim PrevhWnd As Long
 
-Private Const WS_VISIBLE As Long = &H10000000
-Private Const WS_VSCROLL As Long = &H200000
-Private Const WS_TABSTOP As Long = &H10000
-Private Const WS_THICKFRAME As Long = &H40000
-Private Const WS_MAXIMIZE As Long = &H1000000
-Private Const WS_MAXIMIZEBOX As Long = &H10000
-Private Const WS_MINIMIZE As Long = &H20000000
-Private Const WS_MINIMIZEBOX As Long = &H20000
-Private Const WS_SYSMENU As Long = &H80000
-Private Const WS_BORDER As Long = &H800000
-Private Const WS_CAPTION As Long = &HC00000
-Private Const WS_CHILD As Long = &H40000000
-Private Const WS_CHILDWINDOW As Long = (WS_CHILD)
-Private Const WS_CLIPCHILDREN As Long = &H2000000
-Private Const WS_CLIPSIBLINGS As Long = &H4000000
-Private Const WS_DISABLED As Long = &H8000000
-Private Const WS_DLGFRAME As Long = &H400000
-Private Const WS_EX_ACCEPTFILES As Long = &H10&
-Private Const WS_EX_DLGMODALFRAME As Long = &H1&
-Private Const WS_EX_NOPARENTNOTIFY As Long = &H4&
-Private Const WS_EX_TOPMOST As Long = &H8&
-Private Const WS_EX_TRANSPARENT As Long = &H20&
-Private Const WS_EX_WINDOWEDGE As Long = &H100&
-Private Const WS_EX_CLIENTEDGE As Long = &H200&
-Private Const WS_EX_STATICEDGE As Long = &H20000
-Private Const WS_GROUP As Long = &H20000
-Private Const WS_HSCROLL As Long = &H100000
-Private Const WS_ICONIC As Long = WS_MINIMIZE
-Private Const WS_OVERLAPPED As Long = &H0&
-
-Private Declare Function CreateWindowEx Lib "user32" Alias "CreateWindowExA" (ByVal dwExStyle As Long, ByVal lpClassName As String, ByVal lpWindowName As String, ByVal dwStyle As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hWndParent As Long, ByVal hMenu As Long, ByVal hInstance As Long, lpParam As Any) As Long
-Private Declare Function DestroyWindow Lib "user32" (ByVal hWnd As Long) As Long
-Private Declare Function SetWindowRgn Lib "user32" (ByVal hWnd As Long, ByVal hRgn As Long, ByVal bRedraw As Long) As Long
-Private Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
-
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
@@ -1080,14 +1060,6 @@ Private Sub chkExcludeMergeFromElapsed_Click()
     End If
 End Sub
 
-Private Sub chkForceClassic_Click()
-    If Loaded Then
-        cmdApply.Enabled = -1
-        tygApply.Enabled = -1
-        SkinChanged = True
-    End If
-End Sub
-
 Private Sub chkForceGet_Click()
     If Loaded Then
         cmdApply.Enabled = -1
@@ -1117,13 +1089,6 @@ Private Sub chkLazyElapsed_Click()
 End Sub
 
 Private Sub chkNoCleanup_Click()
-    If Loaded Then
-        cmdApply.Enabled = -1
-        tygApply.Enabled = -1
-    End If
-End Sub
-
-Private Sub chkNoDWMWindow_Click()
     If Loaded Then
         cmdApply.Enabled = -1
         tygApply.Enabled = -1
@@ -1268,19 +1233,7 @@ Private Sub cmdApply_Click()
     End If
     If VisualStyleChanged Then
         On Error Resume Next
-        Dim ctrl As Control
-        For Each ctrl In Me.Controls
-            If TypeName(ctrl) = "PictureBox" And ctrl.Name <> "pbBackground" Then
-                ctrl.AutoRedraw = True
-                tsTabStrip.DrawBackground ctrl.hWnd, ctrl.hDC
-            End If
-        Next ctrl
-        For Each ctrl In Me.Controls
-            If TypeName(ctrl) = "FrameW" Then
-                ctrl.Transparent = True 'Not CBool(chkNoTheming.Value)
-            End If
-            ctrl.Refresh
-        Next ctrl
+        DrawTabBackground
         cmdChooseBackground.Refresh
         cmdSample.Refresh
         On Error GoTo 0
@@ -1411,10 +1364,6 @@ Private Sub cmdChooseBackground_Click()
     frmExplorer.Show vbModal, Me
 End Sub
 
-Private Sub cmdSysInfo_Click()
-    Call StartSysInfo
-End Sub
-
 Private Sub cmdDeleteHeader_Click()
     If Not lvHeaders.SelectedItem Is Nothing Then
         If lvHeaders.SelectedItem.Selected Then
@@ -1451,6 +1400,11 @@ Private Sub cmdEditHeaderValue_Click()
         tygOK.Enabled = 0
     End If
 exitsub:
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    DestroyWindow PrevhWnd
+    Unhook_Options Me.hWnd
 End Sub
 
 Private Sub lvHeaders_AfterLabelEdit(Cancel As Boolean, NewString As String)
@@ -1612,15 +1566,10 @@ Private Sub Form_Load()
     chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
     chkDontLoadIcons.Value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
     
-    PrevhWnd = CreateWindowEx(WS_EX_CLIENTEDGE, "STATIC", App.Title, WS_DISABLED Or WS_CHILD Or WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_MAXIMIZEBOX Or WS_SYSMENU Or WS_THICKFRAME, 16, 4, 320, 135, pbPanel(3).hWnd, 0&, App.hInstance, 0&)
-    Dim BorderWidth As Integer, CaptionHeight As Integer
-    BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", 15) * (-1)
-    If BorderWidth = 0 Then BorderWidth = 15
-    CaptionHeight = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "CaptionHeight", 0) * (-1)
-    pbBackground.Top = 4 * 15 + CaptionHeight + 45 + BorderWidth + PaddedBorderWidth * 15
-    pbBackground.Left = 16 * 15 + 45 + BorderWidth + PaddedBorderWidth * 15
-    pbBackground.Width = 320 * 15 - (BorderWidth + 45) * 2 - PaddedBorderWidth * 30
-    pbBackground.Height = 135 * 15 - (BorderWidth + 45) * 2 - CaptionHeight - PaddedBorderWidth * 30
+    pbPreview.Left = 16 * 15
+    pbPreview.Top = 4 * 15
+    pbBackground.BorderStyle = 0
+    SetPreviewPosition
     
     imgPreview.Width = pbBackground.Width
     imgPreview.Height = pbBackground.Height
@@ -1683,19 +1632,7 @@ Private Sub Form_Load()
     cmdApply.Enabled = 0
     tygApply.Enabled = 0
     
-    Dim ctrl As Control
-    For Each ctrl In Me.Controls
-        If TypeName(ctrl) = "PictureBox" And ctrl.Name <> "pbBackground" Then
-            ctrl.AutoRedraw = True
-            tsTabStrip.DrawBackground ctrl.hWnd, ctrl.hDC
-        End If
-    Next ctrl
-    For Each ctrl In Me.Controls
-        If TypeName(ctrl) = "FrameW" Then
-            ctrl.Transparent = True
-            ctrl.Refresh
-        End If
-    Next ctrl
+    DrawTabBackground
     
     chkOpenWhenComplete.Value = frmMain.chkOpenAfterComplete.Value
     chkOpenDirWhenComplete.Value = frmMain.chkOpenFolder.Value
@@ -1751,8 +1688,6 @@ Private Sub Form_Load()
     txtNodePath.Text = GetSetting("DownloadBooster", "Options", "NodePath", "")
     txtScriptPath.Text = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
     txtYtdlPath.Text = GetSetting("DownloadBooster", "Options", "YtdlPath", "")
-    
-    chkNoDWMWindow_Click
     
     On Error Resume Next
     If chkEnableBackgroundImage.Value And GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "") <> "" Then
@@ -1853,7 +1788,37 @@ Private Sub Form_Load()
         lvHeaders.ListItems.Add(, , Headers(i, 0), , 1).ListSubItems.Add , , Headers(i, 1)
     Next i
     
+    Hook_Options Me.hWnd
+    
     Loaded = True
+End Sub
+
+Sub DrawTabBackground()
+    On Error Resume Next
+    Dim ctrl As Control
+    For Each ctrl In Me.Controls
+        If TypeName(ctrl) = "PictureBox" And ctrl.Tag <> "nobgdraw" Then
+            ctrl.AutoRedraw = True
+            tsTabStrip.DrawBackground ctrl.hWnd, ctrl.hDC
+        End If
+    Next ctrl
+    For Each ctrl In Me.Controls
+        If TypeName(ctrl) = "FrameW" Then
+            ctrl.Transparent = True
+        End If
+        ctrl.Refresh
+    Next ctrl
+End Sub
+
+Sub SetPreviewPosition()
+    If PrevhWnd Then DestroyWindow (PrevhWnd)
+    PrevhWnd = CreateWindowEx(WS_EX_CLIENTEDGE, "STATIC", App.Title, WS_DISABLED Or WS_CHILD Or WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_SYSMENU Or WS_THICKFRAME, 0, 0, 320, 135, pbPreview.hWnd, 0&, App.hInstance, 0&)
+    Dim CaptionHeight As Integer
+    CaptionHeight = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "CaptionHeight", 0) * (-1)
+    pbBackground.Top = 4 * 15 + CaptionHeight + 45 + BorderWidth + PaddedBorderWidth * 15 + 15
+    pbBackground.Left = 16 * 15 + 45 + BorderWidth + PaddedBorderWidth * 15
+    pbBackground.Width = 320 * 15 - (45) * 2 - PaddedBorderWidth * 30
+    pbBackground.Height = 135 * 15 - (45) * 2 - CaptionHeight - PaddedBorderWidth * 30 - 15
 End Sub
 
 Private Sub lblSelectColor_Click()

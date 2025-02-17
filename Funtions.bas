@@ -5,6 +5,7 @@ Attribute VB_Name = "Functions"
 '- https://www.vbforums.com/showthread.php?430704-RESOLVED-Get-drive-size-space
 '- https://www.codeguru.com/visual-basic/displaying-the-file-properties-dialog/
 '- http://vbcity.com/forums/t/105530.aspx
+'- https://www.vbforums.com/showthread.php?644597-How-to-get-String-from-Pointer-in-VB
 
 Option Explicit
 
@@ -34,8 +35,53 @@ Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1
 Private Declare Function CryptStringToBinary Lib "crypt32" Alias "CryptStringToBinaryW" (ByVal pszString As Long, ByVal cchString As Long, ByVal dwFlags As Long, ByVal pbBinary As Long, ByRef pcbBinary As Long, ByRef pdwSkip As Long, ByRef pdwFlags As Long) As Long
-Private Declare Function SetWindowRgn Lib "user32" (ByVal hWnd As Long, ByVal hRgn As Long, ByVal bRedraw As Long) As Long
-Private Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
+Declare Function SetWindowRgn Lib "user32" (ByVal hWnd As Long, ByVal hRgn As Long, ByVal bRedraw As Long) As Long
+Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
+Declare Function CombineRgn Lib "gdi32" (ByVal hDestRgn As Long, ByVal hSrcRgn1 As Long, ByVal hSrcRgn2 As Long, ByVal nCombineMode As Long) As Long
+
+Declare Function CreateWindowEx Lib "user32" Alias "CreateWindowExA" (ByVal dwExStyle As Long, ByVal lpClassName As String, ByVal lpWindowName As String, ByVal dwStyle As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hWndParent As Long, ByVal hMenu As Long, ByVal hInstance As Long, lpParam As Any) As Long
+Declare Function DestroyWindow Lib "user32" (ByVal hWnd As Long) As Long
+Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
+Declare Function PrintWindow Lib "user32" (ByVal hWnd As Long, ByVal hdcBlt As Long, ByVal nFlags As Long) As Long
+
+Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
+Declare Function lstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal lpString1 As Any, ByVal lpString2 As Any) As Long
+
+Private Declare Function lstrlen Lib "kernel32.dll" Alias "lstrlenA" (ByVal lpString As Long) As Long
+Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As String
+
+Public Const RGN_DIFF = 4
+Public Const RGN_OR = 2
+
+Public Const WS_VISIBLE As Long = &H10000000
+Public Const WS_VSCROLL As Long = &H200000
+Public Const WS_TABSTOP As Long = &H10000
+Public Const WS_THICKFRAME As Long = &H40000
+Public Const WS_MAXIMIZE As Long = &H1000000
+Public Const WS_MAXIMIZEBOX As Long = &H10000
+Public Const WS_MINIMIZE As Long = &H20000000
+Public Const WS_MINIMIZEBOX As Long = &H20000
+Public Const WS_SYSMENU As Long = &H80000
+Public Const WS_BORDER As Long = &H800000
+Public Const WS_CAPTION As Long = &HC00000
+Public Const WS_CHILD As Long = &H40000000
+Public Const WS_CHILDWINDOW As Long = (WS_CHILD)
+Public Const WS_CLIPCHILDREN As Long = &H2000000
+Public Const WS_CLIPSIBLINGS As Long = &H4000000
+Public Const WS_DISABLED As Long = &H8000000
+Public Const WS_DLGFRAME As Long = &H400000
+Public Const WS_EX_ACCEPTFILES As Long = &H10&
+Public Const WS_EX_DLGMODALFRAME As Long = &H1&
+Public Const WS_EX_NOPARENTNOTIFY As Long = &H4&
+Public Const WS_EX_TOPMOST As Long = &H8&
+Public Const WS_EX_TRANSPARENT As Long = &H20&
+Public Const WS_EX_WINDOWEDGE As Long = &H100&
+Public Const WS_EX_CLIENTEDGE As Long = &H200&
+Public Const WS_EX_STATICEDGE As Long = &H20000
+Public Const WS_GROUP As Long = &H20000
+Public Const WS_HSCROLL As Long = &H100000
+Public Const WS_ICONIC As Long = WS_MINIMIZE
+Public Const WS_OVERLAPPED As Long = &H0&
 
 Private Type ItemID
     cb As Long
@@ -1394,4 +1440,8 @@ End Function
 
 Function Includes(ByVal str As String, ByVal toFind As String) As Boolean
     Includes = (InStr(str, toFind) <> 0)
+End Function
+
+Function GetStrFromPtr(ByVal Ptr As Long) As String
+    GetStrFromPtr = SysAllocStringByteLen(Ptr, lstrlen(Ptr))
 End Function
