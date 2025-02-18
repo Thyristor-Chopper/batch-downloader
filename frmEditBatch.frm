@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmEditBatch 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "편집"
-   ClientHeight    =   4200
+   ClientHeight    =   1905
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   5550
@@ -19,7 +19,7 @@ Begin VB.Form frmEditBatch
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4200
+   ScaleHeight     =   1905
    ScaleWidth      =   5550
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
@@ -27,7 +27,7 @@ Begin VB.Form frmEditBatch
       Height          =   255
       Left            =   240
       TabIndex        =   8
-      Top             =   1440
+      Top             =   1920
       Visible         =   0   'False
       Width           =   1935
       _ExtentX        =   3413
@@ -38,7 +38,7 @@ Begin VB.Form frmEditBatch
       Height          =   2175
       Left            =   120
       TabIndex        =   7
-      Top             =   1440
+      Top             =   1920
       Visible         =   0   'False
       Width           =   5295
       _ExtentX        =   9340
@@ -142,7 +142,7 @@ Begin VB.Form frmEditBatch
       Height          =   375
       Left            =   2640
       TabIndex        =   0
-      Top             =   3720
+      Top             =   1440
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -153,7 +153,7 @@ Begin VB.Form frmEditBatch
       Height          =   375
       Left            =   4080
       TabIndex        =   1
-      Top             =   3720
+      Top             =   1440
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661

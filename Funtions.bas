@@ -46,9 +46,44 @@ Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function PrintWindow Lib "user32" (ByVal hWnd As Long, ByVal hdcBlt As Long, ByVal nFlags As Long) As Long
 Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
 Declare Function lstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal lpString1 As Any, ByVal lpString2 As Any) As Long
-Private Declare Function lstrlen Lib "kernel32.dll" Alias "lstrlenA" (ByVal lpString As Long) As Long
+Private Declare Function lstrlen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As Long) As Long
 Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As String
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
+Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal IDHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
+Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Long) As Long
+Declare Function GetParent Lib "user32" (ByVal hWnd As Long) As Long
+Declare Function SetParent Lib "user32" (ByVal hWndChild As Long, ByVal hWndNewParent As Long) As Long
+Declare Function GetWindowRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
+Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+Declare Sub ReleaseCapture Lib "user32" ()
+
+Public Const WM_NCLBUTTONDOWN = &HA1
+Public Const HTCAPTION = 2
+Public Const HTBOTTOM = 15
+Public Const HTLEFT = 10
+Public Const HTRIGHT = 11
+Public Const HTBOTTOMLEFT = 16
+Public Const HTBOTTOMRIGHT = 17
+
+Type RECT
+    Left As Long
+    Top As Long
+    Right As Long
+    Bottom As Long
+End Type
+
+Type CWPSTRUCT
+    lParam As Long
+    wParam As Long
+    Message As Long
+    hWnd As Long
+End Type
+
+Public Const SWP_FRAMECHANGED As Long = &H20&
+Public Const GWL_EXSTYLE As Long = -20&
 
 Public Const RGN_DIFF = 4
 Public Const RGN_OR = 2
@@ -324,9 +359,10 @@ Function IsDWMEnabled() As Boolean
         Exit Function
     End If
     On Error GoTo nodwm
-    Dim DwmEnabled As Long
+    Dim DwmEnabled&, ret&
     DwmEnabled = 0
-    DwmIsCompositionEnabled DwmEnabled
+    ret = DwmIsCompositionEnabled(DwmEnabled)
+    If ret <> 0 Then GoTo nodwm
     If DwmEnabled > 0 Then
         IsDWMEnabled = True
     Else
@@ -468,7 +504,7 @@ End Function
 
 Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKeyRef As String, Optional ByVal Default As Variant = "") As Variant
     Dim i As Long                                           ' 루프 카운터
-    Dim RC As Long                                          ' 반환 코드
+    Dim rc As Long                                          ' 반환 코드
     Dim hKey As Long                                        ' 열려 있는 레지스트리 키 처리
     Dim hDepth As Long                                      '
     Dim KeyValType As Long                                  ' 레지스트리 키의 데이터 형식
@@ -478,9 +514,9 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     '------------------------------------------------------------
     ' Open RegKey Under KeyRoot {HKEY_LOCAL_MACHINE...}
     '------------------------------------------------------------
-    RC = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey) ' 레지스트리 키를 엽니다.
+    rc = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey) ' 레지스트리 키를 엽니다.
     
-    If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다...
+    If (rc <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다...
     
     tmpVal = String$(1024, 0)                             ' 변수의 크기를 할당합니다.
     KeyValSize = 1024                                       ' 변수 크기를 표시합니다.
@@ -488,10 +524,10 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     '------------------------------------------------------------
     ' 레지스트리 키 값을 읽어옵니다...
     '------------------------------------------------------------
-    RC = RegQueryValueEx(hKey, SubKeyRef, 0, _
+    rc = RegQueryValueEx(hKey, SubKeyRef, 0, _
                          KeyValType, tmpVal, KeyValSize)    ' 키 값을 가져오고 작성합니다.
                         
-    If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다.
+    If (rc <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다.
     
     If (Asc(Mid(tmpVal, KeyValSize, 1)) = 0) Then           ' Win95는 Null 종료 문자열을 추가합니다...
         tmpVal = Left(tmpVal, KeyValSize - 1)               ' Null을 찾았습니다. 문자열에서 추출합니다.
@@ -512,12 +548,12 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     End Select
     
     GetKeyValue = KeyVal
-    RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
+    rc = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
     Exit Function                                           ' 종료합니다.
     
 GetKeyError:      ' 오류가 발생하면 지웁니다...
     GetKeyValue = Default
-    RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
+    rc = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
 End Function
 
 'https://stackoverflow.com/questions/40651/check-if-a-record-exists-in-a-vb6-collection

@@ -1,15 +1,13 @@
 VERSION 5.00
-Begin VB.Form frmBluemetal 
-   BorderStyle     =   0  '없음
+Begin VB.Form Bluemetal 
    Caption         =   "Form1"
    ClientHeight    =   3090
-   ClientLeft      =   0
-   ClientTop       =   0
+   ClientLeft      =   60
+   ClientTop       =   450
    ClientWidth     =   4680
    LinkTopic       =   "Form1"
    ScaleHeight     =   3090
    ScaleWidth      =   4680
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows 기본값
    Begin VB.PictureBox pbTopMiddle 
       AutoRedraw      =   -1  'True
@@ -83,7 +81,7 @@ Begin VB.Form frmBluemetal
       Width           =   570
    End
 End
-Attribute VB_Name = "frmBluemetal"
+Attribute VB_Name = "Bluemetal"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -118,6 +116,8 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Form_Resize()
+    Exit Sub
+    
     Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&, Rgn9&
     Rgn = CreateRectRgn(0, 0, Me.Width / 15, Me.Height / 15)
     Rgn1 = CreateRectRgn(0, 0, 7, 1)

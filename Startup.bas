@@ -173,6 +173,6 @@ Sub Main()
     'frmMsgboxTest.Show
     Functions.AppExiting = False
     frmMain.Show vbModeless
-    'frmBluemetal.Show
+    'Bluemetal.Show
     'frmExplorer.Show
 End Sub

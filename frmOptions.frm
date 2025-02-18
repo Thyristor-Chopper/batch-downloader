@@ -315,6 +315,7 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   60
             Top             =   960
+            Visible         =   0   'False
             Width           =   5295
             _ExtentX        =   9340
             _ExtentY        =   450
@@ -445,6 +446,7 @@ Begin VB.Form frmOptions
             Left            =   2040
             TabIndex        =   32
             Top             =   1440
+            Visible         =   0   'False
             Width           =   3855
             _ExtentX        =   6800
             _ExtentY        =   450
@@ -483,6 +485,7 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   33
             Top             =   1470
+            Visible         =   0   'False
             Width           =   1695
          End
          Begin VB.Label Label5 
@@ -576,6 +579,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.ProgressBar pbSample 
                Height          =   255
                Left            =   120
+               Tag             =   "novisualstylechange"
                Top             =   240
                Width           =   3135
                _ExtentX        =   5530
@@ -1522,6 +1526,7 @@ Private Sub Form_Load()
     chkExcludeMergeFromElapsed.Value = GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", 0)
     chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
     chkDontLoadIcons.Value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
+    chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 1)
     
     'pbPreview.Left = 16 * 15
     'pbPreview.Top = 4 * 15
