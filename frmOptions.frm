@@ -1529,7 +1529,7 @@ Private Sub Form_Load()
     
     chkNoCleanup.Value = GetSetting("DownloadBooster", "Options", "NoCleanup", 0)
     chkNoRedirectCheck.Value = GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0)
-    chkForceGet.Value = GetSetting("DownloadBooster", "Options", "ForceGet", 0)
+    chkForceGet.Value = GetSetting("DownloadBooster", "Options", "ForceGet", 1)
     chkIgnore300.Value = GetSetting("DownloadBooster", "Options", "Ignore300", 0)
     chkAlwaysOnTop.Value = Abs(CInt(MainFormOnTop))
     chkLazyElapsed.Value = GetSetting("DownloadBooster", "Options", "LazyElapsed", 0)
@@ -1791,6 +1791,12 @@ activefail:
     
 nextcode:
     cmdSample.ImageList = frmMain.imgDownload
+    
+If HideYtdl Then
+    txtYtdlPath.Visible = False
+    chkAutoYtdl.Visible = False
+    Label7.Visible = False
+End If
     
     Loaded = True
 End Sub

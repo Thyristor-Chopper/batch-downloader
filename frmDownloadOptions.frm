@@ -493,6 +493,26 @@ Private Sub Form_Load()
     cbBitRate.ListIndex = 14
     
     txtFormat.AddItem t("ÀÚµ¿", "Auto")
+    txtFormat.AddItem "233"
+    txtFormat.AddItem "234"
+    txtFormat.AddItem "256"
+    txtFormat.AddItem "140"
+    txtFormat.AddItem "251"
+    txtFormat.AddItem "380"
+    txtFormat.AddItem "328"
+    txtFormat.AddItem "258"
+    txtFormat.AddItem "269"
+    txtFormat.AddItem "160"
+    txtFormat.AddItem "230"
+    txtFormat.AddItem "134"
+    txtFormat.AddItem "18"
+    txtFormat.AddItem "605"
+    txtFormat.AddItem "243"
+    txtFormat.AddItem "231"
+    txtFormat.AddItem "135"
+    txtFormat.AddItem "hls_mp3_0_0"
+    txtFormat.AddItem "http_mp3_0_0"
+    txtFormat.AddItem "hls_opus_0_0"
     txtFormat.ListIndex = 0
     
     chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
@@ -540,10 +560,21 @@ Private Sub Form_Load()
         End If
     Next i
     
+If HideYtdl Then
+    tsTabStrip.Tabs(2).Selected = True
+    tsTabStrip.Tabs.Remove 1
+    pbPanel(2).Visible = True
+    pbPanel(1).Visible = False
+End If
+    
     optUseYtdl_Click
 End Sub
 
 Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
+If HideYtdl Then
+    Exit Sub
+End If
+
     Dim i%
     For i = 1 To pbPanel.Count
         If i = TabItem.Index Then

@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmEditBatch 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "편집"
-   ClientHeight    =   4050
+   ClientHeight    =   4080
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   5550
@@ -19,7 +19,7 @@ Begin VB.Form frmEditBatch
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4050
+   ScaleHeight     =   4080
    ScaleWidth      =   5550
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
@@ -366,6 +366,26 @@ Private Sub Form_Load()
     cbBitRate.ListIndex = 14
     
     txtFormat.AddItem t("자동", "Auto")
+    txtFormat.AddItem "233"
+    txtFormat.AddItem "234"
+    txtFormat.AddItem "256"
+    txtFormat.AddItem "140"
+    txtFormat.AddItem "251"
+    txtFormat.AddItem "380"
+    txtFormat.AddItem "328"
+    txtFormat.AddItem "258"
+    txtFormat.AddItem "269"
+    txtFormat.AddItem "160"
+    txtFormat.AddItem "230"
+    txtFormat.AddItem "134"
+    txtFormat.AddItem "18"
+    txtFormat.AddItem "605"
+    txtFormat.AddItem "243"
+    txtFormat.AddItem "231"
+    txtFormat.AddItem "135"
+    txtFormat.AddItem "hls_mp3_0_0"
+    txtFormat.AddItem "http_mp3_0_0"
+    txtFormat.AddItem "hls_opus_0_0"
     txtFormat.ListIndex = 0
     
     chkExtractAudio.Caption = t(chkExtractAudio.Caption, "&Extract audio")
@@ -373,6 +393,14 @@ Private Sub Form_Load()
     Label3.Caption = t(Label3.Caption, "&Format:")
     
     chkUseYtdl_Click
+    
+If HideYtdl Then
+    fYtdl.Visible = False
+    chkUseYtdl.Visible = False
+    Me.Height = 2415
+    cmdOK.Top = Me.Height - 120 - cmdOK.Height - 600
+    cmdCancel.Top = Me.Height - 120 - cmdOK.Height - 600
+End If
 End Sub
 
 Private Sub optCBR_Click()
