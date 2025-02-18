@@ -565,6 +565,7 @@ If HideYtdl Then
     tsTabStrip.Tabs.Remove 1
     pbPanel(2).Visible = True
     pbPanel(1).Visible = False
+    pbPanel(2).Enabled = True
 End If
     
     optUseYtdl_Click

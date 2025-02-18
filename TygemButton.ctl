@@ -504,8 +504,8 @@ Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Singl
     lblCaption.Top = (UserControl.Height / 2 - lblCaption.Height / 2) + 20 + 15
     lblCaption.Tag = "mousedown"
     lblCaption.ForeColor = &H0&
-    imgIcon.Left = 45
-    imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2 + 15
+    imgIcon.Left = IIf(UserControl.Width <= 495, UserControl.Width / 2 - imgIcon.Width / 2 + 10, 45)
+    imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2 + 20
     bMouseDown = True
 End Sub
  
@@ -534,7 +534,7 @@ Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single,
     lblCaption.Left = 0
     lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
     lblCaption.Tag = ""
-    imgIcon.Left = 30
+    imgIcon.Left = IIf(UserControl.Width <= 495, UserControl.Width / 2 - imgIcon.Width / 2 - 10, 30)
     imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2
     bMouseDown = False
 End Sub
@@ -561,7 +561,7 @@ Private Sub UserControl_Resize()
     lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
     lblCaption.Width = UserControl.Width
     imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2
-    imgIcon.Left = 30
+    imgIcon.Left = IIf(UserControl.Width <= 495, UserControl.Width / 2 - imgIcon.Width / 2 - 10, 30)
 End Sub
 
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
