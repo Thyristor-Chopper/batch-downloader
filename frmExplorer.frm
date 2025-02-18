@@ -971,6 +971,8 @@ Private Sub Form_Load()
         Case LvwViewTile
             mnuTiles.Checked = -1
     End Select
+    
+    lvDir_Change
 End Sub
 
 'Sub CheckViewRadio()

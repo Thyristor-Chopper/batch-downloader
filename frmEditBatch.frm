@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmEditBatch 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "편집"
-   ClientHeight    =   1905
+   ClientHeight    =   4050
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   5550
@@ -19,7 +19,7 @@ Begin VB.Form frmEditBatch
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   1905
+   ScaleHeight     =   4050
    ScaleWidth      =   5550
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
@@ -27,8 +27,7 @@ Begin VB.Form frmEditBatch
       Height          =   255
       Left            =   240
       TabIndex        =   8
-      Top             =   1920
-      Visible         =   0   'False
+      Top             =   1320
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   450
@@ -38,8 +37,7 @@ Begin VB.Form frmEditBatch
       Height          =   2175
       Left            =   120
       TabIndex        =   7
-      Top             =   1920
-      Visible         =   0   'False
+      Top             =   1320
       Width           =   5295
       _ExtentX        =   9340
       _ExtentY        =   3836
@@ -52,7 +50,6 @@ Begin VB.Form frmEditBatch
          Width           =   1695
          _ExtentX        =   2990
          _ExtentY        =   529
-         Text            =   "ComboBoxW1"
       End
       Begin prjDownloadBooster.ComboBoxW cbBitRate 
          Height          =   300
@@ -142,7 +139,7 @@ Begin VB.Form frmEditBatch
       Height          =   375
       Left            =   2640
       TabIndex        =   0
-      Top             =   1440
+      Top             =   3600
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -153,7 +150,7 @@ Begin VB.Form frmEditBatch
       Height          =   375
       Left            =   4080
       TabIndex        =   1
-      Top             =   1440
+      Top             =   3600
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -367,6 +364,13 @@ Private Sub Form_Load()
     cbBitRate.AddItem "256 kbps"
     cbBitRate.AddItem "320 kbps"
     cbBitRate.ListIndex = 14
+    
+    txtFormat.AddItem t("자동", "Auto")
+    txtFormat.ListIndex = 0
+    
+    chkExtractAudio.Caption = t(chkExtractAudio.Caption, "&Extract audio")
+    Label4.Caption = t(Label4.Caption, "&Audio format:")
+    Label3.Caption = t(Label3.Caption, "&Format:")
     
     chkUseYtdl_Click
 End Sub

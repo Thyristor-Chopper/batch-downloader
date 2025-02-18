@@ -23,6 +23,18 @@ Begin VB.Form frmAbout
    ScaleWidth      =   7650
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.CommandButtonW cmdOK 
+      Cancel          =   -1  'True
+      Default         =   -1  'True
+      Height          =   345
+      Left            =   6120
+      TabIndex        =   19
+      Top             =   4800
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   609
+      Caption         =   "확인"
+   End
    Begin VB.PictureBox pbLicenses 
       BorderStyle     =   0  '없음
       Height          =   3255
@@ -30,7 +42,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   1440
       Width           =   4815
       Begin prjDownloadBooster.TextBoxW txtShellPipe 
@@ -64,7 +76,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   16
+      TabIndex        =   15
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -94,7 +106,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   11
+      TabIndex        =   10
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -154,7 +166,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   18
+      TabIndex        =   17
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -178,7 +190,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   17
+      TabIndex        =   16
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -202,7 +214,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   12
+      TabIndex        =   11
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -264,22 +276,12 @@ Begin VB.Form frmAbout
       Left            =   5880
       Top             =   120
    End
-   Begin VB.CommandButton cmdOK 
-      Cancel          =   -1  'True
-      Caption         =   "확인"
-      Default         =   -1  'True
-      Height          =   345
-      Left            =   6120
-      TabIndex        =   10
-      Top             =   4800
-      Width           =   1350
-   End
    Begin VB.Label lblVersion 
       BackStyle       =   0  '투명
       Caption         =   "버전"
       Height          =   225
       Left            =   1050
-      TabIndex        =   13
+      TabIndex        =   12
       Tag             =   "nocolorchange"
       Top             =   600
       Width           =   3885
@@ -290,7 +292,7 @@ Begin VB.Form frmAbout
       ForeColor       =   &H00000000&
       Height          =   240
       Left            =   1050
-      TabIndex        =   15
+      TabIndex        =   14
       Tag             =   "nocolorchange"
       Top             =   240
       Width           =   3885
@@ -301,7 +303,7 @@ Begin VB.Form frmAbout
       ForeColor       =   &H00000000&
       Height          =   450
       Left            =   1050
-      TabIndex        =   14
+      TabIndex        =   13
       Tag             =   "nocolorchange"
       Top             =   960
       Width           =   6405
@@ -485,7 +487,7 @@ Private Sub lvItems_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
     If Selected = False Then Exit Sub
     
     Dim i%
-    For i = pbLicenses.LBound To pbLicenses.UBound
+    For i = pbLicenses.lbound To pbLicenses.UBound
         If i = Item.Index Then
             pbLicenses(i).Visible = -1
         Else

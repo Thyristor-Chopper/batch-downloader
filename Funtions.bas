@@ -504,7 +504,7 @@ End Function
 
 Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKeyRef As String, Optional ByVal Default As Variant = "") As Variant
     Dim i As Long                                           ' 루프 카운터
-    Dim rc As Long                                          ' 반환 코드
+    Dim RC As Long                                          ' 반환 코드
     Dim hKey As Long                                        ' 열려 있는 레지스트리 키 처리
     Dim hDepth As Long                                      '
     Dim KeyValType As Long                                  ' 레지스트리 키의 데이터 형식
@@ -514,9 +514,9 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     '------------------------------------------------------------
     ' Open RegKey Under KeyRoot {HKEY_LOCAL_MACHINE...}
     '------------------------------------------------------------
-    rc = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey) ' 레지스트리 키를 엽니다.
+    RC = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey) ' 레지스트리 키를 엽니다.
     
-    If (rc <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다...
+    If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다...
     
     tmpVal = String$(1024, 0)                             ' 변수의 크기를 할당합니다.
     KeyValSize = 1024                                       ' 변수 크기를 표시합니다.
@@ -524,10 +524,10 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     '------------------------------------------------------------
     ' 레지스트리 키 값을 읽어옵니다...
     '------------------------------------------------------------
-    rc = RegQueryValueEx(hKey, SubKeyRef, 0, _
+    RC = RegQueryValueEx(hKey, SubKeyRef, 0, _
                          KeyValType, tmpVal, KeyValSize)    ' 키 값을 가져오고 작성합니다.
                         
-    If (rc <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다.
+    If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다.
     
     If (Asc(Mid(tmpVal, KeyValSize, 1)) = 0) Then           ' Win95는 Null 종료 문자열을 추가합니다...
         tmpVal = Left(tmpVal, KeyValSize - 1)               ' Null을 찾았습니다. 문자열에서 추출합니다.
@@ -548,12 +548,12 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     End Select
     
     GetKeyValue = KeyVal
-    rc = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
+    RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
     Exit Function                                           ' 종료합니다.
     
 GetKeyError:      ' 오류가 발생하면 지웁니다...
     GetKeyValue = Default
-    rc = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
+    RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
 End Function
 
 'https://stackoverflow.com/questions/40651/check-if-a-record-exists-in-a-vb6-collection
@@ -1413,8 +1413,27 @@ errfso:
     GetExtensionName = ""
 End Function
 
-Function Includes(ByVal str As String, ByVal toFind As String) As Boolean
-    Includes = (InStr(str, toFind) <> 0)
+Function Includes(Target, toFind) As Boolean
+    Dim TargetType As VbVarType
+    TargetType = VarType(Target)
+    If TargetType = vbString Then
+stringproc:
+        Includes = (InStr(CStr(Target), CStr(toFind)) <> 0)
+        Exit Function
+    ElseIf TargetType < vbArray Then
+        If (TargetType >= vbInteger And TargetType <= vbDouble) Or TargetType = vbByte Or TargetType = vbDecimal Then GoTo stringproc
+        Includes = False
+        Exit Function
+    End If
+    
+    Dim i%
+    For i = LBound(Target) To UBound(Target)
+        If Target(i) = toFind Then
+            Includes = True
+            Exit Function
+        End If
+    Next i
+    Includes = False
 End Function
 
 Function GetStrFromPtr(ByVal Ptr As Long) As String
@@ -1442,4 +1461,49 @@ Function ExpandEnvironmentStrings(ByVal strInput As String) As String
     strOutput = Space$(ret)
     ret = ExpandEnvironmentStringsA(strInput, strOutput, ret)
     ExpandEnvironmentStrings = strOutput
+End Function
+
+Function StartsWith(ByVal str As String, ByVal s As String) As Boolean
+    StartsWith = (Left$(str, Len(s)) = s)
+End Function
+
+Function EndsWith(ByVal str As String, ByVal s As String) As Boolean
+    EndsWith = (Right$(str, Len(s)) = s)
+End Function
+
+Function ExcludeParameters(ByVal URL As String) As String
+    If Includes(URL, "?") Then
+        ExcludeParameters = Left$(URL, InStr(URL, "?") - 1)
+    Else
+        ExcludeParameters = URL
+    End If
+End Function
+
+Function Col(a, b)
+    If a Then
+        Col = a
+    Else
+        Col = b
+    End If
+End Function
+
+Function IsYtdlSupported(ByVal URL As String) As Boolean
+    If EndsWith(LCase(ExcludeParameters(URL)), ".m3u8") Then
+        IsYtdlSupported = True
+        Exit Function
+    End If
+    
+    Dim HostName$
+    If Includes(URL, "://") Then
+        HostName = Mid$(URL, InStr(URL, "://") + 3)
+    Else
+        HostName = URL
+    End If
+    HostName = Left$(HostName, Col(InStr(HostName, "/"), Len(HostName) + 1) - 1)
+    If Includes(HostName, ":") Then
+        HostName = Left$(HostName, InStrRev(HostName, ":") - 1)
+    End If
+    HostName = LCase(HostName)
+    
+    IsYtdlSupported = Includes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
 End Function

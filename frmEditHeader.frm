@@ -197,6 +197,41 @@ Private Sub Form_Load()
     On Error GoTo 0
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+    If Not OKClicked Then
+        If Confirm(t("헤더 편집을 취소하시겠습니까?", "Do you want to discard changes and close?"), App.Title, Me) <> vbYes Then Cancel = 1
+    End If
+End Sub
+
+Private Sub OKButton_Click()
+    Dim i%
+    For i = 1 To SessionHeaders.Count
+        SessionHeaders.Remove 1
+    Next i
+    For i = 1 To SessionHeaderKeys.Count
+        SessionHeaderKeys.Remove 1
+    Next i
+    
+    If lvHeaders.ListItems.Count > 0 Then
+        Dim RawHeaders$
+        RawHeaders = ""
+        For i = 1 To lvHeaders.ListItems.Count
+            If Trim$(lvHeaders.ListItems(i).Text) <> "" Then
+                SessionHeaders.Add CStr(lvHeaders.ListItems(i).ListSubItems(1).Text), CStr(Trim$(lvHeaders.ListItems(i).Text))
+                SessionHeaderKeys.Add CStr(Trim$(lvHeaders.ListItems(i).Text))
+                RawHeaders = RawHeaders & LCase(Trim$(lvHeaders.ListItems(i).Text)) & ": " & lvHeaders.ListItems(i).ListSubItems(1).Text & vbLf
+            End If
+        Next i
+        If Right$(RawHeaders, 1) = vbLf Then RawHeaders = Left$(RawHeaders, Len(RawHeaders) - 1)
+        SessionHeaderCache = btoa(RawHeaders)
+    Else
+        SessionHeaderCache = ""
+    End If
+
+    OKClicked = True
+    Unload Me
+End Sub
+
 Private Sub cmdAddHeader_Click()
     lvHeaders.SetFocus
     Set lvHeaders.SelectedItem = lvHeaders.ListItems.Add(, , "", , 1)
@@ -237,45 +272,10 @@ Private Sub cmdEditHeaderValue_Click()
 exitsub:
 End Sub
 
-Private Sub Form_Unload(Cancel As Integer)
-    If Not OKClicked Then
-        If Confirm(t("헤더 편집을 취소하시겠습니까?", "Do you want to discard changes and close?"), App.Title, Me) <> vbYes Then Cancel = 1
-    End If
-End Sub
-
 Private Sub lblDescription_LinkActivate(ByVal Link As LlbLink, ByVal Reason As LlbLinkActivateReasonConstants)
     Load frmOptions
     frmOptions.tsTabStrip.Tabs(2).Selected = -1
     frmOptions.Show vbModal, Me
-End Sub
-
-Private Sub OKButton_Click()
-    Dim i%
-    For i = 1 To SessionHeaders.Count
-        SessionHeaders.Remove 1
-    Next i
-    For i = 1 To SessionHeaderKeys.Count
-        SessionHeaderKeys.Remove 1
-    Next i
-    
-    If lvHeaders.ListItems.Count > 0 Then
-        Dim RawHeaders$
-        RawHeaders = ""
-        For i = 1 To lvHeaders.ListItems.Count
-            If Trim$(lvHeaders.ListItems(i).Text) <> "" Then
-                SessionHeaders.Add CStr(lvHeaders.ListItems(i).ListSubItems(1).Text), CStr(Trim$(lvHeaders.ListItems(i).Text))
-                SessionHeaderKeys.Add CStr(Trim$(lvHeaders.ListItems(i).Text))
-                RawHeaders = RawHeaders & LCase(Trim$(lvHeaders.ListItems(i).Text)) & ": " & lvHeaders.ListItems(i).ListSubItems(1).Text & vbLf
-            End If
-        Next i
-        If Right$(RawHeaders, 1) = vbLf Then RawHeaders = Left$(RawHeaders, Len(RawHeaders) - 1)
-        SessionHeaderCache = btoa(RawHeaders)
-    Else
-        SessionHeaderCache = ""
-    End If
-
-    OKClicked = True
-    Unload Me
 End Sub
 
 Private Sub txtEdit_LostFocus()

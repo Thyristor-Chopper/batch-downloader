@@ -29,21 +29,20 @@ Begin VB.Form frmMain
       _ExtentX        =   10186
       _ExtentY        =   529
    End
-   Begin prjDownloadBooster.CommandButtonW cmdYtdlOptions 
-      Height          =   495
-      Left            =   6600
-      TabIndex        =   127
-      Top             =   4080
-      Visible         =   0   'False
-      Width           =   615
-      _ExtentX        =   1085
-      _ExtentY        =   873
-      Caption         =   "ㄴ"
+   Begin prjDownloadBooster.CommandButtonW cmdDownloadOptions 
+      Height          =   330
+      Left            =   7380
+      TabIndex        =   126
+      Top             =   795
+      Width           =   1755
+      _ExtentX        =   3096
+      _ExtentY        =   582
+      Caption         =   "다운로드 설정(&S)..."
    End
    Begin prjDownloadBooster.ListView lvLogTest 
       Height          =   1335
-      Left            =   1080
-      TabIndex        =   126
+      Left            =   600
+      TabIndex        =   125
       Top             =   3480
       Visible         =   0   'False
       Width           =   5655
@@ -54,25 +53,13 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdYtdlTest 
       Height          =   1215
       Left            =   6600
-      TabIndex        =   125
+      TabIndex        =   124
       Top             =   4680
       Visible         =   0   'False
       Width           =   615
       _ExtentX        =   1085
       _ExtentY        =   2143
       Caption         =   "ㅇ"
-   End
-   Begin prjDownloadBooster.CommandButtonW cmdEditHeaders 
-      Height          =   330
-      Left            =   7440
-      TabIndex        =   123
-      Top             =   795
-      Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   582
-      ImageList       =   "imgWrench"
-      Caption         =   "헤더 편집(&P)..."
-      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW cmdEdit 
       Height          =   375
@@ -186,7 +173,7 @@ Begin VB.Form frmMain
       Height          =   300
       Left            =   7080
       TabIndex        =   113
-      Top             =   3435
+      Top             =   3390
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
@@ -210,7 +197,7 @@ Begin VB.Form frmMain
       Left            =   6840
       TabIndex        =   60
       Top             =   2805
-      Width           =   2210
+      Width           =   2205
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "오류 시 자동 재시도(&G)"
@@ -219,7 +206,7 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   7320
       TabIndex        =   17
-      Top             =   4760
+      Top             =   4820
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   582
@@ -324,7 +311,7 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   7320
       TabIndex        =   56
-      Top             =   5130
+      Top             =   5190
       Visible         =   0   'False
       Width           =   1815
       _ExtentX        =   3201
@@ -1842,12 +1829,12 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdClear 
       Height          =   330
-      Left            =   7440
+      Left            =   7380
       TabIndex        =   25
       TabStop         =   0   'False
       Top             =   90
-      Width           =   1695
-      _ExtentX        =   2990
+      Width           =   1755
+      _ExtentX        =   3096
       _ExtentY        =   582
       ImageList       =   "imgErase"
       Caption         =   "초기화(&Y) "
@@ -1913,13 +1900,13 @@ Begin VB.Form frmMain
       End
    End
    Begin prjDownloadBooster.FrameW fOptions 
-      Height          =   2490
+      Height          =   2400
       Left            =   6720
       TabIndex        =   26
       Top             =   1320
       Width           =   2415
-      _ExtentX        =   0
-      _ExtentY        =   0
+      _ExtentX        =   4260
+      _ExtentY        =   4233
       Caption         =   " 옵션 "
       Transparent     =   -1  'True
       Begin VB.Label lblOverlay 
@@ -1970,7 +1957,7 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   7320
       TabIndex        =   13
-      Top             =   3945
+      Top             =   4065
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   582
@@ -1983,7 +1970,7 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   7320
       TabIndex        =   14
-      Top             =   4320
+      Top             =   4440
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   582
@@ -2015,11 +2002,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   330
-      Left            =   7440
+      Left            =   7380
       TabIndex        =   4
       Top             =   435
-      Width           =   1695
-      _ExtentX        =   2990
+      Width           =   1755
+      _ExtentX        =   3096
       _ExtentY        =   582
       ImageList       =   "imgOpenFolder"
       Caption         =   " 찾아보기(&B)..."
@@ -2038,7 +2025,7 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   7320
       TabIndex        =   16
-      Top             =   4760
+      Top             =   4820
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   582
@@ -2071,8 +2058,8 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdOpenFileDropdown 
       Height          =   330
       Left            =   8880
-      TabIndex        =   124
-      Top             =   3945
+      TabIndex        =   123
+      Top             =   4065
       Width           =   255
       _ExtentX        =   450
       _ExtentY        =   582
@@ -2353,8 +2340,8 @@ Sub StartYtdlDownload()
     spYtdl.Run """" & GetSetting("DownloadBooster", "Options", "YtdlPath", "") & """ 8igShgEtHK8"
 End Sub
 
-Private Sub cmdYtdlOptions_Click()
-    'frmYtdlOptions.Show vbModal, Me
+Private Sub cmdDownloadOptions_Click()
+    frmDownloadOptions.Show vbModal, Me
 End Sub
 
 Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
@@ -3014,11 +3001,11 @@ Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
     FileName = SavePath
     If FolderExists(FileName) Then
         If Not (Right$(FileName, 1) = "\") Then FileName = FileName & "\"
-        ServerName = FilterFilename(URLDecode(Split(URL, "/")(UBound(Split(URL, "/")))))
+        ServerName = FilterFilename(ExcludeParameters(URLDecode(Split(URL, "/")(UBound(Split(URL, "/"))))))
         If Replace(ServerName, " ", "") = "" Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
     Else
-        ServerName = FilterFilename(URLDecode(Split(URL, "/")(UBound(Split(URL, "/")))))
+        ServerName = FilterFilename(ExcludeParameters(URLDecode(Split(URL, "/")(UBound(Split(URL, "/"))))))
         If Replace(ServerName, " ", "") = "" Then
             ServerName = "download_" & CStr(Rnd * 1E+15)
         Else
@@ -3236,7 +3223,7 @@ L2:
     AutoName = False
     If FolderExists(FileName) Then
         If Not (Right$(FileName, 1) = "\") Then FileName = FileName & "\"
-        ServerName = FilterFilename(URLDecode(Split(URL, "/")(UBound(Split(URL, "/")))))
+        ServerName = FilterFilename(ExcludeParameters((Split(URL, "/")(UBound(Split(URL, "/"))))))
         If Replace(ServerName, " ", "") = "" Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
         AutoName = True
@@ -3316,10 +3303,6 @@ End Sub
 
 Private Sub cmdEdit_Click()
     mnuEdit_Click
-End Sub
-
-Private Sub cmdEditHeaders_Click()
-    frmEditHeader.Show vbModal, Me
 End Sub
 
 Private Sub cmdGo_Click()
@@ -3985,10 +3968,10 @@ Private Sub Form_Load()
     
     Label9.Caption = t(Label9.Caption, "Merge status:")
     
-    cmdEditHeaders.Caption = t(cmdEditHeaders.Caption, "Edit headers(&P)...")
-    
     mnuProperties.Caption = t(mnuProperties.Caption, "View p&roperties")
     mnuPropertiesBatch.Caption = t(mnuPropertiesBatch.Caption, "View p&roperties")
+    
+    cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Download &settings...")
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
@@ -4016,7 +3999,7 @@ Private Sub Form_Load()
     SetFormBackgroundColor Me
     
     If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
-        For i = pgOverlay.LBound To pgOverlay.UBound
+        For i = pgOverlay.lbound To pgOverlay.UBound
             pgOverlay(i).Visible = -1
             lblOverlay(i).Visible = -1
         Next i
@@ -4133,7 +4116,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmBrowse
     Unload frmOptions
     Unload frmCustomBackground
-    Unload frmEditHeader
+    Unload frmDownloadOptions
     Unload frmExplorer
     Unhook_Main Me.hWnd
     GetSystemMenu Me.hWnd, 1

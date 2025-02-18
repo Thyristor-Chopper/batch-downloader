@@ -315,7 +315,6 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   60
             Top             =   960
-            Visible         =   0   'False
             Width           =   5295
             _ExtentX        =   9340
             _ExtentY        =   450
@@ -446,7 +445,6 @@ Begin VB.Form frmOptions
             Left            =   2040
             TabIndex        =   32
             Top             =   1440
-            Visible         =   0   'False
             Width           =   3855
             _ExtentX        =   6800
             _ExtentY        =   450
@@ -485,7 +483,6 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   33
             Top             =   1470
-            Visible         =   0   'False
             Width           =   1695
          End
          Begin VB.Label Label5 
@@ -520,127 +517,6 @@ Begin VB.Form frmOptions
       Top             =   600
       Visible         =   0   'False
       Width           =   6375
-      Begin VB.PictureBox pbBackground 
-         AutoRedraw      =   -1  'True
-         Enabled         =   0   'False
-         Height          =   1500
-         Left            =   600
-         ScaleHeight     =   1440
-         ScaleWidth      =   3615
-         TabIndex        =   68
-         Tag             =   "nobgdraw"
-         Top             =   360
-         Width           =   3675
-         Begin prjDownloadBooster.CheckBoxW CheckBoxW1 
-            Height          =   255
-            Left            =   120
-            TabIndex        =   73
-            Top             =   1080
-            Width           =   1695
-            _ExtentX        =   2990
-            _ExtentY        =   450
-            Caption         =   "완료 후 열기"
-            Transparent     =   -1  'True
-         End
-         Begin prjDownloadBooster.TextBoxW TextBoxW1 
-            Height          =   255
-            Left            =   1080
-            TabIndex        =   72
-            Top             =   120
-            Width           =   2415
-            _ExtentX        =   4260
-            _ExtentY        =   450
-            Text            =   "frmOptions.frx":03F4
-         End
-         Begin prjDownloadBooster.FrameW FrameW5 
-            Height          =   615
-            Left            =   120
-            TabIndex        =   71
-            Top             =   420
-            Width           =   3375
-            _ExtentX        =   5953
-            _ExtentY        =   1085
-            Caption         =   " 다운로드 현황 "
-            Transparent     =   -1  'True
-            Begin prjDownloadBooster.ProgressBar pbSampleClassic 
-               Height          =   255
-               Left            =   120
-               Tag             =   "novisualstylechange"
-               Top             =   240
-               Visible         =   0   'False
-               Width           =   3135
-               _ExtentX        =   5530
-               _ExtentY        =   450
-               VisualStyles    =   0   'False
-               Enabled         =   0   'False
-               Value           =   24
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbSample 
-               Height          =   255
-               Left            =   120
-               Tag             =   "novisualstylechange"
-               Top             =   240
-               Width           =   3135
-               _ExtentX        =   5530
-               _ExtentY        =   450
-               Enabled         =   0   'False
-               Value           =   24
-               Step            =   10
-               State           =   3
-            End
-         End
-         Begin prjDownloadBooster.CommandButtonW cmdSample 
-            Height          =   285
-            Left            =   1920
-            TabIndex        =   69
-            TabStop         =   0   'False
-            Tag             =   "notygchange"
-            Top             =   1080
-            Width           =   1575
-            _ExtentX        =   2778
-            _ExtentY        =   503
-            Caption         =   "다운로드"
-            Transparent     =   -1  'True
-         End
-         Begin VB.Label Label11 
-            BackStyle       =   0  '투명
-            Caption         =   "파일 주소:"
-            Height          =   255
-            Left            =   120
-            TabIndex        =   70
-            Top             =   150
-            Width           =   975
-         End
-         Begin VB.Image imgPreview 
-            Height          =   375
-            Left            =   3120
-            Stretch         =   -1  'True
-            Top             =   0
-            Visible         =   0   'False
-            Width           =   855
-         End
-      End
-      Begin VB.PictureBox pbPreview 
-         AutoRedraw      =   -1  'True
-         BackColor       =   &H80000001&
-         Enabled         =   0   'False
-         Height          =   2295
-         Left            =   120
-         ScaleHeight     =   2235
-         ScaleWidth      =   5955
-         TabIndex        =   67
-         Tag             =   "nobgdraw"
-         Top             =   120
-         Width           =   6015
-         Begin VB.Image imgDesktop 
-            Height          =   735
-            Left            =   0
-            Stretch         =   -1  'True
-            Top             =   0
-            Width           =   1575
-         End
-      End
       Begin prjDownloadBooster.FrameW Frame6 
          Height          =   975
          Left            =   3240
@@ -690,6 +566,238 @@ Begin VB.Form frmOptions
             TabIndex        =   36
             Top             =   645
             Width           =   735
+         End
+      End
+      Begin prjDownloadBooster.FrameW Frame4 
+         Height          =   975
+         Left            =   120
+         TabIndex        =   10
+         Top             =   3600
+         Width           =   2895
+         _ExtentX        =   5106
+         _ExtentY        =   1720
+         Caption         =   " 글자색 "
+         Begin prjDownloadBooster.OptionButtonW optUserFore 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   63
+            Top             =   570
+            Width           =   1590
+            _ExtentX        =   2805
+            _ExtentY        =   450
+            Caption         =   "사용자 지정(&T):"
+            Transparent     =   -1  'True
+         End
+         Begin prjDownloadBooster.OptionButtonW optSystemFore 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   64
+            Top             =   240
+            Width           =   1815
+            _ExtentX        =   0
+            _ExtentY        =   0
+            Caption         =   "시스템 색상(&Y)"
+            Transparent     =   -1  'True
+         End
+         Begin VB.Label lblSelectFore 
+            BackStyle       =   0  '투명
+            Height          =   255
+            Left            =   1800
+            TabIndex        =   11
+            Top             =   240
+            Width           =   1455
+         End
+         Begin VB.Shape pgFore 
+            BackStyle       =   1  '투명하지 않음
+            BorderColor     =   &H00404040&
+            FillColor       =   &H00808080&
+            Height          =   255
+            Left            =   2160
+            Shape           =   4  '둥근 사각형
+            Top             =   585
+            Width           =   495
+         End
+      End
+      Begin VB.PictureBox pbOuterPreview 
+         AutoRedraw      =   -1  'True
+         BorderStyle     =   0  '없음
+         Height          =   2295
+         Left            =   120
+         ScaleHeight     =   2295
+         ScaleWidth      =   6015
+         TabIndex        =   67
+         Top             =   120
+         Width           =   6015
+         Begin VB.PictureBox pbBackground 
+            AutoRedraw      =   -1  'True
+            Enabled         =   0   'False
+            Height          =   1380
+            Left            =   600
+            ScaleHeight     =   1320
+            ScaleWidth      =   3735
+            TabIndex        =   69
+            Tag             =   "nobgdraw"
+            Top             =   360
+            Width           =   3795
+            Begin prjDownloadBooster.CheckBoxW CheckBoxW1 
+               Height          =   255
+               Left            =   120
+               TabIndex        =   70
+               Top             =   990
+               Width           =   1695
+               _ExtentX        =   2990
+               _ExtentY        =   450
+               Caption         =   "완료 후 열기"
+               Transparent     =   -1  'True
+            End
+            Begin prjDownloadBooster.TextBoxW TextBoxW1 
+               Height          =   255
+               Left            =   1080
+               TabIndex        =   71
+               Top             =   120
+               Width           =   2415
+               _ExtentX        =   4260
+               _ExtentY        =   450
+               Text            =   "frmOptions.frx":03F4
+            End
+            Begin prjDownloadBooster.FrameW FrameW5 
+               Height          =   555
+               Left            =   120
+               TabIndex        =   72
+               Top             =   420
+               Width           =   3375
+               _ExtentX        =   5953
+               _ExtentY        =   979
+               Caption         =   " 다운로드 현황 "
+               Transparent     =   -1  'True
+               Begin prjDownloadBooster.ProgressBar pbSampleClassic 
+                  Height          =   225
+                  Left            =   120
+                  Tag             =   "novisualstylechange"
+                  Top             =   240
+                  Visible         =   0   'False
+                  Width           =   3135
+                  _ExtentX        =   5530
+                  _ExtentY        =   397
+                  VisualStyles    =   0   'False
+                  Enabled         =   0   'False
+                  Value           =   24
+                  Step            =   10
+               End
+               Begin prjDownloadBooster.ProgressBar pbSample 
+                  Height          =   225
+                  Left            =   120
+                  Tag             =   "novisualstylechange"
+                  Top             =   240
+                  Width           =   3135
+                  _ExtentX        =   5530
+                  _ExtentY        =   397
+                  Enabled         =   0   'False
+                  Value           =   24
+                  Step            =   10
+                  State           =   3
+               End
+            End
+            Begin prjDownloadBooster.CommandButtonW cmdSample 
+               Height          =   285
+               Left            =   1920
+               TabIndex        =   73
+               TabStop         =   0   'False
+               Tag             =   "notygchange"
+               Top             =   990
+               Width           =   1575
+               _ExtentX        =   2778
+               _ExtentY        =   503
+               Caption         =   "다운로드"
+               Transparent     =   -1  'True
+            End
+            Begin VB.Image imgPreview 
+               Height          =   375
+               Left            =   3120
+               Stretch         =   -1  'True
+               Top             =   0
+               Visible         =   0   'False
+               Width           =   855
+            End
+            Begin VB.Label Label11 
+               BackStyle       =   0  '투명
+               Caption         =   "파일 주소:"
+               Height          =   255
+               Left            =   120
+               TabIndex        =   74
+               Top             =   150
+               Width           =   975
+            End
+         End
+         Begin VB.PictureBox pbPreview 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H80000001&
+            Enabled         =   0   'False
+            Height          =   2295
+            Left            =   0
+            ScaleHeight     =   2235
+            ScaleWidth      =   5955
+            TabIndex        =   68
+            Tag             =   "nobgdraw"
+            Top             =   0
+            Width           =   6015
+            Begin VB.Image imgDesktop 
+               Height          =   735
+               Left            =   0
+               Stretch         =   -1  'True
+               Top             =   0
+               Width           =   1575
+            End
+         End
+      End
+      Begin prjDownloadBooster.FrameW Frame1 
+         Height          =   975
+         Left            =   120
+         TabIndex        =   6
+         Top             =   2520
+         Width           =   2895
+         _ExtentX        =   5106
+         _ExtentY        =   1720
+         Caption         =   " 배경색 "
+         Begin prjDownloadBooster.OptionButtonW optSystemColor 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   61
+            Top             =   240
+            Width           =   1815
+            _ExtentX        =   0
+            _ExtentY        =   0
+            Caption         =   "시스템 색상(&S)"
+            Transparent     =   -1  'True
+         End
+         Begin prjDownloadBooster.OptionButtonW optUserColor 
+            Height          =   255
+            Left            =   120
+            TabIndex        =   62
+            Top             =   570
+            Width           =   1590
+            _ExtentX        =   2805
+            _ExtentY        =   450
+            Caption         =   "사용자 지정(&U):"
+            Transparent     =   -1  'True
+         End
+         Begin VB.Label lblSelectColor 
+            BackStyle       =   0  '투명
+            Height          =   255
+            Left            =   1800
+            TabIndex        =   9
+            Top             =   240
+            Width           =   1455
+         End
+         Begin VB.Shape pgColor 
+            BackStyle       =   1  '투명하지 않음
+            BorderColor     =   &H00404040&
+            FillColor       =   &H00808080&
+            Height          =   255
+            Left            =   2160
+            Shape           =   4  '둥근 사각형
+            Top             =   585
+            Width           =   495
          End
       End
       Begin prjDownloadBooster.FrameW FrameW1 
@@ -744,106 +852,6 @@ Begin VB.Form frmOptions
             TabIndex        =   34
             Top             =   645
             Width           =   840
-         End
-      End
-      Begin prjDownloadBooster.FrameW Frame1 
-         Height          =   975
-         Left            =   120
-         TabIndex        =   6
-         Top             =   2520
-         Width           =   2895
-         _ExtentX        =   5106
-         _ExtentY        =   1720
-         Caption         =   " 배경색 "
-         Begin prjDownloadBooster.OptionButtonW optSystemColor 
-            Height          =   255
-            Left            =   120
-            TabIndex        =   61
-            Top             =   240
-            Width           =   1815
-            _ExtentX        =   0
-            _ExtentY        =   0
-            Caption         =   "시스템 색상(&S)"
-            Transparent     =   -1  'True
-         End
-         Begin prjDownloadBooster.OptionButtonW optUserColor 
-            Height          =   255
-            Left            =   120
-            TabIndex        =   62
-            Top             =   570
-            Width           =   1590
-            _ExtentX        =   2805
-            _ExtentY        =   450
-            Caption         =   "사용자 지정(&U):"
-            Transparent     =   -1  'True
-         End
-         Begin VB.Label lblSelectColor 
-            BackStyle       =   0  '투명
-            Height          =   255
-            Left            =   1800
-            TabIndex        =   9
-            Top             =   240
-            Width           =   1455
-         End
-         Begin VB.Shape pgColor 
-            BackStyle       =   1  '투명하지 않음
-            BorderColor     =   &H00404040&
-            FillColor       =   &H00808080&
-            Height          =   255
-            Left            =   2160
-            Shape           =   4  '둥근 사각형
-            Top             =   585
-            Width           =   495
-         End
-      End
-      Begin prjDownloadBooster.FrameW Frame4 
-         Height          =   975
-         Left            =   120
-         TabIndex        =   10
-         Top             =   3600
-         Width           =   2895
-         _ExtentX        =   5106
-         _ExtentY        =   1720
-         Caption         =   " 글자색 "
-         Begin prjDownloadBooster.OptionButtonW optUserFore 
-            Height          =   255
-            Left            =   120
-            TabIndex        =   63
-            Top             =   570
-            Width           =   1590
-            _ExtentX        =   2805
-            _ExtentY        =   450
-            Caption         =   "사용자 지정(&T):"
-            Transparent     =   -1  'True
-         End
-         Begin prjDownloadBooster.OptionButtonW optSystemFore 
-            Height          =   255
-            Left            =   120
-            TabIndex        =   64
-            Top             =   240
-            Width           =   1815
-            _ExtentX        =   0
-            _ExtentY        =   0
-            Caption         =   "시스템 색상(&Y)"
-            Transparent     =   -1  'True
-         End
-         Begin VB.Label lblSelectFore 
-            BackStyle       =   0  '투명
-            Height          =   255
-            Left            =   1800
-            TabIndex        =   11
-            Top             =   240
-            Width           =   1455
-         End
-         Begin VB.Shape pgFore 
-            BackStyle       =   1  '투명하지 않음
-            BorderColor     =   &H00404040&
-            FillColor       =   &H00808080&
-            Height          =   255
-            Left            =   2160
-            Shape           =   4  '둥근 사각형
-            Top             =   585
-            Width           =   495
          End
       End
    End
@@ -1139,6 +1147,7 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "ExcludeMergeFromElapsed", chkExcludeMergeFromElapsed.Value
     SaveSetting "DownloadBooster", "Options", "ForceWin31Dialog", chkForceOldDialog.Value
     SaveSetting "DownloadBooster", "Options", "DontLoadIcons", chkDontLoadIcons.Value
+    SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.Value
     
     SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenWhenComplete.Value
     SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenDirWhenComplete.Value
@@ -1230,7 +1239,7 @@ Private Sub cmdApply_Click()
     
     On Error Resume Next
     If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
-        For i = frmMain.pgOverlay.LBound To frmMain.pgOverlay.UBound
+        For i = frmMain.pgOverlay.lbound To frmMain.pgOverlay.UBound
             frmMain.pgOverlay(i).Visible = -1
             frmMain.lblOverlay(i).Visible = -1
         Next i
@@ -1247,7 +1256,7 @@ Private Sub cmdApply_Click()
         frmMain.fTabThreads.BackColor = frmMain.pgOverlay(0).BackColor
         frmMain.fTabThreads.Refresh
     Else
-        For i = frmMain.pgOverlay.LBound To frmMain.pgOverlay.UBound
+        For i = frmMain.pgOverlay.lbound To frmMain.pgOverlay.UBound
             frmMain.pgOverlay(i).Visible = 0
             frmMain.lblOverlay(i).Visible = 0
         Next i
@@ -1527,6 +1536,7 @@ Private Sub Form_Load()
     chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
     chkDontLoadIcons.Value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
     chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 1)
+    chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
     
     'pbPreview.Left = 16 * 15
     'pbPreview.Top = 4 * 15
