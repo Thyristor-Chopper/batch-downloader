@@ -372,6 +372,17 @@ Private Sub OKButton_Click()
     
     SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.Value
     
+    frmMain.ytdlEnabled = optUseYtdl.Value
+    If optUseYtdl.Value Then
+        frmMain.ytdlFormat = Replace(txtFormat.Text, " ", "")
+        If frmMain.ytdlFormat = txtFormat.List(0) Then frmMain.ytdlFormat = ""
+        frmMain.ytdlExtractAudio = (chkExtractAudio.Value = 1)
+        frmMain.ytdlAudioFormat = cbAudioFormat.ListIndex
+        frmMain.ytdlAudioBitrateType = IIf(optVBR.Value, AudioBitrateType.VBR, AudioBitrateType.CBR)
+        frmMain.ytdlAudioVBR = CByte(cbVBR.Text)
+        frmMain.ytdlAudioCBR = CInt(Left$(cbBitRate.Text, InStr(cbBitRate.Text, " ") - 1))
+    End If
+    
     Unload Me
 End Sub
 
@@ -450,7 +461,7 @@ Private Sub Form_Load()
     Next i
     fYtdl.Refresh
     
-    cbAudioFormat.AddItem t("자동", "Auto") & " (M4A/OPUS)"
+    cbAudioFormat.AddItem t("자동", "Auto") & " (M4A/Opus)"
     cbAudioFormat.AddItem "MP3"
     cbAudioFormat.AddItem "WAV"
     cbAudioFormat.AddItem "FLAC"
@@ -487,7 +498,7 @@ Private Sub Form_Load()
     chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
     
     Me.Caption = t(Me.Caption, "Download settings")
-    tsTabStrip.Tabs(2).Caption = t("헤더", "Headers")
+    tsTabStrip.Tabs(2).Caption = t("  헤더  ", " Headers ")
     
     chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
     optDisableYtdl.Caption = t(optDisableYtdl.Caption, "Never use youtube-&dl for all links")
@@ -514,6 +525,20 @@ Private Sub Form_Load()
     For Each Header In SessionHeaderKeys
         lvHeaders.ListItems.Add(, , Header, , 1).ListSubItems.Add , , SessionHeaders(CStr(Header))
     Next Header
+    
+    optUseYtdl.Value = frmMain.ytdlEnabled
+    txtFormat.Text = Replace(frmMain.ytdlFormat, " ", "")
+    If txtFormat.Text = "" Then txtFormat.ListIndex = 0
+    chkExtractAudio.Value = Abs(CInt(frmMain.ytdlExtractAudio))
+    cbAudioFormat.ListIndex = frmMain.ytdlAudioFormat
+    IIf(frmMain.ytdlAudioBitrateType = CBR, optCBR, optVBR).Value = True
+    cbVBR.ListIndex = frmMain.ytdlAudioVBR
+    For i = 0 To cbBitRate.ListCount - 1
+        If CInt(Left$(cbBitRate.List(i), InStr(cbBitRate.List(i), " ") - 1)) = frmMain.ytdlAudioCBR Then
+            cbBitRate.ListIndex = i
+            Exit For
+        End If
+    Next i
     
     optUseYtdl_Click
 End Sub

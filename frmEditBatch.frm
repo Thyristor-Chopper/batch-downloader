@@ -333,7 +333,7 @@ Private Sub Form_Load()
     Me.Icon = frmMain.imgEdit.ListImages(1).Picture
     On Error GoTo 0
     
-    cbAudioFormat.AddItem t("자동", "Auto") & " (M4A/OPUS)"
+    cbAudioFormat.AddItem t("자동", "Auto") & " (M4A/Opus)"
     cbAudioFormat.AddItem "MP3"
     cbAudioFormat.AddItem "WAV"
     cbAudioFormat.AddItem "FLAC"

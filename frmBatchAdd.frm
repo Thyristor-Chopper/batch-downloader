@@ -21,6 +21,16 @@ Begin VB.Form frmBatchAdd
    ScaleWidth      =   5985
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.CommandButtonW cmdAdvanced 
+      Height          =   340
+      Left            =   4560
+      TabIndex        =   7
+      Top             =   900
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   609
+      Caption         =   "고급(&V)..."
+   End
    Begin prjDownloadBooster.TextBoxW txtSavePath 
       Height          =   255
       Left            =   120
@@ -100,6 +110,10 @@ Attribute VB_Exposed = False
 Dim PrevKeyCode As Integer
 Dim Initialized As Boolean
 
+Private Sub cmdAdvanced_Click()
+    frmDownloadOptions.Show vbModal, Me
+End Sub
+
 Private Sub cmdBrowse_Click()
     txtSavePath.Text = Trim$(txtSavePath.Text)
     
@@ -157,6 +171,7 @@ Private Sub Form_Load()
     Label1.Caption = t(Label1.Caption, "Enter one UR&L per line:")
     Label2.Caption = t(Label2.Caption, "&Save to:")
     cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
+    tr cmdAdvanced, "Ad&vanced..."
     
     On Error Resume Next
     Me.Icon = frmMain.Icon
@@ -172,6 +187,7 @@ Sub Form_Resize()
     If Me.WindowState = 1 Then Exit Sub
     cmdOK.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 1545
     cmdCancel.Left = cmdOK.Left
+    cmdAdvanced.Left = cmdOK.Left
     txtURLs.Width = Me.Width - PaddedBorderWidth * 15 * 2 - 1890
     txtURLs.Height = Me.Height - PaddedBorderWidth * 15 * 2 - 1770
     Label2.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 1140

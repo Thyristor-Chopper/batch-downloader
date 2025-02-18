@@ -28,6 +28,13 @@ Begin VB.UserControl TygemButton
       Top             =   0
       Width           =   1080
    End
+   Begin VB.Image imgIcon 
+      Height          =   240
+      Left            =   1200
+      Stretch         =   -1  'True
+      Top             =   600
+      Width           =   240
+   End
    Begin VB.Label lblCaption 
       Alignment       =   2  '가운데 맞춤
       BackStyle       =   0  '투명
@@ -317,6 +324,8 @@ Dim m_FontName As String
 Const m_def_FontSize = 9
 Dim m_FontSize As Integer
 
+Dim m_Icon As IPictureDisp
+
 Event Click()
 Event MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Event MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -390,7 +399,7 @@ End Property
 Property Let Caption(ByVal New_Caption As String)
     m_Caption = New_Caption
     PropertyChanged "Caption"
-    lblCaption.Caption = m_Caption
+    lblCaption.Caption = Trim$(m_Caption)
 End Property
 
 Property Get FontName() As String
@@ -413,11 +422,27 @@ Property Let FontSize(ByVal New_FontSize As String)
     lblCaption.Font.Size = m_FontSize
 End Property
 
-Public Property Get BackColor() As OLE_COLOR
+Property Get ButtonIcon() As IPictureDisp
+    Set ButtonIcon = m_Icon
+End Property
+
+Property Set ButtonIcon(ByVal New_Icon As IPictureDisp)
+    Set m_Icon = New_Icon
+    PropertyChanged "ButtonIcon"
+    If New_Icon.Height < 240 Then
+        imgIcon.Stretch = False
+        imgIcon.Top = UserControl.Height / 2 - New_Icon.Height / 2 + 30
+    End If
+    Set imgIcon.Picture = New_Icon
+    If Not New_Icon Is Nothing Then _
+        lblCaption.Caption = "  " & Trim$(lblCaption.Caption)
+End Property
+
+Property Get BackColor() As OLE_COLOR
     BackColor = UserControl.BackColor
 End Property
 
-Public Property Let BackColor(ByVal New_BackColor As OLE_COLOR)
+Property Let BackColor(ByVal New_BackColor As OLE_COLOR)
     UserControl.BackColor() = New_BackColor
     PropertyChanged "BackColor"
 End Property
@@ -479,6 +504,8 @@ Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Singl
     lblCaption.Top = (UserControl.Height / 2 - lblCaption.Height / 2) + 20 + 15
     lblCaption.Tag = "mousedown"
     lblCaption.ForeColor = &H0&
+    imgIcon.Left = 45
+    imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2 + 15
     bMouseDown = True
 End Sub
  
@@ -507,6 +534,8 @@ Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single,
     lblCaption.Left = 0
     lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
     lblCaption.Tag = ""
+    imgIcon.Left = 30
+    imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2
     bMouseDown = False
 End Sub
 
@@ -531,6 +560,8 @@ Private Sub UserControl_Resize()
     imgOverlay.Height = UserControl.Height
     lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
     lblCaption.Width = UserControl.Width
+    imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2
+    imgIcon.Left = 30
 End Sub
 
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
@@ -539,6 +570,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     m_BackColor = PropBag.ReadProperty("BackColor", m_def_BackColor)
     m_FontName = PropBag.ReadProperty("FontName", m_def_FontName)
     m_FontSize = PropBag.ReadProperty("FontSize", m_def_FontSize)
+    Set m_Icon = PropBag.ReadProperty("ButtonIcon", Nothing)
     If m_Enabled Then
         lblCaption.ForeColor = &H0&
         imgTop(2).Visible = 0
@@ -562,8 +594,18 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
         imgBottomRight(2).Visible = -1
         imgCenter(2).Visible = -1
     End If
-    lblCaption.Caption = m_Caption
+    lblCaption.Caption = Trim$(m_Caption)
     UserControl.BackColor = m_BackColor
+    If Not m_Icon Is Nothing Then
+        If m_Icon.Width < 16 And m_Icon.Height < 16 Then
+            imgIcon.Stretch = False
+            imgIcon.Top = UserControl.Height / 2 - m_Icon.Height / 2 + 30
+        End If
+        Set imgIcon.Picture = m_Icon
+        lblCaption.Caption = "  " & lblCaption.Caption
+    Else
+        Set imgIcon.Picture = Nothing
+    End If
 End Sub
 
 Private Sub UserControl_Terminate()
@@ -575,5 +617,7 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     Call PropBag.WriteProperty("Caption", m_Caption, m_def_Caption)
     Call PropBag.WriteProperty("BackColor", m_BackColor, m_def_BackColor)
     Call PropBag.WriteProperty("FontSize", m_FontSize, m_def_FontSize)
+    On Error Resume Next
+    Call PropBag.WriteProperty("ButtonIcon", m_Icon, Nothing)
 End Sub
 

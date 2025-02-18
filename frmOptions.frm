@@ -36,10 +36,10 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   4785
+      Height          =   4545
       Index           =   2
       Left            =   6360
-      ScaleHeight     =   4725
+      ScaleHeight     =   4485
       ScaleWidth      =   5955
       TabIndex        =   44
       TabStop         =   0   'False
@@ -89,20 +89,20 @@ Begin VB.Form frmOptions
          End
       End
       Begin prjDownloadBooster.FrameW fHeaders 
-         Height          =   3615
+         Height          =   3375
          Left            =   120
          TabIndex        =   49
          Top             =   1080
          Width           =   5415
          _ExtentX        =   9551
-         _ExtentY        =   6376
+         _ExtentY        =   5953
          Caption         =   " 헤더 설정 "
          Transparent     =   -1  'True
          Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
             Height          =   330
             Left            =   2760
             TabIndex        =   50
-            Top             =   3210
+            Top             =   2970
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   582
@@ -124,7 +124,7 @@ Begin VB.Form frmOptions
             Height          =   330
             Left            =   1440
             TabIndex        =   52
-            Top             =   3210
+            Top             =   2970
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   582
@@ -135,7 +135,7 @@ Begin VB.Form frmOptions
             Height          =   330
             Left            =   4080
             TabIndex        =   53
-            Top             =   3210
+            Top             =   2970
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   582
@@ -146,20 +146,20 @@ Begin VB.Form frmOptions
             Height          =   330
             Left            =   120
             TabIndex        =   54
-            Top             =   3210
+            Top             =   2970
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   582
             Caption         =   "추가(&A)"
          End
          Begin prjDownloadBooster.ListView lvHeaders 
-            Height          =   2910
+            Height          =   2655
             Left            =   120
             TabIndex        =   55
             Top             =   240
             Width           =   5175
             _ExtentX        =   9128
-            _ExtentY        =   5133
+            _ExtentY        =   4683
             VisualTheme     =   1
             View            =   3
             FullRowSelect   =   -1  'True
@@ -507,10 +507,10 @@ Begin VB.Form frmOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   4665
+      Height          =   4545
       Index           =   3
       Left            =   6360
-      ScaleHeight     =   4605
+      ScaleHeight     =   4485
       ScaleWidth      =   6315
       TabIndex        =   4
       TabStop         =   0   'False
@@ -521,7 +521,7 @@ Begin VB.Form frmOptions
          Height          =   975
          Left            =   3240
          TabIndex        =   15
-         Top             =   3600
+         Top             =   3480
          Width           =   2895
          _ExtentX        =   5106
          _ExtentY        =   1720
@@ -572,7 +572,7 @@ Begin VB.Form frmOptions
          Height          =   975
          Left            =   120
          TabIndex        =   10
-         Top             =   3600
+         Top             =   3480
          Width           =   2895
          _ExtentX        =   5106
          _ExtentY        =   1720
@@ -621,9 +621,9 @@ Begin VB.Form frmOptions
       Begin VB.PictureBox pbOuterPreview 
          AutoRedraw      =   -1  'True
          BorderStyle     =   0  '없음
-         Height          =   2295
+         Height          =   2175
          Left            =   120
-         ScaleHeight     =   2295
+         ScaleHeight     =   2175
          ScaleWidth      =   6015
          TabIndex        =   67
          Top             =   120
@@ -634,11 +634,11 @@ Begin VB.Form frmOptions
             Height          =   1380
             Left            =   600
             ScaleHeight     =   1320
-            ScaleWidth      =   3735
+            ScaleWidth      =   3855
             TabIndex        =   69
             Tag             =   "nobgdraw"
             Top             =   360
-            Width           =   3795
+            Width           =   3915
             Begin prjDownloadBooster.CheckBoxW CheckBoxW1 
                Height          =   255
                Left            =   120
@@ -664,9 +664,9 @@ Begin VB.Form frmOptions
                Height          =   555
                Left            =   120
                TabIndex        =   72
-               Top             =   420
-               Width           =   3375
-               _ExtentX        =   5953
+               Top             =   405
+               Width           =   3615
+               _ExtentX        =   6376
                _ExtentY        =   979
                Caption         =   " 다운로드 현황 "
                Transparent     =   -1  'True
@@ -676,8 +676,8 @@ Begin VB.Form frmOptions
                   Tag             =   "novisualstylechange"
                   Top             =   240
                   Visible         =   0   'False
-                  Width           =   3135
-                  _ExtentX        =   5530
+                  Width           =   3375
+                  _ExtentX        =   5953
                   _ExtentY        =   397
                   VisualStyles    =   0   'False
                   Enabled         =   0   'False
@@ -689,8 +689,8 @@ Begin VB.Form frmOptions
                   Left            =   120
                   Tag             =   "novisualstylechange"
                   Top             =   240
-                  Width           =   3135
-                  _ExtentX        =   5530
+                  Width           =   3375
+                  _ExtentX        =   5953
                   _ExtentY        =   397
                   Enabled         =   0   'False
                   Value           =   24
@@ -700,7 +700,7 @@ Begin VB.Form frmOptions
             End
             Begin prjDownloadBooster.CommandButtonW cmdSample 
                Height          =   285
-               Left            =   1920
+               Left            =   2160
                TabIndex        =   73
                TabStop         =   0   'False
                Tag             =   "notygchange"
@@ -733,9 +733,9 @@ Begin VB.Form frmOptions
             AutoRedraw      =   -1  'True
             BackColor       =   &H80000001&
             Enabled         =   0   'False
-            Height          =   2295
+            Height          =   2175
             Left            =   0
-            ScaleHeight     =   2235
+            ScaleHeight     =   2115
             ScaleWidth      =   5955
             TabIndex        =   68
             Tag             =   "nobgdraw"
@@ -754,7 +754,7 @@ Begin VB.Form frmOptions
          Height          =   975
          Left            =   120
          TabIndex        =   6
-         Top             =   2520
+         Top             =   2400
          Width           =   2895
          _ExtentX        =   5106
          _ExtentY        =   1720
@@ -804,7 +804,7 @@ Begin VB.Form frmOptions
          Height          =   975
          Left            =   3240
          TabIndex        =   23
-         Top             =   2520
+         Top             =   2400
          Width           =   2895
          _ExtentX        =   5106
          _ExtentY        =   1720
@@ -1239,7 +1239,7 @@ Private Sub cmdApply_Click()
     
     On Error Resume Next
     If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
-        For i = frmMain.pgOverlay.lbound To frmMain.pgOverlay.UBound
+        For i = frmMain.pgOverlay.LBound To frmMain.pgOverlay.UBound
             frmMain.pgOverlay(i).Visible = -1
             frmMain.lblOverlay(i).Visible = -1
         Next i
@@ -1256,7 +1256,7 @@ Private Sub cmdApply_Click()
         frmMain.fTabThreads.BackColor = frmMain.pgOverlay(0).BackColor
         frmMain.fTabThreads.Refresh
     Else
-        For i = frmMain.pgOverlay.lbound To frmMain.pgOverlay.UBound
+        For i = frmMain.pgOverlay.LBound To frmMain.pgOverlay.UBound
             frmMain.pgOverlay(i).Visible = 0
             frmMain.lblOverlay(i).Visible = 0
         Next i
@@ -1942,6 +1942,8 @@ Sub RedrawPreview()
             ctrl.Refresh
         End If
     Next ctrl
+    FrameW5.Refresh
+    CheckBoxW1.Refresh
 End Sub
 
 Private Sub txtNodePath_Change()

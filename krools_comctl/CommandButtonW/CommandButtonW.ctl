@@ -666,6 +666,7 @@ PropDrawMode = .ReadProperty("DrawMode", CmdDrawModeNormal)
 PropIsTygemButton = .ReadProperty("IsTygemButton", False)
 tygButton.Visible = PropIsTygemButton
 tygButton.Enabled = Me.Enabled
+tygButton.Caption = PropCaption
 If Not PropFont Is Nothing Then
     tygButton.FontName = PropFont.Name
     tygButton.FontSize = PropFont.Size
@@ -675,7 +676,9 @@ If CommandButtonHandle <> NULL_PTR Then
 End If
 End With
 Call CreateCommandButton
-If Not PropImageListName = "(None)" Then TimerImageList.Enabled = True
+If Not PropImageListName = "(None)" Then
+    TimerImageList.Enabled = True
+End If
 End Sub
 
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
@@ -1304,6 +1307,7 @@ If CommandButtonHandle <> NULL_PTR Then
             If Not Value Is Nothing Then
                 If TypeName(Value) = "ImageList" Then
                     On Error Resume Next
+                    Set tygButton.ButtonIcon = Value.ListImages.Item(1).ExtractIcon
                     Handle = Value.hImageList
                     Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
                     On Error GoTo 0
@@ -1325,6 +1329,8 @@ If CommandButtonHandle <> NULL_PTR Then
                     CompareName = ProperControlName(ControlEnum)
                     If CompareName = Value And Not CompareName = vbNullString Then
                         Err.Clear
+                        Set tygButton.ButtonIcon = ControlEnum.ListImages.Item(1).ExtractIcon
+                        
                         Handle = ControlEnum.hImageList
                         Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
                         If Success = True Then

@@ -68,6 +68,18 @@ Public Const HTRIGHT = 11
 Public Const HTBOTTOMLEFT = 16
 Public Const HTBOTTOMRIGHT = 17
 
+Enum AudioFormat
+    Auto = 0
+    MP3 = 1
+    WAV = 2
+    FLAC = 3
+End Enum
+
+Enum AudioBitrateType
+    VBR = 0
+    CBR = 1
+End Enum
+
 Type RECT
     Left As Long
     Top As Long
@@ -401,19 +413,9 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
         If TypeName(ctrl) = "ImageCombo" Or TypeName(ctrl) = "ToolBar" Or TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
             If TypeName(ctrl) = "CommandButtonW" And ctrl.Tag <> "notygchange" Then
                 If EnableLBSkin Then
-                    If ctrl.Width = 255 And Right$(ctrl.Name, 8) = "Dropdown" Then
-                        ctrl.Caption = "¡å"
-                    ElseIf ctrl.Name = "cmdChooseBackground" Then
-                        ctrl.Caption = "..."
-                    End If
                     ctrl.IsTygemButton = True
                 Else
                     ctrl.IsTygemButton = False
-                    If ctrl.Width = 255 And Right$(ctrl.Name, 8) = "Dropdown" Then
-                        ctrl.Caption = ""
-                    ElseIf ctrl.Name = "cmdChooseBackground" Then
-                        ctrl.Caption = ""
-                    End If
                     ctrl.Refresh
                 End If
             End If
@@ -1479,11 +1481,11 @@ Function ExcludeParameters(ByVal URL As String) As String
     End If
 End Function
 
-Function Col(a, b)
+Function Col(a, B)
     If a Then
         Col = a
     Else
-        Col = b
+        Col = B
     End If
 End Function
 
@@ -1507,3 +1509,8 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
     
     IsYtdlSupported = Includes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
 End Function
+
+Sub tr(ctrl As Control, ByVal EnglishCaption As String)
+    On Error Resume Next
+    ctrl.Caption = t(ctrl.Caption, EnglishCaption)
+End Sub

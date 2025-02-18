@@ -25,17 +25,17 @@ Begin VB.Form frmMain
       Left            =   1560
       TabIndex        =   1
       Top             =   105
-      Width           =   5775
-      _ExtentX        =   10186
+      Width           =   5745
+      _ExtentX        =   10134
       _ExtentY        =   529
    End
    Begin prjDownloadBooster.CommandButtonW cmdDownloadOptions 
       Height          =   330
-      Left            =   7380
+      Left            =   7350
       TabIndex        =   126
       Top             =   795
-      Width           =   1755
-      _ExtentX        =   3096
+      Width           =   1785
+      _ExtentX        =   3149
       _ExtentY        =   582
       Caption         =   "다운로드 설정(&S)..."
    End
@@ -184,7 +184,7 @@ Begin VB.Form frmMain
       Height          =   300
       Left            =   7080
       TabIndex        =   112
-      Top             =   3090
+      Top             =   3075
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
@@ -654,24 +654,26 @@ Begin VB.Form frmMain
          _ExtentY        =   0
          BorderStyle     =   0
       End
-      Begin VB.PictureBox pbProgressOuterContainer 
-         BorderStyle     =   0  '없음
+      Begin prjDownloadBooster.FrameW pbProgressOuterContainer 
          Height          =   3495
          Left            =   0
-         ScaleHeight     =   3495
-         ScaleWidth      =   5775
          TabIndex        =   28
          Top             =   0
          Width           =   5775
-         Begin VB.PictureBox pbProgressContainer 
-            BorderStyle     =   0  '없음
+         _ExtentX        =   0
+         _ExtentY        =   0
+         BorderStyle     =   0
+         Transparent     =   -1  'True
+         Begin prjDownloadBooster.FrameW pbProgressContainer 
             Height          =   9015
             Left            =   0
-            ScaleHeight     =   9015
-            ScaleWidth      =   5775
             TabIndex        =   61
             Top             =   0
             Width           =   5775
+            _ExtentX        =   0
+            _ExtentY        =   0
+            BorderStyle     =   0
+            Transparent     =   -1  'True
             Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
                Height          =   255
                Index           =   1
@@ -1773,7 +1775,7 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdIncreaseThreads 
       Height          =   330
-      Left            =   6960
+      Left            =   6930
       TabIndex        =   38
       TabStop         =   0   'False
       Top             =   795
@@ -1829,12 +1831,12 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdClear 
       Height          =   330
-      Left            =   7380
+      Left            =   7350
       TabIndex        =   25
       TabStop         =   0   'False
       Top             =   90
-      Width           =   1755
-      _ExtentX        =   3096
+      Width           =   1785
+      _ExtentX        =   3149
       _ExtentY        =   582
       ImageList       =   "imgErase"
       Caption         =   "초기화(&Y) "
@@ -1989,8 +1991,8 @@ Begin VB.Form frmMain
       Left            =   1935
       TabIndex        =   6
       Top             =   750
-      Width           =   5025
-      _ExtentX        =   8864
+      Width           =   4995
+      _ExtentX        =   8811
       _ExtentY        =   873
       Min             =   1
       Max             =   25
@@ -2002,11 +2004,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   330
-      Left            =   7380
+      Left            =   7350
       TabIndex        =   4
       Top             =   435
-      Width           =   1755
-      _ExtentX        =   3096
+      Width           =   1785
+      _ExtentX        =   3149
       _ExtentY        =   582
       ImageList       =   "imgOpenFolder"
       Caption         =   " 찾아보기(&B)..."
@@ -2017,9 +2019,9 @@ Begin VB.Form frmMain
       Left            =   1560
       TabIndex        =   3
       Top             =   450
-      Width           =   5775
-      _ExtentX        =   0
-      _ExtentY        =   0
+      Width           =   5745
+      _ExtentX        =   10134
+      _ExtentY        =   529
    End
    Begin prjDownloadBooster.CommandButtonW cmdGo 
       Height          =   330
@@ -2320,6 +2322,13 @@ Dim TotalSize As Double
 'youtube-dl 관련 변수
 Dim ytdlTotalFormatCount As Integer
 Dim ytdlFileName As String
+Public ytdlEnabled As Boolean
+Public ytdlFormat As String
+Public ytdlExtractAudio As Boolean
+Public ytdlAudioFormat As AudioFormat
+Public ytdlAudioBitrateType As AudioBitrateType
+Public ytdlAudioCBR As Integer
+Public ytdlAudioVBR As Byte
 
 Sub StartYtdlDownload()
     If Not FileExists(GetSetting("DownloadBooster", "Options", "YtdlPath", "")) Then
@@ -3607,11 +3616,9 @@ Sub SetBackgroundImage()
             imgBackground.Picture = LoadPicture(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))
         End If
         imgBackground.Visible = -1
-        pbProgressOuterContainer.BorderStyle = 1
         SetBackgroundPosition True
     Else
         imgBackground.Visible = 0
-        pbProgressOuterContainer.BorderStyle = 0
     End If
     
     On Error Resume Next
@@ -3999,7 +4006,7 @@ Private Sub Form_Load()
     SetFormBackgroundColor Me
     
     If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
-        For i = pgOverlay.lbound To pgOverlay.UBound
+        For i = pgOverlay.LBound To pgOverlay.UBound
             pgOverlay(i).Visible = -1
             lblOverlay(i).Visible = -1
         Next i
@@ -4269,6 +4276,7 @@ Private Sub lvDummyScroll_Scroll()
     If lvDummyScroll.ListCount Then _
         lvDummyScroll.ListIndex = lvDummyScroll.TopIndex
     pbProgressContainer.Top = lvDummyScroll.TopIndex * 255 * -1 - (105 * lvDummyScroll.TopIndex)
+    pbProgressContainer.Refresh
 End Sub
 
 Private Sub mnuAddItem_Click()
@@ -4552,6 +4560,8 @@ Private Sub trThreadCount_Scroll()
     Else
         cmdIncreaseThreads.Enabled = -1
     End If
+    
+    pbProgressContainer.Refresh
 End Sub
 
 Private Sub vsProgressScroll_Change()
@@ -4561,4 +4571,5 @@ End Sub
 Private Sub vsProgressScroll_Scroll()
     'pbProgressContainer.Top = pbProgressOuterContainer.Height * vsProgressScroll.Value * -1 - (105 * vsProgressScroll.Value)
     pbProgressContainer.Top = vsProgressScroll.Value * 255 * -1 - (105 * vsProgressScroll.Value)
+    pbProgressContainer.Refresh
 End Sub
