@@ -41,24 +41,24 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.ListView lvLogTest 
       Height          =   1335
-      Left            =   600
+      Left            =   6600
       TabIndex        =   125
-      Top             =   3480
+      Top             =   4080
       Visible         =   0   'False
-      Width           =   5655
-      _ExtentX        =   9975
+      Width           =   615
+      _ExtentX        =   1085
       _ExtentY        =   2355
       View            =   3
    End
    Begin prjDownloadBooster.CommandButtonW cmdYtdlTest 
-      Height          =   1215
+      Height          =   375
       Left            =   6600
       TabIndex        =   124
-      Top             =   4680
+      Top             =   5520
       Visible         =   0   'False
       Width           =   615
       _ExtentX        =   1085
-      _ExtentY        =   2143
+      _ExtentY        =   661
       Caption         =   "¤·"
    End
    Begin prjDownloadBooster.CommandButtonW cmdEdit 
@@ -3439,10 +3439,6 @@ Private Sub cmdOpenFolder_Click()
     End If
 End Sub
 
-Private Sub cmdOpenFolderBatch_Click()
-    cmdOpenFolder_Click
-End Sub
-
 Private Sub cmdOptions_Click()
     frmOptions.Show vbModal, Me
 End Sub
@@ -3680,6 +3676,8 @@ Sub LoadLiveBadukSkin()
         Frame4.Visible = 0
         lblLBCaption.Visible = -1
         fDownloadInfo.Refresh
+        pbProgressOuterContainer.Refresh
+        pbProgressContainer.Refresh
         
         pbTotalProgress.Top = 1800 - 90
         pbTotalProgressMarquee.Top = 1800 - 90
@@ -3700,10 +3698,19 @@ Sub LoadLiveBadukSkin()
         Frame4.Visible = -1
         Frame4.Refresh
         fDownloadInfo.Refresh
+        pbProgressContainer.Refresh
 
         pbTotalProgress.Top = 1560
         pbTotalProgressMarquee.Top = 1560
     End If
+    
+    On Error Resume Next
+    Dim ctrl As Control
+    For Each ctrl In Me.Controls
+        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then
+            ctrl.Refresh
+        End If
+    Next ctrl
 End Sub
 
 Private Sub cmdYtdlTest_Click()
@@ -4315,14 +4322,6 @@ End Sub
 
 Private Sub mnuDeleteItem_Click()
     cmdDelete_Click
-End Sub
-
-Private Sub mnuDeleteItem2_Click()
-    mnuDeleteItem_Click
-End Sub
-
-Private Sub mnuOpen_Click()
-    cmdOpenBatch_Click
 End Sub
 
 Private Sub mnuEdit_Click()

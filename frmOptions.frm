@@ -1214,6 +1214,7 @@ Private Sub cmdApply_Click()
         frmMain.LoadLiveBadukSkin
         RedrawPreview
         cmdChooseBackground.Refresh
+        frmMain.pbProgressContainer.Refresh
     End If
     If VisualStyleChanged Then
         On Error Resume Next
