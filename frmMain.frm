@@ -34,10 +34,10 @@ Begin VB.Form frmMain
       Left            =   7350
       TabIndex        =   126
       Top             =   795
-      Width           =   1785
-      _ExtentX        =   3149
+      Width           =   1545
+      _ExtentX        =   2725
       _ExtentY        =   582
-      Caption         =   "다운로드 설정(&S)..."
+      Caption         =   "기타 설정(&S)..."
    End
    Begin prjDownloadBooster.ListView lvLogTest 
       Height          =   1335
@@ -204,11 +204,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdStop 
       Height          =   330
-      Left            =   7320
+      Left            =   7200
       TabIndex        =   17
-      Top             =   4820
-      Width           =   1815
-      _ExtentX        =   3201
+      Top             =   4815
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   582
       Enabled         =   0   'False
       ImageList       =   "imgStopRed"
@@ -309,12 +309,12 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
-      Left            =   7320
+      Left            =   7200
       TabIndex        =   56
       Top             =   5190
       Visible         =   0   'False
-      Width           =   1815
-      _ExtentX        =   3201
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   582
       ImageList       =   "imgPlusYellow"
       Caption         =   "목록에 추가(&Q)"
@@ -1856,11 +1856,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdBatch 
       Height          =   330
-      Left            =   7320
+      Left            =   7200
       TabIndex        =   18
       Top             =   5565
-      Width           =   1815
-      _ExtentX        =   3201
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   582
       ImageList       =   "imgDropdown"
       ImageListAlignment=   1
@@ -1957,11 +1957,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpen 
       Height          =   330
-      Left            =   7320
+      Left            =   7200
       TabIndex        =   13
       Top             =   4065
-      Width           =   1575
-      _ExtentX        =   2778
+      Width           =   1695
+      _ExtentX        =   2990
       _ExtentY        =   582
       Enabled         =   0   'False
       ImageList       =   "imgOpenFile"
@@ -1970,11 +1970,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenFolder 
       Height          =   330
-      Left            =   7320
+      Left            =   7200
       TabIndex        =   14
       Top             =   4440
-      Width           =   1815
-      _ExtentX        =   3201
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   582
       ImageList       =   "imgOpenFolder"
       Caption         =   "폴더 열기(&E) "
@@ -2025,11 +2025,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdGo 
       Height          =   330
-      Left            =   7320
+      Left            =   7200
       TabIndex        =   16
-      Top             =   4820
-      Width           =   1815
-      _ExtentX        =   3201
+      Top             =   4815
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   582
       ImageList       =   "imgDownload"
       Caption         =   "다운로드(&D) "
@@ -2066,6 +2066,18 @@ Begin VB.Form frmMain
       _ExtentX        =   450
       _ExtentY        =   582
       Enabled         =   0   'False
+      ImageList       =   "imgDropdown"
+      ImageListAlignment=   4
+      Transparent     =   -1  'True
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdDownloadOptionsDropdown 
+      Height          =   330
+      Left            =   8880
+      TabIndex        =   127
+      Top             =   795
+      Width           =   255
+      _ExtentX        =   450
+      _ExtentY        =   582
       ImageList       =   "imgDropdown"
       ImageListAlignment=   4
       Transparent     =   -1  'True
@@ -2296,6 +2308,16 @@ Begin VB.Form frmMain
          Caption         =   "속성 보기(&R)"
       End
    End
+   Begin VB.Menu mnuDownloadOptions 
+      Caption         =   "mnuDownloadOptions"
+      Visible         =   0   'False
+      Begin VB.Menu mnuYtdlOptions 
+         Caption         =   "&youtube-dl..."
+      End
+      Begin VB.Menu mnuHeaders 
+         Caption         =   "헤더(&H)..."
+      End
+   End
 End
 Attribute VB_Name = "frmMain"
 Attribute VB_GlobalNameSpace = False
@@ -2354,6 +2376,34 @@ Private Sub cmdDownloadOptions_Click()
     Set frmDownloadOptions.Headers = SessionHeaders
     Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
     frmDownloadOptions.Show vbModal, Me
+End Sub
+
+Private Sub cmdDownloadOptions_DropDown()
+    cmdDownloadOptionsDropdown_Click
+End Sub
+
+Private Sub cmdDownloadOptionsDropdown_Click()
+    Me.PopupMenu mnuDownloadOptions, , cmdDownloadOptions.Left, cmdDownloadOptions.Top + cmdDownloadOptions.Height
+End Sub
+
+Private Sub cmdDownloadOptionsDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    cmdDownloadOptionsDropdown_Click
+End Sub
+
+Private Sub mnuHeaders_Click()
+    Tags.DownloadOptionsTargetForm = 0
+    Set frmDownloadOptions.Headers = SessionHeaders
+    Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
+If HideYtdl Then
+    frmDownloadOptions.Show vbModal, Me
+    Exit Sub
+End If
+    frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
+    frmDownloadOptions.Show vbModal, Me
+End Sub
+
+Private Sub mnuYtdlOptions_Click()
+    cmdDownloadOptions_Click
 End Sub
 
 Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
@@ -2808,6 +2858,9 @@ Sub OnStart()
     cmdDecreaseThreads.Enabled = 0
     cmdIncreaseThreads.Enabled = 0
     
+    cmdDownloadOptions.Enabled = 0
+    cmdDownloadOptionsDropdown.Enabled = 0
+    
     lblThreadCount.Enabled = 0
     
     cmdStartBatch.Enabled = 0
@@ -2872,6 +2925,9 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     trThreadCount.Enabled = -1
     If trThreadCount.Value > trThreadCount.Min Then cmdDecreaseThreads.Enabled = -1
     If trThreadCount.Value < trThreadCount.Max Then cmdIncreaseThreads.Enabled = -1
+    
+    cmdDownloadOptions.Enabled = -1
+    cmdDownloadOptionsDropdown.Enabled = -1
     
     lblThreadCount.Enabled = -1
     
@@ -3921,9 +3977,9 @@ Private Sub Form_Load()
     cbWhenExist.AddItem t("이름 변경", "Rename")
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
     
-    If WinVer >= 6.1 Then
+    If WinVer >= 6.1 And GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0) = 0 Then
         cmdOpenBatch.SplitButton = True
-        cmdOpenBatch.Width = 1815
+        cmdOpenBatch.Width = 1935
         cmdOpenDropdown.Visible = 0
         
         cmdDelete.SplitButton = True
@@ -3933,6 +3989,10 @@ Private Sub Form_Load()
         cmdOpen.SplitButton = True
         cmdOpen.Width = 1815
         cmdOpenFileDropdown.Visible = 0
+        
+        cmdDownloadOptions.SplitButton = True
+        cmdDownloadOptions.Width = 1785
+        cmdDownloadOptionsDropdown.Visible = False
     End If
 
     '언어설정
@@ -3999,7 +4059,9 @@ Private Sub Form_Load()
     mnuProperties.Caption = t(mnuProperties.Caption, "View p&roperties")
     mnuPropertiesBatch.Caption = t(mnuPropertiesBatch.Caption, "View p&roperties")
     
-    cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Download &settings...")
+    cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Other &settings...")
+    
+    tr mnuHeaders, "&Headers..."
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
@@ -4049,6 +4111,10 @@ Private Sub Form_Load()
     PrevURL = Trim$(txtURL.Text)
     LoadURLMRU
     If txtURL.ListCount > 0 Then txtURL.ListIndex = 0
+
+If HideYtdl Then
+    mnuYtdlOptions.Visible = False
+End If
     
     SetFont Me
 End Sub

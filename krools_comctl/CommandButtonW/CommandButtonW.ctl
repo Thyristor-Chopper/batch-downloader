@@ -566,6 +566,10 @@ Private Sub tygButton_Click()
     RaiseEvent Click
 End Sub
 
+Private Sub tygButton_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    'RaiseEvent MouseDown(Button, Shift, X, Y)
+End Sub
+
 Private Sub UserControl_Initialize()
 Call ComCtlsLoadShellMod
 Call ComCtlsInitCC(ICC_STANDARD_CLASSES)
