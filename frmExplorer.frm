@@ -21,6 +21,7 @@ Begin VB.Form frmExplorer
    ScaleWidth      =   9750
    StartUpPosition =   1  '家蜡磊 啊款单
    Begin prjDownloadBooster.CommandButtonW CancelButton 
+      Cancel          =   -1  'True
       Height          =   340
       Left            =   8160
       TabIndex        =   17
@@ -31,6 +32,7 @@ Begin VB.Form frmExplorer
       Caption         =   "秒家"
    End
    Begin prjDownloadBooster.CommandButtonW OKButton 
+      Default         =   -1  'True
       Height          =   340
       Left            =   8160
       TabIndex        =   16
@@ -953,7 +955,7 @@ Private Sub Form_Load()
     
     On Error Resume Next
     Me.Icon = frmMain.Icon
-    SetWindowSizeLimit3 Me.hWnd, 10245 + PaddedBorderWidth * 15 * 2, Screen.Width + 1200, IIf(Tags.BrowseTargetForm = 3, 8835, 6165) + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
+    Hook_Explorer Me.hWnd
     Me.Width = GetSetting("DownloadBooster", "UserData", "ComdlgWidth", 10245) + PaddedBorderWidth * 15 * 2
     Me.Height = GetSetting("DownloadBooster", "UserData", "ComdlgHeight", 6165) + IIf(Tags.BrowseTargetForm = 3, 8835 - 6165, 0) + PaddedBorderWidth * 15 * 2
     
@@ -1111,7 +1113,7 @@ Private Sub Form_Unload(Cancel As Integer)
         SaveSetting "DownloadBooster", "UserData", "ComdlgWidth", Me.Width - PaddedBorderWidth * 15 * 2
         SaveSetting "DownloadBooster", "UserData", "ComdlgHeight", Me.Height - PaddedBorderWidth * 15 * 2 - IIf(Tags.BrowseTargetForm = 3, 8835 - 6165, 0)
     End If
-    Unhook3 Me.hWnd
+    Unhook_Explorer Me.hWnd
     On Error Resume Next
     imgFolder.ListImages.Clear
     imgFolderSmall.ListImages.Clear

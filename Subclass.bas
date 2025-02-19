@@ -37,10 +37,9 @@ Private Const MIN_HEIGHT = 200 'The minimum height in pixels
 Private Const MAX_WIDTH = 500  'The maximum width in pixels
 Private Const MAX_HEIGHT = 500 'The maximum height in pixels
 
-Public MinWidth As Collection
-Public MinHeight As Collection
-Public MaxWidth As Collection
-Public MaxHeight As Collection
+Public MainFormWidth As Long
+Public MainFormMinHeight As Long
+Public MainFormMaxHeight As Long
 
 Private Type POINTAPI
     X As Long
@@ -56,103 +55,62 @@ Private Type MINMAXINFO
 End Type
  
 Private mPrevProc_Main As Long
-Private mPrevProc2 As Long
-Private mPrevProc3 As Long
+Private mPrevProc_BatchAdd As Long
+Private mPrevProc_Explorer As Long
 Private mPrevProc_Options As Long
 'Private mPrevProc_Bluemetal As Long
 
 Public MainFormOnTop As Boolean
  
-Sub SetWindowSizeLimit(hWnd As Long, minW As Integer, maxW As Integer, minH As Integer, maxH As Integer)
-    If Not IsRunning Then Exit Sub
-    
-    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
-    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
-    If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
-    If Exists(MaxHeight, hWnd) Then MaxHeight.Remove CStr(hWnd)
-    MinWidth.Add minW / 15, CStr(hWnd)
-    MinHeight.Add minH / 15, CStr(hWnd)
-    MaxWidth.Add maxW / 15, CStr(hWnd)
-    MaxHeight.Add maxH / 15, CStr(hWnd)
+Sub SetWindowSizeLimit(hWnd As Long, Width As Long, minH As Long, maxH As Long)
+    MainFormWidth = Width / 15
+    MainFormMinHeight = minH / 15
+    MainFormMaxHeight = maxH / 15
     If mPrevProc_Main <= 0& Then _
         mPrevProc_Main = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Main)
 End Sub
  
-Sub SetWindowSizeLimit2(hWnd As Long, minW As Integer, maxW As Integer, minH As Integer, maxH As Integer)
-    If Not IsRunning Then Exit Sub
-    
-    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
-    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
-    If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
-    If Exists(MaxHeight, hWnd) Then MaxHeight.Remove CStr(hWnd)
-    MinWidth.Add minW / 15, CStr(hWnd)
-    MinHeight.Add minH / 15, CStr(hWnd)
-    MaxWidth.Add maxW / 15, CStr(hWnd)
-    MaxHeight.Add maxH / 15, CStr(hWnd)
-    If mPrevProc2 <= 0& Then _
-        mPrevProc2 = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf NewWndProc2)
+Sub Hook_BatchAdd(hWnd As Long)
+    If mPrevProc_BatchAdd <= 0& Then _
+        mPrevProc_BatchAdd = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_BatchAdd)
 End Sub
  
-Sub SetWindowSizeLimit3(hWnd As Long, minW As Integer, maxW As Integer, minH As Integer, maxH As Integer)
-    If Not IsRunning Then Exit Sub
-    
-    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
-    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
-    If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
-    If Exists(MaxHeight, hWnd) Then MaxHeight.Remove CStr(hWnd)
-    MinWidth.Add minW / 15, CStr(hWnd)
-    MinHeight.Add minH / 15, CStr(hWnd)
-    MaxWidth.Add maxW / 15, CStr(hWnd)
-    MaxHeight.Add maxH / 15, CStr(hWnd)
-    If mPrevProc3 <= 0& Then _
-        mPrevProc3 = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf NewWndProc3)
+Sub Hook_Explorer(hWnd As Long)
+    If mPrevProc_Explorer <= 0& Then _
+        mPrevProc_Explorer = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Explorer)
 End Sub
  
 Sub Hook_Options(hWnd As Long)
-    If Not IsRunning Then Exit Sub
-    
     If mPrevProc_Options <= 0& Then _
         mPrevProc_Options = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Options)
 End Sub
  
 'Sub Hook_Bluemetal(hWnd As Long)
-'    If Not IsRunning Then Exit Sub
-'
 '    If mPrevProc_Bluemetal <= 0& Then _
 '        mPrevProc_Bluemetal = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Bluemetal)
 'End Sub
  
 Sub Unhook_Main(hWnd As Long)
-    If Not IsRunning Then Exit Sub
-    
     SetWindowLong hWnd, GWL_WNDPROC, mPrevProc_Main
     mPrevProc_Main = 0&
 End Sub
  
-Sub Unhook2(hWnd As Long)
-    If Not IsRunning Then Exit Sub
-    
-    SetWindowLong hWnd, GWL_WNDPROC, mPrevProc2
-    mPrevProc2 = 0&
+Sub Unhook_BatchAdd(hWnd As Long)
+    SetWindowLong hWnd, GWL_WNDPROC, mPrevProc_BatchAdd
+    mPrevProc_BatchAdd = 0&
 End Sub
  
-Sub Unhook3(hWnd As Long)
-    If Not IsRunning Then Exit Sub
-    
-    SetWindowLong hWnd, GWL_WNDPROC, mPrevProc3
-    mPrevProc3 = 0&
+Sub Unhook_Explorer(hWnd As Long)
+    SetWindowLong hWnd, GWL_WNDPROC, mPrevProc_Explorer
+    mPrevProc_Explorer = 0&
 End Sub
  
 Sub Unhook_Options(hWnd As Long)
-    If Not IsRunning Then Exit Sub
-    
     SetWindowLong hWnd, GWL_WNDPROC, mPrevProc_Options
     mPrevProc_Options = 0&
 End Sub
  
 'Sub Unhook_Bluemetal(hWnd As Long)
-'    If Not IsRunning Then Exit Sub
-'
 '    SetWindowLong hWnd, GWL_WNDPROC, mPrevProc_Bluemetal
 '    mPrevProc_Bluemetal = 0&
 'End Sub
@@ -167,10 +125,10 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.X = MinWidth(CStr(hWnd))
-            lpMMI.ptMinTrackSize.Y = MinHeight(CStr(hWnd))
-            lpMMI.ptMaxTrackSize.X = MaxWidth(CStr(hWnd))
-            lpMMI.ptMaxTrackSize.Y = MaxHeight(CStr(hWnd))
+            lpMMI.ptMinTrackSize.X = MainFormWidth
+            lpMMI.ptMinTrackSize.Y = MainFormMinHeight
+            lpMMI.ptMaxTrackSize.X = MainFormWidth
+            lpMMI.ptMaxTrackSize.Y = MainFormMaxHeight
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
             WndProc_Main = 1&
@@ -217,12 +175,8 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
                 Case "WindowMetrics"
                     UpdateBorderWidth
                     
-                    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
-                    If Exists(MaxWidth, hWnd) Then MaxWidth.Remove CStr(hWnd)
-                    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
-                    MinWidth.Add (9450 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
-                    MaxWidth.Add (9450 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
-                    MinHeight.Add (8220 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
+                    MainFormWidth = (9450 + PaddedBorderWidth * 15 * 2) / 15
+                    MainFormMinHeight = (8220 + PaddedBorderWidth * 15 * 2) / 15
                     
                     frmMain.Width = 9450 + PaddedBorderWidth * 15 * 2
                     
@@ -246,75 +200,63 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
     End If
 End Function
  
-Function NewWndProc2(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Function WndProc_BatchAdd(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
     On Error Resume Next
  
     Select Case uMsg
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.X = MinWidth(CStr(hWnd))
-            lpMMI.ptMinTrackSize.Y = MinHeight(CStr(hWnd))
-            lpMMI.ptMaxTrackSize.X = MaxWidth(CStr(hWnd))
-            lpMMI.ptMaxTrackSize.Y = MaxHeight(CStr(hWnd))
+            lpMMI.ptMinTrackSize.X = (5145 + PaddedBorderWidth * 15 * 2) / 15
+            lpMMI.ptMinTrackSize.Y = (2310 + PaddedBorderWidth * 15 * 2) / 15
+            lpMMI.ptMaxTrackSize.X = Screen.Width + 1200
+            lpMMI.ptMaxTrackSize.Y = Screen.Height + 1200
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
-            NewWndProc2 = 1&
+            WndProc_BatchAdd = 1&
             Exit Function
         Case WM_SETTINGCHANGE
             Select Case GetStrFromPtr(lParam)
                 Case "WindowMetrics"
                     UpdateBorderWidth
-                    
-                    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
-                    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
-                    MinWidth.Add (5145 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
-                    MinHeight.Add (2310 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
-                    
                     frmBatchAdd.Form_Resize
             End Select
     End Select
     
-    If mPrevProc2 > 0& Then
-        NewWndProc2 = CallWindowProc(mPrevProc2, hWnd, uMsg, wParam, lParam)
+    If mPrevProc_BatchAdd > 0& Then
+        WndProc_BatchAdd = CallWindowProc(mPrevProc_BatchAdd, hWnd, uMsg, wParam, lParam)
     Else
-        NewWndProc2 = DefWindowProc(hWnd, uMsg, wParam, lParam)
+        WndProc_BatchAdd = DefWindowProc(hWnd, uMsg, wParam, lParam)
     End If
 End Function
 
-Function NewWndProc3(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Function WndProc_Explorer(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
     On Error Resume Next
  
     Select Case uMsg
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.X = MinWidth(CStr(hWnd))
-            lpMMI.ptMinTrackSize.Y = MinHeight(CStr(hWnd))
-            lpMMI.ptMaxTrackSize.X = MaxWidth(CStr(hWnd))
-            lpMMI.ptMaxTrackSize.Y = MaxHeight(CStr(hWnd))
+            lpMMI.ptMinTrackSize.X = (10245 + PaddedBorderWidth * 15 * 2) / 15
+            lpMMI.ptMinTrackSize.Y = (IIf(Tags.BrowseTargetForm = 3, 8835, 6165) + PaddedBorderWidth * 15 * 2) / 15
+            lpMMI.ptMaxTrackSize.X = Screen.Width + 1200
+            lpMMI.ptMaxTrackSize.Y = Screen.Height + 1200
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
-            NewWndProc3 = 1&
+            WndProc_Explorer = 1&
             Exit Function
         Case WM_SETTINGCHANGE
             Select Case GetStrFromPtr(lParam)
                 Case "WindowMetrics"
                     UpdateBorderWidth
-                    
-                    If Exists(MinWidth, hWnd) Then MinWidth.Remove CStr(hWnd)
-                    If Exists(MinHeight, hWnd) Then MinHeight.Remove CStr(hWnd)
-                    MinWidth.Add (10245 + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
-                    MinHeight.Add (IIf(Tags.BrowseTargetForm = 3, 8835, 6165) + PaddedBorderWidth * 15 * 2) / 15, CStr(hWnd)
-                    
                     frmExplorer.Form_Resize
             End Select
     End Select
     
-    If mPrevProc3 > 0& Then
-        NewWndProc3 = CallWindowProc(mPrevProc3, hWnd, uMsg, wParam, lParam)
+    If mPrevProc_Explorer > 0& Then
+        WndProc_Explorer = CallWindowProc(mPrevProc_Explorer, hWnd, uMsg, wParam, lParam)
     Else
-        NewWndProc3 = DefWindowProc(hWnd, uMsg, wParam, lParam)
+        WndProc_Explorer = DefWindowProc(hWnd, uMsg, wParam, lParam)
     End If
 End Function
 

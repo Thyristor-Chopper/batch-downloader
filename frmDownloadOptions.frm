@@ -326,6 +326,8 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim SelectedListItem As LvwListItem
 Dim MouseY As Integer
+Dim Headers As Collection
+Dim HeaderKeys As Collection
 
 Private Sub CancelButton_Click()
     Unload Me

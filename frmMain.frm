@@ -2350,6 +2350,7 @@ Sub StartYtdlDownload()
 End Sub
 
 Private Sub cmdDownloadOptions_Click()
+    Tags.DownloadOptionsTargetForm = 0
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
@@ -3066,7 +3067,7 @@ Sub cmdBatch_Click()
         cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
         cmdAddToQueue.Visible = -1
-        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
+        SetWindowSizeLimit Me.hWnd, Me.Width, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
         'sbStatusBar.AllowSizeGrip = True
         
         Dim formHeight As Integer
@@ -3087,7 +3088,7 @@ Sub cmdBatch_Click()
         SetMenuItemInfo hSysMenu, 1003, 0, MII
     Else
         SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
-        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
+        SetWindowSizeLimit Me.hWnd, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
         'sbStatusBar.AllowSizeGrip = False
         Me.Height = 6930 + PaddedBorderWidth * 15 * 2
         cmdBatch.ImageList = imgDropdown
@@ -3784,12 +3785,14 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , "url", t("파일 주소", "File URL")
     lvBatchFiles.ColumnHeaders.Add , "status", t("상태", "Status")
     lvBatchFiles.ColumnHeaders.Add , "autoname", t("파일 이름 자동 감지", "Autodetect File Name")
+    lvBatchFiles.ColumnHeaders.Add , "headers", t("인코딩된 헤더", "Encoded Headers")
     lvBatchFiles.ColumnHeaders(1).Width = 2895
     lvBatchFiles.ColumnHeaders(2).Width = 0
     lvBatchFiles.ColumnHeaders(3).Width = 4495
     lvBatchFiles.ColumnHeaders(4).Width = 1105
     lvBatchFiles.ColumnHeaders(4).Alignment = LvwColumnHeaderAlignmentCenter
     lvBatchFiles.ColumnHeaders(5).Width = 0
+    lvBatchFiles.ColumnHeaders(6).Width = 0
     Me.Height = 6930
     
     BatchStarted = False
@@ -3881,7 +3884,7 @@ Private Sub Form_Load()
         cmdBatch_Click
     Else
         CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
-        SetWindowSizeLimit Me.hWnd, Me.Width, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
+        SetWindowSizeLimit Me.hWnd, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
         With MII
             .cbSize = Len(MII)
             .fMask = MIIM_STATE
@@ -4104,8 +4107,6 @@ Private Sub Form_Unload(Cancel As Integer)
         BatchStarted = False
         SP.FinishChild 0, 0
     End If
-    
-    Functions.AppExiting = True
     
     SaveSetting "DownloadBooster", "UserData", "SavePath", Trim$(txtFileName.Text)
     SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6931) * -1

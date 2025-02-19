@@ -1,7 +1,7 @@
 Attribute VB_Name = "Startup"
 Option Explicit
 
-Public Const HideYtdl As Boolean = True
+Public Const HideYtdl As Boolean = False 'True
 
 Public CachePath As String
 Public WinVer As Single
@@ -11,7 +11,6 @@ Public SizingBorderWidth As Integer
 Public Const DefaultBackColor As Long = 15529449 '-1&
 Public DefaultDisableDWMWindow As Integer
 Public LangID As Integer
-Public IsRunning As Boolean
 
 Sub LoadPNG()
     On Error Resume Next
@@ -123,11 +122,10 @@ Sub LoadJS()
 End Sub
 
 Sub Main()
-    IsRunning = True
-    
     LangID = GetSetting("DownloadBooster", "Options", "Language", GetUserDefaultLangID())
     If LangID = 0 Then LangID = GetUserDefaultLangID()
     App.Title = t(App.Title, "Download Booster")
+    
     WinVer = GetWindowsVersion()
     If WinVer < 5.1 Then
         If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") = "1")) Then
@@ -135,6 +133,7 @@ Sub Main()
             Exit Sub
         End If
     End If
+    
     If Trim$(Environ$("TEMP")) = "" Then
         If Environ$("SystemDrive") = "" Then
             CachePath = "C:\BOOSTER_JS_CACHE\"
@@ -146,24 +145,15 @@ Sub Main()
     End If
     LoadJS
     
-    Set MinWidth = New Collection
-    Set MinHeight = New Collection
-    Set MaxWidth = New Collection
-    Set MaxHeight = New Collection
-    
     Set SessionHeaders = New Collection
     Set SessionHeaderKeys = New Collection
     SessionHeaderCache = ""
     
-    Call InitVisualStylesFixes
+    InitVisualStylesFixes
     
     UpdateBorderWidth
     
-    If WinVer >= 6.2 Then
-        DefaultDisableDWMWindow = 1
-    Else
-        DefaultDisableDWMWindow = 0
-    End If
+    DefaultDisableDWMWindow = IIf(WinVer >= 6.2, 1, 0)
     
     If GetSetting("DownloadBooster", "UserData", "HeaderSettingsInitialized", "0") = "0" Then
         SaveSetting "DownloadBooster", "UserData", "HeaderSettingsInitialized", 1
@@ -172,9 +162,5 @@ Sub Main()
     BuildHeaderCache
     
     Randomize
-    'frmMsgboxTest.Show
-    Functions.AppExiting = False
     frmMain.Show vbModeless
-    'Bluemetal.Show
-    'frmExplorer.Show
 End Sub

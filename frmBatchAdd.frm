@@ -111,6 +111,7 @@ Dim PrevKeyCode As Integer
 Dim Initialized As Boolean
 
 Private Sub cmdAdvanced_Click()
+    Tags.DownloadOptionsTargetForm = 1
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
@@ -177,7 +178,7 @@ Private Sub Form_Load()
     Me.Icon = frmMain.Icon
     On Error GoTo 0
     
-    SetWindowSizeLimit2 Me.hWnd, 5145 + PaddedBorderWidth * 15 * 2, Screen.Width + 1200, 2310 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
+    Hook_BatchAdd Me.hWnd
     On Error Resume Next
     Me.Width = GetSetting("DownloadBooster", "UserData", "BatchURLAddWidth", Me.Width - PaddedBorderWidth * 15 * 2) + PaddedBorderWidth * 15 * 2
     Me.Height = GetSetting("DownloadBooster", "UserData", "BatchURLAddHeight", Me.Height - PaddedBorderWidth * 15 * 2) + PaddedBorderWidth * 15 * 2
@@ -202,7 +203,7 @@ Private Sub Form_Unload(Cancel As Integer)
         SaveSetting "DownloadBooster", "UserData", "BatchURLAddWidth", Me.Width - PaddedBorderWidth * 15 * 2
         SaveSetting "DownloadBooster", "UserData", "BatchURLAddHeight", Me.Height - PaddedBorderWidth * 15 * 2
     End If
-    Unhook2 Me.hWnd
+    Unhook_BatchAdd Me.hWnd
 End Sub
 
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)

@@ -240,20 +240,18 @@ Const KEY_ALL_ACCESS = KEY_QUERY_VALUE + KEY_SET_VALUE + _
                        KEY_CREATE_SUB_KEY + KEY_ENUMERATE_SUB_KEYS + _
                        KEY_NOTIFY + KEY_CREATE_LINK + READ_CONTROL
 
-Public AppExiting As Boolean
-
 Public SessionHeaders As Collection
 Public SessionHeaderKeys As Collection
 Public HeaderCache As String
 Public SessionHeaderCache As String
 
 Private Type OSVERSIONINFO
-  OSVSize         As Long
-  dwVerMajor      As Long
-  dwVerMinor      As Long
-  dwBuildNumber   As Long
-  PlatformID      As Long
-  szCSDVersion    As String * 128
+    OSVSize         As Long
+    dwVerMajor      As Long
+    dwVerMinor      As Long
+    dwBuildNumber   As Long
+    PlatformID      As Long
+    szCSDVersion    As String * 128
 End Type
 
 Public Const MIIM_STATE = &H1
@@ -330,12 +328,12 @@ Private Const VK_NUMLOCK = &H90
 Private Const VK_SCROLL = &H91
 
 Enum GetKeyStateKeyboardCodes
- gksKeyboardShift = VK_SHIFT
- gksKeyboardctrl = VK_CONTROL
- gksKeyboardalt = VK_MENU
- gksKeyboardCapsLock = VK_CAPITAL
- gksKeyboardNumLock = VK_NUMLOCK
- gksKeyboardScrollLock = VK_SCROLL
+    gksKeyboardShift = VK_SHIFT
+    gksKeyboardctrl = VK_CONTROL
+    gksKeyboardalt = VK_MENU
+    gksKeyboardCapsLock = VK_CAPITAL
+    gksKeyboardNumLock = VK_NUMLOCK
+    gksKeyboardScrollLock = VK_SCROLL
 End Enum
 
 'https://www.mrexcel.com/board/threads/test-if-shift-key-was-held-when-commandbutton-gets-clicked.194874/
