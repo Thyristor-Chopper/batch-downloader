@@ -2351,6 +2351,8 @@ End Sub
 
 Private Sub cmdDownloadOptions_Click()
     Tags.DownloadOptionsTargetForm = 0
+    Set frmDownloadOptions.Headers = SessionHeaders
+    Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
@@ -2993,11 +2995,13 @@ Private Sub cmdAdd_Click()
     frmBatchAdd.Show vbModal, Me
 End Sub
 
-Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
+Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Optional ByVal Headers As String = "")
     If Left$(URL, 7) <> "http://" And Left$(URL, 8) <> "https://" Then
         Alert URL & " - " & t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), App.Title, Me, 16
         Exit Sub
     End If
+    
+    If Headers = "-" Then Headers = SessionHeaderCache
     
     If Trim$(SavePath) = "" Then SavePath = txtFileName.Text
     SavePath = Trim$(SavePath)
@@ -3029,6 +3033,7 @@ Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "")
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , URL
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , t("대기", "Queued")
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , "Y"
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , Headers
     lvBatchFiles.ListItems(idx).Checked = -1
     If IsDownloading Or cmdStop.Enabled Or BatchStarted Then
         cmdStartBatch.Enabled = 0
@@ -3053,7 +3058,7 @@ Private Sub cmdAddToQueue_Click()
         Next i
     End If
 justadd:
-    AddBatchURLs txtURL.Text
+    AddBatchURLs txtURL.Text, , "-"
 End Sub
 
 Sub cmdBatch_Click()
@@ -3271,8 +3276,14 @@ L2:
     ScriptPath = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
     If NodePath = "" Then NodePath = CachePath & "node_v0_11_11.exe"
     If ScriptPath = "" Then ScriptPath = CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
+    Dim CurrentHeaderCache$
+    If BatchStarted Then
+        CurrentHeaderCache = lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(5).Text
+    Else
+        CurrentHeaderCache = Functions.SessionHeaderCache
+    End If
     Dim SPResult As SP_RESULTS
-    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & GetSetting("DownloadBooster", "Options", "ForceGet", 1) & " " & GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & Abs(CInt(AutoName)) & " " & Functions.HeaderCache & " " & Functions.SessionHeaderCache)
+    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & GetSetting("DownloadBooster", "Options", "ForceGet", 1) & " " & GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & Abs(CInt(AutoName)) & " " & Functions.HeaderCache & " " & CurrentHeaderCache)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -4050,6 +4061,7 @@ Private Sub Form_Resize()
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
     If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
     If Me.WindowState = 1 Then Exit Sub
+    On Error Resume Next
     lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
     cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
@@ -4326,6 +4338,7 @@ Private Sub mnuDeleteItem_Click()
 End Sub
 
 Private Sub mnuEdit_Click()
+    frmEditBatch.EncodedHeaders = lvBatchFiles.SelectedItem.ListSubItems(5).Text
     On Error GoTo exitsub22
     frmEditBatch.txtURL.Text = lvBatchFiles.SelectedItem.ListSubItems(2).Text
     frmEditBatch.txtFilePath.Text = lvBatchFiles.SelectedItem.ListSubItems(1).Text

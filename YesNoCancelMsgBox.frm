@@ -221,6 +221,20 @@ Private Sub cmdCancel_Click()
     Unload Me
 End Sub
 
+Private Sub Form_Activate()
+    On Error Resume Next
+    Select Case MsgBoxMode
+        Case 1
+            cmdOK.SetFocus
+        Case 2
+            cmdNo.SetFocus
+        Case 3
+            optNo.SetFocus
+        Case 4
+            cmdCancel.SetFocus
+    End Select
+End Sub
+
 Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me

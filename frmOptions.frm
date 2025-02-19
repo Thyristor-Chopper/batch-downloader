@@ -1921,11 +1921,13 @@ Private Sub optUserFore_Click()
 End Sub
 
 Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
+    On Error Resume Next
     Dim i%
     For i = 1 To pbPanel.Count
         If i = TabItem.Index Then
             pbPanel(i).Visible = -1
             pbPanel(i).Enabled = -1
+            pbPanel(i).SetFocus
         Else
             pbPanel(i).Visible = 0
             pbPanel(i).Enabled = 0

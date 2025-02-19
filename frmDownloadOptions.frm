@@ -326,8 +326,8 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim SelectedListItem As LvwListItem
 Dim MouseY As Integer
-Dim Headers As Collection
-Dim HeaderKeys As Collection
+Public Headers As Collection
+Public HeaderKeys As Collection
 
 Private Sub CancelButton_Click()
     Unload Me
@@ -349,28 +349,39 @@ End Sub
 
 Private Sub OKButton_Click()
     Dim i%
-    For i = 1 To SessionHeaders.Count
-        SessionHeaders.Remove 1
+    For i = 1 To Headers.Count
+        Headers.Remove 1
     Next i
-    For i = 1 To SessionHeaderKeys.Count
-        SessionHeaderKeys.Remove 1
+    For i = 1 To HeaderKeys.Count
+        HeaderKeys.Remove 1
     Next i
+    
+    Dim HeaderCache$
     
     If lvHeaders.ListItems.Count > 0 Then
         Dim RawHeaders$
         RawHeaders = ""
         For i = 1 To lvHeaders.ListItems.Count
             If Trim$(lvHeaders.ListItems(i).Text) <> "" Then
-                SessionHeaders.Add CStr(lvHeaders.ListItems(i).ListSubItems(1).Text), CStr(Trim$(lvHeaders.ListItems(i).Text))
-                SessionHeaderKeys.Add CStr(Trim$(lvHeaders.ListItems(i).Text))
+                Headers.Add CStr(lvHeaders.ListItems(i).ListSubItems(1).Text), CStr(Trim$(lvHeaders.ListItems(i).Text))
+                HeaderKeys.Add CStr(Trim$(lvHeaders.ListItems(i).Text))
                 RawHeaders = RawHeaders & LCase(Trim$(lvHeaders.ListItems(i).Text)) & ": " & lvHeaders.ListItems(i).ListSubItems(1).Text & vbLf
             End If
         Next i
         If Right$(RawHeaders, 1) = vbLf Then RawHeaders = Left$(RawHeaders, Len(RawHeaders) - 1)
-        SessionHeaderCache = btoa(RawHeaders)
+        HeaderCache = btoa(RawHeaders)
     Else
-        SessionHeaderCache = ""
+        HeaderCache = ""
     End If
+    
+    Select Case Tags.DownloadOptionsTargetForm
+        Case 0
+            SessionHeaderCache = HeaderCache
+        Case 1
+            frmBatchAdd.HeaderCache = HeaderCache
+        Case 2
+            frmEditBatch.EncodedHeaders = HeaderCache
+    End Select
     
     SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.Value
     
@@ -520,6 +531,7 @@ Private Sub Form_Load()
     chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
     
     Me.Caption = t(Me.Caption, "Download settings")
+    If Tags.DownloadOptionsTargetForm = 2 Then Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
     tsTabStrip.Tabs(2).Caption = t("  Çì´õ  ", " Headers ")
     
     chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
@@ -544,8 +556,8 @@ Private Sub Form_Load()
     lvHeaders.SmallIcons = imgFiles
     
     Dim Header
-    For Each Header In SessionHeaderKeys
-        lvHeaders.ListItems.Add(, , Header, , 1).ListSubItems.Add , , SessionHeaders(CStr(Header))
+    For Each Header In HeaderKeys
+        lvHeaders.ListItems.Add(, , Header, , 1).ListSubItems.Add , , Headers(CStr(Header))
     Next Header
     
     optUseYtdl.Value = frmMain.ytdlEnabled
@@ -577,12 +589,14 @@ Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
 If HideYtdl Then
     Exit Sub
 End If
-
+    
+    On Error Resume Next
     Dim i%
     For i = 1 To pbPanel.Count
         If i = TabItem.Index Then
             pbPanel(i).Visible = -1
             pbPanel(i).Enabled = -1
+            pbPanel(i).SetFocus
         Else
             pbPanel(i).Visible = 0
             pbPanel(i).Enabled = 0

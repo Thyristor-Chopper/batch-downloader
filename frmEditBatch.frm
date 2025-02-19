@@ -140,6 +140,7 @@ Option Explicit
 Public OriginalURL As String
 Public OriginalPath As String
 Public EncodedHeaders As String
+Public InitialFileName As String
 
 Private Sub cmdBrowse_Click()
     Tags.BrowsePresetPath = Trim$(txtFilePath.Text)
@@ -166,6 +167,10 @@ End Sub
 
 Private Sub cmdHeaders_Click()
     Tags.DownloadOptionsTargetForm = 2
+    Dim DecodedHeaders As Collection
+    Set DecodedHeaders = DecodeHeaderCache(EncodedHeaders)
+    Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
+    Set frmDownloadOptions.Headers = DecodedHeaders("values")
 If HideYtdl Then
     frmDownloadOptions.Show vbModal, Me
     Exit Sub
@@ -226,6 +231,7 @@ changeFilepath:
             frmMain.lvBatchFiles.SelectedItem.ListSubItems(4).Text = "N"
         End If
     End If
+    frmMain.lvBatchFiles.SelectedItem.ListSubItems(5).Text = EncodedHeaders
     
     Unload Me
 End Sub
@@ -250,6 +256,10 @@ Private Sub Form_Load()
     Me.Caption = t(Me.Caption, "Edit")
     Label3.Caption = t(Label3.Caption, "A&dditional settings:")
     cmdHeaders.Caption = t(cmdHeaders.Caption, "&Headers...")
+    
+    EncodedHeaders = frmMain.lvBatchFiles.SelectedItem.ListSubItems(5).Text
+    InitialFileName = frmMain.lvBatchFiles.SelectedItem.Text
+    Me.Caption = Me.Caption & " - " & InitialFileName
     
     On Error Resume Next
     Me.Icon = frmMain.imgEdit.ListImages(1).Picture

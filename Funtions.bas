@@ -294,10 +294,8 @@ Type ChooseColorStruct
     lpTemplateName As String
 End Type
 
-Declare Function ChooseColor Lib "comdlg32.dll" Alias "ChooseColorA" _
-    (lpChooseColor As ChooseColorStruct) As Long
-Declare Function OleTranslateColor Lib "oleaut32.dll" (ByVal lOleColor _
-    As Long, ByVal lHPalette As Long, lColorRef As Long) As Long
+Declare Function ChooseColor Lib "comdlg32.dll" Alias "ChooseColorA" (lpChooseColor As ChooseColorStruct) As Long
+Declare Function OleTranslateColor Lib "oleaut32.dll" (ByVal lOleColor As Long, ByVal lHPalette As Long, lColorRef As Long) As Long
     
 Const CC_RGBINIT = &H1&
 Const CC_FULLOPEN = &H2&
@@ -1258,6 +1256,33 @@ Sub BuildHeaderCache()
     HeaderCache = btoa(RawHeaders)
 End Sub
 
+Function DecodeHeaderCache(ByVal HeaderCache As String) As Collection
+    Set DecodeHeaderCache = New Collection
+    Dim Headers As Collection
+    Dim HeaderKeys As Collection
+    Set Headers = New Collection
+    Set HeaderKeys = New Collection
+    Dim RawHeaders$
+    RawHeaders = atob(HeaderCache)
+    Dim HeaderSplit() As String
+    HeaderSplit = Split(RawHeaders, vbLf)
+    Dim HeaderLine$
+    Dim ColonPos%
+    Dim i%
+    For i = LBound(HeaderSplit) To UBound(HeaderSplit)
+        HeaderLine = HeaderSplit(i)
+        Debug.Print HeaderLine
+        ColonPos = InStr(HeaderLine, ": ")
+        If ColonPos < 1 Then GoTo continue
+        Headers.Add Mid$(HeaderLine, ColonPos + 2), Left$(HeaderLine, ColonPos - 1)
+        HeaderKeys.Add Left$(HeaderLine, ColonPos - 1)
+continue:
+    Next i
+    
+    DecodeHeaderCache.Add HeaderKeys, "keys"
+    DecodeHeaderCache.Add Headers, "values"
+End Function
+
 Function GetSpecialfolder(CSIDL As Long) As String
     Dim lngRetVal As Long
     Dim IDL As ITEMIDLIST
@@ -1333,10 +1358,6 @@ Function GetShortcutTarget(sPath As String) As String
         If file.IsLink Then
             Set lnk = file.GetLink
             GetShortcutTarget = lnk.Path
-' MsgBox "Name: " & file.Name & vbCrLf & _
-          "Description: " & lnk.Description & vbCrLf & _
-          "Path: " & lnk.Path & vbCrLf & _
-          "WorkingDirectory: " & lnk.WorkingDirectory & vbCrLf, vbInformation
         Else
             GetShortcutTarget = " Not decoded"
         End If
@@ -1359,10 +1380,10 @@ Function atob(sText As String) As Byte()
     
     lSize = Len(sText) + 1
     ReDim baOutput(0 To lSize - 1) As Byte
-    Call CryptStringToBinary(StrPtr(sText), Len(sText), CRYPT_STRING_BASE64, VarPtr(baOutput(0)), lSize, 0, dwDummy)
+    CryptStringToBinary StrPtr(sText), Len(sText), CRYPT_STRING_BASE64, VarPtr(baOutput(0)), lSize, 0, dwDummy
     If lSize > 0 Then
         ReDim Preserve baOutput(0 To lSize - 1) As Byte
-        atob = baOutput
+        atob = StrConv(baOutput, vbUnicode)
     Else
         atob = vbNullString
     End If

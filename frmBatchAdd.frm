@@ -109,9 +109,12 @@ Attribute VB_Exposed = False
 'https://blog.naver.com/wnwlsrb3/220729779017
 Dim PrevKeyCode As Integer
 Dim Initialized As Boolean
+Public HeaderCache$
 
 Private Sub cmdAdvanced_Click()
     Tags.DownloadOptionsTargetForm = 1
+    Set frmDownloadOptions.HeaderKeys = New Collection
+    Set frmDownloadOptions.Headers = New Collection
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
@@ -145,7 +148,7 @@ Private Sub cmdOK_Click()
     URLs = Split(txtURLs.Text, vbCrLf)
     For i = 0 To UBound(URLs)
         If Replace(URLs(i), " ", "") <> "" Then
-            frmMain.AddBatchURLs URLs(i), txtSavePath.Text
+            frmMain.AddBatchURLs URLs(i), txtSavePath.Text, HeaderCache
         End If
     Next i
     
@@ -173,6 +176,8 @@ Private Sub Form_Load()
     Label2.Caption = t(Label2.Caption, "&Save to:")
     cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
     tr cmdAdvanced, "Ad&vanced..."
+    
+    HeaderCache = ""
     
     On Error Resume Next
     Me.Icon = frmMain.Icon
