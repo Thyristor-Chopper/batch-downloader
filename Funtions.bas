@@ -445,6 +445,7 @@ Sub SetClassicTheme(frmForm As Form, Optional DisableClassicTheme As Boolean = F
     If GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0) <> 0 Then
         SetWindowRgn frmForm.hWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
     ElseIf DisableClassicTheme Then
+        SetWindowRgn frmForm.hWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
         SetWindowRgn frmForm.hWnd, 0&, True
     End If
 End Sub

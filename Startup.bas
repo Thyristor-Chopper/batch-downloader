@@ -1,7 +1,7 @@
 Attribute VB_Name = "Startup"
 Option Explicit
 
-Public Const HideYtdl As Boolean = False 'True
+Public Const HideYtdl As Boolean = True
 
 Public CachePath As String
 Public WinVer As Single

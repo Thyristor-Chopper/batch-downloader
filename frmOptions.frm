@@ -711,14 +711,6 @@ Begin VB.Form frmOptions
                Caption         =   "다운로드"
                Transparent     =   -1  'True
             End
-            Begin VB.Image imgPreview 
-               Height          =   375
-               Left            =   3120
-               Stretch         =   -1  'True
-               Top             =   0
-               Visible         =   0   'False
-               Width           =   855
-            End
             Begin VB.Label Label11 
                BackStyle       =   0  '투명
                Caption         =   "파일 주소:"
@@ -727,6 +719,14 @@ Begin VB.Form frmOptions
                TabIndex        =   74
                Top             =   150
                Width           =   975
+            End
+            Begin VB.Image imgPreview 
+               Height          =   375
+               Left            =   3120
+               Stretch         =   -1  'True
+               Top             =   0
+               Visible         =   0   'False
+               Width           =   855
             End
          End
          Begin VB.PictureBox pbPreview 
@@ -1215,6 +1215,7 @@ Private Sub cmdApply_Click()
         RedrawPreview
         cmdChooseBackground.Refresh
         frmMain.pbProgressContainer.Refresh
+        frmMain.SetupSplitButtons
     End If
     If VisualStyleChanged Then
         On Error Resume Next

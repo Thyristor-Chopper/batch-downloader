@@ -549,8 +549,12 @@ Private Sub Form_Load()
     cmdDeleteHeader.Caption = t(cmdDeleteHeader.Caption, "&Delete")
     cmdEditHeaderName.Caption = t(cmdEditHeaderName.Caption, "&Rename")
     cmdEditHeaderValue.Caption = t(cmdEditHeaderValue.Caption, "&Edit")
-    lblDescription.Caption = t(lblDescription.Caption, "Headers here are only applied in this session. Go to <A>Options</A> to change them permanently.")
-    
+    Select Case Tags.DownloadOptionsTargetForm
+        Case 0
+            lblDescription.Caption = t(lblDescription.Caption, "Headers here are only applied in this session. Go to <A>Options</A> to change them permanently.")
+        Case Else
+            lblDescription.Caption = t("이 파일 다운로드 시에 요청할 헤더를 지정하십시오.", "Specify the headers when requesting this file to download.")
+    End Select
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
     lvHeaders.SmallIcons = imgFiles

@@ -3977,23 +3977,7 @@ Private Sub Form_Load()
     cbWhenExist.AddItem t("이름 변경", "Rename")
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
     
-    If WinVer >= 6.1 And GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0) = 0 Then
-        cmdOpenBatch.SplitButton = True
-        cmdOpenBatch.Width = 1935
-        cmdOpenDropdown.Visible = 0
-        
-        cmdDelete.SplitButton = True
-        cmdDelete.Width = 1575
-        cmdDeleteDropdown.Visible = 0
-        
-        cmdOpen.SplitButton = True
-        cmdOpen.Width = 1815
-        cmdOpenFileDropdown.Visible = 0
-        
-        cmdDownloadOptions.SplitButton = True
-        cmdDownloadOptions.Width = 1785
-        cmdDownloadOptionsDropdown.Visible = False
-    End If
+    SetupSplitButtons
 
     '언어설정
     lblURL.Caption = t(lblURL.Caption, "File &address:")
@@ -4117,6 +4101,44 @@ If HideYtdl Then
 End If
     
     SetFont Me
+End Sub
+
+Sub SetupSplitButtons()
+    If WinVer >= 6.1 Then
+        If GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0) = 0 Then
+            cmdOpenBatch.SplitButton = True
+            cmdOpenBatch.Width = 1935
+            cmdOpenDropdown.Visible = False
+            
+            cmdDelete.SplitButton = True
+            cmdDelete.Width = 1575
+            cmdDeleteDropdown.Visible = False
+            
+            cmdOpen.SplitButton = True
+            cmdOpen.Width = 1935
+            cmdOpenFileDropdown.Visible = False
+            
+            cmdDownloadOptions.SplitButton = True
+            cmdDownloadOptions.Width = 1785
+            cmdDownloadOptionsDropdown.Visible = False
+        Else
+            cmdOpenBatch.SplitButton = False
+            cmdOpenBatch.Width = 1575
+            cmdOpenDropdown.Visible = True
+            
+            cmdDelete.SplitButton = False
+            cmdDelete.Width = 1335
+            cmdDeleteDropdown.Visible = True
+            
+            cmdOpen.SplitButton = False
+            cmdOpen.Width = 1695
+            cmdOpenFileDropdown.Visible = True
+            
+            cmdDownloadOptions.SplitButton = False
+            cmdDownloadOptions.Width = 1545
+            cmdDownloadOptionsDropdown.Visible = True
+        End If
+    End If
 End Sub
 
 Sub OnDWMChange()
