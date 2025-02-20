@@ -487,7 +487,7 @@ Private Sub lvItems_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
     If Selected = False Then Exit Sub
     
     Dim i%
-    For i = pbLicenses.lbound To pbLicenses.UBound
+    For i = pbLicenses.LBound To pbLicenses.UBound
         If i = Item.Index Then
             pbLicenses(i).Visible = -1
         Else
