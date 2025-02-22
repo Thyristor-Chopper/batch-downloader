@@ -20,6 +20,27 @@ Begin VB.Form frmExplorer
    ScaleHeight     =   8325
    ScaleWidth      =   9750
    StartUpPosition =   1  '소유자 가운데
+   Begin prjDownloadBooster.CommandButtonW cmdPreview 
+      Height          =   345
+      Left            =   8160
+      TabIndex        =   18
+      Top             =   5280
+      Visible         =   0   'False
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   609
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "굴림"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Enabled         =   0   'False
+      Caption         =   "미리 듣기(&P)"
+   End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
       Height          =   340
@@ -88,7 +109,7 @@ Begin VB.Form frmExplorer
          Orientation     =   1
          Divider         =   0   'False
          AllowCustomize  =   0   'False
-         ButtonHeight    =   51
+         ButtonHeight    =   35
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
@@ -113,7 +134,7 @@ Begin VB.Form frmExplorer
       Width           =   2175
    End
    Begin prjDownloadBooster.ImageCombo cbFolderList 
-      Height          =   330
+      Height          =   315
       Left            =   1680
       TabIndex        =   11
       Top             =   120
@@ -148,6 +169,7 @@ Begin VB.Form frmExplorer
    End
    Begin VB.PictureBox picPreviewFrame 
       BackColor       =   &H00F8EFE5&
+      Enabled         =   0   'False
       Height          =   2415
       Left            =   2880
       ScaleHeight     =   2355
@@ -284,7 +306,7 @@ Begin VB.Form frmExplorer
    End
    Begin VB.Label Label5 
       BackStyle       =   0  '투명
-      Caption         =   "미리보기(&P):"
+      Caption         =   "미리보기:"
       Height          =   255
       Left            =   1680
       TabIndex        =   10
@@ -784,6 +806,16 @@ Private Sub chkUnixHidden_Click()
     SaveSetting "DownloadBooster", "UserData", "ShowUnixHidden", chkUnixHidden.Value
 End Sub
 
+Private Sub cmdPreview_Click()
+    If lvFiles.SelectedItem Is Nothing Then Exit Sub
+    If Not lvFiles.SelectedItem.Selected Then Exit Sub
+    
+    Dim Path$
+    Path = lvDir.Path
+    If Right$(Path, 1) <> "\" Then Path = Path & "\"
+    PlayWave Path & lvFiles.SelectedItem.Text
+End Sub
+
 Private Sub Form_Activate()
     On Error Resume Next
     txtFileName.SetFocus
@@ -813,18 +845,21 @@ Private Sub Form_Load()
     lvFiles.ColumnHeaders(1).SortArrow = LvwColumnHeaderSortArrowUp
     
     selFileType.Clear
-    If Tags.BrowseTargetForm = 3 Then
-        selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
-        selFileType.AddItem "JPEG (*.JPG)"
-        selFileType.AddItem "GIF (*.GIF)"
-        selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
-        selFileType.AddItem "PNG (*.PNG)"
-        selFileType.AddItem t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
-        selFileType.AddItem t("아이콘", "Icon") & " (*.ICO)"
-        selFileType.AddItem t("커서", "Cursor") & " (*.CUR)"
-    Else
-        selFileType.AddItem t("모든 파일", "All files") & " (*.*)"
-    End If
+    Select Case Tags.BrowseTargetForm
+        Case 3
+            selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
+            selFileType.AddItem "JPEG (*.JPG; *.JPEG; *.JPE; *.JFIF)"
+            selFileType.AddItem "GIF (*.GIF)"
+            selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
+            selFileType.AddItem "PNG (*.PNG)"
+            selFileType.AddItem t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
+            selFileType.AddItem t("아이콘", "Icon") & " (*.ICO)"
+            selFileType.AddItem t("커서", "Cursor") & " (*.CUR)"
+        Case 4
+            selFileType.AddItem t("소리 파일", "Sound file") & " (*.WAV)"
+        Case Else
+            selFileType.AddItem t("모든 파일", "All files") & " (*.*)"
+    End Select
     selFileType.ListIndex = 0
     
     On Error Resume Next
@@ -873,23 +908,24 @@ Private Sub Form_Load()
     
     Label1.Caption = t(Label1.Caption, "&File name:")
     OKButton.Caption = t(OKButton.Caption, "OK")
-    If Tags.BrowseTargetForm = 2 Then
-        Label1.Caption = t("폴더 이름(&F):", "&Folder name:")
-        txtFileName.Width = 6735
-        OKButton.Top = CancelButton.Top
-        OKButton.Left = CancelButton.Left - 120 - OKButton.Width
-        OKButton.Caption = t("폴더 선택(&E)", "S&elect Folder")
-    ElseIf Tags.BrowseTargetForm = 0 Then
-        If txtFileName.Text = "" Then
+    Select Case Tags.BrowseTargetForm
+        Case 2
+            Label1.Caption = t("폴더 이름(&F):", "&Folder name:")
+            txtFileName.Width = 6735
+            OKButton.Top = CancelButton.Top
+            OKButton.Left = CancelButton.Left - 120 - OKButton.Width
             OKButton.Caption = t("폴더 선택(&E)", "S&elect Folder")
-        Else
+        Case 0
+            If txtFileName.Text = "" Then
+                OKButton.Caption = t("폴더 선택(&E)", "S&elect Folder")
+            Else
+                OKButton.Caption = t("저장(&E)", "Sav&e")
+            End If
+        Case 1
             OKButton.Caption = t("저장(&E)", "Sav&e")
-        End If
-    ElseIf Tags.BrowseTargetForm = 1 Then
-        OKButton.Caption = t("저장(&E)", "Sav&e")
-    ElseIf Tags.BrowseTargetForm = 3 Then
-        OKButton.Caption = t("열기(&O)", "&Open")
-    End If
+        Case 3, 4
+            OKButton.Caption = t("열기(&O)", "&Open")
+    End Select
     Label4.Caption = t(Label4.Caption, "File &type:")
     Label4.Visible = Tags.BrowseTargetForm <> 2
     selFileType.Visible = Tags.BrowseTargetForm <> 2
@@ -899,9 +935,11 @@ Private Sub Form_Load()
     CancelButton.Caption = t(CancelButton.Caption, "Cancel")
     Me.Caption = t(Me.Caption, "Select download path")
     If Tags.BrowseTargetForm = 3 Then Me.Caption = t("배경 사진 선택", "Choose background image")
+    If Tags.BrowseTargetForm = 4 Then Me.Caption = t("효과음 선택", "Choose sound")
     chkShowFiles.Visible = (Tags.BrowseTargetForm = 2)
     chkShowFiles.Caption = t(chkShowFiles.Caption, "&Show files")
-    Label5.Caption = t(Label5.Caption, "&Preview:")
+    Label5.Caption = t(Label5.Caption, "Preview:")
+    tr cmdPreview, "&Preview"
     
     tbPlaces.Buttons(1).Caption = t("내 최근 문서", "Recent")
     tbPlaces.Buttons(2).Caption = t("바탕 화면", "Desktop")
@@ -952,6 +990,8 @@ Private Sub Form_Load()
     chkHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowHidden", 0)
     chkUnixHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowUnixHidden", 1)
     chkShowFiles.Value = GetSetting("DownloadBooster", "UserData", "ShowFiles", 0)
+    
+    cmdPreview.Visible = (Tags.BrowseTargetForm = 4)
     
     On Error Resume Next
     Me.Icon = frmMain.Icon
@@ -1102,6 +1142,8 @@ Sub Form_Resize()
     tbPlaces.Height = pbPlacesBarContainer.Height
     Label5.Top = chkHidden.Top + chkHidden.Height + 180
     picPreviewFrame.Top = Label5.Top
+    cmdPreview.Left = CancelButton.Left
+    cmdPreview.Top = CancelButton.Top + CancelButton.Height + 30
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -1382,18 +1424,20 @@ driveunavailable:
 folderinaccessible:
             Alert t("폴더가 존재하지 않습니다.", "The folder does not exist"), App.Title, Me, 16
         End If
-    ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Then
+    ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Then
         OKButton_Click
     End If
 End Sub
 
 Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
+    cmdPreview.Enabled = Selected
+    
     If Item.IconIndex = 1 And Tags.BrowseTargetForm = 2 Then
         'If Item.Text <> ".." Then
             txtFileName.Text = Item.Text
         'End If
     End If
-    If (frmMain.cbWhenExist.ListIndex = 0 And Tags.BrowseTargetForm <> 3) Or (Not Selected) Then Exit Sub
+    If (frmMain.cbWhenExist.ListIndex = 0 And Tags.BrowseTargetForm <> 3 And Tags.BrowseTargetForm <> 4) Or (Not Selected) Then Exit Sub
     If Item.IconIndex = 1 Or (Item.IconIndex > 2 And Item.IconIndex <= 10) Then Exit Sub
     If Tags.BrowseTargetForm <> 2 Then txtFileName.Text = Item.Text
     
@@ -1686,14 +1730,20 @@ Private Sub OKButton_Click()
         End If
     End If
     
-    If Tags.BrowseTargetForm = 3 Then
+    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Then
         If FolderExists(txtFileName.Text) Then
             If LoadFinished Then
                 txtFileName.SelStart = 0
                 txtFileName.SelLength = Len(txtFileName.Text)
                 lvDir.Path = txtFileName.Text
             End If
-            'MessageBeep 0
+            Exit Sub
+        ElseIf FolderExists(lvDir.Path & IIf(EndsWith(lvDir.Path, "\"), "", "\") & txtFileName.Text) Then
+            If LoadFinished Then
+                txtFileName.SelStart = 0
+                txtFileName.SelLength = Len(txtFileName.Text)
+                lvDir.Path = lvDir.Path & IIf(EndsWith(lvDir.Path, "\"), "", "\") & txtFileName.Text
+            End If
             Exit Sub
         End If
         
@@ -1740,14 +1790,16 @@ Private Sub OKButton_Click()
     End If
     On Error GoTo 0
     
-    If Tags.BrowseTargetForm = 3 Then
+    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Then
         Path = lvDir.Path
         If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
         If Not FileExists(Path & txtFileName.Text) Then
             Alert txtFileName.Text & vbCrLf & t("파일이 없습니다.", "File does not exist.") & vbCrLf & t("파일 이름을 올바르게 입력했는지 확인하십시오.", "Check if you specified a valid file name."), App.Title, Me, 48
             Exit Sub
         End If
-        
+    End If
+    
+    If Tags.BrowseTargetForm = 3 Then
         On Error GoTo imgerr
         If LCase(Right$(txtFileName.Text, 4)) = ".png" Then
             LoadPngIntoPictureWithAlpha Path & txtFileName.Text
@@ -1769,6 +1821,8 @@ imgerr:
         Alert t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), App.Title, Me, 16
         Exit Sub
     End If
+    
+    If Tags.BrowseTargetForm = 4 And txtFileName.Text = "" Then Exit Sub
     
     If _
         InStr(1, txtFileName.Text, "\") > 0 Or _
@@ -1812,7 +1866,7 @@ imgerr:
         End If
     End If
     On Error Resume Next
-    If FileExists(Path) Then
+    If FileExists(Path) And Tags.BrowseTargetForm <> 4 And Tags.BrowseTargetForm <> 3 Then
         If frmMain.cbWhenExist.ListIndex = 0 Then
             Alert t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), App.Title, Me, 16
             Exit Sub
@@ -1832,6 +1886,8 @@ imgerr:
             frmBatchAdd.txtSavePath.Text = Path
         Case 3
             frmOptions.RedrawPreview
+        Case 4
+            Tags.BrowseTargetTextbox.Text = Path
         Case Else
             frmMain.txtFileName.Text = Path
     End Select

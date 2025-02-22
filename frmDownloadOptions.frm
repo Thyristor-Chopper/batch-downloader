@@ -5,7 +5,7 @@ Begin VB.Form frmDownloadOptions
    ClientHeight    =   4815
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   12060
+   ClientWidth     =   13710
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -20,7 +20,7 @@ Begin VB.Form frmDownloadOptions
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   4815
-   ScaleWidth      =   12060
+   ScaleWidth      =   13710
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 
@@ -28,13 +28,13 @@ Begin VB.Form frmDownloadOptions
       Index           =   2
       Left            =   6360
       ScaleHeight     =   4035
-      ScaleWidth      =   5955
+      ScaleWidth      =   6075
       TabIndex        =   17
       Top             =   600
-      Width           =   6015
+      Width           =   6135
       Begin prjDownloadBooster.LinkLabel lblDescription 
          Height          =   735
-         Left            =   720
+         Left            =   840
          TabIndex        =   18
          Top             =   180
          Width           =   5175
@@ -45,7 +45,7 @@ Begin VB.Form frmDownloadOptions
       End
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
          Height          =   330
-         Left            =   3360
+         Left            =   3480
          TabIndex        =   19
          Top             =   3660
          Width           =   1215
@@ -67,7 +67,7 @@ Begin VB.Form frmDownloadOptions
       End
       Begin prjDownloadBooster.CommandButtonW cmdDeleteHeader 
          Height          =   330
-         Left            =   2040
+         Left            =   2160
          TabIndex        =   21
          Top             =   3660
          Width           =   1215
@@ -78,7 +78,7 @@ Begin VB.Form frmDownloadOptions
       End
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
          Height          =   330
-         Left            =   4680
+         Left            =   4800
          TabIndex        =   22
          Top             =   3660
          Width           =   1215
@@ -89,7 +89,7 @@ Begin VB.Form frmDownloadOptions
       End
       Begin prjDownloadBooster.CommandButtonW cmdAddHeader 
          Height          =   330
-         Left            =   720
+         Left            =   840
          TabIndex        =   23
          Top             =   3660
          Width           =   1215
@@ -99,7 +99,7 @@ Begin VB.Form frmDownloadOptions
       End
       Begin prjDownloadBooster.ListView lvHeaders 
          Height          =   2655
-         Left            =   720
+         Left            =   840
          TabIndex        =   24
          Top             =   960
          Width           =   5175
@@ -127,12 +127,12 @@ Begin VB.Form frmDownloadOptions
          MaskColor       =   16711935
          InitListImages  =   "frmDownloadOptions.frx":00E8
       End
-      Begin VB.Image Image1 
-         Height          =   480
+      Begin VB.Image imgIcon1 
+         Height          =   630
          Left            =   120
          Picture         =   "frmDownloadOptions.frx":0290
          Top             =   120
-         Width           =   480
+         Width           =   645
       End
    End
    Begin VB.PictureBox pbPanel 
@@ -293,7 +293,7 @@ Begin VB.Form frmDownloadOptions
       Width           =   2400
       _ExtentX        =   4233
       _ExtentY        =   688
-      InitTabs        =   "frmDownloadOptions.frx":06D2
+      InitTabs        =   "frmDownloadOptions.frx":05F3
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True

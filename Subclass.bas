@@ -18,8 +18,6 @@ Public Const WM_INITMENU = &H116
 Public Const WM_SETTINGCHANGE = &H1A
 Public Const WM_DWMCOMPOSITIONCHANGED = &H31E
 Public Const WM_THEMECHANGED = &H31A
-Const DWM_EC_DISABLECOMPOSITION As Long = 0
-Const DWM_EC_ENABLECOMPOSITION As Long = 1
 Public Const HWND_TOPMOST = -1
 Public Const HWND_NOTOPMOST = -2
 Public Const SWP_NOMOVE = &H2
@@ -32,11 +30,6 @@ Private Const WMSZ_TOPRIGHT = 5
 Private Const WMSZ_BOTTOM = 6
 Private Const WMSZ_BOTTOMLEFT = 7
 Private Const WMSZ_BOTTOMRIGHT = 8
-
-Private Const MIN_WIDTH = 200  'The minimum width in pixels
-Private Const MIN_HEIGHT = 200 'The minimum height in pixels
-Private Const MAX_WIDTH = 500  'The maximum width in pixels
-Private Const MAX_HEIGHT = 500 'The maximum height in pixels
 
 Public MainFormWidth As Long
 Public MainFormMinHeight As Long

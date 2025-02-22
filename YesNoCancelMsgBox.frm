@@ -23,54 +23,6 @@ Begin VB.Form YesNoCancelMsgBox
    ScaleWidth      =   28440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
-   Begin prjDownloadBooster.TygemButton tygOK 
-      Height          =   315
-      Left            =   7440
-      TabIndex        =   10
-      Tag             =   "novisibilitychange"
-      Top             =   840
-      Visible         =   0   'False
-      Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   556
-      Caption         =   "확인"
-   End
-   Begin prjDownloadBooster.TygemButton tygCancel 
-      Height          =   315
-      Left            =   5880
-      TabIndex        =   9
-      Tag             =   "novisibilitychange"
-      Top             =   840
-      Visible         =   0   'False
-      Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   556
-      Caption         =   "취소"
-   End
-   Begin prjDownloadBooster.TygemButton tygNo 
-      Height          =   320
-      Left            =   4320
-      TabIndex        =   8
-      Tag             =   "novisibilitychange"
-      Top             =   840
-      Visible         =   0   'False
-      Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   556
-      Caption         =   "아니요"
-   End
-   Begin prjDownloadBooster.TygemButton tygYes 
-      Height          =   315
-      Left            =   2760
-      TabIndex        =   7
-      Tag             =   "novisibilitychange"
-      Top             =   840
-      Visible         =   0   'False
-      Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   556
-      Caption         =   "예"
-   End
    Begin VB.Timer timeout 
       Enabled         =   0   'False
       Left            =   360
@@ -138,37 +90,77 @@ Begin VB.Form YesNoCancelMsgBox
       _ExtentY        =   0
       Caption         =   "확인"
    End
-   Begin VB.Image imgMBIconInfo 
-      Height          =   480
-      Left            =   240
+   Begin VB.Image imgMBIconError 
+      Height          =   630
+      Index           =   1
+      Left            =   60
       Picture         =   "YesNoCancelMsgBox.frx":000C
-      Top             =   240
+      Top             =   60
       Visible         =   0   'False
-      Width           =   480
-   End
-   Begin VB.Image imgMBIconWarning 
-      Height          =   480
-      Left            =   240
-      Picture         =   "YesNoCancelMsgBox.frx":044E
-      Top             =   240
-      Visible         =   0   'False
-      Width           =   480
+      Width           =   645
    End
    Begin VB.Image imgMBIconError 
-      Height          =   480
-      Left            =   240
-      Picture         =   "YesNoCancelMsgBox.frx":0890
-      Top             =   240
+      Height          =   630
+      Index           =   0
+      Left            =   60
+      Picture         =   "YesNoCancelMsgBox.frx":0384
+      Top             =   60
       Visible         =   0   'False
-      Width           =   480
+      Width           =   645
+   End
+   Begin VB.Image imgMBIconWarning 
+      Height          =   630
+      Index           =   1
+      Left            =   60
+      Picture         =   "YesNoCancelMsgBox.frx":06E3
+      Top             =   60
+      Visible         =   0   'False
+      Width           =   645
+   End
+   Begin VB.Image imgMBIconWarning 
+      Height          =   630
+      Index           =   0
+      Left            =   60
+      Picture         =   "YesNoCancelMsgBox.frx":0B4E
+      Top             =   60
+      Visible         =   0   'False
+      Width           =   645
    End
    Begin VB.Image imgMBIconQuestion 
-      Height          =   480
-      Left            =   240
-      Picture         =   "YesNoCancelMsgBox.frx":0CD2
-      Top             =   240
+      Height          =   630
+      Index           =   1
+      Left            =   60
+      Picture         =   "YesNoCancelMsgBox.frx":0F9C
+      Top             =   60
       Visible         =   0   'False
-      Width           =   480
+      Width           =   645
+   End
+   Begin VB.Image imgMBIconQuestion 
+      Height          =   630
+      Index           =   0
+      Left            =   60
+      Picture         =   "YesNoCancelMsgBox.frx":1322
+      Top             =   60
+      Visible         =   0   'False
+      Width           =   645
+   End
+   Begin VB.Image imgMBIconInfo 
+      Height          =   630
+      Index           =   1
+      Left            =   60
+      Picture         =   "YesNoCancelMsgBox.frx":1693
+      Top             =   60
+      Visible         =   0   'False
+      Width           =   645
+   End
+   Begin VB.Image imgMBIconInfo 
+      Height          =   630
+      Index           =   0
+      Left            =   60
+      Picture         =   "YesNoCancelMsgBox.frx":1A09
+      Top             =   60
+      Visible         =   0   'False
+      Width           =   645
    End
    Begin VB.Label lblContent 
       BackColor       =   &H00F8EFE5&

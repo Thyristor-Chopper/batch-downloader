@@ -14,9 +14,13 @@ Public MsgBoxMode As Byte
 Public MsgBoxResult As VbMsgBoxResult
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
-'Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
+Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
 Private Declare Function DwmSetWindowAttribute Lib "dwmapi.dll" (ByVal hWnd As Long, ByVal dwAttribute As Long, ByRef pvAttribute As Long, ByVal cbAttribute As Long) As Long
 Private Declare Function DwmIsCompositionEnabled Lib "dwmapi.dll" (ByRef pfEnabled As Long) As Long
+Declare Function DwmEnableComposition Lib "dwmapi.dll" (ByVal uCompositionAction As Long) As Long
+Declare Function DwmExtendFrameIntoClientArea Lib "dwmapi.dll" (ByVal hWnd As Long, Margin As MARGINS) As Long
+Declare Sub DwmGetColorizationParameters Lib "dwmapi.dll" Alias "#127" (ByRef Parameters As DWM_COLORIZATION_PARAMS)
+Declare Sub DwmSetColorizationParameters Lib "dwmapi.dll" Alias "#131" (ByRef Parameters As DWM_COLORIZATION_PARAMS, Optional ByVal DoNotSaveToRegistry As Boolean = True)
 Private Declare Function RegOpenKeyEx Lib "advapi32" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, ByRef phkResult As Long) As Long
 Private Declare Function RegQueryValueEx Lib "advapi32" Alias "RegQueryValueExA" (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, ByRef lpType As Long, ByVal lpData As String, ByRef lpcbData As Long) As Long
 Private Declare Function RegCloseKey Lib "advapi32" (ByVal hKey As Long) As Long
@@ -65,6 +69,34 @@ Private Declare Function IsAppThemed Lib "uxtheme.dll" () As Long
 Private Declare Function IsThemeActive Lib "uxtheme.dll" () As Long
 Private Declare Function OpenThemeData Lib "uxtheme.dll" (ByVal hWnd As Long, ByVal pszClassList As Long) As Long
 Private Declare Function CloseThemeData Lib "uxtheme.dll" (ByVal hTheme As Long) As Long
+Declare Function Beep Lib "kernel32" (ByVal dwFreq As Long, Optional ByVal dwDuration As Long = 250) As Long
+Declare Function FlashWindow Lib "user32" (ByVal hWnd As Long, Optional ByVal bInvert As Long = 1&) As Long
+Private Declare Function PlaySound Lib "winmm.dll" Alias "PlaySoundA" (ByVal lpszName As String, ByVal hModule As Long, ByVal dwFlags As Long) As Long
+Private Declare Function SHGetSpecialFolderLocation Lib "shell32.dll" (ByVal hWndOwner As Long, ByVal nFolder As Long, pidl As ITEMIDLIST) As Long
+Private Declare Function SHGetPathFromIDList Lib "shell32.dll" Alias "SHGetPathFromIDListA" (ByVal pidl As Long, ByVal pszPath As String) As Long
+Declare Function GetDriveType Lib "kernel32" Alias "GetDriveTypeA" (ByVal lpRootPathName As String) As Long
+Private Declare Function GetDiskFreeSpaceEx Lib "kernel32" Alias "GetDiskFreeSpaceExA" (ByVal lpRootPathName As String, lpFreeBytesAvailableToCaller As LARGE_INTEGER, lpTotalNumberOfBytes As LARGE_INTEGER, lpTotalNumberOfFreeBytes As LARGE_INTEGER) As Long
+Declare Function ChooseColor Lib "comdlg32.dll" Alias "ChooseColorA" (lpChooseColor As ChooseColorStruct) As Long
+Declare Function OleTranslateColor Lib "oleaut32.dll" (ByVal lOleColor As Long, ByVal lHPalette As Long, lColorRef As Long) As Long
+Private Declare Function ShellExecuteEx Lib "shell32" (ByRef s As SHELLEXECUTEINFO) As Long
+Private Declare Function GetKeyState Lib "user32" (ByVal vKey As Long) As Integer
+
+Public Const DWM_EC_DISABLECOMPOSITION As Long = 0
+Public Const DWM_EC_ENABLECOMPOSITION As Long = 1
+
+Public Const SND_APPLICATION = &H80
+Public Const SND_ALIAS = &H10000
+Public Const SND_ALIAS_ID = &H110000
+Public Const SND_ASYNC = &H1
+Public Const SND_FILENAME = &H20000
+Public Const SND_LOOP = &H8
+Public Const SND_MEMORY = &H4
+Public Const SND_NODEFAULT = &H2
+Public Const SND_NOSTOP = &H10
+Public Const SND_NOWAIT = &H2000
+Public Const SND_PURGE = &H40
+Public Const SND_RESOURCE = &H40004
+Public Const SND_SYNC = &H0
 
 Public Const TMT_TEXTCOLOR As Long = 3803
 
@@ -75,6 +107,33 @@ Public Const HTLEFT = 10
 Public Const HTRIGHT = 11
 Public Const HTBOTTOMLEFT = 16
 Public Const HTBOTTOMRIGHT = 17
+
+Type DWM_COLORIZATION_PARAMS
+    ColorBlue  As Byte
+    ColorGreen As Byte
+    ColorRed   As Byte
+    ColorAlpha As Byte
+    
+    AfterGlowBlue  As Byte
+    AfterGlowGreen As Byte
+    AfterGlowRed   As Byte
+    AfterGlowAlpha As Byte
+    
+    ColorBalance     As Long
+    AfterGlowBalance As Long
+    BlurBalance      As Long
+    
+    StripesIntensity As Long
+    
+    Opaque As Boolean
+End Type
+
+Type MARGINS
+    cxLeftWidth    As Long
+    cxRightWidth   As Long
+    cyTopHeight    As Long
+    cyBottomHeight As Long
+End Type
 
 Enum AudioFormat
     Auto = 0
@@ -147,9 +206,6 @@ Private Type ITEMIDLIST
     mkid As ItemID
 End Type
 
-Private Declare Function SHGetSpecialFolderLocation Lib "shell32.dll" (ByVal hWndOwner As Long, ByVal nFolder As Long, pidl As ITEMIDLIST) As Long
-Private Declare Function SHGetPathFromIDList Lib "shell32.dll" Alias "SHGetPathFromIDListA" (ByVal pidl As Long, ByVal pszPath As String) As Long
-
 Enum DriveTypes
     DRIVE_UNKNOWN = 0
     DRIVE_NO_ROOT_DIR = 1
@@ -160,14 +216,12 @@ Enum DriveTypes
     DRIVE_RAMDISK = 6
 End Enum
 
-Declare Function GetDriveType Lib "kernel32" Alias "GetDriveTypeA" (ByVal lpRootPathName As String) As Long
 
 Private Type LARGE_INTEGER
     lowpart As Long
     highpart As Long
 End Type
 
-Private Declare Function GetDiskFreeSpaceEx Lib "kernel32" Alias "GetDiskFreeSpaceExA" (ByVal lpRootPathName As String, lpFreeBytesAvailableToCaller As LARGE_INTEGER, lpTotalNumberOfBytes As LARGE_INTEGER, lpTotalNumberOfFreeBytes As LARGE_INTEGER) As Long
 
 Private Const SW_SHOW = 5
 Private Const SEE_MASK_INVOKEIDLIST = &HC
@@ -189,8 +243,6 @@ Private Type SHELLEXECUTEINFO
     hIcon As Long
     hProcess As Long
 End Type
-
-Private Declare Function ShellExecuteEx Lib "shell32" (ByRef s As SHELLEXECUTEINFO) As Long
 
 Public Const CSIDL_DESKTOP = &H0
 Public Const CSIDL_INTERNET = &H1
@@ -302,9 +354,6 @@ Type ChooseColorStruct
     lpTemplateName As String
 End Type
 
-Declare Function ChooseColor Lib "comdlg32.dll" Alias "ChooseColorA" (lpChooseColor As ChooseColorStruct) As Long
-Declare Function OleTranslateColor Lib "oleaut32.dll" (ByVal lOleColor As Long, ByVal lHPalette As Long, lColorRef As Long) As Long
-    
 Const CC_RGBINIT = &H1&
 Const CC_FULLOPEN = &H2&
 Const CC_PREVENTFULLOPEN = &H4&
@@ -323,8 +372,6 @@ Enum MsgBoxExIcon
     Information = 64
     Doraemon = 128
 End Enum
-
-Private Declare Function GetKeyState Lib "user32" (ByVal vKey As Long) As Integer
 
 Private Const VK_SHIFT As Long = &H10
 Private Const VK_CONTROL As Long = &H11
@@ -388,6 +435,15 @@ Function IsDWMEnabled() As Boolean
 nodwm:
     IsDWMEnabled = False
 End Function
+
+Sub ExtendDWMFrame(ByRef frmForm As Form, Top As Long, Right As Long, Bottom As Long, Left As Long)
+    Dim Margin As MARGINS
+    Margin.cxLeftWidth = Left
+    Margin.cxRightWidth = Right
+    Margin.cyTopHeight = Top
+    Margin.cyBottomHeight = Bottom
+    DwmExtendFrameIntoClientArea frmForm.hWnd, Margin
+End Sub
 
 Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
     Dim clrBackColor As Long
@@ -650,13 +706,18 @@ Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As For
     MsgBoxMode = 1
     
     If Title = "" Then Title = App.Title
+    
+    On Error Resume Next
+    Randomize
     Select Case Icon
         Case 48
-            YesNoCancelMsgBox.imgMBIconWarning.Visible = True
+            YesNoCancelMsgBox.imgMBIconWarning(Int(Rnd * 2)).Visible = True
         Case 16
-            YesNoCancelMsgBox.imgMBIconError.Visible = True
+            YesNoCancelMsgBox.imgMBIconError(Int(Rnd * 2)).Visible = True
         Case 64
-            YesNoCancelMsgBox.imgMBIconInfo.Visible = True
+            YesNoCancelMsgBox.imgMBIconInfo(Int(Rnd * 2)).Visible = True
+        Case 32
+            YesNoCancelMsgBox.imgMBIconQuestion(Int(Rnd * 2)).Visible = True
     End Select
     
     Content = Replace(Content, "&", "&&")
@@ -692,7 +753,20 @@ Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As For
         YesNoCancelMsgBox.Height = YesNoCancelMsgBox.Height + 180
         YesNoCancelMsgBox.cmdOK.Top = YesNoCancelMsgBox.cmdOK.Top + 180
     End If
-    MessageBeep Icon
+    
+    Dim MessageSoundPath$
+    Select Case Icon
+        Case 48
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+        Case 16
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+        Case 64
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+        Case 32
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+    End Select
+    PlayWave MessageSoundPath, FallbackSound:=Icon
+    
     If timeout >= 0 Then
         YesNoCancelMsgBox.timeout.Interval = timeout
         YesNoCancelMsgBox.timeout.Enabled = -1
@@ -735,15 +809,18 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
     MsgBoxMode = 2
     
     If Title = "" Then Title = App.Title
+    
+    On Error Resume Next
+    Randomize
     Select Case Icon
         Case 48
-            YesNoCancelMsgBox.imgMBIconWarning.Visible = True
+            YesNoCancelMsgBox.imgMBIconWarning(Int(Rnd * 2)).Visible = True
         Case 16
-            YesNoCancelMsgBox.imgMBIconError.Visible = True
+            YesNoCancelMsgBox.imgMBIconError(Int(Rnd * 2)).Visible = True
         Case 64
-            YesNoCancelMsgBox.imgMBIconInfo.Visible = True
+            YesNoCancelMsgBox.imgMBIconInfo(Int(Rnd * 2)).Visible = True
         Case 32
-            YesNoCancelMsgBox.imgMBIconQuestion.Visible = True
+            YesNoCancelMsgBox.imgMBIconQuestion(Int(Rnd * 2)).Visible = True
     End Select
     
     Content = Replace(Content, "&", "&&")
@@ -782,7 +859,20 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
         YesNoCancelMsgBox.cmdYes.Top = YesNoCancelMsgBox.cmdYes.Top + 180
         YesNoCancelMsgBox.cmdNo.Top = YesNoCancelMsgBox.cmdNo.Top + 180
     End If
-    MessageBeep Icon
+    
+    Dim MessageSoundPath$
+    Select Case Icon
+        Case 48
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+        Case 16
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+        Case 64
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+        Case 32
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+    End Select
+    PlayWave MessageSoundPath, FallbackSound:=Icon
+    
     YesNoCancelMsgBox.cmdYes.Caption = t("예(&Y)", "&Yes")
     YesNoCancelMsgBox.cmdNo.Caption = t("아니요(&N)", "&No")
     
@@ -817,15 +907,18 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     MsgBoxMode = 3
     
     If Title = "" Then Title = App.Title
+    
+    On Error Resume Next
+    Randomize
     Select Case Icon
         Case 48
-            YesNoCancelMsgBox.imgMBIconWarning.Visible = True
+            YesNoCancelMsgBox.imgMBIconWarning(Int(Rnd * 2)).Visible = True
         Case 16
-            YesNoCancelMsgBox.imgMBIconError.Visible = True
+            YesNoCancelMsgBox.imgMBIconError(Int(Rnd * 2)).Visible = True
         Case 64
-            YesNoCancelMsgBox.imgMBIconInfo.Visible = True
+            YesNoCancelMsgBox.imgMBIconInfo(Int(Rnd * 2)).Visible = True
         Case 32
-            YesNoCancelMsgBox.imgMBIconQuestion.Visible = True
+            YesNoCancelMsgBox.imgMBIconQuestion(Int(Rnd * 2)).Visible = True
     End Select
     
     Content = Replace(Content, "&", "&&")
@@ -886,7 +979,18 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     YesNoCancelMsgBox.cmdOK.Caption = t("확인", "OK")
     YesNoCancelMsgBox.cmdCancel.Caption = t("취소", "Cancel")
     
-    MessageBeep Icon
+    Dim MessageSoundPath$
+    Select Case Icon
+        Case 48
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+        Case 16
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+        Case 64
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+        Case 32
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+    End Select
+    PlayWave MessageSoundPath, FallbackSound:=Icon
     
     YesNoCancelMsgBox.cmdOK.Visible = -1
     YesNoCancelMsgBox.cmdCancel.Visible = -1
@@ -918,15 +1022,17 @@ Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Op
     Unload YesNoCancelMsgBox
     MsgBoxMode = 4
     
+    On Error Resume Next
+    Randomize
     Select Case Icon
         Case 48
-            YesNoCancelMsgBox.imgMBIconWarning.Visible = True
+            YesNoCancelMsgBox.imgMBIconWarning(Int(Rnd * 2)).Visible = True
         Case 16
-            YesNoCancelMsgBox.imgMBIconError.Visible = True
+            YesNoCancelMsgBox.imgMBIconError(Int(Rnd * 2)).Visible = True
         Case 64
-            YesNoCancelMsgBox.imgMBIconInfo.Visible = True
+            YesNoCancelMsgBox.imgMBIconInfo(Int(Rnd * 2)).Visible = True
         Case 32
-            YesNoCancelMsgBox.imgMBIconQuestion.Visible = True
+            YesNoCancelMsgBox.imgMBIconQuestion(Int(Rnd * 2)).Visible = True
     End Select
     
     Content = Replace(Content, "&", "&&")
@@ -968,7 +1074,19 @@ Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Op
         YesNoCancelMsgBox.cmdNo.Top = YesNoCancelMsgBox.cmdNo.Top + 180
         YesNoCancelMsgBox.cmdCancel.Top = YesNoCancelMsgBox.cmdCancel.Top + 180
     End If
-    MessageBeep Icon
+    
+    Dim MessageSoundPath$
+    Select Case Icon
+        Case 48
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+        Case 16
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+        Case 64
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+        Case 32
+            MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+    End Select
+    PlayWave MessageSoundPath, FallbackSound:=Icon
     
     YesNoCancelMsgBox.cmdOK.Visible = 0
     YesNoCancelMsgBox.cmdCancel.Visible = -1
@@ -1159,9 +1277,9 @@ Function GetWindowsVersion() As Single
             Case VER_PLATFORM_WIN32_NT
                 GetWindowsVersion = 3.1
                 ver = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
-'                If ver >= 6.2 Then
-'                    ver = fWinVer()
-'                End If
+                If ver >= 6.2 Then
+                    ver = fWinVer()
+                End If
                 GetWindowsVersion = ver
         
             Case VER_PLATFORM_WIN32_WINDOWS:
@@ -1179,27 +1297,27 @@ Function GetWindowsVersion() As Single
     End If
 End Function
 
-'Function fWinVer() As Single
-'    Dim osv As OSVERSIONINFO
-'    osv.OSVSize = Len(osv)
-'    If GetVersionEx(osv) <> 1 Then
-'        fWinVer = "5.1.2600"
-'        WinVer = 5.1
-'        Build = 2600&
-'        Exit Function
-'    End If
-'
-'    If osv.PlatformID = VER_PLATFORM_WIN32_NT Then
-'        If RtlGetVersion(osv) <> 0 Then
-'            fWinVer = "5.1.2600"
-'            WinVer = 5.1
-'            Build = 2600&
-'            Exit Function
-'        End If
-'    End If
-'
-'    fWinVer = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
-'End Function
+Function fWinVer() As Single
+    Dim osv As OSVERSIONINFO
+    osv.OSVSize = Len(osv)
+    If GetVersionEx(osv) <> 1 Then
+        fWinVer = "5.1.2600"
+        WinVer = 5.1
+        'Build = 2600&
+        Exit Function
+    End If
+
+    If osv.PlatformID = VER_PLATFORM_WIN32_NT Then
+        If RtlGetVersion(osv) <> 0 Then
+            fWinVer = "5.1.2600"
+            WinVer = 5.1
+            'Build = 2600&
+            Exit Function
+        End If
+    End If
+
+    fWinVer = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
+End Function
 
 Function t(ByVal k, ByVal e) As Variant
     If LangID = 1042 Then
@@ -1471,10 +1589,6 @@ Function GetStrFromPtr(ByVal Ptr As Long) As String
 End Function
 
 Sub UpdateBorderWidth()
-'    Dim BorderWidth As Integer
-'    BorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "BorderWidth", -15) * (-1)
-'    If BorderWidth = 0 Then BorderWidth = 15
-'    Startup.PaddedBorderWidth = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop\WindowMetrics", "PaddedBorderWidth", 0) / (-15) + BorderWidth / 15
     Startup.DialogBorderWidth = GetSystemMetrics(8)
     Startup.SizingBorderWidth = GetSystemMetrics(33)
     Startup.PaddedBorderWidth = SizingBorderWidth - DialogBorderWidth
@@ -1509,11 +1623,11 @@ Function ExcludeParameters(ByVal URL As String) As String
     End If
 End Function
 
-Function Col(a, B)
-    If a Then
-        Col = a
+Function Col(Expression, IfFalse)
+    If Expression Then
+        Col = Expression
     Else
-        Col = B
+        Col = IfFalse
     End If
 End Function
 
@@ -1544,35 +1658,41 @@ Sub tr(ctrl As Control, ByVal EnglishCaption As String)
 End Sub
 
 Function GetThemeColor(ByVal hWnd As Long, ByVal ClassList As String, Optional ByVal Part As Long = 0&, Optional ByVal State As Long = 0&, Optional ByVal Prop As Long = TMT_TEXTCOLOR, Optional ByVal DefaultColor As Long = 0&) As Long
+    On Error GoTo returndefault
     Dim hTheme As Long
     Dim clr As Long
-    Dim Result As Long
     
-    Const BP_PUSHBUTTON As Long = 1
-    Const PBS_HOT As Long = 2
-    Const TMT_BTNFACE As Long = 1616
-    
-    If IsAppThemed() = 0 Or IsThemeActive() = 0 Then
-        GetThemeColor = DefaultColor
-        Exit Function
-    End If
-
+    If IsAppThemed() = 0 Or IsThemeActive() = 0 Then GoTo returndefault
     hTheme = OpenThemeData(hWnd, StrPtr(ClassList))
-    If hTheme = 0 Then
-        CloseThemeData hTheme
-        GetThemeColor = DefaultColor
-        Exit Function
-    End If
-
-    Result = X_GetThemeColor(hTheme, Part, State, Prop, clr)
-    
-    If Result <> 0 Then
-        CloseThemeData hTheme
-        GetThemeColor = DefaultColor
-        Exit Function
-    End If
-    
+    If hTheme = 0& Then GoTo returndefault
+    If X_GetThemeColor(hTheme, Part, State, Prop, clr) <> 0 Then GoTo returndefault
     CloseThemeData hTheme
     
     GetThemeColor = clr
+    Exit Function
+    
+returndefault:
+    If hTheme <> 0& Then CloseThemeData hTheme
+    GetThemeColor = DefaultColor
+    Exit Function
 End Function
+
+Sub PlayWave(ByVal Path As String, Optional ByVal LoopWave As Boolean = False, Optional ByVal StopPreviousWave As Boolean = True, Optional ByVal FallbackSound As MsgBoxExIcon = 0)
+    If FileExists(Path) Then
+        PlaySound Path, 0&, SND_FILENAME Or SND_ASYNC Or IIf(LoopWave, SND_LOOP, 0&) Or IIf(StopPreviousWave, 0&, SND_NOSTOP)
+    ElseIf FallbackSound Then
+        MessageBeep FallbackSound
+    End If
+End Sub
+
+Sub CopyText(ByVal Content As String)
+    Clipboard.Clear
+    Clipboard.SetText Content
+End Sub
+
+Sub EnableFrameControls(fFrame As FrameW, Except As Control, Optional ByVal Enable As Boolean = True)
+    Dim ctrl As Control
+    For Each ctrl In fFrame.ContainedControls
+        If ctrl.Name <> Except.Name Then ctrl.Enabled = Enable
+    Next ctrl
+End Sub

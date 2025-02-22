@@ -6,12 +6,12 @@ Begin VB.UserControl TextBoxW
    ClientTop       =   0
    ClientWidth     =   2400
    DataBindingBehavior=   1  'vbSimpleBound
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  '≈ı∏Ì
    ForeColor       =   &H80000008&
    HasDC           =   0   'False
    PropertyPages   =   "TextBoxW.ctx":0000
    ScaleHeight     =   120
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  '«»ºø
    ScaleWidth      =   160
    ToolboxBitmap   =   "TextBoxW.ctx":0046
 End
@@ -143,14 +143,11 @@ pAddrInfo As LongPtr ' VarPtr(NET_ADDRESS_INFO_*)
 PortNumber As Integer
 PrefixLength As Byte
 End Type
+Public Event Change()
 Public Event Click()
 Attribute Click.VB_Description = "Occurs when the user presses and then releases a mouse button over an object."
 Attribute Click.VB_UserMemId = -600
 Public Event DblClick()
-Attribute DblClick.VB_Description = "Occurs when you press and release a mouse button and then press and release it again over an object."
-Attribute DblClick.VB_UserMemId = -601
-Public Event Change()
-Attribute Change.VB_Description = "Occurs when the contents of a control have changed."
 Public Event MaxText()
 Attribute MaxText.VB_Description = "Occurs when the current text insertion has exceeded the maximum number of characters that can be entered in a control."
 Public Event DropFiles(ByRef FileList As Variant, ByVal X As Single, ByVal Y As Single)

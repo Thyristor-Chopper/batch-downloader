@@ -31,18 +31,18 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CommandButtonW cmdDownloadOptions 
       Height          =   330
-      Left            =   7350
-      TabIndex        =   126
-      Top             =   795
-      Width           =   1545
-      _ExtentX        =   2725
+      Left            =   7200
+      TabIndex        =   125
+      Top             =   3690
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   582
-      Caption         =   "기타 설정(&S)..."
+      Caption         =   "다운로드 설정(&S)..."
    End
    Begin prjDownloadBooster.ListView lvLogTest 
       Height          =   1335
       Left            =   6600
-      TabIndex        =   125
+      TabIndex        =   124
       Top             =   4080
       Visible         =   0   'False
       Width           =   615
@@ -53,7 +53,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdYtdlTest 
       Height          =   375
       Left            =   6600
-      TabIndex        =   124
+      TabIndex        =   123
       Top             =   5520
       Visible         =   0   'False
       Width           =   615
@@ -64,7 +64,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdEdit 
       Height          =   375
       Left            =   5880
-      TabIndex        =   120
+      TabIndex        =   119
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
@@ -87,7 +87,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
       Height          =   375
       Left            =   7560
-      TabIndex        =   24
+      TabIndex        =   23
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
@@ -152,7 +152,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.ListView lvBatchFiles 
       Height          =   870
       Left            =   240
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   6030
       Visible         =   0   'False
       Width           =   8895
@@ -172,8 +172,8 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdAbout 
       Height          =   300
       Left            =   7080
-      TabIndex        =   113
-      Top             =   3390
+      TabIndex        =   112
+      Top             =   3150
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
@@ -183,8 +183,8 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdOptions 
       Height          =   300
       Left            =   7080
-      TabIndex        =   112
-      Top             =   3075
+      TabIndex        =   111
+      Top             =   2835
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
@@ -195,8 +195,8 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CheckBoxW chkAutoRetry 
       Height          =   255
       Left            =   6840
-      TabIndex        =   60
-      Top             =   2805
+      TabIndex        =   59
+      Top             =   2565
       Width           =   2205
       _ExtentX        =   0
       _ExtentY        =   0
@@ -205,7 +205,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdStop 
       Height          =   330
       Left            =   7200
-      TabIndex        =   17
+      TabIndex        =   16
       Top             =   4815
       Width           =   1935
       _ExtentX        =   3413
@@ -218,8 +218,8 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CheckBoxW chkContinueDownload 
       Height          =   255
       Left            =   6840
-      TabIndex        =   59
-      Top             =   2580
+      TabIndex        =   58
+      Top             =   2340
       Width           =   1935
       _ExtentX        =   0
       _ExtentY        =   0
@@ -228,7 +228,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdOpenBatch 
       Height          =   375
       Left            =   240
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
@@ -241,7 +241,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdDelete 
       Height          =   375
       Left            =   4200
-      TabIndex        =   22
+      TabIndex        =   21
       Top             =   6960
       Width           =   1335
       _ExtentX        =   2355
@@ -264,7 +264,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdOpenDropdown 
       Height          =   375
       Left            =   1800
-      TabIndex        =   58
+      TabIndex        =   57
       Top             =   6960
       Width           =   255
       _ExtentX        =   450
@@ -287,7 +287,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
       Left            =   5520
-      TabIndex        =   57
+      TabIndex        =   56
       Top             =   6960
       Width           =   255
       _ExtentX        =   450
@@ -310,7 +310,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
       Left            =   7200
-      TabIndex        =   56
+      TabIndex        =   55
       Top             =   5190
       Visible         =   0   'False
       Width           =   1935
@@ -323,7 +323,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdStartBatch 
       Height          =   375
       Left            =   7560
-      TabIndex        =   23
+      TabIndex        =   22
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
@@ -393,20 +393,10 @@ Begin VB.Form frmMain
       MaskColor       =   16711935
       InitListImages  =   "frmMain.frx":A24E
    End
-   Begin prjDownloadBooster.CheckBoxW chkPlaySound 
-      Height          =   255
-      Left            =   6840
-      TabIndex        =   10
-      Top             =   2010
-      Width           =   2205
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "완료 시 신호음(&M)"
-   End
    Begin prjDownloadBooster.FrameW fTabThreads 
       Height          =   165
       Left            =   1545
-      TabIndex        =   49
+      TabIndex        =   48
       Top             =   2070
       Width           =   615
       _ExtentX        =   1085
@@ -418,7 +408,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.FrameW fTabDownload 
       Height          =   165
       Left            =   660
-      TabIndex        =   48
+      TabIndex        =   47
       Top             =   2070
       Width           =   495
       _ExtentX        =   873
@@ -430,7 +420,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.OptionButtonW optTabThreads2 
       Height          =   195
       Left            =   1320
-      TabIndex        =   47
+      TabIndex        =   46
       Top             =   2055
       Width           =   255
       _ExtentX        =   450
@@ -441,7 +431,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.OptionButtonW optTabDownload2 
       Height          =   195
       Left            =   435
-      TabIndex        =   46
+      TabIndex        =   45
       Top             =   2055
       Width           =   255
       _ExtentX        =   450
@@ -451,7 +441,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.FrameW fDownloadInfo 
       Height          =   3375
       Left            =   1320
-      TabIndex        =   30
+      TabIndex        =   29
       Top             =   2400
       Visible         =   0   'False
       Width           =   3855
@@ -465,7 +455,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   122
+         TabIndex        =   121
          Top             =   2880
          Width           =   4335
       End
@@ -474,7 +464,7 @@ Begin VB.Form frmMain
          Caption         =   "조각 결합 현황:"
          Height          =   255
          Left            =   0
-         TabIndex        =   121
+         TabIndex        =   120
          Top             =   2880
          Width           =   1335
       End
@@ -483,7 +473,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   115
+         TabIndex        =   114
          Top             =   2520
          Width           =   4335
       End
@@ -492,7 +482,7 @@ Begin VB.Form frmMain
          Caption         =   "남은 시간:"
          Height          =   255
          Left            =   0
-         TabIndex        =   114
+         TabIndex        =   113
          Top             =   2520
          Width           =   1215
       End
@@ -501,7 +491,7 @@ Begin VB.Form frmMain
          Caption         =   "파일 이름:"
          Height          =   255
          Left            =   0
-         TabIndex        =   55
+         TabIndex        =   54
          Top             =   0
          Width           =   1095
       End
@@ -510,7 +500,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   180
          Left            =   1320
-         TabIndex        =   54
+         TabIndex        =   53
          Top             =   0
          Width           =   4335
       End
@@ -519,7 +509,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   53
+         TabIndex        =   52
          Top             =   2160
          Width           =   4335
       End
@@ -528,7 +518,7 @@ Begin VB.Form frmMain
          Caption         =   "스레드당 크기:"
          Height          =   255
          Left            =   0
-         TabIndex        =   52
+         TabIndex        =   51
          Top             =   2160
          Width           =   1215
       End
@@ -537,7 +527,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   51
+         TabIndex        =   50
          Top             =   1800
          Width           =   4335
       End
@@ -546,7 +536,7 @@ Begin VB.Form frmMain
          Caption         =   "스레드 수:"
          Height          =   255
          Left            =   0
-         TabIndex        =   50
+         TabIndex        =   49
          Top             =   1800
          Width           =   975
       End
@@ -555,7 +545,7 @@ Begin VB.Form frmMain
          Caption         =   "속도:"
          Height          =   255
          Left            =   0
-         TabIndex        =   44
+         TabIndex        =   43
          Top             =   1440
          Width           =   975
       End
@@ -564,7 +554,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   43
+         TabIndex        =   42
          Top             =   1440
          Width           =   4335
       End
@@ -573,7 +563,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   36
+         TabIndex        =   35
          Top             =   1080
          Width           =   4335
       End
@@ -582,7 +572,7 @@ Begin VB.Form frmMain
          Caption         =   "경과 시간:"
          Height          =   255
          Left            =   0
-         TabIndex        =   35
+         TabIndex        =   34
          Top             =   1080
          Width           =   975
       End
@@ -591,7 +581,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   34
+         TabIndex        =   33
          Top             =   720
          Width           =   4335
       End
@@ -600,7 +590,7 @@ Begin VB.Form frmMain
          Caption         =   "받은 크기:"
          Height          =   255
          Left            =   0
-         TabIndex        =   33
+         TabIndex        =   32
          Top             =   720
          Width           =   1095
       End
@@ -609,7 +599,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   32
+         TabIndex        =   31
          Top             =   360
          Width           =   4335
       End
@@ -618,7 +608,7 @@ Begin VB.Form frmMain
          Caption         =   "총 크기:"
          Height          =   255
          Left            =   0
-         TabIndex        =   31
+         TabIndex        =   30
          Top             =   360
          Width           =   975
       End
@@ -626,7 +616,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.FrameW fThreadInfo 
       Height          =   3495
       Left            =   360
-      TabIndex        =   15
+      TabIndex        =   14
       Top             =   2310
       Width           =   6015
       _ExtentX        =   10610
@@ -638,7 +628,7 @@ Begin VB.Form frmMain
          Height          =   3495
          Left            =   5760
          Max             =   15
-         TabIndex        =   27
+         TabIndex        =   26
          Top             =   0
          Visible         =   0   'False
          Width           =   255
@@ -646,7 +636,7 @@ Begin VB.Form frmMain
       Begin prjDownloadBooster.FrameW fDummyScroll 
          Height          =   3495
          Left            =   5760
-         TabIndex        =   42
+         TabIndex        =   41
          Top             =   0
          Visible         =   0   'False
          Width           =   255
@@ -657,7 +647,7 @@ Begin VB.Form frmMain
       Begin prjDownloadBooster.FrameW pbProgressOuterContainer 
          Height          =   3495
          Left            =   0
-         TabIndex        =   28
+         TabIndex        =   27
          Top             =   0
          Width           =   5775
          _ExtentX        =   0
@@ -667,7 +657,7 @@ Begin VB.Form frmMain
          Begin prjDownloadBooster.FrameW pbProgressContainer 
             Height          =   9015
             Left            =   0
-            TabIndex        =   61
+            TabIndex        =   60
             Top             =   0
             Width           =   5775
             _ExtentX        =   0
@@ -1255,7 +1245,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   25
                Left            =   0
-               TabIndex        =   111
+               TabIndex        =   110
                Top             =   8685
                Width           =   855
             End
@@ -1265,7 +1255,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   25
                Left            =   5040
-               TabIndex        =   110
+               TabIndex        =   109
                Top             =   8700
                Width           =   615
             End
@@ -1274,7 +1264,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   24
                Left            =   0
-               TabIndex        =   109
+               TabIndex        =   108
                Top             =   8325
                Width           =   855
             End
@@ -1284,7 +1274,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   24
                Left            =   5040
-               TabIndex        =   108
+               TabIndex        =   107
                Top             =   8325
                Width           =   615
             End
@@ -1293,7 +1283,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   23
                Left            =   0
-               TabIndex        =   107
+               TabIndex        =   106
                Top             =   7965
                Width           =   855
             End
@@ -1303,7 +1293,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   23
                Left            =   5040
-               TabIndex        =   106
+               TabIndex        =   105
                Top             =   7965
                Width           =   615
             End
@@ -1312,7 +1302,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   22
                Left            =   0
-               TabIndex        =   105
+               TabIndex        =   104
                Top             =   7605
                Width           =   855
             End
@@ -1322,7 +1312,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   22
                Left            =   5040
-               TabIndex        =   104
+               TabIndex        =   103
                Top             =   7605
                Width           =   615
             End
@@ -1331,7 +1321,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   21
                Left            =   0
-               TabIndex        =   103
+               TabIndex        =   102
                Top             =   7245
                Width           =   855
             End
@@ -1341,7 +1331,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   21
                Left            =   5040
-               TabIndex        =   102
+               TabIndex        =   101
                Top             =   7245
                Width           =   615
             End
@@ -1350,7 +1340,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   20
                Left            =   0
-               TabIndex        =   101
+               TabIndex        =   100
                Top             =   6885
                Width           =   855
             End
@@ -1360,7 +1350,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   20
                Left            =   5040
-               TabIndex        =   100
+               TabIndex        =   99
                Top             =   6885
                Width           =   615
             End
@@ -1369,7 +1359,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   19
                Left            =   0
-               TabIndex        =   99
+               TabIndex        =   98
                Top             =   6525
                Width           =   855
             End
@@ -1379,7 +1369,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   19
                Left            =   5040
-               TabIndex        =   98
+               TabIndex        =   97
                Top             =   6525
                Width           =   615
             End
@@ -1388,7 +1378,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   18
                Left            =   0
-               TabIndex        =   97
+               TabIndex        =   96
                Top             =   6165
                Width           =   855
             End
@@ -1398,7 +1388,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   18
                Left            =   5040
-               TabIndex        =   96
+               TabIndex        =   95
                Top             =   6165
                Width           =   615
             End
@@ -1407,7 +1397,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   17
                Left            =   0
-               TabIndex        =   95
+               TabIndex        =   94
                Top             =   5805
                Width           =   855
             End
@@ -1417,7 +1407,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   17
                Left            =   5040
-               TabIndex        =   94
+               TabIndex        =   93
                Top             =   5805
                Width           =   615
             End
@@ -1426,7 +1416,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   16
                Left            =   0
-               TabIndex        =   93
+               TabIndex        =   92
                Top             =   5445
                Width           =   855
             End
@@ -1436,7 +1426,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   16
                Left            =   5040
-               TabIndex        =   92
+               TabIndex        =   91
                Top             =   5445
                Width           =   615
             End
@@ -1445,7 +1435,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   15
                Left            =   0
-               TabIndex        =   91
+               TabIndex        =   90
                Top             =   5085
                Width           =   855
             End
@@ -1455,7 +1445,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   15
                Left            =   5040
-               TabIndex        =   90
+               TabIndex        =   89
                Top             =   5085
                Width           =   615
             End
@@ -1464,7 +1454,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   14
                Left            =   0
-               TabIndex        =   89
+               TabIndex        =   88
                Top             =   4725
                Width           =   855
             End
@@ -1474,7 +1464,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   14
                Left            =   5040
-               TabIndex        =   88
+               TabIndex        =   87
                Top             =   4725
                Width           =   615
             End
@@ -1483,7 +1473,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   13
                Left            =   0
-               TabIndex        =   87
+               TabIndex        =   86
                Top             =   4365
                Width           =   855
             End
@@ -1493,7 +1483,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   13
                Left            =   5040
-               TabIndex        =   86
+               TabIndex        =   85
                Top             =   4365
                Width           =   615
             End
@@ -1502,7 +1492,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   12
                Left            =   0
-               TabIndex        =   85
+               TabIndex        =   84
                Top             =   4005
                Width           =   855
             End
@@ -1512,7 +1502,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   12
                Left            =   5040
-               TabIndex        =   84
+               TabIndex        =   83
                Top             =   4005
                Width           =   615
             End
@@ -1521,7 +1511,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   11
                Left            =   0
-               TabIndex        =   83
+               TabIndex        =   82
                Top             =   3645
                Width           =   855
             End
@@ -1531,7 +1521,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   11
                Left            =   5040
-               TabIndex        =   82
+               TabIndex        =   81
                Top             =   3645
                Width           =   615
             End
@@ -1540,7 +1530,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   10
                Left            =   0
-               TabIndex        =   81
+               TabIndex        =   80
                Top             =   3285
                Width           =   855
             End
@@ -1550,7 +1540,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   10
                Left            =   5040
-               TabIndex        =   80
+               TabIndex        =   79
                Top             =   3285
                Width           =   615
             End
@@ -1559,7 +1549,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   9
                Left            =   0
-               TabIndex        =   79
+               TabIndex        =   78
                Top             =   2925
                Width           =   855
             End
@@ -1569,7 +1559,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   9
                Left            =   5040
-               TabIndex        =   78
+               TabIndex        =   77
                Top             =   2925
                Width           =   615
             End
@@ -1578,7 +1568,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   8
                Left            =   0
-               TabIndex        =   77
+               TabIndex        =   76
                Top             =   2565
                Width           =   855
             End
@@ -1588,7 +1578,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   8
                Left            =   5040
-               TabIndex        =   76
+               TabIndex        =   75
                Top             =   2565
                Width           =   615
             End
@@ -1597,7 +1587,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   7
                Left            =   0
-               TabIndex        =   75
+               TabIndex        =   74
                Top             =   2205
                Width           =   855
             End
@@ -1607,7 +1597,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   7
                Left            =   5040
-               TabIndex        =   74
+               TabIndex        =   73
                Top             =   2205
                Width           =   615
             End
@@ -1616,7 +1606,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   6
                Left            =   0
-               TabIndex        =   73
+               TabIndex        =   72
                Top             =   1845
                Width           =   855
             End
@@ -1626,7 +1616,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   6
                Left            =   5040
-               TabIndex        =   72
+               TabIndex        =   71
                Top             =   1845
                Width           =   615
             End
@@ -1635,7 +1625,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   5
                Left            =   0
-               TabIndex        =   71
+               TabIndex        =   70
                Top             =   1485
                Width           =   855
             End
@@ -1645,7 +1635,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   5
                Left            =   5040
-               TabIndex        =   70
+               TabIndex        =   69
                Top             =   1485
                Width           =   615
             End
@@ -1654,7 +1644,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   4
                Left            =   0
-               TabIndex        =   69
+               TabIndex        =   68
                Top             =   1125
                Width           =   855
             End
@@ -1664,7 +1654,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   4
                Left            =   5040
-               TabIndex        =   68
+               TabIndex        =   67
                Top             =   1125
                Width           =   615
             End
@@ -1673,7 +1663,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   3
                Left            =   0
-               TabIndex        =   67
+               TabIndex        =   66
                Top             =   765
                Width           =   855
             End
@@ -1683,7 +1673,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   3
                Left            =   5040
-               TabIndex        =   66
+               TabIndex        =   65
                Top             =   765
                Width           =   615
             End
@@ -1692,7 +1682,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   2
                Left            =   0
-               TabIndex        =   65
+               TabIndex        =   64
                Top             =   405
                Width           =   855
             End
@@ -1702,7 +1692,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   2
                Left            =   5040
-               TabIndex        =   64
+               TabIndex        =   63
                Top             =   405
                Width           =   615
             End
@@ -1711,7 +1701,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   1
                Left            =   0
-               TabIndex        =   63
+               TabIndex        =   62
                Top             =   45
                Width           =   855
             End
@@ -1721,7 +1711,7 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   1
                Left            =   5040
-               TabIndex        =   62
+               TabIndex        =   61
                Top             =   45
                Width           =   615
             End
@@ -1730,7 +1720,7 @@ Begin VB.Form frmMain
       Begin prjDownloadBooster.TextBoxW txtDummyScroll 
          Height          =   3450
          Left            =   5640
-         TabIndex        =   40
+         TabIndex        =   39
          TabStop         =   0   'False
          Top             =   0
          Visible         =   0   'False
@@ -1745,7 +1735,7 @@ Begin VB.Form frmMain
       Begin prjDownloadBooster.ListBoxW lvDummyScroll 
          Height          =   3450
          Left            =   5400
-         TabIndex        =   39
+         TabIndex        =   38
          TabStop         =   0   'False
          Top             =   0
          Width           =   615
@@ -1768,7 +1758,7 @@ Begin VB.Form frmMain
    Begin VB.DirListBox CurDir 
       Height          =   510
       Left            =   9240
-      TabIndex        =   41
+      TabIndex        =   40
       Top             =   5280
       Visible         =   0   'False
       Width           =   495
@@ -1776,7 +1766,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdIncreaseThreads 
       Height          =   330
       Left            =   6930
-      TabIndex        =   38
+      TabIndex        =   37
       TabStop         =   0   'False
       Top             =   795
       Width           =   375
@@ -1789,7 +1779,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdDecreaseThreads 
       Height          =   330
       Left            =   1560
-      TabIndex        =   37
+      TabIndex        =   36
       TabStop         =   0   'False
       Top             =   795
       Width           =   375
@@ -1802,8 +1792,8 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.ComboBoxW cbWhenExist 
       Height          =   300
       Left            =   7590
-      TabIndex        =   12
-      Top             =   2265
+      TabIndex        =   11
+      Top             =   2040
       Width           =   1425
       _ExtentX        =   0
       _ExtentY        =   0
@@ -1832,7 +1822,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdClear 
       Height          =   330
       Left            =   7350
-      TabIndex        =   25
+      TabIndex        =   24
       TabStop         =   0   'False
       Top             =   90
       Width           =   1785
@@ -1845,7 +1835,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdAdd 
       Height          =   375
       Left            =   2520
-      TabIndex        =   21
+      TabIndex        =   20
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
@@ -1857,7 +1847,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdBatch 
       Height          =   330
       Left            =   7200
-      TabIndex        =   18
+      TabIndex        =   17
       Top             =   5565
       Width           =   1935
       _ExtentX        =   3413
@@ -1870,7 +1860,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.FrameW fTotal 
       Height          =   615
       Left            =   240
-      TabIndex        =   29
+      TabIndex        =   28
       Top             =   1320
       Width           =   6255
       _ExtentX        =   11033
@@ -1884,7 +1874,7 @@ Begin VB.Form frmMain
          Height          =   255
          Index           =   1
          Left            =   120
-         TabIndex        =   117
+         TabIndex        =   116
          Top             =   30
          Visible         =   0   'False
          Width           =   2775
@@ -1902,13 +1892,13 @@ Begin VB.Form frmMain
       End
    End
    Begin prjDownloadBooster.FrameW fOptions 
-      Height          =   2400
+      Height          =   2160
       Left            =   6720
-      TabIndex        =   26
+      TabIndex        =   25
       Top             =   1320
       Width           =   2415
       _ExtentX        =   4260
-      _ExtentY        =   4233
+      _ExtentY        =   3810
       Caption         =   " 옵션 "
       Transparent     =   -1  'True
       Begin VB.Label lblOverlay 
@@ -1918,7 +1908,7 @@ Begin VB.Form frmMain
          Height          =   255
          Index           =   0
          Left            =   120
-         TabIndex        =   116
+         TabIndex        =   115
          Top             =   30
          Visible         =   0   'False
          Width           =   855
@@ -1939,16 +1929,16 @@ Begin VB.Form frmMain
          Caption         =   "중복(&K):"
          Height          =   255
          Left            =   120
-         TabIndex        =   11
+         TabIndex        =   10
          Tag             =   "nocolorchange"
-         Top             =   990
+         Top             =   765
          Width           =   735
       End
       Begin VB.Shape pgSettingsBackground 
          BackColor       =   &H8000000F&
          BackStyle       =   1  '투명하지 않음
          BorderColor     =   &H80000010&
-         Height          =   1545
+         Height          =   1305
          Left            =   60
          Top             =   210
          Visible         =   0   'False
@@ -1958,7 +1948,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdOpen 
       Height          =   330
       Left            =   7200
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   4065
       Width           =   1695
       _ExtentX        =   2990
@@ -1971,7 +1961,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdOpenFolder 
       Height          =   330
       Left            =   7200
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   4440
       Width           =   1935
       _ExtentX        =   3413
@@ -2026,7 +2016,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdGo 
       Height          =   330
       Left            =   7200
-      TabIndex        =   16
+      TabIndex        =   15
       Top             =   4815
       Width           =   1935
       _ExtentX        =   3413
@@ -2038,7 +2028,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.FrameW Frame4 
       Height          =   3885
       Left            =   240
-      TabIndex        =   45
+      TabIndex        =   44
       Top             =   2040
       Width           =   6255
       _ExtentX        =   0
@@ -2060,24 +2050,12 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.CommandButtonW cmdOpenFileDropdown 
       Height          =   330
       Left            =   8880
-      TabIndex        =   123
+      TabIndex        =   122
       Top             =   4065
       Width           =   255
       _ExtentX        =   450
       _ExtentY        =   582
       Enabled         =   0   'False
-      ImageList       =   "imgDropdown"
-      ImageListAlignment=   4
-      Transparent     =   -1  'True
-   End
-   Begin prjDownloadBooster.CommandButtonW cmdDownloadOptionsDropdown 
-      Height          =   330
-      Left            =   8880
-      TabIndex        =   127
-      Top             =   795
-      Width           =   255
-      _ExtentX        =   450
-      _ExtentY        =   582
       ImageList       =   "imgDropdown"
       ImageListAlignment=   4
       Transparent     =   -1  'True
@@ -2104,7 +2082,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   375
       Left            =   240
-      TabIndex        =   119
+      TabIndex        =   118
       Tag             =   "nocolorsizechange"
       Top             =   1320
       Visible         =   0   'False
@@ -2182,19 +2160,18 @@ Begin VB.Form frmMain
       Caption         =   "중지됨"
       Height          =   255
       Left            =   10560
-      TabIndex        =   118
+      TabIndex        =   117
       Top             =   2760
       Width           =   615
    End
    Begin VB.Label lblThreadCount 
-      Alignment       =   1  '오른쪽 맞춤
       BackStyle       =   0  '투명
-      Caption         =   "(1)"
+      Caption         =   "(스레드 1개)"
       Height          =   255
-      Left            =   960
+      Left            =   7350
       TabIndex        =   7
       Top             =   870
-      Width           =   495
+      Width           =   1695
    End
    Begin VB.Label lblThreadCountLabel 
       BackStyle       =   0  '투명
@@ -2356,7 +2333,7 @@ Sub StartYtdlDownload()
     If Not FileExists(GetSetting("DownloadBooster", "Options", "YtdlPath", "")) Then
         If Confirm(t("youtube-dl 실행 파일 경로가 지정되지 않았습니다. 지금 지정하시겠습니까?", "youtube-dl executable path is not specified. Would you like to specify it now?"), App.Title, Me) = vbYes Then
             Load frmOptions
-            frmOptions.tsTabStrip.Tabs(4).Selected = -1
+            frmOptions.tsTabStrip.Tabs(5).Selected = -1
             frmOptions.Show vbModal, Me
         End If
         Exit Sub
@@ -2376,18 +2353,6 @@ Private Sub cmdDownloadOptions_Click()
     Set frmDownloadOptions.Headers = SessionHeaders
     Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
     frmDownloadOptions.Show vbModal, Me
-End Sub
-
-Private Sub cmdDownloadOptions_DropDown()
-    cmdDownloadOptionsDropdown_Click
-End Sub
-
-Private Sub cmdDownloadOptionsDropdown_Click()
-    Me.PopupMenu mnuDownloadOptions, , cmdDownloadOptions.Left, cmdDownloadOptions.Top + cmdDownloadOptions.Height
-End Sub
-
-Private Sub cmdDownloadOptionsDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    cmdDownloadOptionsDropdown_Click
 End Sub
 
 Private Sub mnuHeaders_Click()
@@ -2664,8 +2629,8 @@ Sub NextBatchDownload()
         If BatchErrorCount Then
             Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "103: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
                      "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), App.Title, Me, 48
-        ElseIf chkPlaySound.Value And BatchErrorAllCount <= 0 Then
-            MessageBeep 64
+        ElseIf GetSetting("DownloadBooster", "Options", "PlaySound", 1) <> 0 And BatchErrorAllCount <= 0 Then
+            PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=Information
         End If
         
         If lblState.Caption = t("완료됨", "Done") Then
@@ -2859,7 +2824,6 @@ Sub OnStart()
     cmdIncreaseThreads.Enabled = 0
     
     cmdDownloadOptions.Enabled = 0
-    cmdDownloadOptionsDropdown.Enabled = 0
     
     lblThreadCount.Enabled = 0
     
@@ -2927,7 +2891,6 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     If trThreadCount.Value < trThreadCount.Max Then cmdIncreaseThreads.Enabled = -1
     
     cmdDownloadOptions.Enabled = -1
-    cmdDownloadOptionsDropdown.Enabled = -1
     
     lblThreadCount.Enabled = -1
     
@@ -2988,8 +2951,8 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
             cmdStartBatch.Enabled = 0
         End If
         
-        If PlayBeep And chkPlaySound.Value Then
-            MessageBeep 64
+        If PlayBeep And GetSetting("DownloadBooster", "Options", "PlaySound", 1) <> 0 Then
+            PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=Information
             lblState.Caption = t("완료됨", "Done")
             sbStatusBar.Panels(1).Text = t("완료", "Done")
             sbStatusBar.Panels(2).Text = ""
@@ -3025,10 +2988,6 @@ End Sub
 
 Private Sub chkOpenFolder_Click()
     SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenFolder.Value
-End Sub
-
-Private Sub chkPlaySound_Click()
-    SaveSetting "DownloadBooster", "Options", "PlaySound", chkPlaySound.Value
 End Sub
 
 Private Sub cmdAbout_Click()
@@ -3967,7 +3926,6 @@ Private Sub Form_Load()
         txtURL.SelStart = 0
         txtURL.SelLength = Len(txtURL.Text)
     End If
-    chkPlaySound.Value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
     chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 0)
     chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
     
@@ -4012,7 +3970,6 @@ Private Sub Form_Load()
     
     chkOpenAfterComplete.Caption = t(chkOpenAfterComplete.Caption, "Open when &complete")
     chkOpenFolder.Caption = t(chkOpenFolder.Caption, "Open fo&lder when done")
-    chkPlaySound.Caption = t(chkPlaySound.Caption, "Beep when co&mplete")
     chkContinueDownload.Caption = t(chkContinueDownload.Caption, "Always resume(&J)")
     chkAutoRetry.Caption = t(chkAutoRetry.Caption, "Auto retry on error(&G)")
     
@@ -4043,7 +4000,7 @@ Private Sub Form_Load()
     mnuProperties.Caption = t(mnuProperties.Caption, "View p&roperties")
     mnuPropertiesBatch.Caption = t(mnuPropertiesBatch.Caption, "View p&roperties")
     
-    cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Other &settings...")
+    cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Download &settings...")
     
     tr mnuHeaders, "&Headers..."
     '언어설정끝
@@ -4053,19 +4010,16 @@ Private Sub Form_Load()
         pgSettingsBackground.Visible = -1
         chkOpenAfterComplete.Tag = "nobackcolorchange"
         chkOpenFolder.Tag = "nobackcolorchange"
-        chkPlaySound.Tag = "nobackcolorchange"
         chkContinueDownload.Tag = "nobackcolorchange"
         chkAutoRetry.Tag = "nobackcolorchange"
         
         chkOpenAfterComplete.Transparent = 0
         chkOpenFolder.Transparent = 0
-        chkPlaySound.Transparent = 0
         chkContinueDownload.Transparent = 0
         chkAutoRetry.Transparent = 0
     Else
         chkOpenAfterComplete.Transparent = -1
         chkOpenFolder.Transparent = -1
-        chkPlaySound.Transparent = -1
         chkContinueDownload.Transparent = -1
         chkAutoRetry.Transparent = -1
     End If
@@ -4135,10 +4089,6 @@ Sub SetupSplitButtons()
             cmdOpen.SplitButton = True
             cmdOpen.Width = 1935
             cmdOpenFileDropdown.Visible = False
-            
-            cmdDownloadOptions.SplitButton = True
-            cmdDownloadOptions.Width = 1785
-            cmdDownloadOptionsDropdown.Visible = False
         Else
             cmdOpenBatch.SplitButton = False
             cmdOpenBatch.Width = 1575
@@ -4151,10 +4101,6 @@ Sub SetupSplitButtons()
             cmdOpen.SplitButton = False
             cmdOpen.Width = 1695
             cmdOpenFileDropdown.Visible = True
-            
-            cmdDownloadOptions.SplitButton = False
-            cmdDownloadOptions.Width = 1545
-            cmdDownloadOptionsDropdown.Visible = True
         End If
     End If
 End Sub
@@ -4231,7 +4177,6 @@ Private Sub Form_Unload(Cancel As Integer)
     
 '    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenAfterComplete.Value
 '    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenFolder.Value
-'    SaveSetting "DownloadBooster", "Options", "PlaySound", chkPlaySound.Value
 '    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkContinueDownload.Value
 '    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
     
@@ -4601,9 +4546,9 @@ End Sub
 
 Private Sub trThreadCount_Scroll()
     If trThreadCount.Value = 1 Then
-        lblThreadCount.Caption = "(1)"
+        lblThreadCount.Caption = "(" & t("일반 다운로드", "No threading") & ")"
     Else
-        lblThreadCount.Caption = "(" & trThreadCount.Value & ")"
+        lblThreadCount.Caption = "(" & trThreadCount.Value & t("개 스레드", " threads") & ")"
     End If
     Dim i%
     For i = 1 To trThreadCount.Value
