@@ -15,8 +15,9 @@ Public Const WM_SIZING = &H214
 Public Const WM_GETMINMAXINFO = &H24
 Public Const WM_SYSCOMMAND = &H112
 Public Const WM_INITMENU = &H116
-Public Const WM_SETTINGCHANGE As Long = &H1A
-Const WM_DWMCOMPOSITIONCHANGED As Long = &H31E
+Public Const WM_SETTINGCHANGE = &H1A
+Public Const WM_DWMCOMPOSITIONCHANGED = &H31E
+Public Const WM_THEMECHANGED = &H31A
 Const DWM_EC_DISABLECOMPOSITION As Long = 0
 Const DWM_EC_ENABLECOMPOSITION As Long = 1
 Public Const HWND_TOPMOST = -1
@@ -190,7 +191,11 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
                     frmMain.trThreadCount.VisualStyles = False
                     frmMain.trThreadCount.VisualStyles = True
                     frmMain.trThreadCount.VisualStyles = PrevTrackerVisualStyles
+                    
+                    frmMain.SetTextColors
             End Select
+        Case WM_THEMECHANGED
+            frmMain.SetTextColors
     End Select
     
     If mPrevProc_Main > 0& Then

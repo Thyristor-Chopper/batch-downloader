@@ -4100,13 +4100,25 @@ Private Sub Form_Load()
     mnuYtdlOptions.Visible = False
 #End If
     
+    SetTextColors
+    
+    SetFont Me
+End Sub
+
+Sub SetTextColors()
+    Dim DisableVisualStyle As Boolean
+    DisableVisualStyle = CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
+
     Dim StatusTextColor&
-    StatusTextColor = GetThemeColor(Me.hWnd, "STATUS")
+    If DisableVisualStyle Then
+        StatusTextColor = &H80000012
+    Else
+        StatusTextColor = GetThemeColor(Me.hWnd, "STATUS", DefaultColor:=&H80000012)
+    End If
+    Dim i%
     For i = 1 To sbStatusBar.Panels.Count
         sbStatusBar.Panels(i).ForeColor = StatusTextColor
     Next i
-    
-    SetFont Me
 End Sub
 
 Sub SetupSplitButtons()

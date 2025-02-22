@@ -1223,6 +1223,7 @@ Private Sub cmdApply_Click()
         cmdChooseBackground.Refresh
         cmdSample.Refresh
         On Error GoTo 0
+        frmMain.SetTextColors
     End If
     If cbLanguage.ListIndex = 0 Then
         SaveSetting "DownloadBooster", "Options", "Language", "0"
