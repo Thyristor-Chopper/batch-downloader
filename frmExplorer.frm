@@ -847,7 +847,7 @@ Private Sub Form_Load()
     selFileType.Clear
     Select Case Tags.BrowseTargetForm
         Case 3
-            selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
+            selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
             selFileType.AddItem "JPEG (*.JPG; *.JPEG; *.JPE; *.JFIF)"
             selFileType.AddItem "GIF (*.GIF)"
             selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
