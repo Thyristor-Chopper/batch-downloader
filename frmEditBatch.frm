@@ -171,10 +171,10 @@ Private Sub cmdHeaders_Click()
     Set DecodedHeaders = DecodeHeaderCache(EncodedHeaders)
     Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
     Set frmDownloadOptions.Headers = DecodedHeaders("values")
-If HideYtdl Then
+#If HIDEYTDL Then
     frmDownloadOptions.Show vbModal, Me
     Exit Sub
-End If
+#End If
     frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
     frmDownloadOptions.Show vbModal, Me
 End Sub
@@ -265,8 +265,9 @@ Private Sub Form_Load()
     Me.Icon = frmMain.imgEdit.ListImages(1).Picture
     On Error GoTo 0
     
-If HideYtdl Then
+#If HIDEYTDL Then
     cmdYtdl.Visible = False
     cmdHeaders.Left = cmdYtdl.Left
-End If
+#End If
+
 End Sub

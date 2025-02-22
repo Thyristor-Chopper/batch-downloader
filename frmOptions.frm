@@ -1793,11 +1793,11 @@ activefail:
 nextcode:
     cmdSample.ImageList = frmMain.imgDownload
     
-If HideYtdl Then
+#If HIDEYTDL Then
     txtYtdlPath.Visible = False
     chkAutoYtdl.Visible = False
     Label7.Visible = False
-End If
+#End If
     
     Loaded = True
 End Sub

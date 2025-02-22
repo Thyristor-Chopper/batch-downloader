@@ -260,6 +260,7 @@ Begin VB.Form frmAbout
          Width           =   1455
          _ExtentX        =   2566
          _ExtentY        =   5741
+         MousePointer    =   4
          Icons           =   "imgItems"
          Arrange         =   2
          LabelEdit       =   2

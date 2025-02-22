@@ -6,6 +6,7 @@ Attribute VB_Name = "Functions"
 '- https://www.codeguru.com/visual-basic/displaying-the-file-properties-dialog/
 '- http://vbcity.com/forums/t/105530.aspx
 '- https://www.vbforums.com/showthread.php?644597-How-to-get-String-from-Pointer-in-VB
+'- https://www.vbforums.com/showthread.php?903019-UxTheme-dll-Visual-Styles-help-request-button-face-color-when-mouse-hovers-over
 
 Option Explicit
 
@@ -59,6 +60,13 @@ Declare Function SetParent Lib "user32" (ByVal hWndChild As Long, ByVal hWndNewP
 Declare Function GetWindowRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
 Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 Declare Sub ReleaseCapture Lib "user32" ()
+Private Declare Function X_GetThemeColor Lib "uxtheme.dll" Alias "GetThemeColor" (ByVal hTheme As Long, ByVal iPartId As Long, ByVal iStateId As Long, ByVal iPropId As Long, pColor As Long) As Long
+Private Declare Function IsAppThemed Lib "uxtheme.dll" () As Long
+Private Declare Function IsThemeActive Lib "uxtheme.dll" () As Long
+Private Declare Function OpenThemeData Lib "uxtheme.dll" (ByVal hWnd As Long, ByVal pszClassList As Long) As Long
+Private Declare Function CloseThemeData Lib "uxtheme.dll" (ByVal hTheme As Long) As Long
+
+Public Const TMT_TEXTCOLOR As Long = 3803
 
 Public Const WM_NCLBUTTONDOWN = &HA1
 Public Const HTCAPTION = 2
@@ -1534,3 +1542,37 @@ Sub tr(ctrl As Control, ByVal EnglishCaption As String)
     On Error Resume Next
     ctrl.Caption = t(ctrl.Caption, EnglishCaption)
 End Sub
+
+Function GetThemeColor(ByVal hWnd As Long, ByVal ClassList As String, Optional ByVal Part As Long = 0&, Optional ByVal State As Long = 0&, Optional ByVal Prop As Long = TMT_TEXTCOLOR, Optional ByVal DefaultColor As Long = 0&) As Long
+    Dim hTheme As Long
+    Dim clr As Long
+    Dim Result As Long
+    
+    Const BP_PUSHBUTTON As Long = 1
+    Const PBS_HOT As Long = 2
+    Const TMT_BTNFACE As Long = 1616
+    
+    If IsAppThemed() = 0 Or IsThemeActive() = 0 Then
+        GetThemeColor = DefaultColor
+        Exit Function
+    End If
+
+    hTheme = OpenThemeData(hWnd, StrPtr(ClassList))
+    If hTheme = 0 Then
+        CloseThemeData hTheme
+        GetThemeColor = DefaultColor
+        Exit Function
+    End If
+
+    Result = X_GetThemeColor(hTheme, Part, State, Prop, clr)
+    
+    If Result <> 0 Then
+        CloseThemeData hTheme
+        GetThemeColor = DefaultColor
+        Exit Function
+    End If
+    
+    CloseThemeData hTheme
+    
+    GetThemeColor = clr
+End Function

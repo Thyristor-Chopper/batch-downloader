@@ -2394,10 +2394,10 @@ Private Sub mnuHeaders_Click()
     Tags.DownloadOptionsTargetForm = 0
     Set frmDownloadOptions.Headers = SessionHeaders
     Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
-If HideYtdl Then
+#If HIDEYTDL Then
     frmDownloadOptions.Show vbModal, Me
     Exit Sub
-End If
+#End If
     frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
     frmDownloadOptions.Show vbModal, Me
 End Sub
@@ -4096,9 +4096,15 @@ Private Sub Form_Load()
     LoadURLMRU
     If txtURL.ListCount > 0 Then txtURL.ListIndex = 0
 
-If HideYtdl Then
+#If HIDEYTDL Then
     mnuYtdlOptions.Visible = False
-End If
+#End If
+    
+    Dim StatusTextColor&
+    StatusTextColor = GetThemeColor(Me.hWnd, "STATUS")
+    For i = 1 To sbStatusBar.Panels.Count
+        sbStatusBar.Panels(i).ForeColor = StatusTextColor
+    Next i
     
     SetFont Me
 End Sub

@@ -578,21 +578,21 @@ Private Sub Form_Load()
         End If
     Next i
     
-If HideYtdl Then
+#If HIDEYTDL Then
     tsTabStrip.Tabs(2).Selected = True
     tsTabStrip.Tabs.Remove 1
     pbPanel(2).Visible = True
     pbPanel(1).Visible = False
     pbPanel(2).Enabled = True
-End If
+#End If
     
     optUseYtdl_Click
 End Sub
 
 Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
-If HideYtdl Then
+#If HIDEYTDL Then
     Exit Sub
-End If
+#End If
     
     On Error Resume Next
     Dim i%

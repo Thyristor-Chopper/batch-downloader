@@ -108,6 +108,7 @@ VersionFileDescription="다운로드 부스터"
 VersionLegalCopyright="ㅎ"
 VersionLegalTrademarks="ㅎ"
 VersionProductName="다운로드 부스터"
+CondComp="HIDEYTDL = 1"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0
