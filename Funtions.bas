@@ -757,15 +757,31 @@ Sub Alert(Content As String, Optional Title As String, Optional OwnerForm As For
     Dim MessageSoundPath$
     Select Case Icon
         Case 48
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            End If
         Case 16
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            End If
         Case 64
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            End If
         Case 32
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            End If
     End Select
-    PlayWave MessageSoundPath, FallbackSound:=Icon
+    If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
     
     If timeout >= 0 Then
         YesNoCancelMsgBox.timeout.Interval = timeout
@@ -863,15 +879,31 @@ Function Confirm(Content As String, Title As String, OwnerForm As Form, Optional
     Dim MessageSoundPath$
     Select Case Icon
         Case 48
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            End If
         Case 16
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            End If
         Case 64
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            End If
         Case 32
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            End If
     End Select
-    PlayWave MessageSoundPath, FallbackSound:=Icon
+    If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
     
     YesNoCancelMsgBox.cmdYes.Caption = t("예(&Y)", "&Yes")
     YesNoCancelMsgBox.cmdNo.Caption = t("아니요(&N)", "&No")
@@ -982,15 +1014,31 @@ Function ConfirmEx(ByVal Content As String, ByVal Title As String, OwnerForm As 
     Dim MessageSoundPath$
     Select Case Icon
         Case 48
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            End If
         Case 16
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            End If
         Case 64
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            End If
         Case 32
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            End If
     End Select
-    PlayWave MessageSoundPath, FallbackSound:=Icon
+    If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
     
     YesNoCancelMsgBox.cmdOK.Visible = -1
     YesNoCancelMsgBox.cmdCancel.Visible = -1
@@ -1078,15 +1126,31 @@ Function ConfirmCancel(Content As String, Title As String, OwnerForm As Form, Op
     Dim MessageSoundPath$
     Select Case Icon
         Case 48
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            End If
         Case 16
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            End If
         Case 64
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            End If
         Case 32
-            MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            If GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            End If
     End Select
-    PlayWave MessageSoundPath, FallbackSound:=Icon
+    If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
     
     YesNoCancelMsgBox.cmdOK.Visible = 0
     YesNoCancelMsgBox.cmdCancel.Visible = -1
