@@ -15,7 +15,7 @@ Public MsgBoxResult As VbMsgBoxResult
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
-Private Declare Function DwmSetWindowAttribute Lib "dwmapi.dll" (ByVal hWnd As Long, ByVal dwAttribute As Long, ByRef pvAttribute As Long, ByVal cbAttribute As Long) As Long
+Declare Function DwmSetWindowAttribute Lib "dwmapi.dll" (ByVal hWnd As Long, ByVal dwAttribute As Long, ByRef pvAttribute As Long, ByVal cbAttribute As Long) As Long
 Private Declare Function DwmIsCompositionEnabled Lib "dwmapi.dll" (ByRef pfEnabled As Long) As Long
 Declare Function DwmEnableComposition Lib "dwmapi.dll" (ByVal uCompositionAction As Long) As Long
 Declare Function DwmExtendFrameIntoClientArea Lib "dwmapi.dll" (ByVal hWnd As Long, Margin As MARGINS) As Long
@@ -407,26 +407,23 @@ End Function
 Sub DisableDWMWindow(hWnd As Long)
     If WinVer < 6# Then Exit Sub
     On Error Resume Next
-    DwmSetWindowAttribute hWnd, 2, 1, 4
+    DwmSetWindowAttribute hWnd, 2&, 1&, 4&
 End Sub
 
 Sub EnableDWMWindow(hWnd As Long)
     If WinVer < 6# Then Exit Sub
     On Error Resume Next
-    DwmSetWindowAttribute hWnd, 2, 0, 4
+    DwmSetWindowAttribute hWnd, 2&, 0&, 4&
 End Sub
 
 Function IsDWMEnabled() As Boolean
-    If WinVer < 6# Then
-        IsDWMEnabled = False
-        Exit Function
-    End If
+    If WinVer < 6# Then GoTo nodwm
     On Error GoTo nodwm
     Dim DwmEnabled&, ret&
     DwmEnabled = 0
     ret = DwmIsCompositionEnabled(DwmEnabled)
     If ret <> 0 Then GoTo nodwm
-    If DwmEnabled > 0 Then
+    If DwmEnabled <> 0 Then
         IsDWMEnabled = True
     Else
         IsDWMEnabled = False
