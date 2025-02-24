@@ -24,11 +24,10 @@ Begin VB.Form frmMain
       Height          =   300
       Left            =   1560
       TabIndex        =   125
-      Top             =   120
+      Top             =   105
       Width           =   5745
       _ExtentX        =   10134
       _ExtentY        =   529
-      Text            =   "frmMain.frx":1782
    End
    Begin prjDownloadBooster.CommandButtonW cmdDownloadOptions 
       Height          =   330
@@ -83,7 +82,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       ColorDepth      =   4
-      InitListImages  =   "frmMain.frx":17B4
+      InitListImages  =   "frmMain.frx":1782
    End
    Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
       Height          =   375
@@ -128,7 +127,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       ColorDepth      =   4
-      InitListImages  =   "frmMain.frx":1C9C
+      InitListImages  =   "frmMain.frx":1C6A
    End
    Begin prjDownloadBooster.ImageList imgErase 
       Left            =   9840
@@ -138,7 +137,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2184
+      InitListImages  =   "frmMain.frx":2152
    End
    Begin prjDownloadBooster.StatusBar sbStatusBar 
       Align           =   2  '¾Æ·¡ ¸ÂÃã
@@ -148,7 +147,7 @@ Begin VB.Form frmMain
       Width           =   11115
       _ExtentX        =   19606
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":256C
+      InitPanels      =   "frmMain.frx":253A
    End
    Begin prjDownloadBooster.ListView lvBatchFiles 
       Height          =   870
@@ -260,7 +259,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2870
+      InitListImages  =   "frmMain.frx":283E
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenDropdown 
       Height          =   375
@@ -283,7 +282,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2F60
+      InitListImages  =   "frmMain.frx":2F2E
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -306,7 +305,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3650
+      InitListImages  =   "frmMain.frx":361E
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
@@ -342,7 +341,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":4858
+      InitListImages  =   "frmMain.frx":4826
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -352,7 +351,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":5A60
+      InitListImages  =   "frmMain.frx":5A2E
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -362,7 +361,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":6C68
+      InitListImages  =   "frmMain.frx":6C36
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -372,7 +371,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":7E70
+      InitListImages  =   "frmMain.frx":7E3E
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -382,7 +381,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":9078
+      InitListImages  =   "frmMain.frx":9046
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -392,7 +391,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":A280
+      InitListImages  =   "frmMain.frx":A24E
    End
    Begin prjDownloadBooster.FrameW fTabThreads 
       Height          =   165
@@ -2092,14 +2091,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopLeft 
       Height          =   435
       Left            =   120
-      Picture         =   "frmMain.frx":A668
+      Picture         =   "frmMain.frx":A636
       Top             =   1200
       Width           =   1725
    End
    Begin VB.Image imgTop 
       Height          =   435
       Left            =   1845
-      Picture         =   "frmMain.frx":CE16
+      Picture         =   "frmMain.frx":CDE4
       Stretch         =   -1  'True
       Top             =   1200
       Width           =   3585
@@ -2107,14 +2106,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopRight 
       Height          =   435
       Left            =   5430
-      Picture         =   "frmMain.frx":11FE8
+      Picture         =   "frmMain.frx":11FB6
       Top             =   1200
       Width           =   150
    End
    Begin VB.Image imgLeft 
       Height          =   2310
       Left            =   120
-      Picture         =   "frmMain.frx":123CA
+      Picture         =   "frmMain.frx":12398
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   1725
@@ -2122,14 +2121,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomLeft 
       Height          =   180
       Left            =   120
-      Picture         =   "frmMain.frx":1F564
+      Picture         =   "frmMain.frx":1F532
       Top             =   3945
       Width           =   1725
    End
    Begin VB.Image imgBottom 
       Height          =   180
       Left            =   1845
-      Picture         =   "frmMain.frx":205F6
+      Picture         =   "frmMain.frx":205C4
       Stretch         =   -1  'True
       Top             =   3945
       Width           =   3585
@@ -2137,14 +2136,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomRight 
       Height          =   180
       Left            =   5430
-      Picture         =   "frmMain.frx":227F8
+      Picture         =   "frmMain.frx":227C6
       Top             =   3945
       Width           =   150
    End
    Begin VB.Image imgRight 
       Height          =   2310
       Left            =   5415
-      Picture         =   "frmMain.frx":229BA
+      Picture         =   "frmMain.frx":22988
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   165
@@ -2198,7 +2197,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   240
       TabIndex        =   0
-      Top             =   135
+      Top             =   150
       Width           =   1215
    End
    Begin prjDownloadBooster.ShellPipe SP 
@@ -2566,7 +2565,7 @@ progressAvailable:
             End If
         End If
     ElseIf Left$(Data, 17) = "MODIFIEDFILENAME " Then
-        output = StrConv(atob(Right$(Data, Len(Data) - 17)), vbUnicode)
+        output = atob(Right$(Data, Len(Data) - 17))
         DownloadPath = output
         lblFilename.Caption = GetFilename(output)
         If BatchStarted Then
