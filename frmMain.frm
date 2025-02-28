@@ -184,7 +184,7 @@ Begin VB.Form frmMain
       Height          =   300
       Left            =   7080
       TabIndex        =   110
-      Top             =   2835
+      Top             =   2850
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
@@ -196,7 +196,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   6840
       TabIndex        =   58
-      Top             =   2565
+      Top             =   2580
       Width           =   2205
       _ExtentX        =   0
       _ExtentY        =   0
@@ -219,7 +219,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   6840
       TabIndex        =   57
-      Top             =   2340
+      Top             =   2355
       Width           =   1935
       _ExtentX        =   0
       _ExtentY        =   0
@@ -1938,7 +1938,7 @@ Begin VB.Form frmMain
          BackColor       =   &H8000000F&
          BackStyle       =   1  '투명하지 않음
          BorderColor     =   &H80000010&
-         Height          =   1305
+         Height          =   1320
          Left            =   60
          Top             =   210
          Visible         =   0   'False
@@ -2565,7 +2565,7 @@ progressAvailable:
             End If
         End If
     ElseIf Left$(Data, 17) = "MODIFIEDFILENAME " Then
-        output = atob(Right$(Data, Len(Data) - 17))
+        output = StrConv(atob(Right$(Data, Len(Data) - 17)), vbUnicode)
         DownloadPath = output
         lblFilename.Caption = GetFilename(output)
         If BatchStarted Then
@@ -3063,6 +3063,7 @@ Private Sub cmdAddToQueue_Click()
         Exit Sub
     End If
     On Error GoTo justadd
+    If GetSetting("DownloadBooster", "Options", "AllowDuplicatesInQueue", 0) <> 0 Then GoTo justadd
     Dim i%
     If lvBatchFiles.ListItems.Count Then
         For i = 1 To lvBatchFiles.ListItems.Count

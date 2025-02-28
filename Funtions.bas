@@ -1451,7 +1451,7 @@ Function DecodeHeaderCache(ByVal HeaderCache As String) As Collection
     Set Headers = New Collection
     Set HeaderKeys = New Collection
     Dim RawHeaders$
-    RawHeaders = atob(HeaderCache)
+    RawHeaders = StrConv(atob(HeaderCache), vbUnicode)
     Dim HeaderSplit() As String
     HeaderSplit = Split(RawHeaders, vbLf)
     Dim HeaderLine$
@@ -1571,7 +1571,7 @@ Function atob(sText As String) As Byte()
     CryptStringToBinary StrPtr(sText), Len(sText), CRYPT_STRING_BASE64, VarPtr(baOutput(0)), lSize, 0, dwDummy
     If lSize > 0 Then
         ReDim Preserve baOutput(0 To lSize - 1) As Byte
-        atob = StrConv(baOutput, vbUnicode)
+        atob = baOutput
     Else
         atob = vbNullString
     End If
