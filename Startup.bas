@@ -120,8 +120,8 @@ Sub LoadJS()
 End Sub
 
 Sub Main()
-    LangID = GetSetting("DownloadBooster", "Options", "Language", GetUserDefaultLangID())
-    If LangID = 0 Then LangID = GetUserDefaultLangID()
+    LangID = GetSetting("DownloadBooster", "Options", "Language", 0)
+    If LangID = 0 Then LangID = GetUserDefaultUILanguage()
     App.Title = t(App.Title, "Download Booster")
     
     WinVer = GetWindowsVersion()
@@ -146,6 +146,8 @@ Sub Main()
     Set SessionHeaders = New Collection
     Set SessionHeaderKeys = New Collection
     SessionHeaderCache = ""
+    
+    Set MsgBoxResults = New Collection
     
     InitVisualStylesFixes
     

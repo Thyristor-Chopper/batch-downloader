@@ -10,7 +10,7 @@ Attribute VB_Name = "Functions"
 
 Option Explicit
 
-Public MsgBoxResult As VbMsgBoxResult
+Public MsgBoxResults As Collection
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
@@ -625,11 +625,19 @@ End Function
 
 Function TextWidth(ByVal s As String) As Single
     On Error Resume Next
+    If LangID <> 1042 Then
+        frmDummyForm.Font.Name = "Tahoma"
+        frmDummyForm.Font.Size = 8
+    End If
     TextWidth = frmDummyForm.TextWidth(s)
 End Function
 
 Function TextHeight(ByVal s As String) As Single
     On Error Resume Next
+    If LangID <> 1042 Then
+        frmDummyForm.Font.Name = "Tahoma"
+        frmDummyForm.Font.Size = 8
+    End If
     TextHeight = frmDummyForm.TextHeight(s)
 End Function
 
@@ -804,6 +812,7 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
     Dim MessageBox As frmMessageBox
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 2
+    MessageBox.ResultID = CStr(Rnd * 1E+15)
     
     If Title = "" Then Title = App.Title
     
@@ -907,13 +916,14 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
     
     MessageBox.Show vbModal, OwnerForm
     
-    Confirm = MsgBoxResult
+    Confirm = MsgBoxResults(MessageBox.ResultID)
 End Function
 
 Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional OwnerForm As Form = Nothing, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
     Dim MessageBox As frmMessageBox
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 3
+    MessageBox.ResultID = CStr(Rnd * 1E+15)
     
     If Title = "" Then Title = App.Title
     
@@ -1035,13 +1045,14 @@ Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Opti
     
     MessageBox.Show vbModal, OwnerForm
     
-    ConfirmEx = MsgBoxResult
+    ConfirmEx = MsgBoxResults(MessageBox.ResultID)
 End Function
 
 Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, Optional OwnerForm As Form = Nothing, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
     Dim MessageBox As frmMessageBox
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 4
+    MessageBox.ResultID = CStr(Rnd * 1E+15)
     
     If Title = "" Then Title = App.Title
     
@@ -1149,7 +1160,7 @@ Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, 
     
     MessageBox.Show vbModal, OwnerForm
     
-    ConfirmCancel = MsgBoxResult
+    ConfirmCancel = MsgBoxResults(MessageBox.ResultID)
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available

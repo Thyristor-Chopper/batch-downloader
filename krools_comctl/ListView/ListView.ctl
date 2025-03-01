@@ -4,11 +4,11 @@ Begin VB.UserControl ListView
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   2400
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  '≈ı∏Ì
    HasDC           =   0   'False
    PropertyPages   =   "ListView.ctx":0000
    ScaleHeight     =   120
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  '«»ºø
    ScaleWidth      =   160
    ToolboxBitmap   =   "ListView.ctx":0074
    Begin VB.Timer TimerImageList 
@@ -4501,12 +4501,10 @@ If Not Text = vbNullString Then
     .pszText = StrPtr(Text)
     .cchTextMax = Len(Text) + 1
 End If
-If Width = 0 Then
+If Width < 0 Then
     .CX = (96 * PixelsPerDIP_X())
 ElseIf Width > 0 Then
     .CX = UserControl.ScaleX(Width, vbContainerSize, vbPixels)
-Else
-    Err.Raise 380
 End If
 If (ColumnHeaderIndex - 1) = 0 Then
     .fmt = LVCFMT_LEFT

@@ -183,7 +183,7 @@ Begin VB.Form frmOptions
             Height          =   300
             Left            =   360
             TabIndex        =   88
-            Top             =   360
+            Top             =   330
             Width           =   4095
             _ExtentX        =   7223
             _ExtentY        =   529
