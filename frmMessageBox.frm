@@ -80,7 +80,6 @@ Begin VB.Form frmMessageBox
       Caption         =   "¿¹(&Y)"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
-      Default         =   -1  'True
       Height          =   315
       Left            =   7440
       TabIndex        =   0
@@ -183,12 +182,20 @@ Option Explicit
 Dim ButtonPressed As Boolean
 Public MsgBoxMode As Byte
 Public MsgBoxResult As VbMsgBoxResult
-Public ResultID$
+Public ResultID As String
+
+Private Sub cmdCancel_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
+End Sub
 
 Private Sub cmdNo_Click()
     MsgBoxResult = vbNo
     ButtonPressed = -1
     Unload Me
+End Sub
+
+Private Sub cmdNo_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
 End Sub
 
 Private Sub cmdOK_Click()
@@ -205,6 +212,10 @@ Private Sub cmdOK_Click()
     Unload Me
 End Sub
 
+Private Sub cmdOK_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
+End Sub
+
 Private Sub cmdYes_Click()
     MsgBoxResult = vbYes
     ButtonPressed = -1
@@ -217,18 +228,26 @@ Private Sub cmdCancel_Click()
     Unload Me
 End Sub
 
+Private Sub cmdYes_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
+End Sub
+
 Private Sub Form_Activate()
     On Error Resume Next
     Select Case MsgBoxMode
         Case 1
             cmdOK.SetFocus
         Case 2
-            cmdNo.SetFocus
+            cmdYes.SetFocus
         Case 3
             optNo.SetFocus
         Case 4
             cmdCancel.SetFocus
     End Select
+End Sub
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
 End Sub
 
 Private Sub Form_Load()
@@ -263,6 +282,14 @@ Private Sub Form_Unload(Cancel As Integer)
     End If
 End Sub
 
+Private Sub optNo_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
+End Sub
+
+Private Sub optYes_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
+End Sub
+
 Private Sub timeout_Timer()
     cmdOK_Click
 End Sub
@@ -273,4 +300,24 @@ End Sub
 
 Private Sub optYes_Click()
     cmdOK.Enabled = True
+End Sub
+
+Sub OnKeyDown(KeyCode As Integer)
+    On Error Resume Next
+    Select Case KeyCode
+        Case 78 'N
+            If optNo.Visible Then
+                optNo.Value = True
+                optNo_Click
+                optNo.SetFocus
+            End If
+            If cmdNo.Visible Then cmdNo_Click
+        Case 89 'Y
+            If optYes.Visible Then
+                optYes.Value = True
+                optYes_Click
+                optYes.SetFocus
+            End If
+            If cmdYes.Visible Then cmdYes_Click
+    End Select
 End Sub

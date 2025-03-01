@@ -124,7 +124,16 @@ Sub Main()
     If LangID = 0 Then LangID = GetUserDefaultUILanguage()
     App.Title = t(App.Title, "Download Booster")
     
-    WinVer = GetWindowsVersion()
+    Dim OverrideWinver$
+    OverrideWinver = GetSetting("DownloadBooster", "Options\Debug", "WindowsVersionOverride", "")
+    If OverrideWinver <> "" And IsNumeric(OverrideWinver) Then
+        On Error GoTo dontoverrideversion
+        WinVer = CSng(OverrideWinver)
+    Else
+dontoverrideversion:
+        WinVer = GetWindowsVersion()
+    End If
+    On Error GoTo 0
     If WinVer < 5.1 Then
         If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") = "1")) Then
             MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
@@ -156,8 +165,8 @@ Sub Main()
     DefaultDisableDWMWindow = IIf(WinVer >= 6.2, 1, 0)
     
     If GetSetting("DownloadBooster", "UserData", "HeaderSettingsInitialized", "0") = "0" Then
-        SaveSetting "DownloadBooster", "UserData", "HeaderSettingsInitialized", 1
         SaveSetting "DownloadBooster", "Options\Headers", "User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:102.0) Gecko/20100101 Firefox/102.0 PaleMoon/33.2"
+        SaveSetting "DownloadBooster", "UserData", "HeaderSettingsInitialized", 1
     End If
     BuildHeaderCache
     

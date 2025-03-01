@@ -751,9 +751,9 @@ Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon
         MessageBox.Width = Max(MessageBox.Width - 720, 1920)
         MessageBox.lblContent.Top = MessageBox.lblContent.Top - 180
         MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
-        MessageBox.Height = MessageBox.Height - 210
+        MessageBox.Height = MessageBox.Height - 240
     End If
-    MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810
+    MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 + 30
     MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350
     If LineCount < 2 Then
         MessageBox.Height = MessageBox.Height + 180
@@ -795,8 +795,8 @@ Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon
     If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
     
     If AlertTimeout >= 0 Then
-        MessageBox.Timeout.Interval = AlertTimeout
-        MessageBox.Timeout.Enabled = -1
+        MessageBox.timeout.Interval = AlertTimeout
+        MessageBox.timeout.Enabled = -1
     End If
     MessageBox.cmdOK.Caption = t("확인", "OK")
     
@@ -817,7 +817,7 @@ Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon
     MessageBox.cmdNo.Cancel = 0
     MessageBox.cmdNo.Default = 0
     MessageBox.cmdOK.Cancel = -1
-    MessageBox.cmdOK.Default = -1
+    MessageBox.cmdOK.Default = 0
     
     If IsModal Then
         MessageBox.Show vbModal
@@ -885,14 +885,14 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
     MessageBox.lblContent.Caption = Content
     MessageBox.Width = Max(2040 + LContent - 640 - 225, 3480)
     If NoIcon Then
-        MessageBox.Width = Max(MessageBox.Width - 720, 1920)
+        MessageBox.Width = Max(MessageBox.Width - 720, 3480)
         MessageBox.lblContent.Top = MessageBox.lblContent.Top - 180
         MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
-        MessageBox.Height = MessageBox.Height - 210
+        MessageBox.Height = MessageBox.Height - 240
     End If
     MessageBox.cmdYes.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdYes.Width / 2
     MessageBox.cmdYes.Top = 840 + (LineCount * 185) - 350
-    MessageBox.cmdNo.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdYes.Width / 2 - 120 + MessageBox.cmdYes.Width + 240
+    MessageBox.cmdNo.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdYes.Width / 2 - 120 + MessageBox.cmdYes.Width + 240 - 30
     MessageBox.cmdNo.Top = 840 + (LineCount * 185) - 350
     If LineCount < 2 Then
         MessageBox.Height = MessageBox.Height + 180
@@ -950,7 +950,7 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
     MessageBox.cmdYes.Cancel = 0
     MessageBox.cmdYes.Default = 0
     MessageBox.cmdNo.Cancel = 0
-    MessageBox.cmdNo.Default = -1
+    MessageBox.cmdNo.Default = 0
     MessageBox.cmdOK.Cancel = 0
     MessageBox.cmdOK.Default = 0
     
@@ -1014,14 +1014,14 @@ Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Opti
     MessageBox.lblContent.Caption = Content
     MessageBox.Width = Max(2040 + LContent - 640, 3480)
     If NoIcon Then
-        MessageBox.Width = Max(MessageBox.Width - 720, 1920)
+        MessageBox.Width = Max(MessageBox.Width - 720, 3480)
         MessageBox.lblContent.Top = MessageBox.lblContent.Top - 180
         MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
-        MessageBox.Height = MessageBox.Height - 210
+        MessageBox.Height = MessageBox.Height - 240
     End If
     MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2
     MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350 + 705
-    MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2 - 120 + MessageBox.cmdOK.Width + 240
+    MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2 - 120 + MessageBox.cmdOK.Width + 240 - 30
     MessageBox.cmdCancel.Top = 840 + (LineCount * 185) - 350 + 705
     MessageBox.optYes.Top = MessageBox.cmdOK.Top - 620
     MessageBox.optNo.Top = MessageBox.cmdOK.Top - 320
@@ -1095,13 +1095,13 @@ Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Opti
     MessageBox.optNo.Visible = -1
     
     MessageBox.cmdCancel.Cancel = -1
-    MessageBox.cmdCancel.Default = -1
+    MessageBox.cmdCancel.Default = 0
     MessageBox.cmdYes.Cancel = 0
     MessageBox.cmdYes.Default = 0
     MessageBox.cmdNo.Cancel = 0
     MessageBox.cmdNo.Default = 0
     MessageBox.cmdOK.Cancel = 0
-    MessageBox.cmdOK.Default = 0
+    MessageBox.cmdOK.Default = -1
     
     MessageBox.Show vbModal
     ConfirmEx = MsgBoxResults(MessageBox.ResultID)
@@ -1166,16 +1166,16 @@ Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, 
     MessageBox.lblContent.Caption = Content
     MessageBox.Width = Max(2040 + LContent - 640, 4920)
     If NoIcon Then
-        MessageBox.Width = Max(MessageBox.Width - 720, 1920)
+        MessageBox.Width = Max(MessageBox.Width - 720, 4920)
         MessageBox.lblContent.Top = MessageBox.lblContent.Top - 180
         MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
-        MessageBox.Height = MessageBox.Height - 210
+        MessageBox.Height = MessageBox.Height - 240
     End If
     MessageBox.cmdYes.Left = MessageBox.Width / 2 - 900 - MessageBox.cmdYes.Width
     MessageBox.cmdYes.Top = 840 + (LineCount * 185) - 350
-    MessageBox.cmdNo.Left = MessageBox.Width / 2 - 810
+    MessageBox.cmdNo.Left = MessageBox.Width / 2 - 810 + 15
     MessageBox.cmdNo.Top = 840 + (LineCount * 185) - 350
-    MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 900 + MessageBox.cmdYes.Width + 190
+    MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 900 + MessageBox.cmdYes.Width + 190 + 30
     MessageBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
     If LineCount < 2 Then
         MessageBox.Height = MessageBox.Height + 180
@@ -1232,7 +1232,7 @@ Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, 
     MessageBox.cmdCancel.Caption = t("취소", "Cancel")
     
     MessageBox.cmdCancel.Cancel = -1
-    MessageBox.cmdCancel.Default = -1
+    MessageBox.cmdCancel.Default = 0
     MessageBox.cmdYes.Cancel = 0
     MessageBox.cmdYes.Default = 0
     MessageBox.cmdNo.Cancel = 0
@@ -1410,9 +1410,7 @@ Function GetWindowsVersion() As Single
             Case VER_PLATFORM_WIN32_NT
                 GetWindowsVersion = 3.1
                 ver = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
-                If ver >= 6.2 Then
-                    ver = fWinVer()
-                End If
+                If ver >= 6.2 Then ver = fWinVer()
                 GetWindowsVersion = ver
         
             Case VER_PLATFORM_WIN32_WINDOWS:
@@ -1434,17 +1432,13 @@ Function fWinVer() As Single
     Dim osv As OSVERSIONINFO
     osv.OSVSize = Len(osv)
     If GetVersionEx(osv) <> 1 Then
-        fWinVer = "5.1.2600"
-        WinVer = 5.1
-        'Build = 2600&
+        fWinVer = 5.1
         Exit Function
     End If
 
     If osv.PlatformID = VER_PLATFORM_WIN32_NT Then
         If RtlGetVersion(osv) <> 0 Then
-            fWinVer = "5.1.2600"
-            WinVer = 5.1
-            'Build = 2600&
+            fWinVer = 5.1
             Exit Function
         End If
     End If
@@ -1507,13 +1501,16 @@ Sub BuildHeaderCache()
     Dim Headers() As String
     Dim RawHeaders As String
     RawHeaders = ""
+    On Error GoTo dontbuild
     Headers = GetAllSettings("DownloadBooster", "Options\Headers")
+    On Error GoTo 0
     Dim i%
     For i = LBound(Headers) To UBound(Headers)
         RawHeaders = RawHeaders & LCase(Headers(i, 0)) & ": " & Headers(i, 1) & vbLf
     Next i
     If Right$(RawHeaders, 1) = vbLf Then RawHeaders = Left$(RawHeaders, Len(RawHeaders) - 1)
     HeaderCache = btoa(RawHeaders)
+dontbuild:
 End Sub
 
 Function DecodeHeaderCache(ByVal HeaderCache As String) As Collection
@@ -1649,11 +1646,11 @@ Function atob(sText As String) As Byte()
     End If
 End Function
 
-Function FormatModified(datetime) As String
+Function FormatModified(DateTime) As String
     If t(1, 2) = 1 Then
-        FormatModified = Replace(Replace(Format(datetime, "yyyy-mm-dd AM/PM h:mm"), "AM", "오전"), "PM", "오후")
+        FormatModified = Replace(Replace(Format(DateTime, "yyyy-mm-dd AM/PM h:mm"), "AM", "오전"), "PM", "오후")
     Else
-        FormatModified = Replace(Format(datetime, "m-d-yyyy h:mm AM/PM"), "-", "/")
+        FormatModified = Replace(Format(DateTime, "m-d-yyyy h:mm AM/PM"), "-", "/")
     End If
 End Function
 
@@ -1756,7 +1753,7 @@ Function ExcludeParameters(ByVal URL As String) As String
     End If
 End Function
 
-Function Col(Expression, IfFalse)
+Function Col(Expression, ByRef IfFalse)
     If Expression Then
         Col = Expression
     Else
@@ -1785,7 +1782,7 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
     IsYtdlSupported = Includes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
 End Function
 
-Sub tr(ctrl As Control, ByVal EnglishCaption As String)
+Sub tr(ByRef ctrl As Control, ByVal EnglishCaption As String)
     On Error Resume Next
     ctrl.Caption = t(ctrl.Caption, EnglishCaption)
 End Sub
@@ -1823,14 +1820,14 @@ Sub CopyText(ByVal Content As String)
     Clipboard.SetText Content
 End Sub
 
-Sub EnableFrameControls(fFrame As FrameW, Except As Control, Optional ByVal Enable As Boolean = True)
+Sub EnableFrameControls(ByRef fFrame As FrameW, ByRef Except As Control, Optional ByVal Enable As Boolean = True)
     Dim ctrl As Control
     For Each ctrl In fFrame.ContainedControls
         If ctrl.Name <> Except.Name Then ctrl.Enabled = Enable
     Next ctrl
 End Sub
 
-Function Max(L, R)
+Function Max(ByRef L, ByRef R)
     If L > R Then
         Max = L
     Else

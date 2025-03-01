@@ -532,6 +532,7 @@ Private Sub Form_Load()
     
     Me.Caption = t(Me.Caption, "Download settings")
     If Tags.DownloadOptionsTargetForm = 2 Then Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
+    If Tags.DownloadOptionsTargetForm = 1 Then Me.Caption = Me.Caption & " - " & t("일괄 다운로드", "Batch Download")
     tsTabStrip.Tabs(2).Caption = t("  헤더  ", " Headers ")
     
     chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
@@ -552,6 +553,8 @@ Private Sub Form_Load()
     Select Case Tags.DownloadOptionsTargetForm
         Case 0
             lblDescription.Caption = t(lblDescription.Caption, "Headers here are only applied in this session. Go to <A>Options</A> to change them permanently.")
+        Case 1
+            lblDescription.Caption = t("일괄 다운로드할 파일들에 접속할 때 요청할 헤더를 지정하십시오.", "Specify the headers for this batch download.")
         Case Else
             lblDescription.Caption = t("이 파일 다운로드 시에 요청할 헤더를 지정하십시오.", "Specify the headers when requesting this file to download.")
     End Select
