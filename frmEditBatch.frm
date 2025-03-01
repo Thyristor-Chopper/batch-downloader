@@ -242,7 +242,7 @@ Private Sub cmdYtdl_Click()
     Set frmDownloadOptions.Headers = DecodedHeaders("values")
     frmDownloadOptions.Show vbModal, Me
 End Sub
-
+ 
 Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
