@@ -692,7 +692,7 @@ Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String
     CutLines = Lines
 End Function
 
-Function Alert(ByVal Content As String, Optional ByVal Title As String, Optional OwnerForm As Form = Nothing, Optional Icon As MsgBoxExIcon = 64, Optional timeout As Integer = -1) As VbMsgBoxResult
+Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional OwnerForm As Form = Nothing, Optional Icon As MsgBoxExIcon = 64, Optional timeout As Integer = -1)
     Dim MessageBox As frmMessageBox
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 1
@@ -802,11 +802,12 @@ Function Alert(ByVal Content As String, Optional ByVal Title As String, Optional
     
     If Not (OwnerForm Is Nothing) Then
         MessageBox.Show vbModal, OwnerForm
+        Unload MessageBox
+        Set MessageBox = Nothing
     Else
         MessageBox.Show
     End If
-    Alert = vbOK
-End Function
+End Sub
 
 Function Confirm(ByVal Content As String, Optional ByVal Title As String, Optional OwnerForm As Form = Nothing, Optional Icon As MsgBoxExIcon = 32, Optional BtnReversed As Boolean = False) As VbMsgBoxResult
     Dim MessageBox As frmMessageBox
@@ -914,9 +915,11 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
     MessageBox.cmdOK.Cancel = 0
     MessageBox.cmdOK.Default = 0
     
+    MessageBox.Init
     MessageBox.Show vbModal, OwnerForm
-    
     Confirm = MsgBoxResults(MessageBox.ResultID)
+    Unload MessageBox
+    Set MessageBox = Nothing
 End Function
 
 Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional OwnerForm As Form = Nothing, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
@@ -1044,8 +1047,9 @@ Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Opti
     MessageBox.cmdOK.Default = 0
     
     MessageBox.Show vbModal, OwnerForm
-    
     ConfirmEx = MsgBoxResults(MessageBox.ResultID)
+    Unload MessageBox
+    Set MessageBox = Nothing
 End Function
 
 Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, Optional OwnerForm As Form = Nothing, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
@@ -1159,8 +1163,9 @@ Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, 
     MessageBox.cmdOK.Default = 0
     
     MessageBox.Show vbModal, OwnerForm
-    
     ConfirmCancel = MsgBoxResults(MessageBox.ResultID)
+    Unload MessageBox
+    Set MessageBox = Nothing
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
