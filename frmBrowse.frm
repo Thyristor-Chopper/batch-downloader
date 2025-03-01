@@ -349,7 +349,7 @@ Private Sub OKButton_Click()
         (txtFileName.Text <> "" And Replace(txtFileName.Text, ".", "") = "") Or _
         Right$(txtFileName.Text, 1) = "." _
     Then
-        Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 48
+        Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, 48
         Exit Sub
     End If
 
@@ -367,10 +367,10 @@ Private Sub OKButton_Click()
     On Error Resume Next
     If FileExists(Path) Then
         If frmMain.cbWhenExist.ListIndex = 0 Then
-            Alert t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), App.Title, Me, 16
+            Alert t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), App.Title, 16
             Exit Sub
         ElseIf frmMain.cbWhenExist.ListIndex = 1 Then
-            If Confirm(t("파일 이름이 이미 존재합니다. 덮어쓰시겠습니까?", "File name already exists. Overwrite?"), App.Title, Me, 48) <> vbYes Then
+            If Confirm(t("파일 이름이 이미 존재합니다. 덮어쓰시겠습니까?", "File name already exists. Overwrite?"), App.Title, 48) <> vbYes Then
                 Exit Sub
             End If
         End If
@@ -391,7 +391,7 @@ Private Sub OKButton_Click()
     Exit Sub
     
 e:
-    Alert t("문제가 발생했습니다!", "Error!"), App.Title, Me, 16
+    Alert t("문제가 발생했습니다!", "Error!"), App.Title, 16
     Exit Sub
 End Sub
 
@@ -401,7 +401,7 @@ Private Sub selDrive_Change()
     Exit Sub
     
 e:
-    Alert t("드라이브를 열 수 없습니다. 선택한 드라이브 안에 디스크가 없거나 드라이브가 잠겨 있습니다.", "The drive is inaccessible. There is no disk in the selected drive or the drive is locked."), App.Title, Me, 16
+    Alert t("드라이브를 열 수 없습니다. 선택한 드라이브 안에 디스크가 없거나 드라이브가 잠겨 있습니다.", "The drive is inaccessible. There is no disk in the selected drive or the drive is locked."), App.Title, 16
 End Sub
 
 Private Sub selFileType_Change()

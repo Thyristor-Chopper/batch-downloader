@@ -375,7 +375,7 @@ Private Sub OKButton_Click()
     Exit Sub
     
 e:
-    Alert t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), App.Title, Me, 16
+    Alert t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), App.Title, 16
 End Sub
 
 Private Sub selDrive_Change()
@@ -384,7 +384,7 @@ Private Sub selDrive_Change()
     Exit Sub
     
 e:
-    Alert t("시스템에 부착된 장치를 사용할 수 없습니다.", "There is no disk in the selected drive"), App.Title, Me, 16
+    Alert t("시스템에 부착된 장치를 사용할 수 없습니다.", "There is no disk in the selected drive"), App.Title, 16
 End Sub
 
 Private Sub selFileType_Click()

@@ -493,7 +493,7 @@ Private Sub cbFolderList_Click()
         Next i
         Exit Sub
 driveunavailable:
-        Alert t("드라이브를 열 수 없습니다. 선택한 드라이브 안에 디스크가 없거나 드라이브가 잠겨 있습니다.", "The drive is inaccessible. There is no disk in the selected drive or the drive is locked."), App.Title, Me, 16
+        Alert t("드라이브를 열 수 없습니다. 선택한 드라이브 안에 디스크가 없거나 드라이브가 잠겨 있습니다.", "The drive is inaccessible. There is no disk in the selected drive or the drive is locked."), App.Title, 16
     ElseIf cbFolderList.SelectedItem.Indentation > 2 Then
         Path = UCase(Left$(cbFolderList.ComboItems(cbFolderList.SelectedItem.Index - cbFolderList.SelectedItem.Indentation + 2).Text, 1)) & ":\"
         For i = cbFolderList.SelectedItem.Index - cbFolderList.SelectedItem.Indentation + 3 To cbFolderList.SelectedItem.Index
@@ -1278,7 +1278,7 @@ Private Sub lvFiles_AfterLabelEdit(Cancel As Boolean, NewString As String)
     If Right$(Path, 1) <> "\" Then Path = Path & "\"
     NewString = Trim$(NewString)
     If FileExists(Path & NewString) Then
-        Alert t("파일 이름이 이미 존재합니다.", "File name already exists."), App.Title, Me, 16
+        Alert t("파일 이름이 이미 존재합니다.", "File name already exists."), App.Title, 16
         Cancel = True
         Exit Sub
     End If
@@ -1306,7 +1306,7 @@ Private Sub lvFiles_AfterLabelEdit(Cancel As Boolean, NewString As String)
         Replace(NewString, ".", "") = "" Or _
         Right$(NewString, 1) = "." _
     Then
-        Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 16
+        Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, 16
         Cancel = True
         Exit Sub
     End If
@@ -1324,7 +1324,7 @@ Private Sub lvFiles_AfterLabelEdit(Cancel As Boolean, NewString As String)
     Exit Sub
 renamefail:
     Cancel = True
-    Alert t("파일 이름을 바꾸는 데 실패했습니다.", "Failed to rename the selected file."), App.Title, Me, 16
+    Alert t("파일 이름을 바꾸는 데 실패했습니다.", "Failed to rename the selected file."), App.Title, 16
 End Sub
 
 Private Sub lvFiles_BeforeLabelEdit(Cancel As Boolean)
@@ -1414,7 +1414,7 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
         lvDir.Path = UCase(Left$(Item.Text, 2)) & "\"
         Exit Sub
 driveunavailable:
-        Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, Me, 16
+        Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, 16
     ElseIf Item.IconIndex = 1 Then
         If LoadFinished Then
             On Error GoTo folderinaccessible
@@ -1422,7 +1422,7 @@ driveunavailable:
             If Tags.BrowseTargetForm = 2 Then txtFileName.Text = ""
             Exit Sub
 folderinaccessible:
-            Alert t("폴더가 존재하지 않습니다.", "The folder does not exist"), App.Title, Me, 16
+            Alert t("폴더가 존재하지 않습니다.", "The folder does not exist"), App.Title, 16
         End If
     ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Then
         OKButton_Click
@@ -1501,13 +1501,13 @@ Private Sub mnuDelete_Click()
         FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
     End If
     
-    If ConfirmEx("'" & lvFiles.SelectedItem.Text & "' " & t("항목을 영구적으로 삭제하시겠습니까?", " - delete item permanently?"), App.Title, Me, 48) = vbYes Then
+    If ConfirmEx("'" & lvFiles.SelectedItem.Text & "' " & t("항목을 영구적으로 삭제하시겠습니까?", " - delete item permanently?"), App.Title, 48) = vbYes Then
         On Error GoTo deletefail
         Kill FullPath
         lvFiles.ListItems.Remove lvFiles.SelectedItem.Index
         Exit Sub
 deletefail:
-        Alert t("항목을 지우는 데 실패했습니다.", "Failed to delete the specified item."), App.Title, Me, 16
+        Alert t("항목을 지우는 데 실패했습니다.", "Failed to delete the specified item."), App.Title, 16
     End If
 End Sub
 
@@ -1785,7 +1785,7 @@ Private Sub OKButton_Click()
             End If
         End If
     ElseIf InStr(1, txtFileName.Text, "\") > 0 Then
-        Alert t("입력한 폴더의 경로가 존재하지 않습니다.", "The specified folder path does not exist."), App.Title, Me, 48
+        Alert t("입력한 폴더의 경로가 존재하지 않습니다.", "The specified folder path does not exist."), App.Title, 48
         Exit Sub
     End If
     On Error GoTo 0
@@ -1794,7 +1794,7 @@ Private Sub OKButton_Click()
         Path = lvDir.Path
         If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
         If Not FileExists(Path & txtFileName.Text) Then
-            Alert txtFileName.Text & vbCrLf & t("파일이 없습니다.", "File does not exist.") & vbCrLf & t("파일 이름을 올바르게 입력했는지 확인하십시오.", "Check if you specified a valid file name."), App.Title, Me, 48
+            Alert txtFileName.Text & vbCrLf & t("파일이 없습니다.", "File does not exist.") & vbCrLf & t("파일 이름을 올바르게 입력했는지 확인하십시오.", "Check if you specified a valid file name."), App.Title, 48
             Exit Sub
         End If
     End If
@@ -1818,7 +1818,7 @@ Private Sub OKButton_Click()
         Unload Me
         Exit Sub
 imgerr:
-        Alert t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), App.Title, Me, 16
+        Alert t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), App.Title, 16
         Exit Sub
     End If
     
@@ -1849,9 +1849,9 @@ imgerr:
         Right$(txtFileName.Text, 1) = "." _
     Then
         If Tags.BrowseTargetForm = 2 Then
-            Alert t("폴더 경로가 존재하지 않습니다.", "Invalid folder path."), App.Title, Me, 48
+            Alert t("폴더 경로가 존재하지 않습니다.", "Invalid folder path."), App.Title, 48
         Else
-            Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, Me, 48
+            Alert t("파일 이름이 올바르지 않습니다.", "Invalid file name."), App.Title, 48
         End If
         Exit Sub
     End If
@@ -1868,10 +1868,10 @@ imgerr:
     On Error Resume Next
     If FileExists(Path) And Tags.BrowseTargetForm <> 4 And Tags.BrowseTargetForm <> 3 Then
         If frmMain.cbWhenExist.ListIndex = 0 Then
-            Alert t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), App.Title, Me, 16
+            Alert t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), App.Title, 16
             Exit Sub
         ElseIf frmMain.cbWhenExist.ListIndex = 1 Then
-            If Confirm(Path & t("은(는) 이미 있습니다." & vbCrLf & "덮어쓰시겠습니까?", " already exists." & vbCrLf & "Overwrite?"), App.Title, Me, 48) <> vbYes Then
+            If Confirm(Path & t("은(는) 이미 있습니다." & vbCrLf & "덮어쓰시겠습니까?", " already exists." & vbCrLf & "Overwrite?"), App.Title, 48) <> vbYes Then
                 Exit Sub
             End If
         End If
@@ -1896,7 +1896,7 @@ imgerr:
     Exit Sub
     
 e:
-    Alert t("문제가 발생했습니다!", "Error!"), App.Title, Me, 16
+    Alert t("문제가 발생했습니다!", "Error!"), App.Title, 16
     Exit Sub
 End Sub
 
@@ -1906,7 +1906,7 @@ Private Sub selDrive_Change()
     Exit Sub
     
 e:
-    Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, Me, 16
+    Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, 16
 End Sub
 
 Private Sub selFileType_Change()
@@ -1987,7 +1987,7 @@ Sub CreateNewFolder()
     On Error Resume Next
     MkDir FullPath
     If Not FolderExists(FullPath) Then
-        Alert t("폴더를 만드는 데 실패했습니다.", "Failed to create a folder here."), App.Title, Me, 16
+        Alert t("폴더를 만드는 데 실패했습니다.", "Failed to create a folder here."), App.Title, 16
         Exit Sub
     End If
     Dim Item As LvwListItem

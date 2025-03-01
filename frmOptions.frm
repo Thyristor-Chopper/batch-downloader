@@ -1307,7 +1307,7 @@ End Sub
 
 Private Sub cbLanguage_Click()
     If Loaded Then
-        'Alert t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application."), App.Title, Me, 64
+        'Alert t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application."), App.Title, 64
         cmdApply.Enabled = -1
     End If
 End Sub
@@ -1619,7 +1619,7 @@ Private Sub cmdApply_Click()
         If FileExists(Trim$(txtNodePath.Text)) Then
             SaveSetting "DownloadBooster", "Options", "NodePath", Trim$(txtNodePath.Text)
         Else
-            Alert t("Node.js 경로가 존재하지 않습니다.", "Node.js path does not exist."), App.Title, Me, 16
+            Alert t("Node.js 경로가 존재하지 않습니다.", "Node.js path does not exist."), App.Title, 16
             NoDisable = True
         End If
     Else
@@ -1629,7 +1629,7 @@ Private Sub cmdApply_Click()
         If FileExists(Trim$(txtScriptPath.Text)) Then
             SaveSetting "DownloadBooster", "Options", "ScriptPath", Trim$(txtScriptPath.Text)
         Else
-            Alert t("다운로드 스크립트 경로가 존재하지 않습니다.", "Download script path does not exist."), App.Title, Me, 16
+            Alert t("다운로드 스크립트 경로가 존재하지 않습니다.", "Download script path does not exist."), App.Title, 16
             NoDisable = True
         End If
     Else
@@ -1639,7 +1639,7 @@ Private Sub cmdApply_Click()
         If FileExists(Trim$(txtYtdlPath.Text)) Then
             SaveSetting "DownloadBooster", "Options", "YtdlPath", Trim$(txtYtdlPath.Text)
         Else
-            Alert t("Youtube-dl 경로가 존재하지 않습니다.", "Youtube-dl path does not exist."), App.Title, Me, 16
+            Alert t("Youtube-dl 경로가 존재하지 않습니다.", "Youtube-dl path does not exist."), App.Title, 16
             NoDisable = True
         End If
     Else
@@ -1816,7 +1816,7 @@ Private Sub lvHeaders_AfterLabelEdit(Cancel As Boolean, NewString As String)
     If NewString = "" Then
 invalidname:
         Cancel = True
-        Alert t("헤더 이름이 잘못되었습니다.", "Invalid header name."), App.Title, Me, 16
+        Alert t("헤더 이름이 잘못되었습니다.", "Invalid header name."), App.Title, 16
         Exit Sub
     End If
     
@@ -1832,7 +1832,7 @@ invalidname:
     For i = 1 To lvHeaders.ListItems.Count
         If LCase(lvHeaders.ListItems(i).Text) = LCase(NewString) Then
             Cancel = True
-            Alert t("해당 이름이 이미 존재합니다.", "Duplicate header name."), App.Title, Me, 16
+            Alert t("해당 이름이 이미 존재합니다.", "Duplicate header name."), App.Title, 16
             Exit Sub
             Exit For
         End If

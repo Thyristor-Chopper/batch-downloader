@@ -678,7 +678,7 @@ Private Sub lvHeaders_AfterLabelEdit(Cancel As Boolean, NewString As String)
     If NewString = "" Then
 invalidname:
         Cancel = True
-        Alert t("헤더 이름이 잘못되었습니다.", "Invalid header name."), App.Title, Me, 16
+        Alert t("헤더 이름이 잘못되었습니다.", "Invalid header name."), App.Title, 16
         Exit Sub
     End If
     
@@ -694,7 +694,7 @@ invalidname:
     For i = 1 To lvHeaders.ListItems.Count
         If LCase(lvHeaders.ListItems(i).Text) = LCase(NewString) Then
             Cancel = True
-            Alert t("해당 이름이 이미 존재합니다.", "Duplicate header name."), App.Title, Me, 16
+            Alert t("해당 이름이 이미 존재합니다.", "Duplicate header name."), App.Title, 16
             Exit Sub
             Exit For
         End If
