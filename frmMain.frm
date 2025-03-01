@@ -2359,11 +2359,9 @@ Private Sub mnuHeaders_Click()
     Tags.DownloadOptionsTargetForm = 0
     Set frmDownloadOptions.Headers = SessionHeaders
     Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
-#If HIDEYTDL Then
-    frmDownloadOptions.Show vbModal, Me
-    Exit Sub
-#End If
+#If Not HIDEYTDL Then
     frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
+#End If
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
@@ -2376,7 +2374,6 @@ Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
     LinesLF = Split(spYtdl.GetData(), vbLf)
     Dim Line As String
     Dim i%, k%
-    'For Each Line In Lines
     For i = LBound(LinesLF) To UBound(LinesLF)
         LinesCR = Split(LinesLF(i), vbCr)
         For k = LBound(LinesCR) To UBound(LinesCR)
@@ -2436,7 +2433,6 @@ Sub OnData(Data As String)
                 sbStatusBar.Panels(1).Text = t("다운로드 중...", "Downloading...")
             Case "MERGING"
                 sbStatusBar.Panels(1).Text = t("파일 조각 결합 중...", "Merging segments...")
-                'pbTotalProgress.Scrolling = PrbScrollingMarquee
                 pbTotalProgressMarquee.Visible = -1
                 pbTotalProgressMarquee.MarqueeAnimation = -1
                 cmdStop.Enabled = 0
@@ -2446,7 +2442,6 @@ Sub OnData(Data As String)
                 sbStatusBar.Panels(2).Text = ""
                 sbStatusBar.Panels(3).Text = ""
                 sbStatusBar.Panels(4).Text = ""
-                'pbTotalProgress.Scrolling = PrbScrollingStandard
                 pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
                 pbTotalProgress.Value = 100
@@ -2468,14 +2463,12 @@ Sub OnData(Data As String)
         End If
         If progress < 0 Then
             If Not pbProgressMarquee(idx).Visible Then
-                'pbProgress(idx).Scrolling = PrbScrollingMarquee
                 pbProgressMarquee(idx).Visible = -1
                 pbProgressMarquee(idx).MarqueeAnimation = -1
             End If
             lblPercentage(idx).Caption = ""
         Else
             If pbProgressMarquee(idx).Visible Then
-                'pbProgress(idx).Scrolling = PrbScrollingStandard
                 pbProgressMarquee(idx).MarqueeAnimation = 0
                 pbProgressMarquee(idx).Visible = 0
             End If
@@ -2855,8 +2848,6 @@ Sub OnStart()
     Next i
     
     For i = 1 To trThreadCount.Value
-        'pbProgress(i).MarqueeSpeed = 35
-        'pbProgress(i).Scrolling = PrbScrollingMarquee
         pbProgressMarquee(i).Visible = -1
         pbProgressMarquee(i).MarqueeAnimation = -1
     Next i
@@ -2898,7 +2889,6 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     
     Dim i%
     For i = 1 To trThreadCount.Value
-        'pbProgress(i).Scrolling = PrbScrollingStandard
         pbProgressMarquee(i).MarqueeAnimation = 0
         pbProgressMarquee(i).Visible = 0
     Next i
@@ -3813,7 +3803,6 @@ Private Sub Form_Load()
     Dim MenuCount As Long
     hSysMenu = GetSystemMenu(Me.hWnd, 0)
     DeleteMenu hSysMenu, 0, MF_BYCOMMAND
-    'DeleteMenu hSysMenu, SC_RESTORE, MF_BYCOMMAND
     MenuCount = GetMenuItemCount(hSysMenu)
     Dim MII As MENUITEMINFO
     
@@ -4151,12 +4140,6 @@ Private Sub Form_Unload(Cancel As Integer)
     
     SaveSetting "DownloadBooster", "UserData", "SavePath", Trim$(txtFileName.Text)
     SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6931) * -1
-    
-'    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenAfterComplete.Value
-'    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenFolder.Value
-'    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkContinueDownload.Value
-'    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
-    
     SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
     If GetSetting("DownloadBooster", "Options", "RememberURL", 0) <> 0 Then
         SaveSetting "DownloadBooster", "UserData", "FileURL", Trim$(txtURL.Text)
@@ -4512,7 +4495,6 @@ Private Sub SP_DataArrival(ByVal CharsTotal As Long)
 End Sub
 
 Private Sub SP_EOF(ByVal EOFType As SPEOF_TYPES)
-    'Pick up any leftover output prior to EOF.
     If SP.Length > 0 Then OnData SP.GetData()
 End Sub
 
@@ -4551,7 +4533,6 @@ Private Sub trThreadCount_Scroll()
         lblDownloader(i).Visible = -1
         pbProgress(i).Visible = -1
         lblPercentage(i).Visible = -1
-        'If Not pbProgress(i).MarqueeAnimation Then pbProgress(i).MarqueeAnimation = True
     Next i
     For i = trThreadCount.Value + 1 To lblDownloader.UBound
         lblDownloader(i).Visible = 0
@@ -4563,7 +4544,6 @@ Private Sub trThreadCount_Scroll()
         vsProgressScroll.Max = trThreadCount.Value - 10
         vsProgressScroll.Enabled = -1
         
-        '------------
         If lvDummyScroll.ListCount > trThreadCount.Value Then
             Do While lvDummyScroll.ListCount > trThreadCount.Value
                 lvDummyScroll.RemoveItem lvDummyScroll.ListCount - 1
@@ -4588,7 +4568,6 @@ Private Sub trThreadCount_Scroll()
         If vsProgressScroll.Max <> 0 Then vsProgressScroll.Max = 0
         If vsProgressScroll.Enabled Then vsProgressScroll.Enabled = 0
         
-        '------------
         Do While lvDummyScroll.ListCount > 10
             lvDummyScroll.RemoveItem lvDummyScroll.ListCount - 1
         Loop
@@ -4602,15 +4581,15 @@ Private Sub trThreadCount_Scroll()
         pbProgressContainer.Top = 0
     End If
     
-    If trThreadCount.Value <= 1 Then
+'    If trThreadCount.Value <= 1 Then
 '        fDownloadInfo.Visible = -1
 '        fThreadInfo.Visible = 0
 '        optTabDownload2.Value = True
-    Else
+'    Else
 '        fThreadInfo.Visible = -1
 '        fDownloadInfo.Visible = 0
 '        optTabThreads2.Value = True
-    End If
+'    End If
     
     If trThreadCount.Value = trThreadCount.Min Then
         cmdDecreaseThreads.Enabled = 0
