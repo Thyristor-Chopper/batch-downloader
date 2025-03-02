@@ -479,21 +479,29 @@ Private Sub cbFolderList_Click()
     If IsMyComputer Then ListedOn = ""
     
     If cbFolderList.SelectedItem.Indentation = 2 Then
-        On Error GoTo driveunavailable
+        On Error Resume Next
         'selDrive.ListIndex = cbFolderList.SelectedItem.Index - 5
         Dim DriveLetter$
         DriveLetter = LCase(Left$(cbFolderList.SelectedItem.Text, 1))
         For i = 0 To selDrive.ListCount
             If LCase(Left$(selDrive.List(i), 1)) = DriveLetter Then
                 selDrive.ListIndex = i
+retrydrive:
                 lvDir.Path = DriveLetter & ":\"
+                
+                If Err Then
+                    If MsgBox(t("드라이브를 열 수 없습니다. 선택한 드라이브 안에 디스크가 없거나 드라이브가 잠겨 있습니다.", "The drive is inaccessible. There is no disk in the selected drive or the drive is locked."), vbRetryCancel + vbCritical) = vbRetry Then
+                        GoTo retrydrive
+                    Else
+                        GoTo exitsub
+                    End If
+                End If
+                
                 If Loaded Then ListFiles
                 Exit Sub
             End If
         Next i
         Exit Sub
-driveunavailable:
-        Alert t("드라이브를 열 수 없습니다. 선택한 드라이브 안에 디스크가 없거나 드라이브가 잠겨 있습니다.", "The drive is inaccessible. There is no disk in the selected drive or the drive is locked."), App.Title, 16
     ElseIf cbFolderList.SelectedItem.Indentation > 2 Then
         Path = UCase(Left$(cbFolderList.ComboItems(cbFolderList.SelectedItem.Index - cbFolderList.SelectedItem.Indentation + 2).Text, 1)) & ":\"
         For i = cbFolderList.SelectedItem.Index - cbFolderList.SelectedItem.Indentation + 3 To cbFolderList.SelectedItem.Index
@@ -507,6 +515,7 @@ driveunavailable:
     End If
     
     If Loaded Then ListFiles
+exitsub:
 End Sub
 
 Private Sub chkHidden_Click()
@@ -1408,13 +1417,15 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
             Exit Sub
         End If
     
-        On Error GoTo driveunavailable
-        'selDrive.ListIndex = cbFolderList.SelectedItem.Index - 5
+        On Error Resume Next
+retrydrive:
         ListedOn = ""
         lvDir.Path = UCase(Left$(Item.Text, 2)) & "\"
-        Exit Sub
-driveunavailable:
-        Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, 16
+        If Err Then
+            If MsgBox(t("선택한 드라이브 안에 디스크가 없거나 드라이브가 잠겨 있습니다.", "There is no disk in the selected drive or the drive is locked."), vbRetryCancel + vbCritical) = vbRetry Then
+                GoTo retrydrive
+            End If
+        End If
     ElseIf Item.IconIndex = 1 Then
         If LoadFinished Then
             On Error GoTo folderinaccessible
@@ -1422,7 +1433,7 @@ driveunavailable:
             If Tags.BrowseTargetForm = 2 Then txtFileName.Text = ""
             Exit Sub
 folderinaccessible:
-            Alert t("폴더가 존재하지 않습니다.", "The folder does not exist"), App.Title, 16
+            Alert t("폴더가 존재하지 않거나 접근 권한이 없습니다.", "The folder does not exist or there are no permission to access it."), App.Title, 16
         End If
     ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Then
         OKButton_Click
@@ -1898,15 +1909,6 @@ imgerr:
 e:
     Alert t("문제가 발생했습니다!", "Error!"), App.Title, 16
     Exit Sub
-End Sub
-
-Private Sub selDrive_Change()
-    On Error GoTo e
-    'lvDir.Path = selDrive.Drive
-    Exit Sub
-    
-e:
-    Alert t("선택한 드라이브 안에 디스크가 없습니다.", "There is no disk in the selected drive."), App.Title, 16
 End Sub
 
 Private Sub selFileType_Change()

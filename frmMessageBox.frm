@@ -89,6 +89,56 @@ Begin VB.Form frmMessageBox
       _ExtentY        =   0
       Caption         =   "확인"
    End
+   Begin prjDownloadBooster.CommandButtonW cmdRetry 
+      Height          =   315
+      Left            =   9000
+      TabIndex        =   7
+      Top             =   840
+      Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "다시 시도(&R)"
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdAbort 
+      Height          =   315
+      Left            =   10560
+      TabIndex        =   8
+      Top             =   840
+      Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "중단(&A)"
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdIgnore 
+      Height          =   315
+      Left            =   12120
+      TabIndex        =   9
+      Top             =   840
+      Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "무시(&I)"
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdFail 
+      Height          =   315
+      Left            =   13680
+      TabIndex        =   10
+      Top             =   840
+      Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "실패(&F)"
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdHelp 
+      Height          =   315
+      Left            =   15240
+      TabIndex        =   11
+      Top             =   840
+      Width           =   1455
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "도움말"
+   End
    Begin VB.Image imgMBIconError 
       Height          =   630
       Index           =   1
@@ -184,7 +234,27 @@ Public MsgBoxMode As Byte
 Public MsgBoxResult As VbMsgBoxResult
 Public ResultID As String
 
+Private Sub cmdAbort_Click()
+    MsgBoxResult = vbAbort
+    ButtonPressed = -1
+    Unload Me
+End Sub
+
+Private Sub cmdAbort_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
+End Sub
+
 Private Sub cmdCancel_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
+End Sub
+
+Private Sub cmdIgnore_Click()
+    MsgBoxResult = vbIgnore
+    ButtonPressed = -1
+    Unload Me
+End Sub
+
+Private Sub cmdIgnore_KeyDown(KeyCode As Integer, Shift As Integer)
     OnKeyDown KeyCode
 End Sub
 
@@ -216,6 +286,16 @@ Private Sub cmdOK_KeyDown(KeyCode As Integer, Shift As Integer)
     OnKeyDown KeyCode
 End Sub
 
+Private Sub cmdRetry_Click()
+    MsgBoxResult = vbRetry
+    ButtonPressed = -1
+    Unload Me
+End Sub
+
+Private Sub cmdRetry_KeyDown(KeyCode As Integer, Shift As Integer)
+    OnKeyDown KeyCode
+End Sub
+
 Private Sub cmdYes_Click()
     MsgBoxResult = vbYes
     ButtonPressed = -1
@@ -243,6 +323,12 @@ Private Sub Form_Activate()
             optNo.SetFocus
         Case 4
             cmdCancel.SetFocus
+        Case 5
+            cmdAbort.SetFocus
+        Case 6
+            cmdRetry.SetFocus
+        Case 7
+            cmdOK.SetFocus
     End Select
 End Sub
 
@@ -260,7 +346,7 @@ Private Sub Form_Load()
 End Sub
 
 Sub Init()
-    If MsgBoxMode = 2 Then
+    If MsgBoxMode = 2 Or MsgBoxMode = 5 Then
         Dim SystemMenu As Long
         SystemMenu = GetSystemMenu(Me.hWnd, 0)
         DeleteMenu SystemMenu, SC_CLOSE, MF_BYCOMMAND

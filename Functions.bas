@@ -623,21 +623,47 @@ Function Exists(ByVal oCol As Collection, ByVal vKey As String) As Boolean
     Err.Clear
 End Function
 
-Function TextWidth(ByVal s As String) As Single
+Function TextWidth(ByVal s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
+    If FontSize = 0 Then
+        TextWidth = 0
+        Exit Function
+    End If
     On Error Resume Next
     If LangID <> 1042 Then
-        frmDummyForm.Font.Name = "Tahoma"
-        frmDummyForm.Font.Size = 8
+        If FontName = "" Then
+            FontName = "Tahoma"
+            If FontSize = -1 Then FontSize = 8
+        ElseIf FontSize = -1 Then
+            FontSize = 9
+        End If
+    Else
+        If FontName = "" Then FontName = "굴림"
+        If FontSize = -1 Then FontSize = 9
     End If
+    frmDummyForm.Font.Name = FontName
+    frmDummyForm.Font.Size = FontSize
     TextWidth = frmDummyForm.TextWidth(s)
 End Function
 
-Function TextHeight(ByVal s As String) As Single
+Function TextHeight(ByVal s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
+    If FontSize = 0 Then
+        TextHeight = 0
+        Exit Function
+    End If
     On Error Resume Next
     If LangID <> 1042 Then
-        frmDummyForm.Font.Name = "Tahoma"
-        frmDummyForm.Font.Size = 8
+        If FontName = "" Then
+            FontName = "Tahoma"
+            If FontSize = -1 Then FontSize = 8
+        ElseIf FontSize = -1 Then
+            FontSize = 9
+        End If
+    Else
+        If FontName = "" Then FontName = "굴림"
+        If FontSize = -1 Then FontSize = 9
     End If
+    frmDummyForm.Font.Name = FontName
+    frmDummyForm.Font.Size = FontSize
     TextHeight = frmDummyForm.TextHeight(s)
 End Function
 
@@ -807,6 +833,12 @@ Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon
     MessageBox.optYes.Visible = 0
     MessageBox.optNo.Visible = 0
     
+    MessageBox.cmdAbort.Visible = 0
+    MessageBox.cmdRetry.Visible = 0
+    MessageBox.cmdIgnore.Visible = 0
+    MessageBox.cmdFail.Visible = 0
+    MessageBox.cmdHelp.Visible = 0
+    
     Dim EnableLBSkin As Boolean
     EnableLBSkin = CBool(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)))
     
@@ -828,7 +860,7 @@ Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon
     End If
 End Sub
 
-Function Confirm(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32, Optional BtnReversed As Boolean = False) As VbMsgBoxResult
+Function Confirm(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
         Confirm = VBA.MsgBox(Content, Icon + vbYesNo, Title)
@@ -944,6 +976,12 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
     MessageBox.cmdNo.Visible = -1
     MessageBox.optYes.Visible = 0
     MessageBox.optNo.Visible = 0
+    
+    MessageBox.cmdAbort.Visible = 0
+    MessageBox.cmdRetry.Visible = 0
+    MessageBox.cmdIgnore.Visible = 0
+    MessageBox.cmdFail.Visible = 0
+    MessageBox.cmdHelp.Visible = 0
     
     MessageBox.cmdCancel.Cancel = 0
     MessageBox.cmdCancel.Default = 0
@@ -1094,6 +1132,12 @@ Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Opti
     MessageBox.optYes.Visible = -1
     MessageBox.optNo.Visible = -1
     
+    MessageBox.cmdAbort.Visible = 0
+    MessageBox.cmdRetry.Visible = 0
+    MessageBox.cmdIgnore.Visible = 0
+    MessageBox.cmdFail.Visible = 0
+    MessageBox.cmdHelp.Visible = 0
+    
     MessageBox.cmdCancel.Cancel = -1
     MessageBox.cmdCancel.Default = 0
     MessageBox.cmdYes.Cancel = 0
@@ -1231,6 +1275,12 @@ Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, 
     MessageBox.cmdNo.Caption = t("아니요(&N)", "&No")
     MessageBox.cmdCancel.Caption = t("취소", "Cancel")
     
+    MessageBox.cmdAbort.Visible = 0
+    MessageBox.cmdRetry.Visible = 0
+    MessageBox.cmdIgnore.Visible = 0
+    MessageBox.cmdFail.Visible = 0
+    MessageBox.cmdHelp.Visible = 0
+    
     MessageBox.cmdCancel.Cancel = -1
     MessageBox.cmdCancel.Default = 0
     MessageBox.cmdYes.Cancel = 0
@@ -1242,6 +1292,426 @@ Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, 
     
     MessageBox.Show vbModal
     ConfirmCancel = MsgBoxResults(MessageBox.ResultID)
+    Unload MessageBox
+    Set MessageBox = Nothing
+End Function
+
+Function MsgBoxAbortRetryIgnore(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
+    If Title = "" Then Title = App.Title
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
+        MsgBoxAbortRetryIgnore = VBA.MsgBox(Content, Icon + vbAbortRetryIgnore, Title)
+        Exit Function
+    End If
+    
+    Dim MessageBox As frmMessageBox
+    Set MessageBox = New frmMessageBox
+    MessageBox.MsgBoxMode = 5
+    MessageBox.ResultID = CStr(Rnd * 1E+15)
+    
+    On Error Resume Next
+    Randomize
+    Dim NoIcon As Boolean
+    NoIcon = False
+    Select Case Icon
+        Case 48
+            MessageBox.imgMBIconWarning(Int(Rnd * 2)).Visible = True
+        Case 16
+            MessageBox.imgMBIconError(Int(Rnd * 2)).Visible = True
+        Case 64
+            MessageBox.imgMBIconInfo(Int(Rnd * 2)).Visible = True
+        Case 32
+            MessageBox.imgMBIconQuestion(Int(Rnd * 2)).Visible = True
+        Case Else
+            NoIcon = True
+    End Select
+    
+    Content = Replace(Content, "&", "&&")
+    Content = Replace(Content, vbCrLf & vbCrLf, vbCrLf & " " & vbCrLf)
+    
+    Dim i As Integer
+    Dim LineCount As Integer
+    Dim LContent As Integer
+    Dim MAX_WIDTH As Long
+    MAX_WIDTH = Screen.Width / 2
+    Content = Join(CutLines(Content, MAX_WIDTH), vbCrLf)
+    LContent = 0
+    LineCount = UBound(Split(Content, vbLf)) + 1
+    Dim s%
+    Dim ln$
+    Dim CI%, c$
+    Dim LineContent$
+    For s = 0 To UBound(Split(Content, vbCrLf))
+        LineContent = Split(Content, vbCrLf)(s)
+        If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
+    Next s
+    
+    If LContent = 0 Then LContent = StrLen(Content)
+    If LineCount > 1 Then MessageBox.lblContent.Top = 280
+    MessageBox.lblContent.Height = 185 * LineCount
+    MessageBox.Height = 1615 + LineCount * 180 - 300 + 190 - 30
+    MessageBox.Caption = Title
+    MessageBox.lblContent.Caption = Content
+    MessageBox.Width = Max(2040 + LContent - 640, 4920)
+    If NoIcon Then
+        MessageBox.Width = Max(MessageBox.Width - 720, 4920)
+        MessageBox.lblContent.Top = MessageBox.lblContent.Top - 180
+        MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
+        MessageBox.Height = MessageBox.Height - 240
+    End If
+    MessageBox.cmdAbort.Left = MessageBox.Width / 2 - 900 - MessageBox.cmdAbort.Width
+    MessageBox.cmdAbort.Top = 840 + (LineCount * 185) - 350
+    MessageBox.cmdRetry.Left = MessageBox.Width / 2 - 810 + 15
+    MessageBox.cmdRetry.Top = 840 + (LineCount * 185) - 350
+    MessageBox.cmdIgnore.Left = MessageBox.Width / 2 - 900 + MessageBox.cmdAbort.Width + 190 + 30
+    MessageBox.cmdIgnore.Top = 840 + (LineCount * 185) - 350
+    If LineCount < 2 Then
+        MessageBox.Height = MessageBox.Height + 180
+        MessageBox.cmdAbort.Top = MessageBox.cmdAbort.Top + 180
+        MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top + 180
+        MessageBox.cmdIgnore.Top = MessageBox.cmdIgnore.Top + 180
+    End If
+    If NoIcon Then
+        MessageBox.cmdIgnore.Top = MessageBox.cmdIgnore.Top - 210
+        MessageBox.cmdAbort.Top = MessageBox.cmdAbort.Top - 210
+        MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
+    End If
+    
+    Dim MessageSoundPath$
+    Select Case Icon
+        Case 48
+            If GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            End If
+        Case 16
+            If GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            End If
+        Case 64
+            If GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            End If
+        Case 32
+            If GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            End If
+        Case Else
+            MessageSoundPath = ""
+    End Select
+    If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
+    
+    MessageBox.cmdOK.Visible = 0
+    MessageBox.cmdCancel.Visible = 0
+    MessageBox.cmdYes.Visible = 0
+    MessageBox.cmdNo.Visible = 0
+    MessageBox.optYes.Visible = 0
+    MessageBox.optNo.Visible = 0
+    
+    MessageBox.cmdAbort.Caption = t("중단(&A)", "&Abort")
+    MessageBox.cmdRetry.Caption = t("다시 시도(&R)", "&Retry")
+    MessageBox.cmdIgnore.Caption = t("무시(&I)", "&Ignore")
+    
+    MessageBox.cmdAbort.Visible = -1
+    MessageBox.cmdRetry.Visible = -1
+    MessageBox.cmdIgnore.Visible = -1
+    MessageBox.cmdFail.Visible = 0
+    MessageBox.cmdHelp.Visible = 0
+    
+    MessageBox.cmdCancel.Cancel = -1
+    MessageBox.cmdCancel.Default = 0
+    MessageBox.cmdYes.Cancel = 0
+    MessageBox.cmdYes.Default = 0
+    MessageBox.cmdNo.Cancel = 0
+    MessageBox.cmdNo.Default = 0
+    MessageBox.cmdOK.Cancel = 0
+    MessageBox.cmdOK.Default = 0
+    
+    MessageBox.Init
+    MessageBox.Show vbModal
+    MsgBoxAbortRetryIgnore = MsgBoxResults(MessageBox.ResultID)
+    Unload MessageBox
+    Set MessageBox = Nothing
+End Function
+
+Function MsgBoxRetryCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
+    If Title = "" Then Title = App.Title
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
+        MsgBoxRetryCancel = VBA.MsgBox(Content, Icon + vbRetryCancel, Title)
+        Exit Function
+    End If
+    
+    Dim MessageBox As frmMessageBox
+    Set MessageBox = New frmMessageBox
+    MessageBox.MsgBoxMode = 6
+    MessageBox.ResultID = CStr(Rnd * 1E+15)
+    
+    On Error Resume Next
+    Randomize
+    Dim NoIcon As Boolean
+    NoIcon = False
+    Select Case Icon
+        Case 48
+            MessageBox.imgMBIconWarning(Int(Rnd * 2)).Visible = True
+        Case 16
+            MessageBox.imgMBIconError(Int(Rnd * 2)).Visible = True
+        Case 64
+            MessageBox.imgMBIconInfo(Int(Rnd * 2)).Visible = True
+        Case 32
+            MessageBox.imgMBIconQuestion(Int(Rnd * 2)).Visible = True
+        Case Else
+            NoIcon = True
+    End Select
+    
+    Content = Replace(Content, "&", "&&")
+    Content = Replace(Content, vbCrLf & vbCrLf, vbCrLf & " " & vbCrLf)
+    
+    Dim i As Integer
+    Dim LineCount As Integer
+    Dim LContent As Integer
+    Dim MAX_WIDTH As Long
+    MAX_WIDTH = Screen.Width / 2
+    Content = Join(CutLines(Content, MAX_WIDTH), vbCrLf)
+    LContent = 0
+    LineCount = UBound(Split(Content, vbLf)) + 1
+    Dim s%
+    Dim ln$
+    Dim CI%, c$
+    Dim LineContent$
+    For s = 0 To UBound(Split(Content, vbCrLf))
+        LineContent = Split(Content, vbCrLf)(s)
+        If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
+    Next s
+    
+    If LContent = 0 Then LContent = StrLen(Content)
+    If LineCount > 1 Then MessageBox.lblContent.Top = 280
+    MessageBox.lblContent.Height = 185 * LineCount + 60
+    MessageBox.Height = 1615 + LineCount * 180 - 300 + 190 - 60
+    MessageBox.Caption = Title
+    MessageBox.lblContent.Caption = Content
+    MessageBox.Width = Max(2040 + LContent - 640 - 225, 3480)
+    If NoIcon Then
+        MessageBox.Width = Max(MessageBox.Width - 720, 3480)
+        MessageBox.lblContent.Top = MessageBox.lblContent.Top - 180
+        MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
+        MessageBox.Height = MessageBox.Height - 240
+    End If
+    MessageBox.cmdRetry.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdRetry.Width / 2
+    MessageBox.cmdRetry.Top = 840 + (LineCount * 185) - 350
+    MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdCancel.Width / 2 - 120 + MessageBox.cmdRetry.Width + 240 - 30
+    MessageBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
+    If LineCount < 2 Then
+        MessageBox.Height = MessageBox.Height + 180
+        MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top + 180
+        MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top + 180
+    End If
+    If NoIcon Then
+        MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
+        MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+    End If
+    
+    Dim MessageSoundPath$
+    Select Case Icon
+        Case 48
+            If GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            End If
+        Case 16
+            If GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            End If
+        Case 64
+            If GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            End If
+        Case 32
+            If GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            End If
+        Case Else
+            MessageSoundPath = ""
+    End Select
+    If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
+    
+    MessageBox.cmdRetry.Caption = t("다시 시도(&R)", "&Retry")
+    MessageBox.cmdCancel.Caption = t("취소", "Cancel")
+    
+    MessageBox.cmdOK.Visible = 0
+    MessageBox.cmdCancel.Visible = -1
+    MessageBox.cmdYes.Visible = 0
+    MessageBox.cmdNo.Visible = 0
+    MessageBox.optYes.Visible = 0
+    MessageBox.optNo.Visible = 0
+    
+    MessageBox.cmdAbort.Visible = 0
+    MessageBox.cmdRetry.Visible = -1
+    MessageBox.cmdIgnore.Visible = 0
+    MessageBox.cmdFail.Visible = 0
+    MessageBox.cmdHelp.Visible = 0
+    
+    MessageBox.cmdCancel.Cancel = -1
+    MessageBox.cmdCancel.Default = 0
+    MessageBox.cmdYes.Cancel = 0
+    MessageBox.cmdYes.Default = 0
+    MessageBox.cmdNo.Cancel = 0
+    MessageBox.cmdNo.Default = 0
+    MessageBox.cmdOK.Cancel = 0
+    MessageBox.cmdOK.Default = 0
+    
+    MessageBox.Show vbModal
+    MsgBoxRetryCancel = MsgBoxResults(MessageBox.ResultID)
+    Unload MessageBox
+    Set MessageBox = Nothing
+End Function
+
+Function MsgBoxOKCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
+    If Title = "" Then Title = App.Title
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
+        MsgBoxOKCancel = VBA.MsgBox(Content, Icon + vbOKCancel, Title)
+        Exit Function
+    End If
+    
+    Dim MessageBox As frmMessageBox
+    Set MessageBox = New frmMessageBox
+    MessageBox.MsgBoxMode = 7
+    MessageBox.ResultID = CStr(Rnd * 1E+15)
+    
+    On Error Resume Next
+    Randomize
+    Dim NoIcon As Boolean
+    NoIcon = False
+    Select Case Icon
+        Case 48
+            MessageBox.imgMBIconWarning(Int(Rnd * 2)).Visible = True
+        Case 16
+            MessageBox.imgMBIconError(Int(Rnd * 2)).Visible = True
+        Case 64
+            MessageBox.imgMBIconInfo(Int(Rnd * 2)).Visible = True
+        Case 32
+            MessageBox.imgMBIconQuestion(Int(Rnd * 2)).Visible = True
+        Case Else
+            NoIcon = True
+    End Select
+    
+    Content = Replace(Content, "&", "&&")
+    Content = Replace(Content, vbCrLf & vbCrLf, vbCrLf & " " & vbCrLf)
+    
+    Dim i As Integer
+    Dim LineCount As Integer
+    Dim LContent As Integer
+    Dim MAX_WIDTH As Long
+    MAX_WIDTH = Screen.Width / 2
+    Content = Join(CutLines(Content, MAX_WIDTH), vbCrLf)
+    LContent = 0
+    LineCount = UBound(Split(Content, vbLf)) + 1
+    Dim s%
+    Dim ln$
+    Dim CI%, c$
+    Dim LineContent$
+    For s = 0 To UBound(Split(Content, vbCrLf))
+        LineContent = Split(Content, vbCrLf)(s)
+        If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
+    Next s
+    
+    If LContent = 0 Then LContent = StrLen(Content)
+    If LineCount > 1 Then MessageBox.lblContent.Top = 280
+    MessageBox.lblContent.Height = 185 * LineCount + 60
+    MessageBox.Height = 1615 + LineCount * 180 - 300 + 190 - 60
+    MessageBox.Caption = Title
+    MessageBox.lblContent.Caption = Content
+    MessageBox.Width = Max(2040 + LContent - 640 - 225, 3480)
+    If NoIcon Then
+        MessageBox.Width = Max(MessageBox.Width - 720, 3480)
+        MessageBox.lblContent.Top = MessageBox.lblContent.Top - 180
+        MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
+        MessageBox.Height = MessageBox.Height - 240
+    End If
+    MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2
+    MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350
+    MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdCancel.Width / 2 - 120 + MessageBox.cmdOK.Width + 240 - 30
+    MessageBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
+    If LineCount < 2 Then
+        MessageBox.Height = MessageBox.Height + 180
+        MessageBox.cmdOK.Top = MessageBox.cmdOK.Top + 180
+        MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top + 180
+    End If
+    If NoIcon Then
+        MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
+        MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+    End If
+    
+    Dim MessageSoundPath$
+    Select Case Icon
+        Case 48
+            If GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+            End If
+        Case 16
+            If GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+            End If
+        Case 64
+            If GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+            End If
+        Case 32
+            If GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1) = 0 Then
+                MessageSoundPath = "-"
+            Else
+                MessageSoundPath = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
+            End If
+        Case Else
+            MessageSoundPath = ""
+    End Select
+    If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
+    
+    MessageBox.cmdOK.Caption = t("확인", "OK")
+    MessageBox.cmdCancel.Caption = t("취소", "Cancel")
+    
+    MessageBox.cmdOK.Visible = -1
+    MessageBox.cmdCancel.Visible = -1
+    MessageBox.cmdYes.Visible = 0
+    MessageBox.cmdNo.Visible = 0
+    MessageBox.optYes.Visible = 0
+    MessageBox.optNo.Visible = 0
+    
+    MessageBox.cmdAbort.Visible = 0
+    MessageBox.cmdRetry.Visible = 0
+    MessageBox.cmdIgnore.Visible = 0
+    MessageBox.cmdFail.Visible = 0
+    MessageBox.cmdHelp.Visible = 0
+    
+    MessageBox.cmdCancel.Cancel = -1
+    MessageBox.cmdCancel.Default = 0
+    MessageBox.cmdYes.Cancel = 0
+    MessageBox.cmdYes.Default = 0
+    MessageBox.cmdNo.Cancel = 0
+    MessageBox.cmdNo.Default = 0
+    MessageBox.cmdOK.Cancel = 0
+    MessageBox.cmdOK.Default = 0
+    
+    MessageBox.Show vbModal
+    MsgBoxOKCancel = MsgBoxResults(MessageBox.ResultID)
     Unload MessageBox
     Set MessageBox = Nothing
 End Function
@@ -1845,6 +2315,13 @@ Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional T
             MsgBox = Confirm(Prompt, Title, 0)
         Case vbYesNoCancel
             MsgBox = ConfirmCancel(Prompt, Title, 0)
+        Case vbOKCancel
+            MsgBox = MsgBoxOKCancel(Prompt, Title, 0)
+        Case vbAbortRetryIgnore
+            MsgBox = MsgBoxAbortRetryIgnore(Prompt, Title, 0)
+        Case vbRetryCancel
+            MsgBox = MsgBoxRetryCancel(Prompt, Title, 0)
+        
         Case vbCritical, vbQuestion, vbExclamation, vbInformation
             Alert Prompt, Title, Buttons
             MsgBox = vbOK
@@ -1852,6 +2329,13 @@ Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional T
             MsgBox = Confirm(Prompt, Title, Buttons - vbYesNo)
         Case vbCritical + vbYesNoCancel, vbQuestion + vbYesNoCancel, vbExclamation + vbYesNoCancel, vbInformation + vbYesNoCancel
             MsgBox = ConfirmCancel(Prompt, Title, Buttons - vbYesNoCancel)
+        Case vbCritical + vbOKCancel, vbQuestion + vbOKCancel, vbExclamation + vbOKCancel, vbInformation + vbOKCancel
+            MsgBox = MsgBoxOKCancel(Prompt, Title, Buttons - vbOKCancel)
+        Case vbCritical + vbAbortRetryIgnore, vbQuestion + vbAbortRetryIgnore, vbExclamation + vbAbortRetryIgnore, vbInformation + vbAbortRetryIgnore
+            MsgBox = MsgBoxAbortRetryIgnore(Prompt, Title, Buttons - vbAbortRetryIgnore)
+        Case vbCritical + vbRetryCancel, vbQuestion + vbRetryCancel, vbExclamation + vbRetryCancel, vbInformation + vbRetryCancel
+            MsgBox = MsgBoxRetryCancel(Prompt, Title, Buttons - vbRetryCancel)
+        
         Case Else
             MsgBox = VBA.MsgBox(Prompt, Buttons, Title, HelpFile, Context)
     End Select
