@@ -171,9 +171,11 @@ Private Sub cmdHeaders_Click()
     Set DecodedHeaders = DecodeHeaderCache(EncodedHeaders)
     Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
     Set frmDownloadOptions.Headers = DecodedHeaders("values")
-#If Not HIDEYTDL Then
-    frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
+#If HIDEYTDL Then
+    frmDownloadOptions.Show vbModal, Me
+    Exit Sub
 #End If
+    frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
     frmDownloadOptions.Show vbModal, Me
 End Sub
 

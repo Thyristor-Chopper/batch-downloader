@@ -2351,9 +2351,11 @@ Private Sub mnuHeaders_Click()
     Tags.DownloadOptionsTargetForm = 0
     Set frmDownloadOptions.Headers = SessionHeaders
     Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
-#If Not HIDEYTDL Then
-    frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
+#If HIDEYTDL Then
+    frmDownloadOptions.Show vbModal, Me
+    Exit Sub
 #End If
+    frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
@@ -3031,15 +3033,17 @@ Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Optional
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , t("대기", "Queued")
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , "Y"
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , Headers
-#If Not HIDEYTDL Then
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "N"
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "N"
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+#If HIDEYTDL Then
+    GoTo afterheaderadd
 #End If
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "N"
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "N"
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+afterheaderadd:
     lvBatchFiles.ListItems(idx).Checked = -1
     If IsDownloading Or cmdStop.Enabled Or BatchStarted Then
         cmdStartBatch.Enabled = 0
@@ -3773,7 +3777,9 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , "status", t("상태", "Status"), 1105, LvwColumnHeaderAlignmentCenter
     lvBatchFiles.ColumnHeaders.Add , "autoname", t("파일 이름 자동 감지", "Autodetect File Name"), 0
     lvBatchFiles.ColumnHeaders.Add , "headers", t("인코딩된 헤더", "Encoded Headers"), 0
-#If Not HIDEYTDL Then
+#If HIDEYTDL Then
+    GoTo afterheaderadd
+#End If
     lvBatchFiles.ColumnHeaders.Add , "useytdl", "youtube-dl " & t("사용", "used"), 0
     lvBatchFiles.ColumnHeaders.Add , "ytdlformat", "youtube-dl: " & t("포맷", "format"), 0
     lvBatchFiles.ColumnHeaders.Add , "ytdletractaudio", "youtube-dl: " & t("오디오 추출", "extract audio"), 0
@@ -3781,7 +3787,7 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , "ytdlaudioqualitytype", "youtube-dl: " & t("오디오 음질 형식", "audio quality type"), 0
     lvBatchFiles.ColumnHeaders.Add , "ytdlcbr", "youtube-dl: CBR", 0
     lvBatchFiles.ColumnHeaders.Add , "ytdlvbr", "youtube-dl: VBR", 0
-#End If
+afterheaderadd:
 
     Me.Height = 6930
     
@@ -4372,7 +4378,9 @@ Private Sub mnuMoveDown_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(3).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(4).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(5).Text
-#If Not HIDEYTDL Then
+#If HIDEYTDL Then
+    GoTo afterheaderadd
+#End If
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(6).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(7).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(8).Text
@@ -4380,7 +4388,7 @@ Private Sub mnuMoveDown_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(10).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(11).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(12).Text
-#End If
+afterheaderadd:
     lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(DownIdx).Checked
     lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(DownIdx).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(DownIdx).ListSubItems(1).ForeColor
@@ -4406,7 +4414,9 @@ Private Sub mnuMoveUp_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(3).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(4).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(5).Text
-#If Not HIDEYTDL Then
+#If HIDEYTDL Then
+    GoTo afterheaderadd
+#End If
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(6).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(7).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(8).Text
@@ -4414,7 +4424,7 @@ Private Sub mnuMoveUp_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(10).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(11).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(12).Text
-#End If
+afterheaderadd:
     lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(UpIdx).Checked
     lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(UpIdx).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(UpIdx).ListSubItems(1).ForeColor
