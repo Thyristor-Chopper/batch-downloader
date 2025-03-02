@@ -1787,13 +1787,13 @@ ErrLn4:
 End Function
 
 Function FilterFilename(ByVal FileName As String, Optional ByVal PreserveBackslash As Boolean = False) As String
-    Dim str As String
+    Dim Str As String
     Dim ret As String
     ret = ""
-    str = StrConv(FileName, vbProperCase)
+    Str = StrConv(FileName, vbProperCase)
     Dim i%
-    For i = 1 To Len(str)
-        If Mid(str, i, 1) = "?" Then
+    For i = 1 To Len(Str)
+        If Mid(Str, i, 1) = "?" Then
             ret = ret & "_"
         Else
             ret = ret & Mid(FileName, i, 1)
@@ -1956,10 +1956,10 @@ Function FormatTime(Sec) As String
     FormatTime = ret
 End Function
 
-Function btoa(str As String) As String
+Function btoa(Str As String) As String
     On Error Resume Next
     Dim Data() As Byte
-    Data = StrConv(str, vbFromUnicode)
+    Data = StrConv(Str, vbFromUnicode)
     Dim ss As String, s As Long
     ss = String$(2 * UBound(Data) + 6, 0)
     s = Len(ss) + 1
@@ -2207,12 +2207,12 @@ Function ExpandEnvironmentStrings(ByVal strInput As String) As String
     ExpandEnvironmentStrings = strOutput
 End Function
 
-Function StartsWith(ByVal str As String, ByVal s As String) As Boolean
-    StartsWith = (Left$(str, Len(s)) = s)
+Function StartsWith(ByVal Str As String, ByVal s As String) As Boolean
+    StartsWith = (Left$(Str, Len(s)) = s)
 End Function
 
-Function EndsWith(ByVal str As String, ByVal s As String) As Boolean
-    EndsWith = (Right$(str, Len(s)) = s)
+Function EndsWith(ByVal Str As String, ByVal s As String) As Boolean
+    EndsWith = (Right$(Str, Len(s)) = s)
 End Function
 
 Function ExcludeParameters(ByVal URL As String) As String
@@ -2341,3 +2341,10 @@ Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional T
     End Select
 End Function
 
+Function Right(Str As String, Length As Long) As String
+    On Error GoTo errproc
+    Right = VBA.Right$(Str, Length)
+    Exit Function
+errproc:
+    Right = ""
+End Function

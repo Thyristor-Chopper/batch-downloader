@@ -405,5 +405,11 @@ Sub OnKeyDown(KeyCode As Integer)
                 optYes.SetFocus
             End If
             If cmdYes.Visible Then cmdYes_Click
+        Case 82 'R
+            If cmdRetry.Visible Then cmdRetry_Click
+        Case 65 'A
+            If cmdAbort.Visible Then cmdAbort_Click
+        Case 73 'I
+            If cmdIgnore.Visible Then cmdIgnore_Click
     End Select
 End Sub

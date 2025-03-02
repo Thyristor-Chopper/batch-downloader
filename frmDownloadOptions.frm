@@ -5,7 +5,7 @@ Begin VB.Form frmDownloadOptions
    ClientHeight    =   4815
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   13710
+   ClientWidth     =   12585
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -20,7 +20,7 @@ Begin VB.Form frmDownloadOptions
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   4815
-   ScaleWidth      =   13710
+   ScaleWidth      =   12585
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 

@@ -1151,7 +1151,7 @@ Sub Form_Resize()
     tbPlaces.Height = pbPlacesBarContainer.Height
     Label5.Top = chkHidden.Top + chkHidden.Height + 180
     picPreviewFrame.Top = Label5.Top
-    cmdPreview.Left = CancelButton.Left
+    cmdPreview.Left = CancelButton.Left - 120 - CancelButton.Width
     cmdPreview.Top = CancelButton.Top + CancelButton.Height + 30
 End Sub
 
@@ -1694,6 +1694,14 @@ End Sub
 Private Sub OKButton_Click()
     txtFileName.Text = Trim$(txtFileName.Text)
     
+    'mft 버그 방지
+    If (Len(lvDir.Path) = 3 And LCase(txtFileName.Text) = "$mft") Or (Len(txtFileName.Text) > 3 And Mid$(txtFileName.Text, 2, 2) = ":\" And (LCase(Right(txtFileName.Text, Len(txtFileName.Text) - 3)) = "$mft" Or StartsWith(LCase(Right(txtFileName.Text, Len(txtFileName.Text) - 3)), "$mft\"))) Then
+        If MsgBox(t("블루 스크린을 발생시킬 작정이십니까? ^^;", "You'd better not do that!"), t(vbQuestion + vbYesNo, vbExclamation)) = vbYes Then
+            MsgBox "그래도 안 됩니다!", 16
+        End If
+        Exit Sub
+    End If
+    
     On Error Resume Next
     If InStr(1, txtFileName.Text, "*") > 0 Or InStr(1, txtFileName.Text, "?") > 0 Then
         If Not LoadFinished Then Exit Sub
@@ -1835,6 +1843,13 @@ imgerr:
     
     If Tags.BrowseTargetForm = 4 And txtFileName.Text = "" Then Exit Sub
     
+    Dim IsColonPresent As Boolean
+    If Len(txtFileName.Text) > 3 And Mid$(txtFileName.Text, 2, 2) = ":\" Then
+        IsColonPresent = InStr(1, Right$(txtFileName.Text, Len(txtFileName.Text) - 3), "|") > 0
+    Else
+        IsColonPresent = Includes(txtFileName.Text, ":")
+    End If
+    
     If _
         InStr(1, txtFileName.Text, "\") > 0 Or _
         InStr(1, txtFileName.Text, "/") > 0 Or _
@@ -1844,6 +1859,7 @@ imgerr:
         InStr(1, txtFileName.Text, "<") > 0 Or _
         InStr(1, txtFileName.Text, ">") > 0 Or _
         InStr(1, txtFileName.Text, "|") > 0 Or _
+        IsColonPresent Or _
         UCase(txtFileName.Text) = "CON" Or _
         UCase(txtFileName.Text) = "AUX" Or _
         UCase(txtFileName.Text) = "PRN" Or _

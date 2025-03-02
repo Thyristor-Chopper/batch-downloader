@@ -23,7 +23,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.TextBoxW txtURL 
       Height          =   300
       Left            =   1560
-      TabIndex        =   125
+      TabIndex        =   39
       Top             =   105
       Width           =   5745
       _ExtentX        =   10134
@@ -173,7 +173,7 @@ Begin VB.Form frmMain
       Height          =   300
       Left            =   7080
       TabIndex        =   111
-      Top             =   3150
+      Top             =   3165
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
@@ -1755,14 +1755,6 @@ Begin VB.Form frmMain
          BorderStyle     =   0
       End
    End
-   Begin VB.DirListBox CurDir 
-      Height          =   510
-      Left            =   9240
-      TabIndex        =   39
-      Top             =   5280
-      Visible         =   0   'False
-      Width           =   495
-   End
    Begin prjDownloadBooster.CommandButtonW cmdIncreaseThreads 
       Height          =   330
       Left            =   6930
@@ -1892,13 +1884,13 @@ Begin VB.Form frmMain
       End
    End
    Begin prjDownloadBooster.FrameW fOptions 
-      Height          =   2160
+      Height          =   2190
       Left            =   6720
       TabIndex        =   24
       Top             =   1320
       Width           =   2415
       _ExtentX        =   4260
-      _ExtentY        =   3810
+      _ExtentY        =   3863
       Caption         =   " ¿É¼Ç "
       Transparent     =   -1  'True
       Begin VB.Label lblOverlay 
@@ -3246,7 +3238,7 @@ L2:
     End If
     
     If Replace(FileName, " ", "") = "" Then
-        FileName = Replace(CurDir.Path & "\", "\\", "\")
+        FileName = Replace(CurDir() & "\", "\\", "\")
     End If
     Dim ServerName$
     Dim AutoName As Boolean
@@ -3795,7 +3787,7 @@ Private Sub Form_Load()
     
     BatchStarted = False
     
-    txtFileName.Text = GetSetting("DownloadBooster", "UserData", "SavePath", CurDir.Path)
+    txtFileName.Text = GetSetting("DownloadBooster", "UserData", "SavePath", CurDir())
     
     Me.Height = 6930 + PaddedBorderWidth * 15 * 2
     

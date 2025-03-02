@@ -5,7 +5,7 @@ Begin VB.Form frmOptions
    ClientHeight    =   12825
    ClientLeft      =   2760
    ClientTop       =   3855
-   ClientWidth     =   12975
+   ClientWidth     =   13515
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -20,7 +20,7 @@ Begin VB.Form frmOptions
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   12825
-   ScaleWidth      =   12975
+   ScaleWidth      =   13515
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 
@@ -115,7 +115,6 @@ Begin VB.Form frmOptions
             _ExtentY        =   529
             ImageList       =   "imgBrowse"
             ImageListAlignment=   4
-            Caption         =   "..."
          End
          Begin prjDownloadBooster.TextBoxW txtAsterisk 
             Height          =   300

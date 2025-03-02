@@ -325,6 +325,13 @@ Private Sub OKButton_Click()
     End If
     On Error GoTo 0
     
+    Dim IsColonPresent As Boolean
+    If Len(txtFileName.Text) > 3 And Mid$(txtFileName.Text, 2, 2) = ":\" Then
+        IsColonPresent = InStr(1, Right$(txtFileName.Text, Len(txtFileName.Text) - 3), "|") > 0
+    Else
+        IsColonPresent = Includes(txtFileName.Text, ":")
+    End If
+    
     If _
         InStr(1, txtFileName.Text, "\") > 0 Or _
         InStr(1, txtFileName.Text, "/") > 0 Or _
@@ -334,6 +341,7 @@ Private Sub OKButton_Click()
         InStr(1, txtFileName.Text, "<") > 0 Or _
         InStr(1, txtFileName.Text, ">") > 0 Or _
         InStr(1, txtFileName.Text, "|") > 0 Or _
+        IsColonPresent Or _
         UCase(txtFileName.Text) = "CON" Or _
         UCase(txtFileName.Text) = "AUX" Or _
         UCase(txtFileName.Text) = "PRN" Or _
