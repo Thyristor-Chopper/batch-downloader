@@ -3624,7 +3624,7 @@ Sub SetBackgroundImage()
 End Sub
 
 Sub LoadLiveBadukSkin()
-    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 Then
+    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And Build < 21990 Then
         LoadPNG
         
         imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")

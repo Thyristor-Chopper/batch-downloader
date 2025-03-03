@@ -1327,6 +1327,7 @@ Private Sub cbSkin_Click()
         cmdApply.Enabled = -1
         SkinChanged = True
         VisualStyleChanged = True
+        If cbSkin.ListIndex = 2 And Build >= 21990 Then MsgBox t("Windows 11에서는 일부 스킨 기능이 지원되지 않습니다.", "Some of the skin elements are not supported on Windows 11."), 48
     End If
 End Sub
 

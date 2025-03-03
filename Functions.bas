@@ -720,7 +720,7 @@ End Function
 
 Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1)
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
         VBA.MsgBox Content, Icon, Title
         Exit Sub
     End If
@@ -862,7 +862,7 @@ End Sub
 
 Function Confirm(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
         Confirm = VBA.MsgBox(Content, Icon + vbYesNo, Title)
         Exit Function
     End If
@@ -1000,12 +1000,16 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
 End Function
 
 Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
+    If Title = "" Then Title = App.Title
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
+        ConfirmEx = VBA.MsgBox(Content, Icon + vbYesNoCancel, Title)
+        Exit Function
+    End If
+    
     Dim MessageBox As frmMessageBox
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 3
     MessageBox.ResultID = CStr(Rnd * 1E+15)
-    
-    If Title = "" Then Title = App.Title
     
     On Error Resume Next
     Randomize
@@ -1155,7 +1159,7 @@ End Function
 
 Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
         ConfirmCancel = VBA.MsgBox(Content, Icon + vbYesNoCancel, Title)
         Exit Function
     End If
@@ -1298,7 +1302,7 @@ End Function
 
 Function MsgBoxAbortRetryIgnore(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
         MsgBoxAbortRetryIgnore = VBA.MsgBox(Content, Icon + vbAbortRetryIgnore, Title)
         Exit Function
     End If
@@ -1442,7 +1446,7 @@ End Function
 
 Function MsgBoxRetryCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
         MsgBoxRetryCancel = VBA.MsgBox(Content, Icon + vbRetryCancel, Title)
         Exit Function
     End If
@@ -1580,7 +1584,7 @@ End Function
 
 Function MsgBoxOKCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
         MsgBoxOKCancel = VBA.MsgBox(Content, Icon + vbOKCancel, Title)
         Exit Function
     End If
@@ -1880,6 +1884,7 @@ Function GetWindowsVersion() As Single
             Case VER_PLATFORM_WIN32_NT
                 GetWindowsVersion = 3.1
                 ver = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
+                Build = osv.dwBuildNumber
                 If ver >= 6.2 Then ver = fWinVer()
                 GetWindowsVersion = ver
         
@@ -1887,14 +1892,18 @@ Function GetWindowsVersion() As Single
                 Select Case osv.dwVerMinor
                     Case 0
                         GetWindowsVersion = 4#
+                        Build = 950
                     Case 90
                         GetWindowsVersion = 4.9
+                        Build = 3000
                     Case Else
                         GetWindowsVersion = 4.1
+                        Build = 1998
                 End Select
         End Select
     Else
-        GetWindowsVersion = 5.2
+        GetWindowsVersion = 5.1
+        Build = 2600
     End If
 End Function
 
@@ -1913,6 +1922,7 @@ Function fWinVer() As Single
         End If
     End If
 
+    Build = osv.dwBuildNumber
     fWinVer = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
 End Function
 

@@ -3,12 +3,14 @@ Option Explicit
 
 Public CachePath As String
 Public WinVer As Single
+Public Build As Long
 Public PaddedBorderWidth As Integer
 Public DialogBorderWidth As Integer
 Public SizingBorderWidth As Integer
 Public Const DefaultBackColor As Long = 15529449 '-1&
 Public DefaultDisableDWMWindow As Integer
 Public LangID As Integer
+Public OSLangID As Integer
 
 Sub LoadPNG()
     On Error Resume Next
@@ -120,8 +122,9 @@ Sub LoadJS()
 End Sub
 
 Sub Main()
+    OSLangID = GetUserDefaultUILanguage()
     LangID = GetSetting("DownloadBooster", "Options", "Language", 0)
-    If LangID = 0 Then LangID = GetUserDefaultUILanguage()
+    If LangID = 0 Then LangID = OSLangID
     App.Title = t(App.Title, "Download Booster")
     
     Dim OverrideWinver$
