@@ -720,7 +720,7 @@ End Function
 
 Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1)
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
         VBA.MsgBox Content, Icon, Title
         Exit Sub
     End If
@@ -862,7 +862,7 @@ End Sub
 
 Function Confirm(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
         Confirm = VBA.MsgBox(Content, Icon + vbYesNo, Title)
         Exit Function
     End If
@@ -1001,7 +1001,7 @@ End Function
 
 Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
         ConfirmEx = VBA.MsgBox(Content, Icon + vbYesNoCancel, Title)
         Exit Function
     End If
@@ -1159,7 +1159,7 @@ End Function
 
 Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
         ConfirmCancel = VBA.MsgBox(Content, Icon + vbYesNoCancel, Title)
         Exit Function
     End If
@@ -1302,7 +1302,7 @@ End Function
 
 Function MsgBoxAbortRetryIgnore(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
         MsgBoxAbortRetryIgnore = VBA.MsgBox(Content, Icon + vbAbortRetryIgnore, Title)
         Exit Function
     End If
@@ -1446,7 +1446,7 @@ End Function
 
 Function MsgBoxRetryCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
         MsgBoxRetryCancel = VBA.MsgBox(Content, Icon + vbRetryCancel, Title)
         Exit Function
     End If
@@ -1584,7 +1584,7 @@ End Function
 
 Function MsgBoxOKCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Or (LangID = 1042 And OSLangID <> 1042) Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
         MsgBoxOKCancel = VBA.MsgBox(Content, Icon + vbOKCancel, Title)
         Exit Function
     End If
