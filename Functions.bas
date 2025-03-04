@@ -1936,16 +1936,25 @@ End Function
 
 Sub SetFont(frm As Form)
     On Error Resume Next
-    If LangID = 1042 Then Exit Sub
-    frm.Font.Name = "Tahoma"
+    Dim FontName$, FontSize%
+    FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
+    If FontName = "" And LangID = 1042 Then Exit Sub
+    If FontName = "" Then FontName = "Tahoma"
+    If Not FontExists(FontName) Then
+        If LangID = 1042 Then Exit Sub
+        FontName = "Tahoma"
+    End If
+    FontSize = 9
+    If FontName = "Tahoma" Then FontSize = 8
+    frm.Font.Name = FontName
     frm.Font.Size = 8
     Dim ctrl As Control
     For Each ctrl In frm.Controls
         If ctrl.Name <> "lvDummyScroll" Then
-            ctrl.Font.Name = "Tahoma"
-            If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = 8
-            ctrl.FontName = "Tahoma"
-            If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = 8
+            ctrl.Font.Name = FontName
+            If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
+            ctrl.FontName = FontName
+            If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
         End If
     Next ctrl
 End Sub

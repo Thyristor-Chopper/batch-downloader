@@ -173,7 +173,7 @@ Begin VB.Form frmMain
       Height          =   300
       Left            =   7080
       TabIndex        =   111
-      Top             =   3165
+      Top             =   3180
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
@@ -184,7 +184,7 @@ Begin VB.Form frmMain
       Height          =   300
       Left            =   7080
       TabIndex        =   110
-      Top             =   2850
+      Top             =   2865
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
@@ -194,9 +194,9 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CheckBoxW chkAutoRetry 
       Height          =   255
-      Left            =   6840
+      Left            =   6810
       TabIndex        =   58
-      Top             =   2580
+      Top             =   2595
       Width           =   2205
       _ExtentX        =   0
       _ExtentY        =   0
@@ -217,9 +217,9 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CheckBoxW chkContinueDownload 
       Height          =   255
-      Left            =   6840
+      Left            =   6810
       TabIndex        =   57
-      Top             =   2355
+      Top             =   2370
       Width           =   1935
       _ExtentX        =   0
       _ExtentY        =   0
@@ -1785,7 +1785,7 @@ Begin VB.Form frmMain
       Height          =   300
       Left            =   7590
       TabIndex        =   10
-      Top             =   2040
+      Top             =   2025
       Width           =   1425
       _ExtentX        =   0
       _ExtentY        =   0
@@ -1793,22 +1793,22 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.CheckBoxW chkOpenAfterComplete 
       Height          =   255
-      Left            =   6840
+      Left            =   6810
       TabIndex        =   7
       Top             =   1560
-      Width           =   1935
-      _ExtentX        =   3413
+      Width           =   2175
+      _ExtentX        =   3836
       _ExtentY        =   450
       Caption         =   "완료 후 열기(&C)"
    End
    Begin prjDownloadBooster.CheckBoxW chkOpenFolder 
       Height          =   255
-      Left            =   6840
+      Left            =   6810
       TabIndex        =   8
       Top             =   1785
-      Width           =   2175
-      _ExtentX        =   0
-      _ExtentY        =   0
+      Width           =   2280
+      _ExtentX        =   4022
+      _ExtentY        =   450
       Caption         =   "완료 후 폴더 열기(&L)"
    End
    Begin prjDownloadBooster.CommandButtonW cmdClear 
@@ -1920,21 +1920,21 @@ Begin VB.Form frmMain
          BackStyle       =   0  '투명
          Caption         =   "중복(&K):"
          Height          =   255
-         Left            =   120
+         Left            =   75
          TabIndex        =   9
          Tag             =   "nocolorchange"
          Top             =   765
-         Width           =   735
+         Width           =   855
       End
       Begin VB.Shape pgSettingsBackground 
          BackColor       =   &H8000000F&
          BackStyle       =   1  '투명하지 않음
          BorderColor     =   &H80000010&
-         Height          =   1320
-         Left            =   60
+         Height          =   1335
+         Left            =   30
          Top             =   210
          Visible         =   0   'False
-         Width           =   2295
+         Width           =   2355
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpen 

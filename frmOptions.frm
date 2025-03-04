@@ -520,13 +520,13 @@ Begin VB.Form frmOptions
       Top             =   600
       Width           =   5655
       Begin prjDownloadBooster.FrameW Frame5 
-         Height          =   2475
+         Height          =   2715
          Left            =   120
          TabIndex        =   12
          Top             =   1920
          Width           =   4335
          _ExtentX        =   7646
-         _ExtentY        =   4366
+         _ExtentY        =   4789
          Caption         =   " 인터페이스 "
          Transparent     =   -1  'True
          Begin prjDownloadBooster.CheckBoxW chkAllowDuplicates 
@@ -545,8 +545,8 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   58
             Top             =   1200
-            Width           =   4095
-            _ExtentX        =   7223
+            Width           =   4185
+            _ExtentX        =   7382
             _ExtentY        =   450
             Caption         =   "열기 대화 상자에서 같은 파일 아이콘 사용(&M)"
             Transparent     =   -1  'True
@@ -612,11 +612,29 @@ Begin VB.Form frmOptions
             Height          =   300
             Left            =   1440
             TabIndex        =   14
-            Top             =   1800
+            Top             =   1710
             Width           =   2775
             _ExtentX        =   4895
             _ExtentY        =   529
             Style           =   2
+         End
+         Begin prjDownloadBooster.ComboBoxW cbFont 
+            Height          =   300
+            Left            =   1440
+            TabIndex        =   102
+            Top             =   2310
+            Width           =   2775
+            _ExtentX        =   4895
+            _ExtentY        =   529
+         End
+         Begin VB.Label Label13 
+            BackStyle       =   0  '투명
+            Caption         =   "글꼴(&F):"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   103
+            Top             =   2355
+            Width           =   1335
          End
          Begin VB.Label Label9 
             BackStyle       =   0  '투명
@@ -624,7 +642,7 @@ Begin VB.Form frmOptions
             Height          =   255
             Left            =   120
             TabIndex        =   38
-            Top             =   2160
+            Top             =   2070
             Width           =   4200
          End
          Begin VB.Label Label1 
@@ -634,7 +652,7 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   13
             Tag             =   "nocolorchange"
-            Top             =   1845
+            Top             =   1755
             Width           =   975
          End
       End
@@ -706,8 +724,8 @@ Begin VB.Form frmOptions
             Left            =   2640
             TabIndex        =   17
             Top             =   240
-            Width           =   2415
-            _ExtentX        =   4260
+            Width           =   2655
+            _ExtentX        =   4683
             _ExtentY        =   450
             Caption         =   "완료 후 폴더 열기(&P)"
             Transparent     =   -1  'True
@@ -717,8 +735,8 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   16
             Top             =   240
-            Width           =   2295
-            _ExtentX        =   4048
+            Width           =   2520
+            _ExtentX        =   4445
             _ExtentY        =   450
             Caption         =   "완료 후 파일 열기(&O)"
             Transparent     =   -1  'True
@@ -1285,6 +1303,14 @@ Private Sub CancelButton_Click()
     Unload Me
 End Sub
 
+Private Sub cbFont_Change()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
+Private Sub cbFont_Click()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
 Private Sub cbFrameSkin_Click()
     If Loaded Then
         cmdApply.Enabled = -1
@@ -1299,9 +1325,7 @@ Private Sub cbFrameSkin_Click()
 End Sub
 
 Private Sub cbImagePosition_Click()
-    If Loaded Then
-        cmdApply.Enabled = -1
-    End If
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
 
 Private Sub cbLanguage_Click()
@@ -1645,6 +1669,19 @@ Private Sub cmdApply_Click()
     Else
         SaveSetting "DownloadBooster", "Options", "YtdlPath", ""
     End If
+    cbFont.Text = Trim$(cbFont.Text)
+    If cbFont.Text <> "" And cbFont.Text <> ("(" & t("기본값", "default") & ")") And (Not FontExists(cbFont.Text)) Then
+        MsgBox t("지정한 글꼴이 존재하지 않습니다.", "The specified font does not exist."), vbCritical
+        NoDisable = True
+    Else
+        If cbFont.Text = ("(" & t("기본값", "default") & ")") Then
+            SaveSetting "DownloadBooster", "Options", "Font", ""
+        Else
+            SaveSetting "DownloadBooster", "Options", "Font", cbFont.Text
+        End If
+        SetFont Me
+        SetFont frmMain
+    End If
     
     Dim hSysMenu As Long
     Dim MII As MENUITEMINFO
@@ -1929,7 +1966,7 @@ Private Sub Form_Load()
     For i = 1 To pbPanel.Count
         pbPanel(i).Visible = 0
         pbPanel(i).Enabled = 0
-        pbPanel(i).Top = 450
+        pbPanel(i).Top = 480
         pbPanel(i).Left = 165
         pbPanel(i).BorderStyle = 0
         pbPanel(i).AutoRedraw = True
@@ -1941,7 +1978,7 @@ Private Sub Form_Load()
         pbPanel(i).Height = MaxHeight
     Next i
     tsTabStrip.Width = MaxWidth + 105
-    tsTabStrip.Height = MaxHeight + 390
+    tsTabStrip.Height = MaxHeight + 410
     tsTabStrip.Top = 120
     tsTabStrip.Left = 120
     cmdApply.Top = tsTabStrip.Top + tsTabStrip.Height + 60
@@ -2085,6 +2122,20 @@ Private Sub Form_Load()
     txtScriptPath.Text = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
     txtYtdlPath.Text = GetSetting("DownloadBooster", "Options", "YtdlPath", "")
     
+    cbFont.Text = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
+    If cbFont.Text = "" Then cbFont.Text = ("(" & t("기본값", "default") & ")")
+    cbFont.AddItem "(" & t("기본값", "default") & ")"
+    If t(1, 2) = 2 Then
+        If FontExists("Tahoma") Then cbFont.AddItem "Tahoma"
+        If FontExists("Segoe UI") Then cbFont.AddItem "Segoe UI"
+    Else
+        If FontExists("굴림") Then cbFont.AddItem "굴림"
+        If FontExists("돋움") Then cbFont.AddItem "돋움"
+        If FontExists("바탕") Then cbFont.AddItem "바탕"
+        If FontExists("궁서") Then cbFont.AddItem "궁서"
+        If FontExists("맑은 고딕") Then cbFont.AddItem "맑은 고딕"
+    End If
+    
     On Error Resume Next
     If chkEnableBackgroundImage.Value And GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "") <> "" Then
         If LCase(Right$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""), 4)) = ".png" Then
@@ -2138,7 +2189,7 @@ Private Sub Form_Load()
     chkNoRedirectCheck.Caption = t(chkNoRedirectCheck.Caption, "Don't check fo&r redirects")
     chkForceGet.Caption = t(chkForceGet.Caption, "Force GET re&quest on file check")
     chkIgnore300.Caption = t(chkIgnore300.Caption, "&Ignore 3XX reponse code")
-    Label9.Caption = t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application.")
+    Label9.Caption = t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "Restart the application to change the language.")
     chkAlwaysOnTop.Caption = t(chkAlwaysOnTop.Caption, "Al&ways on top")
     chkAeroWindow.Caption = t(chkAeroWindow.Caption, "Use Ae&ro glass window")
     cmdAddHeader.Caption = t(cmdAddHeader.Caption, "&Add")
@@ -2169,6 +2220,7 @@ Private Sub Form_Load()
     txtError.Text = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
     txtQuestion.Text = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
     tr chkAllowDuplicates, "Allow dupl&icates in queue"
+    tr Label13, "&Font:"
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
