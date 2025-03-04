@@ -1934,11 +1934,17 @@ Function t(ByVal k, ByVal e) As Variant
     End If
 End Function
 
-Sub SetFont(frm As Form)
+Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     On Error Resume Next
     Dim FontName$, FontSize%
     FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
-    If FontName = "" And LangID = 1042 Then Exit Sub
+    If FontName = "" And LangID = 1042 Then
+        If Force Then
+            FontName = "±¼¸²"
+        Else
+            Exit Sub
+        End If
+    End If
     If FontName = "" Then FontName = "Tahoma"
     If Not FontExists(FontName) Then
         If LangID = 1042 Then Exit Sub

@@ -1679,8 +1679,8 @@ Private Sub cmdApply_Click()
         Else
             SaveSetting "DownloadBooster", "Options", "Font", cbFont.Text
         End If
-        SetFont Me
-        SetFont frmMain
+        SetFont Me, True
+        SetFont frmMain, True
     End If
     
     Dim hSysMenu As Long
