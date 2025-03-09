@@ -640,9 +640,11 @@ Function TextWidth(ByVal s As String, Optional ByVal FontName As String = "", Op
         If FontName = "" Then FontName = "±¼¸²"
         If FontSize = -1 Then FontSize = 9
     End If
+    Load frmDummyForm
     frmDummyForm.Font.Name = FontName
     frmDummyForm.Font.Size = FontSize
     TextWidth = frmDummyForm.TextWidth(s)
+    Unload frmDummyForm
 End Function
 
 Function TextHeight(ByVal s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
@@ -662,9 +664,11 @@ Function TextHeight(ByVal s As String, Optional ByVal FontName As String = "", O
         If FontName = "" Then FontName = "±¼¸²"
         If FontSize = -1 Then FontSize = 9
     End If
+    Load frmDummyForm
     frmDummyForm.Font.Name = FontName
     frmDummyForm.Font.Size = FontSize
     TextHeight = frmDummyForm.TextHeight(s)
+    Unload frmDummyForm
 End Function
 
 Function StrLen(ByVal s As String) As Integer

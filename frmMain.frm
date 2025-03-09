@@ -4332,6 +4332,8 @@ Private Sub mnuClearBatch_Click()
                 i = i + 1
             End If
         Loop
+        
+        If Not BatchStarted Then cmdStartBatch.Enabled = False
     End If
 End Sub
 
