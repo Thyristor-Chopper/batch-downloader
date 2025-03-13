@@ -80,7 +80,7 @@ Begin VB.Form frmExplorer
       _ExtentY        =   1005
       ImageWidth      =   32
       ImageHeight     =   32
-      ColorDepth      =   4
+      ColorDepth      =   8
       MaskColor       =   16711935
       InitListImages  =   "frmExplorer.frx":000C
    End
@@ -113,7 +113,7 @@ Begin VB.Form frmExplorer
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
-         InitButtons     =   "frmExplorer.frx":381C
+         InitButtons     =   "frmExplorer.frx":2A3C
       End
    End
    Begin VB.DirListBox lvDir 
@@ -154,7 +154,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   16
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":3E2C
+      InitListImages  =   "frmExplorer.frx":304C
    End
    Begin prjDownloadBooster.ImageList imgFolder 
       Left            =   8640
@@ -165,7 +165,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   32
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":655C
+      InitListImages  =   "frmExplorer.frx":6514
    End
    Begin VB.PictureBox picPreviewFrame 
       BackColor       =   &H00F8EFE5&
@@ -282,7 +282,7 @@ Begin VB.Form frmExplorer
       Wrappable       =   0   'False
       AllowCustomize  =   0   'False
       ButtonWidth     =   23
-      InitButtons     =   "frmExplorer.frx":950C
+      InitButtons     =   "frmExplorer.frx":8DD4
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
@@ -438,12 +438,12 @@ Dim LoadFinished As Boolean
 Sub ShowDesktopItems()
     Dim li As LvwListItem
     
-    Set li = lvFiles.ListItems.Add(, , t("내 문서", "My Documents"), 10, 13)
+    Set li = lvFiles.ListItems.Add(1, , t("내 문서", "My Documents"), 10, 13)
     li.ListSubItems.Add , , "-"
     li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
     li.ListSubItems.Add , , "-"
     
-    Set li = lvFiles.ListItems.Add(, , t("내 컴퓨터", "My Computer"), 9, 14)
+    Set li = lvFiles.ListItems.Add(1, , t("내 컴퓨터", "My Computer"), 9, 14)
     li.ListSubItems.Add , , "-"
     li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
     li.ListSubItems.Add , , "-"
@@ -577,7 +577,8 @@ Sub ListFiles()
         Next i
     End If
     
-    If lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP) Then ShowDesktopItems
+    Dim IsDesktop As Boolean
+    IsDesktop = (lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP))
     
     Dim totalcnt As Double
     totalcnt = 0
@@ -748,10 +749,17 @@ Sub ListFiles()
                 li.ListSubItems(2).Text = ExtName
                 li.ListSubItems(3).Text = FormatModified(FileDateTime(Path & Name))
                 
-                If Tags.BrowseTargetForm = 3 And (Not FirstListed) Then
-                    If Name <> "" And LCase(Name) = LCase(GetFilename(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))) Then
-                        li.Selected = True
-                        li.EnsureVisible
+                If Name <> "" And (Not FirstListed) Then
+                    If Tags.BrowseTargetForm = 3 Then
+                        If LCase(Name) = LCase(GetFilename(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))) Then
+                            li.Selected = True
+                            li.EnsureVisible
+                        End If
+                    ElseIf Tags.BrowseTargetForm = 4 Then
+                        If LCase(Name) = LCase(GetFilename(Tags.BrowsePresetPath)) Then
+                            li.Selected = True
+                            li.EnsureVisible
+                        End If
                     End If
                 End If
                 
@@ -784,6 +792,8 @@ Sub ListFiles()
             lvFiles.ListItems.Remove (totalcnt + 1)
         Next k
     End If
+    
+    If IsDesktop Then ShowDesktopItems
     
     tbToolBar.Buttons(3).Enabled = True
     FirstListed = True
@@ -865,7 +875,7 @@ Private Sub Form_Load()
             selFileType.AddItem t("아이콘", "Icon") & " (*.ICO)"
             selFileType.AddItem t("커서", "Cursor") & " (*.CUR)"
         Case 4
-            selFileType.AddItem t("소리 파일", "Sound file") & " (*.WAV)"
+            selFileType.AddItem t("소리", "Sound") & " (*.WAV)"
         Case Else
             selFileType.AddItem t("모든 파일", "All files") & " (*.*)"
     End Select

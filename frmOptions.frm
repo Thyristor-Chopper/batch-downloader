@@ -1179,15 +1179,15 @@ Begin VB.Form frmOptions
             Left            =   960
             TabIndex        =   34
             Top             =   600
-            Width           =   1695
-            _ExtentX        =   2990
+            Width           =   1815
+            _ExtentX        =   3201
             _ExtentY        =   529
             Style           =   2
             Text            =   "ComboBoxW1"
          End
          Begin prjDownloadBooster.CommandButtonW cmdChooseBackground 
             Height          =   330
-            Left            =   2160
+            Left            =   2280
             TabIndex        =   24
             Top             =   210
             Width           =   495
@@ -1202,8 +1202,8 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   23
             Top             =   240
-            Width           =   2055
-            _ExtentX        =   3625
+            Width           =   2175
+            _ExtentX        =   3836
             _ExtentY        =   450
             Caption         =   "배경 그림 사용(&B)"
             Transparent     =   -1  'True

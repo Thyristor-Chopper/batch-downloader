@@ -332,6 +332,8 @@ End Sub
 Private Sub Form_Activate()
     On Error Resume Next
     lvItems.SetFocus
+    'SavePicture imgItems.ListImages(1).ExtractIcon(), "F:\1호선저항.ico"
+    'SavePicture imgItems.ListImages(2).ExtractIcon(), "F:\2호선저항.ico"
 End Sub
 
 Private Sub Form_Load()
