@@ -639,8 +639,8 @@ Sub ListFiles()
                         li.ListSubItems(3).Text = FormatModified(FileDateTime(Path & Name))
                     End If
                     
-                    If totalcnt >= 500 Then
-                        If totalcnt = 500 Then
+                    If totalcnt >= 250 Then
+                        If totalcnt = 250 Then
                             cbFolderList.Enabled = 0
                             'tbPlaces.Enabled = 0
                             tbToolBar.Enabled = 0
@@ -655,7 +655,7 @@ Sub ListFiles()
                             txtFileName.Enabled = 0
                             Label2.Enabled = 0
                         End If
-                        DoEvents
+                        If totalcnt Mod 50 = 0 Then DoEvents
                     ElseIf totalcnt <= 1 Then
                         lvFiles.ListItems(1).EnsureVisible
                     End If
@@ -763,8 +763,8 @@ Sub ListFiles()
                     End If
                 End If
                 
-                If totalcnt >= 500 Then
-                    If totalcnt = 500 Then
+                If totalcnt >= 250 Then
+                    If totalcnt = 250 Then
                         cbFolderList.Enabled = 0
                         'tbPlaces.Enabled = 0
                         tbToolBar.Enabled = 0
@@ -779,7 +779,7 @@ Sub ListFiles()
                         txtFileName.Enabled = 0
                         Label2.Enabled = 0
                     End If
-                    DoEvents
+                    If totalcnt Mod 50 = 0 Then DoEvents
                 End If
                 totalcnt = totalcnt + 1
             End If
@@ -866,14 +866,16 @@ Private Sub Form_Load()
     selFileType.Clear
     Select Case Tags.BrowseTargetForm
         Case 3
-            selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
+            selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; " & IIf(Build >= 21990, "", "*.PNG; ") & "*.WMF; *.EMF; *.ICO; *.CUR)"
             selFileType.AddItem "JPEG (*.JPG; *.JPEG; *.JPE; *.JFIF)"
             selFileType.AddItem "GIF (*.GIF)"
             selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
-            selFileType.AddItem "PNG (*.PNG)"
+            If Not (Build >= 21990) Then selFileType.AddItem "PNG (*.PNG)"
             selFileType.AddItem t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
             selFileType.AddItem t("아이콘", "Icon") & " (*.ICO)"
             selFileType.AddItem t("커서", "Cursor") & " (*.CUR)"
+            
+            If Build >= 21990 Then MsgBox t("Windows 11에서는 PNG가 지원되지 않습니다.", "PNG is not supported on Windows 11."), vbExclamation
         Case 4
             selFileType.AddItem t("소리", "Sound") & " (*.WAV)"
         Case Else
