@@ -109,11 +109,11 @@ Begin VB.Form frmExplorer
          Orientation     =   1
          Divider         =   0   'False
          AllowCustomize  =   0   'False
-         ButtonHeight    =   35
+         ButtonHeight    =   51
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
-         InitButtons     =   "frmExplorer.frx":2A3C
+         InitButtons     =   "frmExplorer.frx":393C
       End
    End
    Begin VB.DirListBox lvDir 
@@ -134,7 +134,7 @@ Begin VB.Form frmExplorer
       Width           =   2175
    End
    Begin prjDownloadBooster.ImageCombo cbFolderList 
-      Height          =   315
+      Height          =   330
       Left            =   1680
       TabIndex        =   11
       Top             =   120
@@ -154,7 +154,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   16
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":304C
+      InitListImages  =   "frmExplorer.frx":3F4C
    End
    Begin prjDownloadBooster.ImageList imgFolder 
       Left            =   8640
@@ -165,10 +165,9 @@ Begin VB.Form frmExplorer
       ImageHeight     =   32
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":6514
+      InitListImages  =   "frmExplorer.frx":7414
    End
    Begin VB.PictureBox picPreviewFrame 
-      BackColor       =   &H00F8EFE5&
       Enabled         =   0   'False
       Height          =   2415
       Left            =   2880
@@ -282,7 +281,7 @@ Begin VB.Form frmExplorer
       Wrappable       =   0   'False
       AllowCustomize  =   0   'False
       ButtonWidth     =   23
-      InitButtons     =   "frmExplorer.frx":8DD4
+      InitButtons     =   "frmExplorer.frx":9CD4
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
