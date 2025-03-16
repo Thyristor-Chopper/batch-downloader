@@ -1297,8 +1297,6 @@ Dim VisualStyleChanged As Boolean
 Dim SkinChanged As Boolean
 Dim MouseY As Integer, SelectedListItem As LvwListItem
 
-Dim PrevhWnd As Long
-
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
@@ -1318,10 +1316,11 @@ Private Sub cbFrameSkin_Click()
     End If
     
     If (cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1) Then
-        SetWindowRgn PrevhWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
-    Else
-        SetWindowRgn PrevhWnd, 0&, True
+        SetWindowRgn pbBackground.hWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
+    ElseIf Loaded Then
+        SetWindowRgn pbBackground.hWnd, 0&, True
     End If
+    pbBackground.Refresh
 End Sub
 
 Private Sub cbImagePosition_Click()
@@ -1844,7 +1843,6 @@ Private Sub cmdTestQuestion_Click()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-    DestroyWindow PrevhWnd
     Unhook_Options Me.hWnd
 End Sub
 
@@ -2309,17 +2307,19 @@ Sub DrawTabBackground()
 End Sub
 
 Sub SetPreviewPosition()
-    If PrevhWnd Then DestroyWindow (PrevhWnd)
     Dim CaptionHeight As Integer
     CaptionHeight = GetSystemMetrics(31)
     Dim Left%, Top%
     Left = 30
     Top = 6
-    PrevhWnd = CreateWindowEx(WS_EX_CLIENTEDGE, "STATIC", App.Title, WS_DISABLED Or WS_CHILD Or WS_VISIBLE Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_SYSMENU, Left, Top, pbBackground.Width / 15 + SizingBorderWidth * 2, pbBackground.Height / 15 + CaptionHeight + SizingBorderWidth * 2 + 1, pbPreview.hWnd, 0&, App.hInstance, 0&)
-    pbBackground.Top = pbPreview.Top + Top * 15 + CaptionHeight * 15 + DialogBorderWidth * 15 + PaddedBorderWidth * 15 + 15 + 30
-    pbBackground.Left = pbPreview.Left + Left * 15 + DialogBorderWidth * 15 + PaddedBorderWidth * 15 + 30
+    SetWindowLong pbBackground.hWnd, GWL_STYLE, (GetWindowLong(pbBackground.hWnd, GWL_STYLE) Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_SYSMENU) And (Not WS_MAXIMIZEBOX)
+    SetWindowText pbBackground.hWnd, t("다운로드 부스터", "Download Booster")
+    pbBackground.Top = pbPreview.Top + Top * 15 + 15 + 30
+    pbBackground.Left = pbPreview.Left + Left * 15
     imgPreview.Width = pbBackground.Width
     imgPreview.Height = pbBackground.Height
+    pbBackground.Width = pbBackground.Width + SizingBorderWidth * 15
+    pbBackground.Height = pbBackground.Height + SizingBorderWidth * 15 + CaptionHeight * 15
     RedrawPreview
 End Sub
 

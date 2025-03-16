@@ -53,6 +53,7 @@ Declare Function lstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal lpString1 As Any
 Private Declare Function lstrlen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As Long) As Long
 Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As String
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
+Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
@@ -82,6 +83,9 @@ Private Declare Function GetKeyState Lib "user32" (ByVal vKey As Long) As Intege
 Private Declare Function GetDesktopWindow Lib "user32" () As Long
 Private Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
 Private Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
+Declare Function SetWindowText Lib "user32" Alias "SetWindowTextA" (ByVal hWnd As Long, ByVal lpString As String) As Long
+
+Public Const GWL_STYLE = (-16)
 
 Public Const DWM_EC_DISABLECOMPOSITION As Long = 0
 Public Const DWM_EC_ENABLECOMPOSITION As Long = 1
