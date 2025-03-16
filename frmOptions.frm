@@ -2318,8 +2318,8 @@ Sub SetPreviewPosition()
     pbBackground.Left = pbPreview.Left + Left * 15
     imgPreview.Width = pbBackground.Width
     imgPreview.Height = pbBackground.Height
-    pbBackground.Width = pbBackground.Width + SizingBorderWidth * 15
-    pbBackground.Height = pbBackground.Height + SizingBorderWidth * 15 + CaptionHeight * 15
+    pbBackground.Width = pbBackground.Width + PaddedBorderWidth * 15 + DialogBorderWidth * 30
+    pbBackground.Height = pbBackground.Height + PaddedBorderWidth * 15 + DialogBorderWidth * 30 + CaptionHeight * 15
     RedrawPreview
 End Sub
 
