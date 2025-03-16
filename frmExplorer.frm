@@ -109,7 +109,7 @@ Begin VB.Form frmExplorer
          Orientation     =   1
          Divider         =   0   'False
          AllowCustomize  =   0   'False
-         ButtonHeight    =   51
+         ButtonHeight    =   35
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
@@ -134,7 +134,7 @@ Begin VB.Form frmExplorer
       Width           =   2175
    End
    Begin prjDownloadBooster.ImageCombo cbFolderList 
-      Height          =   330
+      Height          =   315
       Left            =   1680
       TabIndex        =   11
       Top             =   120
@@ -1033,6 +1033,8 @@ Private Sub Form_Load()
         Case LvwViewTile
             mnuTiles.Checked = -1
     End Select
+    
+    If WinVer >= 6# And Build >= 5048 Then lvFiles.FullRowSelect = True
     
     lvDir_Change
 End Sub

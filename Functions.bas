@@ -433,6 +433,8 @@ nodwm:
 End Function
 
 Sub ExtendDWMFrame(ByRef frmForm As Form, Top As Long, Right As Long, Bottom As Long, Left As Long)
+    If WinVer < 6# Then Exit Sub
+    On Error Resume Next
     Dim Margin As MARGINS
     Margin.cxLeftWidth = Left
     Margin.cxRightWidth = Right
