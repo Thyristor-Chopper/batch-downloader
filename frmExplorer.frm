@@ -1036,6 +1036,11 @@ Private Sub Form_Load()
     
     If WinVer >= 6# And Build >= 5048 Then lvFiles.FullRowSelect = True
     
+    If Tags.BrowseTargetForm <> 3 Then
+        Label5.Visible = 0
+        picPreviewFrame.Visible = 0
+    End If
+    
     lvDir_Change
 End Sub
 
@@ -1162,7 +1167,7 @@ Sub Form_Resize()
     chkShowFiles.Top = selFileType.Top + selFileType.Height + 60
     pbPlacesBarContainer.Height = chkHidden.Top + chkHidden.Height - pbPlacesBarContainer.Top
     tbPlaces.Height = pbPlacesBarContainer.Height
-    Label5.Top = chkHidden.Top + chkHidden.Height + 180 + 60
+    Label5.Top = chkHidden.Top + chkHidden.Height + 180
     picPreviewFrame.Top = Label5.Top
     cmdPreview.Left = CancelButton.Left - 120 - CancelButton.Width
     cmdPreview.Top = CancelButton.Top + CancelButton.Height + 30

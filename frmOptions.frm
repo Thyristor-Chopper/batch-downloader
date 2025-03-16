@@ -1615,12 +1615,6 @@ Private Sub cmdApply_Click()
         frmMain.optTabThreads2.Transparent = 0
         frmMain.optTabThreads2.BackColor = frmMain.pgOverlay(0).BackColor
         frmMain.optTabThreads2.Refresh
-        frmMain.fTabDownload.Transparent = 0
-        frmMain.fTabDownload.BackColor = frmMain.pgOverlay(0).BackColor
-        frmMain.fTabDownload.Refresh
-        frmMain.fTabThreads.Transparent = 0
-        frmMain.fTabThreads.BackColor = frmMain.pgOverlay(0).BackColor
-        frmMain.fTabThreads.Refresh
     Else
         For i = frmMain.pgOverlay.LBound To frmMain.pgOverlay.UBound
             frmMain.pgOverlay(i).Visible = 0
@@ -1630,10 +1624,6 @@ Private Sub cmdApply_Click()
         frmMain.optTabDownload2.Refresh
         frmMain.optTabThreads2.Transparent = -1
         frmMain.optTabThreads2.Refresh
-        frmMain.fTabDownload.Transparent = -1
-        frmMain.fTabDownload.Refresh
-        frmMain.fTabThreads.Transparent = -1
-        frmMain.fTabThreads.Refresh
     End If
     On Error GoTo 0
     Dim NoDisable As Boolean

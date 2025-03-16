@@ -144,6 +144,7 @@ Begin VB.Form frmMessageBox
       Index           =   1
       Left            =   60
       Picture         =   "frmMessageBox.frx":000C
+      Stretch         =   -1  'True
       Top             =   60
       Visible         =   0   'False
       Width           =   645
@@ -153,6 +154,7 @@ Begin VB.Form frmMessageBox
       Index           =   0
       Left            =   60
       Picture         =   "frmMessageBox.frx":0384
+      Stretch         =   -1  'True
       Top             =   60
       Visible         =   0   'False
       Width           =   645
@@ -162,6 +164,7 @@ Begin VB.Form frmMessageBox
       Index           =   1
       Left            =   60
       Picture         =   "frmMessageBox.frx":06E3
+      Stretch         =   -1  'True
       Top             =   60
       Visible         =   0   'False
       Width           =   645
@@ -171,6 +174,7 @@ Begin VB.Form frmMessageBox
       Index           =   0
       Left            =   60
       Picture         =   "frmMessageBox.frx":0B4E
+      Stretch         =   -1  'True
       Top             =   60
       Visible         =   0   'False
       Width           =   645
@@ -180,6 +184,7 @@ Begin VB.Form frmMessageBox
       Index           =   1
       Left            =   60
       Picture         =   "frmMessageBox.frx":0F9C
+      Stretch         =   -1  'True
       Top             =   60
       Visible         =   0   'False
       Width           =   645
@@ -189,6 +194,7 @@ Begin VB.Form frmMessageBox
       Index           =   0
       Left            =   60
       Picture         =   "frmMessageBox.frx":1322
+      Stretch         =   -1  'True
       Top             =   60
       Visible         =   0   'False
       Width           =   645
@@ -198,6 +204,7 @@ Begin VB.Form frmMessageBox
       Index           =   1
       Left            =   60
       Picture         =   "frmMessageBox.frx":1693
+      Stretch         =   -1  'True
       Top             =   60
       Visible         =   0   'False
       Width           =   645
@@ -207,6 +214,7 @@ Begin VB.Form frmMessageBox
       Index           =   0
       Left            =   60
       Picture         =   "frmMessageBox.frx":1A09
+      Stretch         =   -1  'True
       Top             =   60
       Visible         =   0   'False
       Width           =   645

@@ -752,20 +752,20 @@ Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon
     Select Case Icon
         Case 48
             MessageBox.imgMBIconWarning(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconWarning(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconWarning(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 16
             MessageBox.imgMBIconError(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconError(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconError(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 64
             MessageBox.imgMBIconInfo(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconInfo(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconInfo(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 32
             MessageBox.imgMBIconQuestion(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Height = 630 * (DPI / 96)
         Case Else
             NoIcon = True
     End Select
@@ -906,20 +906,20 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
     Select Case Icon
         Case 48
             MessageBox.imgMBIconWarning(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconWarning(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconWarning(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 16
             MessageBox.imgMBIconError(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconError(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconError(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 64
             MessageBox.imgMBIconInfo(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconInfo(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconInfo(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 32
             MessageBox.imgMBIconQuestion(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Height = 630 * (DPI / 96)
         Case Else
             NoIcon = True
     End Select
@@ -1056,20 +1056,20 @@ Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Opti
     Select Case Icon
         Case 48
             MessageBox.imgMBIconWarning(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconWarning(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconWarning(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 16
             MessageBox.imgMBIconError(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconError(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconError(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 64
             MessageBox.imgMBIconInfo(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconInfo(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconInfo(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 32
             MessageBox.imgMBIconQuestion(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Height = 630 * (DPI / 96)
         Case Else
             NoIcon = True
     End Select
@@ -1225,20 +1225,20 @@ Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, 
     Select Case Icon
         Case 48
             MessageBox.imgMBIconWarning(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconWarning(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconWarning(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 16
             MessageBox.imgMBIconError(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconError(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconError(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 64
             MessageBox.imgMBIconInfo(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconInfo(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconInfo(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 32
             MessageBox.imgMBIconQuestion(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Height = 630 * (DPI / 96)
         Case Else
             NoIcon = True
     End Select
@@ -1379,20 +1379,20 @@ Function MsgBoxAbortRetryIgnore(ByVal Content As String, Optional ByVal Title As
     Select Case Icon
         Case 48
             MessageBox.imgMBIconWarning(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconWarning(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconWarning(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 16
             MessageBox.imgMBIconError(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconError(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconError(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 64
             MessageBox.imgMBIconInfo(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconInfo(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconInfo(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 32
             MessageBox.imgMBIconQuestion(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Height = 630 * (DPI / 96)
         Case Else
             NoIcon = True
     End Select
@@ -1534,20 +1534,20 @@ Function MsgBoxRetryCancel(ByVal Content As String, Optional ByVal Title As Stri
     Select Case Icon
         Case 48
             MessageBox.imgMBIconWarning(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconWarning(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconWarning(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 16
             MessageBox.imgMBIconError(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconError(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconError(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 64
             MessageBox.imgMBIconInfo(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconInfo(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconInfo(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 32
             MessageBox.imgMBIconQuestion(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Height = 630 * (DPI / 96)
         Case Else
             NoIcon = True
     End Select
@@ -1683,20 +1683,20 @@ Function MsgBoxOKCancel(ByVal Content As String, Optional ByVal Title As String,
     Select Case Icon
         Case 48
             MessageBox.imgMBIconWarning(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconWarning(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconWarning(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconWarning(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 16
             MessageBox.imgMBIconError(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconError(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconError(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconError(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 64
             MessageBox.imgMBIconInfo(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconInfo(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconInfo(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconInfo(IconRandomIdx).Height = 630 * (DPI / 96)
         Case 32
             MessageBox.imgMBIconQuestion(IconRandomIdx).Visible = True
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Top = 60 * (DPI / 96)
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Left = 60 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Width = 645 * (DPI / 96)
+            MessageBox.imgMBIconQuestion(IconRandomIdx).Height = 630 * (DPI / 96)
         Case Else
             NoIcon = True
     End Select

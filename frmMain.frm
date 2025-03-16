@@ -393,30 +393,6 @@ Begin VB.Form frmMain
       MaskColor       =   16711935
       InitListImages  =   "frmMain.frx":A24E
    End
-   Begin prjDownloadBooster.FrameW fTabThreads 
-      Height          =   165
-      Left            =   1545
-      TabIndex        =   47
-      Top             =   2070
-      Width           =   615
-      _ExtentX        =   1085
-      _ExtentY        =   291
-      Caption         =   " 스레드 "
-      Alignment       =   2
-      Transparent     =   -1  'True
-   End
-   Begin prjDownloadBooster.FrameW fTabDownload 
-      Height          =   165
-      Left            =   660
-      TabIndex        =   46
-      Top             =   2070
-      Width           =   495
-      _ExtentX        =   873
-      _ExtentY        =   291
-      Caption         =   " 요약  "
-      Alignment       =   2
-      Transparent     =   -1  'True
-   End
    Begin prjDownloadBooster.OptionButtonW optTabThreads2 
       Height          =   195
       Left            =   1320
@@ -2025,8 +2001,26 @@ Begin VB.Form frmMain
       Width           =   6255
       _ExtentX        =   0
       _ExtentY        =   0
-      Caption         =   "                               "
+      Caption         =   "                              "
       Transparent     =   -1  'True
+      Begin VB.Label fTabThreads 
+         BackStyle       =   0  '투명
+         Caption         =   "스레드"
+         Height          =   285
+         Left            =   1335
+         TabIndex        =   46
+         Top             =   30
+         Width           =   720
+      End
+      Begin VB.Label fTabDownload 
+         BackStyle       =   0  '투명
+         Caption         =   "요약"
+         Height          =   285
+         Left            =   450
+         TabIndex        =   47
+         Top             =   30
+         Width           =   495
+      End
       Begin VB.Shape pgOverlay 
          BackColor       =   &H00FFFFFF&
          BackStyle       =   1  '투명하지 않음
@@ -2036,6 +2030,13 @@ Begin VB.Form frmMain
          Shape           =   4  '둥근 사각형
          Top             =   0
          Visible         =   0   'False
+         Width           =   1935
+      End
+      Begin VB.Label lblLineRemover 
+         Height          =   225
+         Left            =   120
+         TabIndex        =   125
+         Top             =   0
          Width           =   1935
       End
    End
@@ -4008,12 +4009,6 @@ afterheaderadd:
         optTabThreads2.Transparent = 0
         optTabThreads2.BackColor = pgOverlay(0).BackColor
         optTabThreads2.Refresh
-        fTabDownload.Transparent = 0
-        fTabDownload.BackColor = pgOverlay(0).BackColor
-        fTabDownload.Refresh
-        fTabThreads.Transparent = 0
-        fTabThreads.BackColor = pgOverlay(0).BackColor
-        fTabThreads.Refresh
     End If
 
 #If HIDEYTDL Then
@@ -4029,16 +4024,22 @@ Sub SetTextColors()
     Dim DisableVisualStyle As Boolean
     DisableVisualStyle = CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
 
-    Dim StatusTextColor&
+    Dim StatusTextColor&, FrameCaptionColor&
     If DisableVisualStyle Then
         StatusTextColor = &H80000012
+        FrameCaptionColor = 0&
     Else
         StatusTextColor = GetThemeColor(Me.hWnd, "STATUS", DefaultColor:=&H80000012)
+        FrameCaptionColor = GetThemeColor(Me.hWnd, "BUTTON", 4)
     End If
+    
     Dim i%
     For i = 1 To sbStatusBar.Panels.Count
         sbStatusBar.Panels(i).ForeColor = StatusTextColor
     Next i
+    
+    fTabDownload.ForeColor = FrameCaptionColor
+    fTabThreads.ForeColor = FrameCaptionColor
 End Sub
 
 Sub SetupSplitButtons()
