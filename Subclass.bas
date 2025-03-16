@@ -18,6 +18,7 @@ Public Const WM_INITMENU = &H116
 Public Const WM_SETTINGCHANGE = &H1A
 Public Const WM_DWMCOMPOSITIONCHANGED = &H31E
 Public Const WM_THEMECHANGED = &H31A
+Public Const WM_DPICHANGED = &H2E0
 Public Const HWND_TOPMOST = -1
 Public Const HWND_NOTOPMOST = -2
 Public Const SWP_NOMOVE = &H2
@@ -119,10 +120,10 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.X = MainFormWidth
-            lpMMI.ptMinTrackSize.Y = MainFormMinHeight
-            lpMMI.ptMaxTrackSize.X = MainFormWidth
-            lpMMI.ptMaxTrackSize.Y = MainFormMaxHeight
+            lpMMI.ptMinTrackSize.X = MainFormWidth * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = MainFormMinHeight * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = MainFormWidth * (DPI / 96)
+            lpMMI.ptMaxTrackSize.Y = MainFormMaxHeight * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
             WndProc_Main = 1&
@@ -172,7 +173,7 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
                     MainFormWidth = (9450 + PaddedBorderWidth * 15 * 2) / 15
                     MainFormMinHeight = (8220 + PaddedBorderWidth * 15 * 2) / 15
                     
-                    frmMain.Width = 9450 + PaddedBorderWidth * 15 * 2
+                    frmMain.Width = MainFormWidth * 15
                     
                     On Error Resume Next
                     Dim ctrl As Control
@@ -189,6 +190,8 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
             End Select
         Case WM_THEMECHANGED
             frmMain.SetTextColors
+        Case WM_DPICHANGED
+            UpdateDPI
     End Select
     
     If mPrevProc_Main > 0& Then
@@ -205,10 +208,10 @@ Function WndProc_BatchAdd(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam A
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.X = (5145 + PaddedBorderWidth * 15 * 2) / 15
-            lpMMI.ptMinTrackSize.Y = (2310 + PaddedBorderWidth * 15 * 2) / 15
-            lpMMI.ptMaxTrackSize.X = Screen.Width + 1200
-            lpMMI.ptMaxTrackSize.Y = Screen.Height + 1200
+            lpMMI.ptMinTrackSize.X = (5145 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = (2310 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = (Screen.Width + 1200) * (DPI / 96)
+            lpMMI.ptMaxTrackSize.Y = (Screen.Height + 1200) * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
             WndProc_BatchAdd = 1&
@@ -219,6 +222,8 @@ Function WndProc_BatchAdd(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam A
                     UpdateBorderWidth
                     frmBatchAdd.Form_Resize
             End Select
+        Case WM_DPICHANGED
+            UpdateDPI
     End Select
     
     If mPrevProc_BatchAdd > 0& Then
@@ -235,10 +240,10 @@ Function WndProc_Explorer(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam A
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.X = (10245 + PaddedBorderWidth * 15 * 2) / 15
-            lpMMI.ptMinTrackSize.Y = (IIf(Tags.BrowseTargetForm = 3, 8835, 6165) + PaddedBorderWidth * 15 * 2) / 15
-            lpMMI.ptMaxTrackSize.X = Screen.Width + 1200
-            lpMMI.ptMaxTrackSize.Y = Screen.Height + 1200
+            lpMMI.ptMinTrackSize.X = (10245 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = (IIf(Tags.BrowseTargetForm = 3, 8835, 6165) + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = (Screen.Width + 1200) * (DPI / 96)
+            lpMMI.ptMaxTrackSize.Y = (Screen.Height + 1200) * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
             WndProc_Explorer = 1&
@@ -249,6 +254,8 @@ Function WndProc_Explorer(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam A
                     UpdateBorderWidth
                     frmExplorer.Form_Resize
             End Select
+        Case WM_DPICHANGED
+            UpdateDPI
     End Select
     
     If mPrevProc_Explorer > 0& Then

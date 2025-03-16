@@ -11,6 +11,7 @@ Public Const DefaultBackColor As Long = 15529449 '-1&
 Public DefaultDisableDWMWindow As Integer
 Public LangID As Integer
 Public OSLangID As Integer
+Public DPI As Long
 
 Sub LoadPNG()
     On Error Resume Next
@@ -164,6 +165,7 @@ dontoverrideversion:
     InitVisualStylesFixes
     
     UpdateBorderWidth
+    UpdateDPI
     
     DefaultDisableDWMWindow = IIf(WinVer >= 6.2, 1, 0)
     

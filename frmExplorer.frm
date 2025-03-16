@@ -1162,7 +1162,7 @@ Sub Form_Resize()
     chkShowFiles.Top = selFileType.Top + selFileType.Height + 60
     pbPlacesBarContainer.Height = chkHidden.Top + chkHidden.Height - pbPlacesBarContainer.Top
     tbPlaces.Height = pbPlacesBarContainer.Height
-    Label5.Top = chkHidden.Top + chkHidden.Height + 180
+    Label5.Top = chkHidden.Top + chkHidden.Height + 180 + 60
     picPreviewFrame.Top = Label5.Top
     cmdPreview.Left = CancelButton.Left - 120 - CancelButton.Width
     cmdPreview.Top = CancelButton.Top + CancelButton.Height + 30

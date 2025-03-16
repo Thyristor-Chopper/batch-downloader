@@ -2310,6 +2310,8 @@ Dim ResumeUnsupported As Boolean
 Public ImagePosition As Integer
 Dim TotalSize As Double
 
+Const MAIN_FORM_WIDTH As Long = 9450
+
 'youtube-dl 관련 변수
 Dim ytdlTotalFormatCount As Integer
 Dim ytdlFileName As String
@@ -3083,7 +3085,7 @@ Sub cmdBatch_Click()
         cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
         cmdAddToQueue.Visible = -1
-        SetWindowSizeLimit Me.hWnd, Me.Width, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
+        SetWindowSizeLimit Me.hWnd, MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
         'sbStatusBar.AllowSizeGrip = True
         
         Dim formHeight As Integer
@@ -3104,7 +3106,7 @@ Sub cmdBatch_Click()
         SetMenuItemInfo hSysMenu, 1003, 0, MII
     Else
         SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
-        SetWindowSizeLimit Me.hWnd, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
+        SetWindowSizeLimit Me.hWnd, MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
         'sbStatusBar.AllowSizeGrip = False
         Me.Height = 6930 + PaddedBorderWidth * 15 * 2
         cmdBatch.ImageList = imgDropdown
@@ -3750,7 +3752,7 @@ Private Sub Form_Load()
     fDownloadInfo.Width = fThreadInfo.Width '5925
     fDownloadInfo.Height = fThreadInfo.Height - 60
     
-    Me.Width = 9450 + PaddedBorderWidth * 15 * 2
+    Me.Width = MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2 * (DPI / 96)
     cmdStop.Left = Me.Width + 1200
     
     cmdStopBatch.Left = Me.Width + 1200
@@ -3879,7 +3881,7 @@ afterheaderadd:
         cmdBatch_Click
     Else
         CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
-        SetWindowSizeLimit Me.hWnd, Me.Width, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
+        SetWindowSizeLimit Me.hWnd, MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
         With MII
             .cbSize = Len(MII)
             .fMask = MIIM_STATE

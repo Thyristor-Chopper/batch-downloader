@@ -79,6 +79,9 @@ Declare Function ChooseColor Lib "comdlg32.dll" Alias "ChooseColorA" (lpChooseCo
 Declare Function OleTranslateColor Lib "oleaut32.dll" (ByVal lOleColor As Long, ByVal lHPalette As Long, lColorRef As Long) As Long
 Private Declare Function ShellExecuteEx Lib "shell32" (ByRef s As SHELLEXECUTEINFO) As Long
 Private Declare Function GetKeyState Lib "user32" (ByVal vKey As Long) As Integer
+Private Declare Function GetDesktopWindow Lib "user32" () As Long
+Private Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
+Private Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 
 Public Const DWM_EC_DISABLECOMPOSITION As Long = 0
 Public Const DWM_EC_ENABLECOMPOSITION As Long = 1
@@ -2379,3 +2382,18 @@ Function Right(Str As String, Length As Long) As String
 errproc:
     Right = ""
 End Function
+
+'https://www.vbforums.com/showthread.php?842795-Can-vb6-detect-the-DPI
+Function GetDPI() As Long
+    Dim hWndDesktop As Long
+    Dim hDCDesktop As Long
+    
+    hWndDesktop = GetDesktopWindow()
+    hDCDesktop = GetDC(hWndDesktop)
+    GetDPI = GetDeviceCaps(hDCDesktop, 88)
+    ReleaseDC hWndDesktop, hDCDesktop
+End Function
+
+Sub UpdateDPI()
+    DPI = GetDPI()
+End Sub
