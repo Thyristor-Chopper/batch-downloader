@@ -12,6 +12,7 @@ Public DefaultDisableDWMWindow As Integer
 Public LangID As Integer
 Public OSLangID As Integer
 Public DPI As Long
+Public DefaultFont$
 
 Sub LoadPNG()
     On Error Resume Next
@@ -166,6 +167,23 @@ dontoverrideversion:
     
     UpdateBorderWidth
     UpdateDPI
+    
+    If (WinVer >= 6.2 And Build > 8102) Or DPI > 96 Then
+        If FontExists("¸¼Àº °íµñ") Then
+            DefaultFont = "¸¼Àº °íµñ"
+        ElseIf FontExists("Malgun Gothic") Then
+            DefaultFont = "Malgun Gothic"
+        Else
+            GoTo forcegulim
+        End If
+    Else
+forcegulim:
+        If FontExists("±¼¸²") Then
+            DefaultFont = "±¼¸²"
+        Else
+            DefaultFont = "Gulim"
+        End If
+    End If
     
     DefaultDisableDWMWindow = IIf(WinVer >= 6.2, 1, 0)
     

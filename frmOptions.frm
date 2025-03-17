@@ -1297,6 +1297,22 @@ Dim VisualStyleChanged As Boolean
 Dim SkinChanged As Boolean
 Dim MouseY As Integer, SelectedListItem As LvwListItem
 
+Sub NextTabPage(Optional ByVal Reverse As Boolean = False)
+    If Not Reverse Then
+        If tsTabStrip.SelectedItem.Index = tsTabStrip.Tabs.Count Then
+            tsTabStrip.Tabs(1).Selected = True
+        Else
+            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index + 1).Selected = True
+        End If
+    Else
+        If tsTabStrip.SelectedItem.Index = 1 Then
+            tsTabStrip.Tabs(tsTabStrip.Tabs.Count).Selected = True
+        Else
+            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index - 1).Selected = True
+        End If
+    End If
+End Sub
+
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
@@ -1829,6 +1845,12 @@ Private Sub cmdTestQuestion_Click()
         MessageBeep 32
     Else
         PlayWave txtQuestion.Text
+    End If
+End Sub
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 9 And IsKeyPressed(gksKeyboardctrl) Then
+        NextTabPage (Shift <> 0)
     End If
 End Sub
 

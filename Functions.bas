@@ -388,8 +388,8 @@ Private Const VK_SCROLL = &H91
 
 Enum GetKeyStateKeyboardCodes
     gksKeyboardShift = VK_SHIFT
-    gksKeyboardctrl = VK_CONTROL
-    gksKeyboardalt = VK_MENU
+    gksKeyboardCtrl = VK_CONTROL
+    gksKeyboardAlt = VK_MENU
     gksKeyboardCapsLock = VK_CAPITAL
     gksKeyboardNumLock = VK_NUMLOCK
     gksKeyboardScrollLock = VK_SCROLL
@@ -646,7 +646,7 @@ Function TextWidth(ByVal s As String, Optional ByVal FontName As String = "", Op
             FontSize = 9
         End If
     Else
-        If FontName = "" Then FontName = "±¼¸²"
+        If FontName = "" Then FontName = DefaultFont
         If FontSize = -1 Then FontSize = 9
     End If
     Load frmDummyForm
@@ -670,7 +670,7 @@ Function TextHeight(ByVal s As String, Optional ByVal FontName As String = "", O
             FontSize = 9
         End If
     Else
-        If FontName = "" Then FontName = "±¼¸²"
+        If FontName = "" Then FontName = DefaultFont
         If FontSize = -1 Then FontSize = 9
     End If
     Load frmDummyForm
@@ -1973,8 +1973,8 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     Dim FontName$, FontSize%
     FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
     If FontName = "" And LangID = 1042 Then
-        If Force Then
-            FontName = "±¼¸²"
+        If Force Or (DefaultFont <> "±¼¸²" And DefaultFont <> "Gulim") Then
+            FontName = DefaultFont
         Else
             Exit Sub
         End If
