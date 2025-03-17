@@ -16,6 +16,7 @@ Begin VB.Form frmDownloadOptions
       Strikethrough   =   0   'False
    EndProperty
    Icon            =   "frmDownloadOptions.frx":0000
+   KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -329,6 +330,23 @@ Dim MouseY As Integer
 Public Headers As Collection
 Public HeaderKeys As Collection
 
+Sub NextTabPage(Optional ByVal Reverse As Boolean = False)
+    On Error Resume Next
+    If Not Reverse Then
+        If tsTabStrip.SelectedItem.Index = tsTabStrip.Tabs.Count Then
+            tsTabStrip.Tabs(1).Selected = True
+        Else
+            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index + 1).Selected = True
+        End If
+    Else
+        If tsTabStrip.SelectedItem.Index = 1 Then
+            tsTabStrip.Tabs(tsTabStrip.Tabs.Count).Selected = True
+        Else
+            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index - 1).Selected = True
+        End If
+    End If
+End Sub
+
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
@@ -345,6 +363,12 @@ End Sub
 
 Private Sub chkExtractAudio_Click()
     optUseYtdl_Click
+End Sub
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 9 And IsKeyPressed(gksKeyboardctrl) Then
+        NextTabPage IsKeyPressed(gksKeyboardShift)
+    End If
 End Sub
 
 Private Sub OKButton_Click()

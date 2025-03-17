@@ -637,17 +637,31 @@ Function TextWidth(ByVal s As String, Optional ByVal FontName As String = "", Op
         TextWidth = 0
         Exit Function
     End If
+    Dim UserFontName$
+    UserFontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
     On Error Resume Next
     If LangID <> 1042 Then
         If FontName = "" Then
-            FontName = "Tahoma"
-            If FontSize = -1 Then FontSize = 8
+            FontName = IIf(UserFontName = "", "Tahoma", UserFontName)
+            If FontSize = -1 Then
+                If LCase(FontName) = "tahoma" Then
+                    FontSize = 8
+                Else
+                    FontSize = 9
+                End If
+            End If
         ElseIf FontSize = -1 Then
             FontSize = 9
         End If
     Else
-        If FontName = "" Then FontName = DefaultFont
-        If FontSize = -1 Then FontSize = 9
+        If FontName = "" Then FontName = IIf(UserFontName = "", DefaultFont, UserFontName)
+        If FontSize = -1 Then
+            If LCase(FontName) = "tahoma" Then
+                FontSize = 8
+            Else
+                FontSize = 9
+            End If
+        End If
     End If
     Load frmDummyForm
     frmDummyForm.Font.Name = FontName
@@ -661,17 +675,31 @@ Function TextHeight(ByVal s As String, Optional ByVal FontName As String = "", O
         TextHeight = 0
         Exit Function
     End If
+    Dim UserFontName$
+    UserFontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
     On Error Resume Next
     If LangID <> 1042 Then
         If FontName = "" Then
-            FontName = "Tahoma"
-            If FontSize = -1 Then FontSize = 8
+            FontName = IIf(UserFontName = "", "Tahoma", UserFontName)
+            If FontSize = -1 Then
+                If LCase(FontName) = "tahoma" Then
+                    FontSize = 8
+                Else
+                    FontSize = 9
+                End If
+            End If
         ElseIf FontSize = -1 Then
             FontSize = 9
         End If
     Else
-        If FontName = "" Then FontName = DefaultFont
-        If FontSize = -1 Then FontSize = 9
+        If FontName = "" Then FontName = IIf(UserFontName = "", DefaultFont, UserFontName)
+        If FontSize = -1 Then
+            If LCase(FontName) = "tahoma" Then
+                FontSize = 8
+            Else
+                FontSize = 9
+            End If
+        End If
     End If
     Load frmDummyForm
     frmDummyForm.Font.Name = FontName

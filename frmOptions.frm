@@ -16,6 +16,7 @@ Begin VB.Form frmOptions
       Strikethrough   =   0   'False
    EndProperty
    Icon            =   "frmOptions.frx":0000
+   KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -407,8 +408,8 @@ Begin VB.Form frmOptions
             Left            =   120
             TabIndex        =   46
             Top             =   480
-            Width           =   2505
-            _ExtentX        =   4419
+            Width           =   2865
+            _ExtentX        =   5054
             _ExtentY        =   450
             Caption         =   "파일 검사 시 GET 요청(&Q)"
             Transparent     =   -1  'True
@@ -1298,6 +1299,7 @@ Dim SkinChanged As Boolean
 Dim MouseY As Integer, SelectedListItem As LvwListItem
 
 Sub NextTabPage(Optional ByVal Reverse As Boolean = False)
+    On Error Resume Next
     If Not Reverse Then
         If tsTabStrip.SelectedItem.Index = tsTabStrip.Tabs.Count Then
             tsTabStrip.Tabs(1).Selected = True
@@ -1850,7 +1852,7 @@ End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 9 And IsKeyPressed(gksKeyboardctrl) Then
-        NextTabPage (Shift <> 0)
+        NextTabPage IsKeyPressed(gksKeyboardShift)
     End If
 End Sub
 
