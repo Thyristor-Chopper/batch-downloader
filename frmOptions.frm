@@ -44,7 +44,7 @@ Begin VB.Form frmOptions
          BorderStyle     =   0
          Caption         =   "                             "
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CommandButtonW cmdBrowseCompleteSound 
+         Begin prjDownloadBooster.CommandButtonEx cmdBrowseCompleteSound 
             Height          =   300
             Left            =   4560
             TabIndex        =   79
@@ -52,8 +52,15 @@ Begin VB.Form frmOptions
             Width           =   495
             _ExtentX        =   873
             _ExtentY        =   529
-            ImageList       =   "imgBrowse"
-            ImageListAlignment=   4
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin prjDownloadBooster.TextBoxW txtCompleteSoundPath 
             Height          =   300
@@ -75,7 +82,7 @@ Begin VB.Form frmOptions
             Caption         =   "´Ù¿î·Îµå ¿Ï·á(&B)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CommandButtonW cmdTestCompleteSound 
+         Begin prjDownloadBooster.CommandButtonEx cmdTestCompleteSound 
             Height          =   300
             Left            =   5160
             TabIndex        =   80
@@ -83,6 +90,7 @@ Begin VB.Form frmOptions
             Width           =   375
             _ExtentX        =   661
             _ExtentY        =   529
+            Caption         =   "¢º"
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "±¼¸²"
                Size            =   8.25
@@ -92,7 +100,6 @@ Begin VB.Form frmOptions
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Caption         =   "¢º"
          End
       End
       Begin prjDownloadBooster.FrameW fAsterisk 
@@ -106,7 +113,7 @@ Begin VB.Form frmOptions
          BorderStyle     =   0
          Caption         =   "                             "
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CommandButtonW cmdBrowseAsterisk 
+         Begin prjDownloadBooster.CommandButtonEx cmdBrowseAsterisk 
             Height          =   300
             Left            =   4560
             TabIndex        =   82
@@ -114,8 +121,15 @@ Begin VB.Form frmOptions
             Width           =   495
             _ExtentX        =   873
             _ExtentY        =   529
-            ImageList       =   "imgBrowse"
-            ImageListAlignment=   4
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin prjDownloadBooster.TextBoxW txtAsterisk 
             Height          =   300
@@ -137,7 +151,7 @@ Begin VB.Form frmOptions
             Caption         =   "ÀÏ¹Ý ¸Þ½ÃÁö(&A)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CommandButtonW cmdTestAsterisk 
+         Begin prjDownloadBooster.CommandButtonEx cmdTestAsterisk 
             Height          =   300
             Left            =   5160
             TabIndex        =   85
@@ -145,6 +159,7 @@ Begin VB.Form frmOptions
             Width           =   375
             _ExtentX        =   661
             _ExtentY        =   529
+            Caption         =   "¢º"
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "±¼¸²"
                Size            =   8.25
@@ -154,7 +169,6 @@ Begin VB.Form frmOptions
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Caption         =   "¢º"
          End
       End
       Begin prjDownloadBooster.FrameW fExclamation 
@@ -168,7 +182,7 @@ Begin VB.Form frmOptions
          BorderStyle     =   0
          Caption         =   "                             "
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CommandButtonW cmdBrowseExclamation 
+         Begin prjDownloadBooster.CommandButtonEx cmdBrowseExclamation 
             Height          =   300
             Left            =   4560
             TabIndex        =   87
@@ -176,8 +190,15 @@ Begin VB.Form frmOptions
             Width           =   495
             _ExtentX        =   873
             _ExtentY        =   529
-            ImageList       =   "imgBrowse"
-            ImageListAlignment=   4
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin prjDownloadBooster.TextBoxW txtExclamation 
             Height          =   300
@@ -199,7 +220,7 @@ Begin VB.Form frmOptions
             Caption         =   "°æ°í ¸Þ½ÃÁö(&E)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CommandButtonW cmdTestExclamation 
+         Begin prjDownloadBooster.CommandButtonEx cmdTestExclamation 
             Height          =   300
             Left            =   5160
             TabIndex        =   90
@@ -207,6 +228,7 @@ Begin VB.Form frmOptions
             Width           =   375
             _ExtentX        =   661
             _ExtentY        =   529
+            Caption         =   "¢º"
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "±¼¸²"
                Size            =   8.25
@@ -216,7 +238,6 @@ Begin VB.Form frmOptions
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Caption         =   "¢º"
          End
       End
       Begin prjDownloadBooster.FrameW fError 
@@ -230,7 +251,7 @@ Begin VB.Form frmOptions
          BorderStyle     =   0
          Caption         =   "                             "
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CommandButtonW cmdBrowseError 
+         Begin prjDownloadBooster.CommandButtonEx cmdBrowseError 
             Height          =   300
             Left            =   4560
             TabIndex        =   92
@@ -238,8 +259,15 @@ Begin VB.Form frmOptions
             Width           =   495
             _ExtentX        =   873
             _ExtentY        =   529
-            ImageList       =   "imgBrowse"
-            ImageListAlignment=   4
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin prjDownloadBooster.TextBoxW txtError 
             Height          =   300
@@ -261,7 +289,7 @@ Begin VB.Form frmOptions
             Caption         =   "¿À·ù ¸Þ½ÃÁö(&R)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CommandButtonW cmdTestError 
+         Begin prjDownloadBooster.CommandButtonEx cmdTestError 
             Height          =   300
             Left            =   5160
             TabIndex        =   95
@@ -269,6 +297,7 @@ Begin VB.Form frmOptions
             Width           =   375
             _ExtentX        =   661
             _ExtentY        =   529
+            Caption         =   "¢º"
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "±¼¸²"
                Size            =   8.25
@@ -278,7 +307,6 @@ Begin VB.Form frmOptions
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Caption         =   "¢º"
          End
       End
       Begin prjDownloadBooster.FrameW fQuestion 
@@ -292,7 +320,7 @@ Begin VB.Form frmOptions
          BorderStyle     =   0
          Caption         =   "                             "
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CommandButtonW cmdBrowseQuestion 
+         Begin prjDownloadBooster.CommandButtonEx cmdBrowseQuestion 
             Height          =   300
             Left            =   4560
             TabIndex        =   97
@@ -300,8 +328,15 @@ Begin VB.Form frmOptions
             Width           =   495
             _ExtentX        =   873
             _ExtentY        =   529
-            ImageList       =   "imgBrowse"
-            ImageListAlignment=   4
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin prjDownloadBooster.TextBoxW txtQuestion 
             Height          =   300
@@ -323,7 +358,7 @@ Begin VB.Form frmOptions
             Caption         =   "Áú¹®(&Q)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CommandButtonW cmdTestQuestion 
+         Begin prjDownloadBooster.CommandButtonEx cmdTestQuestion 
             Height          =   300
             Left            =   5160
             TabIndex        =   100
@@ -331,6 +366,7 @@ Begin VB.Form frmOptions
             Width           =   375
             _ExtentX        =   661
             _ExtentY        =   529
+            Caption         =   "¢º"
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "±¼¸²"
                Size            =   8.25
@@ -340,7 +376,6 @@ Begin VB.Form frmOptions
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Caption         =   "¢º"
          End
       End
       Begin VB.Image imgIcon1 
@@ -436,7 +471,7 @@ Begin VB.Form frmOptions
          _ExtentY        =   5953
          Caption         =   " Çì´õ ¼³Á¤ "
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
+         Begin prjDownloadBooster.CommandButtonEx cmdEditHeaderName 
             Height          =   330
             Left            =   2760
             TabIndex        =   49
@@ -446,6 +481,15 @@ Begin VB.Form frmOptions
             _ExtentY        =   582
             Enabled         =   0   'False
             Caption         =   "ÀÌ¸§º¯°æ(&R)"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin prjDownloadBooster.TextBoxW txtEdit 
             Height          =   255
@@ -458,7 +502,7 @@ Begin VB.Form frmOptions
             _ExtentY        =   450
             BorderStyle     =   1
          End
-         Begin prjDownloadBooster.CommandButtonW cmdDeleteHeader 
+         Begin prjDownloadBooster.CommandButtonEx cmdDeleteHeader 
             Height          =   330
             Left            =   1440
             TabIndex        =   51
@@ -468,8 +512,17 @@ Begin VB.Form frmOptions
             _ExtentY        =   582
             Enabled         =   0   'False
             Caption         =   "»èÁ¦(&D)"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
-         Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
+         Begin prjDownloadBooster.CommandButtonEx cmdEditHeaderValue 
             Height          =   330
             Left            =   4080
             TabIndex        =   52
@@ -479,8 +532,17 @@ Begin VB.Form frmOptions
             _ExtentY        =   582
             Enabled         =   0   'False
             Caption         =   "ÆíÁý(&E)"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
-         Begin prjDownloadBooster.CommandButtonW cmdAddHeader 
+         Begin prjDownloadBooster.CommandButtonEx cmdAddHeader 
             Height          =   330
             Left            =   120
             TabIndex        =   53
@@ -489,6 +551,15 @@ Begin VB.Form frmOptions
             _ExtentX        =   2143
             _ExtentY        =   582
             Caption         =   "Ãß°¡(&A)"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin prjDownloadBooster.ListView lvHeaders 
             Height          =   2655
@@ -1063,7 +1134,7 @@ Begin VB.Form frmOptions
                   State           =   3
                End
             End
-            Begin prjDownloadBooster.CommandButtonW cmdSample 
+            Begin prjDownloadBooster.CommandButtonEx cmdSample 
                Height          =   285
                Left            =   2160
                TabIndex        =   72
@@ -1074,7 +1145,15 @@ Begin VB.Form frmOptions
                _ExtentX        =   2778
                _ExtentY        =   503
                Caption         =   "´Ù¿î·Îµå"
-               Transparent     =   -1  'True
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "±¼¸²"
+                  Size            =   9
+                  Charset         =   129
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
             End
             Begin VB.Label Label11 
                BackStyle       =   0  'Åõ¸í
@@ -1186,7 +1265,7 @@ Begin VB.Form frmOptions
             Style           =   2
             Text            =   "ComboBoxW1"
          End
-         Begin prjDownloadBooster.CommandButtonW cmdChooseBackground 
+         Begin prjDownloadBooster.CommandButtonEx cmdChooseBackground 
             Height          =   330
             Left            =   2280
             TabIndex        =   24
@@ -1194,9 +1273,15 @@ Begin VB.Form frmOptions
             Width           =   495
             _ExtentX        =   873
             _ExtentY        =   582
-            ImageList       =   "imgBrowse"
-            ImageListAlignment=   4
-            Transparent     =   -1  'True
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "±¼¸²"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin prjDownloadBooster.CheckBoxW chkEnableBackgroundImage 
             Height          =   255
@@ -1220,7 +1305,7 @@ Begin VB.Form frmOptions
          End
       End
    End
-   Begin prjDownloadBooster.CommandButtonW cmdApply 
+   Begin prjDownloadBooster.CommandButtonEx cmdApply 
       Height          =   360
       Left            =   10920
       TabIndex        =   3
@@ -1230,6 +1315,15 @@ Begin VB.Form frmOptions
       _ExtentY        =   0
       Enabled         =   0   'False
       Caption         =   "Àû¿ë(&A)"
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "±¼¸²"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin prjDownloadBooster.TabStrip tsTabStrip 
       Height          =   375
@@ -1245,7 +1339,7 @@ Begin VB.Form frmOptions
       Transparent     =   -1  'True
       InitTabs        =   "frmOptions.frx":0B1D
    End
-   Begin prjDownloadBooster.CommandButtonW CancelButton 
+   Begin prjDownloadBooster.CommandButtonEx CancelButton 
       Cancel          =   -1  'True
       Height          =   360
       Left            =   9480
@@ -1255,8 +1349,17 @@ Begin VB.Form frmOptions
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "Ãë¼Ò"
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "±¼¸²"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
-   Begin prjDownloadBooster.CommandButtonW OKButton 
+   Begin prjDownloadBooster.CommandButtonEx OKButton 
       Default         =   -1  'True
       Height          =   360
       Left            =   8040
@@ -1266,6 +1369,15 @@ Begin VB.Form frmOptions
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "È®ÀÎ"
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "±¼¸²"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin prjDownloadBooster.ImageList imgFiles 
       Left            =   12240
@@ -1596,7 +1708,6 @@ Private Sub cmdApply_Click()
         RedrawPreview
         cmdChooseBackground.Refresh
         frmMain.pbProgressContainer.Refresh
-        frmMain.SetupSplitButtons
     End If
     If VisualStyleChanged Then
         On Error Resume Next
@@ -2282,7 +2393,7 @@ activefail:
     End If
     
 nextcode:
-    cmdSample.ImageList = frmMain.imgDownload
+    Set cmdSample.Icon = frmMain.imgDownload.ListImages(1).ExtractIcon()
     
 #If HIDEYTDL Then
     txtYtdlPath.Visible = False

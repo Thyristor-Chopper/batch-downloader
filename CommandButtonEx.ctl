@@ -203,7 +203,7 @@ Dim m_Font As StdFont
 Dim CanShowNativeSplitButton As Boolean
 
 Event Click()
-Event Dropdown()
+Event DropDown()
 Event MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Event MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Event MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -436,7 +436,7 @@ Private Sub cmdButton_MouseUp(Button As Integer, Shift As Integer, X As Single, 
 End Sub
 
 Private Sub cmdButtonSplit_Click()
-    RaiseEvent Dropdown
+    RaiseEvent DropDown
 End Sub
 
 Private Sub cmdButtonSplit_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -460,7 +460,7 @@ Private Sub tygButton_MouseUp(Button As Integer, Shift As Integer, X As Single, 
 End Sub
 
 Private Sub tygButtonSplit_Click()
-    RaiseEvent Dropdown
+    RaiseEvent DropDown
 End Sub
 
 Private Sub UserControl_AccessKeyPress(KeyAscii As Integer)
@@ -592,5 +592,11 @@ Private Function IsVistaOrHigher() As Boolean
 End Function
 
 Sub ClickDropdown()
-    RaiseEvent Dropdown
+    RaiseEvent DropDown
+End Sub
+
+Sub Refresh()
+    cmdButton.Refresh
+    pbContainer.Refresh
+    UserControl.Refresh
 End Sub
