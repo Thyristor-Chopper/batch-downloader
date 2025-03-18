@@ -113,8 +113,8 @@ uAlign As Long
 End Type
 Private Type NMHDR
 hWndFrom As LongPtr
-IDFrom As LongPtr
-Code As Long
+idFrom As LongPtr
+code As Long
 End Type
 Private Type NMBCHOTITEM
 hdr As NMHDR
@@ -136,8 +136,8 @@ Attribute Click.VB_Description = "Occurs when the user presses and then releases
 Attribute Click.VB_UserMemId = -600
 Public Event HotChanged()
 Attribute HotChanged.VB_Description = "Occurrs when the command button control's hot state changes. Requires comctl32.dll version 6.0 or higher."
-Public Event DropDown()
-Attribute DropDown.VB_Description = "Occurs when the drop-down arrow on the split button of a command button is clicked. Requires comctl32.dll version 6.1 or higher."
+Public Event Dropdown()
+Attribute Dropdown.VB_Description = "Occurs when the drop-down arrow on the split button of a command button is clicked. Requires comctl32.dll version 6.1 or higher."
 Public Event OwnerDraw(ByVal DisplayAsDefault As Boolean, ByVal Action As Long, ByVal State As Long, ByVal hDC As Long, ByVal Left As Long, ByVal Top As Long, ByVal Right As Long, ByVal Bottom As Long)
 Attribute OwnerDraw.VB_Description = "Occurs when a visual aspect of an owner-drawn button has changed."
 Public Event PreviewKeyDown(ByVal KeyCode As Integer, ByRef IsInputKey As Boolean)
@@ -2365,7 +2365,7 @@ Select Case wMsg
         Dim NM As NMHDR
         CopyMemory NM, ByVal lParam, LenB(NM)
         If NM.hWndFrom = CommandButtonHandle Then
-            Select Case NM.Code
+            Select Case NM.code
                 Case BCN_HOTITEMCHANGE
                     Dim NMBCHI As NMBCHOTITEM
                     CopyMemory NMBCHI, ByVal lParam, LenB(NMBCHI)
@@ -2375,7 +2375,7 @@ Select Case wMsg
                     End If
                     End With
                 Case BCN_DROPDOWN
-                    RaiseEvent DropDown
+                    RaiseEvent Dropdown
             End Select
         End If
     Case WM_CTLCOLORSTATIC, WM_CTLCOLORBTN

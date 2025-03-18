@@ -429,9 +429,11 @@ End Property
 Property Set ButtonIcon(ByVal New_Icon As IPictureDisp)
     Set m_Icon = New_Icon
     PropertyChanged "ButtonIcon"
-    If New_Icon.Height < 240 Then
-        imgIcon.Stretch = False
-        imgIcon.Top = UserControl.Height / 2 - New_Icon.Height / 2 + 30
+    If Not New_Icon Is Nothing Then
+        If New_Icon.Height < 240 Or UserControl.Width = 255 Then
+            imgIcon.Stretch = False
+            imgIcon.Top = UserControl.Height / 2 - New_Icon.Height / 2 + 30
+        End If
     End If
     Set imgIcon.Picture = New_Icon
     If Not New_Icon Is Nothing Then _
@@ -443,7 +445,7 @@ Property Get BackColor() As OLE_COLOR
 End Property
 
 Property Let BackColor(ByVal New_BackColor As OLE_COLOR)
-    UserControl.BackColor() = New_BackColor
+    UserControl.BackColor = New_BackColor
     PropertyChanged "BackColor"
 End Property
 
@@ -597,7 +599,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     lblCaption.Caption = Trim$(m_Caption)
     UserControl.BackColor = m_BackColor
     If Not m_Icon Is Nothing Then
-        If m_Icon.Width < 16 And m_Icon.Height < 16 Then
+        If (m_Icon.Width < 16 And m_Icon.Height < 16) Or UserControl.Width = 255 Then
             imgIcon.Stretch = False
             imgIcon.Top = UserControl.Height / 2 - m_Icon.Height / 2 + 30
         End If
