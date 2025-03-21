@@ -16,6 +16,24 @@ Begin VB.UserControl CommandButtonEx
    EndProperty
    ScaleHeight     =   1755
    ScaleWidth      =   2310
+   Begin prjDownloadBooster.ImageList imgDropdown 
+      Left            =   840
+      Top             =   1080
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   13
+      ImageHeight     =   5
+      ColorDepth      =   4
+      MaskColor       =   16711935
+      InitListImages  =   "CommandButtonEx.ctx":0000
+   End
+   Begin prjDownloadBooster.ImageList imgIcon 
+      Left            =   120
+      Top             =   1080
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      InitListImages  =   "CommandButtonEx.ctx":06F0
+   End
    Begin VB.PictureBox pbContainer 
       BorderStyle     =   0  '¾øÀ½
       BeginProperty Font 
@@ -59,7 +77,7 @@ Begin VB.UserControl CommandButtonEx
          _ExtentY        =   661
          BackColor       =   0
          FontSize        =   0
-         ButtonIcon      =   "CommandButtonEx.ctx":0000
+         ButtonIcon      =   "CommandButtonEx.ctx":0710
       End
       Begin VB.CommandButton cmdButtonSplit 
          BeginProperty Font 
@@ -87,27 +105,6 @@ Begin VB.UserControl CommandButtonEx
          Width           =   1575
       End
    End
-   Begin prjDownloadBooster.ImageList imgDropdown 
-      Left            =   840
-      Top             =   960
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      ImageWidth      =   13
-      ImageHeight     =   5
-      ColorDepth      =   4
-      MaskColor       =   16711935
-      InitListImages  =   "CommandButtonEx.ctx":0051
-   End
-   Begin prjDownloadBooster.ImageList imgIcon 
-      Left            =   120
-      Top             =   960
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      ImageWidth      =   16
-      ImageHeight     =   16
-      ColorDepth      =   32
-      InitListImages  =   "CommandButtonEx.ctx":0741
-   End
 End
 Attribute VB_Name = "CommandButtonEx"
 Attribute VB_GlobalNameSpace = False
@@ -120,25 +117,11 @@ Private Declare Function ActivateVisualStyles Lib "uxtheme.dll" Alias "SetWindow
 Private Declare Function DeactivateVisualStyles Lib "uxtheme.dll" Alias "SetWindowTheme" (ByVal hWnd As Long, Optional ByRef pszSubAppName As String = " ", Optional ByRef pszSubIdList As String = " ") As Long
 Private Declare Sub InitCommonControls Lib "comctl32.dll" ()
 Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
-Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 
 Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 
-Private Const VER_PLATFORM_WIN32s = 0
-Private Const VER_PLATFORM_WIN32_WINDOWS = 1
-Private Const VER_PLATFORM_WIN32_NT = 2
-
 Private Const BS_DEFPUSHBUTTON As Long = &H1
-
-Private Type OSVERSIONINFO
-    OSVSize         As Long
-    dwVerMajor      As Long
-    dwVerMinor      As Long
-    dwBuildNumber   As Long
-    PlatformID      As Long
-    szCSDVersion    As String * 128
-End Type
 
 Const GWL_STYLE As Long = -16&
 Const BS_SPLITBUTTON As Long = &HC&
@@ -331,8 +314,8 @@ Property Set Icon(ByVal New_Icon As IPictureDisp)
 End Property
 
 Private Sub SetIcon()
-    Set tygButton.ButtonIcon = m_Icon
     SetImageList
+    If imgIcon.ListImages.Count > 0 Then Set tygButton.ButtonIcon = imgIcon.ListImages(1).ExtractIcon
 End Sub
 
 Private Sub SetImageList()
@@ -491,7 +474,7 @@ Private Sub UserControl_Initialize()
     
     InitCommonControls
     
-    CanShowNativeSplitButton = IsVistaOrHigher()
+    CanShowNativeSplitButton = (WinVer >= 6#)
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -541,6 +524,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     m_Caption = PropBag.ReadProperty("Caption", m_def_Caption)
     m_BackColor = PropBag.ReadProperty("BackColor", m_def_BackColor)
     Set m_Icon = PropBag.ReadProperty("Icon", Nothing)
+    m_IconPosition = PropBag.ReadProperty("IconPosition", m_def_IconPosition)
     m_SplitButton = PropBag.ReadProperty("SplitButton", m_def_SplitButton)
     m_IsTygemButton = PropBag.ReadProperty("IsTygemButton", m_def_IsTygemButton)
     m_VisualStyles = PropBag.ReadProperty("VisualStyles", m_def_VisualStyles)
@@ -570,26 +554,8 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     Call PropBag.WriteProperty("IsTygemButton", m_IsTygemButton, m_def_IsTygemButton)
     Call PropBag.WriteProperty("VisualStyles", m_VisualStyles, m_def_VisualStyles)
     Call PropBag.WriteProperty("Font", m_Font, Nothing)
+    Call PropBag.WriteProperty("IconPosition", m_IconPosition, m_def_IconPosition)
 End Sub
-
-Private Function IsVistaOrHigher() As Boolean
-    Dim osv As OSVERSIONINFO
-    Dim ver As Single
-    osv.OSVSize = Len(osv)
-
-    If GetVersionEx(osv) = 1 Then
-        Select Case osv.PlatformID
-            Case VER_PLATFORM_WIN32s
-                IsVistaOrHigher = False
-            Case VER_PLATFORM_WIN32_NT
-                IsVistaOrHigher = osv.dwVerMajor >= 6
-            Case VER_PLATFORM_WIN32_WINDOWS:
-                IsVistaOrHigher = False
-        End Select
-    Else
-        IsVistaOrHigher = False
-    End If
-End Function
 
 Sub ClickDropdown()
     RaiseEvent DropDown

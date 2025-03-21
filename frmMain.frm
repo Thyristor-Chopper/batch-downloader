@@ -119,6 +119,7 @@ Begin VB.Form frmMain
       _ExtentY        =   661
       Enabled         =   0   'False
       Caption         =   "ÁßÁö(&Z) "
+      Icon            =   "frmMain.frx":1C6A
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
          Size            =   9
@@ -159,7 +160,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       ColorDepth      =   4
-      InitListImages  =   "frmMain.frx":1C6A
+      InitListImages  =   "frmMain.frx":1FBC
    End
    Begin prjDownloadBooster.ImageList imgErase 
       Left            =   9840
@@ -169,7 +170,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2152
+      InitListImages  =   "frmMain.frx":24A4
    End
    Begin prjDownloadBooster.StatusBar sbStatusBar 
       Align           =   2  '¾Æ·¡ ¸ÂÃã
@@ -179,7 +180,7 @@ Begin VB.Form frmMain
       Width           =   11115
       _ExtentX        =   19606
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":253A
+      InitPanels      =   "frmMain.frx":288C
    End
    Begin prjDownloadBooster.ListView lvBatchFiles 
       Height          =   870
@@ -259,6 +260,7 @@ Begin VB.Form frmMain
       _ExtentY        =   582
       Enabled         =   0   'False
       Caption         =   "ÁßÁö(&P) "
+      Icon            =   "frmMain.frx":2B90
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
          Size            =   9
@@ -289,6 +291,7 @@ Begin VB.Form frmMain
       _ExtentY        =   661
       Enabled         =   0   'False
       Caption         =   "¿­±â(&W) "
+      Icon            =   "frmMain.frx":2EE2
       SplitButton     =   -1  'True
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
@@ -310,6 +313,7 @@ Begin VB.Form frmMain
       _ExtentY        =   661
       Enabled         =   0   'False
       Caption         =   "Á¦°Å(&V) "
+      Icon            =   "frmMain.frx":3234
       SplitButton     =   -1  'True
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
@@ -326,20 +330,20 @@ Begin VB.Form frmMain
       Top             =   5880
       _ExtentX        =   1005
       _ExtentY        =   1005
-      ImageWidth      =   13
-      ImageHeight     =   5
+      ImageWidth      =   16
+      ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":283E
+      InitListImages  =   "frmMain.frx":3586
    End
    Begin prjDownloadBooster.ImageList imgDropdown 
       Left            =   9840
       Top             =   5160
       _ExtentX        =   1005
       _ExtentY        =   1005
-      ImageWidth      =   13
-      ImageHeight     =   5
+      ImageWidth      =   16
+      ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2F2E
+      InitListImages  =   "frmMain.frx":396E
    End
    Begin prjDownloadBooster.ImageList imgPlusYellow 
       Left            =   9840
@@ -349,7 +353,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":361E
+      InitListImages  =   "frmMain.frx":3D56
    End
    Begin prjDownloadBooster.CommandButtonEx cmdAddToQueue 
       Height          =   330
@@ -361,6 +365,7 @@ Begin VB.Form frmMain
       _ExtentX        =   3413
       _ExtentY        =   582
       Caption         =   "¸ñ·Ï¿¡ Ãß°¡(&Q)"
+      Icon            =   "frmMain.frx":4F5E
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
          Size            =   9
@@ -381,6 +386,7 @@ Begin VB.Form frmMain
       _ExtentY        =   661
       Enabled         =   0   'False
       Caption         =   "½ÃÀÛ(&S) "
+      Icon            =   "frmMain.frx":52B0
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
          Size            =   9
@@ -399,7 +405,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":4826
+      InitListImages  =   "frmMain.frx":5602
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -409,7 +415,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":5A2E
+      InitListImages  =   "frmMain.frx":680A
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -419,7 +425,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":6C36
+      InitListImages  =   "frmMain.frx":7A12
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -429,7 +435,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":7E3E
+      InitListImages  =   "frmMain.frx":8C1A
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -439,7 +445,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":9046
+      InitListImages  =   "frmMain.frx":9E22
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -449,7 +455,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":A24E
+      InitListImages  =   "frmMain.frx":B02A
    End
    Begin prjDownloadBooster.OptionButtonW optTabThreads2 
       Height          =   195
@@ -1869,6 +1875,7 @@ Begin VB.Form frmMain
       _ExtentX        =   3149
       _ExtentY        =   582
       Caption         =   "ÃÊ±âÈ­(&Y) "
+      Icon            =   "frmMain.frx":B412
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
          Size            =   9
@@ -1888,6 +1895,7 @@ Begin VB.Form frmMain
       _ExtentX        =   2778
       _ExtentY        =   661
       Caption         =   " Ãß°¡(&R)..."
+      Icon            =   "frmMain.frx":B764
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
          Size            =   9
@@ -1916,6 +1924,7 @@ Begin VB.Form frmMain
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      IconPosition    =   1
    End
    Begin prjDownloadBooster.FrameW fTotal 
       Height          =   615
@@ -2015,6 +2024,7 @@ Begin VB.Form frmMain
       _ExtentY        =   582
       Enabled         =   0   'False
       Caption         =   "¿­±â(&O) "
+      Icon            =   "frmMain.frx":BAB6
       SplitButton     =   -1  'True
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
@@ -2035,6 +2045,7 @@ Begin VB.Form frmMain
       _ExtentX        =   3413
       _ExtentY        =   582
       Caption         =   "Æú´õ ¿­±â(&E) "
+      Icon            =   "frmMain.frx":BE08
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
          Size            =   9
@@ -2076,6 +2087,7 @@ Begin VB.Form frmMain
       _ExtentX        =   3149
       _ExtentY        =   582
       Caption         =   " Ã£¾Æº¸±â(&B)..."
+      Icon            =   "frmMain.frx":C15A
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
          Size            =   9
@@ -2104,6 +2116,7 @@ Begin VB.Form frmMain
       _ExtentX        =   3413
       _ExtentY        =   582
       Caption         =   "´Ù¿î·Îµå(&D) "
+      Icon            =   "frmMain.frx":C4AC
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "±¼¸²"
          Size            =   9
@@ -2192,14 +2205,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopLeft 
       Height          =   435
       Left            =   120
-      Picture         =   "frmMain.frx":A636
+      Picture         =   "frmMain.frx":C7FE
       Top             =   1200
       Width           =   1725
    End
    Begin VB.Image imgTop 
       Height          =   435
       Left            =   1845
-      Picture         =   "frmMain.frx":CDE4
+      Picture         =   "frmMain.frx":EFAC
       Stretch         =   -1  'True
       Top             =   1200
       Width           =   3585
@@ -2207,14 +2220,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopRight 
       Height          =   435
       Left            =   5430
-      Picture         =   "frmMain.frx":11FB6
+      Picture         =   "frmMain.frx":1417E
       Top             =   1200
       Width           =   150
    End
    Begin VB.Image imgLeft 
       Height          =   2310
       Left            =   120
-      Picture         =   "frmMain.frx":12398
+      Picture         =   "frmMain.frx":14560
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   1725
@@ -2222,14 +2235,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomLeft 
       Height          =   180
       Left            =   120
-      Picture         =   "frmMain.frx":1F532
+      Picture         =   "frmMain.frx":216FA
       Top             =   3945
       Width           =   1725
    End
    Begin VB.Image imgBottom 
       Height          =   180
       Left            =   1845
-      Picture         =   "frmMain.frx":205C4
+      Picture         =   "frmMain.frx":2278C
       Stretch         =   -1  'True
       Top             =   3945
       Width           =   3585
@@ -2237,14 +2250,14 @@ Begin VB.Form frmMain
    Begin VB.Image imgBottomRight 
       Height          =   180
       Left            =   5430
-      Picture         =   "frmMain.frx":227C6
+      Picture         =   "frmMain.frx":2498E
       Top             =   3945
       Width           =   150
    End
    Begin VB.Image imgRight 
       Height          =   2310
       Left            =   5415
-      Picture         =   "frmMain.frx":22988
+      Picture         =   "frmMain.frx":24B50
       Stretch         =   -1  'True
       Top             =   1635
       Width           =   165
