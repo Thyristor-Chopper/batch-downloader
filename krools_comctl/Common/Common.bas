@@ -1,13 +1,17 @@
 Attribute VB_Name = "Common"
 Option Explicit
-
+#If (VBA7 = 0) Then
 Private Enum LongPtr
 [_]
 End Enum
-
+#End If
+#If Win64 Then
+Private Const NULL_PTR As LongPtr = 0
+Private Const PTR_SIZE As Long = 8
+#Else
 Private Const NULL_PTR As Long = 0
 Private Const PTR_SIZE As Long = 4
-
+#End If
 Private Type MSGBOXPARAMS
 cbSize As Long
 hWndOwner As LongPtr
@@ -149,7 +153,92 @@ LFQuality As Byte
 LFPitchAndFamily As Byte
 LFFaceName(0 To ((LF_FACESIZE * 2) - 1)) As Byte
 End Type
-
+#If VBA7 Then
+Private Declare PtrSafe Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Destination As Any, ByRef Source As Any, ByVal Length As Long)
+Private Declare PtrSafe Sub GetSystemTime Lib "kernel32" (ByRef lpSystemTime As SYSTEMTIME)
+Private Declare PtrSafe Function ArrPtr Lib "msvbvm60.dll" Alias "VarPtr" (ByRef Var() As Any) As LongPtr
+Private Declare PtrSafe Function lstrlen Lib "kernel32" Alias "lstrlenW" (ByVal lpString As LongPtr) As Long
+Private Declare PtrSafe Function lstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal lpString1 As LongPtr, ByVal lpString2 As LongPtr) As LongPtr
+Private Declare PtrSafe Function MessageBoxIndirect Lib "user32" Alias "MessageBoxIndirectW" (ByRef lpMsgBoxParams As MSGBOXPARAMS) As Long
+Private Declare PtrSafe Function GetActiveWindow Lib "user32" () As LongPtr
+Private Declare PtrSafe Function GetForegroundWindow Lib "user32" () As LongPtr
+Private Declare PtrSafe Function GetFileAttributes Lib "kernel32" Alias "GetFileAttributesW" (ByVal lpFileName As LongPtr) As Long
+Private Declare PtrSafe Function SetFileAttributes Lib "kernel32" Alias "SetFileAttributesW" (ByVal lpFileName As LongPtr, ByVal dwFileAttributes As Long) As Long
+Private Declare PtrSafe Function GetFileAttributesEx Lib "kernel32" Alias "GetFileAttributesExW" (ByVal lpFileName As LongPtr, ByVal fInfoLevelId As Long, ByVal lpFileInformation As LongPtr) As Long
+Private Declare PtrSafe Function FileTimeToLocalFileTime Lib "kernel32" (ByVal lpFileTime As LongPtr, ByVal lpLocalFileTime As LongPtr) As Long
+Private Declare PtrSafe Function LocalFileTimeToFileTime Lib "kernel32" (ByVal lpLocalFileTime As LongPtr, ByVal lpFileTime As LongPtr) As Long
+Private Declare PtrSafe Function FileTimeToSystemTime Lib "kernel32" (ByVal lpFileTime As LongPtr, ByVal lpSystemTime As LongPtr) As Long
+Private Declare PtrSafe Function SystemTimeToFileTime Lib "kernel32" (ByVal lpSystemTime As LongPtr, ByVal lpFileTime As LongPtr) As Long
+Private Declare PtrSafe Function FindFirstFile Lib "kernel32" Alias "FindFirstFileW" (ByVal lpFileName As LongPtr, ByRef lpFindFileData As WIN32_FIND_DATA) As LongPtr
+Private Declare PtrSafe Function FindNextFile Lib "kernel32" Alias "FindNextFileW" (ByVal hFindFile As LongPtr, ByRef lpFindFileData As WIN32_FIND_DATA) As Long
+Private Declare PtrSafe Function FindClose Lib "kernel32" (ByVal hFindFile As LongPtr) As Long
+Private Declare PtrSafe Function SystemTimeToTzSpecificLocalTime Lib "kernel32" (ByVal lpTimeZoneInformation As LongPtr, ByVal lpUniversalTime As LongPtr, ByVal lpLocalTime As LongPtr) As Long
+Private Declare PtrSafe Function TzSpecificLocalTimeToSystemTime Lib "kernel32" (ByVal lpTimeZoneInformation As LongPtr, ByVal lpLocalTime As LongPtr, ByVal lpUniversalTime As LongPtr) As Long
+Private Declare PtrSafe Function GetWindowRect Lib "user32" (ByVal hWnd As LongPtr, ByRef lpRect As RECT) As Long
+Private Declare PtrSafe Function MonitorFromWindow Lib "user32" (ByVal hWnd As LongPtr, ByVal dwFlags As Long) As LongPtr
+Private Declare PtrSafe Function GetMonitorInfo Lib "user32" Alias "GetMonitorInfoW" (ByVal hMonitor As LongPtr, ByRef lpMI As MONITORINFO) As Long
+Private Declare PtrSafe Function GetVolumePathName Lib "kernel32" Alias "GetVolumePathNameW" (ByVal lpFileName As LongPtr, ByVal lpVolumePathName As LongPtr, ByVal cch As Long) As Long
+Private Declare PtrSafe Function GetVolumeInformation Lib "kernel32" Alias "GetVolumeInformationW" (ByVal lpRootPathName As LongPtr, ByVal lpVolumeNameBuffer As LongPtr, ByVal nVolumeNameSize As Long, ByRef lpVolumeSerialNumber As LongPtr, ByRef lpMaximumComponentLength As LongPtr, ByRef lpFileSystemFlags As LongPtr, ByVal lpFileSystemNameBuffer As LongPtr, ByVal nFileSystemNameSize As Long) As Long
+Private Declare PtrSafe Function CreateDirectory Lib "kernel32" Alias "CreateDirectoryW" (ByVal lpPathName As LongPtr, ByVal lpSecurityAttributes As LongPtr) As Long
+Private Declare PtrSafe Function RemoveDirectory Lib "kernel32" Alias "RemoveDirectoryW" (ByVal lpPathName As LongPtr) As Long
+Private Declare PtrSafe Function GetFileVersionInfo Lib "Version" Alias "GetFileVersionInfoW" (ByVal lpFileName As LongPtr, ByVal dwHandle As Long, ByVal dwLen As Long, ByVal lpData As LongPtr) As Long
+Private Declare PtrSafe Function GetFileVersionInfoSize Lib "Version" Alias "GetFileVersionInfoSizeW" (ByVal lpFileName As LongPtr, ByVal lpdwHandle As LongPtr) As Long
+Private Declare PtrSafe Function VerQueryValue Lib "Version" Alias "VerQueryValueW" (ByVal lpBlock As LongPtr, ByVal lpSubBlock As LongPtr, ByRef lplpBuffer As LongPtr, ByRef puLen As LongPtr) As Long
+Private Declare PtrSafe Function CloseHandle Lib "kernel32" (ByVal hObject As LongPtr) As Long
+Private Declare PtrSafe Function GetCommandLine Lib "kernel32" Alias "GetCommandLineW" () As LongPtr
+Private Declare PtrSafe Function PathGetArgs Lib "shlwapi" Alias "PathGetArgsW" (ByVal lpszPath As LongPtr) As LongPtr
+Private Declare PtrSafe Function SysReAllocString Lib "oleaut32" (ByVal pbString As LongPtr, ByVal pszStrPtr As LongPtr) As Long
+Private Declare PtrSafe Function VarDecFromI8 Lib "oleaut32" (ByVal i64In As Currency, ByRef pDecOut As Variant) As Long
+Private Declare PtrSafe Function GetModuleFileName Lib "kernel32" Alias "GetModuleFileNameW" (ByVal hModule As LongPtr, ByVal lpFileName As LongPtr, ByVal nSize As Long) As Long
+Private Declare PtrSafe Function OpenClipboard Lib "user32" (ByVal hWnd As LongPtr) As Long
+Private Declare PtrSafe Function EmptyClipboard Lib "user32" () As Long
+Private Declare PtrSafe Function CloseClipboard Lib "user32" () As Long
+Private Declare PtrSafe Function IsClipboardFormatAvailable Lib "user32" (ByVal wFormat As Long) As Long
+Private Declare PtrSafe Function GetClipboardData Lib "user32" (ByVal wFormat As Long) As LongPtr
+Private Declare PtrSafe Function SetClipboardData Lib "user32" (ByVal wFormat As Long, ByVal hMem As LongPtr) As LongPtr
+Private Declare PtrSafe Function GetKeyState Lib "user32" (ByVal nVirtKey As Long) As Integer
+Private Declare PtrSafe Function GetAsyncKeyState Lib "user32" (ByVal vKey As Long) As Integer
+Private Declare PtrSafe Function GetWindowText Lib "user32" Alias "GetWindowTextW" (ByVal hWnd As LongPtr, ByVal lpString As LongPtr, ByVal cch As Long) As Long
+Private Declare PtrSafe Function GetWindowTextLength Lib "user32" Alias "GetWindowTextLengthW" (ByVal hWnd As LongPtr) As Long
+Private Declare PtrSafe Function GetClassName Lib "user32" Alias "GetClassNameW" (ByVal hWnd As LongPtr, ByVal lpClassName As LongPtr, ByVal nMaxCount As Long) As Long
+Private Declare PtrSafe Function GetSystemWindowsDirectory Lib "kernel32" Alias "GetSystemWindowsDirectoryW" (ByVal lpBuffer As LongPtr, ByVal nSize As Long) As Long
+Private Declare PtrSafe Function GetSystemDirectory Lib "kernel32" Alias "GetSystemDirectoryW" (ByVal lpBuffer As LongPtr, ByVal nSize As Long) As Long
+Private Declare PtrSafe Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
+Private Declare PtrSafe Function GetMenu Lib "user32" (ByVal hWnd As LongPtr) As LongPtr
+Private Declare PtrSafe Function GetCursorPos Lib "user32" (ByRef lpPoint As POINTAPI) As Long
+Private Declare PtrSafe Function WindowFromPoint Lib "user32" (ByVal XY As Currency) As LongPtr
+Private Declare PtrSafe Function GetCapture Lib "user32" () As LongPtr
+Private Declare PtrSafe Function GetWindowThreadProcessId Lib "user32" (ByVal hWnd As LongPtr, ByVal lpdwProcessId As LongPtr) As Long
+Private Declare PtrSafe Function FlashWindowEx Lib "user32" (ByRef pFWI As FLASHWINFO) As Long
+Private Declare PtrSafe Function SendMessage Lib "user32" Alias "SendMessageW" (ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByRef lParam As Any) As LongPtr
+Private Declare PtrSafe Function RedrawWindow Lib "user32" (ByVal hWnd As LongPtr, ByVal lprcUpdate As LongPtr, ByVal hrgnUpdate As LongPtr, ByVal fuRedraw As Long) As Long
+Private Declare PtrSafe Function GetObjectAPI Lib "gdi32" Alias "GetObjectW" (ByVal hObject As LongPtr, ByVal nCount As Long, ByRef lpObject As Any) As Long
+Private Declare PtrSafe Function SelectObject Lib "gdi32" (ByVal hDC As LongPtr, ByVal hObject As LongPtr) As LongPtr
+Private Declare PtrSafe Function DeleteObject Lib "gdi32" (ByVal hObject As LongPtr) As Long
+Private Declare PtrSafe Function GetDC Lib "user32" (ByVal hWnd As LongPtr) As LongPtr
+Private Declare PtrSafe Function GetDeviceCaps Lib "gdi32" (ByVal hDC As LongPtr, ByVal nIndex As Long) As Long
+Private Declare PtrSafe Function ReleaseDC Lib "user32" (ByVal hWnd As LongPtr, ByVal hDC As LongPtr) As Long
+Private Declare PtrSafe Function DeleteDC Lib "gdi32" (ByVal hDC As LongPtr) As Long
+Private Declare PtrSafe Function GdiAlphaBlend Lib "gdi32" (ByVal hDestDC As LongPtr, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As LongPtr, ByVal XSrc As Long, ByVal YSrc As Long, ByVal nWidthSrc As Long, ByVal nHeightSrc As Long, ByVal BlendFunc As LongPtr) As Long
+Private Declare PtrSafe Function DrawIconEx Lib "user32" (ByVal hDC As LongPtr, ByVal XLeft As Long, ByVal YTop As Long, ByVal hIcon As LongPtr, ByVal CXWidth As Long, ByVal CYWidth As Long, ByVal istepIfAniCur As Long, ByVal hbrFlickerFreeDraw As LongPtr, ByVal diFlags As Long) As Long
+Private Declare PtrSafe Function FillRect Lib "user32" (ByVal hDC As LongPtr, ByRef lpRect As RECT, ByVal hBrush As LongPtr) As Long
+Private Declare PtrSafe Function CreateSolidBrush Lib "gdi32" (ByVal crColor As Long) As LongPtr
+Private Declare PtrSafe Function CreateCompatibleDC Lib "gdi32" (ByVal hDC As LongPtr) As LongPtr
+Private Declare PtrSafe Function CreateCompatibleBitmap Lib "gdi32" (ByVal hDC As LongPtr, ByVal nWidth As Long, ByVal nHeight As Long) As LongPtr
+Private Declare PtrSafe Function MulDiv Lib "kernel32" (ByVal nNumber As Long, ByVal nNumerator As Long, ByVal nDenominator As Long) As Long
+Private Declare PtrSafe Function CreateFontIndirect Lib "gdi32" Alias "CreateFontIndirectW" (ByRef lpLogFont As LOGFONT) As LongPtr
+Private Declare PtrSafe Function GlobalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal dwBytes As LongPtr) As LongPtr
+Private Declare PtrSafe Function GlobalLock Lib "kernel32" (ByVal hMem As LongPtr) As LongPtr
+Private Declare PtrSafe Function GlobalUnlock Lib "kernel32" (ByVal hMem As LongPtr) As Long
+Private Declare PtrSafe Function GlobalSize Lib "kernel32" (ByVal hMem As LongPtr) As LongPtr
+Private Declare PtrSafe Function OleTranslateColor Lib "oleaut32" (ByVal Color As Long, ByVal hPal As LongPtr, ByRef RGBResult As Long) As Long
+Private Declare PtrSafe Function OleLoadPicture Lib "oleaut32" (ByVal pStream As IUnknown, ByVal lSize As Long, ByVal fRunmode As Long, ByRef riid As Any, ByRef pIPicture As IPicture) As Long
+Private Declare PtrSafe Function OleLoadPicturePath Lib "oleaut32" (ByVal lpszPath As LongPtr, ByVal pUnkCaller As LongPtr, ByVal dwReserved As Long, ByVal ClrReserved As Long, ByRef riid As CLSID, ByRef pIPicture As IPicture) As Long
+Private Declare PtrSafe Function OleCreatePictureIndirect Lib "oleaut32" (ByRef pPictDesc As PICTDESC, ByRef riid As Any, ByVal fPictureOwnsHandle As Long, ByRef pIPicture As IPicture) As Long
+Private Declare PtrSafe Function CreateStreamOnHGlobal Lib "ole32" (ByVal hGlobal As LongPtr, ByVal fDeleteOnRelease As Long, ByRef pStream As IUnknown) As Long
+Private Declare PtrSafe Function WideCharToMultiByte Lib "kernel32" (ByVal CodePage As Long, ByVal dwFlags As Long, ByVal lpWideCharStr As LongPtr, ByVal cchWideChar As Long, ByVal lpMultiByteStr As LongPtr, ByVal cbMultiByte As Long, ByVal lpDefaultChar As LongPtr, ByVal lpUsedDefaultChar As LongPtr) As Long
+Private Declare PtrSafe Function MultiByteToWideChar Lib "kernel32" (ByVal CodePage As Long, ByVal dwFlags As Long, ByVal lpMultiByteStr As LongPtr, ByVal cbMultiByte As Long, ByVal lpWideCharStr As LongPtr, ByVal cchWideChar As Long) As Long
+#Else
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Destination As Any, ByRef Source As Any, ByVal Length As Long)
 Private Declare Sub GetSystemTime Lib "kernel32" (ByRef lpSystemTime As SYSTEMTIME)
 Private Declare Function ArrPtr Lib "msvbvm60.dll" Alias "VarPtr" (ByRef Var() As Any) As Long
@@ -234,6 +323,212 @@ Private Declare Function OleCreatePictureIndirect Lib "oleaut32" (ByRef pPictDes
 Private Declare Function CreateStreamOnHGlobal Lib "ole32" (ByVal hGlobal As Long, ByVal fDeleteOnRelease As Long, ByRef pStream As IUnknown) As Long
 Private Declare Function WideCharToMultiByte Lib "kernel32" (ByVal CodePage As Long, ByVal dwFlags As Long, ByVal lpWideCharStr As Long, ByVal cchWideChar As Long, ByVal lpMultiByteStr As Long, ByVal cbMultiByte As Long, ByVal lpDefaultChar As Long, ByVal lpUsedDefaultChar As Long) As Long
 Private Declare Function MultiByteToWideChar Lib "kernel32" (ByVal CodePage As Long, ByVal dwFlags As Long, ByVal lpMultiByteStr As Long, ByVal cbMultiByte As Long, ByVal lpWideCharStr As Long, ByVal cchWideChar As Long) As Long
+#End If
+
+' (VB-Overwrite)
+Public Function MsgBoxInternal(ByVal Prompt As String, Optional ByVal Buttons As VbMsgBoxStyle = vbOKOnly, Optional ByVal Title As String) As VbMsgBoxResult
+Dim MSGBOXP As MSGBOXPARAMS
+With MSGBOXP
+.cbSize = LenB(MSGBOXP)
+If (Buttons And vbSystemModal) = 0 Then
+    If Not Screen.ActiveForm Is Nothing Then
+        .hWndOwner = Screen.ActiveForm.hWnd
+    Else
+        .hWndOwner = GetActiveWindow()
+    End If
+Else
+    .hWndOwner = GetForegroundWindow()
+End If
+.hInstance = App.hInstance
+.lpszText = StrPtr(Prompt)
+If Title = vbNullString Then Title = App.Title
+.lpszCaption = StrPtr(Title)
+.dwStyle = Buttons
+End With
+MsgBoxInternal = MessageBoxIndirect(MSGBOXP)
+End Function
+
+' (VB-Overwrite)
+Public Sub SendKeys(ByRef Text As String, Optional ByRef Wait As Boolean)
+CreateObject("WScript.Shell").SendKeys Text, Wait
+End Sub
+
+' (VB-Overwrite)
+Public Function GetAttr(ByVal PathName As String) As VbFileAttribute
+Const INVALID_FILE_ATTRIBUTES As Long = (-1)
+Const FILE_ATTRIBUTE_NORMAL As Long = &H80
+If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+Dim dwAttributes As Long
+dwAttributes = GetFileAttributes(StrPtr("\\?\" & PathName))
+If dwAttributes = INVALID_FILE_ATTRIBUTES Then
+    Err.Raise 53
+ElseIf dwAttributes = FILE_ATTRIBUTE_NORMAL Then
+    GetAttr = vbNormal
+Else
+    GetAttr = dwAttributes
+End If
+End Function
+
+' (VB-Overwrite)
+Public Sub SetAttr(ByVal PathName As String, ByVal Attributes As VbFileAttribute)
+Const FILE_ATTRIBUTE_NORMAL As Long = &H80
+Dim dwAttributes As Long
+If Attributes = vbNormal Then
+    dwAttributes = FILE_ATTRIBUTE_NORMAL
+Else
+    If (Attributes And (vbVolume Or vbDirectory Or vbAlias)) <> 0 Then Err.Raise 5
+    dwAttributes = Attributes
+End If
+If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+If SetFileAttributes(StrPtr("\\?\" & PathName), dwAttributes) = 0 Then Err.Raise 53
+End Sub
+
+' (VB-Overwrite)
+Public Function Dir(Optional ByVal PathMask As String, Optional ByVal Attributes As VbFileAttribute = vbNormal) As String
+#If VBA7 Then
+Const INVALID_HANDLE_VALUE As LongPtr = (-1)
+#Else
+Const INVALID_HANDLE_VALUE As Long = (-1)
+#End If
+Const FILE_ATTRIBUTE_NORMAL As Long = &H80
+Static hFindFile As LongPtr, AttributesCache As VbFileAttribute
+If Attributes = vbVolume Then ' Exact match
+    ' If any other attribute is specified, vbVolume is ignored.
+    If hFindFile <> NULL_PTR Then
+        FindClose hFindFile
+        hFindFile = NULL_PTR
+    End If
+    Dim VolumePathBuffer As String, VolumeNameBuffer As String
+    If Len(PathMask) = 0 Then
+        VolumeNameBuffer = String$(MAX_PATH, vbNullChar)
+        If GetVolumeInformation(NULL_PTR, StrPtr(VolumeNameBuffer), Len(VolumeNameBuffer), ByVal NULL_PTR, ByVal NULL_PTR, ByVal NULL_PTR, NULL_PTR, 0) <> 0 Then Dir = Left$(VolumeNameBuffer, InStr(VolumeNameBuffer, vbNullChar) - 1)
+    Else
+        VolumePathBuffer = String$(MAX_PATH, vbNullChar)
+        If Left$(PathMask, 2) = "\\" Then PathMask = "UNC\" & Mid$(PathMask, 3)
+        If GetVolumePathName(StrPtr("\\?\" & PathMask), StrPtr(VolumePathBuffer), Len(VolumePathBuffer)) <> 0 Then
+            VolumePathBuffer = Left$(VolumePathBuffer, InStr(VolumePathBuffer, vbNullChar) - 1)
+            VolumeNameBuffer = String$(MAX_PATH, vbNullChar)
+            If GetVolumeInformation(StrPtr(VolumePathBuffer), StrPtr(VolumeNameBuffer), Len(VolumeNameBuffer), ByVal NULL_PTR, ByVal NULL_PTR, ByVal NULL_PTR, NULL_PTR, 0) <> 0 Then Dir = Left$(VolumeNameBuffer, InStr(VolumeNameBuffer, vbNullChar) - 1)
+        End If
+    End If
+Else
+    Dim FD As WIN32_FIND_DATA, dwMask As Long
+    If Len(PathMask) = 0 Then
+        If hFindFile <> NULL_PTR Then
+            If FindNextFile(hFindFile, FD) = 0 Then
+                FindClose hFindFile
+                hFindFile = NULL_PTR
+                Exit Function
+            End If
+        Else
+            Err.Raise 5
+            Exit Function
+        End If
+    Else
+        If hFindFile <> NULL_PTR Then
+            FindClose hFindFile
+            hFindFile = NULL_PTR
+        End If
+        Select Case Right$(PathMask, 1)
+            Case "\", ":", "/"
+                PathMask = PathMask & "*.*"
+        End Select
+        AttributesCache = Attributes
+        If Left$(PathMask, 2) = "\\" Then PathMask = "UNC\" & Mid$(PathMask, 3)
+        hFindFile = FindFirstFile(StrPtr("\\?\" & PathMask), FD)
+        If hFindFile = INVALID_HANDLE_VALUE Then
+            hFindFile = NULL_PTR
+            If Err.LastDllError > 12 Then Err.Raise 52
+            Exit Function
+        End If
+    End If
+    Do
+        If FD.dwFileAttributes = FILE_ATTRIBUTE_NORMAL Then
+            dwMask = 0 ' Found
+        Else
+            dwMask = FD.dwFileAttributes And (Not AttributesCache) And &H16
+        End If
+        If dwMask = 0 Then
+            Dir = Left$(FD.lpszFileName(), InStr(FD.lpszFileName(), vbNullChar) - 1)
+            If FD.dwFileAttributes And vbDirectory Then
+                If Dir <> "." And Dir <> ".." Then Exit Do ' Exclude self and relative path aliases
+            Else
+                Exit Do
+            End If
+        End If
+        If FindNextFile(hFindFile, FD) = 0 Then
+            FindClose hFindFile
+            hFindFile = NULL_PTR
+            Exit Do
+        End If
+    Loop
+End If
+End Function
+
+' (VB-Overwrite)
+Public Sub MkDir(ByVal PathName As String)
+If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+If CreateDirectory(StrPtr("\\?\" & PathName), NULL_PTR) = 0 Then
+    Const ERROR_PATH_NOT_FOUND As Long = 3
+    If Err.LastDllError = ERROR_PATH_NOT_FOUND Then
+        Err.Raise 76
+    Else
+        Err.Raise 75
+    End If
+End If
+End Sub
+
+' (VB-Overwrite)
+Public Sub RmDir(ByVal PathName As String)
+If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+If RemoveDirectory(StrPtr("\\?\" & PathName)) = 0 Then
+    Const ERROR_FILE_NOT_FOUND As Long = 2
+    If Err.LastDllError = ERROR_FILE_NOT_FOUND Then
+        Err.Raise 76
+    Else
+        Err.Raise 75
+    End If
+End If
+End Sub
+
+' (VB-Overwrite)
+Public Function FileLen(ByVal PathName As String) As Variant
+Dim FAD As WIN32_FILE_ATTRIBUTE_DATA
+If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+If GetFileAttributesEx(StrPtr("\\?\" & PathName), 0, VarPtr(FAD)) <> 0 Then
+    Dim Int64 As Currency
+    CopyMemory ByVal VarPtr(Int64), ByVal VarPtr(FAD.nFileSizeLow), 4
+    CopyMemory ByVal UnsignedAdd(VarPtr(Int64), 4), ByVal VarPtr(FAD.nFileSizeHigh), 4
+    FileLen = CDec(0)
+    VarDecFromI8 Int64, FileLen
+Else
+    Err.Raise Number:=53, Description:="File not found: '" & PathName & "'"
+End If
+End Function
+
+' (VB-Overwrite)
+Public Function FileDateTime(ByVal PathName As String) As Date
+Dim FAD As WIN32_FILE_ATTRIBUTE_DATA
+If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+If GetFileAttributesEx(StrPtr("\\?\" & PathName), 0, VarPtr(FAD)) <> 0 Then
+    Dim FT As FILETIME, ST As SYSTEMTIME
+    FileTimeToLocalFileTime VarPtr(FAD.FTLastWriteTime), VarPtr(FT)
+    FileTimeToSystemTime VarPtr(FT), VarPtr(ST)
+    FileDateTime = DateSerial(ST.wYear, ST.wMonth, ST.wDay) + TimeSerial(ST.wHour, ST.wMinute, ST.wSecond)
+Else
+    Err.Raise Number:=53, Description:="File not found: '" & PathName & "'"
+End If
+End Function
+
+' (VB-Overwrite)
+Public Function Command$()
+If InIDE() = False Then
+    SysReAllocString VarPtr(Command$), PathGetArgs(GetCommandLine())
+    Command$ = LTrim$(Command$)
+Else
+    Command$ = VBA.Command$()
+End If
+End Function
 
 Public Function FileExists(ByVal PathName As String) As Boolean
 On Error Resume Next
@@ -1407,3 +1702,5 @@ If .Handle <> NULL_PTR Then
 End If
 End With
 End Sub
+
+

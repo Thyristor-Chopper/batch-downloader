@@ -469,7 +469,7 @@ Private Sub Form_Load()
     For i = 1 To pbPanel.Count
         pbPanel(i).Visible = 0
         pbPanel(i).Enabled = 0
-        pbPanel(i).Top = 480
+        pbPanel(i).Top = 465
         pbPanel(i).Left = 165
         pbPanel(i).BorderStyle = 0
         pbPanel(i).AutoRedraw = True

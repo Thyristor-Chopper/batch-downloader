@@ -533,3 +533,4 @@ Else
     Set CoalescePicture = Picture
 End If
 End Function
+

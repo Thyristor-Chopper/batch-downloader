@@ -2084,61 +2084,61 @@ Begin VB.Form frmMain
    Begin VB.Image imgTopLeft 
       Height          =   435
       Left            =   120
-      Picture         =   "frmMain.frx":A636
       Top             =   1200
+      Visible         =   0   'False
       Width           =   1725
    End
    Begin VB.Image imgTop 
       Height          =   435
       Left            =   1845
-      Picture         =   "frmMain.frx":CDE4
       Stretch         =   -1  'True
       Top             =   1200
+      Visible         =   0   'False
       Width           =   3585
    End
    Begin VB.Image imgTopRight 
       Height          =   435
       Left            =   5430
-      Picture         =   "frmMain.frx":11FB6
       Top             =   1200
+      Visible         =   0   'False
       Width           =   150
    End
    Begin VB.Image imgLeft 
       Height          =   2310
       Left            =   120
-      Picture         =   "frmMain.frx":12398
       Stretch         =   -1  'True
       Top             =   1635
+      Visible         =   0   'False
       Width           =   1725
    End
    Begin VB.Image imgBottomLeft 
       Height          =   180
       Left            =   120
-      Picture         =   "frmMain.frx":1F532
       Top             =   3945
+      Visible         =   0   'False
       Width           =   1725
    End
    Begin VB.Image imgBottom 
       Height          =   180
       Left            =   1845
-      Picture         =   "frmMain.frx":205C4
       Stretch         =   -1  'True
       Top             =   3945
+      Visible         =   0   'False
       Width           =   3585
    End
    Begin VB.Image imgBottomRight 
       Height          =   180
       Left            =   5430
-      Picture         =   "frmMain.frx":227C6
       Top             =   3945
+      Visible         =   0   'False
       Width           =   150
    End
    Begin VB.Image imgRight 
       Height          =   2310
       Left            =   5415
-      Picture         =   "frmMain.frx":22988
       Stretch         =   -1  'True
       Top             =   1635
+      Visible         =   0   'False
       Width           =   165
    End
    Begin VB.Image imgCenter 
@@ -2146,6 +2146,7 @@ Begin VB.Form frmMain
       Left            =   1845
       Stretch         =   -1  'True
       Top             =   1635
+      Visible         =   0   'False
       Width           =   3570
    End
    Begin VB.Label lblState 
@@ -3627,85 +3628,86 @@ Sub SetBackgroundImage()
 End Sub
 
 Sub LoadLiveBadukSkin()
-    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And Build < 21990 Then
-        LoadPNG
-        
-        imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
-        imgTopRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topright.png")
-        imgTop.Picture = LoadPngIntoPictureWithAlpha(CachePath & "top.png")
-        imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
-        imgRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "right.png")
-        imgBottom.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottom.png")
-        imgBottomLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomleft.png")
-        imgBottomRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomright.png")
-        imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
-        
-        imgTop.Width = 6495 - imgTopLeft.Width - imgTopRight.Width - 30
-        imgBottom.Width = imgTop.Width
-        imgLeft.Height = 4620 - imgBottomLeft.Height - imgTopLeft.Height - 30 + 240
-        imgRight.Height = imgLeft.Height
-        
-        imgTopRight.Left = 6495 - imgTopRight.Width - 30 + 120
-        imgBottomRight.Left = imgTopRight.Left
-        imgBottomLeft.Top = 4620 - imgBottomLeft.Height - 30 + imgTop.Top + 240
-        imgBottomRight.Top = imgBottomLeft.Top
-        imgBottomRight.Left = imgTopRight.Left
-        
-        imgRight.Left = imgBottomRight.Left - 15
-        imgBottom.Top = imgBottomLeft.Top
-        
-        imgCenter.Width = imgRight.Left - (imgLeft.Left + imgLeft.Width)
-        imgCenter.Height = imgBottom.Top - (imgTop.Top + imgTop.Height)
-        
-        imgTopLeft.Visible = -1
-        imgTopRight.Visible = -1
-        imgTop.Visible = -1
-        imgLeft.Visible = -1
-        imgRight.Visible = -1
-        imgBottom.Visible = -1
-        imgBottomLeft.Visible = -1
-        imgBottomRight.Visible = -1
-        imgCenter.Visible = -1
-        
-        fTotal.Visible = 0
-        Frame4.Visible = 0
-        lblLBCaption.Visible = -1
-        fDownloadInfo.Refresh
-        pbProgressOuterContainer.Refresh
-        pbProgressContainer.Refresh
-        
-        pbTotalProgress.Top = 1800 - 90
-        pbTotalProgressMarquee.Top = 1800 - 90
-    Else
-        imgTopLeft.Visible = 0
-        imgTopRight.Visible = 0
-        imgTop.Visible = 0
-        imgLeft.Visible = 0
-        imgRight.Visible = 0
-        imgBottom.Visible = 0
-        imgBottomLeft.Visible = 0
-        imgBottomRight.Visible = 0
-        imgCenter.Visible = 0
-        
-        lblLBCaption.Visible = 0
-        fTotal.Visible = -1
-        fTotal.Refresh
-        Frame4.Visible = -1
-        Frame4.Refresh
-        fDownloadInfo.Refresh
-        pbProgressContainer.Refresh
-
-        pbTotalProgress.Top = 1560
-        pbTotalProgressMarquee.Top = 1560
-    End If
-    
-    On Error Resume Next
-    Dim ctrl As Control
-    For Each ctrl In Me.Controls
-        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then
-            ctrl.Refresh
-        End If
-    Next ctrl
+    Exit Sub
+'    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And Build < 21990 Then
+'        LoadPNG
+'
+'        imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
+'        imgTopRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topright.png")
+'        imgTop.Picture = LoadPngIntoPictureWithAlpha(CachePath & "top.png")
+'        imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
+'        imgRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "right.png")
+'        imgBottom.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottom.png")
+'        imgBottomLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomleft.png")
+'        imgBottomRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomright.png")
+'        imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
+'
+'        imgTop.Width = 6495 - imgTopLeft.Width - imgTopRight.Width - 30
+'        imgBottom.Width = imgTop.Width
+'        imgLeft.Height = 4620 - imgBottomLeft.Height - imgTopLeft.Height - 30 + 240
+'        imgRight.Height = imgLeft.Height
+'
+'        imgTopRight.Left = 6495 - imgTopRight.Width - 30 + 120
+'        imgBottomRight.Left = imgTopRight.Left
+'        imgBottomLeft.Top = 4620 - imgBottomLeft.Height - 30 + imgTop.Top + 240
+'        imgBottomRight.Top = imgBottomLeft.Top
+'        imgBottomRight.Left = imgTopRight.Left
+'
+'        imgRight.Left = imgBottomRight.Left - 15
+'        imgBottom.Top = imgBottomLeft.Top
+'
+'        imgCenter.Width = imgRight.Left - (imgLeft.Left + imgLeft.Width)
+'        imgCenter.Height = imgBottom.Top - (imgTop.Top + imgTop.Height)
+'
+'        imgTopLeft.Visible = -1
+'        imgTopRight.Visible = -1
+'        imgTop.Visible = -1
+'        imgLeft.Visible = -1
+'        imgRight.Visible = -1
+'        imgBottom.Visible = -1
+'        imgBottomLeft.Visible = -1
+'        imgBottomRight.Visible = -1
+'        imgCenter.Visible = -1
+'
+'        fTotal.Visible = 0
+'        Frame4.Visible = 0
+'        lblLBCaption.Visible = -1
+'        fDownloadInfo.Refresh
+'        pbProgressOuterContainer.Refresh
+'        pbProgressContainer.Refresh
+'
+'        pbTotalProgress.Top = 1800 - 90
+'        pbTotalProgressMarquee.Top = 1800 - 90
+'    Else
+'        imgTopLeft.Visible = 0
+'        imgTopRight.Visible = 0
+'        imgTop.Visible = 0
+'        imgLeft.Visible = 0
+'        imgRight.Visible = 0
+'        imgBottom.Visible = 0
+'        imgBottomLeft.Visible = 0
+'        imgBottomRight.Visible = 0
+'        imgCenter.Visible = 0
+'
+'        lblLBCaption.Visible = 0
+'        fTotal.Visible = -1
+'        fTotal.Refresh
+'        Frame4.Visible = -1
+'        Frame4.Refresh
+'        fDownloadInfo.Refresh
+'        pbProgressContainer.Refresh
+'
+'        pbTotalProgress.Top = 1560
+'        pbTotalProgressMarquee.Top = 1560
+'    End If
+'
+'    On Error Resume Next
+'    Dim ctrl As Control
+'    For Each ctrl In Me.Controls
+'        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then
+'            ctrl.Refresh
+'        End If
+'    Next ctrl
 End Sub
 
 Private Sub cmdYtdlTest_Click()
@@ -3714,6 +3716,8 @@ End Sub
 
 Private Sub Form_Load()
     On Error Resume Next
+    
+    SetupVisualStylesFixes Me
 
     ResumeUnsupported = False
     sbStatusBar.Panels(1).Text = t("ÁØºñ", "Ready")

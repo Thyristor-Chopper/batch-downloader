@@ -451,6 +451,8 @@ Sub ExtendDWMFrame(ByRef frmForm As Form, Top As Long, Right As Long, Bottom As 
 End Sub
 
 Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
+    SetupVisualStylesFixes frmForm
+
     Dim clrBackColor As Long
     Dim clrForeColor As Long
     Dim DisableVisualStyle As Boolean
@@ -476,14 +478,14 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     Dim ctrl As Control
     For Each ctrl In frmForm.Controls
         If TypeName(ctrl) = "CommandButtonEx" Or TypeName(ctrl) = "ImageCombo" Or TypeName(ctrl) = "ToolBar" Or TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
-            If (TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "CommandButtonEx") And ctrl.Tag <> "notygchange" Then
-                If EnableLBSkin Then
-                    ctrl.IsTygemButton = True
-                Else
-                    ctrl.IsTygemButton = False
-                    ctrl.Refresh
-                End If
-            End If
+'            If (TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "CommandButtonEx") And ctrl.Tag <> "notygchange" Then
+'                If EnableLBSkin Then
+'                    'ctrl.IsTygemButton = True
+'                Else
+'                    'ctrl.IsTygemButton = False
+'                    'ctrl.Refresh
+'                End If
+'            End If
             If ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
                 If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
                     ctrl.VisualStyles = True
@@ -762,7 +764,7 @@ End Function
 Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1)
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
-        VBA.MsgBox Content, Icon, Title
+        MsgBoxInternal Content, Icon, Title
         Exit Sub
     End If
     
@@ -907,7 +909,7 @@ End Sub
 Function Confirm(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
-        Confirm = VBA.MsgBox(Content, Icon + vbYesNo, Title)
+        Confirm = MsgBoxInternal(Content, Icon + vbYesNo, Title)
         Exit Function
     End If
     
@@ -1049,7 +1051,7 @@ End Function
 Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
-        ConfirmEx = VBA.MsgBox(Content, Icon + vbYesNoCancel, Title)
+        ConfirmEx = MsgBoxInternal(Content, Icon + vbYesNoCancel, Title)
         Exit Function
     End If
     
@@ -1210,7 +1212,7 @@ End Function
 Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
-        ConfirmCancel = VBA.MsgBox(Content, Icon + vbYesNoCancel, Title)
+        ConfirmCancel = MsgBoxInternal(Content, Icon + vbYesNoCancel, Title)
         Exit Function
     End If
     
@@ -1356,7 +1358,7 @@ End Function
 Function MsgBoxAbortRetryIgnore(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
-        MsgBoxAbortRetryIgnore = VBA.MsgBox(Content, Icon + vbAbortRetryIgnore, Title)
+        MsgBoxAbortRetryIgnore = MsgBoxInternal(Content, Icon + vbAbortRetryIgnore, Title)
         Exit Function
     End If
     
@@ -1503,7 +1505,7 @@ End Function
 Function MsgBoxRetryCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
-        MsgBoxRetryCancel = VBA.MsgBox(Content, Icon + vbRetryCancel, Title)
+        MsgBoxRetryCancel = MsgBoxInternal(Content, Icon + vbRetryCancel, Title)
         Exit Function
     End If
     
@@ -1644,7 +1646,7 @@ End Function
 Function MsgBoxOKCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 Then
-        MsgBoxOKCancel = VBA.MsgBox(Content, Icon + vbOKCancel, Title)
+        MsgBoxOKCancel = MsgBoxInternal(Content, Icon + vbOKCancel, Title)
         Exit Function
     End If
     
@@ -2424,7 +2426,7 @@ Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional T
             MsgBox = MsgBoxRetryCancel(Prompt, Title, Buttons - vbRetryCancel)
         
         Case Else
-            MsgBox = VBA.MsgBox(Prompt, Buttons, Title, HelpFile, Context)
+            MsgBox = MsgBoxInternal(Prompt, Buttons, Title)
     End Select
 End Function
 

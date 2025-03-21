@@ -320,7 +320,7 @@ Private Sub cmdYes_KeyDown(KeyCode As Integer, Shift As Integer)
     OnKeyDown KeyCode
 End Sub
 
-Private Sub Form_Activate()
+Sub PreFocusDefaultButton()
     On Error Resume Next
     Select Case MsgBoxMode
         Case 1
@@ -338,6 +338,10 @@ Private Sub Form_Activate()
         Case 7
             cmdOK.SetFocus
     End Select
+End Sub
+
+Private Sub Form_Activate()
+    PreFocusDefaultButton
 End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -360,6 +364,10 @@ Sub Init()
         DeleteMenu SystemMenu, SC_CLOSE, MF_BYCOMMAND
         DeleteMenu SystemMenu, 0, MF_BYCOMMAND
     End If
+End Sub
+
+Private Sub Form_Paint()
+    PreFocusDefaultButton
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

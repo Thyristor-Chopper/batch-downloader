@@ -1354,7 +1354,7 @@ End Sub
 
 Private Sub cbSkin_Click()
     cmdSample.VisualStyles = (cbSkin.ListIndex <> 1)
-    cmdSample.IsTygemButton = (cbSkin.ListIndex = 2)
+    'cmdSample.IsTygemButton = (cbSkin.ListIndex = 2)
     cmdSample.Refresh
     pbSampleClassic.Visible = Not cmdSample.VisualStyles
     Dim ctrl As Control
@@ -1592,7 +1592,7 @@ Private Sub cmdApply_Click()
     If ColorChanged Or VisualStyleChanged Or SkinChanged Then
         SetFormBackgroundColor Me, True
         SetFormBackgroundColor frmMain, True
-        frmMain.LoadLiveBadukSkin
+        'frmMain.LoadLiveBadukSkin
         RedrawPreview
         cmdChooseBackground.Refresh
         frmMain.pbProgressContainer.Refresh
@@ -1978,7 +1978,7 @@ Private Sub Form_Load()
     For i = 1 To pbPanel.Count
         pbPanel(i).Visible = 0
         pbPanel(i).Enabled = 0
-        pbPanel(i).Top = 480
+        pbPanel(i).Top = 465
         pbPanel(i).Left = 165
         pbPanel(i).BorderStyle = 0
         pbPanel(i).AutoRedraw = True
@@ -2089,9 +2089,9 @@ Private Sub Form_Load()
     cbSkin.Clear
     cbSkin.AddItem t("시스템 스타일", "System style")
     cbSkin.AddItem t("고전 스타일", "Classic style")
-    cbSkin.AddItem t("타이젬바둑 쪽지", "LiveBaduk memo style")
-    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
-        cbSkin.ListIndex = 2
+    'cbSkin.AddItem t("타이젬바둑 쪽지", "LiveBaduk memo style")
+    If False And CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
+        'cbSkin.ListIndex = 2
     ElseIf Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))) Then
         cbSkin.ListIndex = 1
     Else
@@ -2100,7 +2100,7 @@ Private Sub Form_Load()
     
     'chkNoTheming.Value = Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
     cmdSample.VisualStyles = (Not CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))))
-    cmdSample.IsTygemButton = Abs(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0))) * (-1)
+    'cmdSample.IsTygemButton = Abs(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0))) * (-1)
     
     cbLanguage.Clear
     cbLanguage.AddItem t("자동", "Auto")
