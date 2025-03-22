@@ -30,13 +30,13 @@ Begin VB.Form frmDownloadOptions
       Left            =   6360
       ScaleHeight     =   4035
       ScaleWidth      =   6075
-      TabIndex        =   17
+      TabIndex        =   2
       Top             =   600
       Width           =   6135
       Begin prjDownloadBooster.LinkLabel lblDescription 
          Height          =   735
          Left            =   840
-         TabIndex        =   18
+         TabIndex        =   16
          Top             =   180
          Width           =   5175
          _ExtentX        =   9128
@@ -47,7 +47,7 @@ Begin VB.Form frmDownloadOptions
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
          Height          =   330
          Left            =   3480
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   3660
          Width           =   1215
          _ExtentX        =   2143
@@ -58,7 +58,7 @@ Begin VB.Form frmDownloadOptions
       Begin prjDownloadBooster.TextBoxW txtEdit 
          Height          =   255
          Left            =   2760
-         TabIndex        =   20
+         TabIndex        =   22
          Top             =   960
          Visible         =   0   'False
          Width           =   2535
@@ -69,7 +69,7 @@ Begin VB.Form frmDownloadOptions
       Begin prjDownloadBooster.CommandButtonW cmdDeleteHeader 
          Height          =   330
          Left            =   2160
-         TabIndex        =   21
+         TabIndex        =   19
          Top             =   3660
          Width           =   1215
          _ExtentX        =   2143
@@ -80,7 +80,7 @@ Begin VB.Form frmDownloadOptions
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
          Height          =   330
          Left            =   4800
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   3660
          Width           =   1215
          _ExtentX        =   2143
@@ -91,7 +91,7 @@ Begin VB.Form frmDownloadOptions
       Begin prjDownloadBooster.CommandButtonW cmdAddHeader 
          Height          =   330
          Left            =   840
-         TabIndex        =   23
+         TabIndex        =   18
          Top             =   3660
          Width           =   1215
          _ExtentX        =   2143
@@ -101,7 +101,7 @@ Begin VB.Form frmDownloadOptions
       Begin prjDownloadBooster.ListView lvHeaders 
          Height          =   2655
          Left            =   840
-         TabIndex        =   24
+         TabIndex        =   17
          Top             =   960
          Width           =   5175
          _ExtentX        =   9128
@@ -143,13 +143,13 @@ Begin VB.Form frmDownloadOptions
       Left            =   120
       ScaleHeight     =   3075
       ScaleWidth      =   5955
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   600
       Width           =   6015
       Begin prjDownloadBooster.CheckBoxW chkAutoYtdl 
          Height          =   255
          Left            =   360
-         TabIndex        =   1
+         TabIndex        =   3
          Top             =   120
          Width           =   4455
          _ExtentX        =   7858
@@ -160,7 +160,7 @@ Begin VB.Form frmDownloadOptions
       Begin prjDownloadBooster.OptionButtonW optDisableYtdl 
          Height          =   255
          Left            =   360
-         TabIndex        =   2
+         TabIndex        =   4
          Top             =   480
          Width           =   4335
          _ExtentX        =   7646
@@ -172,7 +172,7 @@ Begin VB.Form frmDownloadOptions
       Begin prjDownloadBooster.OptionButtonW optUseYtdl 
          Height          =   255
          Left            =   360
-         TabIndex        =   3
+         TabIndex        =   5
          Top             =   840
          Width           =   1935
          _ExtentX        =   3413
@@ -183,7 +183,7 @@ Begin VB.Form frmDownloadOptions
       Begin prjDownloadBooster.FrameW fYtdl 
          Height          =   2175
          Left            =   120
-         TabIndex        =   4
+         TabIndex        =   6
          Top             =   870
          Width           =   5775
          _ExtentX        =   10186
@@ -193,7 +193,7 @@ Begin VB.Form frmDownloadOptions
          Begin prjDownloadBooster.ComboBoxW txtFormat 
             Height          =   300
             Left            =   1200
-            TabIndex        =   5
+            TabIndex        =   8
             Top             =   360
             Width           =   1695
             _ExtentX        =   2990
@@ -202,7 +202,7 @@ Begin VB.Form frmDownloadOptions
          Begin prjDownloadBooster.ComboBoxW cbBitRate 
             Height          =   300
             Left            =   1560
-            TabIndex        =   6
+            TabIndex        =   15
             Top             =   1800
             Width           =   1215
             _ExtentX        =   2143
@@ -213,7 +213,7 @@ Begin VB.Form frmDownloadOptions
          Begin prjDownloadBooster.OptionButtonW optCBR 
             Height          =   255
             Left            =   840
-            TabIndex        =   7
+            TabIndex        =   14
             Top             =   1800
             Width           =   735
             _ExtentX        =   1296
@@ -224,7 +224,7 @@ Begin VB.Form frmDownloadOptions
          Begin prjDownloadBooster.ComboBoxW cbAudioFormat 
             Height          =   300
             Left            =   2040
-            TabIndex        =   8
+            TabIndex        =   11
             Top             =   1080
             Width           =   2055
             _ExtentX        =   3625
@@ -235,7 +235,7 @@ Begin VB.Form frmDownloadOptions
          Begin prjDownloadBooster.ComboBoxW cbVBR 
             Height          =   300
             Left            =   1560
-            TabIndex        =   9
+            TabIndex        =   13
             Top             =   1440
             Width           =   1215
             _ExtentX        =   2143
@@ -246,7 +246,7 @@ Begin VB.Form frmDownloadOptions
          Begin prjDownloadBooster.OptionButtonW optVBR 
             Height          =   255
             Left            =   840
-            TabIndex        =   10
+            TabIndex        =   12
             Top             =   1440
             Width           =   735
             _ExtentX        =   1296
@@ -258,7 +258,7 @@ Begin VB.Form frmDownloadOptions
          Begin prjDownloadBooster.CheckBoxW chkExtractAudio 
             Height          =   255
             Left            =   360
-            TabIndex        =   11
+            TabIndex        =   9
             Top             =   720
             Width           =   3015
             _ExtentX        =   5318
@@ -271,7 +271,7 @@ Begin VB.Form frmDownloadOptions
             Caption         =   "오디오 형식(&A):"
             Height          =   255
             Left            =   600
-            TabIndex        =   13
+            TabIndex        =   10
             Top             =   1125
             Width           =   1455
          End
@@ -280,7 +280,7 @@ Begin VB.Form frmDownloadOptions
             Caption         =   "포맷(&F):"
             Height          =   255
             Left            =   360
-            TabIndex        =   12
+            TabIndex        =   7
             Top             =   390
             Width           =   855
          End
@@ -289,7 +289,7 @@ Begin VB.Form frmDownloadOptions
    Begin prjDownloadBooster.TabStrip tsTabStrip 
       Height          =   390
       Left            =   120
-      TabIndex        =   14
+      TabIndex        =   0
       Top             =   105
       Width           =   2400
       _ExtentX        =   4233
@@ -300,7 +300,7 @@ Begin VB.Form frmDownloadOptions
       Cancel          =   -1  'True
       Height          =   360
       Left            =   4320
-      TabIndex        =   15
+      TabIndex        =   24
       Top             =   120
       Width           =   1320
       _ExtentX        =   0
@@ -311,7 +311,7 @@ Begin VB.Form frmDownloadOptions
       Default         =   -1  'True
       Height          =   360
       Left            =   2880
-      TabIndex        =   16
+      TabIndex        =   23
       Top             =   120
       Width           =   1320
       _ExtentX        =   0

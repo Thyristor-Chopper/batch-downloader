@@ -1,6 +1,5 @@
 VERSION 5.00
 Begin VB.Form frmCustomBackground 
-   BackColor       =   &H00F8EFE5&
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "배경 그림 선택"
    ClientHeight    =   4965
@@ -27,12 +26,11 @@ Begin VB.Form frmCustomBackground
    Begin prjDownloadBooster.CheckBoxW chkHidden 
       Height          =   255
       Left            =   4920
-      TabIndex        =   14
+      TabIndex        =   10
       Top             =   2760
       Width           =   1575
       _ExtentX        =   0
       _ExtentY        =   0
-      BackColor       =   16314341
       Caption         =   "숨김 표시(&H)"
    End
    Begin VB.Timer timDelayer 
@@ -44,17 +42,17 @@ Begin VB.Form frmCustomBackground
    Begin VB.TextBox txtFileName 
       Height          =   270
       Left            =   120
-      TabIndex        =   12
+      TabIndex        =   1
       Top             =   360
       Width           =   2175
    End
    Begin VB.PictureBox picPreviewFrame 
-      BackColor       =   &H00F8EFE5&
       Height          =   1335
       Left            =   120
       ScaleHeight     =   1275
       ScaleWidth      =   3675
-      TabIndex        =   11
+      TabIndex        =   12
+      TabStop         =   0   'False
       Top             =   3480
       Width           =   3735
       Begin VB.Image imgPreview 
@@ -78,7 +76,7 @@ Begin VB.Form frmCustomBackground
       Height          =   300
       Left            =   120
       Style           =   2  '드롭다운 목록
-      TabIndex        =   9
+      TabIndex        =   4
       Top             =   2760
       Width           =   2175
    End
@@ -94,7 +92,7 @@ Begin VB.Form frmCustomBackground
       EndProperty
       Height          =   300
       Left            =   2520
-      TabIndex        =   7
+      TabIndex        =   9
       Top             =   2760
       Width           =   2175
    End
@@ -110,7 +108,7 @@ Begin VB.Form frmCustomBackground
       EndProperty
       Height          =   1770
       Left            =   2520
-      TabIndex        =   5
+      TabIndex        =   7
       Top             =   720
       Width           =   2175
    End
@@ -128,7 +126,7 @@ Begin VB.Form frmCustomBackground
       Left            =   120
       Pattern         =   "*.JPG; *.GIF; *.BMP; *.DIB; *.WMF; *.EMF"
       System          =   -1  'True
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   720
       Width           =   2175
    End
@@ -146,7 +144,7 @@ Begin VB.Form frmCustomBackground
       EndProperty
       Height          =   340
       Left            =   4920
-      TabIndex        =   1
+      TabIndex        =   14
       Top             =   480
       Width           =   1455
    End
@@ -164,7 +162,7 @@ Begin VB.Form frmCustomBackground
       EndProperty
       Height          =   340
       Left            =   4920
-      TabIndex        =   0
+      TabIndex        =   13
       Top             =   120
       Width           =   1455
    End
@@ -172,16 +170,16 @@ Begin VB.Form frmCustomBackground
       BackStyle       =   0  '투명
       Height          =   255
       Left            =   2520
-      TabIndex        =   13
+      TabIndex        =   6
       Top             =   375
       Width           =   2175
    End
    Begin VB.Label Label5 
       BackStyle       =   0  '투명
-      Caption         =   "미리보기(&P):"
+      Caption         =   "미리보기:"
       Height          =   255
       Left            =   120
-      TabIndex        =   10
+      TabIndex        =   11
       Top             =   3240
       Width           =   1215
    End
@@ -199,7 +197,7 @@ Begin VB.Form frmCustomBackground
       EndProperty
       Height          =   255
       Left            =   120
-      TabIndex        =   8
+      TabIndex        =   3
       Top             =   2520
       Width           =   1335
    End
@@ -217,7 +215,7 @@ Begin VB.Form frmCustomBackground
       EndProperty
       Height          =   255
       Left            =   2520
-      TabIndex        =   6
+      TabIndex        =   8
       Top             =   2520
       Width           =   1335
    End
@@ -235,7 +233,7 @@ Begin VB.Form frmCustomBackground
       EndProperty
       Height          =   255
       Left            =   2520
-      TabIndex        =   4
+      TabIndex        =   5
       Top             =   120
       Width           =   1695
    End
@@ -253,7 +251,7 @@ Begin VB.Form frmCustomBackground
       EndProperty
       Height          =   255
       Left            =   120
-      TabIndex        =   2
+      TabIndex        =   0
       Top             =   120
       Width           =   1215
    End
@@ -329,7 +327,7 @@ Private Sub Form_Load()
     chkHidden.Caption = t(chkHidden.Caption, "Show &hidden")
     OKButton.Caption = t(OKButton.Caption, "OK")
     CancelButton.Caption = t(CancelButton.Caption, "Cancel")
-    Label5.Caption = t(Label5.Caption, "&Preview:")
+    Label5.Caption = t(Label5.Caption, "Preview:")
     Me.Caption = t(Me.Caption, "Select background image")
 End Sub
 

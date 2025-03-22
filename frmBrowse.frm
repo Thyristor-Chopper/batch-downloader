@@ -32,7 +32,7 @@ Begin VB.Form frmBrowse
    Begin prjDownloadBooster.CheckBoxW chkHidden 
       Height          =   255
       Left            =   4920
-      TabIndex        =   6
+      TabIndex        =   10
       Top             =   2880
       Width           =   1455
       _ExtentX        =   0
@@ -59,7 +59,7 @@ Begin VB.Form frmBrowse
       Height          =   300
       Left            =   120
       Style           =   2  '드롭다운 목록
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   2880
       Width           =   2175
    End
@@ -75,7 +75,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   300
       Left            =   2520
-      TabIndex        =   4
+      TabIndex        =   9
       Top             =   2880
       Width           =   2175
    End
@@ -91,7 +91,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   1770
       Left            =   2520
-      TabIndex        =   3
+      TabIndex        =   7
       Top             =   720
       Width           =   2175
    End
@@ -126,7 +126,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   340
       Left            =   4920
-      TabIndex        =   8
+      TabIndex        =   12
       Top             =   510
       Width           =   1335
    End
@@ -144,14 +144,14 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   340
       Left            =   4920
-      TabIndex        =   7
+      TabIndex        =   11
       Top             =   120
       Width           =   1335
    End
    Begin VB.Label lblDirectory 
       Height          =   255
       Left            =   2520
-      TabIndex        =   12
+      TabIndex        =   6
       Top             =   415
       Width           =   2175
    End
@@ -168,7 +168,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   120
-      TabIndex        =   11
+      TabIndex        =   3
       Top             =   2640
       Width           =   1335
    End
@@ -185,7 +185,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   2520
-      TabIndex        =   10
+      TabIndex        =   8
       Top             =   2640
       Width           =   1335
    End
@@ -202,7 +202,7 @@ Begin VB.Form frmBrowse
       EndProperty
       Height          =   255
       Left            =   2520
-      TabIndex        =   9
+      TabIndex        =   5
       Top             =   120
       Width           =   1695
    End

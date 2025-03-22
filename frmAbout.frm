@@ -28,7 +28,7 @@ Begin VB.Form frmAbout
       Default         =   -1  'True
       Height          =   345
       Left            =   6120
-      TabIndex        =   19
+      TabIndex        =   5
       Top             =   4800
       Width           =   1335
       _ExtentX        =   2355
@@ -42,13 +42,13 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   18
+      TabIndex        =   19
       Top             =   1440
       Width           =   4815
       Begin prjDownloadBooster.TextBoxW txtShellPipe 
          Height          =   3255
          Left            =   0
-         TabIndex        =   9
+         TabIndex        =   4
          Top             =   0
          Width           =   4815
          _ExtentX        =   8493
@@ -76,14 +76,14 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   15
+      TabIndex        =   16
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
       Begin prjDownloadBooster.ListView lvMisc 
          Height          =   3255
          Left            =   0
-         TabIndex        =   8
+         TabIndex        =   13
          Top             =   0
          Width           =   4815
          _ExtentX        =   8493
@@ -106,14 +106,14 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   10
+      TabIndex        =   14
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
       Begin prjDownloadBooster.LinkLabel lblReadOnline 
          Height          =   255
          Left            =   1440
-         TabIndex        =   4
+         TabIndex        =   9
          Tag             =   "nocolorchange"
          Top             =   2280
          Visible         =   0   'False
@@ -126,7 +126,7 @@ Begin VB.Form frmAbout
       Begin prjDownloadBooster.TextBoxW txtLicensePlaceholder 
          Height          =   270
          Left            =   0
-         TabIndex        =   2
+         TabIndex        =   7
          Top             =   0
          Width           =   1215
          _ExtentX        =   0
@@ -148,7 +148,7 @@ Begin VB.Form frmAbout
       Begin prjDownloadBooster.TextBoxW txtLicense 
          Height          =   2970
          Left            =   0
-         TabIndex        =   3
+         TabIndex        =   8
          Top             =   0
          Width           =   4815
          _ExtentX        =   8493
@@ -166,14 +166,14 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   17
+      TabIndex        =   18
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
       Begin prjDownloadBooster.TextBoxW txtPNG 
          Height          =   3255
          Left            =   0
-         TabIndex        =   7
+         TabIndex        =   12
          Top             =   0
          Width           =   4815
          _ExtentX        =   8493
@@ -190,14 +190,14 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   16
+      TabIndex        =   17
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
       Begin prjDownloadBooster.TextBoxW txtCC 
          Height          =   3255
          Left            =   0
-         TabIndex        =   6
+         TabIndex        =   11
          Top             =   0
          Width           =   4815
          _ExtentX        =   8493
@@ -214,14 +214,14 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   11
+      TabIndex        =   15
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
       Begin prjDownloadBooster.TextBoxW txtIconv 
          Height          =   3255
          Left            =   0
-         TabIndex        =   5
+         TabIndex        =   10
          Top             =   0
          Width           =   4815
          _ExtentX        =   8493
@@ -245,7 +245,7 @@ Begin VB.Form frmAbout
    Begin prjDownloadBooster.FrameW FrameW1 
       Height          =   3255
       Left            =   1080
-      TabIndex        =   0
+      TabIndex        =   6
       Top             =   1440
       Width           =   6375
       _ExtentX        =   11245
@@ -255,7 +255,7 @@ Begin VB.Form frmAbout
       Begin prjDownloadBooster.ListView lvItems 
          Height          =   3255
          Left            =   0
-         TabIndex        =   1
+         TabIndex        =   3
          Top             =   0
          Width           =   1455
          _ExtentX        =   2566
@@ -282,7 +282,7 @@ Begin VB.Form frmAbout
       Caption         =   "¹öÀü"
       Height          =   225
       Left            =   1050
-      TabIndex        =   12
+      TabIndex        =   1
       Tag             =   "nocolorchange"
       Top             =   600
       Width           =   3885
@@ -293,7 +293,7 @@ Begin VB.Form frmAbout
       ForeColor       =   &H00000000&
       Height          =   240
       Left            =   1050
-      TabIndex        =   14
+      TabIndex        =   0
       Tag             =   "nocolorchange"
       Top             =   240
       Width           =   3885
@@ -304,7 +304,7 @@ Begin VB.Form frmAbout
       ForeColor       =   &H00000000&
       Height          =   450
       Left            =   1050
-      TabIndex        =   13
+      TabIndex        =   2
       Tag             =   "nocolorchange"
       Top             =   960
       Width           =   6405

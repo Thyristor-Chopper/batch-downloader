@@ -27,7 +27,7 @@ Begin VB.Form frmEditBatch
       Default         =   -1  'True
       Height          =   330
       Left            =   2760
-      TabIndex        =   5
+      TabIndex        =   9
       Top             =   2640
       Width           =   1335
       _ExtentX        =   2355
@@ -38,7 +38,7 @@ Begin VB.Form frmEditBatch
       Cancel          =   -1  'True
       Height          =   330
       Left            =   4200
-      TabIndex        =   6
+      TabIndex        =   10
       Top             =   2640
       Width           =   1335
       _ExtentX        =   2355
@@ -48,7 +48,7 @@ Begin VB.Form frmEditBatch
    Begin prjDownloadBooster.FrameW fInfo 
       Height          =   2415
       Left            =   120
-      TabIndex        =   7
+      TabIndex        =   0
       Top             =   120
       Width           =   5415
       _ExtentX        =   9551
@@ -57,7 +57,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.CommandButtonW cmdHeaders 
          Height          =   330
          Left            =   2160
-         TabIndex        =   10
+         TabIndex        =   8
          Top             =   1920
          Width           =   1695
          _ExtentX        =   2990
@@ -67,7 +67,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.CommandButtonW cmdYtdl 
          Height          =   330
          Left            =   360
-         TabIndex        =   9
+         TabIndex        =   7
          Top             =   1920
          Width           =   1695
          _ExtentX        =   2990
@@ -77,7 +77,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.CommandButtonW cmdBrowse 
          Height          =   330
          Left            =   3720
-         TabIndex        =   4
+         TabIndex        =   5
          Top             =   1380
          Width           =   1575
          _ExtentX        =   2778
@@ -87,7 +87,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.TextBoxW txtFilePath 
          Height          =   255
          Left            =   360
-         TabIndex        =   3
+         TabIndex        =   4
          Top             =   1080
          Width           =   4935
          _ExtentX        =   8705
@@ -96,7 +96,7 @@ Begin VB.Form frmEditBatch
       Begin prjDownloadBooster.TextBoxW txtURL 
          Height          =   255
          Left            =   360
-         TabIndex        =   1
+         TabIndex        =   2
          Top             =   480
          Width           =   4935
          _ExtentX        =   8705
@@ -107,7 +107,7 @@ Begin VB.Form frmEditBatch
          Caption         =   "추가 설정(&D):"
          Height          =   255
          Left            =   120
-         TabIndex        =   8
+         TabIndex        =   6
          Top             =   1680
          Width           =   3015
       End
@@ -115,7 +115,7 @@ Begin VB.Form frmEditBatch
          Caption         =   "저장 경로(&S):"
          Height          =   255
          Left            =   120
-         TabIndex        =   2
+         TabIndex        =   3
          Top             =   840
          Width           =   3495
       End
@@ -124,7 +124,7 @@ Begin VB.Form frmEditBatch
          Caption         =   "파일 주소(&A):"
          Height          =   255
          Left            =   120
-         TabIndex        =   0
+         TabIndex        =   1
          Top             =   240
          Width           =   2895
       End
@@ -245,6 +245,11 @@ Private Sub cmdYtdl_Click()
     frmDownloadOptions.Show vbModal, Me
 End Sub
  
+Private Sub Form_Activate()
+    On Error Resume Next
+    txtURL.SetFocus
+End Sub
+
 Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
@@ -274,4 +279,9 @@ Private Sub Form_Load()
     cmdHeaders.Left = cmdYtdl.Left
 #End If
 
+End Sub
+
+Private Sub Form_Paint()
+    On Error Resume Next
+    txtURL.SetFocus
 End Sub

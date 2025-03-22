@@ -34,7 +34,7 @@ Begin VB.Form frmBatchAdd
    Begin prjDownloadBooster.TextBoxW txtSavePath 
       Height          =   255
       Left            =   120
-      TabIndex        =   5
+      TabIndex        =   3
       Top             =   3405
       Width           =   4215
       _ExtentX        =   7435
@@ -43,7 +43,7 @@ Begin VB.Form frmBatchAdd
    Begin prjDownloadBooster.TextBoxW txtURLs 
       Height          =   2535
       Left            =   120
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   360
       Width           =   4215
       _ExtentX        =   0
@@ -55,7 +55,7 @@ Begin VB.Form frmBatchAdd
       Cancel          =   -1  'True
       Height          =   340
       Left            =   4560
-      TabIndex        =   3
+      TabIndex        =   6
       Top             =   510
       Width           =   1335
       _ExtentX        =   0
@@ -65,7 +65,7 @@ Begin VB.Form frmBatchAdd
    Begin prjDownloadBooster.CommandButtonW cmdOK 
       Height          =   340
       Left            =   4560
-      TabIndex        =   2
+      TabIndex        =   5
       Top             =   120
       Width           =   1335
       _ExtentX        =   0
@@ -75,7 +75,7 @@ Begin VB.Form frmBatchAdd
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   330
       Left            =   4560
-      TabIndex        =   6
+      TabIndex        =   4
       Top             =   3360
       Width           =   1335
       _ExtentX        =   2355
@@ -87,7 +87,7 @@ Begin VB.Form frmBatchAdd
       Caption         =   "저장 경로(&S):"
       Height          =   255
       Left            =   120
-      TabIndex        =   4
+      TabIndex        =   2
       Top             =   3165
       Width           =   2775
    End
@@ -95,7 +95,7 @@ Begin VB.Form frmBatchAdd
       Caption         =   "각 줄에 파일 주소를 입력하십시오(&L)."
       Height          =   255
       Left            =   120
-      TabIndex        =   1
+      TabIndex        =   0
       Top             =   120
       Width           =   4215
    End

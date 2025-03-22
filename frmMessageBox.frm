@@ -33,7 +33,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "취소"
       Height          =   320
       Left            =   5880
-      TabIndex        =   5
+      TabIndex        =   3
       Top             =   840
       Width           =   1455
    End
@@ -41,7 +41,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "아니요(&N)"
       Height          =   320
       Left            =   4320
-      TabIndex        =   4
+      TabIndex        =   1
       Top             =   840
       Width           =   1455
    End
@@ -49,14 +49,14 @@ Begin VB.Form frmMessageBox
       Caption         =   "예(&Y)"
       Height          =   320
       Left            =   2760
-      TabIndex        =   3
+      TabIndex        =   0
       Top             =   840
       Width           =   1455
    End
    Begin prjDownloadBooster.OptionButtonW optNo 
       Height          =   255
       Left            =   1080
-      TabIndex        =   2
+      TabIndex        =   10
       Top             =   1320
       Width           =   1575
       _ExtentX        =   0
@@ -66,7 +66,7 @@ Begin VB.Form frmMessageBox
    Begin prjDownloadBooster.OptionButtonW optYes 
       Height          =   255
       Left            =   1080
-      TabIndex        =   1
+      TabIndex        =   9
       Top             =   960
       Width           =   1575
       _ExtentX        =   0
@@ -77,7 +77,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "확인"
       Height          =   315
       Left            =   7440
-      TabIndex        =   0
+      TabIndex        =   2
       Top             =   840
       Width           =   1455
    End
@@ -85,7 +85,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "다시 시도(&R)"
       Height          =   315
       Left            =   9000
-      TabIndex        =   7
+      TabIndex        =   5
       Top             =   840
       Width           =   1455
    End
@@ -93,7 +93,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "중단(&A)"
       Height          =   315
       Left            =   10560
-      TabIndex        =   8
+      TabIndex        =   4
       Top             =   840
       Width           =   1455
    End
@@ -101,7 +101,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "무시(&I)"
       Height          =   315
       Left            =   12120
-      TabIndex        =   9
+      TabIndex        =   6
       Top             =   840
       Width           =   1455
    End
@@ -109,7 +109,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "실패(&F)"
       Height          =   315
       Left            =   13680
-      TabIndex        =   10
+      TabIndex        =   7
       Top             =   840
       Width           =   1455
    End
@@ -117,7 +117,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "도움말"
       Height          =   315
       Left            =   15240
-      TabIndex        =   11
+      TabIndex        =   8
       Top             =   840
       Width           =   1455
    End
@@ -207,7 +207,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "내용"
       Height          =   495
       Left            =   960
-      TabIndex        =   6
+      TabIndex        =   11
       Top             =   360
       Width           =   27255
    End
