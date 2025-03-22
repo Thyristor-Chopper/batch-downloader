@@ -520,7 +520,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                 ctrl.ForeColor = clrForeColor
                 If (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW") Then
                     ctrl.VisualStyles = False
-                ElseIf (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
+                ElseIf (Not DisableVisualStyle) And ctrl.VisualStyles = False And ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
                     ctrl.VisualStyles = True
                 End If
             End If
@@ -2035,7 +2035,7 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     Dim FontName$, FontSize%
     FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
     If FontName = "" And LangID = 1042 Then
-        If Force Or (DefaultFont <> "±¼¸²" And DefaultFont <> "Gulim") Then
+        If Force Or (DefaultFont <> "±¼¸²") Then
             FontName = DefaultFont
         Else
             Exit Sub
@@ -2047,9 +2047,9 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
         FontName = "Tahoma"
     End If
     FontSize = 9
-    If FontName = "Tahoma" Then FontSize = 8
+    If FontName = "Tahoma" Or Left$(FontName, 7) = "Tahoma " Then FontSize = 8
     frm.Font.Name = FontName
-    frm.Font.Size = 8
+    frm.Font.Size = FontSize
     Dim ctrl As Control
     For Each ctrl In frm.Controls
         If ctrl.Name <> "lvDummyScroll" Then
@@ -2057,6 +2057,10 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
             ctrl.FontName = FontName
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
+            ctrl.FontBold = False
+            ctrl.Font.Bold = False
+            ctrl.FontItalic = False
+            ctrl.Font.Italic = False
         End If
     Next ctrl
 End Sub

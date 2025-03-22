@@ -318,8 +318,14 @@ End Property
 Property Let FontName(ByVal New_FontName As String)
     m_FontName = New_FontName
     PropertyChanged "FontName"
-    lblCaption.Font.Name = m_FontName
+    SetCaptionFont
 End Property
+
+Private Sub SetCaptionFont()
+    lblCaption.Font.Name = m_FontName
+    lblCaption.Font.Bold = True
+    lblCaption.Font.Italic = False
+End Sub
 
 Property Get FontSize() As String
     FontSize = m_FontSize
@@ -532,6 +538,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     End If
     SetSplitLeft
     SetSplitRight
+    SetCaptionFont
 End Sub
 
 Private Sub UserControl_Terminate()
