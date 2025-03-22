@@ -28,36 +28,30 @@ Begin VB.Form frmMessageBox
       Left            =   360
       Top             =   960
    End
-   Begin prjDownloadBooster.CommandButtonW cmdCancel 
+   Begin VB.CommandButton cmdCancel 
       Cancel          =   -1  'True
+      Caption         =   "취소"
       Height          =   320
       Left            =   5880
       TabIndex        =   5
       Top             =   840
       Width           =   1455
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "취소"
    End
-   Begin prjDownloadBooster.CommandButtonW cmdNo 
+   Begin VB.CommandButton cmdNo 
+      Caption         =   "아니요(&N)"
       Height          =   320
       Left            =   4320
       TabIndex        =   4
       Top             =   840
       Width           =   1455
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "아니요(&N)"
    End
-   Begin prjDownloadBooster.CommandButtonW cmdYes 
+   Begin VB.CommandButton cmdYes 
+      Caption         =   "예(&Y)"
       Height          =   320
       Left            =   2760
       TabIndex        =   3
       Top             =   840
       Width           =   1455
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "예(&Y)"
    End
    Begin prjDownloadBooster.OptionButtonW optNo 
       Height          =   255
@@ -79,65 +73,53 @@ Begin VB.Form frmMessageBox
       _ExtentY        =   0
       Caption         =   "예(&Y)"
    End
-   Begin prjDownloadBooster.CommandButtonW cmdOK 
+   Begin VB.CommandButton cmdOK 
+      Caption         =   "확인"
       Height          =   315
       Left            =   7440
       TabIndex        =   0
       Top             =   840
       Width           =   1455
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "확인"
    End
-   Begin prjDownloadBooster.CommandButtonW cmdRetry 
+   Begin VB.CommandButton cmdRetry 
+      Caption         =   "다시 시도(&R)"
       Height          =   315
       Left            =   9000
       TabIndex        =   7
       Top             =   840
       Width           =   1455
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "다시 시도(&R)"
    End
-   Begin prjDownloadBooster.CommandButtonW cmdAbort 
+   Begin VB.CommandButton cmdAbort 
+      Caption         =   "중단(&A)"
       Height          =   315
       Left            =   10560
       TabIndex        =   8
       Top             =   840
       Width           =   1455
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "중단(&A)"
    End
-   Begin prjDownloadBooster.CommandButtonW cmdIgnore 
+   Begin VB.CommandButton cmdIgnore 
+      Caption         =   "무시(&I)"
       Height          =   315
       Left            =   12120
       TabIndex        =   9
       Top             =   840
       Width           =   1455
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "무시(&I)"
    End
-   Begin prjDownloadBooster.CommandButtonW cmdFail 
+   Begin VB.CommandButton cmdFail 
+      Caption         =   "실패(&F)"
       Height          =   315
       Left            =   13680
       TabIndex        =   10
       Top             =   840
       Width           =   1455
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "실패(&F)"
    End
-   Begin prjDownloadBooster.CommandButtonW cmdHelp 
+   Begin VB.CommandButton cmdHelp 
+      Caption         =   "도움말"
       Height          =   315
       Left            =   15240
       TabIndex        =   11
       Top             =   840
       Width           =   1455
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "도움말"
    End
    Begin VB.Image imgMBIconError 
       Height          =   630

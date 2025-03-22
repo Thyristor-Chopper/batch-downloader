@@ -476,34 +476,46 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     
     On Error Resume Next
     Dim ctrl As Control
+    Dim CtrlTypeName$
     For Each ctrl In frmForm.Controls
-        If TypeName(ctrl) = "CommandButtonEx" Or TypeName(ctrl) = "ImageCombo" Or TypeName(ctrl) = "ToolBar" Or TypeName(ctrl) = "LinkLabel" Or TypeName(ctrl) = "Frame" Or TypeName(ctrl) = "PictureBox" Or TypeName(ctrl) = "Label" Or TypeName(ctrl) = "TabStrip" Or TypeName(ctrl) = "Slider" Or TypeName(ctrl) = "CheckBox" Or TypeName(ctrl) = "OptionButton" Or TypeName(ctrl) = "ProgressBar" Or TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "StatusBar" Or TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "ListBoxW" Then
-'            If (TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "CommandButtonEx") And ctrl.Tag <> "notygchange" Then
-'                If EnableLBSkin Then
-'                    'ctrl.IsTygemButton = True
-'                Else
-'                    'ctrl.IsTygemButton = False
-'                    'ctrl.Refresh
-'                End If
-'            End If
-            If ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
-                If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
-                    ctrl.VisualStyles = True
-                    'If TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Then ctrl.Style = 0
-                End If
-                If DisableVisualStyle And ctrl.VisualStyles = True Then
-                    ctrl.VisualStyles = False
-                    'If TypeName(ctrl) = "CommandButton" Or TypeName(ctrl) = "CommandButtonW" Then ctrl.Style = 1
+        CtrlTypeName = TypeName(ctrl)
+        If CtrlTypeName = "CommandButtonEx" Or CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ImageCombo" Or CtrlTypeName = "ToolBar" Or CtrlTypeName = "LinkLabel" Or CtrlTypeName = "Frame" Or CtrlTypeName = "PictureBox" Or CtrlTypeName = "Label" Or CtrlTypeName = "TabStrip" Or CtrlTypeName = "Slider" Or CtrlTypeName = "CheckBox" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "ProgressBar" Or CtrlTypeName = "FrameW" Or CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "StatusBar" Or CtrlTypeName = "ListView" Or CtrlTypeName = "ListBoxW" Then
+            If (CtrlTypeName = "CommandButtonW" Or CtrlTypeName = "CommandButtonEx") And ctrl.Tag <> "notygchange" Then
+                If EnableLBSkin Then
+                    ctrl.IsTygemButton = True
+                ElseIf ctrl.IsTygemButton Then
+                    ctrl.IsTygemButton = False
+                    ctrl.Refresh
                 End If
             End If
-            If TypeName(ctrl) = "ListView" Or TypeName(ctrl) = "TextBoxW" Or TypeName(ctrl) = "ComboBoxW" Or TypeName(ctrl) = "ListBoxW" Then GoTo nextfor
+            If ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
+                If CtrlTypeName = "CommandButton" Or CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Then
+                    If DisableVisualStyle Then
+                        RemoveVisualStyles ctrl.hWnd
+                        If CtrlTypeName = "CommandButton" Then ctrl.Style = 1
+                    Else
+                        ActivateVisualStyles ctrl.hWnd
+                        If CtrlTypeName = "CommandButton" Then ctrl.Style = 0
+                    End If
+                Else
+                    If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
+                        ctrl.VisualStyles = True
+                        'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 0
+                    End If
+                    If DisableVisualStyle And ctrl.VisualStyles = True Then
+                        ctrl.VisualStyles = False
+                        'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 1
+                    End If
+                End If
+            End If
+            If CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ListView" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "ListBoxW" Then GoTo nextfor
             If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" Then ctrl.ForeColor = clrForeColor
-            If TypeName(ctrl) = "PictureBox" Then
+            If CtrlTypeName = "PictureBox" Then
                 If ctrl.AutoRedraw = True Then GoTo nextfor
             End If
             If ctrl.Tag <> "nobackcolorchange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" And ctrl.BackColor <> clrBackColor Then
                 ctrl.BackColor = clrBackColor
-                If TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "FrameW" Then ctrl.Refresh
+                If CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "FrameW" Then ctrl.Refresh
             End If
         End If
 nextfor:

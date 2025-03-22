@@ -1,9 +1,9 @@
 VERSION 5.00
 Begin VB.UserControl TygemButton 
-   ClientHeight    =   1590
+   ClientHeight    =   2865
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   1665
+   ClientWidth     =   3630
    BeginProperty Font 
       Name            =   "±¼¸²"
       Size            =   9
@@ -13,8 +13,8 @@ Begin VB.UserControl TygemButton
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
-   ScaleHeight     =   1590
-   ScaleWidth      =   1665
+   ScaleHeight     =   2865
+   ScaleWidth      =   3630
    ToolboxBitmap   =   "TygemButton.ctx":0000
    Begin VB.Timer tmrMouse 
       Enabled         =   0   'False
@@ -23,10 +23,10 @@ Begin VB.UserControl TygemButton
       Top             =   0
    End
    Begin VB.Image imgOverlay 
-      Height          =   390
+      Height          =   375
       Left            =   0
       Top             =   0
-      Width           =   1080
+      Width           =   495
    End
    Begin VB.Image imgIcon 
       Height          =   240
@@ -52,256 +52,98 @@ Begin VB.UserControl TygemButton
       Left            =   0
       TabIndex        =   0
       Top             =   0
-      Width           =   1080
+      Width           =   1065
+   End
+   Begin VB.Line Line10 
+      X1              =   975
+      X2              =   1005
+      Y1              =   0
+      Y2              =   30
+   End
+   Begin VB.Line Line9 
+      X1              =   975
+      X2              =   1025
+      Y1              =   315
+      Y2              =   270
+   End
+   Begin VB.Line Line8 
+      X1              =   0
+      X2              =   45
+      Y1              =   285
+      Y2              =   330
+   End
+   Begin VB.Line Line7 
+      X1              =   1005
+      X2              =   1005
+      Y1              =   30
+      Y2              =   285
+   End
+   Begin VB.Line Line6 
+      X1              =   30
+      X2              =   990
+      Y1              =   315
+      Y2              =   315
+   End
+   Begin VB.Line Line5 
+      X1              =   0
+      X2              =   30
+      Y1              =   30
+      Y2              =   0
+   End
+   Begin VB.Line Line4 
+      X1              =   0
+      X2              =   0
+      Y1              =   30
+      Y2              =   285
+   End
+   Begin VB.Line Line3 
+      X1              =   30
+      X2              =   990
+      Y1              =   0
+      Y2              =   0
+   End
+   Begin VB.Line Line2 
+      BorderColor     =   &H0004D1FD&
+      X1              =   30
+      X2              =   1005
+      Y1              =   15
+      Y2              =   15
+   End
+   Begin VB.Line Line1 
+      BorderColor     =   &H0004D1FD&
+      X1              =   15
+      X2              =   15
+      Y1              =   30
+      Y2              =   315
    End
    Begin VB.Image imgCenter 
       Height          =   285
       Index           =   2
-      Left            =   60
+      Left            =   0
       Picture         =   "TygemButton.ctx":0312
       Stretch         =   -1  'True
-      Top             =   1140
+      Top             =   960
       Visible         =   0   'False
       Width           =   975
    End
-   Begin VB.Image imgRight 
+   Begin VB.Image imgCenter 
       Height          =   285
-      Index           =   2
-      Left            =   1035
+      Index           =   1
+      Left            =   0
       Picture         =   "TygemButton.ctx":0A65
       Stretch         =   -1  'True
-      Top             =   1140
-      Visible         =   0   'False
-      Width           =   45
-   End
-   Begin VB.Image imgBottomRight 
-      Height          =   45
-      Index           =   2
-      Left            =   1035
-      Picture         =   "TygemButton.ctx":0B24
-      Top             =   1425
-      Visible         =   0   'False
-      Width           =   45
-   End
-   Begin VB.Image imgBottom 
-      Height          =   45
-      Index           =   2
-      Left            =   60
-      Picture         =   "TygemButton.ctx":0B64
-      Stretch         =   -1  'True
-      Top             =   1425
-      Visible         =   0   'False
-      Width           =   975
-   End
-   Begin VB.Image imgBottomLeft 
-      Height          =   45
-      Index           =   2
-      Left            =   0
-      Picture         =   "TygemButton.ctx":0C05
-      Top             =   1425
-      Visible         =   0   'False
-      Width           =   60
-   End
-   Begin VB.Image imgLeft 
-      Height          =   285
-      Index           =   2
-      Left            =   0
-      Picture         =   "TygemButton.ctx":0C47
-      Stretch         =   -1  'True
-      Top             =   1140
-      Visible         =   0   'False
-      Width           =   60
-   End
-   Begin VB.Image imgTopRight 
-      Height          =   60
-      Index           =   2
-      Left            =   1035
-      Picture         =   "TygemButton.ctx":0D72
-      Top             =   1080
-      Visible         =   0   'False
-      Width           =   45
-   End
-   Begin VB.Image imgTop 
-      Height          =   60
-      Index           =   2
-      Left            =   60
-      Picture         =   "TygemButton.ctx":0DC1
-      Stretch         =   -1  'True
-      Top             =   1080
-      Visible         =   0   'False
-      Width           =   975
-   End
-   Begin VB.Image imgTopLeft 
-      Height          =   60
-      Index           =   2
-      Left            =   0
-      Picture         =   "TygemButton.ctx":101B
-      Top             =   1080
-      Visible         =   0   'False
-      Width           =   60
-   End
-   Begin VB.Image imgTopLeft 
-      Height          =   60
-      Index           =   1
-      Left            =   0
-      Picture         =   "TygemButton.ctx":106B
-      Top             =   540
-      Visible         =   0   'False
-      Width           =   60
-   End
-   Begin VB.Image imgTop 
-      Height          =   60
-      Index           =   1
-      Left            =   60
-      Picture         =   "TygemButton.ctx":10BB
-      Stretch         =   -1  'True
-      Top             =   540
-      Visible         =   0   'False
-      Width           =   975
-   End
-   Begin VB.Image imgTopRight 
-      Height          =   60
-      Index           =   1
-      Left            =   1035
-      Picture         =   "TygemButton.ctx":1324
-      Top             =   540
-      Visible         =   0   'False
-      Width           =   45
-   End
-   Begin VB.Image imgLeft 
-      Height          =   285
-      Index           =   1
-      Left            =   0
-      Picture         =   "TygemButton.ctx":1365
-      Stretch         =   -1  'True
-      Top             =   600
-      Visible         =   0   'False
-      Width           =   60
-   End
-   Begin VB.Image imgBottomLeft 
-      Height          =   45
-      Index           =   1
-      Left            =   0
-      Picture         =   "TygemButton.ctx":1420
-      Top             =   885
-      Visible         =   0   'False
-      Width           =   60
-   End
-   Begin VB.Image imgBottom 
-      Height          =   45
-      Index           =   1
-      Left            =   60
-      Picture         =   "TygemButton.ctx":1461
-      Stretch         =   -1  'True
-      Top             =   885
-      Visible         =   0   'False
-      Width           =   975
-   End
-   Begin VB.Image imgBottomRight 
-      Height          =   45
-      Index           =   1
-      Left            =   1035
-      Picture         =   "TygemButton.ctx":15BD
-      Top             =   885
-      Visible         =   0   'False
-      Width           =   45
-   End
-   Begin VB.Image imgRight 
-      Height          =   285
-      Index           =   1
-      Left            =   1035
-      Picture         =   "TygemButton.ctx":15FD
-      Stretch         =   -1  'True
-      Top             =   600
-      Visible         =   0   'False
-      Width           =   45
-   End
-   Begin VB.Image imgCenter 
-      Height          =   285
-      Index           =   1
-      Left            =   60
-      Picture         =   "TygemButton.ctx":1658
-      Stretch         =   -1  'True
-      Top             =   600
+      Top             =   480
       Visible         =   0   'False
       Width           =   975
    End
    Begin VB.Image imgCenter 
       Height          =   285
       Index           =   0
-      Left            =   60
-      Picture         =   "TygemButton.ctx":1D7E
+      Left            =   30
+      Picture         =   "TygemButton.ctx":118B
       Stretch         =   -1  'True
-      Top             =   60
+      Top             =   30
       Width           =   975
-   End
-   Begin VB.Image imgRight 
-      Height          =   285
-      Index           =   0
-      Left            =   1035
-      Picture         =   "TygemButton.ctx":2468
-      Stretch         =   -1  'True
-      Top             =   60
-      Width           =   45
-   End
-   Begin VB.Image imgBottomRight 
-      Height          =   45
-      Index           =   0
-      Left            =   1035
-      Picture         =   "TygemButton.ctx":24C1
-      Top             =   345
-      Width           =   45
-   End
-   Begin VB.Image imgBottom 
-      Height          =   45
-      Index           =   0
-      Left            =   60
-      Picture         =   "TygemButton.ctx":2501
-      Stretch         =   -1  'True
-      Top             =   345
-      Width           =   975
-   End
-   Begin VB.Image imgBottomLeft 
-      Height          =   45
-      Index           =   0
-      Left            =   0
-      Picture         =   "TygemButton.ctx":2656
-      Top             =   345
-      Width           =   60
-   End
-   Begin VB.Image imgLeft 
-      Height          =   285
-      Index           =   0
-      Left            =   0
-      Picture         =   "TygemButton.ctx":2697
-      Stretch         =   -1  'True
-      Top             =   60
-      Width           =   60
-   End
-   Begin VB.Image imgTopRight 
-      Height          =   60
-      Index           =   0
-      Left            =   1035
-      Picture         =   "TygemButton.ctx":2751
-      Top             =   0
-      Width           =   45
-   End
-   Begin VB.Image imgTop 
-      Height          =   60
-      Index           =   0
-      Left            =   60
-      Picture         =   "TygemButton.ctx":2792
-      Stretch         =   -1  'True
-      Top             =   0
-      Width           =   975
-   End
-   Begin VB.Image imgTopLeft 
-      Height          =   60
-      Index           =   0
-      Left            =   0
-      Picture         =   "TygemButton.ctx":29EA
-      Top             =   0
-      Width           =   60
    End
 End
 Attribute VB_Name = "TygemButton"
@@ -343,15 +185,14 @@ Private bMouseDown As Boolean
 Private Sub MouseOut()
     If bMouseDown Then Exit Sub
     bHovering = False
-    imgTop(1).Visible = 0
-    imgLeft(1).Visible = 0
-    imgRight(1).Visible = 0
-    imgBottom(1).Visible = 0
-    imgTopLeft(1).Visible = 0
-    imgTopRight(1).Visible = 0
-    imgBottomLeft(1).Visible = 0
-    imgBottomRight(1).Visible = 0
     imgCenter(1).Visible = 0
+    If m_Enabled Then
+        Line1.BorderColor = RGB(253, 209, 4)
+        Line2.BorderColor = RGB(253, 209, 4)
+    Else
+        Line1.BorderColor = RGB(198, 198, 198)
+        Line2.BorderColor = RGB(198, 198, 198)
+    End If
     If m_Enabled Then
         lblCaption.ForeColor = &H0&
     Else
@@ -369,26 +210,14 @@ Property Let Enabled(ByVal New_Enabled As Boolean)
     PropertyChanged "Enabled"
     If m_Enabled Then
         lblCaption.ForeColor = &H0&
-        imgTop(2).Visible = 0
-        imgLeft(2).Visible = 0
-        imgRight(2).Visible = 0
-        imgBottom(2).Visible = 0
-        imgTopLeft(2).Visible = 0
-        imgTopRight(2).Visible = 0
-        imgBottomLeft(2).Visible = 0
-        imgBottomRight(2).Visible = 0
         imgCenter(2).Visible = 0
+        Line1.BorderColor = RGB(253, 209, 4)
+        Line2.BorderColor = RGB(253, 209, 4)
     Else
         lblCaption.ForeColor = RGB(128, 128, 128)
-        imgTop(2).Visible = -1
-        imgLeft(2).Visible = -1
-        imgRight(2).Visible = -1
-        imgBottom(2).Visible = -1
-        imgTopLeft(2).Visible = -1
-        imgTopRight(2).Visible = -1
-        imgBottomLeft(2).Visible = -1
-        imgBottomRight(2).Visible = -1
         imgCenter(2).Visible = -1
+        Line1.BorderColor = RGB(198, 198, 198)
+        Line2.BorderColor = RGB(198, 198, 198)
     End If
 End Property
 
@@ -469,30 +298,6 @@ End Sub
 Private Sub UserControl_Initialize()
     Dim i%
     For i = 1 To imgCenter.UBound
-        imgTop(i).Top = imgTop(0).Top
-        imgTop(i).Left = imgTop(0).Left
-        
-        imgLeft(i).Top = imgLeft(0).Top
-        imgLeft(i).Left = imgLeft(0).Left
-        
-        imgRight(i).Top = imgRight(0).Top
-        imgRight(i).Left = imgRight(0).Left
-        
-        imgBottom(i).Top = imgBottom(0).Top
-        imgBottom(i).Left = imgBottom(0).Left
-        
-        imgTopLeft(i).Top = imgTopLeft(0).Top
-        imgTopLeft(i).Left = imgTopLeft(0).Left
-        
-        imgTopRight(i).Top = imgTopRight(0).Top
-        imgTopRight(i).Left = imgTopRight(0).Left
-        
-        imgBottomLeft(i).Top = imgBottomLeft(0).Top
-        imgBottomLeft(i).Left = imgBottomLeft(0).Left
-        
-        imgBottomRight(i).Top = imgBottomRight(0).Top
-        imgBottomRight(i).Left = imgBottomRight(0).Left
-        
         imgCenter(i).Top = imgCenter(0).Top
         imgCenter(i).Left = imgCenter(0).Left
     Next i
@@ -517,15 +322,9 @@ Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Singl
     tmrMouse.Enabled = -1
     If bHovering = False Then
         bHovering = True
-        imgTop(1).Visible = -1
-        imgLeft(1).Visible = -1
-        imgRight(1).Visible = -1
-        imgBottom(1).Visible = -1
-        imgTopLeft(1).Visible = -1
-        imgTopRight(1).Visible = -1
-        imgBottomLeft(1).Visible = -1
-        imgBottomRight(1).Visible = -1
         imgCenter(1).Visible = -1
+        Line1.BorderColor = RGB(179, 252, 53)
+        Line2.BorderColor = RGB(179, 252, 53)
     End If
     If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = 255
 End Sub
@@ -541,25 +340,41 @@ Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single,
     bMouseDown = False
 End Sub
 
+Private Sub UserControl_InitProperties()
+    m_Caption = Ambient.DisplayName
+    m_BackColor = &H8000000F
+    m_Enabled = True
+    UserControl.BackColor = &H8000000F
+    lblCaption.Caption = m_Caption
+End Sub
+
 Private Sub UserControl_Resize()
     On Error Resume Next
     Dim i%
     For i = imgCenter.LBound To imgCenter.UBound
-        imgTop(i).Width = UserControl.Width - (imgTopLeft(i).Width + imgTopRight(i).Width)
-        imgTopRight(i).Left = imgTopLeft(i).Width + imgTop(i).Width
-        imgRight(i).Left = imgTopRight(i).Left
-        imgLeft(i).Height = UserControl.Height - imgTopLeft(i).Height - imgBottomLeft(i).Height
-        imgRight(i).Height = imgLeft(i).Height
-        imgBottom(i).Width = imgTop(i).Width
-        imgBottom(i).Top = UserControl.Height - imgBottom(i).Height
-        imgBottomLeft(i).Top = imgBottom(i).Top
-        imgBottomRight(i).Top = imgBottomLeft(i).Top
-        imgBottomRight(i).Left = UserControl.Width - imgBottomRight(i).Width
-        imgCenter(i).Width = UserControl.Width - imgLeft(i).Width - imgRight(i).Width
-        imgCenter(i).Height = UserControl.Height - imgTop(i).Height - imgBottom(i).Height
+        imgCenter(i).Width = UserControl.Width - 3 * Screen.TwipsPerPixelX
+        imgCenter(i).Height = UserControl.Height - 3 * Screen.TwipsPerPixelY
     Next i
     imgOverlay.Width = UserControl.Width
     imgOverlay.Height = UserControl.Height
+    Line1.Y2 = UserControl.Height - 30
+    Line2.X2 = UserControl.Width - 30
+    Line3.X2 = UserControl.Width - 30
+    Line4.Y2 = UserControl.Height - 30
+    Line6.Y1 = UserControl.Height - 15
+    Line6.Y2 = UserControl.Height - 15
+    Line6.X2 = UserControl.Width - 45
+    Line7.X1 = UserControl.Width - 15
+    Line7.X2 = UserControl.Width - 15
+    Line7.Y2 = UserControl.Height - 45
+    Line8.Y1 = UserControl.Height - 45
+    Line8.Y2 = UserControl.Height
+    Line9.Y1 = UserControl.Height
+    Line9.Y2 = UserControl.Height - 60
+    Line9.X1 = UserControl.Width - 60
+    Line9.X2 = UserControl.Width
+    Line10.X1 = UserControl.Width - 45
+    Line10.X2 = UserControl.Width - 15
     lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
     lblCaption.Width = UserControl.Width
     imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2
@@ -575,26 +390,14 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     Set m_Icon = PropBag.ReadProperty("ButtonIcon", Nothing)
     If m_Enabled Then
         lblCaption.ForeColor = &H0&
-        imgTop(2).Visible = 0
-        imgLeft(2).Visible = 0
-        imgRight(2).Visible = 0
-        imgBottom(2).Visible = 0
-        imgTopLeft(2).Visible = 0
-        imgTopRight(2).Visible = 0
-        imgBottomLeft(2).Visible = 0
-        imgBottomRight(2).Visible = 0
         imgCenter(2).Visible = 0
+        Line1.BorderColor = RGB(253, 209, 4)
+        Line2.BorderColor = RGB(253, 209, 4)
     Else
         lblCaption.ForeColor = RGB(128, 128, 128)
-        imgTop(2).Visible = -1
-        imgLeft(2).Visible = -1
-        imgRight(2).Visible = -1
-        imgBottom(2).Visible = -1
-        imgTopLeft(2).Visible = -1
-        imgTopRight(2).Visible = -1
-        imgBottomLeft(2).Visible = -1
-        imgBottomRight(2).Visible = -1
         imgCenter(2).Visible = -1
+        Line1.BorderColor = RGB(198, 198, 198)
+        Line2.BorderColor = RGB(198, 198, 198)
     End If
     lblCaption.Caption = Trim$(m_Caption)
     UserControl.BackColor = m_BackColor
