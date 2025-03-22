@@ -15,7 +15,7 @@ Begin VB.UserControl TygemButton
    EndProperty
    ScaleHeight     =   1590
    ScaleWidth      =   1665
-   ToolboxBitmap   =   "TygemButton.ctx":0000
+   ToolboxBitmap   =   "TygemButtonOld.ctx":0000
    Begin VB.Timer tmrMouse 
       Enabled         =   0   'False
       Interval        =   10
@@ -58,7 +58,7 @@ Begin VB.UserControl TygemButton
       Height          =   285
       Index           =   2
       Left            =   60
-      Picture         =   "TygemButton.ctx":0312
+      Picture         =   "TygemButtonOld.ctx":0312
       Stretch         =   -1  'True
       Top             =   1140
       Visible         =   0   'False
@@ -68,7 +68,7 @@ Begin VB.UserControl TygemButton
       Height          =   285
       Index           =   2
       Left            =   1035
-      Picture         =   "TygemButton.ctx":0A65
+      Picture         =   "TygemButtonOld.ctx":0A65
       Stretch         =   -1  'True
       Top             =   1140
       Visible         =   0   'False
@@ -78,7 +78,7 @@ Begin VB.UserControl TygemButton
       Height          =   45
       Index           =   2
       Left            =   1035
-      Picture         =   "TygemButton.ctx":0B24
+      Picture         =   "TygemButtonOld.ctx":0B24
       Top             =   1425
       Visible         =   0   'False
       Width           =   45
@@ -87,7 +87,7 @@ Begin VB.UserControl TygemButton
       Height          =   45
       Index           =   2
       Left            =   60
-      Picture         =   "TygemButton.ctx":0B64
+      Picture         =   "TygemButtonOld.ctx":0B64
       Stretch         =   -1  'True
       Top             =   1425
       Visible         =   0   'False
@@ -97,7 +97,7 @@ Begin VB.UserControl TygemButton
       Height          =   45
       Index           =   2
       Left            =   0
-      Picture         =   "TygemButton.ctx":0C05
+      Picture         =   "TygemButtonOld.ctx":0C05
       Top             =   1425
       Visible         =   0   'False
       Width           =   60
@@ -106,7 +106,7 @@ Begin VB.UserControl TygemButton
       Height          =   285
       Index           =   2
       Left            =   0
-      Picture         =   "TygemButton.ctx":0C47
+      Picture         =   "TygemButtonOld.ctx":0C47
       Stretch         =   -1  'True
       Top             =   1140
       Visible         =   0   'False
@@ -116,7 +116,7 @@ Begin VB.UserControl TygemButton
       Height          =   60
       Index           =   2
       Left            =   1035
-      Picture         =   "TygemButton.ctx":0D72
+      Picture         =   "TygemButtonOld.ctx":0D72
       Top             =   1080
       Visible         =   0   'False
       Width           =   45
@@ -125,7 +125,7 @@ Begin VB.UserControl TygemButton
       Height          =   60
       Index           =   2
       Left            =   60
-      Picture         =   "TygemButton.ctx":0DC1
+      Picture         =   "TygemButtonOld.ctx":0DC1
       Stretch         =   -1  'True
       Top             =   1080
       Visible         =   0   'False
@@ -135,7 +135,7 @@ Begin VB.UserControl TygemButton
       Height          =   60
       Index           =   2
       Left            =   0
-      Picture         =   "TygemButton.ctx":101B
+      Picture         =   "TygemButtonOld.ctx":101B
       Top             =   1080
       Visible         =   0   'False
       Width           =   60
@@ -144,7 +144,7 @@ Begin VB.UserControl TygemButton
       Height          =   60
       Index           =   1
       Left            =   0
-      Picture         =   "TygemButton.ctx":106B
+      Picture         =   "TygemButtonOld.ctx":106B
       Top             =   540
       Visible         =   0   'False
       Width           =   60
@@ -153,7 +153,7 @@ Begin VB.UserControl TygemButton
       Height          =   60
       Index           =   1
       Left            =   60
-      Picture         =   "TygemButton.ctx":10BB
+      Picture         =   "TygemButtonOld.ctx":10BB
       Stretch         =   -1  'True
       Top             =   540
       Visible         =   0   'False
@@ -163,7 +163,7 @@ Begin VB.UserControl TygemButton
       Height          =   60
       Index           =   1
       Left            =   1035
-      Picture         =   "TygemButton.ctx":1324
+      Picture         =   "TygemButtonOld.ctx":1324
       Top             =   540
       Visible         =   0   'False
       Width           =   45
@@ -172,7 +172,7 @@ Begin VB.UserControl TygemButton
       Height          =   285
       Index           =   1
       Left            =   0
-      Picture         =   "TygemButton.ctx":1365
+      Picture         =   "TygemButtonOld.ctx":1365
       Stretch         =   -1  'True
       Top             =   600
       Visible         =   0   'False
@@ -182,7 +182,7 @@ Begin VB.UserControl TygemButton
       Height          =   45
       Index           =   1
       Left            =   0
-      Picture         =   "TygemButton.ctx":1420
+      Picture         =   "TygemButtonOld.ctx":1420
       Top             =   885
       Visible         =   0   'False
       Width           =   60
@@ -191,7 +191,7 @@ Begin VB.UserControl TygemButton
       Height          =   45
       Index           =   1
       Left            =   60
-      Picture         =   "TygemButton.ctx":1461
+      Picture         =   "TygemButtonOld.ctx":1461
       Stretch         =   -1  'True
       Top             =   885
       Visible         =   0   'False
@@ -201,7 +201,7 @@ Begin VB.UserControl TygemButton
       Height          =   45
       Index           =   1
       Left            =   1035
-      Picture         =   "TygemButton.ctx":15BD
+      Picture         =   "TygemButtonOld.ctx":15BD
       Top             =   885
       Visible         =   0   'False
       Width           =   45
@@ -210,7 +210,7 @@ Begin VB.UserControl TygemButton
       Height          =   285
       Index           =   1
       Left            =   1035
-      Picture         =   "TygemButton.ctx":15FD
+      Picture         =   "TygemButtonOld.ctx":15FD
       Stretch         =   -1  'True
       Top             =   600
       Visible         =   0   'False
@@ -220,7 +220,7 @@ Begin VB.UserControl TygemButton
       Height          =   285
       Index           =   1
       Left            =   60
-      Picture         =   "TygemButton.ctx":1658
+      Picture         =   "TygemButtonOld.ctx":1658
       Stretch         =   -1  'True
       Top             =   600
       Visible         =   0   'False
@@ -230,7 +230,7 @@ Begin VB.UserControl TygemButton
       Height          =   285
       Index           =   0
       Left            =   60
-      Picture         =   "TygemButton.ctx":1D7E
+      Picture         =   "TygemButtonOld.ctx":1D7E
       Stretch         =   -1  'True
       Top             =   60
       Width           =   975
@@ -239,7 +239,7 @@ Begin VB.UserControl TygemButton
       Height          =   285
       Index           =   0
       Left            =   1035
-      Picture         =   "TygemButton.ctx":2468
+      Picture         =   "TygemButtonOld.ctx":2468
       Stretch         =   -1  'True
       Top             =   60
       Width           =   45
@@ -248,7 +248,7 @@ Begin VB.UserControl TygemButton
       Height          =   45
       Index           =   0
       Left            =   1035
-      Picture         =   "TygemButton.ctx":24C1
+      Picture         =   "TygemButtonOld.ctx":24C1
       Top             =   345
       Width           =   45
    End
@@ -256,7 +256,7 @@ Begin VB.UserControl TygemButton
       Height          =   45
       Index           =   0
       Left            =   60
-      Picture         =   "TygemButton.ctx":2501
+      Picture         =   "TygemButtonOld.ctx":2501
       Stretch         =   -1  'True
       Top             =   345
       Width           =   975
@@ -265,7 +265,7 @@ Begin VB.UserControl TygemButton
       Height          =   45
       Index           =   0
       Left            =   0
-      Picture         =   "TygemButton.ctx":2656
+      Picture         =   "TygemButtonOld.ctx":2656
       Top             =   345
       Width           =   60
    End
@@ -273,7 +273,7 @@ Begin VB.UserControl TygemButton
       Height          =   285
       Index           =   0
       Left            =   0
-      Picture         =   "TygemButton.ctx":2697
+      Picture         =   "TygemButtonOld.ctx":2697
       Stretch         =   -1  'True
       Top             =   60
       Width           =   60
@@ -282,7 +282,7 @@ Begin VB.UserControl TygemButton
       Height          =   60
       Index           =   0
       Left            =   1035
-      Picture         =   "TygemButton.ctx":2751
+      Picture         =   "TygemButtonOld.ctx":2751
       Top             =   0
       Width           =   45
    End
@@ -290,7 +290,7 @@ Begin VB.UserControl TygemButton
       Height          =   60
       Index           =   0
       Left            =   60
-      Picture         =   "TygemButton.ctx":2792
+      Picture         =   "TygemButtonOld.ctx":2792
       Stretch         =   -1  'True
       Top             =   0
       Width           =   975
@@ -299,7 +299,7 @@ Begin VB.UserControl TygemButton
       Height          =   60
       Index           =   0
       Left            =   0
-      Picture         =   "TygemButton.ctx":29EA
+      Picture         =   "TygemButtonOld.ctx":29EA
       Top             =   0
       Width           =   60
    End

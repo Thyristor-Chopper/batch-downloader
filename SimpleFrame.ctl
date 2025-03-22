@@ -1,11 +1,10 @@
 VERSION 5.00
 Begin VB.UserControl SimpleFrame 
-   BackStyle       =   0  '≈ı∏Ì
-   ClientHeight    =   390
+   ClientHeight    =   225
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   4800
-   ScaleHeight     =   390
+   ScaleHeight     =   225
    ScaleWidth      =   4800
    Begin VB.Line Line2 
       BorderColor     =   &H80000014&
@@ -45,6 +44,15 @@ Dim m_Font As StdFont
 
 Const m_def_ForeColor = &H80000012
 Dim m_ForeColor As OLE_COLOR
+
+Private Type POINTAPI
+    X As Long
+    Y As Long
+End Type
+
+Private Const WM_PAINT As Long = &HF
+Private Declare Function MapWindowPoints Lib "user32" (ByVal hWndFrom As Long, ByVal hWndTo As Long, ByRef lppt As Any, ByVal cPoints As Long) As Long
+Private Declare Function SetViewportOrgEx Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long, ByRef lpPoint As POINTAPI) As Long
 
 Property Get Font() As StdFont
     Set Font = lblCaption.Font
@@ -93,6 +101,11 @@ End Sub
 Private Sub UserControl_InitProperties()
     m_Caption = Ambient.DisplayName
     m_ForeColor = m_def_ForeColor
+    Set m_Font = Ambient.Font
+    lblCaption.Caption = m_Caption
+    Set lblCaption.Font = m_Font
+    Set UserControl.Font = m_Font
+    UserControl_Resize
 End Sub
 
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
@@ -108,6 +121,20 @@ End Sub
 Private Sub UserControl_Resize()
     Line1.X2 = UserControl.Width - Screen.TwipsPerPixelX
     Line2.X2 = UserControl.Width
+    UserControl.Height = 255
+    SetCaption
+    DrawFrame
+End Sub
+
+Private Sub DrawFrame()
+    Dim WndRect As RECT, P As POINTAPI
+    GetWindowRect UserControl.hWnd, WndRect
+    MapWindowPoints 0&, GetParent(UserControl.hWnd), WndRect, 2
+    P.X = WndRect.Left
+    P.Y = WndRect.Top
+    SetViewportOrgEx UserControl.hDC, -P.X, -P.Y, P
+    SendMessage GetParent(UserControl.hWnd), WM_PAINT, UserControl.hDC, ByVal 0&
+    SetViewportOrgEx UserControl.hDC, P.X, P.Y, P
 End Sub
 
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)

@@ -146,6 +146,23 @@ dontoverrideversion:
         End If
     End If
     
+    On Error GoTo deftrdcnt
+    Dim RawMaxThreads$
+    RawMaxThreads = GetSetting("DownloadBooster", "Options", "MaxThreadCount", "25")
+    If Not IsNumeric(RawMaxThreads) Then
+deftrdcnt:
+        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "25"
+        GoTo aftertrdcntverify
+    ElseIf CDbl(RawMaxThreads) > 91 Then
+        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "91"
+    ElseIf CDbl(RawMaxThreads) < 2 Then
+        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "2"
+    ElseIf CStr(CInt(RawMaxThreads)) <> RawMaxThreads Then
+        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", CStr(CInt(RawMaxThreads))
+    End If
+aftertrdcntverify:
+    On Error GoTo 0
+    
     If Trim$(Environ$("TEMP")) = "" Then
         If Environ$("SystemDrive") = "" Then
             CachePath = "C:\BOOSTER_JS_CACHE\"

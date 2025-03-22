@@ -418,14 +418,14 @@ Begin VB.Form frmMain
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.FrameW fDownloadInfo 
-      Height          =   3375
-      Left            =   1320
+      Height          =   3135
+      Left            =   360
       TabIndex        =   48
-      Top             =   2400
+      Top             =   2640
       Visible         =   0   'False
-      Width           =   3855
-      _ExtentX        =   6800
-      _ExtentY        =   5953
+      Width           =   5655
+      _ExtentX        =   9975
+      _ExtentY        =   5530
       BorderStyle     =   0
       Caption         =   " "
       Transparent     =   -1  'True
@@ -434,7 +434,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   122
+         TabIndex        =   69
          Top             =   2880
          Width           =   4335
       End
@@ -443,7 +443,7 @@ Begin VB.Form frmMain
          Caption         =   "조각 결합 현황:"
          Height          =   255
          Left            =   0
-         TabIndex        =   121
+         TabIndex        =   70
          Top             =   2880
          Width           =   1335
       End
@@ -452,7 +452,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   118
+         TabIndex        =   71
          Top             =   2520
          Width           =   4335
       End
@@ -461,7 +461,7 @@ Begin VB.Form frmMain
          Caption         =   "남은 시간:"
          Height          =   255
          Left            =   0
-         TabIndex        =   117
+         TabIndex        =   72
          Top             =   2520
          Width           =   1215
       End
@@ -646,298 +646,11 @@ Begin VB.Form frmMain
             Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
                Height          =   255
                Index           =   1
-               Left            =   840
+               Left            =   900
                Top             =   0
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   2
-               Left            =   840
-               Top             =   360
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   3
-               Left            =   840
-               Top             =   720
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   4
-               Left            =   840
-               Top             =   1080
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   5
-               Left            =   840
-               Top             =   1440
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   6
-               Left            =   840
-               Top             =   1800
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   7
-               Left            =   840
-               Top             =   2160
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   8
-               Left            =   840
-               Top             =   2520
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   9
-               Left            =   840
-               Top             =   2880
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   10
-               Left            =   840
-               Top             =   3240
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   11
-               Left            =   840
-               Top             =   3600
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   12
-               Left            =   840
-               Top             =   3960
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   13
-               Left            =   840
-               Top             =   4320
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   14
-               Left            =   840
-               Top             =   4680
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   15
-               Left            =   840
-               Top             =   5040
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   16
-               Left            =   840
-               Top             =   5400
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   17
-               Left            =   840
-               Top             =   5760
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   18
-               Left            =   840
-               Top             =   6120
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   19
-               Left            =   840
-               Top             =   6480
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   20
-               Left            =   840
-               Top             =   6840
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   21
-               Left            =   840
-               Top             =   7200
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   22
-               Left            =   840
-               Top             =   7560
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   23
-               Left            =   840
-               Top             =   7920
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   24
-               Left            =   840
-               Top             =   8280
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-               MarqueeSpeed    =   35
-               Scrolling       =   2
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
-               Height          =   255
-               Index           =   25
-               Left            =   840
-               Top             =   8640
-               Width           =   4095
-               _ExtentX        =   7223
+               Visible         =   0   'False
+               Width           =   4035
+               _ExtentX        =   7117
                _ExtentY        =   450
                Step            =   10
                MarqueeSpeed    =   35
@@ -946,737 +659,18 @@ Begin VB.Form frmMain
             Begin prjDownloadBooster.ProgressBar pbProgress 
                Height          =   255
                Index           =   1
-               Left            =   840
+               Left            =   900
                Top             =   0
                Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
+               Width           =   4035
+               _ExtentX        =   7117
                _ExtentY        =   450
                Step            =   10
                MarqueeSpeed    =   35
             End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   2
-               Left            =   840
-               Top             =   360
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   3
-               Left            =   840
-               Top             =   720
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   4
-               Left            =   840
-               Top             =   1080
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   5
-               Left            =   840
-               Top             =   1440
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   6
-               Left            =   840
-               Top             =   1800
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   7
-               Left            =   840
-               Top             =   2160
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   8
-               Left            =   840
-               Top             =   2520
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   9
-               Left            =   840
-               Top             =   2880
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   10
-               Left            =   840
-               Top             =   3240
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   11
-               Left            =   840
-               Top             =   3600
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   12
-               Left            =   840
-               Top             =   3960
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   13
-               Left            =   840
-               Top             =   4320
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   14
-               Left            =   840
-               Top             =   4680
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   15
-               Left            =   840
-               Top             =   5040
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   16
-               Left            =   840
-               Top             =   5400
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   17
-               Left            =   840
-               Top             =   5760
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   18
-               Left            =   840
-               Top             =   6120
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   19
-               Left            =   840
-               Top             =   6480
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   20
-               Left            =   840
-               Top             =   6840
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   21
-               Left            =   840
-               Top             =   7200
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   22
-               Left            =   840
-               Top             =   7560
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   23
-               Left            =   840
-               Top             =   7920
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   24
-               Left            =   840
-               Top             =   8280
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
-            Begin prjDownloadBooster.ProgressBar pbProgress 
-               Height          =   255
-               Index           =   25
-               Left            =   840
-               Top             =   8640
-               Visible         =   0   'False
-               Width           =   4095
-               _ExtentX        =   7223
-               _ExtentY        =   450
-               Step            =   10
-            End
             Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   25
-               Left            =   0
-               TabIndex        =   116
-               Top             =   8685
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   25
-               Left            =   5040
-               TabIndex        =   115
-               Top             =   8700
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   24
-               Left            =   0
-               TabIndex        =   114
-               Top             =   8325
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   24
-               Left            =   5040
-               TabIndex        =   113
-               Top             =   8325
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   23
-               Left            =   0
-               TabIndex        =   112
-               Top             =   7965
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   23
-               Left            =   5040
-               TabIndex        =   111
-               Top             =   7965
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   22
-               Left            =   0
-               TabIndex        =   110
-               Top             =   7605
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   22
-               Left            =   5040
-               TabIndex        =   109
-               Top             =   7605
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   21
-               Left            =   0
-               TabIndex        =   108
-               Top             =   7245
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   21
-               Left            =   5040
-               TabIndex        =   107
-               Top             =   7245
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   20
-               Left            =   0
-               TabIndex        =   106
-               Top             =   6885
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   20
-               Left            =   5040
-               TabIndex        =   105
-               Top             =   6885
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   19
-               Left            =   0
-               TabIndex        =   104
-               Top             =   6525
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   19
-               Left            =   5040
-               TabIndex        =   103
-               Top             =   6525
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   18
-               Left            =   0
-               TabIndex        =   102
-               Top             =   6165
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   18
-               Left            =   5040
-               TabIndex        =   101
-               Top             =   6165
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   17
-               Left            =   0
-               TabIndex        =   100
-               Top             =   5805
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   17
-               Left            =   5040
-               TabIndex        =   99
-               Top             =   5805
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   16
-               Left            =   0
-               TabIndex        =   98
-               Top             =   5445
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   16
-               Left            =   5040
-               TabIndex        =   97
-               Top             =   5445
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   15
-               Left            =   0
-               TabIndex        =   96
-               Top             =   5085
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   15
-               Left            =   5040
-               TabIndex        =   95
-               Top             =   5085
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   14
-               Left            =   0
-               TabIndex        =   94
-               Top             =   4725
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   14
-               Left            =   5040
-               TabIndex        =   93
-               Top             =   4725
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   13
-               Left            =   0
-               TabIndex        =   92
-               Top             =   4365
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   13
-               Left            =   5040
-               TabIndex        =   91
-               Top             =   4365
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   12
-               Left            =   0
-               TabIndex        =   90
-               Top             =   4005
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   12
-               Left            =   5040
-               TabIndex        =   89
-               Top             =   4005
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   11
-               Left            =   0
-               TabIndex        =   88
-               Top             =   3645
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   11
-               Left            =   5040
-               TabIndex        =   87
-               Top             =   3645
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   10
-               Left            =   0
-               TabIndex        =   86
-               Top             =   3285
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   10
-               Left            =   5040
-               TabIndex        =   85
-               Top             =   3285
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   9
-               Left            =   0
-               TabIndex        =   84
-               Top             =   2925
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   9
-               Left            =   5040
-               TabIndex        =   83
-               Top             =   2925
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   8
-               Left            =   0
-               TabIndex        =   82
-               Top             =   2565
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   8
-               Left            =   5040
-               TabIndex        =   81
-               Top             =   2565
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   7
-               Left            =   0
-               TabIndex        =   80
-               Top             =   2205
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   7
-               Left            =   5040
-               TabIndex        =   79
-               Top             =   2205
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   6
-               Left            =   0
-               TabIndex        =   78
-               Top             =   1845
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   6
-               Left            =   5040
-               TabIndex        =   77
-               Top             =   1845
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   5
-               Left            =   0
-               TabIndex        =   76
-               Top             =   1485
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   5
-               Left            =   5040
-               TabIndex        =   75
-               Top             =   1485
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   4
-               Left            =   0
-               TabIndex        =   74
-               Top             =   1125
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   4
-               Left            =   5040
-               TabIndex        =   73
-               Top             =   1125
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   3
-               Left            =   0
-               TabIndex        =   72
-               Top             =   765
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   3
-               Left            =   5040
-               TabIndex        =   71
-               Top             =   765
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
-               Height          =   255
-               Index           =   2
-               Left            =   0
-               TabIndex        =   70
-               Top             =   405
-               Width           =   855
-            End
-            Begin VB.Label lblPercentage 
-               Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
-               Height          =   255
-               Index           =   2
-               Left            =   5040
-               TabIndex        =   69
-               Top             =   405
-               Width           =   615
-            End
-            Begin VB.Label lblDownloader 
-               Caption         =   "스레드 0:"
+               BackStyle       =   0  '투명
+               Caption         =   "스레드 1:"
                Height          =   255
                Index           =   1
                Left            =   0
@@ -1686,7 +680,7 @@ Begin VB.Form frmMain
             End
             Begin VB.Label lblPercentage 
                Alignment       =   1  '오른쪽 맞춤
-               Caption         =   "(100%)"
+               BackStyle       =   0  '투명
                Height          =   255
                Index           =   1
                Left            =   5040
@@ -1949,7 +943,7 @@ Begin VB.Form frmMain
       Width           =   6255
       _ExtentX        =   0
       _ExtentY        =   0
-      Caption         =   "                              "
+      Caption         =   "　　　　　　　　　　　"
       Transparent     =   -1  'True
       Begin VB.Label fTabDownload 
          AutoSize        =   -1  'True
@@ -2014,7 +1008,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   375
       Left            =   240
-      TabIndex        =   120
+      TabIndex        =   73
       Tag             =   "nocolorsizechange"
       Top             =   1320
       Visible         =   0   'False
@@ -2093,7 +1087,7 @@ Begin VB.Form frmMain
       Caption         =   "중지됨"
       Height          =   255
       Left            =   10560
-      TabIndex        =   119
+      TabIndex        =   74
       Top             =   2760
       Width           =   615
    End
@@ -2263,6 +1257,8 @@ Public ytdlAudioFormat As AudioFormat
 Public ytdlAudioBitrateType As AudioBitrateType
 Public ytdlAudioCBR As Integer
 Public ytdlAudioVBR As Byte
+
+Dim MAX_THREAD_COUNT As Integer
 
 Sub StartYtdlDownload()
     If Not FileExists(GetSetting("DownloadBooster", "Options", "YtdlPath", "")) Then
@@ -3670,6 +2666,8 @@ Private Sub Form_Load()
     On Error Resume Next
     
     SetupVisualStylesFixes Me
+    
+    MAX_THREAD_COUNT = CInt(GetSetting("DownloadBooster", "Options", "MaxThreadCount", 25))
 
     ResumeUnsupported = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")
@@ -3692,18 +2690,28 @@ Private Sub Form_Load()
     End If
     
     Dim i%
-    For i = 1 To lblDownloader.UBound
+    lvDummyScroll.Clear
+    For i = 1 To MAX_THREAD_COUNT
+        Load lblDownloader(i)
+        Load lblPercentage(i)
+        Load pbProgress(i)
+        Load pbProgressMarquee(i)
+        
+        lblDownloader(i).Top = 360 * (i - 1) + 45
+        lblPercentage(i).Top = 360 * (i - 1) + 45
+        pbProgress(i).Top = 360 * (i - 1)
+        pbProgress(i).ZOrder 1
+        pbProgressMarquee(i).Top = 360 * (i - 1)
+        pbProgressMarquee(i).ZOrder 0
+        
         lblDownloader(i).Caption = t("스레드", "Thread") & " " & i & ":"
-        lblDownloader(i).BackStyle = 0
-        pbProgress(i).Left = pbProgress(i).Left + 60
-        pbProgress(i).Width = pbProgress(i).Width - 60
-        pbProgressMarquee(i).Left = pbProgressMarquee(i).Left + 60
-        pbProgressMarquee(i).Width = pbProgressMarquee(i).Width - 60
-        pbProgressMarquee(i).MarqueeAnimation = 0
-        pbProgressMarquee(i).Visible = 0
-        lblPercentage(i).Caption = ""
-        lblPercentage(i).BackStyle = 0
+        lvDummyScroll.AddItem CStr(i)
     Next i
+    trThreadCount.Max = MAX_THREAD_COUNT
+    If MAX_THREAD_COUNT <= 14 Then
+        trThreadCount.TickFrequency = 1
+    End If
+    pbProgressContainer.Height = 360 * MAX_THREAD_COUNT
     fDownloadInfo.Top = fThreadInfo.Top + 60
     fDownloadInfo.Left = fThreadInfo.Left
     fDownloadInfo.Width = fThreadInfo.Width '5925
@@ -3720,10 +2728,6 @@ Private Sub Form_Load()
         fTabThreads_Click
     End If
     
-    lvDummyScroll.Clear
-    For i = 1 To 25
-        lvDummyScroll.AddItem CStr(i)
-    Next i
     lvDummyScroll.ListIndex = 0
     txtDummyScroll.Height = lvDummyScroll.Height
     
@@ -3910,8 +2914,6 @@ afterheaderadd:
     mnuOpenFolder.Caption = t(mnuOpenFolder.Caption, "Open &folder")
     cmdAbout.Caption = t(cmdAbout.Caption, "Abo&ut application...")
     Label10.Caption = t(Label10.Caption, "Remaining:")
-'    lblOverlay(0).Caption = fOptions.Caption
-'    lblOverlay(1).Caption = fTotal.Caption
     lblLBCaption.Caption = t(lblLBCaption.Caption, "Progress")
     
     mnuEdit.Caption = t(mnuEdit.Caption, "&Edit...")
@@ -3934,34 +2936,8 @@ afterheaderadd:
     '언어설정끝
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
-'    If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Then
-'        pgSettingsBackground.Visible = -1
-'        chkOpenAfterComplete.Tag = "nobackcolorchange"
-'        chkOpenFolder.Tag = "nobackcolorchange"
-'        chkContinueDownload.Tag = "nobackcolorchange"
-'        chkAutoRetry.Tag = "nobackcolorchange"
-'
-'        chkOpenAfterComplete.Transparent = 0
-'        chkOpenFolder.Transparent = 0
-'        chkContinueDownload.Transparent = 0
-'        chkAutoRetry.Transparent = 0
-'    Else
-'        chkOpenAfterComplete.Transparent = -1
-'        chkOpenFolder.Transparent = -1
-'        chkContinueDownload.Transparent = -1
-'        chkAutoRetry.Transparent = -1
-'    End If
     
     SetFormBackgroundColor Me
-    
-'    If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
-'        optTabDownload2.Transparent = 0
-'        optTabDownload2.BackColor = pgOverlay(0).BackColor
-'        optTabDownload2.Refresh
-'        optTabThreads2.Transparent = 0
-'        optTabThreads2.BackColor = pgOverlay(0).BackColor
-'        optTabThreads2.Refresh
-'    End If
 
 #If HIDEYTDL Then
     mnuYtdlOptions.Visible = False
