@@ -2238,7 +2238,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If ListViewDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -2291,7 +2291,7 @@ Else
         Set PropHotMouseIcon = Value
     Else
         If ListViewDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -2344,7 +2344,7 @@ Else
         Set PropHeaderMouseIcon = Value
     Else
         If ListViewDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -2922,7 +2922,7 @@ Select Case Value
     Case LvwViewIcon, LvwViewSmallIcon, LvwViewList, LvwViewReport, LvwViewTile
         If PropVirtualMode = True And Value = LvwViewTile Then
             If ListViewDesignMode = True Then
-                MsgBox "View must not be 4 - Tile when VirtualMode is True", vbCritical + vbOKOnly
+                MsgBoxInternal "View must not be 4 - Tile when VirtualMode is True", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise Number:=383, Description:="View must not be 4 - Tile when VirtualMode is True"
@@ -2989,7 +2989,7 @@ Select Case Value
     Case LvwArrangeNone, LvwArrangeAutoLeft, LvwArrangeAutoTop, LvwArrangeLeft, LvwArrangeTop
         If PropVirtualMode = True And Value <> LvwArrangeNone Then
             If ListViewDesignMode = True Then
-                MsgBox "Arrange must be 0 - None when VirtualMode is True", vbCritical + vbOKOnly
+                MsgBoxInternal "Arrange must be 0 - None when VirtualMode is True", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise Number:=383, Description:="Arrange must be 0 - None when VirtualMode is True"
@@ -3181,7 +3181,7 @@ End Property
 Public Property Let Sorted(ByVal Value As Boolean)
 If PropVirtualMode = True And Value = True Then
     If ListViewDesignMode = True Then
-        MsgBox "Sorted must be False when VirtualMode is True", vbCritical + vbOKOnly
+        MsgBoxInternal "Sorted must be False when VirtualMode is True", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="Sorted must be False when VirtualMode is True"
@@ -3200,7 +3200,7 @@ End Property
 Public Property Let SortKey(ByVal Value As Integer)
 If Value < 0 Then
     If ListViewDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3409,7 +3409,7 @@ End Property
 Public Property Let HoverSelectionTime(ByVal Value As Long)
 If Value <= 0 And Not Value = -1 Then
     If ListViewDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3738,7 +3738,7 @@ Select Case Value
         PropTileViewLines = Value
     Case Else
         If ListViewDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -3782,7 +3782,7 @@ End Property
 Public Property Let GroupView(ByVal Value As Boolean)
 If PropVirtualMode = True And Value = True Then
     If ListViewDesignMode = True Then
-        MsgBox "GroupView must be False when VirtualMode is True", vbCritical + vbOKOnly
+        MsgBoxInternal "GroupView must be False when VirtualMode is True", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="GroupView must be False when VirtualMode is True"
@@ -3810,7 +3810,7 @@ End Property
 Public Property Let GroupSubsetCount(ByVal Value As Long)
 If Value < 0 Then
     If ListViewDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3944,7 +3944,7 @@ If Value < 0 Or Value > 100000000 Then
     ' According to MSDN:
     ' There is a 100,000,000 item limit on a virtualized list view.
     If ListViewDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3982,7 +3982,7 @@ End Property
 Public Property Let VirtualDisabledInfos(ByVal Value As LvwVirtualPropertyConstants)
 If Value < 0 Then
     If ListViewDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -7727,7 +7727,7 @@ Select Case wMsg
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(UTF16)), ByVal lParam
             ElseIf Len(UTF16) = 2 Then
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Left$(UTF16, 1))), ByVal lParam
-                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Right$(UTF16, 1))), ByVal lParam
+                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(VBA.Right$(UTF16, 1))), ByVal lParam
             End If
             WindowProcControl = 0
         End If
@@ -8059,7 +8059,7 @@ Select Case wMsg
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(UTF16)), ByVal lParam
             ElseIf Len(UTF16) = 2 Then
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Left$(UTF16, 1))), ByVal lParam
-                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Right$(UTF16, 1))), ByVal lParam
+                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(VBA.Right$(UTF16, 1))), ByVal lParam
             End If
             WindowProcLabelEdit = 0
         End If

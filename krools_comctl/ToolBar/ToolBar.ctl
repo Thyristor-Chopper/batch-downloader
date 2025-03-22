@@ -1596,7 +1596,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If ToolBarDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1711,7 +1711,7 @@ If ToolBarHandle <> NULL_PTR Then
                 Else
                     LSet ImageListSize = OldSize
                     If ToolBarDesignMode = True Then
-                        MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -1742,7 +1742,7 @@ If ToolBarHandle <> NULL_PTR Then
                             Else
                                 LSet ImageListSize = OldSize
                                 If ToolBarDesignMode = True Then
-                                    MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                                     Exit Property
                                 Else
                                     Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -1771,7 +1771,7 @@ If ToolBarHandle <> NULL_PTR Then
                 Else
                     LSet ImageListSize = OldSize
                     If ToolBarDesignMode = True Then
-                        MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -1850,7 +1850,7 @@ If ToolBarHandle <> NULL_PTR Then
                 Else
                     LSet DisabledImageListSize = OldSize
                     If ToolBarDesignMode = True Then
-                        MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -1881,7 +1881,7 @@ If ToolBarHandle <> NULL_PTR Then
                             Else
                                 LSet DisabledImageListSize = OldSize
                                 If ToolBarDesignMode = True Then
-                                    MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                                     Exit Property
                                 Else
                                     Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -1910,7 +1910,7 @@ If ToolBarHandle <> NULL_PTR Then
                 Else
                     LSet DisabledImageListSize = OldSize
                     If ToolBarDesignMode = True Then
-                        MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -1982,7 +1982,7 @@ If ToolBarHandle <> NULL_PTR Then
                 Else
                     LSet HotImageListSize = OldSize
                     If ToolBarDesignMode = True Then
-                        MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -2013,7 +2013,7 @@ If ToolBarHandle <> NULL_PTR Then
                             Else
                                 LSet HotImageListSize = OldSize
                                 If ToolBarDesignMode = True Then
-                                    MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                                     Exit Property
                                 Else
                                     Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -2042,7 +2042,7 @@ If ToolBarHandle <> NULL_PTR Then
                 Else
                     LSet HotImageListSize = OldSize
                     If ToolBarDesignMode = True Then
-                        MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -2114,7 +2114,7 @@ If ToolBarHandle <> NULL_PTR Then
                 Else
                     LSet PressedImageListSize = OldSize
                     If ToolBarDesignMode = True Then
-                        MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -2145,7 +2145,7 @@ If ToolBarHandle <> NULL_PTR Then
                             Else
                                 LSet PressedImageListSize = OldSize
                                 If ToolBarDesignMode = True Then
-                                    MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                                     Exit Property
                                 Else
                                     Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -2174,7 +2174,7 @@ If ToolBarHandle <> NULL_PTR Then
                 Else
                     LSet PressedImageListSize = OldSize
                     If ToolBarDesignMode = True Then
-                        MsgBox "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
@@ -2288,7 +2288,7 @@ Select Case Value
             Case vbAlignTop, vbAlignBottom
                 If Value <> TbrOrientationHorizontal Then
                     If ToolBarDesignMode = True Then
-                        MsgBox "Orientation must be 0 - Horizontal when Align is 1 - AlignTop or 2 - AlignBottom", vbCritical + vbOKOnly
+                        MsgBoxInternal "Orientation must be 0 - Horizontal when Align is 1 - AlignTop or 2 - AlignBottom", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=383, Description:="Orientation must be 0 - Horizontal when Align is 1 - AlignTop or 2 - AlignBottom"
@@ -2297,7 +2297,7 @@ Select Case Value
             Case vbAlignLeft, vbAlignRight
                 If Value <> TbrOrientationVertical Then
                     If ToolBarDesignMode = True Then
-                        MsgBox "Orientation must be 1 - Vertical when Align is 3 - AlignLeft or 4 - AlignRight", vbCritical + vbOKOnly
+                        MsgBoxInternal "Orientation must be 1 - Vertical when Align is 3 - AlignLeft or 4 - AlignRight", vbCritical + vbOKOnly
                         Exit Property
                     Else
                         Err.Raise Number:=383, Description:="Orientation must be 1 - Vertical when Align is 3 - AlignLeft or 4 - AlignRight"
@@ -2459,7 +2459,7 @@ End Property
 Public Property Let ButtonHeight(ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2493,7 +2493,7 @@ End Property
 Public Property Let ButtonWidth(ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2519,7 +2519,7 @@ End Property
 Public Property Let MinButtonWidth(ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2539,7 +2539,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     Call UserControl_Resize
 Else
     If ToolBarDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2556,7 +2556,7 @@ End Property
 Public Property Let MaxButtonWidth(ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2576,7 +2576,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     Call UserControl_Resize
 Else
     If ToolBarDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2660,7 +2660,7 @@ End Property
 Public Property Let MaxTextRows(ByVal Value As Integer)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2668,7 +2668,7 @@ If Value < 0 Then
 End If
 If Value > 1 And PropTextAlignment = TbrTextAlignRight Then
     If ToolBarDesignMode = True Then
-        MsgBox "MaxTextRows must not be higher than 1 when TextAlignment is 1 - TextAlignRight", vbCritical + vbOKOnly
+        MsgBoxInternal "MaxTextRows must not be higher than 1 when TextAlignment is 1 - TextAlignRight", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="MaxTextRows must not be higher than 1 when TextAlignment is 1 - TextAlignRight"
@@ -3262,7 +3262,7 @@ End Property
 Friend Property Let FButtonCustomWidth(ByVal ID As Long, ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

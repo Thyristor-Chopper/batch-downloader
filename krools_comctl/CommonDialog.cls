@@ -1739,7 +1739,7 @@ For i = 1 To Len(Filter)
         Temp = Temp & Sign
     End If
 Next i
-Do Until Right$(Temp, 2) = vbNullChar & vbNullChar
+Do Until VBA.Right$(Temp, 2) = vbNullChar & vbNullChar
     Temp = Temp & vbNullChar
 Loop
 ProperFilter = Temp
@@ -2578,7 +2578,7 @@ If IDList <> NULL_PTR Then
     Attributes = GetAttr(PathName)
     On Error GoTo 0
     If (Attributes And (vbDirectory Or vbVolume)) <> 0 Then
-        If Not PathName = vbNullString Then PathName = PathName & IIf(Right$(PathName, 1) = "\", "", "\")
+        If Not PathName = vbNullString Then PathName = PathName & IIf(VBA.Right$(PathName, 1) = "\", "", "\")
         PropFileOffset = 0
         PropFileTitle = vbNullString
     Else
@@ -2982,7 +2982,7 @@ Select Case dwRefData
                         Dim Attributes As VbFileAttribute
                         Attributes = GetAttr(Text)
                         On Error GoTo 0
-                        If (Attributes And (vbDirectory Or vbVolume)) <> 0 Then If Not Text = vbNullString Then Text = Text & IIf(Right$(Text, 1) = "\", "", "\")
+                        If (Attributes And (vbDirectory Or vbVolume)) <> 0 Then If Not Text = vbNullString Then Text = Text & IIf(VBA.Right$(Text, 1) = "\", "", "\")
                     End If
                 End If
                 If (PropFlags And CdlBIFStatusText) = CdlBIFStatusText Then SendMessage hDlg, BFFM_SETSTATUSTEXT, 0, ByVal StrPtr(Text)

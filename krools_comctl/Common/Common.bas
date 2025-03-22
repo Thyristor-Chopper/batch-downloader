@@ -429,7 +429,7 @@ Else
             FindClose hFindFile
             hFindFile = NULL_PTR
         End If
-        Select Case Right$(PathMask, 1)
+        Select Case VBA.Right$(PathMask, 1)
             Case "\", ":", "/"
                 PathMask = PathMask & "*.*"
         End Select
@@ -553,10 +553,10 @@ If InIDE() = False Then
         Buffer = Left$(Buffer, RetVal)
         AppPath = Left$(Buffer, InStrRev(Buffer, "\"))
     Else
-        AppPath = App.Path & IIf(Right$(App.Path, 1) = "\", "", "\")
+        AppPath = App.Path & IIf(VBA.Right$(App.Path, 1) = "\", "", "\")
     End If
 Else
-    AppPath = App.Path & IIf(Right$(App.Path, 1) = "\", "", "\")
+    AppPath = App.Path & IIf(VBA.Right$(App.Path, 1) = "\", "", "\")
 End If
 End Function
 
@@ -572,7 +572,7 @@ If InIDE() = False Then
     End If
     If RetVal > 0 Then
         Buffer = Left$(Buffer, RetVal)
-        Buffer = Right$(Buffer, Len(Buffer) - InStrRev(Buffer, "\"))
+        Buffer = VBA.Right$(Buffer, Len(Buffer) - InStrRev(Buffer, "\"))
         AppEXEName = Left$(Buffer, InStrRev(Buffer, ".") - 1)
     Else
         AppEXEName = App.EXEName
@@ -1092,7 +1092,7 @@ If Done = False Then
     Buffer = String$(MAX_PATH, vbNullChar)
     If GetSystemWindowsDirectory(StrPtr(Buffer), MAX_PATH) > 0 Then
         Value = Left$(Buffer, InStr(Buffer, vbNullChar) - 1)
-        Value = Value & IIf(Right$(Value, 1) = "\", "", "\")
+        Value = Value & IIf(VBA.Right$(Value, 1) = "\", "", "\")
     End If
     Done = True
 End If
@@ -1106,7 +1106,7 @@ If Done = False Then
     Buffer = String$(MAX_PATH, vbNullChar)
     If GetSystemDirectory(StrPtr(Buffer), MAX_PATH) > 0 Then
         Value = Left$(Buffer, InStr(Buffer, vbNullChar) - 1)
-        Value = Value & IIf(Right$(Value, 1) = "\", "", "\")
+        Value = Value & IIf(VBA.Right$(Value, 1) = "\", "", "\")
     End If
     Done = True
 End If

@@ -363,7 +363,7 @@ End Sub
 
 Private Sub TextMin_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMin.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextMin.Text = PropertyPage.SelectedControls(0).Min
     TextMin.SetFocus
     Cancel = True
@@ -376,7 +376,7 @@ Else
     If Cancel = False Then
         TextMin.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextMin.Text = PropertyPage.SelectedControls(0).Min
         TextMin.SetFocus
     End If
@@ -404,7 +404,7 @@ End Sub
 
 Private Sub TextMax_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMax.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextMax.Text = PropertyPage.SelectedControls(0).Max
     TextMax.SetFocus
     Cancel = True
@@ -417,7 +417,7 @@ Else
     If Cancel = False Then
         TextMax.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextMax.Text = PropertyPage.SelectedControls(0).Max
         TextMax.SetFocus
     End If
@@ -445,7 +445,7 @@ End Sub
 
 Private Sub TextValue_Validate(Cancel As Boolean)
 If Not IsNumeric(TextValue.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextValue.Text = PropertyPage.SelectedControls(0).Value
     TextValue.SetFocus
     Cancel = True
@@ -458,7 +458,7 @@ Else
     If Cancel = False Then
         TextValue.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextValue.Text = PropertyPage.SelectedControls(0).Value
         TextValue.SetFocus
     End If
@@ -501,7 +501,7 @@ End Sub
 
 Private Sub TextStep_Validate(Cancel As Boolean)
 If Not IsNumeric(TextStep.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextStep.Text = PropertyPage.SelectedControls(0).Step
     TextStep.SetFocus
     Cancel = True
@@ -514,7 +514,7 @@ Else
     If Cancel = False Then
         TextStep.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextStep.Text = PropertyPage.SelectedControls(0).Step
         TextStep.SetFocus
     End If
@@ -546,7 +546,7 @@ End Sub
 
 Private Sub TextMarqueeSpeed_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMarqueeSpeed.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextMarqueeSpeed.Text = PropertyPage.SelectedControls(0).MarqueeSpeed
     TextMarqueeSpeed.SetFocus
     Cancel = True
@@ -560,7 +560,7 @@ Else
     If Cancel = False Then
         TextMarqueeSpeed.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextMarqueeSpeed.Text = PropertyPage.SelectedControls(0).MarqueeSpeed
         TextMarqueeSpeed.SetFocus
     End If

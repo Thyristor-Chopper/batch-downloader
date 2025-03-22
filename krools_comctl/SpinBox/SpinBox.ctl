@@ -801,7 +801,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If SpinBoxDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -878,7 +878,7 @@ If Value <= Me.Max Then
     If Me.Value < PropMin Then Me.Value = PropMin
 Else
     If SpinBoxDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -904,7 +904,7 @@ If Value >= Me.Min Then
     If Me.Value > PropMax Then Me.Value = PropMax
 Else
     If SpinBoxDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1588,7 +1588,7 @@ Select Case wMsg
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(UTF16)), ByVal lParam
             ElseIf Len(UTF16) = 2 Then
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Left$(UTF16, 1))), ByVal lParam
-                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Right$(UTF16, 1))), ByVal lParam
+                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(VBA.Right$(UTF16, 1))), ByVal lParam
             End If
             WindowProcEdit = 0
         End If

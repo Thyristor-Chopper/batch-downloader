@@ -547,7 +547,7 @@ If CurrIndex > 0 Then
     .Panels.Add CurrIndex, , PropShadowPanels(CurrIndex).Text, PropShadowPanels(CurrIndex).Style
     If Not TextKey.Text = vbNullString Then
         If .Panels.Exists(TextKey.Text) = True Then
-            MsgBox "This key is already associated with an element of this collection.", vbCritical + vbOKOnly
+            MsgBoxInternal "This key is already associated with an element of this collection.", vbCritical + vbOKOnly
             FreezeChanged = True
             TextKey.Text = PropShadowPanels(CurrIndex).Key
             FreezeChanged = False
@@ -1018,7 +1018,7 @@ End Sub
 Private Sub TextMinWidth_Validate(Cancel As Boolean)
 If TextMinWidth.Text = vbNullString Then Exit Sub
 If Not IsNumeric(TextMinWidth.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextMinWidth.Text = PropertyPage.SelectedControls(0).Panels(CurrIndex).MinWidth
     Else
@@ -1036,7 +1036,7 @@ Else
     If Cancel = False Then
         TextMinWidth.Text = SngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         If CurrIndex > 0 Then
             TextMinWidth.Text = PropertyPage.SelectedControls(0).Panels(CurrIndex).MinWidth
         Else

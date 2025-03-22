@@ -468,7 +468,7 @@ Set PropPicture = Nothing
 PropTransparent = False
 Call CreateCommandLink
 If CommandLinkHandle = NULL_PTR And ComCtlsSupportLevel() <= 1 And CommandLinkDesignMode = True Then
-    MsgBox "The CommandLink control requires at least version 6.1 of comctl32.dll." & vbLf & _
+    MsgBoxInternal "The CommandLink control requires at least version 6.1 of comctl32.dll." & vbLf & _
     "In order to use it, you have to define a manifest file for your application." & vbLf & _
     "For using the control in the VB6 IDE, define a manifest file for VB6.EXE.", vbCritical + vbOKOnly
 End If
@@ -950,7 +950,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If CommandLinkDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1492,7 +1492,7 @@ Select Case wMsg
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(UTF16)), ByVal lParam
             ElseIf Len(UTF16) = 2 Then
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Left$(UTF16, 1))), ByVal lParam
-                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Right$(UTF16, 1))), ByVal lParam
+                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(VBA.Right$(UTF16, 1))), ByVal lParam
             End If
             WindowProcControl = 0
         End If

@@ -863,7 +863,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If SliderDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -950,7 +950,7 @@ If Value < Me.Max Then
     End If
 Else
     If SliderDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -987,7 +987,7 @@ If Value > Me.Min Then
     End If
 Else
     If SliderDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1045,7 +1045,7 @@ If Value > 0 Then
     PropTickFrequency = Value
 Else
     If SliderDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1292,7 +1292,7 @@ Select Case Value
         PropSelStart = Value
     Case Else
         If SliderDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1329,7 +1329,7 @@ If PropSelectRange = True Then
         PropSelLength = Value
     Else
         If SliderDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1342,7 +1342,7 @@ If PropSelectRange = True Then
 Else
     If Value <> 0 Then
         If SliderDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1769,7 +1769,7 @@ Select Case wMsg
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(UTF16)), ByVal lParam
             ElseIf Len(UTF16) = 2 Then
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Left$(UTF16, 1))), ByVal lParam
-                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Right$(UTF16, 1))), ByVal lParam
+                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(VBA.Right$(UTF16, 1))), ByVal lParam
             End If
             WindowProcControl = 0
         End If

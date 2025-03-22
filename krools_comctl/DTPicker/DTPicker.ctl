@@ -1013,7 +1013,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If DTPickerDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1295,7 +1295,7 @@ Select Case Value
     Case #1/1/1900# To #12/31/9999 11:59:59 PM#
         If Value > Me.MaxDate Then
             If DTPickerDesignMode = True Then
-                MsgBox "A value was specified for the MinDate property that is higher than the current value of MaxDate", vbCritical + vbOKOnly
+                MsgBoxInternal "A value was specified for the MinDate property that is higher than the current value of MaxDate", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise 35775, Description:="A value was specified for the MinDate property that is higher than the current value of MaxDate"
@@ -1305,7 +1305,7 @@ Select Case Value
         End If
     Case Else
         If DTPickerDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1354,7 +1354,7 @@ Select Case Value
     Case #1/1/1900# To #12/31/9999 11:59:59 PM#
         If Value < Me.MinDate Then
             If DTPickerDesignMode = True Then
-                MsgBox "A value was specified for the MaxDate property that is lower than the current value of MinDate", vbCritical + vbOKOnly
+                MsgBoxInternal "A value was specified for the MaxDate property that is lower than the current value of MinDate", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise 35774, Description:="A value was specified for the MaxDate property that is lower than the current value of MinDate"
@@ -1364,7 +1364,7 @@ Select Case Value
         End If
     Case Else
         If DTPickerDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1426,7 +1426,7 @@ If IsDate(DateValue) Then
         PropValue = DateValue
     Else
         If DTPickerDesignMode = True Then
-            MsgBox "A date was specified that does not fall within the MinDate and MaxDate properties", vbCritical + vbOKOnly
+            MsgBoxInternal "A date was specified that does not fall within the MinDate and MaxDate properties", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 35773, Description:="A date was specified that does not fall within the MinDate and MaxDate properties"
@@ -1438,7 +1438,7 @@ ElseIf IsNull(DateValue) Then
         Changed = Not DTPickerIsValueInvalid
     Else
         If DTPickerDesignMode = True Then
-            MsgBox "Can't set Value to Null when CheckBox property is False", vbCritical + vbOKOnly
+            MsgBoxInternal "Can't set Value to Null when CheckBox property is False", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 35787, Description:="Can't set Value to Null when CheckBox property is False"
@@ -1446,7 +1446,7 @@ ElseIf IsNull(DateValue) Then
     End If
 Else
     If DTPickerDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2154,7 +2154,7 @@ Select Case wMsg
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(UTF16)), ByVal lParam
             ElseIf Len(UTF16) = 2 Then
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Left$(UTF16, 1))), ByVal lParam
-                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Right$(UTF16, 1))), ByVal lParam
+                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(VBA.Right$(UTF16, 1))), ByVal lParam
             End If
             WindowProcControl = 0
         End If
@@ -2376,7 +2376,7 @@ Select Case wMsg
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(UTF16)), ByVal lParam
             ElseIf Len(UTF16) = 2 Then
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Left$(UTF16, 1))), ByVal lParam
-                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Right$(UTF16, 1))), ByVal lParam
+                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(VBA.Right$(UTF16, 1))), ByVal lParam
             End If
             WindowProcEdit = 0
         End If

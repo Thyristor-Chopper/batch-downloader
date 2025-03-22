@@ -926,7 +926,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If IPAddressDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1090,7 +1090,7 @@ Else
             If Not OldText = Buffer(0) & "." & Buffer(1) & "." & Buffer(2) & "." & Buffer(3) Then RaiseEvent Change
         Else
             If IPAddressDesignMode = True Then
-                MsgBox "Invalid property value", vbCritical + vbOKOnly
+                MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise 380
@@ -1098,7 +1098,7 @@ Else
         End If
     Else
         If IPAddressDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1847,7 +1847,7 @@ Select Case wMsg
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(UTF16)), ByVal lParam
             ElseIf Len(UTF16) = 2 Then
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Left$(UTF16, 1))), ByVal lParam
-                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Right$(UTF16, 1))), ByVal lParam
+                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(VBA.Right$(UTF16, 1))), ByVal lParam
             End If
             WindowProcEdit = 0
         End If

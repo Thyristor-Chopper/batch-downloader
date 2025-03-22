@@ -219,7 +219,7 @@ If CurrIndex > 0 Then
     If Not TextKey.Text = vbNullString Then
         If .Tabs.Exists(TextKey.Text) = True Then
             .Tabs(CurrIndex).Key = PropShadowTabs(CurrIndex).Key
-            MsgBox "This key is already associated with an element of this collection.", vbCritical + vbOKOnly
+            MsgBoxInternal "This key is already associated with an element of this collection.", vbCritical + vbOKOnly
             FreezeChanged = True
             TextKey.Text = PropShadowTabs(CurrIndex).Key
             FreezeChanged = False
@@ -398,7 +398,7 @@ Else
     If Cancel = False Then TextImage.Text = CStr(LngValue)
 End If
 If Cancel = True Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextImage.Text = PropertyPage.SelectedControls(0).Tabs(CurrIndex).Image
     Else

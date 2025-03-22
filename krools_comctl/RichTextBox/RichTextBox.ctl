@@ -1613,7 +1613,7 @@ End Property
 Public Property Let OLEDragMode(ByVal Value As VBRUN.OLEDragConstants)
 If PropOLEDragDropRTF = True And Value = vbOLEDragAutomatic Then
     If RichTextBoxDesignMode = True Then
-        MsgBox "OLEDragMode must be 0 - Manual when OLEDragDropRTF is True", vbCritical + vbOKOnly
+        MsgBoxInternal "OLEDragMode must be 0 - Manual when OLEDragDropRTF is True", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="OLEDragMode must be 0 - Manual when OLEDragDropRTF is True"
@@ -1636,7 +1636,7 @@ End Property
 Public Property Let OLEDragDropScroll(ByVal Value As Boolean)
 If PropOLEDragDropRTF = True And Value = False Then
     If RichTextBoxDesignMode = True Then
-        MsgBox "OLEDragDropScroll must be True when OLEDragDropRTF is True", vbCritical + vbOKOnly
+        MsgBoxInternal "OLEDragDropScroll must be True when OLEDragDropRTF is True", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="OLEDragDropScroll must be True when OLEDragDropRTF is True"
@@ -1654,7 +1654,7 @@ End Property
 Public Property Let OLEDropMode(ByVal Value As OLEDropModeConstants)
 If PropOLEDragDropRTF = True And Value = OLEDropModeManual Then
     If RichTextBoxDesignMode = True Then
-        MsgBox "OLEDropMode must be 0 - None when OLEDragDropRTF is True", vbCritical + vbOKOnly
+        MsgBoxInternal "OLEDropMode must be 0 - None when OLEDragDropRTF is True", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="OLEDropMode must be 0 - None when OLEDragDropRTF is True"
@@ -1702,7 +1702,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If RichTextBoxDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1849,7 +1849,7 @@ ElseIf Len(Value) = 1 Then
     PropPasswordChar = AscW(Value)
 Else
     If RichTextBoxDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1896,7 +1896,7 @@ End Property
 Public Property Let MaxLength(ByVal Value As Long)
 If Value < 0 Then
     If RichTextBoxDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1990,7 +1990,7 @@ End Property
 Public Property Let BulletIndent(ByVal Value As Single)
 If Value < 0 Then
     If RichTextBoxDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2005,7 +2005,7 @@ If LngValue >= 0 And ErrValue = 0 Then
     PropBulletIndent = LngValue
 Else
     If RichTextBoxDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2074,7 +2074,7 @@ Else
         End If
     Else
         If RichTextBoxDesignMode = True Then
-            MsgBox "The specified file name cannot be accessed or is invalid.", vbCritical + vbOKOnly
+            MsgBoxInternal "The specified file name cannot be accessed or is invalid.", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise Number:=75, Description:="The specified file name cannot be accessed or is invalid"
@@ -2120,7 +2120,7 @@ End Property
 Public Property Let UndoLimit(ByVal Value As Long)
 If Value < 0 Then
     If RichTextBoxDesignMode = True Then
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3563,7 +3563,7 @@ If FileExists(FileName) = True Then
     StreamFileIn FileName, Flags
 Else
     If RichTextBoxDesignMode = True Then
-        MsgBox "The specified file name cannot be accessed or is invalid.", vbCritical + vbOKOnly
+        MsgBoxInternal "The specified file name cannot be accessed or is invalid.", vbCritical + vbOKOnly
         Exit Sub
     Else
         Err.Raise Number:=75, Description:="The specified file name cannot be accessed or is invalid"
@@ -4862,7 +4862,7 @@ Select Case wMsg
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(UTF16)), ByVal lParam
             ElseIf Len(UTF16) = 2 Then
                 SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Left$(UTF16, 1))), ByVal lParam
-                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(Right$(UTF16, 1))), ByVal lParam
+                SendMessage hWnd, WM_CHAR, CIntToUInt(AscW(VBA.Right$(UTF16, 1))), ByVal lParam
             End If
             WindowProcControl = 0
         End If

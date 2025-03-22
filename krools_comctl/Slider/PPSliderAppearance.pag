@@ -282,7 +282,7 @@ End Sub
 
 Private Sub TextTickFrequency_Validate(Cancel As Boolean)
 If Not IsNumeric(TextTickFrequency.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextTickFrequency.Text = PropertyPage.SelectedControls(0).TickFrequency
     TextTickFrequency.SetFocus
     Cancel = True
@@ -296,7 +296,7 @@ Else
     If Cancel = False Then
         TextTickFrequency.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextTickFrequency.Text = PropertyPage.SelectedControls(0).TickFrequency
         TextTickFrequency.SetFocus
     End If

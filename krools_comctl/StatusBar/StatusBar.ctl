@@ -1064,7 +1064,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If StatusBarDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380

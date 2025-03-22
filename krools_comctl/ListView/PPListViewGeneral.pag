@@ -591,19 +591,19 @@ If Err.Number = 380 Then Exit Sub
 On Error GoTo 0
 If CheckVirtualMode.Value = vbChecked Then
     If ComboView.ItemData(ComboView.ListIndex) = LvwViewTile Then
-        MsgBox "View must not be 4 - Tile when VirtualMode is True", vbExclamation + vbOKOnly
+        MsgBoxInternal "View must not be 4 - Tile when VirtualMode is True", vbExclamation + vbOKOnly
         ComboView.SetFocus
         PropertyPage.Changed = True
         Exit Sub
     End If
     If ComboArrange.ItemData(ComboArrange.ListIndex) <> LvwArrangeNone Then
-        MsgBox "Arrange must be 0 - None when VirtualMode is True", vbExclamation + vbOKOnly
+        MsgBoxInternal "Arrange must be 0 - None when VirtualMode is True", vbExclamation + vbOKOnly
         ComboArrange.SetFocus
         PropertyPage.Changed = True
         Exit Sub
     End If
     If CheckGroupView.Value = vbChecked Then
-        MsgBox "GroupView must be False when VirtualMode is True", vbExclamation + vbOKOnly
+        MsgBoxInternal "GroupView must be False when VirtualMode is True", vbExclamation + vbOKOnly
         CheckGroupView.SetFocus
         PropertyPage.Changed = True
         Exit Sub
@@ -842,7 +842,7 @@ End Sub
 
 Private Sub TextHoverSelectionTime_Validate(Cancel As Boolean)
 If Not IsNumeric(TextHoverSelectionTime.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextHoverSelectionTime.Text = PropertyPage.SelectedControls(0).HoverSelectionTime
     TextHoverSelectionTime.SetFocus
     Cancel = True
@@ -856,7 +856,7 @@ Else
     If Cancel = False Then
         TextHoverSelectionTime.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextHoverSelectionTime.Text = PropertyPage.SelectedControls(0).HoverSelectionTime
         TextHoverSelectionTime.SetFocus
     End If
@@ -898,7 +898,7 @@ End Sub
 
 Private Sub TextTileViewLines_Validate(Cancel As Boolean)
 If Not IsNumeric(TextTileViewLines.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextTileViewLines.Text = PropertyPage.SelectedControls(0).TileViewLines
     TextTileViewLines.SetFocus
     Cancel = True
@@ -916,7 +916,7 @@ Else
     If Cancel = False Then
         TextTileViewLines.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextTileViewLines.Text = PropertyPage.SelectedControls(0).TileViewLines
         TextTileViewLines.SetFocus
     End If
@@ -948,7 +948,7 @@ End Sub
 
 Private Sub TextGroupSubsetCount_Validate(Cancel As Boolean)
 If Not IsNumeric(TextGroupSubsetCount.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextGroupSubsetCount.Text = PropertyPage.SelectedControls(0).GroupSubsetCount
     TextGroupSubsetCount.SetFocus
     Cancel = True
@@ -962,7 +962,7 @@ Else
     If Cancel = False Then
         TextGroupSubsetCount.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextGroupSubsetCount.Text = PropertyPage.SelectedControls(0).GroupSubsetCount
         TextGroupSubsetCount.SetFocus
     End If
@@ -999,7 +999,7 @@ End Sub
 
 Private Sub TextVirtualItemCount_Validate(Cancel As Boolean)
 If Not IsNumeric(TextVirtualItemCount.Text) Then
-    MsgBox "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
     TextVirtualItemCount.Text = PropertyPage.SelectedControls(0).VirtualItemCount
     TextVirtualItemCount.SetFocus
     Cancel = True
@@ -1013,7 +1013,7 @@ Else
     If Cancel = False Then
         TextVirtualItemCount.Text = LngValue
     Else
-        MsgBox "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
         TextVirtualItemCount.Text = PropertyPage.SelectedControls(0).VirtualItemCount
         TextVirtualItemCount.SetFocus
     End If

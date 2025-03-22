@@ -234,7 +234,7 @@ If CurrIndex > 0 Then
     If Not TextKey.Text = vbNullString Then
         If .ListImages.Exists(TextKey.Text) = True Then
             .ListImages(CurrIndex).Key = PropShadowListImages(CurrIndex).Key
-            MsgBox "This key is already associated with an element of this collection.", vbCritical + vbOKOnly
+            MsgBoxInternal "This key is already associated with an element of this collection.", vbCritical + vbOKOnly
             FreezeChanged = True
             TextKey.Text = PropShadowListImages(CurrIndex).Key
             FreezeChanged = False
@@ -461,7 +461,7 @@ If OpenFileDialog.ShowOpen = True Then
     With OpenFileDialog
     If InStr(.FileName, vbNullChar) <> 0 Then
         Path = Left$(.FileName, .FileOffset - 1)
-        If Not Right$(Path, 1) = "\" Then Path = Path & "\"
+        If Not VBA.Right$(Path, 1) = "\" Then Path = Path & "\"
         FileNames() = Split(Mid$(.FileName, .FileOffset + 1), vbNullChar)
     Else
         Path = Left$(.FileName, .FileOffset)
@@ -482,7 +482,7 @@ If OpenFileDialog.ShowOpen = True Then
                 Call DrawImages
                 PropertyPage.Changed = True
             Else
-                MsgBox "Invalid picture", vbExclamation + vbOKOnly
+                MsgBoxInternal "Invalid picture", vbExclamation + vbOKOnly
                 Exit For
             End If
         Next i
@@ -501,7 +501,7 @@ End If
 End Sub
 
 Private Sub CommandClear_Click()
-If MsgBox("Are you sure you want to remove all images?", vbYesNo Or vbQuestion) = vbYes Then
+If MsgBoxInternal("Are you sure you want to remove all images?", vbYesNo Or vbQuestion) = vbYes Then
     PropertyPage.SelectedControls(0).ListImages.Clear
     CurrIndex = 0
     Call ApplyControlStates

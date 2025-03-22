@@ -300,7 +300,7 @@ End Property
 Public Property Let ImageWidth(ByVal Value As Long)
 If Me.ListImages.Count > 0 Then
     If ImageListDesignMode = True Then
-        MsgBox "Property is read-only if image list contains images", vbCritical + vbOKOnly
+        MsgBoxInternal "Property is read-only if image list contains images", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=35611, Description:="Property is read-only if image list contains images"
@@ -310,7 +310,7 @@ Else
         PropImageWidth = Value
     Else
         If ImageListDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -330,7 +330,7 @@ End Property
 Public Property Let ImageHeight(ByVal Value As Long)
 If Me.ListImages.Count > 0 Then
     If ImageListDesignMode = True Then
-        MsgBox "Property is read-only if image list contains images", vbCritical + vbOKOnly
+        MsgBoxInternal "Property is read-only if image list contains images", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=35611, Description:="Property is read-only if image list contains images"
@@ -340,7 +340,7 @@ Else
         PropImageHeight = Value
     Else
         If ImageListDesignMode = True Then
-            MsgBox "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -360,7 +360,7 @@ End Property
 Public Property Let ColorDepth(ByVal Value As ImlColorDepthConstants)
 If Me.ListImages.Count > 0 Then
     If ImageListDesignMode = True Then
-        MsgBox "Property is read-only if image list contains images", vbCritical + vbOKOnly
+        MsgBoxInternal "Property is read-only if image list contains images", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=35611, Description:="Property is read-only if image list contains images"
@@ -388,7 +388,7 @@ End Property
 Public Property Let RightToLeftMirror(ByVal Value As Boolean)
 If Me.ListImages.Count > 0 Then
     If ImageListDesignMode = True Then
-        MsgBox "Property is read-only if image list contains images", vbCritical + vbOKOnly
+        MsgBoxInternal "Property is read-only if image list contains images", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=35611, Description:="Property is read-only if image list contains images"
