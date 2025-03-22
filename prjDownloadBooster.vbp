@@ -87,6 +87,7 @@ Form=frmDownloadOptions.frm
 Form=frmDummyForm.frm
 Form=frmMessageBox.frm
 ResFile32="Booster.RES"
+UserControl=ThreeDLine.ctl
 IconForm="frmBatchAdd"
 Startup="Sub Main"
 HelpFile=""

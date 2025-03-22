@@ -343,12 +343,11 @@ Begin VB.Form frmOptions
             Caption         =   "▶"
          End
       End
-      Begin VB.Image imgIcon1 
+      Begin VB.Image Image1 
          Height          =   480
          Left            =   120
          Picture         =   "frmOptions.frx":000C
-         Stretch         =   -1  'True
-         Top             =   120
+         Top             =   0
          Width           =   480
       End
       Begin VB.Label Label12 
@@ -370,7 +369,7 @@ Begin VB.Form frmOptions
       ImageHeight     =   16
       ColorDepth      =   8
       MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":036F
+      InitListImages  =   "frmOptions.frx":0456
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
@@ -515,11 +514,11 @@ Begin VB.Form frmOptions
       Index           =   1
       Left            =   120
       ScaleHeight     =   4605
-      ScaleWidth      =   5595
+      ScaleWidth      =   5715
       TabIndex        =   5
       TabStop         =   0   'False
       Top             =   600
-      Width           =   5655
+      Width           =   5775
       Begin prjDownloadBooster.FrameW Frame5 
          Height          =   2715
          Left            =   120
@@ -673,8 +672,8 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   7
          Top             =   120
-         Width           =   5415
-         _ExtentX        =   9551
+         Width           =   5535
+         _ExtentX        =   9763
          _ExtentY        =   2990
          Caption         =   " 다운로드 설정 "
          Begin prjDownloadBooster.CheckBoxW chkAutoYtdl 
@@ -827,8 +826,7 @@ Begin VB.Form frmOptions
          Begin VB.Image imgIcon2 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":0757
-            Stretch         =   -1  'True
+            Picture         =   "frmOptions.frx":083E
             Top             =   240
             Width           =   480
          End
@@ -874,7 +872,7 @@ Begin VB.Form frmOptions
       AutoRedraw      =   -1  'True
       Height          =   4545
       Index           =   3
-      Left            =   6360
+      Left            =   6720
       ScaleHeight     =   4485
       ScaleWidth      =   6315
       TabIndex        =   4
@@ -1023,7 +1021,7 @@ Begin VB.Form frmOptions
                Width           =   2415
                _ExtentX        =   4260
                _ExtentY        =   450
-               Text            =   "frmOptions.frx":0ACD
+               Text            =   "frmOptions.frx":0C80
             End
             Begin prjDownloadBooster.FrameW FrameW5 
                Height          =   555
@@ -1243,7 +1241,7 @@ Begin VB.Form frmOptions
       TabFixedWidth   =   53
       TabScrollWheel  =   0   'False
       Transparent     =   -1  'True
-      InitTabs        =   "frmOptions.frx":0B1D
+      InitTabs        =   "frmOptions.frx":0CD0
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -1276,7 +1274,7 @@ Begin VB.Form frmOptions
       ImageHeight     =   16
       ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":0CC1
+      InitListImages  =   "frmOptions.frx":0E74
    End
 End
 Attribute VB_Name = "frmOptions"
@@ -2168,6 +2166,9 @@ Private Sub Form_Load()
     Frame4.Caption = t(Frame4.Caption, " Text color ")
     Label10.Caption = t(Label10.Caption, "&Window:")
     Frame2.Caption = t(Frame2.Caption, " Download options ")
+'    Label14.Caption = t(Label14.Caption, "Download options")
+'    ThreeDLine1.Width = Frame2.Width - 120 - ThreeDLine1.Left
+'    ThreeDLine1.Left = Label14.Width + 120
     Frame5.Caption = t(Frame5.Caption, " Interface ")
     chkNoCleanup.Caption = t(chkNoCleanup.Caption, "Preserve segme&nts")
     chkRememberURL.Caption = t(chkRememberURL.Caption, "Re&member URL")
