@@ -1860,16 +1860,6 @@ Begin VB.Form frmMain
          Top             =   765
          Width           =   855
       End
-      Begin VB.Shape pgSettingsBackground 
-         BackColor       =   &H8000000F&
-         BackStyle       =   1  '투명하지 않음
-         BorderColor     =   &H80000010&
-         Height          =   1335
-         Left            =   30
-         Top             =   210
-         Visible         =   0   'False
-         Width           =   2355
-      End
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpen 
       Height          =   330
