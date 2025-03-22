@@ -2057,8 +2057,10 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
             ctrl.FontName = FontName
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
-            ctrl.FontBold = False
-            ctrl.Font.Bold = False
+            If ctrl.Name <> "lblLBCaption" Then
+                ctrl.FontBold = False
+                ctrl.Font.Bold = False
+            End If
             ctrl.FontItalic = False
             ctrl.Font.Italic = False
         End If
