@@ -1046,6 +1046,7 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
     Confirm = MsgBoxResults(MessageBox.ResultID)
     Unload MessageBox
     Set MessageBox = Nothing
+    MsgBoxResults.Remove MessageBox.ResultID
 End Function
 
 Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
@@ -1207,6 +1208,7 @@ Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Opti
     ConfirmEx = MsgBoxResults(MessageBox.ResultID)
     Unload MessageBox
     Set MessageBox = Nothing
+    MsgBoxResults.Remove MessageBox.ResultID
 End Function
 
 Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
@@ -1353,6 +1355,7 @@ Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, 
     ConfirmCancel = MsgBoxResults(MessageBox.ResultID)
     Unload MessageBox
     Set MessageBox = Nothing
+    MsgBoxResults.Remove MessageBox.ResultID
 End Function
 
 Function MsgBoxAbortRetryIgnore(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
@@ -1500,6 +1503,7 @@ Function MsgBoxAbortRetryIgnore(ByVal Content As String, Optional ByVal Title As
     MsgBoxAbortRetryIgnore = MsgBoxResults(MessageBox.ResultID)
     Unload MessageBox
     Set MessageBox = Nothing
+    MsgBoxResults.Remove MessageBox.ResultID
 End Function
 
 Function MsgBoxRetryCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
@@ -1641,6 +1645,7 @@ Function MsgBoxRetryCancel(ByVal Content As String, Optional ByVal Title As Stri
     MsgBoxRetryCancel = MsgBoxResults(MessageBox.ResultID)
     Unload MessageBox
     Set MessageBox = Nothing
+    MsgBoxResults.Remove MessageBox.ResultID
 End Function
 
 Function MsgBoxOKCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
@@ -1782,6 +1787,7 @@ Function MsgBoxOKCancel(ByVal Content As String, Optional ByVal Title As String,
     MsgBoxOKCancel = MsgBoxResults(MessageBox.ResultID)
     Unload MessageBox
     Set MessageBox = Nothing
+    MsgBoxResults.Remove MessageBox.ResultID
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
