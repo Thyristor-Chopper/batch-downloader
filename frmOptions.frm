@@ -1565,26 +1565,26 @@ Private Sub cmdApply_Click()
     If optSystemFore.Value Then
         SaveSetting "DownloadBooster", "Options", "ForeColor", "-1"
         pgFore.BackColor = &H80000012
-        frmMain.pgSettingsBackground.Visible = 0
-        frmMain.chkOpenAfterComplete.Tag = ""
-        frmMain.chkOpenFolder.Tag = ""
-        frmMain.chkContinueDownload.Tag = ""
-        frmMain.chkAutoRetry.Tag = ""
-        frmMain.chkOpenAfterComplete.Transparent = -1
-        frmMain.chkOpenFolder.Transparent = -1
-        frmMain.chkContinueDownload.Transparent = -1
-        frmMain.chkAutoRetry.Transparent = -1
+        'frmMain.pgSettingsBackground.Visible = 0
+'        frmMain.chkOpenAfterComplete.Tag = ""
+'        frmMain.chkOpenFolder.Tag = ""
+'        frmMain.chkContinueDownload.Tag = ""
+'        frmMain.chkAutoRetry.Tag = ""
+'        frmMain.chkOpenAfterComplete.Transparent = -1
+'        frmMain.chkOpenFolder.Transparent = -1
+'        frmMain.chkContinueDownload.Transparent = -1
+'        frmMain.chkAutoRetry.Transparent = -1
     ElseIf optUserFore.Value Then
         SaveSetting "DownloadBooster", "Options", "ForeColor", CLng(pgFore.BackColor)
-        frmMain.pgSettingsBackground.Visible = -1
-        frmMain.chkOpenAfterComplete.Tag = "nobackcolorchange"
-        frmMain.chkOpenFolder.Tag = "nobackcolorchange"
-        frmMain.chkContinueDownload.Tag = "nobackcolorchange"
-        frmMain.chkAutoRetry.Tag = "nobackcolorchange"
-        frmMain.chkOpenAfterComplete.Transparent = 0
-        frmMain.chkOpenFolder.Transparent = 0
-        frmMain.chkContinueDownload.Transparent = 0
-        frmMain.chkAutoRetry.Transparent = 0
+        'frmMain.pgSettingsBackground.Visible = -1
+'        frmMain.chkOpenAfterComplete.Tag = "nobackcolorchange"
+'        frmMain.chkOpenFolder.Tag = "nobackcolorchange"
+'        frmMain.chkContinueDownload.Tag = "nobackcolorchange"
+'        frmMain.chkAutoRetry.Tag = "nobackcolorchange"
+'        frmMain.chkOpenAfterComplete.Transparent = 0
+'        frmMain.chkOpenFolder.Transparent = 0
+'        frmMain.chkContinueDownload.Transparent = 0
+'        frmMain.chkAutoRetry.Transparent = 0
     End If
     SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
     SaveSetting "DownloadBooster", "Options", "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
@@ -1596,6 +1596,7 @@ Private Sub cmdApply_Click()
         cmdChooseBackground.Refresh
         frmMain.pbProgressContainer.Refresh
         frmMain.SetupSplitButtons
+        frmMain.SetTextColors
     End If
     If VisualStyleChanged Then
         On Error Resume Next
@@ -1621,27 +1622,27 @@ Private Sub cmdApply_Click()
     End If
     
     On Error Resume Next
-    If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
-        For i = frmMain.pgOverlay.LBound To frmMain.pgOverlay.UBound
-            frmMain.pgOverlay(i).Visible = -1
-            frmMain.lblOverlay(i).Visible = -1
-        Next i
-        frmMain.optTabDownload2.Transparent = 0
-        frmMain.optTabDownload2.BackColor = frmMain.pgOverlay(0).BackColor
-        frmMain.optTabDownload2.Refresh
-        frmMain.optTabThreads2.Transparent = 0
-        frmMain.optTabThreads2.BackColor = frmMain.pgOverlay(0).BackColor
-        frmMain.optTabThreads2.Refresh
-    Else
-        For i = frmMain.pgOverlay.LBound To frmMain.pgOverlay.UBound
-            frmMain.pgOverlay(i).Visible = 0
-            frmMain.lblOverlay(i).Visible = 0
-        Next i
-        frmMain.optTabDownload2.Transparent = -1
-        frmMain.optTabDownload2.Refresh
-        frmMain.optTabThreads2.Transparent = -1
-        frmMain.optTabThreads2.Refresh
-    End If
+'    If GetSetting("DownloadBooster", "Options", "ForeColor", -1) <> -1 Or GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 Then
+'        For i = frmMain.pgOverlay.LBound To frmMain.pgOverlay.UBound
+'            frmMain.pgOverlay(i).Visible = -1
+'            frmMain.lblOverlay(i).Visible = -1
+'        Next i
+'        frmMain.optTabDownload2.Transparent = 0
+'        frmMain.optTabDownload2.BackColor = frmMain.pgOverlay(0).BackColor
+'        frmMain.optTabDownload2.Refresh
+'        frmMain.optTabThreads2.Transparent = 0
+'        frmMain.optTabThreads2.BackColor = frmMain.pgOverlay(0).BackColor
+'        frmMain.optTabThreads2.Refresh
+'    Else
+'        For i = frmMain.pgOverlay.LBound To frmMain.pgOverlay.UBound
+'            frmMain.pgOverlay(i).Visible = 0
+'            frmMain.lblOverlay(i).Visible = 0
+'        Next i
+'        frmMain.optTabDownload2.Transparent = -1
+'        frmMain.optTabDownload2.Refresh
+'        frmMain.optTabThreads2.Transparent = -1
+'        frmMain.optTabThreads2.Refresh
+'    End If
     On Error GoTo 0
     Dim NoDisable As Boolean
     NoDisable = False

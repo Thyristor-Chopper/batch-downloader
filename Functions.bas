@@ -466,7 +466,9 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     Else
         frmForm.BackColor = clrBackColor
     End If
+    Dim IsSystemColor As Boolean
     clrForeColor = GetSetting("DownloadBooster", "Options", "ForeColor", -1)
+    IsSystemColor = (clrForeColor = -1)
     If clrForeColor < 0 Or clrForeColor > 16777215 Then
         If frmForm.ForeColor <> &H80000012 Then frmForm.ForeColor = &H80000012
         clrForeColor = &H80000012
@@ -499,7 +501,12 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                     End If
                 Else
                     If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
-                        ctrl.VisualStyles = True
+                        If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" And (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW") Then
+                            ctrl.VisualStyles = False
+                        Else
+                            ctrl.VisualStyles = True
+                        End If
+                        'If CtrlTypeName = "ProgressBar" Then ctrl.Refresh
                         'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 0
                     End If
                     If DisableVisualStyle And ctrl.VisualStyles = True Then
@@ -509,7 +516,14 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                 End If
             End If
             If CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ListView" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "ListBoxW" Then GoTo nextfor
-            If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" Then ctrl.ForeColor = clrForeColor
+            If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" Then
+                ctrl.ForeColor = clrForeColor
+                If (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW") Then
+                    ctrl.VisualStyles = False
+                ElseIf (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
+                    ctrl.VisualStyles = True
+                End If
+            End If
             If CtrlTypeName = "PictureBox" Then
                 If ctrl.AutoRedraw = True Then GoTo nextfor
             End If
@@ -2105,7 +2119,6 @@ Function DecodeHeaderCache(ByVal HeaderCache As String) As Collection
     Dim i%
     For i = LBound(HeaderSplit) To UBound(HeaderSplit)
         HeaderLine = HeaderSplit(i)
-        Debug.Print HeaderLine
         ColonPos = InStr(HeaderLine, ": ")
         If ColonPos < 1 Then GoTo continue
         Headers.Add Mid$(HeaderLine, ColonPos + 2), Left$(HeaderLine, ColonPos - 1)

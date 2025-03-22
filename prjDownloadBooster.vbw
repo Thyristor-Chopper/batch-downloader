@@ -1,4 +1,4 @@
-frmMain = 110, 208, 1188, 875, C, 176, 232, 1246, 891, C
+frmMain = 124, 191, 1202, 858, C, 137, 78, 1207, 737, C
 ShellPipe = 0, 0, 0, 0, C, 198, 261, 1268, 920, C
 SPBuffer = 0, 0, 0, 0, C
 Slider = 0, 0, 0, 0, C, 220, 290, 1290, 949, C
@@ -83,5 +83,4 @@ frmDownloadOptions = 0, 0, 0, 0, C, 0, 0, 1070, 659, C
 frmDummyForm = 0, 0, 0, 0, C, 22, 29, 1092, 688, C
 frmMessageBox = 88, 116, 1166, 783, C, 44, 58, 1122, 725, C
 TygemButton = 163, 38, 1241, 705, C, 65, 297, 1143, 964, C
-CommandButtonEx = 0, 0, 0, 0, C, 88, 116, 1158, 775, C
 CommandButtonExSubclass = 0, 0, 0, 0, C
