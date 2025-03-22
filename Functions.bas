@@ -1928,30 +1928,30 @@ Function URLDecode(ByVal strIn As String) As String
         
         Select Case UCase(Mid(strIn, sl + kl, 1))
             Case "U"
-                a = Val("&H" & Mid(strIn, sl + kl + 1, 4))
+                a = val("&H" & Mid(strIn, sl + kl + 1, 4))
                 URLDecode = URLDecode & ChrW(a)
                 sl = sl + 6
             Case "E"
                 hh = Mid(strIn, sl + kl, 2)
-                a = Val("&H" & hh)
+                a = val("&H" & hh)
                 If a < 128 Then
                     sl = sl + 3
                     URLDecode = URLDecode & Chr(a)
                 Else
                     Hi = Mid(strIn, sl + 3 + kl, 2)
                     hl = Mid(strIn, sl + 6 + kl, 2)
-                    a = ((Val("&H" & hh) And &HF) * 2 ^ 12) Or ((Val("&H" & Hi) And &H3F) * 2 ^ 6) Or (Val("&H" & hl) And &H3F)
+                    a = ((val("&H" & hh) And &HF) * 2 ^ 12) Or ((val("&H" & Hi) And &H3F) * 2 ^ 6) Or (val("&H" & hl) And &H3F)
                     URLDecode = URLDecode & ChrW(a)
                     sl = sl + 9
                 End If
             Case Else
                 hh = Mid(strIn, sl + kl, 2)
-                a = Val("&H" & hh)
+                a = val("&H" & hh)
                 If a < 128 Then
                     sl = sl + 3
                 Else
                     Hi = Mid(strIn, sl + 3 + kl, 2)
-                    a = ((Val("&H" & hh) - 194) * 64) + Val("&H" & Hi)
+                    a = ((val("&H" & hh) - 194) * 64) + val("&H" & Hi)
                     sl = sl + 6
                 End If
                 URLDecode = URLDecode & ChrW(a)
@@ -2489,3 +2489,13 @@ End Function
 Sub UpdateDPI()
     DPI = GetDPI()
 End Sub
+
+Function Ceil(val)
+    Dim Rounded
+    Rounded = Round(val)
+    If Rounded < val Then
+        Ceil = Rounded + 1
+    Else
+        Ceil = Rounded
+    End If
+End Function

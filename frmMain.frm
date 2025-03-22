@@ -756,12 +756,12 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.ComboBoxW cbWhenExist 
       Height          =   300
-      Left            =   7590
+      Left            =   7830
       TabIndex        =   22
       Top             =   2025
-      Width           =   1425
-      _ExtentX        =   0
-      _ExtentY        =   0
+      Width           =   1185
+      _ExtentX        =   2090
+      _ExtentY        =   529
       Style           =   2
    End
    Begin prjDownloadBooster.CheckBoxW chkOpenAfterComplete 
@@ -845,14 +845,15 @@ Begin VB.Form frmMain
       Caption         =   " 옵션 "
       Transparent     =   -1  'True
       Begin VB.Label Label1 
+         AutoSize        =   -1  'True
          BackStyle       =   0  '투명
          Caption         =   "중복(&K):"
-         Height          =   255
-         Left            =   75
+         Height          =   180
+         Left            =   330
          TabIndex        =   21
          Tag             =   "nocolorchange"
          Top             =   765
-         Width           =   855
+         Width           =   690
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpen 
@@ -1133,6 +1134,14 @@ Begin VB.Form frmMain
       _ExtentX        =   635
       _ExtentY        =   635
    End
+   Begin VB.Image imgBackgroundTile 
+      Height          =   135
+      Index           =   0
+      Left            =   0
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   135
+   End
    Begin VB.Image imgBackground 
       Height          =   135
       Left            =   0
@@ -1259,6 +1268,8 @@ Public ytdlAudioCBR As Integer
 Public ytdlAudioVBR As Byte
 
 Dim MAX_THREAD_COUNT As Integer
+
+Dim MaxLoadedTileBackgroundImage As Long
 
 Sub StartYtdlDownload()
     If Not FileExists(GetSetting("DownloadBooster", "Options", "YtdlPath", "")) Then
@@ -2496,33 +2507,94 @@ End Sub
 
 Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
     On Error Resume Next
+    Dim i%, j%, k%
     If imgBackground.Visible Then
-        Select Case ImagePosition
+        Dim ImageCentered As Boolean
+        Dim ImgPos As Integer
+        ImageCentered = False
+        ImgPos = ImagePosition
+        If ImagePosition > 3 And ImagePosition <= 6 Then
+            ImageCentered = True
+            ImgPos = ImgPos - 3
+        End If
+        Select Case ImgPos
             Case 0 '늘이기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
                 imgBackground.Width = Me.Width
                 imgBackground.Height = Me.Height
+                imgBackground.Top = 0
+                imgBackground.Left = 0
             Case 1 '높이에 맞추기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
                 imgBackground.Height = Me.Height
                 imgBackground.Width = imgBackground.Picture.Width / imgBackground.Picture.Height * Me.Height
+                imgBackground.Top = 0
+                If ImageCentered Then
+                    imgBackground.Left = (Me.Width - imgBackground.Width) \ 2
+                Else
+                    imgBackground.Left = 0
+                End If
             Case 2 '너비에 맞추기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
                 imgBackground.Width = Me.Width
                 imgBackground.Height = imgBackground.Picture.Height / imgBackground.Picture.Width * Me.Width
+                If ImageCentered Then
+                    imgBackground.Top = ((Me.Height - sbStatusBar.Height - 600) - imgBackground.Height) \ 2
+                Else
+                    imgBackground.Top = 0
+                End If
+                imgBackground.Left = 0
             Case 3 '원본 크기
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
-            Case 4 '가운데
+                imgBackground.Width = imgBackground.Picture.Width \ 2
+                imgBackground.Height = imgBackground.Picture.Height \ 2
+                If ImageCentered Then
+                    imgBackground.Top = ((Me.Height - sbStatusBar.Height - 600) - imgBackground.Height) \ 2
+                    imgBackground.Left = (Me.Width - imgBackground.Width) \ 2
+                Else
+                    imgBackground.Top = 0
+                    imgBackground.Left = 0
+                End If
+            Case 7 '바둑판식
+                imgBackground.Top = -imgBackground.Picture.Height
+                imgBackground.Left = -imgBackground.Picture.Width
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
+                imgBackground.Width = imgBackground.Picture.Width \ 2
+                imgBackground.Height = imgBackground.Picture.Height \ 2
+                k = 1
+                For i = 1 To Ceil(Me.Height / imgBackground.Height)
+                    For j = 1 To Ceil(Me.Width / imgBackground.Width)
+                        Load imgBackgroundTile(k)
+                        Set imgBackgroundTile(k).Picture = imgBackground.Picture
+                        imgBackgroundTile(k).Stretch = False
+                        imgBackgroundTile(k).Width = imgBackground.Width + 150
+                        imgBackgroundTile(k).Height = imgBackground.Height + 150
+                        imgBackgroundTile(k).Top = (i - 1) * (imgBackground.Height + 105)
+                        imgBackgroundTile(k).Left = (j - 1) * (imgBackground.Width + 105)
+                        imgBackgroundTile(k).Visible = True
+                        k = k + 1
+                    Next j
+                Next i
+                k = k - 1
+                If k > MaxLoadedTileBackgroundImage Then
+                    MaxLoadedTileBackgroundImage = k
+                ElseIf k < MaxLoadedTileBackgroundImage Then
+                    For i = (k + 1) To MaxLoadedTileBackgroundImage
+                        Set imgBackgroundTile(i).Picture = Nothing
+                        Unload imgBackgroundTile(i)
+                        Set imgBackgroundTile(i) = Nothing
+                    Next i
+                    MaxLoadedTileBackgroundImage = k
+                End If
         End Select
-        If ImagePosition = 4 Then
-            imgBackground.Top = (Me.Height - imgBackground.Picture.Height) \ 2
-            imgBackground.Left = (Me.Width - imgBackground.Picture.Width) \ 2
-        Else
-            imgBackground.Top = 0
-            imgBackground.Left = 0
+        If ImgPos <> 7 Then
+            For i = 1 To MaxLoadedTileBackgroundImage
+                Set imgBackgroundTile(i).Picture = Nothing
+                Unload imgBackgroundTile(i)
+                Set imgBackgroundTile(i) = Nothing
+            Next i
         End If
-        If ImagePosition < 2 Or ImagePosition = 4 Or ForceRefresh Then
+        If ImagePosition < 2 Or ImagePosition = 4 Or ForceRefresh Or ImageCentered Then
             On Error Resume Next
             Dim ctrl As Control
             For Each ctrl In Me.Controls
@@ -2536,6 +2608,7 @@ End Sub
 
 Sub SetBackgroundImage()
     On Error Resume Next
+    Dim i%
     If GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 And Trim$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")) <> "" Then
         If LCase(Right$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""), 4)) = ".png" Then
             Set imgBackground.Picture = LoadPngIntoPictureWithAlpha(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))
@@ -2546,6 +2619,13 @@ Sub SetBackgroundImage()
         SetBackgroundPosition True
     Else
         imgBackground.Visible = 0
+        If MaxLoadedTileBackgroundImage > 0 Then
+            For i = 1 To MaxLoadedTileBackgroundImage
+                Set imgBackgroundTile(i).Picture = Nothing
+                Unload imgBackgroundTile(i)
+                Set imgBackgroundTile(i) = Nothing
+            Next i
+        End If
     End If
     
     On Error Resume Next
@@ -2674,6 +2754,7 @@ Private Sub Form_Load()
     Me.Caption = t(Me.Caption, "Download Booster") & " v" & App.Major & "." & App.Minor & "." & App.Revision
     TahomaAvailable = FontExists("Tahoma")
     
+    MaxLoadedTileBackgroundImage = 0
     ImagePosition = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
     SetBackgroundImage
     imgBackground.Width = Me.Width
@@ -2862,7 +2943,7 @@ afterheaderadd:
     chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
     
     cbWhenExist.Clear
-    cbWhenExist.AddItem t("중단", "Abort")
+    cbWhenExist.AddItem t("건너뛰기", "Skip")
     cbWhenExist.AddItem t("덮어쓰기", "Overwrite")
     cbWhenExist.AddItem t("이름 변경", "Rename")
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
