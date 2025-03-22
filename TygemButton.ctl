@@ -1,9 +1,9 @@
 VERSION 5.00
 Begin VB.UserControl TygemButton 
-   ClientHeight    =   2865
+   ClientHeight    =   1305
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   3630
+   ClientWidth     =   1800
    BeginProperty Font 
       Name            =   "±¼¸²"
       Size            =   9
@@ -13,8 +13,9 @@ Begin VB.UserControl TygemButton
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
-   ScaleHeight     =   2865
-   ScaleWidth      =   3630
+   KeyPreview      =   -1  'True
+   ScaleHeight     =   1305
+   ScaleWidth      =   1800
    ToolboxBitmap   =   "TygemButton.ctx":0000
    Begin VB.Timer tmrMouse 
       Enabled         =   0   'False
@@ -27,13 +28,6 @@ Begin VB.UserControl TygemButton
       Left            =   0
       Top             =   0
       Width           =   495
-   End
-   Begin VB.Image imgIcon 
-      Height          =   240
-      Left            =   1200
-      Stretch         =   -1  'True
-      Top             =   600
-      Width           =   240
    End
    Begin VB.Label lblCaption 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
@@ -53,6 +47,22 @@ Begin VB.UserControl TygemButton
       TabIndex        =   0
       Top             =   0
       Width           =   1065
+   End
+   Begin VB.Shape pgFocusRect 
+      BorderColor     =   &H00404040&
+      BorderStyle     =   3  'Á¡
+      Height          =   255
+      Left            =   1200
+      Top             =   960
+      Visible         =   0   'False
+      Width           =   375
+   End
+   Begin VB.Image imgIcon 
+      Height          =   240
+      Left            =   1200
+      Stretch         =   -1  'True
+      Top             =   600
+      Width           =   240
    End
    Begin VB.Line Line10 
       X1              =   975
@@ -166,6 +176,12 @@ Dim m_FontName As String
 Const m_def_FontSize = 9
 Dim m_FontSize As Integer
 
+Const m_def_SplitLeft = False
+Dim m_SplitLeft As Boolean
+
+Const m_def_SplitRight = False
+Dim m_SplitRight As Boolean
+
 Dim m_Icon As IPictureDisp
 
 Event Click()
@@ -187,10 +203,10 @@ Private Sub MouseOut()
     bHovering = False
     imgCenter(1).Visible = 0
     If m_Enabled Then
-        Line1.BorderColor = RGB(253, 209, 4)
+        Line1.BorderColor = IIf(m_SplitRight, RGB(252, 251, 164), RGB(253, 209, 4))
         Line2.BorderColor = RGB(253, 209, 4)
     Else
-        Line1.BorderColor = RGB(198, 198, 198)
+        Line1.BorderColor = IIf(m_SplitRight, RGB(215, 214, 215), RGB(198, 198, 198))
         Line2.BorderColor = RGB(198, 198, 198)
     End If
     If m_Enabled Then
@@ -211,15 +227,79 @@ Property Let Enabled(ByVal New_Enabled As Boolean)
     If m_Enabled Then
         lblCaption.ForeColor = &H0&
         imgCenter(2).Visible = 0
-        Line1.BorderColor = RGB(253, 209, 4)
+        Line1.BorderColor = IIf(m_SplitRight, RGB(252, 251, 164), RGB(253, 209, 4))
         Line2.BorderColor = RGB(253, 209, 4)
     Else
         lblCaption.ForeColor = RGB(128, 128, 128)
         imgCenter(2).Visible = -1
-        Line1.BorderColor = RGB(198, 198, 198)
+        Line1.BorderColor = IIf(m_SplitRight, RGB(215, 214, 215), RGB(198, 198, 198))
         Line2.BorderColor = RGB(198, 198, 198)
     End If
 End Property
+
+Property Get SplitLeft() As Boolean
+    SplitLeft = m_SplitLeft
+End Property
+
+Property Let SplitLeft(ByVal New_SplitLeft As Boolean)
+    m_SplitLeft = New_SplitLeft
+    PropertyChanged "SplitLeft"
+    SetSplitLeft
+End Property
+
+Property Get SplitRight() As Boolean
+    SplitRight = m_SplitRight
+End Property
+
+Property Let SplitRight(ByVal New_SplitRight As Boolean)
+    m_SplitRight = New_SplitRight
+    PropertyChanged "SplitRight"
+    SetSplitRight
+End Property
+
+Private Sub SetSplitLeft()
+    Line9.Visible = Not m_SplitLeft
+    Line10.Visible = Not m_SplitLeft
+    If m_SplitLeft Then
+        Line3.X2 = UserControl.Width
+        Line6.X2 = UserControl.Width
+        Line7.Y1 = 0
+        Line7.Y2 = UserControl.Height
+        Line2.X2 = UserControl.Width
+    Else
+        Line3.X2 = UserControl.Width - 30
+        Line6.X2 = UserControl.Width - 30
+        Line7.Y1 = 30
+        Line7.Y2 = UserControl.Height - 45
+        Line2.X2 = UserControl.Width - 30
+    End If
+End Sub
+
+Private Sub SetSplitRight()
+    Line4.Visible = Not m_SplitRight
+    Line5.Visible = Not m_SplitRight
+    Line8.Visible = Not m_SplitRight
+    Dim i%
+    If m_SplitRight Then
+        Line3.X1 = 0
+        Line6.X1 = 0
+        Line2.X1 = 0
+        Line1.Y2 = UserControl.Height - 15
+        For i = imgCenter.LBound To imgCenter.UBound
+            imgCenter(i).Width = (UserControl.Width - 3 * Screen.TwipsPerPixelX) * (imgCenter(0).Picture.Width / 15)
+            imgCenter(i).Left = 30 - (UserControl.Width - 3 * Screen.TwipsPerPixelX) * ((imgCenter(0).Picture.Width / 15) - 1)
+        Next i
+    Else
+        Line3.X1 = 30
+        Line6.X1 = 30
+        Line2.X1 = 30
+        Line1.Y2 = UserControl.Height - 30
+        For i = imgCenter.LBound To imgCenter.UBound
+            imgCenter(i).Width = UserControl.Width - 3 * Screen.TwipsPerPixelX
+            imgCenter(i).Left = 30
+        Next i
+    End If
+End Sub
 
 Property Get Caption() As String
     Caption = m_Caption
@@ -295,6 +375,10 @@ Private Sub UserControl_AccessKeyPress(KeyAscii As Integer)
     RaiseEvent Click
 End Sub
 
+Private Sub UserControl_GotFocus()
+    pgFocusRect.Visible = True
+End Sub
+
 Private Sub UserControl_Initialize()
     Dim i%
     For i = 1 To imgCenter.UBound
@@ -304,8 +388,7 @@ Private Sub UserControl_Initialize()
     bMouseDown = False
 End Sub
 
-Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    RaiseEvent MouseDown(Button, Shift, X, Y)
+Sub ShowAsPressed()
     If Not m_Enabled Then Exit Sub
     lblCaption.Left = 15
     lblCaption.Top = (UserControl.Height / 2 - lblCaption.Height / 2) + 20 + 15
@@ -313,7 +396,22 @@ Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Singl
     lblCaption.ForeColor = &H0&
     imgIcon.Left = IIf(UserControl.Width <= 495 And UserControl.Width > 255, UserControl.Width / 2 - imgIcon.Width / 2 + 10, 45)
     imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2 + 20
+End Sub
+
+Sub ShowAsUnpressed()
+    If Not m_Enabled Then Exit Sub
+    lblCaption.Left = 0
+    lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
+    lblCaption.Tag = ""
+    imgIcon.Left = IIf(UserControl.Width <= 495 And UserControl.Width > 255, UserControl.Width / 2 - imgIcon.Width / 2 - 10, 30)
+    imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2
+End Sub
+
+Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    RaiseEvent MouseDown(Button, Shift, X, Y)
+    If Not m_Enabled Then Exit Sub
     bMouseDown = True
+    ShowAsPressed
 End Sub
  
 Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -323,7 +421,7 @@ Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Singl
     If bHovering = False Then
         bHovering = True
         imgCenter(1).Visible = -1
-        Line1.BorderColor = RGB(179, 252, 53)
+        Line1.BorderColor = IIf(m_SplitRight, RGB(207, 252, 162), RGB(179, 252, 53))
         Line2.BorderColor = RGB(179, 252, 53)
     End If
     If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = 255
@@ -332,20 +430,33 @@ End Sub
 Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     RaiseEvent MouseUp(Button, Shift, X, Y)
     If Not m_Enabled Then Exit Sub
-    lblCaption.Left = 0
-    lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
-    lblCaption.Tag = ""
-    imgIcon.Left = IIf(UserControl.Width <= 495 And UserControl.Width > 255, UserControl.Width / 2 - imgIcon.Width / 2 - 10, 30)
-    imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2
     bMouseDown = False
+    ShowAsUnpressed
 End Sub
 
 Private Sub UserControl_InitProperties()
     m_Caption = Ambient.DisplayName
     m_BackColor = &H8000000F
     m_Enabled = True
+    m_SplitLeft = False
+    m_SplitRight = False
     UserControl.BackColor = &H8000000F
     lblCaption.Caption = m_Caption
+End Sub
+
+Private Sub UserControl_KeyDown(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 32 And (Not bMouseDown) Then ShowAsPressed
+End Sub
+
+Private Sub UserControl_KeyUp(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 32 And (Not bMouseDown) Then
+        ShowAsUnpressed
+        RaiseEvent Click
+    End If
+End Sub
+
+Private Sub UserControl_LostFocus()
+    pgFocusRect.Visible = False
 End Sub
 
 Private Sub UserControl_Resize()
@@ -375,10 +486,16 @@ Private Sub UserControl_Resize()
     Line9.X2 = UserControl.Width
     Line10.X1 = UserControl.Width - 45
     Line10.X2 = UserControl.Width - 15
+    SetSplitLeft
+    SetSplitRight
     lblCaption.Top = UserControl.Height / 2 - lblCaption.Height / 2 + 15
     lblCaption.Width = UserControl.Width
     imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2
     imgIcon.Left = IIf(UserControl.Width <= 495 And UserControl.Width > 255, UserControl.Width / 2 - imgIcon.Width / 2 - 10, 30)
+    pgFocusRect.Top = 30
+    pgFocusRect.Left = 30
+    pgFocusRect.Width = UserControl.Width - 60
+    pgFocusRect.Height = UserControl.Height - 60
 End Sub
 
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
@@ -388,15 +505,17 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     m_FontName = PropBag.ReadProperty("FontName", m_def_FontName)
     m_FontSize = PropBag.ReadProperty("FontSize", m_def_FontSize)
     Set m_Icon = PropBag.ReadProperty("ButtonIcon", Nothing)
+    m_SplitLeft = PropBag.ReadProperty("SplitLeft", m_def_SplitLeft)
+    m_SplitRight = PropBag.ReadProperty("SplitRight", m_def_SplitRight)
     If m_Enabled Then
         lblCaption.ForeColor = &H0&
         imgCenter(2).Visible = 0
-        Line1.BorderColor = RGB(253, 209, 4)
+        Line1.BorderColor = IIf(m_SplitRight, RGB(252, 251, 164), RGB(253, 209, 4))
         Line2.BorderColor = RGB(253, 209, 4)
     Else
         lblCaption.ForeColor = RGB(128, 128, 128)
         imgCenter(2).Visible = -1
-        Line1.BorderColor = RGB(198, 198, 198)
+        Line1.BorderColor = IIf(m_SplitRight, RGB(215, 214, 215), RGB(198, 198, 198))
         Line2.BorderColor = RGB(198, 198, 198)
     End If
     lblCaption.Caption = Trim$(m_Caption)
@@ -411,6 +530,8 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     Else
         Set imgIcon.Picture = Nothing
     End If
+    SetSplitLeft
+    SetSplitRight
 End Sub
 
 Private Sub UserControl_Terminate()
@@ -424,5 +545,7 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     Call PropBag.WriteProperty("FontSize", m_FontSize, m_def_FontSize)
     On Error Resume Next
     Call PropBag.WriteProperty("ButtonIcon", m_Icon, Nothing)
+    Call PropBag.WriteProperty("SplitLeft", m_SplitLeft, m_def_SplitLeft)
+    Call PropBag.WriteProperty("SplitRight", m_SplitRight, m_def_SplitRight)
 End Sub
 

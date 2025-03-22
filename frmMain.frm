@@ -2055,6 +2055,13 @@ Begin VB.Form frmMain
       ImageListAlignment=   4
       Transparent     =   -1  'True
    End
+   Begin VB.Line lnTygemFrameRight 
+      Visible         =   0   'False
+      X1              =   6585
+      X2              =   6585
+      Y1              =   1575
+      Y2              =   5940
+   End
    Begin prjDownloadBooster.ShellPipe spYtdl 
       Left            =   9240
       Top             =   3360
@@ -3684,6 +3691,8 @@ Sub LoadLiveBadukSkin()
         optTabThreads2.Width = 825
         optTabDownload2.Caption = fTabDownload.Caption
         optTabThreads2.Caption = fTabThreads.Caption
+        
+        lnTygemFrameRight.Visible = True
     Else
         imgTopLeft.Visible = 0
         imgTopRight.Visible = 0
@@ -3710,6 +3719,8 @@ Sub LoadLiveBadukSkin()
         optTabThreads2.Width = 255
         optTabDownload2.Caption = ""
         optTabThreads2.Caption = ""
+        
+        lnTygemFrameRight.Visible = False
     End If
 
     On Error Resume Next
@@ -4058,6 +4069,15 @@ Sub SetTextColors()
 End Sub
 
 Sub SetupSplitButtons()
+    cmdOpenBatch.GetTygemButton().SplitLeft = True
+    cmdOpenDropdown.GetTygemButton().SplitRight = True
+    
+    cmdDelete.GetTygemButton().SplitLeft = True
+    cmdDeleteDropdown.GetTygemButton().SplitRight = True
+    
+    cmdOpen.GetTygemButton().SplitLeft = True
+    cmdOpenFileDropdown.GetTygemButton().SplitRight = True
+
     If WinVer >= 6.1 Then
         If GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0) = 0 Then
             cmdOpenBatch.SplitButton = True

@@ -446,6 +446,8 @@ Private PropMaskColor As OLE_COLOR
 Private PropDrawMode As CmdDrawModeConstants
 Private PropIsTygemButton As Boolean
 
+Private bMouseDown As Boolean
+
 Private Sub IObjectSafety_GetInterfaceSafetyOptions(ByRef riid As OLEGuids.OLECLSID, ByRef pdwSupportedOptions As Long, ByRef pdwEnabledOptions As Long)
 Const INTERFACESAFE_FOR_UNTRUSTED_CALLER As Long = &H1, INTERFACESAFE_FOR_UNTRUSTED_DATA As Long = &H2
 pdwSupportedOptions = INTERFACESAFE_FOR_UNTRUSTED_CALLER Or INTERFACESAFE_FOR_UNTRUSTED_DATA
@@ -624,6 +626,17 @@ PropMaskColor = &HC0C0C0
 PropDrawMode = CmdDrawModeNormal
 'PropIsTygemButton = False
 Call CreateCommandButton
+End Sub
+
+Private Sub UserControl_KeyDown(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 32 Then tygButton.ShowAsPressed
+End Sub
+
+Private Sub UserControl_KeyUp(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 32 Then
+        tygButton.ShowAsUnpressed
+        RaiseEvent Click
+    End If
 End Sub
 
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
@@ -2608,4 +2621,8 @@ Select Case wMsg
     Case WM_DESTROY, WM_NCDESTROY
         Call ComCtlsRemoveSubclass(hWnd)
 End Select
+End Function
+
+Function GetTygemButton() As TygemButton
+    Set GetTygemButton = tygButton
 End Function

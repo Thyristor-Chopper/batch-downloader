@@ -2,7 +2,7 @@ Attribute VB_Name = "AlphaPNG"
 'https://www.vbforums.com/showthread.php?896878-PNG-with-alpha-channel-into-standard-VB6-image-control
 
 Option Explicit
-'
+
 Private mlGdipToken             As Long
 Private Type GdiplusStartupInput
     GdiplusVersion              As Long
@@ -12,6 +12,7 @@ Private Type GdiplusStartupInput
 End Type
 Private Declare Function GdiplusStartup Lib "gdiplus" (ByRef token As Long, ByRef lpInput As GdiplusStartupInput, Optional ByRef lpOutput As Long) As Long
 Private Declare Function GdipLoadImageFromFile Lib "gdiplus" (ByVal sFilename As Long, hImage As Long) As Long
+'Private Declare Function GdipCreateBitmapFromFile Lib "gdiplus" (ByVal pFilename As Long, ByRef pbitmap As Long) As Long
 Private Type BitmapData
     Width               As Long
     Height              As Long
@@ -114,7 +115,6 @@ Private Type IID
 End Type
 Private Declare Function IIDFromString Lib "ole32" (ByVal lpsz As Long, ByRef CLSID As IID) As Long
 Private Declare Function GdiplusShutdown Lib "gdiplus" (ByVal token As Long) As Long
-'
 
 Public Function LoadPngIntoPictureWithAlpha(sFilename As String, Optional ByVal bbOverallOpacity As Byte = &HFF, Optional ByVal dScalingFactor As Single = 1!) As IPicture
     ' The sFilename should be a valid PNG file.
@@ -309,7 +309,7 @@ Public Sub GErr(ByVal GdipReturn As Long)
         Stop
     Else
         If GdipReturn = 3& Or GdipReturn = 2& Then Exit Sub
-        Err.Raise vbObjectError + 1147221504 - GdipReturn, , sErr
+        'Err.Raise vbObjectError + 1147221504 - GdipReturn, , sErr
     End If
 End Sub
 
