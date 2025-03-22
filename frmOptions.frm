@@ -1472,6 +1472,9 @@ Private Sub cbSkin_Click()
         cmdApply.Enabled = -1
         SkinChanged = True
         VisualStyleChanged = True
+        If cbSkin.ListIndex = 2 And DPI <> 96 Then
+            MsgBox t("이 스킨의 일부 요소는 96 DPI(100% 배율)에서만 표시됩니다.", "Some of the elements of this skin only works in 96 DPI (100% size)."), 48
+        End If
     End If
 End Sub
 
