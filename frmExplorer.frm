@@ -869,16 +869,14 @@ Private Sub Form_Load()
     selFileType.Clear
     Select Case Tags.BrowseTargetForm
         Case 3
-            selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; " & IIf(Build >= 21990, "", "*.PNG; ") & "*.WMF; *.EMF; *.ICO; *.CUR)"
+            selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
             selFileType.AddItem "JPEG (*.JPG; *.JPEG; *.JPE; *.JFIF)"
             selFileType.AddItem "GIF (*.GIF)"
             selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
-            If Not (Build >= 21990) Then selFileType.AddItem "PNG (*.PNG)"
+            selFileType.AddItem "PNG (*.PNG)"
             selFileType.AddItem t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
             selFileType.AddItem t("아이콘", "Icon") & " (*.ICO)"
             selFileType.AddItem t("커서", "Cursor") & " (*.CUR)"
-            
-            If Build >= 21990 Then MsgBox t("Windows 11에서는 PNG가 지원되지 않습니다.", "PNG is not supported on Windows 11."), vbExclamation
         Case 4
             selFileType.AddItem t("소리", "Sound") & " (*.WAV)"
         Case Else

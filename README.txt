@@ -8,6 +8,7 @@
 - https://www.vbforums.com/showthread.php?660014-VB6-ShellPipe-quot-Shell-with-I-O-Redirection-quot-control
 - https://www.vbforums.com/showthread.php?698563-CommonControls-(Replacement-of-the-MS-common-controls)
 - https://www.vbforums.com/showthread.php?896878-PNG-with-alpha-channel-into-standard-VB6-image-control
+- https://www.vbforums.com/showthread.php?630193-vb6-Alpha-Image-Control-v2-Final-Update-(15-Jan-2012)
 
 <라이선스>
 이 프로젝트에는 Node.js의 실행화일이 포함되어 있음.  
