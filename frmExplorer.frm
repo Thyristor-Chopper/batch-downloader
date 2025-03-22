@@ -658,7 +658,7 @@ Sub ListFiles()
                             txtFileName.Enabled = 0
                             Label2.Enabled = 0
                         End If
-                        If totalcnt Mod 50 = 0 Then DoEvents
+                        If totalcnt Mod 100 = 0 Then DoEvents
                     ElseIf totalcnt <= 1 Then
                         lvFiles.ListItems(1).EnsureVisible
                     End If
@@ -782,7 +782,7 @@ Sub ListFiles()
                         txtFileName.Enabled = 0
                         Label2.Enabled = 0
                     End If
-                    If totalcnt Mod 50 = 0 Then DoEvents
+                    If totalcnt Mod 100 = 0 Then DoEvents
                 End If
                 totalcnt = totalcnt + 1
             End If
