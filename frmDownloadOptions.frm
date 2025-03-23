@@ -126,12 +126,12 @@ Begin VB.Form frmDownloadOptions
          ImageHeight     =   16
          ColorDepth      =   4
          MaskColor       =   16711935
-         InitListImages  =   "frmDownloadOptions.frx":00E8
+         InitListImages  =   "frmDownloadOptions.frx":00FE
       End
       Begin VB.Image imgIcon1 
          Height          =   630
          Left            =   120
-         Picture         =   "frmDownloadOptions.frx":0290
+         Picture         =   "frmDownloadOptions.frx":02A6
          Top             =   120
          Width           =   645
       End
@@ -294,7 +294,7 @@ Begin VB.Form frmDownloadOptions
       Width           =   2400
       _ExtentX        =   4233
       _ExtentY        =   688
-      InitTabs        =   "frmDownloadOptions.frx":05F3
+      InitTabs        =   "frmDownloadOptions.frx":0609
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
