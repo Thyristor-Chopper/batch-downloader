@@ -193,7 +193,7 @@ Begin VB.Form frmMain
       Height          =   870
       Left            =   240
       TabIndex        =   37
-      Top             =   6030
+      Top             =   6075
       Visible         =   0   'False
       Width           =   8895
       _ExtentX        =   15690
@@ -857,13 +857,13 @@ Begin VB.Form frmMain
       End
    End
    Begin prjDownloadBooster.FrameW fOptions 
-      Height          =   2190
+      Height          =   2220
       Left            =   6720
       TabIndex        =   18
       Top             =   1320
       Width           =   2415
       _ExtentX        =   4260
-      _ExtentY        =   3863
+      _ExtentY        =   3916
       Caption         =   " ¿É¼Ç "
       Transparent     =   -1  'True
       Begin VB.Label Label1 
@@ -988,6 +988,13 @@ Begin VB.Form frmMain
       ImageList       =   "imgDropdown"
       ImageListAlignment=   4
       Transparent     =   -1  'True
+   End
+   Begin VB.Line lnTygemFrameBottom 
+      Visible         =   0   'False
+      X1              =   210
+      X2              =   6495
+      Y1              =   6030
+      Y2              =   6030
    End
    Begin VB.Line lnTygemFrameRight 
       Visible         =   0   'False
@@ -2703,6 +2710,7 @@ Sub LoadLiveBadukSkin()
         optTabThreads2.Caption = fTabThreads.Caption
         
         lnTygemFrameRight.Visible = True
+        lnTygemFrameBottom.Visible = True
         
         pbTotalProgressMarquee.Left = 360
         pbTotalProgressMarquee.Width = 6015
@@ -2737,6 +2745,7 @@ Sub LoadLiveBadukSkin()
         optTabThreads2.Caption = ""
         
         lnTygemFrameRight.Visible = False
+        lnTygemFrameBottom.Visible = False
         
         pbTotalProgressMarquee.Left = 1200
         pbTotalProgressMarquee.Width = 5175
