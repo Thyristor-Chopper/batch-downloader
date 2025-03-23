@@ -357,7 +357,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3936
+      InitListImages  =   "frmMain.frx":3226
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -367,7 +367,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":47B6
+      InitListImages  =   "frmMain.frx":360E
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -377,7 +377,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":5636
+      InitListImages  =   "frmMain.frx":3D7E
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -387,7 +387,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":5A1E
+      InitListImages  =   "frmMain.frx":4166
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -397,7 +397,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":689E
+      InitListImages  =   "frmMain.frx":48D6
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -407,7 +407,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":700E
+      InitListImages  =   "frmMain.frx":5046
    End
    Begin prjDownloadBooster.OptionButtonW optTabThreads2 
       Height          =   195
@@ -3087,13 +3087,12 @@ afterheaderadd:
     imgDropdown.ListImages.Add 1, Picture:=imgDropdown.ListImages(1).ExtractIcon()
     imgDropdown.ListImages.Add 5, Picture:=imgDropdown.ListImages(1).ExtractIcon()
     
-    imgPlusYellow.ListImages.Add 4, Picture:=imgPlusYellow.ListImages(1).ExtractIcon()
-    imgPlusYellow.ListImages.Add 5, Picture:=imgPlusYellow.ListImages(1).ExtractIcon()
-    
-    imgStopRed.ListImages.Add 5, Picture:=imgStopRed.ListImages(1).ExtractIcon()
-    
+    imgPlay.ListImages.Add 1, Picture:=imgPlay.ListImages(1).ExtractIcon()
+    imgPlay.ListImages.Add 1, Picture:=imgPlay.ListImages(1).ExtractIcon()
     imgPlay.ListImages.Add 5, Picture:=imgPlay.ListImages(1).ExtractIcon()
     
+    imgMinus.ListImages.Add 1, Picture:=imgMinus.ListImages(1).ExtractIcon()
+    imgMinus.ListImages.Add 1, Picture:=imgMinus.ListImages(1).ExtractIcon()
     imgMinus.ListImages.Add 5, Picture:=imgMinus.ListImages(1).ExtractIcon()
     
     imgOpenFile.ListImages.Add 1, Picture:=imgOpenFile.ListImages(1).ExtractIcon()
