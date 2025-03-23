@@ -2624,6 +2624,19 @@ Private Sub txtMaxThreadCount_Change()
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 
+Private Sub txtMaxThreadCount_KeyDown(KeyCode As Integer, Shift As Integer)
+    If Not IsNumeric(txtMaxThreadCount.Text) Then Exit Sub
+    If KeyCode = 38 And txtMaxThreadCount.Text < 91 Then
+        txtMaxThreadCount.Text = CDbl(txtMaxThreadCount.Text) + 1
+    ElseIf KeyCode = 40 And txtMaxThreadCount.Text > 2 Then
+        txtMaxThreadCount.Text = CDbl(txtMaxThreadCount.Text) - 1
+    End If
+End Sub
+
+Private Sub txtMaxThreadCount_KeyPress(KeyAscii As Integer)
+    If KeyAscii <> 8 And (KeyAscii < 48 Or KeyAscii > 57) Then KeyAscii = 0
+End Sub
+
 Private Sub txtNodePath_Change()
     If Loaded Then cmdApply.Enabled = -1
 End Sub
