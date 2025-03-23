@@ -1954,10 +1954,11 @@ Private Sub cmdAdd_Click()
     frmBatchAdd.Show vbModal, Me
 End Sub
 
-Sub AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Optional ByVal Headers As String = "")
+Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Optional ByVal Headers As String = "") As Boolean
     If Left$(URL, 7) <> "http://" And Left$(URL, 8) <> "https://" Then
         Alert URL & " - " & t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), App.Title, 16
-        Exit Sub
+        AddBatchURLs = False
+        Exit Function
     End If
     
     If Headers = "-" Then Headers = SessionHeaderCache
@@ -2010,7 +2011,8 @@ afterheaderadd:
     Else
         cmdStartBatch.Enabled = -1
     End If
-End Sub
+    AddBatchURLs = True
+End Function
 
 Private Sub cmdAddToQueue_Click()
     If Replace(txtURL.Text, " ", "") = "" Then

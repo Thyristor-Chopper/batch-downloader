@@ -142,13 +142,25 @@ Private Sub cmdOK_Click()
 
     Dim URLs() As String
     URLs = Split(txtURLs.Text, vbCrLf)
+    Dim ErrURLs$
+    ErrURLs = ""
     For i = 0 To UBound(URLs)
         If Replace(URLs(i), " ", "") <> "" Then
-            frmMain.AddBatchURLs URLs(i), txtSavePath.Text, HeaderCache
+            If frmMain.AddBatchURLs(URLs(i), txtSavePath.Text, HeaderCache) = False Then
+                ErrURLs = ErrURLs & URLs(i) & vbCrLf
+            End If
         End If
     Next i
     
-    Unload Me
+    If ErrURLs = "" Then
+        Unload Me
+    Else
+        txtURLs.Text = ErrURLs
+        txtURLs.SelStart = 0
+        txtURLs.SelLength = Len(txtURLs.Text)
+        On Error Resume Next
+        txtURLs.SetFocus
+    End If
 End Sub
 
 Private Sub Form_Activate()
