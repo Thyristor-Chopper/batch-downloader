@@ -19,6 +19,7 @@ Public Const WM_SETTINGCHANGE = &H1A
 Public Const WM_DWMCOMPOSITIONCHANGED = &H31E
 Public Const WM_THEMECHANGED = &H31A
 Public Const WM_DPICHANGED = &H2E0
+Public Const WM_CTLCOLORSCROLLBAR = &H137&
 Public Const HWND_TOPMOST = -1
 Public Const HWND_NOTOPMOST = -2
 Public Const SWP_NOMOVE = &H2
@@ -50,6 +51,7 @@ Private Type MINMAXINFO
 End Type
  
 Private mPrevProc_Main As Long
+Private mPrevProc_ThreadInfo As Long
 Private mPrevProc_BatchAdd As Long
 Private mPrevProc_Explorer As Long
 Private mPrevProc_Options As Long
@@ -61,33 +63,43 @@ Sub SetWindowSizeLimit(hWnd As Long, Width As Long, minH As Long, maxH As Long)
     MainFormWidth = Width / 15
     MainFormMinHeight = minH / 15
     MainFormMaxHeight = maxH / 15
-    If mPrevProc_Main <= 0& Then _
+    If mPrevProc_Main = 0& Then _
         mPrevProc_Main = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Main)
+End Sub
+
+Sub Hook_ThreadInfo(hWnd As Long)
+    If mPrevProc_ThreadInfo = 0& Then _
+        mPrevProc_ThreadInfo = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_ThreadInfo)
 End Sub
  
 Sub Hook_BatchAdd(hWnd As Long)
-    If mPrevProc_BatchAdd <= 0& Then _
+    If mPrevProc_BatchAdd = 0& Then _
         mPrevProc_BatchAdd = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_BatchAdd)
 End Sub
  
 Sub Hook_Explorer(hWnd As Long)
-    If mPrevProc_Explorer <= 0& Then _
+    If mPrevProc_Explorer = 0& Then _
         mPrevProc_Explorer = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Explorer)
 End Sub
  
 Sub Hook_Options(hWnd As Long)
-    If mPrevProc_Options <= 0& Then _
+    If mPrevProc_Options = 0& Then _
         mPrevProc_Options = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Options)
 End Sub
  
 'Sub Hook_Bluemetal(hWnd As Long)
-'    If mPrevProc_Bluemetal <= 0& Then _
+'    If mPrevProc_Bluemetal = 0& Then _
 '        mPrevProc_Bluemetal = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WndProc_Bluemetal)
 'End Sub
  
 Sub Unhook_Main(hWnd As Long)
     SetWindowLong hWnd, GWL_WNDPROC, mPrevProc_Main
     mPrevProc_Main = 0&
+End Sub
+ 
+Sub Unhook_ThreadInfo(hWnd As Long)
+    SetWindowLong hWnd, GWL_WNDPROC, mPrevProc_ThreadInfo
+    mPrevProc_ThreadInfo = 0&
 End Sub
  
 Sub Unhook_BatchAdd(hWnd As Long)
@@ -192,12 +204,31 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
             frmMain.SetTextColors
         Case WM_DPICHANGED
             UpdateDPI
+        Case WM_CTLCOLORSCROLLBAR
+            WndProc_Main = 0&
+            Exit Function
     End Select
     
-    If mPrevProc_Main > 0& Then
+    If mPrevProc_Main <> 0& Then
         WndProc_Main = CallWindowProc(mPrevProc_Main, hWnd, uMsg, wParam, lParam)
     Else
         WndProc_Main = DefWindowProc(hWnd, uMsg, wParam, lParam)
+    End If
+End Function
+ 
+Function WndProc_ThreadInfo(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    On Error Resume Next
+ 
+    Select Case uMsg
+        Case WM_CTLCOLORSCROLLBAR
+            WndProc_ThreadInfo = 0&
+            Exit Function
+    End Select
+    
+    If mPrevProc_ThreadInfo <> 0& Then
+        WndProc_ThreadInfo = CallWindowProc(mPrevProc_ThreadInfo, hWnd, uMsg, wParam, lParam)
+    Else
+        WndProc_ThreadInfo = DefWindowProc(hWnd, uMsg, wParam, lParam)
     End If
 End Function
  
@@ -226,7 +257,7 @@ Function WndProc_BatchAdd(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam A
             UpdateDPI
     End Select
     
-    If mPrevProc_BatchAdd > 0& Then
+    If mPrevProc_BatchAdd <> 0& Then
         WndProc_BatchAdd = CallWindowProc(mPrevProc_BatchAdd, hWnd, uMsg, wParam, lParam)
     Else
         WndProc_BatchAdd = DefWindowProc(hWnd, uMsg, wParam, lParam)
@@ -258,7 +289,7 @@ Function WndProc_Explorer(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam A
             UpdateDPI
     End Select
     
-    If mPrevProc_Explorer > 0& Then
+    If mPrevProc_Explorer <> 0& Then
         WndProc_Explorer = CallWindowProc(mPrevProc_Explorer, hWnd, uMsg, wParam, lParam)
     Else
         WndProc_Explorer = DefWindowProc(hWnd, uMsg, wParam, lParam)
@@ -280,7 +311,7 @@ Function WndProc_Options(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As
             frmOptions.DrawTabBackground True
     End Select
     
-    If mPrevProc_Options > 0& Then
+    If mPrevProc_Options <> 0& Then
         WndProc_Options = CallWindowProc(mPrevProc_Options, hWnd, uMsg, wParam, lParam)
     Else
         WndProc_Options = DefWindowProc(hWnd, uMsg, wParam, lParam)
@@ -304,7 +335,7 @@ End Function
 '            SetWindowPos Bluemetal.pbRight.hWnd, 0, rc.Right - Bluemetal.pbRight.Width / 15, rc.Top + Bluemetal.pbTopRight.Height / 15, Bluemetal.pbRight.Width / 15, Bluemetal.pbRight.Height / 15, SWP_FRAMECHANGED
 '    End Select
 '
-'    If mPrevProc_Bluemetal > 0& Then
+'    If mPrevProc_Bluemetal <> 0& Then
 '        WndProc_Bluemetal = CallWindowProc(mPrevProc_Bluemetal, hWnd, uMsg, wParam, lParam)
 '    Else
 '        WndProc_Bluemetal = DefWindowProc(hWnd, uMsg, wParam, lParam)

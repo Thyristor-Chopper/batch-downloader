@@ -1523,10 +1523,14 @@ Private Sub chkEnableBackgroundImage_Click()
     
     If chkEnableBackgroundImage.Value = 0 Then
         cmdChooseBackground.Enabled = 0
+        Label2.Enabled = 0
+        cbImagePosition.Enabled = 0
         imgPreview.Visible = 0
         cmdSample.Refresh
     Else
         cmdChooseBackground.Enabled = -1
+        Label2.Enabled = -1
+        cbImagePosition.Enabled = -1
         
         On Error Resume Next
         If LCase(Right$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""), 4)) = ".png" Then
@@ -1631,12 +1635,11 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "ScrollOneScreen", IIf(optScreenPerScroll.Value, 1, 0)
     If ScrollChanged Then
         frmMain.ScrollOneScreen = optScreenPerScroll.Value
-        frmMain.TahomaAvailable = IIf(GetSetting("DownloadBooster", "Options", "ForceOldScrollBar", 0) <> 0 Or optScreenPerScroll.Value, False, FontExists("Tahoma"))
         frmMain.trThreadCount_Scroll
         frmMain.pbProgressContainer.Top = 0
         frmMain.vsProgressScroll.Value = 0
-        frmMain.lvDummyScroll.TopIndex = 0
         frmMain.pbProgressContainer.Refresh
+        frmMain.vsProgressScroll.LargeChange = IIf(optScreenPerScroll.Value, 1, 10)
     End If
     
     Dim NoDisable As Boolean
@@ -2166,6 +2169,8 @@ Private Sub Form_Load()
     chkEnableBackgroundImage.Value = GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0)
     If chkEnableBackgroundImage.Value = 0 Then
         cmdChooseBackground.Enabled = 0
+        Label2.Enabled = 0
+        cbImagePosition.Enabled = 0
     End If
     
     Dim clrBackColor As Long
