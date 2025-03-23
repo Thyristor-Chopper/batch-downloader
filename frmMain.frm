@@ -2517,6 +2517,9 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
             ImageCentered = True
             ImgPos = ImgPos - 3
         End If
+        Dim Width&, Height&
+        Width = GetPictureWidth(imgBackground.Picture)
+        Height = GetPictureHeight(imgBackground.Picture)
         Select Case ImgPos
             Case 0 '늘이기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
@@ -2527,7 +2530,7 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
             Case 1 '높이에 맞추기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
                 imgBackground.Height = Me.Height
-                imgBackground.Width = imgBackground.Picture.Width / imgBackground.Picture.Height * Me.Height
+                imgBackground.Width = Width / Height * Me.Height
                 imgBackground.Top = 0
                 If ImageCentered Then
                     imgBackground.Left = (Me.Width - imgBackground.Width) \ 2
@@ -2537,40 +2540,40 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
             Case 2 '너비에 맞추기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
                 imgBackground.Width = Me.Width
-                imgBackground.Height = imgBackground.Picture.Height / imgBackground.Picture.Width * Me.Width
+                imgBackground.Height = Height / Width * Me.Width
                 If ImageCentered Then
-                    imgBackground.Top = ((Me.Height - sbStatusBar.Height - 600) - imgBackground.Height) \ 2
+                    imgBackground.Top = ((Me.Height - sbStatusBar.Height - 480) - imgBackground.Height) \ 2
                 Else
                     imgBackground.Top = 0
                 End If
                 imgBackground.Left = 0
             Case 3 '원본 크기
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
-                imgBackground.Width = imgBackground.Picture.Width \ 2
-                imgBackground.Height = imgBackground.Picture.Height \ 2
+                imgBackground.Width = Width
+                imgBackground.Height = Height
                 If ImageCentered Then
-                    imgBackground.Top = ((Me.Height - sbStatusBar.Height - 600) - imgBackground.Height) \ 2
+                    imgBackground.Top = ((Me.Height - sbStatusBar.Height - 480) - imgBackground.Height) \ 2
                     imgBackground.Left = (Me.Width - imgBackground.Width) \ 2
                 Else
                     imgBackground.Top = 0
                     imgBackground.Left = 0
                 End If
             Case 7 '바둑판식
-                imgBackground.Top = -imgBackground.Picture.Height
-                imgBackground.Left = -imgBackground.Picture.Width
+                imgBackground.Top = -Height
+                imgBackground.Left = -Width
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
-                imgBackground.Width = imgBackground.Picture.Width \ 2
-                imgBackground.Height = imgBackground.Picture.Height \ 2
+                imgBackground.Width = Width
+                imgBackground.Height = Height
                 k = 1
-                For i = 1 To Ceil(Me.Height / imgBackground.Height)
-                    For j = 1 To Ceil(Me.Width / imgBackground.Width)
+                For i = 1 To Ceil(Me.Height / Height)
+                    For j = 1 To Ceil(Me.Width / Width)
                         Load imgBackgroundTile(k)
                         Set imgBackgroundTile(k).Picture = imgBackground.Picture
                         imgBackgroundTile(k).Stretch = False
-                        imgBackgroundTile(k).Width = imgBackground.Width + 150
-                        imgBackgroundTile(k).Height = imgBackground.Height + 150
-                        imgBackgroundTile(k).Top = (i - 1) * (imgBackground.Height + 105)
-                        imgBackgroundTile(k).Left = (j - 1) * (imgBackground.Width + 105)
+                        imgBackgroundTile(k).Width = Width
+                        imgBackgroundTile(k).Height = Height
+                        imgBackgroundTile(k).Top = (i - 1) * Height
+                        imgBackgroundTile(k).Left = (j - 1) * Width
                         imgBackgroundTile(k).Visible = True
                         k = k + 1
                     Next j

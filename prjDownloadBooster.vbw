@@ -1,4 +1,4 @@
-frmMain = 165, 289, 1243, 956, C, 137, 78, 1207, 737, C
+frmMain = 165, 289, 1243, 956, , 137, 78, 1207, 737, C
 ShellPipe = 0, 0, 0, 0, C, 198, 261, 1268, 920, C
 SPBuffer = 0, 0, 0, 0, C
 Slider = 44, 58, 1187, 725, C, 220, 290, 1290, 949, C
@@ -30,7 +30,7 @@ LvwVirtualListItem = 0, 0, 0, 0, C
 LvwVirtualListItems = 0, 0, 0, 0, C
 LvwWorkArea = 0, 0, 0, 0, C
 LvwWorkAreas = 0, 0, 0, 0, C
-Functions = 22, 29, 1100, 696, C
+Functions = 22, 29, 1100, 696, 
 frmBrowse = 176, 232, 1254, 899, C, 110, 145, 1180, 804, C
 frmBatchAdd = 0, 0, 0, 0, C, 154, 203, 1224, 862, C
 Startup = 52, -13, 1130, 654, C

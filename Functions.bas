@@ -2499,3 +2499,11 @@ Function Ceil(val)
         Ceil = Rounded
     End If
 End Function
+
+Function GetPictureWidth(pic As StdPicture) As Long
+    GetPictureWidth = Round(frmMain.ScaleX(pic.Width, vbHimetric, vbTwips))
+End Function
+
+Function GetPictureHeight(pic As StdPicture) As Long
+    GetPictureHeight = Round(frmMain.ScaleY(pic.Height, vbHimetric, vbTwips))
+End Function
