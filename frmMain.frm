@@ -2590,7 +2590,7 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
                     MaxLoadedTileBackgroundImage = k
                 End If
         End Select
-        If ImgPos <> 7 Then
+        If ImgPos <> 7 And MaxLoadedTileBackgroundImage > 0 Then
             For i = 1 To MaxLoadedTileBackgroundImage
                 Set imgBackgroundTile(i).Picture = Nothing
                 Unload imgBackgroundTile(i)
