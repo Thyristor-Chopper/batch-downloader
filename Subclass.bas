@@ -204,9 +204,6 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
             frmMain.SetTextColors
         Case WM_DPICHANGED
             UpdateDPI
-        Case WM_CTLCOLORSCROLLBAR
-            WndProc_Main = 0&
-            Exit Function
     End Select
     
     If mPrevProc_Main <> 0& Then
