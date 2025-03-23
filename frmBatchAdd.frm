@@ -31,25 +31,21 @@ Begin VB.Form frmBatchAdd
       _ExtentY        =   609
       Caption         =   "고급(&V)..."
    End
-   Begin prjDownloadBooster.TextBoxW txtSavePath 
+   Begin VB.TextBox txtSavePath 
       Height          =   255
       Left            =   120
       TabIndex        =   3
       Top             =   3405
       Width           =   4215
-      _ExtentX        =   7435
-      _ExtentY        =   450
    End
-   Begin prjDownloadBooster.TextBoxW txtURLs 
+   Begin VB.TextBox txtURLs 
       Height          =   2535
       Left            =   120
+      MultiLine       =   -1  'True
+      ScrollBars      =   3  '양방향
       TabIndex        =   1
       Top             =   360
       Width           =   4215
-      _ExtentX        =   0
-      _ExtentY        =   0
-      MultiLine       =   -1  'True
-      ScrollBars      =   3
    End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True

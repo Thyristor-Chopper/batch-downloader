@@ -55,16 +55,13 @@ Begin VB.Form frmDownloadOptions
          Enabled         =   0   'False
          Caption         =   "이름변경(&R)"
       End
-      Begin prjDownloadBooster.TextBoxW txtEdit 
+      Begin VB.TextBox txtEdit 
          Height          =   255
          Left            =   2760
          TabIndex        =   22
          Top             =   960
          Visible         =   0   'False
          Width           =   2535
-         _ExtentX        =   4471
-         _ExtentY        =   450
-         BorderStyle     =   1
       End
       Begin prjDownloadBooster.CommandButtonW cmdDeleteHeader 
          Height          =   330
@@ -189,25 +186,20 @@ Begin VB.Form frmDownloadOptions
          _ExtentY        =   3836
          Caption         =   "        "
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.ComboBoxW txtFormat 
+         Begin VB.ComboBox txtFormat 
             Height          =   300
             Left            =   1200
             TabIndex        =   8
             Top             =   360
             Width           =   1695
-            _ExtentX        =   2990
-            _ExtentY        =   529
          End
-         Begin prjDownloadBooster.ComboBoxW cbBitRate 
+         Begin VB.ComboBox cbBitRate 
             Height          =   300
             Left            =   1560
+            Style           =   2  '드롭다운 목록
             TabIndex        =   15
             Top             =   1800
             Width           =   1215
-            _ExtentX        =   2143
-            _ExtentY        =   529
-            Style           =   2
-            Text            =   "ComboBoxW1"
          End
          Begin prjDownloadBooster.OptionButtonW optCBR 
             Height          =   255
@@ -220,27 +212,21 @@ Begin VB.Form frmDownloadOptions
             Caption         =   "&CBR:"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.ComboBoxW cbAudioFormat 
+         Begin VB.ComboBox cbAudioFormat 
             Height          =   300
             Left            =   2040
+            Style           =   2  '드롭다운 목록
             TabIndex        =   11
             Top             =   1080
             Width           =   2055
-            _ExtentX        =   3625
-            _ExtentY        =   529
-            Style           =   2
-            Text            =   "ComboBoxW2"
          End
-         Begin prjDownloadBooster.ComboBoxW cbVBR 
+         Begin VB.ComboBox cbVBR 
             Height          =   300
             Left            =   1560
+            Style           =   2  '드롭다운 목록
             TabIndex        =   13
             Top             =   1440
             Width           =   1215
-            _ExtentX        =   2143
-            _ExtentY        =   529
-            Style           =   2
-            Text            =   "ComboBoxW1"
          End
          Begin prjDownloadBooster.OptionButtonW optVBR 
             Height          =   255

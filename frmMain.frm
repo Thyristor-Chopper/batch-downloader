@@ -59,14 +59,12 @@ Begin VB.Form frmMain
       Caption         =   "제거(&V) "
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.TextBoxW txtURL 
+   Begin VB.TextBox txtURL 
       Height          =   300
       Left            =   1560
       TabIndex        =   1
       Top             =   105
       Width           =   5745
-      _ExtentX        =   10134
-      _ExtentY        =   529
    End
    Begin prjDownloadBooster.CommandButtonW cmdDownloadOptions 
       Height          =   330
@@ -703,31 +701,21 @@ Begin VB.Form frmMain
             End
          End
       End
-      Begin prjDownloadBooster.TextBoxW txtDummyScroll 
+      Begin VB.TextBox txtDummyScroll 
+         BorderStyle     =   0  '없음
+         Enabled         =   0   'False
          Height          =   3450
          Left            =   5640
+         MultiLine       =   -1  'True
+         ScrollBars      =   2  '수직
          TabIndex        =   55
          TabStop         =   0   'False
          Top             =   0
          Visible         =   0   'False
          Width           =   375
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Enabled         =   0   'False
-         BorderStyle     =   0
-         MultiLine       =   -1  'True
-         ScrollBars      =   2
       End
-      Begin prjDownloadBooster.ListBoxW lvDummyScroll 
-         Height          =   3450
-         Left            =   5400
-         TabIndex        =   17
-         TabStop         =   0   'False
-         Top             =   0
-         Width           =   615
-         _ExtentX        =   1085
-         _ExtentY        =   6085
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+      Begin VB.ListBox lvDummyScroll 
+         BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   14.25
             Charset         =   0
@@ -736,9 +724,12 @@ Begin VB.Form frmMain
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         BackColor       =   -2147483643
-         ForeColor       =   -2147483640
-         BorderStyle     =   0
+         Height          =   3510
+         Left            =   5400
+         TabIndex        =   17
+         TabStop         =   0   'False
+         Top             =   0
+         Width           =   615
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdIncreaseThreads 
@@ -767,15 +758,13 @@ Begin VB.Form frmMain
       Caption         =   "<"
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.ComboBoxW cbWhenExist 
+   Begin VB.ComboBox cbWhenExist 
       Height          =   300
       Left            =   7830
+      Style           =   2  '드롭다운 목록
       TabIndex        =   22
       Top             =   2025
       Width           =   1185
-      _ExtentX        =   2090
-      _ExtentY        =   529
-      Style           =   2
    End
    Begin prjDownloadBooster.CheckBoxW chkOpenAfterComplete 
       Height          =   255
@@ -924,14 +913,12 @@ Begin VB.Form frmMain
       Caption         =   " 찾아보기(&B)..."
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.TextBoxW txtFileName 
+   Begin VB.TextBox txtFileName 
       Height          =   300
       Left            =   1560
       TabIndex        =   4
       Top             =   450
       Width           =   5745
-      _ExtentX        =   10134
-      _ExtentY        =   529
    End
    Begin prjDownloadBooster.CommandButtonW cmdGo 
       Height          =   330
@@ -2803,6 +2790,8 @@ Private Sub Form_Load()
     SetTitle
     ScrollOneScreen = GetSetting("DownloadBooster", "Options", "ScrollOneScreen", 0) <> 0
     TahomaAvailable = IIf(GetSetting("DownloadBooster", "Options", "ForceOldScrollBar", 0) <> 0 Or ScrollOneScreen, False, FontExists("Tahoma"))
+    ComCtlsChangeBorderStyle lvDummyScroll.hWnd, CCBorderStyleNone
+    lvDummyScroll.Height = 3495
     
     MaxLoadedTileBackgroundImage = 0
     ImagePosition = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)

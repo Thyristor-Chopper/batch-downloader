@@ -45,17 +45,15 @@ Begin VB.Form frmAbout
       TabIndex        =   19
       Top             =   1440
       Width           =   4815
-      Begin prjDownloadBooster.TextBoxW txtShellPipe 
+      Begin VB.TextBox txtShellPipe 
          Height          =   3255
          Left            =   0
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   3  '양방향
          TabIndex        =   4
          Top             =   0
          Width           =   4815
-         _ExtentX        =   8493
-         _ExtentY        =   5741
-         Locked          =   -1  'True
-         MultiLine       =   -1  'True
-         ScrollBars      =   3
       End
    End
    Begin prjDownloadBooster.ImageList imgFiles 
@@ -123,17 +121,15 @@ Begin VB.Form frmAbout
          Caption         =   "frmAbout.frx":01B4
          Transparent     =   -1  'True
       End
-      Begin prjDownloadBooster.TextBoxW txtLicensePlaceholder 
+      Begin VB.TextBox txtLicensePlaceholder 
+         Enabled         =   0   'False
          Height          =   270
          Left            =   0
+         Locked          =   -1  'True
+         ScrollBars      =   2  '수직
          TabIndex        =   7
          Top             =   0
          Width           =   1215
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Enabled         =   0   'False
-         Locked          =   -1  'True
-         ScrollBars      =   2
       End
       Begin prjDownloadBooster.ProgressBar pbLicenseLoadProgress 
          Height          =   255
@@ -145,18 +141,16 @@ Begin VB.Form frmAbout
          Max             =   812
          Step            =   10
       End
-      Begin prjDownloadBooster.TextBoxW txtLicense 
+      Begin VB.TextBox txtLicense 
+         Enabled         =   0   'False
          Height          =   2970
          Left            =   0
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   3  '양방향
          TabIndex        =   8
          Top             =   0
          Width           =   4815
-         _ExtentX        =   8493
-         _ExtentY        =   5239
-         Enabled         =   0   'False
-         Locked          =   -1  'True
-         MultiLine       =   -1  'True
-         ScrollBars      =   3
       End
    End
    Begin VB.PictureBox pbLicenses 
@@ -170,17 +164,15 @@ Begin VB.Form frmAbout
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin prjDownloadBooster.TextBoxW txtPNG 
+      Begin VB.TextBox txtPNG 
          Height          =   3255
          Left            =   0
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   2  '수직
          TabIndex        =   12
          Top             =   0
          Width           =   4815
-         _ExtentX        =   8493
-         _ExtentY        =   5741
-         Locked          =   -1  'True
-         MultiLine       =   -1  'True
-         ScrollBars      =   2
       End
    End
    Begin VB.PictureBox pbLicenses 
@@ -194,17 +186,15 @@ Begin VB.Form frmAbout
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin prjDownloadBooster.TextBoxW txtCC 
+      Begin VB.TextBox txtCC 
          Height          =   3255
          Left            =   0
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   2  '수직
          TabIndex        =   11
          Top             =   0
          Width           =   4815
-         _ExtentX        =   8493
-         _ExtentY        =   5741
-         Locked          =   -1  'True
-         MultiLine       =   -1  'True
-         ScrollBars      =   2
       End
    End
    Begin VB.PictureBox pbLicenses 
@@ -218,17 +208,15 @@ Begin VB.Form frmAbout
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin prjDownloadBooster.TextBoxW txtIconv 
+      Begin VB.TextBox txtIconv 
          Height          =   3255
          Left            =   0
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   2  '수직
          TabIndex        =   10
          Top             =   0
          Width           =   4815
-         _ExtentX        =   8493
-         _ExtentY        =   5741
-         Locked          =   -1  'True
-         MultiLine       =   -1  'True
-         ScrollBars      =   2
       End
    End
    Begin prjDownloadBooster.ImageList imgItems 

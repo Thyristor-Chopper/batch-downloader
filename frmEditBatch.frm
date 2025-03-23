@@ -84,23 +84,19 @@ Begin VB.Form frmEditBatch
          _ExtentY        =   582
          Caption         =   "찾아보기(&B)..."
       End
-      Begin prjDownloadBooster.TextBoxW txtFilePath 
+      Begin VB.TextBox txtFilePath 
          Height          =   255
          Left            =   360
          TabIndex        =   4
          Top             =   1080
          Width           =   4935
-         _ExtentX        =   8705
-         _ExtentY        =   450
       End
-      Begin prjDownloadBooster.TextBoxW txtURL 
+      Begin VB.TextBox txtURL 
          Height          =   255
          Left            =   360
          TabIndex        =   2
          Top             =   480
          Width           =   4935
-         _ExtentX        =   8705
-         _ExtentY        =   450
       End
       Begin VB.Label Label3 
          BackStyle       =   0  '투명

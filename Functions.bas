@@ -515,7 +515,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                     End If
                 End If
             End If
-            If CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ListView" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "ListBoxW" Then GoTo nextfor
+            If CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ListView" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "ListBoxW" Or CtrlTypeName = "ListBox" Then GoTo nextfor
             If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" Then
                 ctrl.ForeColor = clrForeColor
                 If (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW") Then
@@ -1818,10 +1818,15 @@ End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
 Function FontExists(ByVal Name As String) As Boolean
+    On Error GoTo noexist
+    If Name = "" Then GoTo noexist
     With New StdFont
         .Name = Name
         FontExists = (StrComp(.Name, Name, vbTextCompare) = 0)
     End With
+    Exit Function
+noexist:
+    FontExists = False
 End Function
 
 Function FolderExists(ByVal sFullPath As String) As Boolean
