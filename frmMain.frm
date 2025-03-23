@@ -2776,7 +2776,7 @@ Private Sub Form_Load()
 
     ResumeUnsupported = False
     sbStatusBar.Panels(1).Text = t("ÁØºñ", "Ready")
-    Me.Caption = t(Me.Caption, "Download Booster") '& " v" & App.Major & "." & App.Minor & "." & App.Revision
+    Me.Caption = t(Me.Caption, "Download Booster") & " " & App.Major & "." & App.Minor & IIf(App.Revision > 0, "." & App.Revision, "")
     ScrollOneScreen = GetSetting("DownloadBooster", "Options", "ScrollOneScreen", 0) <> 0
     TahomaAvailable = IIf(GetSetting("DownloadBooster", "Options", "ForceOldScrollBar", 0) <> 0 Or ScrollOneScreen, False, FontExists("Tahoma"))
     
