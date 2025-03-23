@@ -2041,7 +2041,7 @@ Sub cmdBatch_Click()
         cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
         cmdAddToQueue.Visible = -1
-        SetWindowSizeLimit Me.hWnd, MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2, 8220 + PaddedBorderWidth * 15 * 2, Screen.Height + 1200
+        SetWindowSizeLimit Me.hWnd, MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2, 8220 + PaddedBorderWidth * 15 * 2 + 45, Screen.Height + 1200
         'sbStatusBar.AllowSizeGrip = True
         
         Dim formHeight As Integer
@@ -3186,7 +3186,7 @@ Private Sub Form_Unload(Cancel As Integer)
     End If
     
     SaveSetting "DownloadBooster", "UserData", "SavePath", Trim$(txtFileName.Text)
-    SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6931) * -1
+    SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6930 + PaddedBorderWidth * 15 * 2) * -1
     SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
     If GetSetting("DownloadBooster", "Options", "RememberURL", 0) <> 0 Then
         SaveSetting "DownloadBooster", "UserData", "FileURL", Trim$(txtURL.Text)
