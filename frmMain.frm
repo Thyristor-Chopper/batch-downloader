@@ -1261,6 +1261,7 @@ Dim HttpStatusCode As String
 Dim ResumeUnsupported As Boolean
 Public ImagePosition As Integer
 Dim TotalSize As Double
+Dim FormCaption$
 
 Const MAIN_FORM_WIDTH As Long = 9450
 
@@ -1494,6 +1495,7 @@ progressAvailable:
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
             pbTotalProgress.Value = progress
             fTotal.Caption = t(" 전체 다운로드 진행률 (" & progress & "%) ", " Total Progress (" & progress & "%) ")
+            If Not BatchStarted Then SetTitle progress & "% " & t("다운로드 중", "Downloading")
         End If
         
         Dim Speed As Double
@@ -1809,6 +1811,17 @@ Sub OnStart()
     
     lblState.Caption = t("진행 중", "Working")
     sbStatusBar.Panels(1).Text = t("시작 중...", "Starting...")
+    
+    If BatchStarted Then
+'        Dim BatchCount%
+'        BatchCount = 0
+'        For i = 1 To lvBatchFiles.ListItems.Count
+'            BatchCount = BatchCount + Abs(CInt(lvBatchFiles.ListItems(i).Checked))
+'        Next i
+        SetTitle t(lvBatchFiles.ListItems.Count & "개 중 " & CurrentBatchIdx & "번째 항목 다운로드 중", "Downloading " & CurrentBatchIdx & " of " & lvBatchFiles.ListItems.Count)
+    Else
+        SetTitle t("다운로드 중", "Downloading")
+    End If
 End Sub
 
 Sub OnStop(Optional PlayBeep As Boolean = True)
@@ -1910,6 +1923,8 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     End If
     If lblTotalSizeThread.Caption = t("대기 중...", "Pending...") Then lblTotalSizeThread.Caption = "-"
     lblRemaining.Caption = "-"
+    
+    SetTitle
 End Sub
 
 Private Sub cbWhenExist_Click()
@@ -2767,6 +2782,14 @@ Private Sub cmdYtdlTest_Click()
     StartYtdlDownload
 End Sub
 
+Sub SetTitle(Optional ByVal Title As String = "")
+    If Title = "" Then
+        Me.Caption = FormCaption
+    Else
+        Me.Caption = Title & " - " & FormCaption
+    End If
+End Sub
+
 Private Sub Form_Load()
     On Error Resume Next
     
@@ -2776,7 +2799,8 @@ Private Sub Form_Load()
 
     ResumeUnsupported = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")
-    Me.Caption = t(Me.Caption, "Download Booster") & " " & App.Major & "." & App.Minor & IIf(App.Revision > 0, "." & App.Revision, "")
+    FormCaption = t(Me.Caption, "Download Booster") & " " & App.Major & "." & App.Minor & IIf(App.Revision > 0, "." & App.Revision, "")
+    SetTitle
     ScrollOneScreen = GetSetting("DownloadBooster", "Options", "ScrollOneScreen", 0) <> 0
     TahomaAvailable = IIf(GetSetting("DownloadBooster", "Options", "ForceOldScrollBar", 0) <> 0 Or ScrollOneScreen, False, FontExists("Tahoma"))
     
