@@ -2692,6 +2692,9 @@ Sub LoadLiveBadukSkin()
         lblState.Visible = False
         
         LBFrameEnabled = True
+        fOptions.BorderStyle = 0
+        cmdOptions.Left = 7200
+        cmdAbout.Left = 7200
     Else
         imgTopLeft.Visible = 0
         imgTopRight.Visible = 0
@@ -2729,6 +2732,9 @@ Sub LoadLiveBadukSkin()
         lblState.Visible = True
         
         LBFrameEnabled = False
+        fOptions.BorderStyle = 1
+        cmdOptions.Left = 7080
+        cmdAbout.Left = 7080
     End If
 
     On Error Resume Next
