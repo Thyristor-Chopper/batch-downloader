@@ -2545,14 +2545,17 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
                 k = 1
                 For i = 1 To Ceil(Me.Height / Height)
                     For j = 1 To Ceil(Me.Width / Width)
-                        Load imgBackgroundTile(k)
-                        Set imgBackgroundTile(k).Picture = imgBackground.Picture
-                        imgBackgroundTile(k).Stretch = False
-                        imgBackgroundTile(k).Width = Width
-                        imgBackgroundTile(k).Height = Height
-                        imgBackgroundTile(k).Top = (i - 1) * Height
-                        imgBackgroundTile(k).Left = (j - 1) * Width
-                        imgBackgroundTile(k).Visible = True
+                        If k > imgBackgroundTile.UBound Then _
+                            Load imgBackgroundTile(k)
+                        If Not (imgBackgroundTile(k).Picture Is imgBackground.Picture) Then
+                            Set imgBackgroundTile(k).Picture = imgBackground.Picture
+                            imgBackgroundTile(k).Stretch = False
+                            imgBackgroundTile(k).Width = Width
+                            imgBackgroundTile(k).Height = Height
+                            imgBackgroundTile(k).Top = (i - 1) * Height
+                            imgBackgroundTile(k).Left = (j - 1) * Width
+                            imgBackgroundTile(k).Visible = True
+                        End If
                         k = k + 1
                     Next j
                 Next i
