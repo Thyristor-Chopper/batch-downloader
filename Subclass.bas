@@ -274,8 +274,10 @@ Function WndProc_Options(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As
                 Case "WindowMetrics"
                     UpdateBorderWidth
                     frmOptions.SetPreviewPosition
-                    frmOptions.DrawTabBackground
+                    frmOptions.DrawTabBackground True
             End Select
+        Case WM_THEMECHANGED
+            frmOptions.DrawTabBackground True
     End Select
     
     If mPrevProc_Options > 0& Then
