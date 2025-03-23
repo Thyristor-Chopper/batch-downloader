@@ -543,27 +543,27 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   19
          Top             =   2160
-         Width           =   6375
-         _ExtentX        =   11245
+         Width           =   5895
+         _ExtentX        =   10398
          _ExtentY        =   4789
          Caption         =   " 인터페이스 "
          Begin prjDownloadBooster.OptionButtonW optScreenPerScroll 
             Height          =   255
-            Left            =   4350
+            Left            =   4200
             TabIndex        =   36
             Top             =   2415
-            Width           =   1980
-            _ExtentX        =   3493
+            Width           =   1500
+            _ExtentX        =   2646
             _ExtentY        =   450
-            Caption         =   "한 화면씩(&T)"
+            Caption         =   "한 화면씩(&R)"
          End
          Begin prjDownloadBooster.OptionButtonW optLinePerScroll 
             Height          =   255
-            Left            =   2580
+            Left            =   2640
             TabIndex        =   35
             Top             =   2415
-            Width           =   1755
-            _ExtentX        =   3096
+            Width           =   1395
+            _ExtentX        =   2461
             _ExtentY        =   450
             Caption         =   "한 줄씩(&N)"
          End
@@ -627,7 +627,7 @@ Begin VB.Form frmOptions
             _ExtentX        =   3625
             _ExtentY        =   450
             Enabled         =   0   'False
-            Caption         =   "유리 창 효과 사용(&R)"
+            Caption         =   "유리 창 효과 사용(&G)"
          End
          Begin prjDownloadBooster.CheckBoxW chkAlwaysOnTop 
             Height          =   255
@@ -641,7 +641,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.ComboBoxW cbLanguage 
             Height          =   300
-            Left            =   2610
+            Left            =   2640
             TabIndex        =   28
             Top             =   1710
             Width           =   1455
@@ -651,7 +651,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.ComboBoxW cbFont 
             Height          =   300
-            Left            =   2610
+            Left            =   2640
             TabIndex        =   32
             Top             =   2070
             Width           =   1455
@@ -681,11 +681,11 @@ Begin VB.Form frmOptions
             Alignment       =   2  '가운데 맞춤
             BorderStyle     =   1  '단일 고정
             Height          =   270
-            Left            =   4350
+            Left            =   4200
             TabIndex        =   33
             Tag             =   "nobgdraw"
             Top             =   2085
-            Width           =   1935
+            Width           =   1575
          End
          Begin VB.Image Image3 
             Height          =   405
@@ -735,7 +735,7 @@ Begin VB.Form frmOptions
          Caption         =   " 다운로드 설정 "
          Begin prjDownloadBooster.UpDown udMaxThreadCount 
             Height          =   255
-            Left            =   4110
+            Left            =   3630
             Top             =   1575
             Width           =   255
             _ExtentX        =   450
@@ -749,7 +749,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.TextBoxW txtMaxThreadCount 
             Height          =   210
-            Left            =   3735
+            Left            =   3255
             TabIndex        =   17
             Top             =   1605
             Width           =   360
@@ -771,7 +771,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.ComboBoxW cbWhenExist 
             Height          =   300
-            Left            =   3690
+            Left            =   3210
             TabIndex        =   14
             Top             =   1230
             Width           =   2040
@@ -831,7 +831,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.TextBoxW txtOuterMaxThreadCount 
             Height          =   285
-            Left            =   3690
+            Left            =   3210
             TabIndex        =   16
             TabStop         =   0   'False
             Top             =   1560
@@ -850,9 +850,9 @@ Begin VB.Form frmOptions
          End
          Begin VB.Label Label15 
             BackStyle       =   0  '투명
-            Caption         =   "(다시 시작 필요)"
+            Caption         =   "개 (다시 시작 필요)"
             Height          =   255
-            Left            =   4440
+            Left            =   3960
             TabIndex        =   18
             Top             =   1605
             Width           =   2055
@@ -2358,7 +2358,7 @@ Private Sub Form_Load()
     chkForceGet.Caption = t(chkForceGet.Caption, "Force GET re&quest on file check")
     chkIgnore300.Caption = t(chkIgnore300.Caption, "&Ignore 3XX reponse code")
     chkAlwaysOnTop.Caption = t(chkAlwaysOnTop.Caption, "Al&ways on top")
-    chkAeroWindow.Caption = t(chkAeroWindow.Caption, "Use Ae&ro glass window")
+    chkAeroWindow.Caption = t(chkAeroWindow.Caption, "Use Aero &glass window")
     cmdAddHeader.Caption = t(cmdAddHeader.Caption, "&Add")
     cmdDeleteHeader.Caption = t(cmdDeleteHeader.Caption, "&Delete")
     cmdEditHeaderName.Caption = t(cmdEditHeaderName.Caption, "&Rename")
@@ -2388,14 +2388,14 @@ Private Sub Form_Load()
     txtQuestion.Text = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
     tr chkAllowDuplicates, "Allow dupl&icates in queue"
     tr Label13, "&Font:"
-    tr Label14, "Ma&ximum number of threads:"
+    tr Label14, "Ma&x. number of threads:"
     tr Label15, "(restart required)"
     tr Label16, Label15.Caption
     tr FrameW6, " Sound settings "
     tr Label17, "Set the headers when requesting to the server on download. Headers set in Download Options have higher priority."
     tr Label18, "T&hread scroll:"
-    tr optLinePerScroll, "O&ne line at a time"
-    tr optScreenPerScroll, "One screen a&t a time"
+    tr optLinePerScroll, "Per li&ne"
+    tr optScreenPerScroll, "Pe&r screen"
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
