@@ -842,7 +842,6 @@ Begin VB.Form frmMain
          Height          =   180
          Left            =   330
          TabIndex        =   20
-         Tag             =   "nocolorchange"
          Top             =   765
          Width           =   690
       End
@@ -2861,9 +2860,6 @@ Private Sub Form_Load()
     
     MaxLoadedTileBackgroundImage = 0
     ImagePosition = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
-    SetBackgroundImage
-    imgBackground.Width = Me.Width
-    imgBackground.Height = Me.Height
     
     Dim Lft%
     Dim Top%
@@ -3145,6 +3141,7 @@ afterheaderadd:
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     
     'SetFormBackgroundColor Me
+    SetBackgroundImage
 
 #If HIDEYTDL Then
     mnuYtdlOptions.Visible = False
