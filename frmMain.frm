@@ -2666,7 +2666,10 @@ Sub SetBackgroundImage()
 End Sub
 
 Sub LoadLiveBadukSkin()
-    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96 Then
+    Dim i%
+    Dim LBEnabled As Boolean
+    LBEnabled = (CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96)
+    If LBEnabled Then
         LoadPNG
 
         imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
@@ -2716,8 +2719,8 @@ Sub LoadLiveBadukSkin()
         pbTotalProgress.Top = 1800 - 90
         pbTotalProgressMarquee.Top = 1800 - 90
         
-        optTabDownload2.Width = 825
-        optTabThreads2.Width = 825
+        optTabDownload2.Width = 840
+        optTabThreads2.Width = 855
         optTabDownload2.Caption = fTabDownload.Caption
         optTabThreads2.Caption = fTabThreads.Caption
         
@@ -2779,6 +2782,34 @@ Sub LoadLiveBadukSkin()
         Label11.Visible = False
         lbOptionsHeader.Visible = False
     End If
+    
+    SetFormBackgroundColor Me
+    If LBEnabled Then
+        For i = 1 To MAX_THREAD_COUNT
+            lblDownloader(i).ForeColor = &H80000012
+            lblPercentage(i).ForeColor = &H80000012
+        Next i
+        optTabDownload2.ForeColor = &H80000012
+        optTabThreads2.ForeColor = &H80000012
+        Label8.ForeColor = &H80000012
+        Label2.ForeColor = &H80000012
+        Label3.ForeColor = &H80000012
+        Label4.ForeColor = &H80000012
+        Label5.ForeColor = &H80000012
+        Label6.ForeColor = &H80000012
+        Label7.ForeColor = &H80000012
+        Label10.ForeColor = &H80000012
+        Label9.ForeColor = &H80000012
+        lblFilename.ForeColor = &H80000012
+        lblTotalBytes.ForeColor = &H80000012
+        lblDownloadedBytes.ForeColor = &H80000012
+        lblElapsed.ForeColor = &H80000012
+        lblSpeed.ForeColor = &H80000012
+        lblThreadCount2.ForeColor = &H80000012
+        lblTotalSizeThread.ForeColor = &H80000012
+        lblRemaining.ForeColor = &H80000012
+        lblMergeStatus.ForeColor = &H80000012
+    End If
 
     On Error Resume Next
     Dim ctrl As Control
@@ -2833,7 +2864,6 @@ Private Sub Form_Load()
     SetBackgroundImage
     imgBackground.Width = Me.Width
     imgBackground.Height = Me.Height
-    LoadLiveBadukSkin
     
     Dim Lft%
     Dim Top%
@@ -2889,6 +2919,8 @@ Private Sub Form_Load()
     fDownloadInfo.Left = fThreadInfo.Left
     fDownloadInfo.Width = fThreadInfo.Width '5925
     fDownloadInfo.Height = fThreadInfo.Height - 60
+    
+    LoadLiveBadukSkin
     
     Me.Width = MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2 * (DPI / 96)
     cmdStop.Left = Me.Width + 1200
@@ -3112,7 +3144,7 @@ afterheaderadd:
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     
-    SetFormBackgroundColor Me
+    'SetFormBackgroundColor Me
 
 #If HIDEYTDL Then
     mnuYtdlOptions.Visible = False

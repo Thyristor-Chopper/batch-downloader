@@ -271,7 +271,6 @@ Begin VB.Form frmAbout
       Height          =   225
       Left            =   1050
       TabIndex        =   1
-      Tag             =   "nocolorchange"
       Top             =   600
       Width           =   3885
    End
@@ -282,7 +281,6 @@ Begin VB.Form frmAbout
       Height          =   240
       Left            =   1050
       TabIndex        =   0
-      Tag             =   "nocolorchange"
       Top             =   240
       Width           =   3885
    End
@@ -293,7 +291,6 @@ Begin VB.Form frmAbout
       Height          =   450
       Left            =   1050
       TabIndex        =   2
-      Tag             =   "nocolorchange"
       Top             =   960
       Width           =   6405
    End
