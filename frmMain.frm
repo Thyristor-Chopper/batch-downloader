@@ -816,6 +816,25 @@ Begin VB.Form frmMain
       _ExtentY        =   3916
       Caption         =   " 옵션 "
       Transparent     =   -1  'True
+      Begin VB.Line lbOptionsHeader 
+         BorderColor     =   &H80000010&
+         Visible         =   0   'False
+         X1              =   600
+         X2              =   2295
+         Y1              =   90
+         Y2              =   90
+      End
+      Begin VB.Label Label11 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  '투명
+         Caption         =   "."
+         Height          =   180
+         Left            =   0
+         TabIndex        =   72
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   60
+      End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
          BackStyle       =   0  '투명
@@ -2696,6 +2715,8 @@ Sub LoadLiveBadukSkin()
         fOptions.BorderStyle = 0
         cmdOptions.Left = 7200
         cmdAbout.Left = 7200
+        Label11.Visible = True
+        lbOptionsHeader.Visible = True
     Else
         imgTopLeft.Visible = 0
         imgTopRight.Visible = 0
@@ -2736,6 +2757,8 @@ Sub LoadLiveBadukSkin()
         fOptions.BorderStyle = 1
         cmdOptions.Left = 7080
         cmdAbout.Left = 7080
+        Label11.Visible = False
+        lbOptionsHeader.Visible = False
     End If
 
     On Error Resume Next
@@ -3052,7 +3075,10 @@ afterheaderadd:
     cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Download &settings...")
     
     tr mnuHeaders, "&Headers..."
+    
+    Label11.Caption = fOptions.Caption
     '언어설정끝
+    lbOptionsHeader.X1 = Label11.Width + 60
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     
