@@ -300,7 +300,6 @@ Begin VB.Form frmAbout
    Begin VB.Image picIcon 
       Height          =   480
       Left            =   240
-      Picture         =   "frmAbout.frx":1366
       Top             =   240
       Width           =   480
    End
@@ -332,13 +331,10 @@ Private Sub Form_Load()
     
     LineNum = 1
     Me.Caption = t(App.Title & " 정보", "About " & App.Title)
-    'picIcon.Picture = frmMain.Icon
-    lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & "." & App.Revision
+    picIcon.Picture = frmMain.Icon
+    lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & IIf(App.Revision > 0, "." & App.Revision, "")
     lblTitle.Caption = App.Title
     lblDescription.Caption = t("이 프로그램에는 외부 라이브러리가 일부 포함되어 있으며 라이선스는 다음과 같습니다.", "This program includes external libraries. Check out the license of them below.")
-    'lblDescription.Width = Me.Width - lblDescription.Left - 180 - 540
-    'txtLicense.Width = lblDescription.Width
-    'txtLicense.Height = Line1(0).Y1 - txtLicense.Top - 90 - cmdSysInfo.Height - 90 - pbLicenseLoadProgress.Height - 30 + 120
     txtLicensePlaceholder.Width = txtLicense.Width
     txtLicensePlaceholder.Height = txtLicense.Height
     txtLicensePlaceholder.Top = txtLicense.Top

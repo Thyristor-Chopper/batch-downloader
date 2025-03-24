@@ -3246,11 +3246,11 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmDownloadOptions
     Unload frmExplorer
     Unload frmDummyForm
-    Unload frmAbout
     Unhook_Main Me.hWnd
     Unhook_ThreadInfo fThreadInfo.hWnd
     GetSystemMenu Me.hWnd, 1
     Unload frmMessageBox
+    Unload frmAbout
 End Sub
 
 Private Sub fTabDownload_Click()

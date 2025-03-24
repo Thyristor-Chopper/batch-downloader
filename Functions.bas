@@ -841,7 +841,7 @@ Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon
         If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
     Next s
     
-    If LContent = 0 Then LContent = frmAbout.TextWidth(Content)
+    If LContent = 0 Then LContent = TextWidth(Content)
     If LineCount > 1 Then MessageBox.lblContent.Top = 280
     MessageBox.lblContent.Height = 185 * LineCount + 60
     MessageBox.Height = 1615 + LineCount * 180 - 300 + 190 - 60
