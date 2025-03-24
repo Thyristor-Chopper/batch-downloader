@@ -1782,6 +1782,11 @@ aftermaxtrdcheck:
         SetFont frmMain, True
     End If
     
+    If chkEnableBackgroundImage.Value > 0 And GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "") = "" Then
+        MsgBox t("배경 그림이 선택되지 않았습니다.", "Background image is not selected."), 48
+        NoDisable = True
+    End If
+    
     Dim hSysMenu As Long
     Dim MII As MENUITEMINFO
     hSysMenu = GetSystemMenu(frmMain.hWnd, 0)
