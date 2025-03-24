@@ -211,7 +211,7 @@ Begin VB.Form frmMain
       Height          =   300
       Left            =   7080
       TabIndex        =   25
-      Top             =   3180
+      Top             =   3195
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
