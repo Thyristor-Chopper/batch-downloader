@@ -223,6 +223,7 @@ Dim ButtonPressed As Boolean
 Public MsgBoxMode As Byte
 Public MsgBoxResult As VbMsgBoxResult
 Public ResultID As String
+Public MessageBoxObject As frmMessageBox
 
 Private Sub cmdAbort_Click()
     MsgBoxResult = vbAbort
@@ -363,6 +364,11 @@ Private Sub Form_Unload(Cancel As Integer)
         If Functions.MsgBoxResults Is Nothing Then Set Functions.MsgBoxResults = New Collection
         If Exists(Functions.MsgBoxResults, ResultID) Then Functions.MsgBoxResults.Remove ResultID
         Functions.MsgBoxResults.Add MsgBoxResult, ResultID
+    End If
+    
+    If Not MessageBoxObject Is Nothing Then
+        Unload MessageBoxObject
+        Set MessageBoxObject = Nothing
     End If
 End Sub
 

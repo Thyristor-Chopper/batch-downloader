@@ -10,6 +10,8 @@ Attribute VB_Name = "Functions"
 
 Option Explicit
 
+Public Const MAX_THREAD_COUNT_CONTROL As Integer = 655 '679
+
 Public MsgBoxResults As Collection
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
@@ -797,6 +799,7 @@ Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon
     Dim MessageBox As frmMessageBox
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 1
+    Set MessageBox.MessageBoxObject = MessageBox
     
     On Error Resume Next
     Randomize
@@ -943,6 +946,7 @@ Function Confirm(ByVal Content As String, Optional ByVal Title As String, Option
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 2
     MessageBox.ResultID = CStr(Rnd * 1E+15)
+    Set MessageBox.MessageBoxObject = MessageBox
     
     On Error Resume Next
     Randomize
@@ -1086,6 +1090,7 @@ Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Opti
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 3
     MessageBox.ResultID = CStr(Rnd * 1E+15)
+    Set MessageBox.MessageBoxObject = MessageBox
     
     On Error Resume Next
     Randomize
@@ -1248,6 +1253,7 @@ Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, 
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 4
     MessageBox.ResultID = CStr(Rnd * 1E+15)
+    Set MessageBox.MessageBoxObject = MessageBox
     
     On Error Resume Next
     Randomize
@@ -1395,6 +1401,7 @@ Function MsgBoxAbortRetryIgnore(ByVal Content As String, Optional ByVal Title As
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 5
     MessageBox.ResultID = CStr(Rnd * 1E+15)
+    Set MessageBox.MessageBoxObject = MessageBox
     
     On Error Resume Next
     Randomize
@@ -1543,6 +1550,7 @@ Function MsgBoxRetryCancel(ByVal Content As String, Optional ByVal Title As Stri
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 6
     MessageBox.ResultID = CStr(Rnd * 1E+15)
+    Set MessageBox.MessageBoxObject = MessageBox
     
     On Error Resume Next
     Randomize
@@ -1685,6 +1693,7 @@ Function MsgBoxOKCancel(ByVal Content As String, Optional ByVal Title As String,
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = 7
     MessageBox.ResultID = CStr(Rnd * 1E+15)
+    Set MessageBox.MessageBoxObject = MessageBox
     
     On Error Resume Next
     Randomize

@@ -204,6 +204,9 @@ Function WndProc_Main(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Lo
             frmMain.SetTextColors
         Case WM_DPICHANGED
             UpdateDPI
+            
+            WndProc_Main = 1&
+            Exit Function
     End Select
     
     If mPrevProc_Main <> 0& Then
@@ -252,6 +255,9 @@ Function WndProc_BatchAdd(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam A
             End Select
         Case WM_DPICHANGED
             UpdateDPI
+            
+            WndProc_BatchAdd = 1&
+            Exit Function
     End Select
     
     If mPrevProc_BatchAdd <> 0& Then
@@ -284,6 +290,9 @@ Function WndProc_Explorer(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam A
             End Select
         Case WM_DPICHANGED
             UpdateDPI
+            
+            WndProc_Explorer = 1&
+            Exit Function
     End Select
     
     If mPrevProc_Explorer <> 0& Then

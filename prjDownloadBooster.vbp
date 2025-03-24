@@ -83,7 +83,6 @@ Form=frmDownloadOptions.frm
 Form=frmDummyForm.frm
 Form=frmMessageBox.frm
 UserControl=TygemButton.ctl
-Module=CommandButtonExSubclass; CommandButtonExSubclass.bas
 UserControl=krools_comctl\UpDown\UpDown.ctl
 PropertyPage=krools_comctl\UpDown\PPUpDownGeneral.pag
 ResFile32="Booster.res"

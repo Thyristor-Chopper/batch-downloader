@@ -670,14 +670,15 @@ Begin VB.Form frmMain
                MarqueeSpeed    =   35
             End
             Begin VB.Label lblDownloader 
+               AutoSize        =   -1  'True
                BackStyle       =   0  '투명
                Caption         =   "스레드 1:"
-               Height          =   255
+               Height          =   180
                Index           =   1
                Left            =   0
                TabIndex        =   65
                Top             =   45
-               Width           =   855
+               Width           =   750
             End
             Begin VB.Label lblPercentage 
                Alignment       =   1  '오른쪽 맞춤
@@ -2794,24 +2795,38 @@ Private Sub Form_Load()
     
     Dim i%
     For i = 1 To MAX_THREAD_COUNT
-        Load lblDownloader(i)
-        Load lblPercentage(i)
-        Load pbProgress(i)
-        Load pbProgressMarquee(i)
+        If i > 1 Then
+            Load lblDownloader(i)
+            Load lblPercentage(i)
+            Load pbProgress(i)
+            Load pbProgressMarquee(i)
+        End If
         
-        lblDownloader(i).Top = 360 * (i - 1) + 45
-        lblPercentage(i).Top = 360 * (i - 1) + 45
-        pbProgress(i).Top = 360 * (i - 1)
+        lblDownloader(i).Top = 360# * CDbl(i - 1) + 45#
+        lblPercentage(i).Top = 360# * CDbl(i - 1) + 45#
+        pbProgress(i).Top = 360# * CDbl(i - 1)
         pbProgress(i).ZOrder 1
-        pbProgressMarquee(i).Top = 360 * (i - 1)
+        pbProgressMarquee(i).Top = 360# * CDbl(i - 1)
         pbProgressMarquee(i).ZOrder 0
+        If MAX_THREAD_COUNT >= 100 Then
+            pbProgress(i).Width = pbProgress(i).Width - 60
+            pbProgress(i).Left = pbProgress(i).Left + 60
+            pbProgressMarquee(i).Width = pbProgressMarquee(i).Width - 60
+            pbProgressMarquee(i).Left = pbProgressMarquee(i).Left + 60
+        End If
         lblDownloader(i).Caption = t("스레드", "Thread") & " " & i & ":"
     Next i
+    If MAX_THREAD_COUNT >= 100 Then
+        pbProgress(1).Width = pbProgress(1).Width - 60
+        pbProgress(1).Left = pbProgress(1).Left + 60
+        pbProgressMarquee(1).Width = pbProgressMarquee(1).Width - 60
+        pbProgressMarquee(1).Left = pbProgressMarquee(1).Left + 60
+    End If
     trThreadCount.Max = MAX_THREAD_COUNT
     If MAX_THREAD_COUNT <= 14 Then
         trThreadCount.TickFrequency = 1
     End If
-    pbProgressContainer.Height = 360 * MAX_THREAD_COUNT
+    pbProgressContainer.Height = 360# * CDbl(MAX_THREAD_COUNT)
     fDownloadInfo.Top = fThreadInfo.Top + 60
     fDownloadInfo.Left = fThreadInfo.Left
     fDownloadInfo.Width = fThreadInfo.Width '5925
@@ -3153,6 +3168,7 @@ Private Sub Form_Resize()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    Dim i%
     If cmdStop.Enabled = -1 Or BatchStarted Then
         Dim IsMarquee As Boolean
         IsMarquee = pbTotalProgressMarquee.Visible
@@ -3185,7 +3201,6 @@ Private Sub Form_Unload(Cancel As Integer)
                     If trThreadCount.Value <= 1 Then
                         Kill DownloadPath & ".part.tmp"
                     Else
-                        Dim i%
                         For i = 1 To trThreadCount.Value
                             Kill DownloadPath & ".part_" & i & ".tmp"
                         Next i
@@ -3208,8 +3223,15 @@ Private Sub Form_Unload(Cancel As Integer)
     SaveSetting "DownloadBooster", "UserData", "FormLeft", Me.Left
     If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
     SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
+    
     On Error Resume Next
-    Unload frmMessageBox
+    Me.Hide
+    For i = 1 To MAX_THREAD_COUNT
+        Unload lblDownloader(i)
+        Unload lblPercentage(i)
+        Unload pbProgress(i)
+        Unload pbProgressMarquee(i)
+    Next i
     Unload frmBatchAdd
     Unload frmBrowse
     Unload frmOptions
@@ -3221,6 +3243,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unhook_Main Me.hWnd
     Unhook_ThreadInfo fThreadInfo.hWnd
     GetSystemMenu Me.hWnd, 1
+    Unload frmMessageBox
 End Sub
 
 Private Sub fTabDownload_Click()
@@ -3640,9 +3663,9 @@ End Sub
 
 Private Sub vsProgressScroll_Scroll()
     If ScrollOneScreen Then
-        pbProgressContainer.Top = pbProgressOuterContainer.Height * vsProgressScroll.Value * -1 - (105 * vsProgressScroll.Value)
+        pbProgressContainer.Top = CDbl(pbProgressOuterContainer.Height) * CDbl(vsProgressScroll.Value) * -1# - (105# * CDbl(vsProgressScroll.Value))
     Else
-        pbProgressContainer.Top = vsProgressScroll.Value * 255 * -1 - (105 * vsProgressScroll.Value)
+        pbProgressContainer.Top = CDbl(vsProgressScroll.Value) * 255# * -1# - (105# * CDbl(vsProgressScroll.Value))
     End If
     If LBFrameEnabled Or imgBackground.Visible Then pbProgressContainer.Refresh
 End Sub

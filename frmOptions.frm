@@ -1652,8 +1652,8 @@ maxtrdnotint:
         GoTo aftermaxtrdcheck
     ElseIf CStr(CInt(txtMaxThreadCount.Text)) <> txtMaxThreadCount.Text Then
         GoTo maxtrdnotint
-    ElseIf CInt(txtMaxThreadCount.Text) > 91 Or CInt(txtMaxThreadCount.Text) < 2 Then
-        MsgBox t("최대 쓰레드 개수는 2개 이상 91개 이하여야 합니다.", "Maximum number of threads should range in 2-91."), 16
+    ElseIf CInt(txtMaxThreadCount.Text) > MAX_THREAD_COUNT_CONTROL Or CInt(txtMaxThreadCount.Text) < 2 Then
+        MsgBox t("최대 쓰레드 개수는 2개 이상 " & MAX_THREAD_COUNT_CONTROL & "개 이하여야 합니다.", "Maximum number of threads should range in 2-" & MAX_THREAD_COUNT_CONTROL & "."), 16
         NoDisable = True
     Else
         SaveSetting "DownloadBooster", "Options", "MaxThreadCount", CInt(txtMaxThreadCount.Text)
@@ -2071,6 +2071,8 @@ Private Sub Form_Load()
     BackgroundDrawn(3) = False
     BackgroundDrawn(4) = False
     BackgroundDrawn(5) = False
+    
+    udMaxThreadCount.Max = MAX_THREAD_COUNT_CONTROL
     
     lvHeaders.SmallIcons = imgFiles
     
@@ -2631,7 +2633,7 @@ End Sub
 
 Private Sub txtMaxThreadCount_KeyDown(KeyCode As Integer, Shift As Integer)
     If Not IsNumeric(txtMaxThreadCount.Text) Then Exit Sub
-    If KeyCode = 38 And txtMaxThreadCount.Text < 91 Then
+    If KeyCode = 38 And txtMaxThreadCount.Text < MAX_THREAD_COUNT_CONTROL Then
         txtMaxThreadCount.Text = CDbl(txtMaxThreadCount.Text) + 1
     ElseIf KeyCode = 40 And txtMaxThreadCount.Text > 2 Then
         txtMaxThreadCount.Text = CDbl(txtMaxThreadCount.Text) - 1

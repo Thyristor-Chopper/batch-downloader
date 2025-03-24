@@ -153,8 +153,8 @@ dontoverrideversion:
 deftrdcnt:
         SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "25"
         GoTo aftertrdcntverify
-    ElseIf CDbl(RawMaxThreads) > 91 Then
-        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "91"
+    ElseIf CDbl(RawMaxThreads) > MAX_THREAD_COUNT_CONTROL Then
+        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", CStr(MAX_THREAD_COUNT_CONTROL)
     ElseIf CDbl(RawMaxThreads) < 2 Then
         SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "2"
     ElseIf CStr(CInt(RawMaxThreads)) <> RawMaxThreads Then
