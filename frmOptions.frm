@@ -1414,7 +1414,7 @@ Dim SkinChanged As Boolean
 Dim MouseY As Integer, SelectedListItem As LvwListItem
 Dim BackgroundDrawn(5) As Boolean
 Dim ScrollChanged As Boolean
-Dim IntervalValues(7) As Single
+Dim IntervalValues(8) As Single
 
 Sub NextTabPage(Optional ByVal Reverse As Boolean = False)
     On Error Resume Next
@@ -1675,7 +1675,10 @@ Private Sub cmdApply_Click()
         frmMain.pbProgressContainer.Refresh
         frmMain.vsProgressScroll.LargeChange = IIf(optScreenPerScroll.Value, 1, 10)
     End If
-    SaveSetting "DownloadBooster", "Options", "ThreadRequestInterval", CInt(IntervalValues(trRequestInterval.Value) * 1000)
+    If trRequestInterval.Value < 8 Then
+        SaveSetting "DownloadBooster", "Options", "ThreadRequestInterval", CInt(IntervalValues(trRequestInterval.Value) * 1000)
+        trRequestInterval.Max = 7
+    End If
     
     Dim NoDisable As Boolean
     NoDisable = False
@@ -2062,7 +2065,11 @@ Private Sub trRequestInterval_Change()
 End Sub
 
 Private Sub trRequestInterval_Scroll()
-    lblIntervalDisplay.Caption = "(" & IntervalValues(trRequestInterval.Value) & t("초", " second" & IIf(IntervalValues(trRequestInterval.Value) = 1, "", "s")) & ")"
+    If trRequestInterval.Value = 8 Then
+        lblIntervalDisplay.Caption = "(" & t("사용자 지정", "Customized") & ")"
+    Else
+        lblIntervalDisplay.Caption = "(" & IntervalValues(trRequestInterval.Value) & t("초", " second" & IIf(IntervalValues(trRequestInterval.Value) = 1, "", "s")) & ")"
+    End If
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 
@@ -2211,6 +2218,9 @@ Private Sub Form_Load()
             trRequestInterval.Value = 6
         Case 5000
             trRequestInterval.Value = 7
+        Case Else
+            trRequestInterval.Max = 8
+            trRequestInterval.Value = 8
     End Select
     trRequestInterval_Scroll
     
