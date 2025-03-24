@@ -2821,6 +2821,13 @@ Private Sub Form_Load()
         pbProgress(1).Left = pbProgress(1).Left + 60
         pbProgressMarquee(1).Width = pbProgressMarquee(1).Width - 60
         pbProgressMarquee(1).Left = pbProgressMarquee(1).Left + 60
+        If MAX_THREAD_COUNT >= 250 Then
+            trThreadCount.TickFrequency = 16
+        Else
+            trThreadCount.TickFrequency = 8
+        End If
+    ElseIf MAX_THREAD_COUNT >= 50 Then
+        trThreadCount.TickFrequency = 4
     End If
     trThreadCount.Max = MAX_THREAD_COUNT
     If MAX_THREAD_COUNT <= 14 Then
