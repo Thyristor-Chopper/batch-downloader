@@ -1132,6 +1132,9 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuOpenFolder2 
          Caption         =   "폴더 열기(&F)"
       End
+      Begin VB.Menu mnuErrorInfo 
+         Caption         =   "오류 정보(&I)..."
+      End
       Begin VB.Menu mnuSepOpen 
          Caption         =   "-"
       End
@@ -1229,6 +1232,7 @@ Public ImagePosition As Integer
 Dim TotalSize As Double
 Dim FormCaption$
 Dim LBFrameEnabled As Boolean
+Dim ErrorCodeDescription As Collection
 
 Const MAIN_FORM_WIDTH As Long = 9450
 
@@ -1274,6 +1278,20 @@ Private Sub cmdDownloadOptions_Click()
     Set frmDownloadOptions.Headers = SessionHeaders
     Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
     frmDownloadOptions.Show vbModal, Me
+End Sub
+
+Private Sub mnuErrorInfo_Click()
+    If lvBatchFiles.SelectedItem Is Nothing Then Exit Sub
+    If lvBatchFiles.SelectedItem.ForeColor <> vbRed Then Exit Sub
+    Dim StatusString$
+    StatusString = lvBatchFiles.SelectedItem.ListSubItems(3).Text
+    StatusString = Mid(StatusString, InStr(StatusString, "(") + 1)
+    StatusString = Left$(StatusString, Len(StatusString) - 1)
+    If Not IsNumeric(StatusString) Then
+        MsgBox t("오류 정보를 표시할 수 없습니다.", "Unable to show the error information."), 16
+        Exit Sub
+    End If
+    MsgBox t("오류 코드", "Error code") & ": " & StatusString & vbCrLf & t("설명", "Description") & ": " & ErrorCodeDescription(StatusString), 64, t("오류 정보", "Error information")
 End Sub
 
 Private Sub mnuHeaders_Click()
@@ -1547,8 +1565,8 @@ Sub NextBatchDownload()
         End If
         
         If BatchErrorCount Then
-            Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "103: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
-                     "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), App.Title, 48
+            Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: " & ErrorCodeDescription("1") & vbCrLf & "102: " & ErrorCodeDescription("102") & vbCrLf & "103: " & ErrorCodeDescription("103") & vbCrLf & "104: " & ErrorCodeDescription("104") & vbCrLf & "106: " & ErrorCodeDescription("106") & vbCrLf & "107: " & ErrorCodeDescription("107") & vbCrLf & "108: " & ErrorCodeDescription("108"), _
+                    "One or more errors have occurred." & vbCrLf & vbCrLf & "1: " & ErrorCodeDescription("1") & vbCrLf & "103: " & ErrorCodeDescription("103") & vbCrLf & "104: " & ErrorCodeDescription("104") & vbCrLf & "106: " & ErrorCodeDescription("106") & vbCrLf & "107: " & ErrorCodeDescription("107") & vbCrLf & "108: " & ErrorCodeDescription("108")), App.Title, 48
         ElseIf GetSetting("DownloadBooster", "Options", "PlaySound", 1) <> 0 And BatchErrorAllCount <= 0 Then
             PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=Information
         End If
@@ -2498,8 +2516,9 @@ Private Sub cmdStopBatch_Click()
             End If
         End If
         
-        If BatchErrorCount Then Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: 알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다." & vbCrLf & "102: 주소나 파일 이름을 지정하지 않았습니다." & vbCrLf & "103: 저장 경로가 존재하지 않습니다." & vbCrLf & "104: 저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오." & vbCrLf & "106: 파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "107: 파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오." & vbCrLf & "108: 서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", _
-                                         "One or more errors have occurred." & vbCrLf & vbCrLf & "1: Network error" & vbCrLf & "103: Save path doesn't exist." & vbCrLf & "104: File name already exists" & vbCrLf & "106: Download boosting not supported. Try changing the thread count to 1." & vbCrLf & "107: Unable to boost download because the file size is not provided. Try changing the thread count to 1." & vbCrLf & "108: Server has denied your request. The file may not exist or have insufficient permissions to access it."), App.Title, 48
+        If BatchErrorCount Then _
+            Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: " & ErrorCodeDescription("1") & vbCrLf & "102: " & ErrorCodeDescription("102") & vbCrLf & "103: " & ErrorCodeDescription("103") & vbCrLf & "104: " & ErrorCodeDescription("104") & vbCrLf & "106: " & ErrorCodeDescription("106") & vbCrLf & "107: " & ErrorCodeDescription("107") & vbCrLf & "108: " & ErrorCodeDescription("108"), _
+                    "One or more errors have occurred." & vbCrLf & vbCrLf & "1: " & ErrorCodeDescription("1") & vbCrLf & "103: " & ErrorCodeDescription("103") & vbCrLf & "104: " & ErrorCodeDescription("104") & vbCrLf & "106: " & ErrorCodeDescription("106") & vbCrLf & "107: " & ErrorCodeDescription("107") & vbCrLf & "108: " & ErrorCodeDescription("108")), App.Title, 48
     End If
 End Sub
 
@@ -2790,6 +2809,15 @@ Private Sub Form_Load()
     
     SetupVisualStylesFixes Me
     
+    Set ErrorCodeDescription = New Collection
+    ErrorCodeDescription.Add t("알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다.", "Network error"), "1"
+    ErrorCodeDescription.Add t("주소나 파일 이름을 지정하지 않았습니다.", "Address or file name unspecified"), "102"
+    ErrorCodeDescription.Add t("저장 경로가 존재하지 않습니다.", "Save path doesn't exist"), "103"
+    ErrorCodeDescription.Add t("저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", "File name already exists"), "104"
+    ErrorCodeDescription.Add t("파일 서버가 다운로드 부스트를 지원하지 않습니다. 강도를 1로 변경해 보십시오.", "Download boosting not supported. Try changing the thread count to 1."), "106"
+    ErrorCodeDescription.Add t("파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", "Unable to boost download because the file size is not provided. Try changing the thread count to 1."), "107"
+    ErrorCodeDescription.Add t("서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", "Server has denied your request. The file may not exist or have insufficient permissions to access it."), "108"
+    
     MAX_THREAD_COUNT = CInt(GetSetting("DownloadBooster", "Options", "MaxThreadCount", 25))
 
     ResumeUnsupported = False
@@ -3077,6 +3105,8 @@ afterheaderadd:
     tr mnuHeaders, "&Headers..."
     
     Label11.Caption = fOptions.Caption
+    
+    tr mnuErrorInfo, "Error &information..."
     '언어설정끝
     lbOptionsHeader.X1 = Label11.Width + 60
     
@@ -3303,9 +3333,10 @@ Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
         If cmdDelete.Enabled Then
             mnuOpenBatch.Visible = cmdOpenBatch.Enabled
             mnuOpenFolder2.Visible = cmdOpenBatch.Enabled
-            mnuSepOpen.Visible = cmdOpenBatch.Enabled
+            mnuSepOpen.Visible = (lvBatchFiles.SelectedItem.ForeColor = vbRed Or cmdOpenBatch.Enabled)
             mnuMoveUp.Enabled = (lvBatchFiles.SelectedItem.Index <> 1) And (Not BatchStarted)
             mnuMoveDown.Enabled = (lvBatchFiles.SelectedItem.Index <> lvBatchFiles.ListItems.Count) And (Not BatchStarted)
+            mnuErrorInfo.Visible = (lvBatchFiles.SelectedItem.ForeColor = vbRed)
             If cmdOpenBatch.Enabled Then
                 Me.PopupMenu mnuListContext, , , , mnuOpenBatch
             Else
