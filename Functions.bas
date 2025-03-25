@@ -560,23 +560,25 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
         End If
     End If
     
-    aColorRef(0) = RGB(233, 245, 236)
-    aColorRef(1) = RGB(233, 237, 243)
-    aColorRef(2) = RGB(185, 209, 234)
-    aColorRef(3) = RGB(235, 233, 245)
-    aColorRef(4) = RGB(252, 251, 224)
-    aColorRef(5) = RGB(244, 232, 232)
-    aColorRef(6) = RGB(248, 228, 244)
-    aColorRef(7) = RGB(223, 233, 244)
-    
-    aColorRef(8) = RGB(249, 242, 230)
-    aColorRef(9) = RGB(222, 235, 248)
-    aColorRef(10) = RGB(227, 244, 232)
-    aColorRef(11) = RGB(236, 230, 211)
-    aColorRef(12) = RGB(212, 208, 200)
-    aColorRef(13) = RGB(192, 192, 192)
-    aColorRef(14) = 16777215
-    aColorRef(15) = 0&
+    If Not aColorRef(0) Then
+        aColorRef(0) = RGB(233, 245, 236)
+        aColorRef(1) = RGB(233, 237, 243)
+        aColorRef(2) = RGB(185, 209, 234)
+        aColorRef(3) = RGB(235, 233, 245)
+        aColorRef(4) = RGB(252, 251, 224)
+        aColorRef(5) = RGB(244, 232, 232)
+        aColorRef(6) = RGB(248, 228, 244)
+        aColorRef(7) = RGB(223, 233, 244)
+        
+        aColorRef(8) = RGB(249, 242, 230)
+        aColorRef(9) = RGB(222, 235, 248)
+        aColorRef(10) = RGB(227, 244, 232)
+        aColorRef(11) = RGB(236, 230, 211)
+        aColorRef(12) = RGB(212, 208, 200)
+        aColorRef(13) = RGB(192, 192, 192)
+        aColorRef(14) = 16777215
+        aColorRef(15) = 0&
+    End If
     
     Dim SolidColor As Long
     If SolidOnly Then
@@ -789,7 +791,7 @@ Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String
     CutLines = Lines
 End Function
 
-Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal MsgBoxMode As Byte = 1) As VbMsgBoxResult
+Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal MsgBoxMode As Byte = 1) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 And MsgBoxMode <> 3 Then
         Select Case MsgBoxMode
@@ -1316,7 +1318,7 @@ Function GetWindowsVersion() As Single
     End If
 End Function
 
-Function fWinVer() As Single
+Private Function fWinVer() As Single
     Dim osv As OSVERSIONINFO
     osv.OSVSize = Len(osv)
     If GetVersionEx(osv) <> 1 Then
