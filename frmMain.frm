@@ -1290,7 +1290,7 @@ Private Sub mnuErrorInfo_Click()
         MsgBox t("오류 정보를 표시할 수 없습니다.", "Unable to show the error information."), 16
         Exit Sub
     End If
-    MsgBox t("오류 코드", "Error code") & ": " & StatusString & vbCrLf & t("설명", "Description") & ": " & ErrorCodeDescription(StatusString), 64, t("오류 정보", "Error information")
+    MsgBox t("오류 코드", "Error code") & ": " & StatusString & vbCrLf & t("설명", "Description") & ": " & IIf(Exists(ErrorCodeDescription, StatusString), ErrorCodeDescription(StatusString), t("설명이 없습니다.", "Description is unavailable")), 64, t("오류 정보", "Error information")
 End Sub
 
 Private Sub mnuHeaders_Click()
@@ -1564,8 +1564,8 @@ Sub NextBatchDownload()
         End If
         
         If BatchErrorCount Then
-            Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: " & ErrorCodeDescription("1") & vbCrLf & "102: " & ErrorCodeDescription("102") & vbCrLf & "103: " & ErrorCodeDescription("103") & vbCrLf & "104: " & ErrorCodeDescription("104") & vbCrLf & "106: " & ErrorCodeDescription("106") & vbCrLf & "107: " & ErrorCodeDescription("107") & vbCrLf & "108: " & ErrorCodeDescription("108"), _
-                    "One or more errors have occurred." & vbCrLf & vbCrLf & "1: " & ErrorCodeDescription("1") & vbCrLf & "103: " & ErrorCodeDescription("103") & vbCrLf & "104: " & ErrorCodeDescription("104") & vbCrLf & "106: " & ErrorCodeDescription("106") & vbCrLf & "107: " & ErrorCodeDescription("107") & vbCrLf & "108: " & ErrorCodeDescription("108")), App.Title, 48
+            Alert t("하나 이상의 오류가 발생했습니다. 해당 항목을 두 번 누르면 오류 정보를 볼 수 있습니다.", _
+                    "One or more errors have occurred. Double click the error item to see details."), App.Title, 48
         ElseIf GetSetting("DownloadBooster", "Options", "PlaySound", 1) <> 0 And BatchErrorAllCount <= 0 Then
             PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=Information
         End If
@@ -2516,8 +2516,8 @@ Private Sub cmdStopBatch_Click()
         End If
         
         If BatchErrorCount Then _
-            Alert t("하나 이상의 오류가 발생했습니다. 오류 코드 정보는 다음과 같습니다." & vbCrLf & vbCrLf & "1: " & ErrorCodeDescription("1") & vbCrLf & "102: " & ErrorCodeDescription("102") & vbCrLf & "103: " & ErrorCodeDescription("103") & vbCrLf & "104: " & ErrorCodeDescription("104") & vbCrLf & "106: " & ErrorCodeDescription("106") & vbCrLf & "107: " & ErrorCodeDescription("107") & vbCrLf & "108: " & ErrorCodeDescription("108"), _
-                    "One or more errors have occurred." & vbCrLf & vbCrLf & "1: " & ErrorCodeDescription("1") & vbCrLf & "103: " & ErrorCodeDescription("103") & vbCrLf & "104: " & ErrorCodeDescription("104") & vbCrLf & "106: " & ErrorCodeDescription("106") & vbCrLf & "107: " & ErrorCodeDescription("107") & vbCrLf & "108: " & ErrorCodeDescription("108")), App.Title, 48
+            Alert t("하나 이상의 오류가 발생했습니다. 해당 항목을 두 번 누르면 오류 정보를 볼 수 있습니다.", _
+                    "One or more errors have occurred. Double click the error item to see details."), App.Title, 48
     End If
 End Sub
 
@@ -2840,7 +2840,7 @@ Private Sub Form_Load()
     SetupVisualStylesFixes Me
     
     Set ErrorCodeDescription = New Collection
-    ErrorCodeDescription.Add t("알 수 없는 오류가 발생했습니다. 유효하지 않은 주소를 입력했거나 프로그램 내부 오류입니다.", "Network error"), "1"
+    ErrorCodeDescription.Add t("서버와의 접속이 끊겼습니다. 다운로드 중 네트워크 오류가 발생했거나 주소가 유효하지 않거나 서버가 응답하지 않습니다.", "Network error"), "1"
     ErrorCodeDescription.Add t("주소나 파일 이름을 지정하지 않았습니다.", "Address or file name unspecified"), "102"
     ErrorCodeDescription.Add t("저장 경로가 존재하지 않습니다.", "Save path doesn't exist"), "103"
     ErrorCodeDescription.Add t("저장할 파일명이 사용 중입니다. 다른 이름을 선택하십시오.", "File name already exists"), "104"
@@ -3368,6 +3368,8 @@ Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
             mnuErrorInfo.Visible = (lvBatchFiles.SelectedItem.ForeColor = vbRed)
             If cmdOpenBatch.Enabled Then
                 Me.PopupMenu mnuListContext, , , , mnuOpenBatch
+            ElseIf mnuErrorInfo.Visible Then
+                Me.PopupMenu mnuListContext, , , , mnuErrorInfo
             Else
                 Me.PopupMenu mnuListContext, , , , mnuEdit
             End If
@@ -3432,6 +3434,8 @@ Private Sub lvBatchFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As
     If Not Item.Selected Then Exit Sub
     If cmdOpenBatch.Enabled And Item.ListSubItems(3).Text = t("완료", "Done") Then
         cmdOpenBatch_Click
+    ElseIf Item.ForeColor = vbRed Then
+        mnuErrorInfo_Click
     ElseIf (Not BatchStarted) Or (BatchStarted And CurrentBatchIdx <> Item.Index) Then
         mnuEdit_Click
     End If
