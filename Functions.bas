@@ -1665,6 +1665,14 @@ Function ExcludeParameters(ByVal URL As String) As String
 End Function
 
 Function Col(Expression, ByRef IfFalse)
+    If VarType(Expression) = vbString Then
+        If Expression = "" Then
+            Col = IfFalse
+        Else
+            Col = Expression
+        End If
+        Exit Function
+    End If
     If Expression Then
         Col = Expression
     Else

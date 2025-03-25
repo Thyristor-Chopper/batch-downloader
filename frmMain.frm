@@ -2259,7 +2259,22 @@ L2:
         CurrentHeaderCache = Functions.SessionHeaderCache
     End If
     Dim SPResult As SP_RESULTS
-    SPResult = SP.Run("""" & NodePath & """ """ & ScriptPath & """ """ & Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & FileName & """ " & trThreadCount.Value & " " & GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & cbWhenExist.ListIndex & " " & ContinueDownload & " " & GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & GetSetting("DownloadBooster", "Options", "ForceGet", 1) & " " & GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & Abs(CInt(AutoName)) & " " & GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100) & " " & Functions.HeaderCache & " " & CurrentHeaderCache)
+    SPResult = SP.Run("""" & _
+        NodePath & """ """ & _
+        ScriptPath & """ """ & _
+        Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & _
+        FileName & """ " & _
+        trThreadCount.Value & " " & _
+        GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & _
+        cbWhenExist.ListIndex & " " & _
+        ContinueDownload & " " & _
+        GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & _
+        GetSetting("DownloadBooster", "Options", "ForceGet", 1) & " " & _
+        GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & _
+        Abs(CInt(AutoName)) & " " & _
+        GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100) & " " & _
+        Col(Functions.HeaderCache, "-") & " " & _
+        Col(CurrentHeaderCache, "-"))
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe

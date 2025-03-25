@@ -35,8 +35,8 @@ var trd = Number(process.argv[4] || process.exit(103)) || process.exit(103);
 fn = fn.replace(/^["]/, '').replace(/["]$/, '');
 var intpath = require('path');
 var http = require(url.slice(0, 6) == 'https:' ? 'https' : 'http');
-var rawHeaders = Buffer((process.argv[13] || ''), 'base64').toString().split('\n');
-var rawSessionHeaders = Buffer((process.argv[14] || ''), 'base64').toString().split('\n');
+var rawHeaders = Buffer(((process.argv[13] == '-' ? '' : process.argv[13]) || ''), 'base64').toString().split('\n');
+var rawSessionHeaders = Buffer(((process.argv[14] == '-' ? '' : process.argv[14]) || ''), 'base64').toString().split('\n');
 var headers = {}, sessionHeaders = {};
 if(rawHeaders.length) rawHeaders.forEach(function(item) {
 	if(item.indexOf(': ') < 0) return;
