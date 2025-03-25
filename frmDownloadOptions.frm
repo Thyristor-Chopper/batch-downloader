@@ -126,10 +126,11 @@ Begin VB.Form frmDownloadOptions
          InitListImages  =   "frmDownloadOptions.frx":00FE
       End
       Begin VB.Image imgIcon1 
-         Height          =   630
+         Height          =   480
          Left            =   120
+         Picture         =   "frmDownloadOptions.frx":02A6
          Top             =   120
-         Width           =   645
+         Width           =   480
       End
    End
    Begin VB.PictureBox pbPanel 
@@ -279,7 +280,7 @@ Begin VB.Form frmDownloadOptions
       Width           =   2400
       _ExtentX        =   4233
       _ExtentY        =   688
-      InitTabs        =   "frmDownloadOptions.frx":02A6
+      InitTabs        =   "frmDownloadOptions.frx":06E8
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -484,8 +485,6 @@ Private Sub Form_Load()
     fYtdl.Refresh
     
     On Error Resume Next
-    Set imgIcon1.Picture = frmMessageBox.imgMBIconInfo(0).Picture
-    Unload frmMessageBox
     
     cbAudioFormat.AddItem t("ÀÚµ¿", "Auto") & " (M4A/Opus)"
     cbAudioFormat.AddItem "MP3"
