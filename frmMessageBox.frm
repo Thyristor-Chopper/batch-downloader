@@ -121,85 +121,37 @@ Begin VB.Form frmMessageBox
       Top             =   840
       Width           =   1455
    End
-   Begin VB.Image imgMBIconError 
-      Height          =   630
-      Index           =   1
+   Begin VB.Image imgError 
+      Height          =   360
       Left            =   60
       Picture         =   "frmMessageBox.frx":000C
-      Stretch         =   -1  'True
       Top             =   60
       Visible         =   0   'False
-      Width           =   645
+      Width           =   360
    End
-   Begin VB.Image imgMBIconError 
-      Height          =   630
-      Index           =   0
+   Begin VB.Image imgExclamation 
+      Height          =   360
       Left            =   60
-      Picture         =   "frmMessageBox.frx":0384
-      Stretch         =   -1  'True
+      Picture         =   "frmMessageBox.frx":00C1
       Top             =   60
       Visible         =   0   'False
-      Width           =   645
+      Width           =   360
    End
-   Begin VB.Image imgMBIconWarning 
-      Height          =   630
-      Index           =   1
+   Begin VB.Image imgQuestion 
+      Height          =   360
       Left            =   60
-      Picture         =   "frmMessageBox.frx":06E3
-      Stretch         =   -1  'True
+      Picture         =   "frmMessageBox.frx":01DC
       Top             =   60
       Visible         =   0   'False
-      Width           =   645
+      Width           =   360
    End
-   Begin VB.Image imgMBIconWarning 
-      Height          =   630
-      Index           =   0
+   Begin VB.Image imgInformation 
+      Height          =   360
       Left            =   60
-      Picture         =   "frmMessageBox.frx":0B4E
-      Stretch         =   -1  'True
+      Picture         =   "frmMessageBox.frx":029A
       Top             =   60
       Visible         =   0   'False
-      Width           =   645
-   End
-   Begin VB.Image imgMBIconQuestion 
-      Height          =   630
-      Index           =   1
-      Left            =   60
-      Picture         =   "frmMessageBox.frx":0F9C
-      Stretch         =   -1  'True
-      Top             =   60
-      Visible         =   0   'False
-      Width           =   645
-   End
-   Begin VB.Image imgMBIconQuestion 
-      Height          =   630
-      Index           =   0
-      Left            =   60
-      Picture         =   "frmMessageBox.frx":1322
-      Stretch         =   -1  'True
-      Top             =   60
-      Visible         =   0   'False
-      Width           =   645
-   End
-   Begin VB.Image imgMBIconInfo 
-      Height          =   630
-      Index           =   1
-      Left            =   60
-      Picture         =   "frmMessageBox.frx":1693
-      Stretch         =   -1  'True
-      Top             =   60
-      Visible         =   0   'False
-      Width           =   645
-   End
-   Begin VB.Image imgMBIconInfo 
-      Height          =   630
-      Index           =   0
-      Left            =   60
-      Picture         =   "frmMessageBox.frx":1A09
-      Stretch         =   -1  'True
-      Top             =   60
-      Visible         =   0   'False
-      Width           =   645
+      Width           =   360
    End
    Begin VB.Label lblContent 
       BackColor       =   &H00F8EFE5&
@@ -210,6 +162,24 @@ Begin VB.Form frmMessageBox
       TabIndex        =   11
       Top             =   360
       Width           =   27255
+   End
+   Begin VB.Image imgTrain 
+      Height          =   480
+      Index           =   0
+      Left            =   2040
+      Picture         =   "frmMessageBox.frx":0351
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   480
+   End
+   Begin VB.Image imgTrain 
+      Height          =   480
+      Index           =   1
+      Left            =   2640
+      Picture         =   "frmMessageBox.frx":0639
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   480
    End
 End
 Attribute VB_Name = "frmMessageBox"

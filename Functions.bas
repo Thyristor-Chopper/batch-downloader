@@ -821,24 +821,29 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     NoIcon = False
     
     Dim IconRandomIdx As Integer
-    IconRandomIdx = Int(Rnd * 2)
+    IconRandomIdx = Int(Rnd * (MessageBox.imgTrain.UBound - MessageBox.imgTrain.LBound + 1)) + MessageBox.imgTrain.LBound
+    MessageBox.imgTrain(IconRandomIdx).Top = 240
+    MessageBox.imgTrain(IconRandomIdx).Left = 225
+    MessageBox.imgTrain(IconRandomIdx).ZOrder 1
+    MessageBox.imgTrain(IconRandomIdx).Visible = True
     Select Case Icon
         Case 48
-            MessageBox.imgMBIconWarning(IconRandomIdx).Visible = True
+            MessageBox.imgExclamation.Visible = True
         Case 16
-            MessageBox.imgMBIconError(IconRandomIdx).Visible = True
+            MessageBox.imgError.Visible = True
         Case 64
-            MessageBox.imgMBIconInfo(IconRandomIdx).Visible = True
+            MessageBox.imgInformation.Visible = True
         Case 32
-            MessageBox.imgMBIconQuestion(IconRandomIdx).Visible = True
+            MessageBox.imgQuestion.Visible = True
         Case Else
             NoIcon = True
+            MessageBox.imgTrain(IconRandomIdx).Visible = False
     End Select
     
     Content = Replace(Content, "&", "&&")
     Content = Replace(Content, vbCrLf & vbCrLf, vbCrLf & " " & vbCrLf)
     
-    Dim i As Integer
+    Dim i%
     Dim LineCount As Integer
     Dim LContent As Integer
     Dim MAX_WIDTH As Long
