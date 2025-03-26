@@ -441,12 +441,12 @@ Dim LoadFinished As Boolean
 Sub ShowDesktopItems()
     Dim li As LvwListItem
     
-    Set li = lvFiles.ListItems.Add(1, , t("내 문서", "My Documents"), 10, 13)
+    Set li = lvFiles.ListItems.Add(1, , t("내 컴퓨터", "My Computer"), 9, 14)
     li.ListSubItems.Add , , "-"
     li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
     li.ListSubItems.Add , , "-"
     
-    Set li = lvFiles.ListItems.Add(1, , t("내 컴퓨터", "My Computer"), 9, 14)
+    Set li = lvFiles.ListItems.Add(1, , t("내 문서", "My Documents"), 10, 13)
     li.ListSubItems.Add , , "-"
     li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
     li.ListSubItems.Add , , "-"
