@@ -351,7 +351,7 @@ Private Sub Form_Load()
     lvItems.ListItems.Add , , "ShellPipe (v7)", 1
     lvItems.ListItems.Add , , "iconv-lite (v0.6.3)", 2
     lvItems.ListItems.Add , , "PNG with alpha", 1
-    lvItems.ListItems.Add , , t("기타 참고 자료", "Other references"), 2
+    lvItems.ListItems.Add , , t("기타 출처", "Other references"), 2
     lvItems.ListItems(1).Selected = True
     
     txtIconv.Text = txtIconv.Text & "Copyright (c) 2011 Alexander Shtuchkin" & vbCrLf
@@ -458,6 +458,13 @@ Private Sub Form_Load()
     lvMisc.ListItems.Add(, , "https://www.codeguru.com/visual-basic/displaying-the-file-properties-dialog/", , 1).ListSubItems.Add , , "Lothar A. Haensler"
     lvMisc.ListItems.Add(, , "http://vbcity.com/forums/t/105530.aspx", , 1).ListSubItems.Add , , "IanB"
     lvMisc.ListItems.Add(, , "https://www.vbforums.com/showthread.php?696217", , 1).ListSubItems.Add , , "dilettante"
+    lvMisc.ListItems.Add(, , "https://www.vbforums.com/showthread.php?644597", , 1).ListSubItems.Add , , "Bonnie West"
+    lvMisc.ListItems.Add(, , "https://www.vbforums.com/showthread.php?903019", , 1).ListSubItems.Add , , "AAraya"
+    lvMisc.ListItems.Add(, , "https://www.mrexcel.com/board/threads/194874/", , 1).ListSubItems.Add , , "JoeWeis"
+    lvMisc.ListItems.Add(, , "https://stackoverflow.com/questions/40651", , 1).ListSubItems.Add , , "Christian Hayter"
+    lvMisc.ListItems.Add(, , "https://www.vbforums.com/showthread.php?894947", , 1).ListSubItems.Add , , "wqweto"
+    lvMisc.ListItems.Add(, , "https://gist.github.com/jvarn/5e11b1fd741b5f79d8a516c9c2368f17", , 1).ListSubItems.Add , , "jvarn"
+    lvMisc.ListItems.Add(, , "https://www.vbforums.com/showthread.php?842795", , 1).ListSubItems.Add , , "Elroy"
     
     FrameW1.Caption = t(FrameW1.Caption, "&License")
 End Sub
