@@ -2596,32 +2596,41 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
                 imgBackground.Width = Width
                 imgBackground.Height = Height
                 k = 1
-                For i = 1 To Ceil(Me.Height / Height)
-                    For j = 1 To Ceil(Me.Width / Width)
-                        If k > imgBackgroundTile.UBound Then _
-                            Load imgBackgroundTile(k)
-                        If Not (imgBackgroundTile(k).Picture Is imgBackground.Picture) Then
-                            Set imgBackgroundTile(k).Picture = imgBackground.Picture
-                            imgBackgroundTile(k).Stretch = False
-                            imgBackgroundTile(k).Width = Width
-                            imgBackgroundTile(k).Height = Height
-                            imgBackgroundTile(k).Top = (i - 1) * Height
-                            imgBackgroundTile(k).Left = (j - 1) * Width
-                            imgBackgroundTile(k).Visible = True
-                        End If
-                        k = k + 1
-                    Next j
-                Next i
-                k = k - 1
-                If k > MaxLoadedTileBackgroundImage Then
-                    MaxLoadedTileBackgroundImage = k
-                ElseIf k < MaxLoadedTileBackgroundImage Then
-                    For i = (k + 1) To MaxLoadedTileBackgroundImage
+                If Width > 0 And Height > 0 Then
+                    For i = 1 To Ceil(Me.Height / Height)
+                        For j = 1 To Ceil(Me.Width / Width)
+                            If k > imgBackgroundTile.UBound Then _
+                                Load imgBackgroundTile(k)
+                            If Not (imgBackgroundTile(k).Picture Is imgBackground.Picture) Then
+                                Set imgBackgroundTile(k).Picture = imgBackground.Picture
+                                imgBackgroundTile(k).Stretch = False
+                                imgBackgroundTile(k).Width = Width
+                                imgBackgroundTile(k).Height = Height
+                                imgBackgroundTile(k).Top = (i - 1) * Height
+                                imgBackgroundTile(k).Left = (j - 1) * Width
+                                imgBackgroundTile(k).Visible = True
+                            End If
+                            k = k + 1
+                        Next j
+                    Next i
+                    k = k - 1
+                    If k > MaxLoadedTileBackgroundImage Then
+                        MaxLoadedTileBackgroundImage = k
+                    ElseIf k < MaxLoadedTileBackgroundImage Then
+                        For i = (k + 1) To MaxLoadedTileBackgroundImage
+                            Set imgBackgroundTile(i).Picture = Nothing
+                            Unload imgBackgroundTile(i)
+                            Set imgBackgroundTile(i) = Nothing
+                        Next i
+                        MaxLoadedTileBackgroundImage = k
+                    End If
+                ElseIf MaxLoadedTileBackgroundImage > 0 Then
+                    For i = 1 To MaxLoadedTileBackgroundImage
                         Set imgBackgroundTile(i).Picture = Nothing
                         Unload imgBackgroundTile(i)
                         Set imgBackgroundTile(i) = Nothing
                     Next i
-                    MaxLoadedTileBackgroundImage = k
+                    MaxLoadedTileBackgroundImage = 0
                 End If
         End Select
         If ImgPos <> 7 And MaxLoadedTileBackgroundImage > 0 Then
