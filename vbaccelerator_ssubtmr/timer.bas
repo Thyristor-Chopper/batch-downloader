@@ -31,8 +31,8 @@ Attribute VB_Name = "MTimer"
 Option Explicit
 
 ' declares:
-Private Declare Function SetTimer Lib "user32" (ByVal hwnd As Long, ByVal nIDEvent As Long, ByVal uElapse As Long, ByVal lpTimerFunc As Long) As Long
-Private Declare Function KillTimer Lib "user32" (ByVal hwnd As Long, ByVal nIDEvent As Long) As Long
+Private Declare Function SetTimer Lib "user32" (ByVal hWnd As Long, ByVal nIDEvent As Long, ByVal uElapse As Long, ByVal lpTimerFunc As Long) As Long
+Private Declare Function KillTimer Lib "user32" (ByVal hWnd As Long, ByVal nIDEvent As Long) As Long
 
 Const cTimerMax = 100
 
@@ -94,7 +94,7 @@ Public Function TimerDestroy(timer As CTimer) As Long
 End Function
 
 
-Sub TimerProc(ByVal hwnd As Long, ByVal uMsg As Long, _
+Sub TimerProc(ByVal hWnd As Long, ByVal uMsg As Long, _
                      ByVal idEvent As Long, ByVal dwTime As Long)
     Dim i As Integer
     ' Find the timer with this ID

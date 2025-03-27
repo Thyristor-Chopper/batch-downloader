@@ -17,28 +17,28 @@ Attribute VB_Name = "MSubclass"
 '    The names "vbAccelerator" and "vbAccelerator.com" must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact vbAccelerator through steve@vbaccelerator.com.
 '    Products derived from this software may not be called "vbAccelerator", nor may "vbAccelerator" appear in their name, without prior written permission of vbAccelerator.
 '
-'THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, 
-'INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY 
-'AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
-'VBACCELERATOR OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-'INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-'NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-'DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY 
-'OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-'NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+'THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+'INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+'AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+'VBACCELERATOR OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+'INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+'NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+'DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+'OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+'NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 'EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Option Explicit
 
 ' declares:
-Private Declare Function IsWindow Lib "user32" (ByVal hwnd As Long) As Long
-Private Declare Function GetProp Lib "user32" Alias "GetPropA" (ByVal hwnd As Long, ByVal lpString As String) As Long
-Private Declare Function SetProp Lib "user32" Alias "SetPropA" (ByVal hwnd As Long, ByVal lpString As String, ByVal hData As Long) As Long
-Private Declare Function RemoveProp Lib "user32" Alias "RemovePropA" (ByVal hwnd As Long, ByVal lpString As String) As Long
-Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
-Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
-Private Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hwnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
-Private Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hwnd As Long, lpdwProcessId As Long) As Long
+Private Declare Function IsWindow Lib "user32" (ByVal hWnd As Long) As Long
+Private Declare Function GetProp Lib "user32" Alias "GetPropA" (ByVal hWnd As Long, ByVal lpString As String) As Long
+Private Declare Function SetProp Lib "user32" Alias "SetPropA" (ByVal hWnd As Long, ByVal lpString As String, ByVal hData As Long) As Long
+Private Declare Function RemoveProp Lib "user32" Alias "RemovePropA" (ByVal hWnd As Long, ByVal lpString As String) As Long
+Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
+Private Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Private Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hWnd As Long, lpdwProcessId As Long) As Long
 Private Declare Function GetCurrentProcessId Lib "kernel32" () As Long
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" ( _
     lpvDest As Any, lpvSource As Any, ByVal cbCopy As Long)
@@ -82,31 +82,31 @@ Private Sub ErrRaise(e As Long)
     End If
 End Sub
 
-Sub AttachMessage(iwp As ISubclass, ByVal hwnd As Long, _
+Sub AttachMessage(iwp As ISubclass, ByVal hWnd As Long, _
                   ByVal iMsg As Long)
     Dim procOld As Long, f As Long, c As Long
     Dim iC As Long, bFail As Boolean
     
     ' Validate window
-    If IsWindow(hwnd) = False Then ErrRaise eeInvalidWindow
-    If IsWindowLocal(hwnd) = False Then ErrRaise eeNoExternalWindow
+    If IsWindow(hWnd) = False Then ErrRaise eeInvalidWindow
+    If IsWindowLocal(hWnd) = False Then ErrRaise eeNoExternalWindow
 
     ' Get the message count
-    c = GetProp(hwnd, "C" & hwnd)
+    c = GetProp(hWnd, "C" & hWnd)
     If c = 0 Then
         ' Subclass window by installing window procecure
-        procOld = SetWindowLong(hwnd, GWL_WNDPROC, AddressOf WindowProc)
+        procOld = SetWindowLong(hWnd, GWL_WNDPROC, AddressOf WindowProc)
         If procOld = 0 Then ErrRaise eeCantSubclass
         ' Associate old procedure with handle
-        f = SetProp(hwnd, hwnd, procOld)
+        f = SetProp(hWnd, hWnd, procOld)
         Debug.Assert f <> 0
         ' Count this message
         c = 1
-        f = SetProp(hwnd, "C" & hwnd, c)
+        f = SetProp(hWnd, "C" & hWnd, c)
     Else
         ' Count this message
         c = c + 1
-        f = SetProp(hwnd, "C" & hwnd, c)
+        f = SetProp(hWnd, "C" & hWnd, c)
     End If
     Debug.Assert f <> 0
     
@@ -116,10 +116,10 @@ Sub AttachMessage(iwp As ISubclass, ByVal hwnd As Long, _
     ' wants to subclass its container.  In this case, we want
     ' all instances of the control on the form to receive the
     ' form notification message.
-    c = GetProp(hwnd, hwnd & "#" & iMsg & "C")
+    c = GetProp(hWnd, hWnd & "#" & iMsg & "C")
     If (c > 0) Then
         For iC = 1 To c
-            If (GetProp(hwnd, hwnd & "#" & iMsg & "#" & iC) = ObjPtr(iwp)) Then
+            If (GetProp(hWnd, hWnd & "#" & iMsg & "#" & iC) = ObjPtr(iwp)) Then
                 ErrRaise eeAlreadyAttached
                 bFail = True
                 Exit For
@@ -130,37 +130,37 @@ Sub AttachMessage(iwp As ISubclass, ByVal hwnd As Long, _
     If Not (bFail) Then
         c = c + 1
         ' Increase count for hWnd/Msg:
-        f = SetProp(hwnd, hwnd & "#" & iMsg & "C", c)
+        f = SetProp(hWnd, hWnd & "#" & iMsg & "C", c)
         Debug.Assert f <> 0
         
         ' Associate object with message at the count:
-        f = SetProp(hwnd, hwnd & "#" & iMsg & "#" & c, ObjPtr(iwp))
+        f = SetProp(hWnd, hWnd & "#" & iMsg & "#" & c, ObjPtr(iwp))
         Debug.Assert f <> 0
     End If
 End Sub
 
-Sub DetachMessage(iwp As ISubclass, ByVal hwnd As Long, _
+Sub DetachMessage(iwp As ISubclass, ByVal hWnd As Long, _
                   ByVal iMsg As Long)
     Dim procOld As Long, f As Long, c As Long
     Dim iC As Long, iP As Long, lPtr As Long
     
     ' Get the message count
-    c = GetProp(hwnd, "C" & hwnd)
+    c = GetProp(hWnd, "C" & hWnd)
     If c = 1 Then
         ' This is the last message, so unsubclass
-        procOld = GetProp(hwnd, hwnd)
+        procOld = GetProp(hWnd, hWnd)
         Debug.Assert procOld <> 0
         ' Unsubclass by reassigning old window procedure
-        Call SetWindowLong(hwnd, GWL_WNDPROC, procOld)
+        Call SetWindowLong(hWnd, GWL_WNDPROC, procOld)
         ' Remove unneeded handle (oldProc)
-        RemoveProp hwnd, hwnd
+        RemoveProp hWnd, hWnd
         ' Remove unneeded count
-        RemoveProp hwnd, "C" & hwnd
+        RemoveProp hWnd, "C" & hWnd
     Else
         ' Uncount this message
-        c = GetProp(hwnd, "C" & hwnd)
+        c = GetProp(hWnd, "C" & hWnd)
         c = c - 1
-        f = SetProp(hwnd, "C" & hwnd, c)
+        f = SetProp(hWnd, "C" & hWnd, c)
     End If
     
     ' SPM - in this version I am allowing more than one class to
@@ -170,12 +170,12 @@ Sub DetachMessage(iwp As ISubclass, ByVal hwnd As Long, _
     ' all instances of the control on the form to receive the
     ' form notification message.
     
-    ' How many instances attached to this hwnd/msg?
-    c = GetProp(hwnd, hwnd & "#" & iMsg & "C")
+    ' How many instances attached to this hWnd/msg?
+    c = GetProp(hWnd, hWnd & "#" & iMsg & "C")
     If (c > 0) Then
         ' Find this iwp object amongst the items:
         For iC = 1 To c
-            If (GetProp(hwnd, hwnd & "#" & iMsg & "#" & iC) = ObjPtr(iwp)) Then
+            If (GetProp(hWnd, hWnd & "#" & iMsg & "#" & iC) = ObjPtr(iwp)) Then
                 iP = iC
                 Exit For
             End If
@@ -184,19 +184,19 @@ Sub DetachMessage(iwp As ISubclass, ByVal hwnd As Long, _
         If (iP <> 0) Then
              ' Remove this item:
              For iC = iP + 1 To c
-                lPtr = GetProp(hwnd, hwnd & "#" & iMsg & "#" & iC)
-                SetProp hwnd, hwnd & "#" & iMsg & "#" & (iC - 1), lPtr
+                lPtr = GetProp(hWnd, hWnd & "#" & iMsg & "#" & iC)
+                SetProp hWnd, hWnd & "#" & iMsg & "#" & (iC - 1), lPtr
              Next iC
         End If
         ' Decrement the count
-        RemoveProp hwnd, hwnd & "#" & iMsg & "#" & c
+        RemoveProp hWnd, hWnd & "#" & iMsg & "#" & c
         c = c - 1
-        SetProp hwnd, hwnd & "#" & iMsg & "C", c
+        SetProp hWnd, hWnd & "#" & iMsg & "C", c
     
     End If
 End Sub
 
-Private Function WindowProc(ByVal hwnd As Long, ByVal iMsg As Long, _
+Private Function WindowProc(ByVal hWnd As Long, ByVal iMsg As Long, _
                             ByVal wParam As Long, ByVal lParam As Long) _
                             As Long
     Dim procOld As Long, pSubclass As Long, f As Long
@@ -205,7 +205,7 @@ Private Function WindowProc(ByVal hwnd As Long, ByVal iMsg As Long, _
     Dim bCalled As Boolean
     
     ' Get the old procedure from the window
-    procOld = GetProp(hwnd, hwnd)
+    procOld = GetProp(hWnd, hWnd)
     Debug.Assert procOld <> 0
     
     ' SPM - in this version I am allowing more than one class to
@@ -215,18 +215,18 @@ Private Function WindowProc(ByVal hwnd As Long, ByVal iMsg As Long, _
     ' all instances of the control on the form to receive the
     ' form notification message.
     
-    ' Get the number of instances for this msg/hwnd:
+    ' Get the number of instances for this msg/hWnd:
     bCalled = False
-    iPC = GetProp(hwnd, hwnd & "#" & iMsg & "C")
+    iPC = GetProp(hWnd, hWnd & "#" & iMsg & "C")
     If (iPC > 0) Then
-        ' For each instance attached to this msg/hwnd, call the subclass:
+        ' For each instance attached to this msg/hWnd, call the subclass:
         For iP = 1 To iPC
             bNoProcess = False
             ' Get the object pointer from the message
-            pSubclass = GetProp(hwnd, hwnd & "#" & iMsg & "#" & iP)
+            pSubclass = GetProp(hWnd, hWnd & "#" & iMsg & "#" & iP)
             If pSubclass = 0 Then
                 ' This message not handled, so pass on to old procedure
-                WindowProc = CallWindowProc(procOld, hwnd, iMsg, _
+                WindowProc = CallWindowProc(procOld, hWnd, iMsg, _
                                             wParam, ByVal lParam)
                 bNoProcess = True
             End If
@@ -253,7 +253,7 @@ Private Function WindowProc(ByVal hwnd As Long, ByVal iMsg As Long, _
                     If (iP = 1) Then
                         If .MsgResponse = emrPreprocess Then
                            If Not (bCalled) Then
-                              WindowProc = CallWindowProc(procOld, hwnd, iMsg, _
+                              WindowProc = CallWindowProc(procOld, hWnd, iMsg, _
                                                         wParam, ByVal lParam)
                               bCalled = True
                            End If
@@ -262,12 +262,12 @@ Private Function WindowProc(ByVal hwnd As Long, ByVal iMsg As Long, _
                     ' Consume (this message is always passed to all control
                     ' instances regardless of whether any single one of them
                     ' requests to consume it):
-                    WindowProc = .WindowProc(hwnd, iMsg, wParam, ByVal lParam)
+                    WindowProc = .WindowProc(hWnd, iMsg, wParam, ByVal lParam)
                     ' PostProcess (only check this the last time around):
                     If (iP = iPC) Then
                         If .MsgResponse = emrPostProcess Then
                            If Not (bCalled) Then
-                              WindowProc = CallWindowProc(procOld, hwnd, iMsg, _
+                              WindowProc = CallWindowProc(procOld, hWnd, iMsg, _
                                                         wParam, ByVal lParam)
                               bCalled = True
                            End If
@@ -278,25 +278,25 @@ Private Function WindowProc(ByVal hwnd As Long, ByVal iMsg As Long, _
         Next iP
     Else
         ' This message not handled, so pass on to old procedure
-        WindowProc = CallWindowProc(procOld, hwnd, iMsg, _
+        WindowProc = CallWindowProc(procOld, hWnd, iMsg, _
                                     wParam, ByVal lParam)
     End If
 End Function
 Public Function CallOldWindowProc( _
-      ByVal hwnd As Long, _
+      ByVal hWnd As Long, _
       ByVal iMsg As Long, _
       ByVal wParam As Long, _
       ByVal lParam As Long _
    ) As Long
-   CallOldWindowProc = CallWindowProc(m_iProcOld, hwnd, iMsg, wParam, lParam)
+   CallOldWindowProc = CallWindowProc(m_iProcOld, hWnd, iMsg, wParam, lParam)
 
 End Function
 
 ' Cheat! Cut and paste from MWinTool rather than reusing
 ' file because reusing file would cause many unneeded dependencies
-Function IsWindowLocal(ByVal hwnd As Long) As Boolean
+Function IsWindowLocal(ByVal hWnd As Long) As Boolean
     Dim idWnd As Long
-    Call GetWindowThreadProcessId(hwnd, idWnd)
+    Call GetWindowThreadProcessId(hWnd, idWnd)
     IsWindowLocal = (idWnd = GetCurrentProcessId())
 End Function
 '
