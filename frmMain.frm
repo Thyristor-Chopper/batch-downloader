@@ -3481,6 +3481,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmDownloadOptions
     Unload frmExplorer
     Unload frmDummyForm
+    Unload frmEditBatch
     
     DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     DetachMessage Me, Me.hWnd, WM_INITMENU
@@ -3494,6 +3495,8 @@ Private Sub Form_Unload(Cancel As Integer)
     GetSystemMenu Me.hWnd, 1
     Unload frmMessageBox
     Unload frmAbout
+    Unload frmMain
+    If Not InIDE Then TaskKill GetCurrentProcessId()
 End Sub
 
 Private Sub fTabDownload_Click()

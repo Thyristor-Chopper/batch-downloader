@@ -86,6 +86,12 @@ Private Declare Function GetDesktopWindow Lib "user32" () As Long
 Private Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
 Private Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowText Lib "user32" Alias "SetWindowTextA" (ByVal hWnd As Long, ByVal lpString As String) As Long
+Declare Function GetCurrentProcessId Lib "kernel32" () As Long
+Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessId As Long) As Long
+Private Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Long, ByVal uExitCode As Long) As Long
+Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Long) As Long
+
+Private Const PROCESS_ALL_ACCESS = &H1F0FFF
 
 Public Const GWL_STYLE = (-16)
 
@@ -1843,3 +1849,10 @@ End Function
 Function GetPictureHeight(pic As StdPicture) As Long
     GetPictureHeight = Round(frmMain.ScaleY(pic.Height, vbHimetric, vbTwips))
 End Function
+
+Sub TaskKill(ByVal PID As Long)
+    Dim hProcess As Long
+    hProcess = OpenProcess(PROCESS_ALL_ACCESS, 0&, PID)
+    TerminateProcess hProcess, 0&
+    CloseHandle PID
+End Sub
