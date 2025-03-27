@@ -218,7 +218,7 @@ Private Const PBT_APMQUERYSUSPENDFAILED As Long = &H2
 Private Const PBT_APMSUSPEND As Long = &H4
 Private Const PBT_APMRESUMESUSPEND As Long = &H7
 Private Const PBT_APMPOWERSTATUSCHANGE As Long = &HA
-Implements ISubclass
+Implements CCISubclass
 Implements OLEGuids.IObjectSafety
 Private SysInfoMainHandle As LongPtr
 Private SysInfoDevNotifyHandle As LongPtr
@@ -437,15 +437,15 @@ Err.Raise Number:=383, Description:="Property is read-only"
 End Property
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
 Select Case dwRefData
     Case 1
-        ISubclass_Message = WindowProcMain(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcMain(hWnd, wMsg, wParam, lParam)
     Case 2
-        ISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
 End Select
 End Function
 

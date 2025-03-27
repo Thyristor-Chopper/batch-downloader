@@ -829,7 +829,7 @@ Private Const IDOK As Long = 1
 Private Const MAXINT_2 As Integer = 32767
 Private Const MAX_PATH As Long = 260
 Private Const S_OK As Long = &H0
-Implements ISubclass
+Implements CCISubclass
 Private CommonDialogHelpMsg As Long
 Private CommonDialogShareViMsg As Long
 Private CommonDialogFileOKMsg As Long
@@ -1599,7 +1599,7 @@ Else
     Else
         .lpfnHook = ProcPtr(AddressOf ComCtlsCdlOFN1CallbackProcOldStyle)
     End If
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = Me
     .lCustData = ObjPtr(This)
 End If
@@ -1675,7 +1675,7 @@ Else
     Else
         .lpfnHook = ProcPtr(AddressOf ComCtlsCdlOFN2CallbackProcOldStyle)
     End If
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = Me
     .lCustData = ObjPtr(This)
 End If
@@ -1758,7 +1758,7 @@ If PropHookEvents = False Then
 Else
     .Flags = CC_ENABLEHOOK Or PropFlags
     .lpfnHook = ProcPtr(AddressOf ComCtlsCdlCCCallbackProc)
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = Me
     .lCustData = ObjPtr(This)
 End If
@@ -1816,7 +1816,7 @@ If PropHookEvents = False Then
 Else
     .Flags = (CF_INITTOLOGFONTSTRUCT Or CF_ENABLEHOOK) Or PropFlags
     .lpfnHook = ProcPtr(AddressOf ComCtlsCdlCFCallbackProc)
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = Me
     .lCustData = ObjPtr(This)
 End If
@@ -1885,7 +1885,7 @@ If PropHookEvents = False Then
     .Flags = PropFlags
 Else
     .Flags = (PD_ENABLEPRINTHOOK Or PD_ENABLESETUPHOOK) Or PropFlags
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = Me
     #If Win64 Then
     .lpfnPrintHook = ProcPtr(AddressOf ComCtlsCdlPDCallbackProc)
@@ -2323,7 +2323,7 @@ If PropHookEvents = False Then
 Else
     .Flags = PSD_ENABLEPAGESETUPHOOK Or PropFlags
     .lpfnPageSetupHook = ProcPtr(AddressOf ComCtlsCdlPSDCallbackProc)
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = Me
     .lCustData = ObjPtr(This)
 End If
@@ -2562,7 +2562,7 @@ End Select
 .lpszTitle = StrPtr(PropDialogTitle)
 .ulFlags = PropFlags
 .lpfnCallback = ProcPtr(AddressOf ComCtlsCdlBIFCallbackProc)
-Dim This As ISubclass
+Dim This As CCISubclass
 Set This = Me
 .lParam = ObjPtr(This)
 IDList = SHBrowseForFolder(BIF)
@@ -2610,7 +2610,7 @@ If PropHookEvents = False Then
 Else
     .Flags = FR_ENABLEHOOK Or PropFlags
     .lpfnHook = ProcPtr(AddressOf ComCtlsCdlFR1CallbackProc)
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = Me
     .lCustData = ObjPtr(This)
 End If
@@ -2661,7 +2661,7 @@ If PropHookEvents = False Then
 Else
     .Flags = FR_ENABLEHOOK Or PropFlags
     .lpfnHook = ProcPtr(AddressOf ComCtlsCdlFR2CallbackProc)
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = Me
     .lCustData = ObjPtr(This)
 End If
@@ -2720,14 +2720,14 @@ hDlg32 = hDlg
 End Function
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
 If dwRefData > 0 Then
-    ISubclass_Message = WindowProcOwner(hWnd, wMsg, wParam, lParam, dwRefData)
+    CCISubclass_Message = WindowProcOwner(hWnd, wMsg, wParam, lParam, dwRefData)
 Else
-    ISubclass_Message = CallbackProcDialog(hWnd, wMsg, wParam, lParam, dwRefData)
+    CCISubclass_Message = CallbackProcDialog(hWnd, wMsg, wParam, lParam, dwRefData)
 End If
 End Function
 

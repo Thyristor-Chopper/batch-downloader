@@ -349,7 +349,7 @@ Private Const MCIWNDM_NOTIFYERROR As Long = (WM_USER + 205)
 Private Const MCI_SAVE As Long = &H813
 Private Const MM_MCINOTIFY As Long = &H3B9
 Private Const MM_MCISIGNAL As Long = &H3CB
-Implements ISubclass
+Implements CCISubclass
 Implements OLEGuids.IObjectSafety
 Implements OLEGuids.IOleInPlaceActiveObjectVB
 Private MCIWndHandle As LongPtr
@@ -1543,17 +1543,17 @@ End Function
 #End If
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
 Select Case dwRefData
     Case 1
-        ISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
     Case 2
-        ISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
     Case 3
-        ISubclass_Message = WindowProcControlDesignMode(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcControlDesignMode(hWnd, wMsg, wParam, lParam)
 End Select
 End Function
 

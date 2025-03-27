@@ -203,7 +203,7 @@ Private Const BF_RIGHT As Long = 4
 Private Const BF_BOTTOM As Long = 8
 Private Const BF_RECT As Long = BF_LEFT Or BF_TOP Or BF_RIGHT Or BF_BOTTOM
 Private Const BF_MONO As Long = &H8000&
-Implements ISubclass
+Implements CCISubclass
 Implements OLEGuids.IObjectSafety
 Implements OLEGuids.IPerPropertyBrowsingVB
 Private FrameMouseOver As Boolean
@@ -1145,11 +1145,11 @@ End With
 End Sub
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
-ISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
+CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
 End Function
 
 Private Function WindowProcUserControl(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr

@@ -278,7 +278,7 @@ cchSubsetTitle As Long
 End Type
 Private Type LVINSERTGROUPSORTED
 pfnGroupCompare As LongPtr
-pvData As ISubclass
+pvData As CCISubclass
 LVG As LVGROUP
 End Type
 Private Type TOOLINFO
@@ -1158,7 +1158,7 @@ Private Const LV_VIEW_DETAILS As Long = &H1
 Private Const LV_VIEW_SMALLICON As Long = &H2
 Private Const LV_VIEW_LIST As Long = &H3
 Private Const LV_VIEW_TILE As Long = &H4
-Implements ISubclass
+Implements CCISubclass
 Implements OLEGuids.IObjectSafety
 Implements OLEGuids.IOleInPlaceActiveObjectVB
 Implements OLEGuids.IPerPropertyBrowsingVB
@@ -5108,7 +5108,7 @@ End If
 Set Groups = PropGroups
 End Property
 
-Friend Sub FGroupsAdd(ByVal Index As Long, ByVal NewGroup As LvwGroup, ByVal This As ISubclass, Optional ByVal Header As String, Optional ByVal HeaderAlignment As LvwGroupHeaderAlignmentConstants, Optional ByVal Footer As String, Optional ByVal FooterAlignment As LvwGroupFooterAlignmentConstants)
+Friend Sub FGroupsAdd(ByVal Index As Long, ByVal NewGroup As LvwGroup, ByVal This As CCISubclass, Optional ByVal Header As String, Optional ByVal HeaderAlignment As LvwGroupHeaderAlignmentConstants, Optional ByVal Footer As String, Optional ByVal FooterAlignment As LvwGroupFooterAlignmentConstants)
 If ComCtlsSupportLevel() = 0 Then Exit Sub
 Dim LVG As LVGROUP
 With LVG
@@ -5171,7 +5171,7 @@ If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then
 End If
 End Sub
 
-Friend Sub FGroupsSort(ByVal This As ISubclass)
+Friend Sub FGroupsSort(ByVal This As CCISubclass)
 If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then SendMessage ListViewHandle, LVM_SORTGROUPS, ProcPtr(AddressOf ComCtlsLvwSortingFunctionGroups), ByVal ObjPtr(This)
 End Sub
 
@@ -7325,7 +7325,7 @@ If ListViewHandle <> NULL_PTR Then
                 Address = ProcPtr(AddressOf ComCtlsLvwSortingFunctionLogical)
         End Select
         If Address <> NULL_PTR Then
-            Dim This As ISubclass
+            Dim This As CCISubclass
             Set This = Me
             SendMessage ListViewHandle, LVM_SORTITEMSEX, ObjPtr(This), ByVal Address
         End If
@@ -7565,45 +7565,45 @@ End Function
 #End If
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
 Select Case dwRefData
     Case 1
-        ISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
     Case 2
-        ISubclass_Message = WindowProcLabelEdit(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcLabelEdit(hWnd, wMsg, wParam, lParam)
     Case 3
-        ISubclass_Message = WindowProcFilterEdit(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcFilterEdit(hWnd, wMsg, wParam, lParam)
     Case 4
-        ISubclass_Message = WindowProcHeader(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcHeader(hWnd, wMsg, wParam, lParam)
     Case 5
-        ISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
     Case 10
-        ISubclass_Message = ListItemsSortingFunctionBinary(wParam, lParam)
+        CCISubclass_Message = ListItemsSortingFunctionBinary(wParam, lParam)
     Case 11
-        ISubclass_Message = ListItemsSortingFunctionText(wParam, lParam)
+        CCISubclass_Message = ListItemsSortingFunctionText(wParam, lParam)
     Case 12
-        ISubclass_Message = ListItemsSortingFunctionNumeric(wParam, lParam)
+        CCISubclass_Message = ListItemsSortingFunctionNumeric(wParam, lParam)
     Case 13
-        ISubclass_Message = ListItemsSortingFunctionCurrency(wParam, lParam)
+        CCISubclass_Message = ListItemsSortingFunctionCurrency(wParam, lParam)
     Case 14
-        ISubclass_Message = ListItemsSortingFunctionDate(wParam, lParam)
+        CCISubclass_Message = ListItemsSortingFunctionDate(wParam, lParam)
     Case 15
-        ISubclass_Message = ListItemsSortingFunctionLogical(wParam, lParam)
+        CCISubclass_Message = ListItemsSortingFunctionLogical(wParam, lParam)
     Case 20
-        ISubclass_Message = GroupsSortingFunctionBinary(wParam, lParam, wMsg)
+        CCISubclass_Message = GroupsSortingFunctionBinary(wParam, lParam, wMsg)
     Case 21
-        ISubclass_Message = GroupsSortingFunctionText(wParam, lParam, wMsg)
+        CCISubclass_Message = GroupsSortingFunctionText(wParam, lParam, wMsg)
     Case 22
-        ISubclass_Message = GroupsSortingFunctionNumeric(wParam, lParam, wMsg)
+        CCISubclass_Message = GroupsSortingFunctionNumeric(wParam, lParam, wMsg)
     Case 23
-        ISubclass_Message = GroupsSortingFunctionCurrency(wParam, lParam, wMsg)
+        CCISubclass_Message = GroupsSortingFunctionCurrency(wParam, lParam, wMsg)
     Case 24
-        ISubclass_Message = GroupsSortingFunctionDate(wParam, lParam, wMsg)
+        CCISubclass_Message = GroupsSortingFunctionDate(wParam, lParam, wMsg)
     Case 25
-        ISubclass_Message = GroupsSortingFunctionLogical(wParam, lParam, wMsg)
+        CCISubclass_Message = GroupsSortingFunctionLogical(wParam, lParam, wMsg)
 End Select
 End Function
 

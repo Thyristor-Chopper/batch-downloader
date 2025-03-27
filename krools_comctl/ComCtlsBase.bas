@@ -706,9 +706,9 @@ ComCtlsSupportLevel = Value
 End Function
 
 #If VBA7 Then
-Public Sub ComCtlsSetSubclass(ByVal hWnd As LongPtr, ByVal This As ISubclass, ByVal dwRefData As LongPtr, Optional ByVal Name As String)
+Public Sub ComCtlsSetSubclass(ByVal hWnd As LongPtr, ByVal This As CCISubclass, ByVal dwRefData As LongPtr, Optional ByVal Name As String)
 #Else
-Public Sub ComCtlsSetSubclass(ByVal hWnd As Long, ByVal This As ISubclass, ByVal dwRefData As Long, Optional ByVal Name As String)
+Public Sub ComCtlsSetSubclass(ByVal hWnd As Long, ByVal This As CCISubclass, ByVal dwRefData As Long, Optional ByVal Name As String)
 #End If
 If hWnd = NULL_PTR Then Exit Sub
 If Name = vbNullString Then Name = "ComCtls"
@@ -801,7 +801,7 @@ Select Case wMsg
         Exit Function
 End Select
 On Error Resume Next
-Dim This As ISubclass
+Dim This As CCISubclass
 Set This = PtrToObj(uIdSubclass)
 If Err.Number = 0 Then
     ComCtlsSubclassProc = This.Message(hWnd, wMsg, wParam, lParam, dwRefData)
@@ -874,81 +874,81 @@ If GetClassLong(hWnd, GCW_ATOM) = &H8000& Then ComCtlsTbrEnumThreadWndProc = 0 E
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsLvwSortingFunctionBinary(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionBinary(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsLvwSortingFunctionBinary(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionBinary(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsLvwSortingFunctionBinary = CLng(This.Message(0, 0, lParam1, lParam2, 10))
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsLvwSortingFunctionText(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionText(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsLvwSortingFunctionText(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionText(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsLvwSortingFunctionText = CLng(This.Message(0, 0, lParam1, lParam2, 11))
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsLvwSortingFunctionNumeric(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionNumeric(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsLvwSortingFunctionNumeric(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionNumeric(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsLvwSortingFunctionNumeric = CLng(This.Message(0, 0, lParam1, lParam2, 12))
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsLvwSortingFunctionCurrency(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionCurrency(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsLvwSortingFunctionCurrency(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionCurrency(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsLvwSortingFunctionCurrency = CLng(This.Message(0, 0, lParam1, lParam2, 13))
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsLvwSortingFunctionDate(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionDate(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsLvwSortingFunctionDate(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionDate(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsLvwSortingFunctionDate = CLng(This.Message(0, 0, lParam1, lParam2, 14))
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsLvwSortingFunctionLogical(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionLogical(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsLvwSortingFunctionLogical(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionLogical(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsLvwSortingFunctionLogical = CLng(This.Message(0, 0, lParam1, lParam2, 15))
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsLvwSortingFunctionGroups(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionGroups(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsLvwSortingFunctionGroups(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsLvwSortingFunctionGroups(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsLvwSortingFunctionGroups = CLng(This.Message(0, 0, lParam1, lParam2, 0))
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsTvwSortingFunctionBinary(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsTvwSortingFunctionBinary(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsTvwSortingFunctionBinary(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsTvwSortingFunctionBinary(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsTvwSortingFunctionBinary = CLng(This.Message(0, 0, lParam1, lParam2, 10))
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsTvwSortingFunctionText(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsTvwSortingFunctionText(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsTvwSortingFunctionText(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsTvwSortingFunctionText(ByVal lParam1 As Long, ByVal lParam2 As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsTvwSortingFunctionText = CLng(This.Message(0, 0, lParam1, lParam2, 11))
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsFtcEnumFontFunction(ByVal lpELF As LongPtr, ByVal lpTM As LongPtr, ByVal FontType As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsFtcEnumFontFunction(ByVal lpELF As LongPtr, ByVal lpTM As LongPtr, ByVal FontType As Long, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsFtcEnumFontFunction(ByVal lpELF As Long, ByVal lpTM As Long, ByVal FontType As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsFtcEnumFontFunction(ByVal lpELF As Long, ByVal lpTM As Long, ByVal FontType As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsFtcEnumFontFunction = CLng(This.Message(0, FontType, lpELF, lpTM, 10))
 End Function
@@ -970,7 +970,7 @@ Else
     SetProp hDlg, StrPtr("ComCtlsCdlOFN1CallbackProcCustData"), lCustData
 End If
 If lCustData <> NULL_PTR Then
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = PtrToObj(lCustData)
     ComCtlsCdlOFN1CallbackProc = This.Message(hDlg, wMsg, wParam, lParam, -1)
 Else
@@ -995,7 +995,7 @@ Else
     SetProp hDlg, StrPtr("ComCtlsCdlOFN1CallbackProcOldStyleCustData"), lCustData
 End If
 If lCustData <> NULL_PTR Then
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = PtrToObj(lCustData)
     ComCtlsCdlOFN1CallbackProcOldStyle = This.Message(hDlg, wMsg, wParam, lParam, -1001)
 Else
@@ -1020,7 +1020,7 @@ Else
     SetProp hDlg, StrPtr("ComCtlsCdlOFN2CallbackProcCustData"), lCustData
 End If
 If lCustData <> NULL_PTR Then
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = PtrToObj(lCustData)
     ComCtlsCdlOFN2CallbackProc = This.Message(hDlg, wMsg, wParam, lParam, -2)
 Else
@@ -1045,7 +1045,7 @@ Else
     SetProp hDlg, StrPtr("ComCtlsCdlOFN2CallbackProcOldStyleCustData"), lCustData
 End If
 If lCustData <> NULL_PTR Then
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = PtrToObj(lCustData)
     ComCtlsCdlOFN2CallbackProcOldStyle = This.Message(hDlg, wMsg, wParam, lParam, -1002)
 Else
@@ -1070,7 +1070,7 @@ Else
     SetProp hDlg, StrPtr("ComCtlsCdlCCCallbackProcCustData"), lCustData
 End If
 If lCustData <> NULL_PTR Then
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = PtrToObj(lCustData)
     ComCtlsCdlCCCallbackProc = This.Message(hDlg, wMsg, wParam, lParam, -3)
 Else
@@ -1095,7 +1095,7 @@ Else
     SetProp hDlg, StrPtr("ComCtlsCdlCFCallbackProcCustData"), lCustData
 End If
 If lCustData <> NULL_PTR Then
-    Dim This As ISubclass
+    Dim This As CCISubclass
     Set This = PtrToObj(lCustData)
     ComCtlsCdlCFCallbackProc = This.Message(hDlg, wMsg, wParam, lParam, -4)
 Else
@@ -1118,7 +1118,7 @@ Else
     CopyMemory lCustData, ByVal UnsignedAdd(lParam, 38), PTR_SIZE
     #End If
     If lCustData <> NULL_PTR Then
-        Dim This As ISubclass
+        Dim This As CCISubclass
         Set This = PtrToObj(lCustData)
         ComCtlsCdlPDCallbackProc = This.Message(hDlg, wMsg, wParam, lParam, -5)
     Else
@@ -1128,9 +1128,9 @@ End If
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsCdlPDEXCallbackPtr(ByVal This As ISubclass) As LongPtr
+Public Function ComCtlsCdlPDEXCallbackPtr(ByVal This As CCISubclass) As LongPtr
 #Else
-Public Function ComCtlsCdlPDEXCallbackPtr(ByVal This As ISubclass) As Long
+Public Function ComCtlsCdlPDEXCallbackPtr(ByVal This As CCISubclass) As Long
 #End If
 Dim VTableData(0 To 2) As LongPtr
 VTableData(0) = GetVTableIPDCB()
@@ -1206,7 +1206,7 @@ If wMsg = WM_INITDIALOG Then
     CopyMemory lCustData, ByVal UnsignedAdd(Ptr, 8), PTR_SIZE
     #End If
     If lCustData <> NULL_PTR Then
-        Dim This As ISubclass
+        Dim This As CCISubclass
         Set This = PtrToObj(lCustData)
         This.Message hDlg, wMsg, wParam, lParam, -5
     End If
@@ -1229,7 +1229,7 @@ Else
     CopyMemory lCustData, ByVal UnsignedAdd(lParam, 64), PTR_SIZE
     #End If
     If lCustData <> NULL_PTR Then
-        Dim This As ISubclass
+        Dim This As CCISubclass
         Set This = PtrToObj(lCustData)
         ComCtlsCdlPSDCallbackProc = This.Message(hDlg, wMsg, wParam, lParam, -7)
     Else
@@ -1239,9 +1239,9 @@ End If
 End Function
 
 #If VBA7 Then
-Public Function ComCtlsCdlBIFCallbackProc(ByVal hDlg As LongPtr, ByVal wMsg As Long, ByVal lParam As LongPtr, ByVal This As ISubclass) As Long
+Public Function ComCtlsCdlBIFCallbackProc(ByVal hDlg As LongPtr, ByVal wMsg As Long, ByVal lParam As LongPtr, ByVal This As CCISubclass) As Long
 #Else
-Public Function ComCtlsCdlBIFCallbackProc(ByVal hDlg As Long, ByVal wMsg As Long, ByVal lParam As Long, ByVal This As ISubclass) As Long
+Public Function ComCtlsCdlBIFCallbackProc(ByVal hDlg As Long, ByVal wMsg As Long, ByVal lParam As Long, ByVal This As CCISubclass) As Long
 #End If
 ComCtlsCdlBIFCallbackProc = CLng(This.Message(hDlg, wMsg, 0, lParam, -8))
 End Function
@@ -1261,7 +1261,7 @@ Else
     CopyMemory lCustData, ByVal UnsignedAdd(lParam, 28), PTR_SIZE
     #End If
     If lCustData <> NULL_PTR Then
-        Dim This As ISubclass
+        Dim This As CCISubclass
         Set This = PtrToObj(lCustData)
         This.Message hDlg, wMsg, wParam, lParam, -9
     End If
@@ -1285,7 +1285,7 @@ Else
     CopyMemory lCustData, ByVal UnsignedAdd(lParam, 28), PTR_SIZE
     #End If
     If lCustData <> NULL_PTR Then
-        Dim This As ISubclass
+        Dim This As CCISubclass
         Set This = PtrToObj(lCustData)
         This.Message hDlg, wMsg, wParam, lParam, -10
     End If

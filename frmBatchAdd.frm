@@ -107,6 +107,8 @@ Dim PrevKeyCode As Integer
 Dim Initialized As Boolean
 Public HeaderCache$
 
+Implements ISubclass
+
 Private Sub cmdAdvanced_Click()
     Tags.DownloadOptionsTargetForm = 1
     Set frmDownloadOptions.HeaderKeys = New Collection
@@ -183,18 +185,18 @@ Private Sub Form_Load()
     Label1.Caption = t(Label1.Caption, "Enter one UR&L per line:")
     Label2.Caption = t(Label2.Caption, "&Save to:")
     cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
-    tr cmdAdvanced, "Ad&vanced..."
+    tR cmdAdvanced, "Ad&vanced..."
     
     HeaderCache = ""
     
     On Error Resume Next
     Me.Icon = frmMain.Icon
-    On Error GoTo 0
-    
-    Hook_BatchAdd Me.hWnd
-    On Error Resume Next
     Me.Width = GetSetting("DownloadBooster", "UserData", "BatchURLAddWidth", Me.Width - PaddedBorderWidth * 15 * 2) + PaddedBorderWidth * 15 * 2
     Me.Height = GetSetting("DownloadBooster", "UserData", "BatchURLAddHeight", Me.Height - PaddedBorderWidth * 15 * 2) + PaddedBorderWidth * 15 * 2
+    
+    AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    'AttachMessage Me, Me.hWnd, WM_DPICHANGED
 End Sub
 
 Sub Form_Resize()
@@ -216,8 +218,50 @@ Private Sub Form_Unload(Cancel As Integer)
         SaveSetting "DownloadBooster", "UserData", "BatchURLAddWidth", Me.Width - PaddedBorderWidth * 15 * 2
         SaveSetting "DownloadBooster", "UserData", "BatchURLAddHeight", Me.Height - PaddedBorderWidth * 15 * 2
     End If
-    Unhook_BatchAdd Me.hWnd
+    
+    DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    'DetachMessage Me, Me.hWnd, WM_DPICHANGED
 End Sub
+
+Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
+    '
+End Property
+
+Private Property Get ISubclass_MsgResponse() As EMsgResponse
+    ISubclass_MsgResponse = emrConsume
+End Property
+
+Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    On Error Resume Next
+ 
+    Select Case uMsg
+        Case WM_GETMINMAXINFO
+            Dim lpMMI As MINMAXINFO
+            CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
+            lpMMI.ptMinTrackSize.X = (5145 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = (2310 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = (Screen.Width + 1200) * (DPI / 96)
+            lpMMI.ptMaxTrackSize.Y = (Screen.Height + 1200) * (DPI / 96)
+            CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
+            
+            ISubclass_WindowProc = 1&
+            Exit Function
+        Case WM_SETTINGCHANGE
+            Select Case GetStrFromPtr(lParam)
+                Case "WindowMetrics"
+                    UpdateBorderWidth
+                    Form_Resize
+            End Select
+'        Case WM_DPICHANGED
+'            UpdateDPI
+'
+'            ISubclass_WindowProc = 1&
+'            Exit Function
+    End Select
+    
+    ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+End Function
 
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
     If (KeyCode = 13 Or KeyCode = 10) Then

@@ -1416,6 +1416,8 @@ Dim BackgroundDrawn(5) As Boolean
 Dim ScrollChanged As Boolean
 Dim IntervalValues(8) As Single
 
+Implements ISubclass
+
 Sub NextTabPage(Optional ByVal Reverse As Boolean = False)
     On Error Resume Next
     If Not Reverse Then
@@ -1992,8 +1994,35 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-    Unhook_Options Me.hWnd
+    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    DetachMessage Me, Me.hWnd, WM_THEMECHANGED
 End Sub
+
+Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
+    '
+End Property
+
+Private Property Get ISubclass_MsgResponse() As EMsgResponse
+    ISubclass_MsgResponse = emrConsume
+End Property
+
+Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    On Error Resume Next
+ 
+    Select Case uMsg
+        Case WM_SETTINGCHANGE
+            Select Case GetStrFromPtr(lParam)
+                Case "WindowMetrics"
+                    UpdateBorderWidth
+                    SetPreviewPosition
+                    DrawTabBackground True
+            End Select
+        Case WM_THEMECHANGED
+            DrawTabBackground True
+    End Select
+    
+    ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+End Function
 
 Private Sub lvHeaders_AfterLabelEdit(Cancel As Boolean, NewString As String)
     NewString = Trim$(NewString)
@@ -2273,17 +2302,6 @@ Private Sub Form_Load()
     End If
     pbBackground.BackColor = pgColor.BackColor
     
-    Dim clrForeColor As Long
-    clrForeColor = GetSetting("DownloadBooster", "Options", "ForeColor", -1)
-    If clrForeColor < 0 Or clrForeColor > 16777215 Then
-        optSystemFore.Value = True
-        pgFore.BackColor = &H80000012
-    Else
-        optUserFore.Value = True
-        pgFore.BackColor = clrForeColor
-    End If
-    Label11.ForeColor = pgFore.BackColor
-    
     cmdApply.Enabled = 0
     
     DrawTabBackground
@@ -2369,6 +2387,21 @@ Private Sub Form_Load()
         imgPreview.Visible = -1
     End If
     
+    Dim clrForeColor As Long
+    clrForeColor = GetSetting("DownloadBooster", "Options", "ForeColor", -1)
+    If clrForeColor < 0 Or clrForeColor > 16777215 Then
+        optSystemFore.Value = True
+        pgFore.BackColor = &H80000012
+    Else
+        optUserFore.Value = True
+        pgFore.BackColor = clrForeColor
+        CheckBoxW1.VisualStyles = False
+        FrameW5.VisualStyles = False
+        CheckBoxW1.ForeColor = pgFore.BackColor
+        FrameW5.ForeColor = pgFore.BackColor
+    End If
+    Label11.ForeColor = pgFore.BackColor
+    
     tsTabStrip.Tabs(1).Caption = t(tsTabStrip.Tabs(1).Caption, " General ")
     tsTabStrip.Tabs(2).Caption = t(tsTabStrip.Tabs(2).Caption, " Network ")
     tsTabStrip.Tabs(3).Caption = t(tsTabStrip.Tabs(3).Caption, " Appearance ")
@@ -2425,11 +2458,11 @@ Private Sub Form_Load()
     Label11.Caption = t(Label11.Caption, "File URL:")
     FrameW5.Caption = t(FrameW5.Caption, " Download status ")
     CheckBoxW1.Caption = t(CheckBoxW1.Caption, "Open when done")
-    tr chkAsterisk, "&Asterisk"
-    tr chkExclamation, "&Exclamation"
-    tr chkError, "E&rror"
-    tr chkQuestion, "&Question"
-    tr Label12, "Leave the fields blank to use the default sound."
+    tR chkAsterisk, "&Asterisk"
+    tR chkExclamation, "&Exclamation"
+    tR chkError, "E&rror"
+    tR chkQuestion, "&Question"
+    tR Label12, "Leave the fields blank to use the default sound."
     chkAsterisk.Value = GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1)
     chkExclamation.Value = GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1)
     chkError.Value = GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1)
@@ -2438,17 +2471,17 @@ Private Sub Form_Load()
     txtExclamation.Text = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
     txtError.Text = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
     txtQuestion.Text = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
-    tr chkAllowDuplicates, "Allow dupl&icates in queue"
-    tr Label13, "&Font:"
-    tr Label14, "Ma&x. number of threads:"
-    tr Label15, "(restart required)"
-    tr Label16, Label15.Caption
-    tr FrameW6, " Sound settings "
-    tr Label17, "Set the headers when requesting to the server on download. Headers set in Download Options have higher priority."
-    tr Label18, "T&hread scroll:"
-    tr optLinePerScroll, "Per li&ne"
-    tr optScreenPerScroll, "Pe&r screen"
-    tr Label19, "Thread request i&nterval:"
+    tR chkAllowDuplicates, "Allow dupl&icates in queue"
+    tR Label13, "&Font:"
+    tR Label14, "Ma&x. number of threads:"
+    tR Label15, "(restart required)"
+    tR Label16, Label15.Caption
+    tR FrameW6, " Sound settings "
+    tR Label17, "Set the headers when requesting to the server on download. Headers set in Download Options have higher priority."
+    tR Label18, "T&hread scroll:"
+    tR optLinePerScroll, "Per li&ne"
+    tR optScreenPerScroll, "Pe&r screen"
+    tR Label19, "Thread request i&nterval:"
     
     lvHeaders.ColumnHeaders.Add , , t("ÀÌ¸§", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("°ª", "Value"), 2775
@@ -2463,7 +2496,8 @@ Private Sub Form_Load()
         lvHeaders.ListItems.Add(, , Headers(i, 0), , 1).ListSubItems.Add , , Headers(i, 1)
     Next i
     
-    Hook_Options Me.hWnd
+    AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    AttachMessage Me, Me.hWnd, WM_THEMECHANGED
     
     imgDesktop.Width = pbPreview.Width
     imgDesktop.Height = pbPreview.Height
@@ -2605,6 +2639,10 @@ Private Sub lblSelectFore_Click()
     optUserFore.Value = True
     ColorChanged = True
     Label11.ForeColor = pgFore.BackColor
+    CheckBoxW1.VisualStyles = False
+    FrameW5.VisualStyles = False
+    CheckBoxW1.ForeColor = pgFore.BackColor
+    FrameW5.ForeColor = pgFore.BackColor
 End Sub
 
 Private Sub lvHeaders_ColumnFilterChanged(ByVal ColumnHeader As LvwColumnHeader)
@@ -2650,6 +2688,10 @@ Private Sub optSystemFore_Click()
         ColorChanged = True
     End If
     Label11.ForeColor = &H80000012
+    CheckBoxW1.VisualStyles = (cbSkin.ListIndex <> 1)
+    FrameW5.VisualStyles = (cbSkin.ListIndex <> 1)
+    CheckBoxW1.ForeColor = &H80000012
+    FrameW5.ForeColor = &H80000012
 End Sub
 
 Private Sub optUserColor_Click()
@@ -2668,6 +2710,10 @@ Private Sub optUserFore_Click()
         ColorChanged = True
     End If
     Label11.ForeColor = pgFore.BackColor
+    CheckBoxW1.VisualStyles = False
+    FrameW5.VisualStyles = False
+    CheckBoxW1.ForeColor = pgFore.BackColor
+    FrameW5.ForeColor = pgFore.BackColor
 End Sub
 
 Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)

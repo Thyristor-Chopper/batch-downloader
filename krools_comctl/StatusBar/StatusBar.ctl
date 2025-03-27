@@ -6,11 +6,11 @@ Begin VB.UserControl StatusBar
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   2400
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  '≈ı∏Ì
    HasDC           =   0   'False
    PropertyPages   =   "StatusBar.ctx":0000
    ScaleHeight     =   120
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  '«»ºø
    ScaleWidth      =   160
    ToolboxBitmap   =   "StatusBar.ctx":005E
    Begin VB.Timer TimerUpdatePanels 
@@ -356,8 +356,8 @@ Private Const SBARS_TOOLTIPS As Long = SBT_TOOLTIPS ' Useless on SBT_OWNERDRAW
 Private Const SBB_HORIZONTAL As Long = 0
 Private Const SBB_VERTICAL As Long = 1
 Private Const SBB_DIVIDER As Long = 2
-Implements ISubclass
 Implements OLEGuids.IObjectSafety
+Implements ISubclass
 Private Type InitPanelStruct
 Text As String
 Key As String
@@ -438,6 +438,214 @@ End Sub
 
 Private Sub IObjectSafety_SetInterfaceSafetyOptions(ByRef riid As OLEGuids.OLECLSID, ByVal dwOptionsSetMask As Long, ByVal dwEnabledOptions As Long)
 End Sub
+
+Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
+    '
+End Property
+
+Private Property Get ISubclass_MsgResponse() As EMsgResponse
+    ISubclass_MsgResponse = emrConsume
+End Property
+
+Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    If hWnd = UserControl.hWnd Then
+        Select Case wMsg
+            Case WM_SHOWWINDOW
+                If StatusBarSizeGripAllowable = True Then
+                    Dim Align As Integer
+                    If StatusBarAlignable = True Then Align = Extender.Align Else Align = vbAlignNone
+                    If Align <> vbAlignBottom Then
+                        StatusBarSizeGripAllowable = False
+                        Call ReCreateStatusBar
+                    End If
+                End If
+            Case WM_WINDOWPOSCHANGED
+                Static PrevWndContainer As LongPtr
+                If StatusBarAlignable = True Then
+                    If PrevWndContainer <> UserControl.ContainerHwnd And PrevWndContainer <> NULL_PTR Then
+                        If Not StatusBarSizeGripAllowable = CBool(((GetWindowLong(UserControl.ContainerHwnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) And Extender.Align = vbAlignBottom) Then
+                            StatusBarSizeGripAllowable = Not StatusBarSizeGripAllowable
+                            Call ReCreateStatusBar
+                        End If
+                    End If
+                    PrevWndContainer = UserControl.ContainerHwnd
+                Else
+                    If StatusBarSizeGripAllowable = True Then
+                        StatusBarSizeGripAllowable = False
+                        Call ReCreateStatusBar
+                    End If
+                    PrevWndContainer = NULL_PTR
+                End If
+            Case WM_DRAWITEM
+                Dim DIS As DRAWITEMSTRUCT
+                If StatusBarDesignMode Then
+                    CopyMemory DIS, ByVal lParam, LenB(DIS)
+                    If DIS.hWndItem = StatusBarHandle Then
+                        Call DrawPanel(DIS.ItemID + 1, DIS.hDC, DIS.RCItem)
+                        ISubclass_WindowProc = 1
+                        Exit Function
+                    End If
+                Else
+                    CopyMemory DIS, ByVal lParam, LenB(DIS)
+                    If DIS.hWndItem = StatusBarHandle Then
+                        Call DrawPanel(DIS.ItemID + 1, DIS.hDC, DIS.RCItem)
+                        ISubclass_WindowProc = 1
+                        Exit Function
+                    End If
+                End If
+            Case WM_NOTIFY
+                Dim NM As NMHDR, NMM As NMMOUSE
+                CopyMemory NM, ByVal lParam, LenB(NM)
+                If NM.hWndFrom = StatusBarHandle Then
+                    Select Case NM.Code
+                        Case SBN_SIMPLEMODECHANGE
+                            RaiseEvent StyleChange
+                        Case NM_CLICK, NM_RCLICK
+                            If StatusBarIsClick = True Then
+                                CopyMemory NMM, ByVal lParam, LenB(NMM)
+                                If NMM.dwItemSpec >= 0 Then
+                                    If NM.Code = NM_CLICK Then
+                                        RaiseEvent PanelClick(Me.Panels(NMM.dwItemSpec + 1), vbLeftButton)
+                                    ElseIf NM.Code = NM_RCLICK Then
+                                        RaiseEvent PanelClick(Me.Panels(NMM.dwItemSpec + 1), vbRightButton)
+                                    End If
+                                End If
+                            End If
+                        Case NM_DBLCLK, NM_RDBLCLK
+                            CopyMemory NMM, ByVal lParam, LenB(NMM)
+                            If NMM.dwItemSpec >= 0 Then
+                                If NM.Code = NM_DBLCLK Then
+                                    RaiseEvent PanelDblClick(Me.Panels(NMM.dwItemSpec + 1), vbLeftButton)
+                                ElseIf NM.Code = NM_RDBLCLK Then
+                                    RaiseEvent PanelDblClick(Me.Panels(NMM.dwItemSpec + 1), vbRightButton)
+                                End If
+                            End If
+                    End Select
+                End If
+            Case WM_NOTIFYFORMAT
+                Const NF_QUERY As Long = 3
+                If lParam = NF_QUERY Then
+                    Const NFR_UNICODE As Long = 2
+                    Const NFR_ANSI As Long = 1
+                    ISubclass_WindowProc = NFR_UNICODE
+                    Exit Function
+                End If
+            Case WM_DESTROY, WM_NCDESTROY
+                If StatusBarDesignMode Then
+                    DetachMessage Me, UserControl.hWnd, WM_SHOWWINDOW
+                    DetachMessage Me, UserControl.hWnd, WM_WINDOWPOSCHANGED
+                    DetachMessage Me, UserControl.hWnd, WM_DRAWITEM
+                    DetachMessage Me, UserControl.hWnd, WM_DESTROY
+                    DetachMessage Me, UserControl.hWnd, WM_NCDESTROY
+                    DetachMessage Me, UserControl.hWnd, WM_NOTIFY
+                    DetachMessage Me, UserControl.hWnd, WM_NOTIFYFORMAT
+                End If
+        End Select
+    ElseIf hWnd = StatusBarHandle Then
+        Select Case wMsg
+            Case WM_SETCURSOR
+                If LoWord(CLng(lParam)) = HTCLIENT Then
+                    If MousePointerID(PropMousePointer) <> 0 Then
+                        SetCursor LoadCursor(NULL_PTR, MousePointerID(PropMousePointer))
+                        ISubclass_WindowProc = 1
+                        Exit Function
+                    ElseIf PropMousePointer = 99 Then
+                        If Not PropMouseIcon Is Nothing Then
+                            SetCursor PropMouseIcon.Handle
+                            ISubclass_WindowProc = 1
+                            Exit Function
+                        End If
+                    End If
+                End If
+            Case WM_ERASEBKGND
+                If PropDoubleBuffer = True And (StatusBarDoubleBufferEraseBkgDC <> wParam Or StatusBarDoubleBufferEraseBkgDC = NULL_PTR) And WindowFromDC(wParam) = hWnd Then
+                    ISubclass_WindowProc = 0
+                    Exit Function
+                End If
+            Case WM_PAINT
+                If wParam = 0 Then
+                    If PropDoubleBuffer = True Then
+                        Dim ClientRect As RECT, hDC As LongPtr
+                        Dim hDCBmp As LongPtr
+                        Dim hBmp As LongPtr, hBmpOld As LongPtr
+                        GetClientRect hWnd, ClientRect
+                        Dim PS As PAINTSTRUCT
+                        hDC = BeginPaint(hWnd, PS)
+                        With PS
+                        hDCBmp = CreateCompatibleDC(hDC)
+                        If hDCBmp <> NULL_PTR Then
+                            hBmp = CreateCompatibleBitmap(hDC, ClientRect.Right - ClientRect.Left, ClientRect.Bottom - ClientRect.Top)
+                            If hBmp <> NULL_PTR Then
+                                hBmpOld = SelectObject(hDCBmp, hBmp)
+                                StatusBarDoubleBufferEraseBkgDC = hDCBmp
+                                SendMessage hWnd, WM_PRINT, hDCBmp, ByVal PRF_CLIENT Or PRF_ERASEBKGND
+                                StatusBarDoubleBufferEraseBkgDC = NULL_PTR
+                                With PS.RCPaint
+                                BitBlt hDC, .Left, .Top, .Right - .Left, .Bottom - .Top, hDCBmp, .Left, .Top, vbSrcCopy
+                                End With
+                                SelectObject hDCBmp, hBmpOld
+                                DeleteObject hBmp
+                            End If
+                            DeleteDC hDCBmp
+                        End If
+                        End With
+                        EndPaint hWnd, PS
+                        ISubclass_WindowProc = 0
+                        Exit Function
+                    End If
+                Else
+                    SendMessage hWnd, WM_PRINT, wParam, ByVal PRF_CLIENT Or PRF_ERASEBKGND
+                    ISubclass_WindowProc = 0
+                    Exit Function
+                End If
+            Case WM_LBUTTONDBLCLK, WM_MBUTTONDBLCLK, WM_RBUTTONDBLCLK
+                RaiseEvent DblClick
+            Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
+                Dim X As Single
+                Dim Y As Single
+                X = UserControl.ScaleX(Get_X_lParam(lParam), vbPixels, vbTwips)
+                Y = UserControl.ScaleY(Get_Y_lParam(lParam), vbPixels, vbTwips)
+                Select Case wMsg
+                    Case WM_LBUTTONDOWN
+                        RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+                        StatusBarIsClick = True
+                    Case WM_MBUTTONDOWN
+                        RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+                        StatusBarIsClick = True
+                    Case WM_RBUTTONDOWN
+                        RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+                        StatusBarIsClick = True
+                    Case WM_MOUSEMOVE
+                        If StatusBarMouseOver = False And PropMouseTrack = True Then
+                            StatusBarMouseOver = True
+                            RaiseEvent MouseEnter
+                            Call ComCtlsRequestMouseLeave(hWnd)
+                        End If
+                        RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
+                    Case WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
+                        Select Case wMsg
+                            Case WM_LBUTTONUP
+                                RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+                            Case WM_MBUTTONUP
+                                RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+                            Case WM_RBUTTONUP
+                                RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+                        End Select
+                        If StatusBarIsClick = True Then
+                            StatusBarIsClick = False
+                            If (X >= 0 And X <= UserControl.Width) And (Y >= 0 And Y <= UserControl.Height) Then RaiseEvent Click
+                        End If
+                End Select
+            Case WM_MOUSELEAVE
+                If StatusBarMouseOver = True Then
+                    StatusBarMouseOver = False
+                    RaiseEvent MouseLeave
+                End If
+        End Select
+    End If
+    
+    ISubclass_WindowProc = CallOldWindowProc(hWnd, wMsg, wParam, lParam)
+End Function
 
 Private Sub UserControl_Initialize()
 Call ComCtlsLoadShellMod
@@ -1614,7 +1822,13 @@ If PropRightToLeft = True And PropRightToLeftLayout = True Then dwExStyle = dwEx
 If StatusBarDesignMode = False Then
     ' The WM_NOTIFYFORMAT notification must be handled, which will be sent on control creation.
     ' Thus it is necessary to subclass the parent before the control is created.
-    Call ComCtlsSetSubclass(UserControl.hWnd, Me, 2)
+    
+    'Call ComCtlsSetSubclass(UserControl.hWnd, Me, 2)
+    AttachMessage Me, UserControl.hWnd, WM_SHOWWINDOW
+    AttachMessage Me, UserControl.hWnd, WM_WINDOWPOSCHANGED
+    AttachMessage Me, UserControl.hWnd, WM_DRAWITEM
+    AttachMessage Me, UserControl.hWnd, WM_NOTIFY
+    AttachMessage Me, UserControl.hWnd, WM_NOTIFYFORMAT
 End If
 StatusBarHandle = CreateWindowEx(dwExStyle, StrPtr("msctls_statusbar32"), NULL_PTR, dwStyle, 0, 0, UserControl.ScaleWidth, UserControl.ScaleHeight, UserControl.hWnd, NULL_PTR, App.hInstance, ByVal NULL_PTR)
 Set Me.Font = PropFont
@@ -1625,9 +1839,27 @@ Me.SimpleText = PropSimpleText
 Me.ShowTips = PropShowTips
 Me.BackColor = PropBackColor
 If StatusBarDesignMode = False Then
-    If StatusBarHandle <> NULL_PTR Then Call ComCtlsSetSubclass(StatusBarHandle, Me, 1)
+    If StatusBarHandle <> NULL_PTR Then 'Call ComCtlsSetSubclass(StatusBarHandle, Me, 1)
+        AttachMessage Me, StatusBarHandle, WM_SETCURSOR
+        AttachMessage Me, StatusBarHandle, WM_ERASEBKGND
+        AttachMessage Me, StatusBarHandle, WM_PAINT
+        AttachMessage Me, StatusBarHandle, WM_LBUTTONDBLCLK
+        AttachMessage Me, StatusBarHandle, WM_MBUTTONDBLCLK
+        AttachMessage Me, StatusBarHandle, WM_RBUTTONDBLCLK
+        AttachMessage Me, StatusBarHandle, WM_LBUTTONDOWN
+        AttachMessage Me, StatusBarHandle, WM_MBUTTONDOWN
+        AttachMessage Me, StatusBarHandle, WM_RBUTTONDOWN
+        AttachMessage Me, StatusBarHandle, WM_MOUSEMOVE
+        AttachMessage Me, StatusBarHandle, WM_LBUTTONUP
+        AttachMessage Me, StatusBarHandle, WM_MBUTTONUP
+        AttachMessage Me, StatusBarHandle, WM_RBUTTONUP
+        AttachMessage Me, StatusBarHandle, WM_MOUSELEAVE
+    End If
 Else
-    Call ComCtlsSetSubclass(UserControl.hWnd, Me, 3)
+    'Call ComCtlsSetSubclass(UserControl.hWnd, Me, 3)
+    AttachMessage Me, UserControl.hWnd, WM_DRAWITEM
+    AttachMessage Me, UserControl.hWnd, WM_DESTROY
+    AttachMessage Me, UserControl.hWnd, WM_NCDESTROY
 End If
 Call SetMinHeight
 Call CheckTimer
@@ -1666,7 +1898,28 @@ Private Sub DestroyStatusBar()
 If StatusBarHandle = NULL_PTR Then Exit Sub
 TimerUpdatePanels.Enabled = False
 Call ComCtlsRemoveSubclass(StatusBarHandle)
+DetachMessage Me, StatusBarHandle, WM_SETCURSOR
+DetachMessage Me, StatusBarHandle, WM_ERASEBKGND
+DetachMessage Me, StatusBarHandle, WM_PAINT
+DetachMessage Me, StatusBarHandle, WM_LBUTTONDBLCLK
+DetachMessage Me, StatusBarHandle, WM_MBUTTONDBLCLK
+DetachMessage Me, StatusBarHandle, WM_RBUTTONDBLCLK
+DetachMessage Me, StatusBarHandle, WM_LBUTTONDOWN
+DetachMessage Me, StatusBarHandle, WM_MBUTTONDOWN
+DetachMessage Me, StatusBarHandle, WM_RBUTTONDOWN
+DetachMessage Me, StatusBarHandle, WM_MOUSEMOVE
+DetachMessage Me, StatusBarHandle, WM_LBUTTONUP
+DetachMessage Me, StatusBarHandle, WM_MBUTTONUP
+DetachMessage Me, StatusBarHandle, WM_RBUTTONUP
+DetachMessage Me, StatusBarHandle, WM_MOUSELEAVE
 Call ComCtlsRemoveSubclass(UserControl.hWnd)
+DetachMessage Me, UserControl.hWnd, WM_SHOWWINDOW
+DetachMessage Me, UserControl.hWnd, WM_WINDOWPOSCHANGED
+DetachMessage Me, UserControl.hWnd, WM_DRAWITEM
+DetachMessage Me, UserControl.hWnd, WM_DESTROY
+DetachMessage Me, UserControl.hWnd, WM_NCDESTROY
+DetachMessage Me, UserControl.hWnd, WM_NOTIFY
+DetachMessage Me, UserControl.hWnd, WM_NOTIFYFORMAT
 Call DestroyToolTip
 ShowWindow StatusBarHandle, SW_HIDE
 SetParent StatusBarHandle, NULL_PTR
@@ -2124,9 +2377,9 @@ End If
 End Sub
 
 Private Function NextToolTipID() As Long
-Static ID As Long
-ID = ID + 1
-NextToolTipID = ID
+Static id As Long
+id = id + 1
+NextToolTipID = id
 End Function
 
 Private Function PtInRect(ByRef lpRect As RECT, ByVal X As Long, ByVal Y As Long) As Long
@@ -2134,21 +2387,6 @@ Private Function PtInRect(ByRef lpRect As RECT, ByVal X As Long, ByVal Y As Long
 ' So the handling of a ByVal PT being split into two 4-byte arguments will crash.
 PtInRect = 0
 If X >= lpRect.Left And X < lpRect.Right And Y >= lpRect.Top And Y < lpRect.Bottom Then PtInRect = 1
-End Function
-
-#If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
-#Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
-#End If
-Select Case dwRefData
-    Case 1
-        ISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
-    Case 2
-        ISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
-    Case 3
-        ISubclass_Message = WindowProcUserControlDesignMode(hWnd, wMsg, wParam, lParam)
-End Select
 End Function
 
 Private Function WindowProcControl(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr

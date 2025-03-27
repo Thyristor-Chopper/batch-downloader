@@ -555,7 +555,7 @@ Private Const TVS_FULLROWSELECT As Long = &H1000
 Private Const TVS_NOSCROLL As Long = &H2000
 Private Const TVS_NONEVENHEIGHT As Long = &H4000
 Private Const TVS_NOHSCROLL As Long = &H8000&
-Implements ISubclass
+Implements CCISubclass
 Implements OLEGuids.IObjectSafety
 Implements OLEGuids.IOleInPlaceActiveObjectVB
 Implements OLEGuids.IPerPropertyBrowsingVB
@@ -3380,7 +3380,7 @@ If TreeViewHandle <> NULL_PTR And Handle <> NULL_PTR Then
             .lpfnCompare = ProcPtr(AddressOf ComCtlsTvwSortingFunctionText)
     End Select
     If .lpfnCompare <> NULL_PTR Then
-        Dim This As ISubclass
+        Dim This As CCISubclass
         Set This = Me
         .lParam = ObjPtr(This)
         SendMessage TreeViewHandle, TVM_SORTCHILDRENCB, 0, ByVal VarPtr(TVSCB)
@@ -3626,21 +3626,21 @@ End Function
 #End If
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
 Select Case dwRefData
     Case 1
-        ISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
     Case 2
-        ISubclass_Message = WindowProcLabelEdit(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcLabelEdit(hWnd, wMsg, wParam, lParam)
     Case 3
-        ISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
     Case 10
-        ISubclass_Message = NodesSortingFunctionBinary(wParam, lParam)
+        CCISubclass_Message = NodesSortingFunctionBinary(wParam, lParam)
     Case 11
-        ISubclass_Message = NodesSortingFunctionText(wParam, lParam)
+        CCISubclass_Message = NodesSortingFunctionText(wParam, lParam)
 End Select
 End Function
 

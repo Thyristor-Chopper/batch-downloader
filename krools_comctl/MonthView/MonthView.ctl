@@ -331,7 +331,7 @@ Private Const GDTR_MIN As Long = 1
 Private Const GDTR_MAX As Long = 2
 Private Const GMR_VISIBLE As Long = 0
 Private Const GMR_DAYSTATE As Long = 1
-Implements ISubclass
+Implements CCISubclass
 Implements OLEGuids.IObjectSafety
 Implements OLEGuids.IOleInPlaceActiveObjectVB
 Implements OLEGuids.IPerPropertyBrowsingVB
@@ -2091,15 +2091,15 @@ End Function
 #End If
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
 Select Case dwRefData
     Case 1
-        ISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
     Case 2
-        ISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
 End Select
 End Function
 

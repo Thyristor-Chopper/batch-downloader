@@ -438,6 +438,8 @@ Dim ExtToSmallIcon As Collection
 Dim FirstListed As Boolean
 Dim LoadFinished As Boolean
 
+Implements ISubclass
+
 Sub ShowDesktopItems()
     Dim li As LvwListItem
     
@@ -961,7 +963,7 @@ Private Sub Form_Load()
     chkShowFiles.Visible = (Tags.BrowseTargetForm = 2)
     chkShowFiles.Caption = t(chkShowFiles.Caption, "&Show files")
     Label5.Caption = t(Label5.Caption, "Preview:")
-    tr cmdPreview, "&Preview"
+    tR cmdPreview, "&Preview"
     
     tbPlaces.Buttons(1).Caption = t("내 최근 문서", "Recent")
     tbPlaces.Buttons(2).Caption = t("바탕 화면", "Desktop")
@@ -1017,9 +1019,12 @@ Private Sub Form_Load()
     
     On Error Resume Next
     Me.Icon = frmMain.Icon
-    Hook_Explorer Me.hWnd
     Me.Width = GetSetting("DownloadBooster", "UserData", "ComdlgWidth", 10245) + PaddedBorderWidth * 15 * 2
     Me.Height = GetSetting("DownloadBooster", "UserData", "ComdlgHeight", 6165) + IIf(Tags.BrowseTargetForm = 3, 8835 - 6165, 0) + PaddedBorderWidth * 15 * 2
+    
+    AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    'AttachMessage Me, Me.hWnd, WM_DPICHANGED
     
     Dim CurrentView As LvwViewConstants
     CurrentView = lvFiles.View
@@ -1184,12 +1189,55 @@ Private Sub Form_Unload(Cancel As Integer)
         SaveSetting "DownloadBooster", "UserData", "ComdlgWidth", Me.Width - PaddedBorderWidth * 15 * 2
         SaveSetting "DownloadBooster", "UserData", "ComdlgHeight", Me.Height - PaddedBorderWidth * 15 * 2 - IIf(Tags.BrowseTargetForm = 3, 8835 - 6165, 0)
     End If
-    Unhook_Explorer Me.hWnd
+    
+    DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    'DetachMessage Me, Me.hWnd, WM_DPICHANGED
+    
     On Error Resume Next
     imgFolder.ListImages.Clear
     imgFolderSmall.ListImages.Clear
     Unload Me
 End Sub
+
+Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
+    '
+End Property
+
+Private Property Get ISubclass_MsgResponse() As EMsgResponse
+    ISubclass_MsgResponse = emrConsume
+End Property
+
+Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    On Error Resume Next
+ 
+    Select Case uMsg
+        Case WM_GETMINMAXINFO
+            Dim lpMMI As MINMAXINFO
+            CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
+            lpMMI.ptMinTrackSize.X = (10245 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = (IIf(Tags.BrowseTargetForm = 3, 8835, 6165) + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = (Screen.Width + 1200) * (DPI / 96)
+            lpMMI.ptMaxTrackSize.Y = (Screen.Height + 1200) * (DPI / 96)
+            CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
+            
+            ISubclass_WindowProc = 1&
+            Exit Function
+        Case WM_SETTINGCHANGE
+            Select Case GetStrFromPtr(lParam)
+                Case "WindowMetrics"
+                    UpdateBorderWidth
+                    Form_Resize
+            End Select
+'        Case WM_DPICHANGED
+'            UpdateDPI
+'
+'            ISubclass_WindowProc = 1&
+'            Exit Function
+    End Select
+    
+    ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+End Function
 
 Private Sub lvDir_Change()
     Dim i%

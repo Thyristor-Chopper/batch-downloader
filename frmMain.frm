@@ -1215,6 +1215,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Implements ISubclass
+
 Dim Elapsed As Long
 Dim BatchStarted As Boolean
 Dim CurrentBatchIdx As Integer
@@ -1250,6 +1252,10 @@ Dim MAX_THREAD_COUNT As Integer
 
 Dim MaxLoadedTileBackgroundImage As Long
 
+Dim FormWidth As Long
+Dim FormMinHeight As Long
+Dim FormMaxHeight As Long
+
 #If HIDEYTDL Then
 #Else
 Sub StartYtdlDownload()
@@ -1278,6 +1284,113 @@ Private Sub cmdDownloadOptions_Click()
     Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
     frmDownloadOptions.Show vbModal, Me
 End Sub
+
+Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
+    '
+End Property
+
+Private Property Get ISubclass_MsgResponse() As EMsgResponse
+    ISubclass_MsgResponse = emrConsume
+End Property
+
+Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    On Error Resume Next
+    
+    Dim hSysMenu As Long
+    Dim MII As MENUITEMINFO
+    
+    Select Case hWnd
+        Case Me.hWnd
+            Select Case uMsg
+                Case WM_GETMINMAXINFO
+                    Dim lpMMI As MINMAXINFO
+                    CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
+                    lpMMI.ptMinTrackSize.X = FormWidth * (DPI / 96)
+                    lpMMI.ptMinTrackSize.Y = FormMinHeight * (DPI / 96)
+                    lpMMI.ptMaxTrackSize.X = FormWidth * (DPI / 96)
+                    lpMMI.ptMaxTrackSize.Y = FormMaxHeight * (DPI / 96)
+                    CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
+                    
+                    ISubclass_WindowProc = 1&
+                    Exit Function
+                Case WM_INITMENU
+                    hSysMenu = GetSystemMenu(Me.hWnd, 0)
+                    With MII
+                        .cbSize = Len(MII)
+                        .fMask = MIIM_STATE
+                        .fState = MFS_ENABLED Or IIf(MainFormOnTop, MFS_CHECKED, 0)
+                    End With
+                    SetMenuItemInfo hSysMenu, 1000, 0, MII
+                    
+                    ISubclass_WindowProc = 1&
+                    Exit Function
+                Case WM_SYSCOMMAND
+                    If wParam = 1000 Then '항상 위에 표시
+                        MainFormOnTop = Not MainFormOnTop
+                        SetWindowPos hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+                        SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(CInt(MainFormOnTop))
+                        
+                        ISubclass_WindowProc = 1&
+                        Exit Function
+                    ElseIf wParam = 1001 And (Not (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2)) Then '일괄처리 접기
+                        cmdBatch_Click
+                        
+                        ISubclass_WindowProc = 1&
+                        Exit Function
+                    ElseIf wParam = 1002 And (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2) Then '일괄처리 펼치기
+                        cmdBatch_Click
+                        
+                        ISubclass_WindowProc = 1&
+                        Exit Function
+                    ElseIf wParam = 1003 And (Not (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2)) Then
+                        Me.Height = 8985 + PaddedBorderWidth * 15 * 2
+                    
+                        ISubclass_WindowProc = 1&
+                        Exit Function
+                    End If
+        '        Case WM_DWMCOMPOSITIONCHANGED
+        '            OnDWMChange
+                Case WM_SETTINGCHANGE
+                    Select Case GetStrFromPtr(lParam)
+                        Case "WindowMetrics"
+                            UpdateBorderWidth
+                            
+                            FormWidth = (9450 + PaddedBorderWidth * 15 * 2) / 15
+                            FormMinHeight = (8220 + PaddedBorderWidth * 15 * 2) / 15
+                            
+                            Me.Width = FormWidth * 15
+                            
+                            On Error Resume Next
+                            Dim ctrl As Control
+                            For Each ctrl In frmMain.Controls
+                                If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
+                            Next ctrl
+                            Dim PrevTrackerVisualStyles As Boolean
+                            PrevTrackerVisualStyles = trThreadCount.VisualStyles
+                            trThreadCount.VisualStyles = False
+                            trThreadCount.VisualStyles = True
+                            trThreadCount.VisualStyles = PrevTrackerVisualStyles
+                            
+                            SetTextColors
+                    End Select
+                Case WM_THEMECHANGED
+                    SetTextColors
+        '        Case WM_DPICHANGED
+        '            UpdateDPI
+        '
+        '            ISubclass_WindowProc = 1&
+        '            Exit Function
+            End Select
+        Case fThreadInfo.hWnd
+            Select Case uMsg
+                Case WM_CTLCOLORSCROLLBAR
+                    ISubclass_WindowProc = 0&
+                    Exit Function
+            End Select
+    End Select
+    
+    ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+End Function
 
 Private Sub mnuErrorInfo_Click()
     If lvBatchFiles.SelectedItem Is Nothing Then Exit Sub
@@ -2048,7 +2161,9 @@ Sub cmdBatch_Click()
         cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
         cmdAddToQueue.Visible = -1
-        SetWindowSizeLimit Me.hWnd, MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2, 8220 + PaddedBorderWidth * 15 * 2 + 45, Screen.Height + 1200
+        FormWidth = (MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2) / 15
+        FormMinHeight = (8220 + PaddedBorderWidth * 15 * 2 + 45) / 15
+        FormMaxHeight = (Screen.Height + 1200) / 15
         'sbStatusBar.AllowSizeGrip = True
         
         Dim formHeight As Integer
@@ -2069,7 +2184,9 @@ Sub cmdBatch_Click()
         SetMenuItemInfo hSysMenu, 1003, 0, MII
     Else
         SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
-        SetWindowSizeLimit Me.hWnd, MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
+        FormWidth = (MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2) / 15
+        FormMinHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
+        FormMaxHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
         'sbStatusBar.AllowSizeGrip = False
         Me.Height = 6930 + PaddedBorderWidth * 15 * 2
         cmdBatch.ImageList = imgDropdown
@@ -2273,8 +2390,8 @@ L2:
         GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & _
         Abs(CInt(AutoName)) & " " & _
         GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100) & " " & _
-        Col(Functions.HeaderCache, "-") & " " & _
-        Col(CurrentHeaderCache, "-"))
+        col(Functions.HeaderCache, "-") & " " & _
+        col(CurrentHeaderCache, "-"))
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -3064,7 +3181,9 @@ afterheaderadd:
         cmdBatch_Click
     Else
         CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
-        SetWindowSizeLimit Me.hWnd, MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2, 6930 + PaddedBorderWidth * 15 * 2
+        FormWidth = (MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2) / 15
+        FormMinHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
+        FormMaxHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
         With MII
             .cbSize = Len(MII)
             .fMask = MIIM_STATE
@@ -3154,11 +3273,11 @@ afterheaderadd:
     
     cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Download &settings...")
     
-    tr mnuHeaders, "&Headers..."
+    tR mnuHeaders, "&Headers..."
     
     Label11.Caption = fOptions.Caption
     
-    tr mnuErrorInfo, "Error &information..."
+    tR mnuErrorInfo, "Error &information..."
     '언어설정끝
     lbOptionsHeader.X1 = Label11.Width + 60
     
@@ -3196,7 +3315,14 @@ afterheaderadd:
     imgOpenFile.ListImages.Add 1, Picture:=imgOpenFile.ListImages(1).ExtractIcon()
     imgOpenFile.ListImages.Add 5, Picture:=imgOpenFile.ListImages(1).ExtractIcon()
     
-    Hook_ThreadInfo fThreadInfo.hWnd
+    AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    AttachMessage Me, Me.hWnd, WM_INITMENU
+    AttachMessage Me, Me.hWnd, WM_SYSCOMMAND
+    'AttachMessage Me, Me.hWnd, WM_DWMCOMPOSITIONCHANGED
+    AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    AttachMessage Me, Me.hWnd, WM_THEMECHANGED
+    'AttachMessage Me, Me.hWnd, WM_DPICHANGED
+    AttachMessage Me, fThreadInfo.hWnd, WM_CTLCOLORSCROLLBAR
 End Sub
 
 Sub SetTextColors()
@@ -3262,9 +3388,9 @@ Sub SetupSplitButtons()
     End If
 End Sub
 
-Sub OnDWMChange()
-    '
-End Sub
+'Sub OnDWMChange()
+'    '
+'End Sub
 
 Private Sub Form_Resize()
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
@@ -3355,8 +3481,16 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmDownloadOptions
     Unload frmExplorer
     Unload frmDummyForm
-    Unhook_Main Me.hWnd
-    Unhook_ThreadInfo fThreadInfo.hWnd
+    
+    DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    DetachMessage Me, Me.hWnd, WM_INITMENU
+    DetachMessage Me, Me.hWnd, WM_SYSCOMMAND
+    'DetachMessage Me, Me.hWnd, WM_DWMCOMPOSITIONCHANGED
+    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    DetachMessage Me, Me.hWnd, WM_THEMECHANGED
+    'DetachMessage Me, Me.hWnd, WM_DPICHANGED
+    DetachMessage Me, fThreadInfo.hWnd, WM_CTLCOLORSCROLLBAR
+    
     GetSystemMenu Me.hWnd, 1
     Unload frmMessageBox
     Unload frmAbout

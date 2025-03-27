@@ -215,7 +215,7 @@ Private Const PBS_SMOOTH As Long = &H1
 Private Const PBS_VERTICAL As Long = &H4
 Private Const PBS_MARQUEE As Long = &H8
 Private Const PBS_SMOOTHREVERSE As Long = &H10
-Implements ISubclass
+Implements CCISubclass
 Implements OLEGuids.IObjectSafety
 Implements OLEGuids.IPerPropertyBrowsingVB
 Private ProgressBarHandle As LongPtr
@@ -1347,15 +1347,15 @@ If X >= lpRect.Left And X < lpRect.Right And Y >= lpRect.Top And Y < lpRect.Bott
 End Function
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
 Select Case dwRefData
     Case 1
-        ISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
     Case 2
-        ISubclass_Message = WindowProcControlDesignMode(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcControlDesignMode(hWnd, wMsg, wParam, lParam)
 End Select
 End Function
 

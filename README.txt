@@ -1,3 +1,5 @@
+This product includes software developed by vbAccelerator (/index.html).
+
 <기능>
 - 여러 화일을 일괄적으로 (순차적으로) 다운로드하는 기능
 - 헤더에서 Accept-Range: bytes를 반환하는 사이트에 한하여 화일을 여러 조각으로 나누어 각각 병렬 다운로드하여 내려받기 속도를 빠르게 하는 기능

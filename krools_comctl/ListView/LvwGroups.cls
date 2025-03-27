@@ -29,7 +29,7 @@ Private PropGroup As Collection
 Private PropSorted As Boolean
 Private PropSortOrder As LvwSortOrderConstants
 Private PropSortType As LvwSortTypeConstants
-Implements ISubclass
+Implements CCISubclass
 
 Private Function ShadowListView() As ListView
 ComCtlsObjSetAddRef ShadowListView, ShadowObjectPointer
@@ -69,7 +69,7 @@ End Sub
 Public Function Add(Optional ByVal Index As Long, Optional ByVal Key As String, Optional ByVal Header As String, Optional ByVal HeaderAlignment As LvwGroupHeaderAlignmentConstants, Optional ByVal Footer As String, Optional ByVal FooterAlignment As LvwGroupFooterAlignmentConstants) As LvwGroup
 Attribute Add.VB_Description = "Adds a group to the groups collection."
 If Index > (PropGroup.Count + 1) Or Index < 0 Then Err.Raise Number:=35600, Description:="Index out of bounds"
-Dim NewGroup As New LvwGroup, This As ISubclass
+Dim NewGroup As New LvwGroup, This As CCISubclass
 NewGroup.FInit ShadowObjectPointer, Key
 If PropSorted = True Then Set This = Me
 ShadowListView.FGroupsAdd Index, NewGroup, This, Header, HeaderAlignment, Footer, FooterAlignment
@@ -173,9 +173,9 @@ If PropSorted = True Then ShadowListView.FGroupsSort Me
 End Property
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
 Select Case PropSortType
     Case LvwSortTypeBinary
@@ -192,7 +192,7 @@ Select Case PropSortType
         dwRefData = 25
 End Select
 On Error Resume Next
-Dim This As ISubclass
+Dim This As CCISubclass
 Set This = ShadowListView
-ISubclass_Message = This.Message(hWnd, PropSortOrder, wParam, lParam, dwRefData)
+CCISubclass_Message = This.Message(hWnd, PropSortOrder, wParam, lParam, dwRefData)
 End Function

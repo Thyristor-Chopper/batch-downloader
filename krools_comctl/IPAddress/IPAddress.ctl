@@ -314,7 +314,7 @@ Private Const ES_CENTER As Long = &H1
 Private Const ES_RIGHT As Long = &H2
 Private Const ES_AUTOHSCROLL As Long = &H80
 Private Const ES_NUMBER As Long = &H2000
-Implements ISubclass
+Implements CCISubclass
 Implements OLEGuids.IObjectSafety
 Implements OLEGuids.IOleInPlaceActiveObjectVB
 Private IPAddressEditHandle(1 To 4) As LongPtr
@@ -1435,15 +1435,15 @@ End Function
 #End If
 
 #If VBA7 Then
-Private Function ISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
 #Else
-Private Function ISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
+Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
 #End If
 Select Case dwRefData
     Case 0
-        ISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
+        CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
     Case 1 To 4
-        ISubclass_Message = WindowProcEdit(hWnd, wMsg, wParam, lParam, dwRefData)
+        CCISubclass_Message = WindowProcEdit(hWnd, wMsg, wParam, lParam, dwRefData)
 End Select
 End Function
 

@@ -23,6 +23,28 @@ Begin VB.Form frmAbout
    ScaleWidth      =   7650
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
+   Begin VB.PictureBox pbLicenses 
+      BorderStyle     =   0  '없음
+      Height          =   3255
+      Index           =   6
+      Left            =   2640
+      ScaleHeight     =   3255
+      ScaleWidth      =   4815
+      TabIndex        =   21
+      TabStop         =   0   'False
+      Top             =   1440
+      Width           =   4815
+      Begin VB.TextBox txtVbal 
+         Height          =   3255
+         Left            =   0
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   3  '양방향
+         TabIndex        =   22
+         Top             =   0
+         Width           =   4815
+      End
+   End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
       Cancel          =   -1  'True
       Default         =   -1  'True
@@ -70,7 +92,7 @@ Begin VB.Form frmAbout
    Begin VB.PictureBox pbLicenses 
       BorderStyle     =   0  '없음
       Height          =   3255
-      Index           =   6
+      Index           =   7
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
@@ -265,6 +287,15 @@ Begin VB.Form frmAbout
       Left            =   5880
       Top             =   120
    End
+   Begin VB.Label Label1 
+      BackStyle       =   0  '투명
+      Caption         =   "This product includes software developed by vbAccelerator (/index.html)."
+      Height          =   375
+      Left            =   1080
+      TabIndex        =   20
+      Top             =   4800
+      Width           =   4935
+   End
    Begin VB.Label lblVersion 
       BackStyle       =   0  '투명
       Caption         =   "버전"
@@ -321,10 +352,10 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hwnd
     SetFormBackgroundColor Me
     SetFont Me
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    SetWindowPos Me.hwnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
     LineNum = 1
     Me.Caption = t(App.Title & " 정보", "About " & App.Title)
@@ -351,7 +382,8 @@ Private Sub Form_Load()
     lvItems.ListItems.Add , , "ShellPipe (v7)", 1
     lvItems.ListItems.Add , , "iconv-lite (v0.6.3)", 2
     lvItems.ListItems.Add , , "PNG with alpha", 1
-    lvItems.ListItems.Add , , t("기타 출처", "Other references"), 2
+    lvItems.ListItems.Add , , "vbAccelerator SSubTmr", 2
+    lvItems.ListItems.Add , , t("기타 출처", "Other references"), 1
     lvItems.ListItems(1).Selected = True
     
     txtIconv.Text = txtIconv.Text & "Copyright (c) 2011 Alexander Shtuchkin" & vbCrLf
@@ -449,6 +481,35 @@ Private Sub Form_Load()
     txtShellPipe.Text = txtShellPipe.Text & "of using standard I/O streams to talk to the console." & vbCrLf
     txtShellPipe.Text = txtShellPipe.Text & "" & vbCrLf
     txtShellPipe.Text = txtShellPipe.Text & "" & vbCrLf
+    
+    txtVbal.Text = txtVbal.Text & "vbAccelerator Software License" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "Version 1.0" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "Copyright (c) 2002 vbAccelerator.com" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "    Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution." & vbCrLf
+    txtVbal.Text = txtVbal.Text & "    The end-user documentation included with the redistribution, if any, must include the following acknowledgment:" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "    ""This product includes software developed by vbAccelerator (/index.html).""" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "    Alternately, this acknowledgment may appear in the software itself, if and wherever such third-party acknowledgments normally appear." & vbCrLf
+    txtVbal.Text = txtVbal.Text & "    The names ""vbAccelerator"" and ""vbAccelerator.com"" must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact vbAccelerator through steve@vbaccelerator.com." & vbCrLf
+    txtVbal.Text = txtVbal.Text & "    Products derived from this software may not be called ""vbAccelerator"", nor may ""vbAccelerator"" appear in their name, without prior written permission of vbAccelerator." & vbCrLf
+    txtVbal.Text = txtVbal.Text & "" & vbCrLf
+    txtVbal.Text = txtVbal.Text & "THIS SOFTWARE IS PROVIDED ""AS IS"" AND ANY EXPRESSED OR IMPLIED WARRANTIES, " & vbCrLf
+    txtVbal.Text = txtVbal.Text & "INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY " & vbCrLf
+    txtVbal.Text = txtVbal.Text & "AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL " & vbCrLf
+    txtVbal.Text = txtVbal.Text & "VBACCELERATOR OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, " & vbCrLf
+    txtVbal.Text = txtVbal.Text & "INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT " & vbCrLf
+    txtVbal.Text = txtVbal.Text & "NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, " & vbCrLf
+    txtVbal.Text = txtVbal.Text & "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY " & vbCrLf
+    txtVbal.Text = txtVbal.Text & "OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING " & vbCrLf
+    txtVbal.Text = txtVbal.Text & "NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, " & vbCrLf
+    txtVbal.Text = txtVbal.Text & "EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
     
     lvMisc.ColumnHeaders.Add , , t("주소", "URL"), 3135
     lvMisc.ColumnHeaders.Add(, , t("작성자", "Author"), 1215).Alignment = LvwColumnHeaderAlignmentCenter

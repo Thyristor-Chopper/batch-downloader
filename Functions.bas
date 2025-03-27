@@ -116,6 +116,19 @@ Public Const HTRIGHT = 11
 Public Const HTBOTTOMLEFT = 16
 Public Const HTBOTTOMRIGHT = 17
 
+Type POINTAPI
+   X As Long
+   Y As Long
+End Type
+
+Type MINMAXINFO
+    ptReserved As POINTAPI
+    ptMaxSize As POINTAPI
+    ptMaxPosition As POINTAPI
+    ptMinTrackSize As POINTAPI
+    ptMaxTrackSize As POINTAPI
+End Type
+
 Type DWM_COLORIZATION_PARAMS
     ColorBlue  As Byte
     ColorGreen As Byte
@@ -133,7 +146,7 @@ Type DWM_COLORIZATION_PARAMS
     
     StripesIntensity As Long
     
-    Opaque As Boolean
+    OPAQUE As Boolean
 End Type
 
 Type MARGINS
@@ -855,7 +868,7 @@ Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As
     LineCount = UBound(Split(Content, vbLf)) + 1
     Dim s%
     Dim ln$
-    Dim CI%, c$
+    Dim cI%, c$
     Dim LineContent$
     For s = 0 To UBound(Split(Content, vbCrLf))
         LineContent = Split(Content, vbCrLf)(s)
@@ -1664,19 +1677,19 @@ Function ExcludeParameters(ByVal URL As String) As String
     End If
 End Function
 
-Function Col(Expression, ByRef IfFalse)
+Function col(Expression, ByRef IfFalse)
     If VarType(Expression) = vbString Then
         If Expression = "" Then
-            Col = IfFalse
+            col = IfFalse
         Else
-            Col = Expression
+            col = Expression
         End If
         Exit Function
     End If
     If Expression Then
-        Col = Expression
+        col = Expression
     Else
-        Col = IfFalse
+        col = IfFalse
     End If
 End Function
 
@@ -1692,7 +1705,7 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
     Else
         HostName = URL
     End If
-    HostName = Left$(HostName, Col(InStr(HostName, "/"), Len(HostName) + 1) - 1)
+    HostName = Left$(HostName, col(InStr(HostName, "/"), Len(HostName) + 1) - 1)
     If Includes(HostName, ":") Then
         HostName = Left$(HostName, InStrRev(HostName, ":") - 1)
     End If
@@ -1701,7 +1714,7 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
     IsYtdlSupported = Includes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
 End Function
 
-Sub tr(ByRef ctrl As Control, ByVal EnglishCaption As String)
+Sub tR(ByRef ctrl As Control, ByVal EnglishCaption As String)
     On Error Resume Next
     ctrl.Caption = t(ctrl.Caption, EnglishCaption)
 End Sub
