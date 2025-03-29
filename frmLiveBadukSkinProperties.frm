@@ -34,7 +34,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       _ExtentY        =   582
       Caption         =   "선택(&S)..."
    End
-   Begin VB.OptionButton optTexture 
+   Begin prjDownloadBooster.OptionButtonW optTexture 
       Caption         =   "텍스처(&E):"
       Height          =   255
       Left            =   360
@@ -42,7 +42,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Top             =   1440
       Width           =   1335
    End
-   Begin VB.OptionButton optColor 
+   Begin prjDownloadBooster.OptionButtonW optColor 
       Caption         =   "색(&C):"
       Height          =   255
       Left            =   360
@@ -50,7 +50,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Top             =   1080
       Width           =   1335
    End
-   Begin VB.OptionButton optTransparent 
+   Begin prjDownloadBooster.OptionButtonW optTransparent 
       Caption         =   "반투명(&T)"
       Height          =   255
       Left            =   360

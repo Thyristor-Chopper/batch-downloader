@@ -928,11 +928,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.FrameW fTotal 
       Height          =   615
-      Left            =   1320
+      Left            =   240
       TabIndex        =   11
       Top             =   1320
-      Width           =   5175
-      _ExtentX        =   9128
+      Width           =   6255
+      _ExtentX        =   11033
       _ExtentY        =   1085
       Caption         =   " 전체 다운로드 진행률 "
       Transparent     =   -1  'True
@@ -3063,6 +3063,8 @@ Sub LoadLiveBadukSkin()
                 imgCenter.Height = imgCenter.Height + 30
                 imgCenter.Width = imgCenter.Width + 45
                 fTygemFrameTransparent.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
+                lnTygemFrameRight.Visible = False
+                lnTygemFrameBottom.Visible = False
             Case Else
                 imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
                 imgTopRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topright.png")
@@ -3089,6 +3091,9 @@ Sub LoadLiveBadukSkin()
                 imgBottomLeft.Visible = -1
                 imgBottomRight.Visible = -1
                 fTygemFrameTransparent.Visible = 0
+                
+                lnTygemFrameRight.Visible = True
+                lnTygemFrameBottom.Visible = True
         End Select
         
         If FrameType = "texture" Then
@@ -3120,9 +3125,6 @@ Sub LoadLiveBadukSkin()
         optTabThreads2.Width = 1485
         optTabDownload2.Caption = fTabDownload.Caption
         optTabThreads2.Caption = fTabThreads.Caption
-        
-        lnTygemFrameRight.Visible = True
-        lnTygemFrameBottom.Visible = True
         
         pbTotalProgressMarquee.Left = 360
         pbTotalProgressMarquee.Width = 6015

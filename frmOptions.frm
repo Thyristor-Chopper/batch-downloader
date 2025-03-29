@@ -2524,6 +2524,7 @@ Private Sub Form_Load()
     tr Label19, "Thread request i&nterval:"
     pbBackground.Caption = t("다운로드 부스터", "Download Booster")
     tr cmdChooseBackground, "B&rowse..."
+    tr cmdAdvancedSkin, "Ad&vanced..."
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
