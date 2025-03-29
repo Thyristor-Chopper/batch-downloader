@@ -1399,7 +1399,7 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
             ctrl.FontName = FontName
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
-            If ctrl.Name <> "lblLBCaption" And ctrl.Name <> "lblLBCaptionShadow" Then
+            If ctrl.Name <> "lblLBCaption" And ctrl.Name <> "lblLBCaptionShadow" And ctrl.Name <> "lblLBCaption2" And ctrl.Name <> "lblLBCaptionShadow2" Then
                 ctrl.FontBold = False
                 ctrl.Font.Bold = False
             End If

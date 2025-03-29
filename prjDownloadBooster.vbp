@@ -94,6 +94,7 @@ Module=modPicBuddy; lavolpe_picbuddy\modPicBuddy.bas
 UserControl=lavolpe_picbuddy\ucPicBuddy.ctl
 UserControl=SmallWindow.ctl
 ResFile32="Booster.res"
+Form=frmLiveBadukSkinProperties.frm
 IconForm="frmBatchAdd"
 Startup="Sub Main"
 HelpFile=""

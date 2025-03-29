@@ -4,7 +4,7 @@ Begin VB.Form frmMain
    ClientHeight    =   7740
    ClientLeft      =   165
    ClientTop       =   555
-   ClientWidth     =   10620
+   ClientWidth     =   12540
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -18,19 +18,63 @@ Begin VB.Form frmMain
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
    ScaleHeight     =   7740
-   ScaleWidth      =   10620
+   ScaleWidth      =   12540
    StartUpPosition =   3  'Windows 기본값
    Begin prjDownloadBooster.FrameW fTygemFrameTransparent 
       Height          =   4845
-      Left            =   480
+      Left            =   10560
       TabIndex        =   81
+      Tag             =   "nobackcolorchange"
       Top             =   1320
+      Visible         =   0   'False
       Width           =   6495
       _ExtentX        =   11456
       _ExtentY        =   8546
       BackColor       =   8421631
       BorderStyle     =   0
       Caption         =   "FrameW1"
+      Begin VB.Label lblLBCaption2 
+         Alignment       =   2  '가운데 맞춤
+         BackStyle       =   0  '투명
+         Caption         =   "현   황"
+         BeginProperty Font 
+            Name            =   "굴림"
+            Size            =   11.25
+            Charset         =   129
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   375
+         Left            =   120
+         TabIndex        =   82
+         Tag             =   "nosizechange"
+         Top             =   120
+         Width           =   1215
+      End
+      Begin VB.Label lblLBCaptionShadow2 
+         Alignment       =   2  '가운데 맞춤
+         BackStyle       =   0  '투명
+         Caption         =   "현   황"
+         BeginProperty Font 
+            Name            =   "굴림"
+            Size            =   11.25
+            Charset         =   129
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   375
+         Left            =   135
+         TabIndex        =   83
+         Tag             =   "nocolorsizechange"
+         Top             =   135
+         Width           =   1215
+      End
       Begin VB.Line Line6 
          BorderColor     =   &H00404040&
          X1              =   6345
@@ -116,6 +160,14 @@ Begin VB.Form frmMain
          Picture         =   "frmMain.frx":1A16
          Top             =   0
          Width           =   1725
+      End
+      Begin VB.Image imgFrameTexture 
+         Height          =   735
+         Left            =   360
+         Stretch         =   -1  'True
+         Top             =   600
+         Visible         =   0   'False
+         Width           =   975
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpen 
@@ -280,8 +332,8 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   0
       Top             =   7410
-      Width           =   10620
-      _ExtentX        =   18733
+      Width           =   12540
+      _ExtentX        =   22119
       _ExtentY        =   582
       InitPanels      =   "frmMain.frx":28A5
    End
@@ -876,11 +928,11 @@ Begin VB.Form frmMain
    End
    Begin prjDownloadBooster.FrameW fTotal 
       Height          =   615
-      Left            =   240
+      Left            =   1320
       TabIndex        =   11
       Top             =   1320
-      Width           =   6255
-      _ExtentX        =   11033
+      Width           =   5175
+      _ExtentX        =   9128
       _ExtentY        =   1085
       Caption         =   " 전체 다운로드 진행률 "
       Transparent     =   -1  'True
@@ -2971,27 +3023,14 @@ Sub SetBackgroundImage()
 End Sub
 
 Sub LoadLiveBadukSkin()
+    On Error Resume Next
     Dim i%
     Dim LBEnabled As Boolean
     LBEnabled = (CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96)
     If LBEnabled Then
         LoadPNG
-
-        imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
-        imgTopRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topright.png")
-        imgTop.Picture = LoadPngIntoPictureWithAlpha(CachePath & "top.png")
-        imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
-        imgRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "right.png")
-        imgBottom.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottom.png")
-        imgBottomLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomleft.png")
-        imgBottomRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomright.png")
-        imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
-
-        imgTop.Width = 6495 - imgTopLeft.Width - imgTopRight.Width - 30
-        imgBottom.Width = imgTop.Width
-        imgLeft.Height = 4620 - imgBottomLeft.Height - imgTopLeft.Height - 30 + 240
-        imgRight.Height = imgLeft.Height
-
+        imgLeft.Visible = -1
+        imgCenter.Visible = -1
         imgTopRight.Left = 6495 - imgTopRight.Width - 30 + 120
         imgBottomRight.Left = imgTopRight.Left
         imgBottomLeft.Top = 4620 - imgBottomLeft.Height - 30 + imgTop.Top + 240
@@ -3000,19 +3039,72 @@ Sub LoadLiveBadukSkin()
 
         imgRight.Left = imgBottomRight.Left - 15
         imgBottom.Top = imgBottomLeft.Top
-
+        imgLeft.Height = 4620 - imgBottomLeft.Height - imgTopLeft.Height - 30 + 240
         imgCenter.Width = imgRight.Left - (imgLeft.Left + imgLeft.Width)
         imgCenter.Height = imgBottom.Top - (imgTop.Top + imgTop.Height)
-
-        imgTopLeft.Visible = -1
-        imgTopRight.Visible = -1
-        imgTop.Visible = -1
-        imgLeft.Visible = -1
-        imgRight.Visible = -1
-        imgBottom.Visible = -1
-        imgBottomLeft.Visible = -1
-        imgBottomRight.Visible = -1
-        imgCenter.Visible = -1
+        
+        Dim FrameType$
+        FrameType = LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "transparent"))
+        Select Case FrameType
+            Case "solidcolor", "texture"
+                imgTopLeft.Visible = 0
+                imgTopRight.Visible = 0
+                imgTop.Visible = 0
+                imgRight.Visible = 0
+                imgBottom.Visible = 0
+                imgBottomLeft.Visible = 0
+                imgBottomRight.Visible = 0
+                fTygemFrameTransparent.Visible = -1
+                imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
+                imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
+                imgLeft.Height = imgLeft.Height + 30
+                imgLeft.Top = 1620
+                imgCenter.Top = 1620
+                imgCenter.Height = imgCenter.Height + 30
+                imgCenter.Width = imgCenter.Width + 45
+                fTygemFrameTransparent.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
+            Case Else
+                imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
+                imgTopRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topright.png")
+                imgTop.Picture = LoadPngIntoPictureWithAlpha(CachePath & "top.png")
+                imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
+                imgRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "right.png")
+                imgBottom.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottom.png")
+                imgBottomLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomleft.png")
+                imgBottomRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomright.png")
+                imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
+                
+                imgLeft.Top = 1635
+                imgCenter.Top = 1635
+        
+                imgTop.Width = 6495 - imgTopLeft.Width - imgTopRight.Width - 30
+                imgBottom.Width = imgTop.Width
+                imgRight.Height = imgLeft.Height
+        
+                imgTopLeft.Visible = -1
+                imgTopRight.Visible = -1
+                imgTop.Visible = -1
+                imgRight.Visible = -1
+                imgBottom.Visible = -1
+                imgBottomLeft.Visible = -1
+                imgBottomRight.Visible = -1
+                fTygemFrameTransparent.Visible = 0
+        End Select
+        
+        If FrameType = "texture" Then
+            Dim TexturePath$
+            TexturePath = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", "")
+            If FileExists(TexturePath) Then
+                If LCase(Right$(TexturePath, 4)) = ".png" Then
+                    Set imgFrameTexture.Picture = LoadPngIntoPictureWithAlpha(TexturePath)
+                Else
+                    imgFrameTexture.Picture = LoadPicture(TexturePath)
+                End If
+            End If
+            imgFrameTexture.Visible = True
+        Else
+            imgFrameTexture.Visible = False
+        End If
 
         fTotal.Visible = 0
         Frame4.Visible = 0
@@ -3049,6 +3141,7 @@ Sub LoadLiveBadukSkin()
         ShadowColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", -1))
         If ShadowColor < 0& Then ShadowColor = 16777215
         lblLBCaptionShadow.ForeColor = ShadowColor
+        lblLBCaptionShadow2.ForeColor = ShadowColor
         lblURLShadow.ForeColor = ShadowColor
         lblFilePathShadow.ForeColor = ShadowColor
         lblThreadCountLabelShadow.ForeColor = ShadowColor
@@ -3063,6 +3156,7 @@ Sub LoadLiveBadukSkin()
         
         cbWhenExist.Width = 1305
     Else
+        fTygemFrameTransparent.Visible = 0
         imgTopLeft.Visible = 0
         imgTopRight.Visible = 0
         imgTop.Visible = 0
@@ -3144,7 +3238,6 @@ Sub LoadLiveBadukSkin()
         lblMergeStatus.ForeColor = &H80000012
     End If
 
-    On Error Resume Next
     Dim ctrl As Control
     For Each ctrl In Me.Controls
         If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then
@@ -3479,6 +3572,8 @@ afterheaderadd:
     lblLBCaptionShadow.Caption = lblLBCaption.Caption
     optTabDownload2.Caption = fTabDownload.Caption
     optTabThreads2.Caption = fTabThreads.Caption
+    lblLBCaptionShadow2.Caption = lblLBCaption.Caption
+    lblLBCaption2.Caption = lblLBCaption.Caption
     '언어설정끝
     lbOptionsHeader.X1 = Label11.Width + 60
     
@@ -3617,11 +3712,17 @@ afterheaderadd:
     DeleteObject Rgn7
     DeleteObject Rgn8
     DeleteObject Rgn9
-    Rgn1 = CreateRectRgn(11, 31, RC.Right - RC.Left - 11, RC.Bottom - RC.Top - 14)
+    Rgn1 = CreateRectRgn(10, 30, RC.Right - RC.Left - 10, RC.Bottom - RC.Top - 13)
     CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
     DeleteObject Rgn1
     SetWindowRgn fTygemFrameTransparent.hWnd, Rgn, True
     DeleteObject Rgn
+    fTygemFrameTransparent.Top = imgTopLeft.Top
+    fTygemFrameTransparent.Left = imgTopLeft.Left
+    imgFrameTexture.Top = 0
+    imgFrameTexture.Left = 0
+    imgFrameTexture.Width = fTygemFrameTransparent.Width
+    imgFrameTexture.Height = fTygemFrameTransparent.Height
     
     '이미지 리스트 로드
     imgDropdownReverse.ListImages.Add 1, Picture:=imgDropdownReverse.ListImages(1).ExtractIcon()
