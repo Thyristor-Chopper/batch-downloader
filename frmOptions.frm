@@ -1026,19 +1026,19 @@ Begin VB.Form frmOptions
          Caption         =   " 스킨 "
          Begin VB.ComboBox cbSkin 
             Height          =   300
-            Left            =   870
+            Left            =   1110
             Style           =   2  '드롭다운 목록
             TabIndex        =   68
             Top             =   585
-            Width           =   2085
+            Width           =   1845
          End
          Begin VB.ComboBox cbFrameSkin 
             Height          =   300
-            Left            =   870
+            Left            =   1110
             Style           =   2  '드롭다운 목록
             TabIndex        =   66
             Top             =   240
-            Width           =   2085
+            Width           =   1845
          End
          Begin VB.Label lblSelectShadow 
             BackStyle       =   0  '투명
@@ -1325,11 +1325,11 @@ Begin VB.Form frmOptions
          Caption         =   " 배경 그림 "
          Begin VB.ComboBox cbImagePosition 
             Height          =   300
-            Left            =   1140
+            Left            =   1110
             Style           =   2  '드롭다운 목록
             TabIndex        =   63
             Top             =   840
-            Width           =   1815
+            Width           =   1845
          End
          Begin prjDownloadBooster.CommandButtonW cmdChooseBackground 
             Height          =   330
@@ -2379,7 +2379,7 @@ Private Sub Form_Load()
     cbSkin.Clear
     cbSkin.AddItem t("시스템 스타일", "System style")
     cbSkin.AddItem t("고전 스타일", "Classic style")
-    cbSkin.AddItem t("타이젬바둑 쪽지", "LiveBaduk memo style")
+    cbSkin.AddItem t("라이브바둑 쪽지", "LiveBaduk memo")
     If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
         cbSkin.ListIndex = 2
     ElseIf Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))) Then
