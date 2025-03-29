@@ -989,6 +989,50 @@ Begin VB.Form frmMain
       ImageListAlignment=   4
       Transparent     =   -1  'True
    End
+   Begin VB.Label lblLBCaption 
+      Alignment       =   2  '가운데 맞춤
+      BackStyle       =   0  '투명
+      Caption         =   "현   황"
+      BeginProperty Font 
+         Name            =   "굴림"
+         Size            =   11.25
+         Charset         =   129
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   375
+      Left            =   240
+      TabIndex        =   70
+      Tag             =   "nosizechange"
+      Top             =   1320
+      Visible         =   0   'False
+      Width           =   1215
+   End
+   Begin VB.Label lblLBCaptionShadow 
+      Alignment       =   2  '가운데 맞춤
+      BackStyle       =   0  '투명
+      Caption         =   "현   황"
+      BeginProperty Font 
+         Name            =   "굴림"
+         Size            =   11.25
+         Charset         =   129
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   375
+      Left            =   255
+      TabIndex        =   77
+      Tag             =   "nocolorsizechange"
+      Top             =   1335
+      Visible         =   0   'False
+      Width           =   1215
+   End
    Begin VB.Line lnTygemFrameBottom 
       Visible         =   0   'False
       X1              =   210
@@ -1008,28 +1052,6 @@ Begin VB.Form frmMain
       Top             =   3360
       _ExtentX        =   635
       _ExtentY        =   635
-   End
-   Begin VB.Label lblLBCaption 
-      Alignment       =   2  '가운데 맞춤
-      BackStyle       =   0  '투명
-      Caption         =   "현   황"
-      BeginProperty Font 
-         Name            =   "굴림"
-         Size            =   11.25
-         Charset         =   129
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   375
-      Left            =   240
-      TabIndex        =   70
-      Tag             =   "nocolorsizechange"
-      Top             =   1320
-      Visible         =   0   'False
-      Width           =   1215
    End
    Begin VB.Image imgTopLeft 
       Height          =   435
@@ -1109,37 +1131,79 @@ Begin VB.Form frmMain
       Width           =   1695
    End
    Begin VB.Label lblThreadCountLabel 
+      AutoSize        =   -1  'True
       BackStyle       =   0  '투명
       Caption         =   "강도(&T):"
-      Height          =   255
+      Height          =   180
       Left            =   240
       TabIndex        =   6
       Top             =   870
-      Width           =   1215
+      Width           =   690
    End
    Begin VB.Label lblFilePath 
+      AutoSize        =   -1  'True
       BackStyle       =   0  '투명
       Caption         =   "저장 경로(&F):"
-      Height          =   255
+      Height          =   180
       Left            =   240
       TabIndex        =   3
-      Top             =   490
-      Width           =   1215
+      Top             =   495
+      Width           =   1095
    End
    Begin VB.Label lblURL 
+      AutoSize        =   -1  'True
       BackStyle       =   0  '투명
       Caption         =   "파일 주소(&A):"
-      Height          =   255
+      Height          =   180
       Left            =   240
       TabIndex        =   0
       Top             =   150
-      Width           =   1215
+      Width           =   1110
    End
    Begin prjDownloadBooster.ShellPipe SP 
       Left            =   9240
       Top             =   3960
       _ExtentX        =   635
       _ExtentY        =   635
+   End
+   Begin VB.Label lblURLShadow 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  '투명
+      Caption         =   "파일 주소(&A):"
+      ForeColor       =   &H00FFFFFF&
+      Height          =   180
+      Left            =   255
+      TabIndex        =   78
+      Tag             =   "nocolorchange"
+      Top             =   165
+      Visible         =   0   'False
+      Width           =   1110
+   End
+   Begin VB.Label lblFilePathShadow 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  '투명
+      Caption         =   "저장 경로(&F):"
+      ForeColor       =   &H00FFFFFF&
+      Height          =   180
+      Left            =   255
+      TabIndex        =   79
+      Tag             =   "nocolorchange"
+      Top             =   510
+      Visible         =   0   'False
+      Width           =   1095
+   End
+   Begin VB.Label lblThreadCountLabelShadow 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  '투명
+      Caption         =   "강도(&T):"
+      ForeColor       =   &H00FFFFFF&
+      Height          =   180
+      Left            =   255
+      TabIndex        =   80
+      Tag             =   "nocolorchange"
+      Top             =   885
+      Visible         =   0   'False
+      Width           =   690
    End
    Begin VB.Image imgBackgroundTile 
       Height          =   135
@@ -2802,19 +2866,6 @@ Sub SetBackgroundImage()
             Next i
         End If
     End If
-    
-    On Error Resume Next
-    Dim ctrl As Control
-    For Each ctrl In Me.Controls
-        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then
-            ctrl.Refresh
-        End If
-    Next ctrl
-    Dim PrevTrackerVisualStyles As Boolean
-    PrevTrackerVisualStyles = trThreadCount.VisualStyles
-    trThreadCount.VisualStyles = False
-    trThreadCount.VisualStyles = True
-    trThreadCount.VisualStyles = PrevTrackerVisualStyles
 End Sub
 
 Sub LoadLiveBadukSkin()
@@ -2872,7 +2923,7 @@ Sub LoadLiveBadukSkin()
         pbTotalProgressMarquee.Top = 1800 - 90
         
         optTabDownload2.Width = 840
-        optTabThreads2.Width = 855
+        optTabThreads2.Width = 1485
         optTabDownload2.Caption = fTabDownload.Caption
         optTabThreads2.Caption = fTabThreads.Caption
         
@@ -2891,6 +2942,22 @@ Sub LoadLiveBadukSkin()
         cmdAbout.Left = 7200
         Label11.Visible = True
         lbOptionsHeader.Visible = True
+        
+        Dim ShadowColor As Long
+        ShadowColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", -1))
+        If ShadowColor < 0& Then ShadowColor = 16777215
+        lblLBCaptionShadow.ForeColor = ShadowColor
+        lblURLShadow.ForeColor = ShadowColor
+        lblFilePathShadow.ForeColor = ShadowColor
+        lblThreadCountLabelShadow.ForeColor = ShadowColor
+        lblURL.Font.Bold = True
+        lblFilePath.Font.Bold = True
+        lblThreadCountLabel.Font.Bold = True
+        
+        lblLBCaptionShadow.Visible = -1
+        lblURLShadow.Visible = True
+        lblFilePathShadow.Visible = True
+        lblThreadCountLabelShadow.Visible = True
     Else
         imgTopLeft.Visible = 0
         imgTopRight.Visible = 0
@@ -2933,6 +3000,14 @@ Sub LoadLiveBadukSkin()
         cmdAbout.Left = 7080
         Label11.Visible = False
         lbOptionsHeader.Visible = False
+        
+        lblLBCaptionShadow.Visible = 0
+        lblURLShadow.Visible = 0
+        lblFilePathShadow.Visible = 0
+        lblThreadCountLabelShadow.Visible = 0
+        lblURL.Font.Bold = False
+        lblFilePath.Font.Bold = False
+        lblThreadCountLabel.Font.Bold = False
     End If
     
     SetFormBackgroundColor Me
@@ -3291,6 +3366,13 @@ afterheaderadd:
     Label11.Caption = fOptions.Caption
     
     tr mnuErrorInfo, "Error &information..."
+    
+    lblURLShadow.Caption = lblURL.Caption
+    lblFilePathShadow.Caption = lblFilePath.Caption
+    lblThreadCountLabelShadow.Caption = lblThreadCountLabel.Caption
+    lblLBCaptionShadow.Caption = lblLBCaption.Caption
+    optTabDownload2.Caption = fTabDownload.Caption
+    optTabThreads2.Caption = fTabThreads.Caption
     '언어설정끝
     lbOptionsHeader.X1 = Label11.Width + 60
     

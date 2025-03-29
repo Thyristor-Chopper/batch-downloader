@@ -1372,18 +1372,20 @@ End Function
 
 Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     On Error Resume Next
+    Dim LBEnabled As Boolean
+    LBEnabled = CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96
     Dim FontName$, FontSize%
     FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
     If FontName = "" And LangID = 1042 Then
         If Force Or (DefaultFont <> "±¼¸²") Then
             FontName = DefaultFont
         Else
-            Exit Sub
+            GoTo setlbfont
         End If
     End If
     If FontName = "" Then FontName = "Tahoma"
     If Not FontExists(FontName) Then
-        If LangID = 1042 Then Exit Sub
+        If LangID = 1042 Then GoTo setlbfont
         FontName = "Tahoma"
     End If
     FontSize = 9
@@ -1397,7 +1399,7 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
             ctrl.FontName = FontName
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
-            If ctrl.Name <> "lblLBCaption" Then
+            If ctrl.Name <> "lblLBCaption" And ctrl.Name <> "lblLBCaptionShadow" Then
                 ctrl.FontBold = False
                 ctrl.Font.Bold = False
             End If
@@ -1405,6 +1407,30 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
             ctrl.Font.Italic = False
         End If
     Next ctrl
+setlbfont:
+    If frm Is frmMain Then
+        If LBEnabled Then
+            frmMain.lblURL.Font.Size = 10
+            frmMain.lblFilePath.Font.Size = 10
+            frmMain.lblThreadCountLabel.Font.Size = 10
+            frmMain.lblURLShadow.Font.Size = 10
+            frmMain.lblFilePathShadow.Font.Size = 10
+            frmMain.lblThreadCountLabelShadow.Font.Size = 10
+            frmMain.lblURL.Font.Bold = True
+            frmMain.lblFilePath.Font.Bold = True
+            frmMain.lblThreadCountLabel.Font.Bold = True
+            frmMain.lblURLShadow.Font.Bold = True
+            frmMain.lblFilePathShadow.Font.Bold = True
+            frmMain.lblThreadCountLabelShadow.Font.Bold = True
+        Else
+            frmMain.lblURL.Font.Bold = False
+            frmMain.lblFilePath.Font.Bold = False
+            frmMain.lblThreadCountLabel.Font.Bold = False
+            frmMain.lblURLShadow.Font.Bold = False
+            frmMain.lblFilePathShadow.Font.Bold = False
+            frmMain.lblThreadCountLabelShadow.Font.Bold = False
+        End If
+    End If
 End Sub
 
 Function FormatTime(Sec) As String
