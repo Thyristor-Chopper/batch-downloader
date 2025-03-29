@@ -1808,6 +1808,8 @@ aftermaxtrdcheck:
         frmMain.chkOpenFolder.Refresh
         frmMain.chkContinueDownload.Refresh
         frmMain.chkAutoRetry.Refresh
+        frmMain.optTabDownload2.Refresh
+        frmMain.optTabThreads2.Refresh
     End If
     
     If Trim$(txtNodePath.Text) <> "" Then

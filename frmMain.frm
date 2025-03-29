@@ -2995,6 +2995,8 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
             trThreadCount.VisualStyles = True
             trThreadCount.VisualStyles = False
             trThreadCount.VisualStyles = VSEnabled
+            optTabDownload2.Refresh
+            optTabThreads2.Refresh
         End If
     End If
 End Sub

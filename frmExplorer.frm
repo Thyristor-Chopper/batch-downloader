@@ -1919,6 +1919,7 @@ imgerr:
             LoadPicture Path & txtFileName.Text
         End If
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", Path & txtFileName.Text
+        frmLiveBadukSkinProperties.optTexture.Value = True
         Unload Me
         Exit Sub
     End If

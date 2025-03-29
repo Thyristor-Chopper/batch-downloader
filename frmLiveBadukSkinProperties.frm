@@ -35,28 +35,34 @@ Begin VB.Form frmLiveBadukSkinProperties
       Caption         =   "선택(&S)..."
    End
    Begin prjDownloadBooster.OptionButtonW optTexture 
-      Caption         =   "텍스처(&E):"
       Height          =   255
       Left            =   360
       TabIndex        =   8
       Top             =   1440
       Width           =   1335
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "텍스처(&E):"
    End
    Begin prjDownloadBooster.OptionButtonW optColor 
-      Caption         =   "색(&C):"
       Height          =   255
       Left            =   360
       TabIndex        =   7
       Top             =   1080
       Width           =   1335
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "색(&C):"
    End
    Begin prjDownloadBooster.OptionButtonW optTransparent 
-      Caption         =   "반투명(&T)"
       Height          =   255
       Left            =   360
       TabIndex        =   6
       Top             =   720
       Width           =   2655
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "반투명(&T)"
    End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
@@ -233,6 +239,7 @@ Private Sub lblSelectFrameColor_Click()
     Color = ShowColorDialog(Me.hWnd, True, pgFrameColor.BackColor)
     If Color = -1 Then Exit Sub
     pgFrameColor.BackColor = Color
+    optColor.Value = True
 End Sub
 
 Private Sub lblSelectShadow_Click()
