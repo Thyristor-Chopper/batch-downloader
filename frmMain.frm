@@ -3352,12 +3352,18 @@ End Sub
 Sub SetupSplitButtons()
     cmdOpenBatch.GetTygemButton().SplitLeft = True
     cmdOpenDropdown.GetTygemButton().SplitRight = True
+    cmdOpenBatch.SetRgn
+    cmdOpenDropdown.SetRgn
     
     cmdDelete.GetTygemButton().SplitLeft = True
     cmdDeleteDropdown.GetTygemButton().SplitRight = True
+    cmdDelete.SetRgn
+    cmdDeleteDropdown.SetRgn
     
     cmdOpen.GetTygemButton().SplitLeft = True
     cmdOpenFileDropdown.GetTygemButton().SplitRight = True
+    cmdOpen.SetRgn
+    cmdOpenFileDropdown.SetRgn
 
     If WinVer >= 6.1 Then
         If GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0) = 0 Then
@@ -3478,7 +3484,6 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmBrowse
     Unload frmOptions
     Unload frmCustomBackground
-    Unload frmDownloadOptions
     Unload frmExplorer
     Unload frmDummyForm
     Unload frmEditBatch
@@ -3495,8 +3500,9 @@ Private Sub Form_Unload(Cancel As Integer)
     GetSystemMenu Me.hWnd, 1
     Unload frmMessageBox
     Unload frmAbout
+    Unload frmDownloadOptions
     Unload frmMain
-    If Not InIDE Then TaskKill GetCurrentProcessId()
+    If Not InIDE Then ExitProcess 0&
 End Sub
 
 Private Sub fTabDownload_Click()

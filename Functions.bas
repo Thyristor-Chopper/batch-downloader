@@ -90,6 +90,8 @@ Declare Function GetCurrentProcessId Lib "kernel32" () As Long
 Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessId As Long) As Long
 Private Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Long, ByVal uExitCode As Long) As Long
 Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Long) As Long
+Declare Function ExitProcess Lib "kernel32" (ByVal ExitCode As Long) As Long
+Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long
 
 Private Const PROCESS_ALL_ACCESS = &H1F0FFF
 
@@ -560,12 +562,16 @@ nextfor:
 End Sub
 
 Sub SetClassicTheme(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
+    Dim Rgn&
     If GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0) <> 0 Then
-        SetWindowRgn frmForm.hWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
+        Rgn = CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300)
+        SetWindowRgn frmForm.hWnd, Rgn, True
     ElseIf DisableClassicTheme Then
-        SetWindowRgn frmForm.hWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
+        Rgn = CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300)
+        SetWindowRgn frmForm.hWnd, Rgn, True
         SetWindowRgn frmForm.hWnd, 0&, True
     End If
+    DeleteObject Rgn
 End Sub
 
 Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpen As Boolean, Optional ByVal InitColor As OLE_COLOR, Optional ByVal SolidOnly As Boolean = False) As Long
@@ -1850,9 +1856,7 @@ Function GetPictureHeight(pic As StdPicture) As Long
     GetPictureHeight = Round(frmMain.ScaleY(pic.Height, vbHimetric, vbTwips))
 End Function
 
-Sub TaskKill(ByVal PID As Long)
-    Dim hProcess As Long
-    hProcess = OpenProcess(PROCESS_ALL_ACCESS, 0&, PID)
-    TerminateProcess hProcess, 0&
+Sub TaskKill(ByVal PID As Long, Optional ByVal ExitCode As Long = 0&)
+    TerminateProcess OpenProcess(PROCESS_ALL_ACCESS, 0&, PID), ExitCode
     CloseHandle PID
 End Sub

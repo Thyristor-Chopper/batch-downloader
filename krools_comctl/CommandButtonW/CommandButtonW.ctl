@@ -112,8 +112,8 @@ uAlign As Long
 End Type
 Private Type NMHDR
 hWndFrom As LongPtr
-idFrom As LongPtr
-code As Long
+IDFrom As LongPtr
+Code As Long
 End Type
 Private Type NMBCHOTITEM
 hdr As NMHDR
@@ -683,6 +683,7 @@ PropIsTygemButton = .ReadProperty("IsTygemButton", False)
 tygButton.Visible = PropIsTygemButton
 tygButton.Enabled = Me.Enabled
 tygButton.Caption = PropCaption
+SetRgn
 If Not PropFont Is Nothing Then
     tygButton.FontName = PropFont.Name
     tygButton.FontSize = PropFont.Size
@@ -805,6 +806,60 @@ Select Case PropertyName
 End Select
 End Sub
 
+Sub SetRgn()
+    If PropIsTygemButton Then
+        Dim RC As RECT
+        GetWindowRect UserControl.hWnd, RC
+        
+        Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&
+        Rgn = CreateRectRgn(0, 0, RC.Right - RC.Left, RC.Bottom - RC.Top)
+        If Not tygButton.SplitRight Then
+            Rgn1 = CreateRectRgn(0, 0, 2, 1) '왼쪽 위
+            Rgn2 = CreateRectRgn(0, 1, 1, 2)
+        End If
+        If Not tygButton.SplitLeft Then
+            Rgn3 = CreateRectRgn(RC.Right - RC.Left - 2, 0, RC.Right - RC.Left, 1) '오른쪽 위
+            Rgn4 = CreateRectRgn(RC.Right - RC.Left - 1, 1, RC.Right - RC.Left, 2)
+        End If
+        If Not tygButton.SplitRight Then
+            Rgn5 = CreateRectRgn(0, RC.Bottom - RC.Top - 1, 2, RC.Bottom - RC.Top) '왼쪽 아래
+            Rgn6 = CreateRectRgn(0, RC.Bottom - RC.Top - 2, 1, RC.Bottom - RC.Top - 1)
+        End If
+        If Not tygButton.SplitLeft Then
+            Rgn7 = CreateRectRgn(RC.Right - RC.Left - 2, RC.Bottom - RC.Top - 1, RC.Right - RC.Left, RC.Bottom - RC.Top) '오른쪽 아래
+            Rgn8 = CreateRectRgn(RC.Right - RC.Left - 1, RC.Bottom - RC.Top - 2, RC.Right - RC.Left, RC.Bottom - RC.Top - 1)
+        End If
+        If Not tygButton.SplitRight Then
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+        End If
+        If Not tygButton.SplitLeft Then
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+        End If
+        If Not tygButton.SplitRight Then
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+        End If
+        If Not tygButton.SplitLeft Then
+            CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
+        End If
+        SetWindowRgn UserControl.hWnd, Rgn, True
+        DeleteObject Rgn
+        DeleteObject Rgn1
+        DeleteObject Rgn2
+        DeleteObject Rgn3
+        DeleteObject Rgn4
+        DeleteObject Rgn5
+        DeleteObject Rgn6
+        DeleteObject Rgn7
+        DeleteObject Rgn8
+    Else
+        SetWindowRgn UserControl.hWnd, 0&, True
+    End If
+End Sub
+
 Private Sub UserControl_Resize()
 tygButton.Width = UserControl.ScaleWidth
 tygButton.Height = UserControl.ScaleHeight
@@ -829,6 +884,7 @@ exitif:
 End If
 End With
 InProc = False
+SetRgn
 End Sub
 
 Private Sub UserControl_Terminate()
@@ -847,6 +903,8 @@ Call RemoveVTableHandling(Me, VTableInterfaceControl)
 Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 Call DestroyCommandButton
 Call ComCtlsReleaseShellMod
+
+SetWindowRgn UserControl.hWnd, 0&, True
 End Sub
 
 Private Sub TimerImageList_Timer()
@@ -1172,6 +1230,7 @@ If CommandButtonHandle <> NULL_PTR Then
 End If
 UserControl.PropertyChanged "IsTygemButton"
 Refresh
+SetRgn
 End Property
 
 Public Property Get OLEDropMode() As OLEDropModeConstants
@@ -2011,6 +2070,7 @@ If CommandButtonTransparentBrush <> NULL_PTR Then
 End If
 UserControl.Refresh
 RedrawWindow UserControl.hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE Or RDW_ALLCHILDREN
+SetRgn
 End Sub
 
 Public Property Get Value() As Boolean
@@ -2377,7 +2437,7 @@ Select Case wMsg
         Dim NM As NMHDR
         CopyMemory NM, ByVal lParam, LenB(NM)
         If NM.hWndFrom = CommandButtonHandle Then
-            Select Case NM.code
+            Select Case NM.Code
                 Case BCN_HOTITEMCHANGE
                     Dim NMBCHI As NMBCHOTITEM
                     CopyMemory NMBCHI, ByVal lParam, LenB(NMBCHI)

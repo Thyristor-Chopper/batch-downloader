@@ -1305,7 +1305,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.CommandButtonW cmdChooseBackground 
             Height          =   330
-            Left            =   2400
+            Left            =   2460
             TabIndex        =   61
             Top             =   210
             Width           =   495
