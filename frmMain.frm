@@ -2839,8 +2839,12 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
                 Frame4.Refresh
                 fTotal.Refresh
             End If
+            Dim VSEnabled As Boolean
+            VSEnabled = trThreadCount.VisualStyles
             trThreadCount.VisualStyles = False
             trThreadCount.VisualStyles = True
+            trThreadCount.VisualStyles = False
+            trThreadCount.VisualStyles = VSEnabled
         End If
     End If
 End Sub

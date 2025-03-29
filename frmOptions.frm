@@ -1821,6 +1821,17 @@ aftermaxtrdcheck:
     If ImageChanged Then
         SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", chkEnableBackgroundImage.Value
         frmMain.SetBackgroundImage
+        frmMain.fOptions.Refresh
+        Dim VSEnabled As Boolean
+        VSEnabled = frmMain.trThreadCount.VisualStyles
+        frmMain.trThreadCount.VisualStyles = False
+        frmMain.trThreadCount.VisualStyles = True
+        frmMain.trThreadCount.VisualStyles = False
+        frmMain.trThreadCount.VisualStyles = VSEnabled
+        frmMain.chkOpenAfterComplete.Refresh
+        frmMain.chkOpenFolder.Refresh
+        frmMain.chkContinueDownload.Refresh
+        frmMain.chkAutoRetry.Refresh
     End If
     
     If Trim$(txtNodePath.Text) <> "" Then
