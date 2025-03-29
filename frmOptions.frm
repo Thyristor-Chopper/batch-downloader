@@ -1471,7 +1471,10 @@ Private Sub cbFrameSkin_Click()
     End If
     
     If (cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1) Then
-        SetWindowRgn pbBackground.hWnd, CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300), True
+        Dim Rgn&
+        Rgn = CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300)
+        SetWindowRgn pbBackground.hWnd, Rgn, True
+        DeleteObject Rgn
     ElseIf Loaded Then
         SetWindowRgn pbBackground.hWnd, 0&, True
     End If
