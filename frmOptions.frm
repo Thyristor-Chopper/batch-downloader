@@ -36,7 +36,7 @@ Begin VB.Form frmOptions
       Begin prjDownloadBooster.FrameW FrameW6 
          Height          =   4335
          Left            =   120
-         TabIndex        =   69
+         TabIndex        =   72
          Top             =   120
          Width           =   6375
          _ExtentX        =   11245
@@ -45,7 +45,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.FrameW fCompleteSound 
             Height          =   735
             Left            =   720
-            TabIndex        =   71
+            TabIndex        =   74
             Top             =   720
             Width           =   5535
             _ExtentX        =   9763
@@ -55,7 +55,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdBrowseCompleteSound 
                Height          =   300
                Left            =   4560
-               TabIndex        =   74
+               TabIndex        =   77
                Top             =   330
                Width           =   495
                _ExtentX        =   873
@@ -66,14 +66,14 @@ Begin VB.Form frmOptions
             Begin VB.TextBox txtCompleteSoundPath 
                Height          =   300
                Left            =   360
-               TabIndex        =   73
+               TabIndex        =   76
                Top             =   330
                Width           =   4095
             End
             Begin prjDownloadBooster.CheckBoxW chkBeepWhenComplete 
                Height          =   255
                Left            =   120
-               TabIndex        =   72
+               TabIndex        =   75
                Top             =   0
                Width           =   2535
                _ExtentX        =   4471
@@ -83,7 +83,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdTestCompleteSound 
                Height          =   300
                Left            =   5160
-               TabIndex        =   75
+               TabIndex        =   78
                Top             =   330
                Width           =   375
                _ExtentX        =   661
@@ -103,7 +103,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.FrameW fAsterisk 
             Height          =   735
             Left            =   720
-            TabIndex        =   76
+            TabIndex        =   79
             Top             =   1440
             Width           =   5535
             _ExtentX        =   9763
@@ -113,7 +113,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdBrowseAsterisk 
                Height          =   300
                Left            =   4560
-               TabIndex        =   79
+               TabIndex        =   82
                Top             =   330
                Width           =   495
                _ExtentX        =   873
@@ -124,14 +124,14 @@ Begin VB.Form frmOptions
             Begin VB.TextBox txtAsterisk 
                Height          =   300
                Left            =   360
-               TabIndex        =   78
+               TabIndex        =   81
                Top             =   330
                Width           =   4095
             End
             Begin prjDownloadBooster.CheckBoxW chkAsterisk 
                Height          =   255
                Left            =   120
-               TabIndex        =   77
+               TabIndex        =   80
                Top             =   0
                Width           =   1815
                _ExtentX        =   3201
@@ -141,7 +141,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdTestAsterisk 
                Height          =   300
                Left            =   5160
-               TabIndex        =   80
+               TabIndex        =   83
                Top             =   330
                Width           =   375
                _ExtentX        =   661
@@ -161,7 +161,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.FrameW fExclamation 
             Height          =   735
             Left            =   720
-            TabIndex        =   81
+            TabIndex        =   84
             Top             =   2160
             Width           =   5535
             _ExtentX        =   9763
@@ -171,7 +171,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdBrowseExclamation 
                Height          =   300
                Left            =   4560
-               TabIndex        =   84
+               TabIndex        =   87
                Top             =   330
                Width           =   495
                _ExtentX        =   873
@@ -182,14 +182,14 @@ Begin VB.Form frmOptions
             Begin VB.TextBox txtExclamation 
                Height          =   300
                Left            =   360
-               TabIndex        =   83
+               TabIndex        =   86
                Top             =   330
                Width           =   4095
             End
             Begin prjDownloadBooster.CheckBoxW chkExclamation 
                Height          =   255
                Left            =   120
-               TabIndex        =   82
+               TabIndex        =   85
                Top             =   0
                Width           =   3135
                _ExtentX        =   5530
@@ -199,7 +199,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdTestExclamation 
                Height          =   300
                Left            =   5160
-               TabIndex        =   85
+               TabIndex        =   88
                Top             =   330
                Width           =   375
                _ExtentX        =   661
@@ -219,7 +219,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.FrameW fError 
             Height          =   735
             Left            =   720
-            TabIndex        =   86
+            TabIndex        =   89
             Top             =   2880
             Width           =   5535
             _ExtentX        =   9763
@@ -229,7 +229,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdBrowseError 
                Height          =   300
                Left            =   4560
-               TabIndex        =   89
+               TabIndex        =   92
                Top             =   330
                Width           =   495
                _ExtentX        =   873
@@ -240,14 +240,14 @@ Begin VB.Form frmOptions
             Begin VB.TextBox txtError 
                Height          =   300
                Left            =   360
-               TabIndex        =   88
+               TabIndex        =   91
                Top             =   330
                Width           =   4095
             End
             Begin prjDownloadBooster.CheckBoxW chkError 
                Height          =   255
                Left            =   120
-               TabIndex        =   87
+               TabIndex        =   90
                Top             =   0
                Width           =   1815
                _ExtentX        =   3201
@@ -257,7 +257,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdTestError 
                Height          =   300
                Left            =   5160
-               TabIndex        =   90
+               TabIndex        =   93
                Top             =   330
                Width           =   375
                _ExtentX        =   661
@@ -277,7 +277,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.FrameW fQuestion 
             Height          =   675
             Left            =   720
-            TabIndex        =   91
+            TabIndex        =   94
             Top             =   3600
             Width           =   5535
             _ExtentX        =   9763
@@ -287,7 +287,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdBrowseQuestion 
                Height          =   300
                Left            =   4560
-               TabIndex        =   94
+               TabIndex        =   97
                Top             =   330
                Width           =   495
                _ExtentX        =   873
@@ -298,14 +298,14 @@ Begin VB.Form frmOptions
             Begin VB.TextBox txtQuestion 
                Height          =   300
                Left            =   360
-               TabIndex        =   93
+               TabIndex        =   96
                Top             =   330
                Width           =   4095
             End
             Begin prjDownloadBooster.CheckBoxW chkQuestion 
                Height          =   255
                Left            =   120
-               TabIndex        =   92
+               TabIndex        =   95
                Top             =   0
                Width           =   1815
                _ExtentX        =   3201
@@ -315,7 +315,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdTestQuestion 
                Height          =   300
                Left            =   5160
-               TabIndex        =   95
+               TabIndex        =   98
                Top             =   330
                Width           =   375
                _ExtentX        =   661
@@ -337,7 +337,7 @@ Begin VB.Form frmOptions
             Caption         =   "기본값을 사용하려면 필드를 비워두십시오."
             Height          =   255
             Left            =   840
-            TabIndex        =   70
+            TabIndex        =   73
             Top             =   360
             Width           =   4815
          End
@@ -541,7 +541,7 @@ Begin VB.Form frmOptions
             Caption         =   "다운로드 중 서버에 요청할 때 전송할 헤더를 설정합니다. [다운로드 설정]에서 설정한 헤더가 우선적으로 적용됩니다."
             Height          =   495
             Left            =   840
-            TabIndex        =   117
+            TabIndex        =   120
             Top             =   240
             Width           =   5175
          End
@@ -903,7 +903,7 @@ Begin VB.Form frmOptions
       Begin prjDownloadBooster.FrameW FrameW4 
          Height          =   735
          Left            =   120
-         TabIndex        =   104
+         TabIndex        =   107
          Top             =   2040
          Width           =   5535
          _ExtentX        =   9763
@@ -912,7 +912,7 @@ Begin VB.Form frmOptions
          Begin prjDownloadBooster.CheckBoxW chkNoCleanup 
             Height          =   255
             Left            =   840
-            TabIndex        =   105
+            TabIndex        =   108
             Top             =   240
             Width           =   2250
             _ExtentX        =   3969
@@ -931,7 +931,7 @@ Begin VB.Form frmOptions
       Begin prjDownloadBooster.FrameW FrameW2 
          Height          =   1815
          Left            =   120
-         TabIndex        =   96
+         TabIndex        =   99
          Top             =   120
          Width           =   6375
          _ExtentX        =   11245
@@ -940,21 +940,21 @@ Begin VB.Form frmOptions
          Begin VB.TextBox txtYtdlPath 
             Height          =   255
             Left            =   2760
-            TabIndex        =   103
+            TabIndex        =   106
             Top             =   1440
             Width           =   3495
          End
          Begin VB.TextBox txtNodePath 
             Height          =   255
             Left            =   2760
-            TabIndex        =   99
+            TabIndex        =   102
             Top             =   720
             Width           =   3495
          End
          Begin VB.TextBox txtScriptPath 
             Height          =   255
             Left            =   2760
-            TabIndex        =   101
+            TabIndex        =   104
             Top             =   1080
             Width           =   3495
          End
@@ -970,7 +970,7 @@ Begin VB.Form frmOptions
             Caption         =   "기본값을 사용하려면 필드를 비워두십시오. 아래는 고급 사용자를 위한 것이며 일반적으로 변경할 필요가 없습니다."
             Height          =   480
             Left            =   840
-            TabIndex        =   97
+            TabIndex        =   100
             Top             =   240
             Width           =   5415
          End
@@ -979,7 +979,7 @@ Begin VB.Form frmOptions
             Caption         =   "&youtube-dl/yt-dlp:"
             Height          =   255
             Left            =   840
-            TabIndex        =   102
+            TabIndex        =   105
             Top             =   1470
             Width           =   1695
          End
@@ -988,7 +988,7 @@ Begin VB.Form frmOptions
             Caption         =   "다운로드 스크립트(&D):"
             Height          =   255
             Left            =   840
-            TabIndex        =   100
+            TabIndex        =   103
             Top             =   1110
             Width           =   1935
          End
@@ -997,7 +997,7 @@ Begin VB.Form frmOptions
             Caption         =   "N&ode.js:"
             Height          =   255
             Left            =   840
-            TabIndex        =   98
+            TabIndex        =   101
             Top             =   750
             Width           =   1455
          End
@@ -1024,6 +1024,14 @@ Begin VB.Form frmOptions
          _ExtentX        =   5318
          _ExtentY        =   2143
          Caption         =   " 스킨 "
+         Begin VB.CommandButton cmdSelectShadow 
+            Caption         =   "Command1"
+            Height          =   180
+            Left            =   -600
+            TabIndex        =   70
+            Top             =   -600
+            Width           =   90
+         End
          Begin VB.ComboBox cbSkin 
             Height          =   300
             Left            =   1110
@@ -1044,7 +1052,7 @@ Begin VB.Form frmOptions
             BackStyle       =   0  '투명
             Height          =   255
             Left            =   1800
-            TabIndex        =   119
+            TabIndex        =   71
             Top             =   960
             Width           =   855
          End
@@ -1064,7 +1072,7 @@ Begin VB.Form frmOptions
             Caption         =   "그림자(&H):"
             Height          =   180
             Left            =   120
-            TabIndex        =   118
+            TabIndex        =   69
             Top             =   960
             Width           =   870
          End
@@ -1141,13 +1149,13 @@ Begin VB.Form frmOptions
          Left            =   120
          ScaleHeight     =   2115
          ScaleWidth      =   6195
-         TabIndex        =   109
+         TabIndex        =   112
          Top             =   120
          Width           =   6255
          Begin prjDownloadBooster.SmallWindow pbBackground 
             Height          =   1860
             Left            =   480
-            TabIndex        =   111
+            TabIndex        =   114
             TabStop         =   0   'False
             Tag             =   "nobgdraw"
             Top             =   120
@@ -1159,7 +1167,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CheckBoxW CheckBoxW1 
                Height          =   255
                Left            =   120
-               TabIndex        =   112
+               TabIndex        =   115
                Top             =   990
                Width           =   1695
                _ExtentX        =   2990
@@ -1170,14 +1178,14 @@ Begin VB.Form frmOptions
             Begin VB.TextBox TextBoxW1 
                Height          =   255
                Left            =   1080
-               TabIndex        =   113
+               TabIndex        =   116
                Top             =   120
                Width           =   2415
             End
             Begin prjDownloadBooster.FrameW FrameW5 
                Height          =   555
                Left            =   120
-               TabIndex        =   114
+               TabIndex        =   117
                Top             =   405
                Width           =   3615
                _ExtentX        =   6376
@@ -1215,7 +1223,7 @@ Begin VB.Form frmOptions
             Begin prjDownloadBooster.CommandButtonW cmdSample 
                Height          =   285
                Left            =   2160
-               TabIndex        =   115
+               TabIndex        =   118
                TabStop         =   0   'False
                Tag             =   "notygchange"
                Top             =   990
@@ -1230,7 +1238,7 @@ Begin VB.Form frmOptions
                Caption         =   "파일 주소:"
                Height          =   255
                Left            =   120
-               TabIndex        =   116
+               TabIndex        =   119
                Top             =   150
                Width           =   975
             End
@@ -1252,7 +1260,7 @@ Begin VB.Form frmOptions
             Left            =   0
             ScaleHeight     =   2175
             ScaleWidth      =   6255
-            TabIndex        =   110
+            TabIndex        =   113
             TabStop         =   0   'False
             Tag             =   "nobgdraw"
             Top             =   0
@@ -1366,7 +1374,7 @@ Begin VB.Form frmOptions
    Begin prjDownloadBooster.CommandButtonW cmdApply 
       Height          =   360
       Left            =   10920
-      TabIndex        =   108
+      TabIndex        =   111
       Top             =   120
       Width           =   1320
       _ExtentX        =   0
@@ -1392,7 +1400,7 @@ Begin VB.Form frmOptions
       Cancel          =   -1  'True
       Height          =   360
       Left            =   9480
-      TabIndex        =   107
+      TabIndex        =   110
       Top             =   120
       Width           =   1320
       _ExtentX        =   0
@@ -1403,7 +1411,7 @@ Begin VB.Form frmOptions
       Default         =   -1  'True
       Height          =   360
       Left            =   8040
-      TabIndex        =   106
+      TabIndex        =   109
       Top             =   120
       Width           =   1320
       _ExtentX        =   0
@@ -2030,6 +2038,10 @@ Private Sub cmdTestQuestion_Click()
     Else
         PlayWave txtQuestion.Text
     End If
+End Sub
+
+Private Sub cmdSelectShadow_Click()
+    lblSelectShadow_Click
 End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
