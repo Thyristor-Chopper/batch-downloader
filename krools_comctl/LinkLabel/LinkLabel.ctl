@@ -249,9 +249,9 @@ Private Const ICC_LINK_CLASS As Long = &H8000&
 Private Const ICC_TAB_CLASSES As Long = &H8
 Private Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80
 #If VBA7 Then
-Private Const HWND_DESKTOP As LongPtr = &H0
+Private Const hWnd_DESKTOP As LongPtr = &H0
 #Else
-Private Const HWND_DESKTOP As Long = &H0
+Private Const hWnd_DESKTOP As Long = &H0
 #End If
 Private Const GWL_STYLE As Long = (-16)
 Private Const GWL_EXSTYLE As Long = (-20)
@@ -2081,7 +2081,7 @@ Select Case wMsg
                         hBmpOld = SelectObject(hDCBmp, hBmp)
                         Dim WndRect As RECT, P1 As POINTAPI
                         GetWindowRect .hWnd, WndRect
-                        MapWindowPoints HWND_DESKTOP, hWndParent, WndRect, 2
+                        MapWindowPoints hWnd_DESKTOP, hWndParent, WndRect, 2
                         P1.X = WndRect.Left
                         P1.Y = WndRect.Top
                         SetViewportOrgEx hDCBmp, -P1.X, -P1.Y, P1

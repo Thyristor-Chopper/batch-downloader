@@ -484,13 +484,13 @@ Call ComCtlsReleaseShellMod
 End Sub
 
 Private Sub TimerMouseTrack_Timer()
-If GetCapture() <> UserControl.ContainerHwnd Then
+If GetCapture() <> UserControl.ContainerhWnd Then
     Dim Pos As Long, P As POINTAPI, XY As Currency
     Pos = GetMessagePos()
     P.X = Get_X_lParam(Pos)
     P.Y = Get_Y_lParam(Pos)
     CopyMemory ByVal VarPtr(XY), ByVal VarPtr(P), 8
-    If LabelMouseOverPos <> Pos Or WindowFromPoint(XY) <> UserControl.ContainerHwnd Then
+    If LabelMouseOverPos <> Pos Or WindowFromPoint(XY) <> UserControl.ContainerhWnd Then
         LabelMouseOver = False
         TimerMouseTrack.Enabled = False
         RaiseEvent MouseLeave
@@ -1017,7 +1017,7 @@ Attribute Refresh.VB_Description = "Forces a complete repaint of a object."
 Attribute Refresh.VB_UserMemId = -550
 Call RedrawLabel
 Dim Msg As TMSG, hWndContainer As LongPtr
-hWndContainer = UserControl.ContainerHwnd
+hWndContainer = UserControl.ContainerhWnd
 Const WM_PAINT As Long = &HF, PM_REMOVE As Long = &H1
 Do While PeekMessage(Msg, hWndContainer, WM_PAINT, WM_PAINT, PM_REMOVE) <> 0
     DispatchMessage Msg

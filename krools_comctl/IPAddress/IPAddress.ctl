@@ -239,9 +239,9 @@ Private Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As
 Private Const ICC_STANDARD_CLASSES As Long = &H4000
 Private Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80, RDW_NOCHILDREN As Long = &H40, RDW_FRAME As Long = &H400
 #If VBA7 Then
-Private Const HWND_DESKTOP As LongPtr = &H0
+Private Const hWnd_DESKTOP As LongPtr = &H0
 #Else
-Private Const HWND_DESKTOP As Long = &H0
+Private Const hWnd_DESKTOP As Long = &H0
 #End If
 Private Const SWP_FRAMECHANGED As Long = &H20
 Private Const SWP_DRAWFRAME As Long = SWP_FRAMECHANGED
@@ -329,7 +329,7 @@ Private IPAddressPadding As SIZEAPI
 Private IPAddressChangeFrozen As Boolean
 Private IPAddressRTLReading(1 To 4) As Boolean
 Private IPAddressEnabledVisualStyles As Boolean
-Private IPAddressEditFocusHwnd As LongPtr
+Private IPAddressEditFocushWnd As LongPtr
 Private IPAddressSelectedItem As Integer
 Private IPAddressMin(1 To 4) As Integer, IPAddressMax(1 To 4) As Integer
 Private UCNoSetFocusFwd As Boolean
@@ -1230,7 +1230,7 @@ End Property
 Public Property Let SelectedItem(ByVal Value As Integer)
 If Value > 4 Or Value < 1 Then Err.Raise 380
 IPAddressSelectedItem = Value
-If IPAddressEditFocusHwnd <> NULL_PTR Then
+If IPAddressEditFocushWnd <> NULL_PTR Then
     UCNoSetFocusFwd = True: SetFocusAPI UserControl.hWnd: UCNoSetFocusFwd = False
     SetFocusAPI IPAddressEditHandle(IPAddressSelectedItem)
     SendMessage IPAddressEditHandle(IPAddressSelectedItem), EM_SETSEL, 0, ByVal -1&
@@ -1474,7 +1474,7 @@ Select Case wMsg
         Dim WndRect1 As RECT, P1 As POINTAPI, i As Long
         For i = 1 To 4
             GetWindowRect IPAddressEditHandle(i), WndRect1
-            MapWindowPoints HWND_DESKTOP, UserControl.hWnd, WndRect1, 2
+            MapWindowPoints hWnd_DESKTOP, UserControl.hWnd, WndRect1, 2
             SetViewportOrgEx wParam, WndRect1.Left, WndRect1.Top, P1
             SendMessage IPAddressEditHandle(i), WM_PAINT, wParam, ByVal 0&
             SetViewportOrgEx wParam, P1.X, P1.Y, P1
@@ -1520,7 +1520,7 @@ Select Case wMsg
                         EditState = EPSN_DISABLED
                         Brush = CreateSolidBrush(WinColor(vbButtonFace))
                     Else
-                        If IPAddressEditFocusHwnd <> NULL_PTR Then
+                        If IPAddressEditFocushWnd <> NULL_PTR Then
                             EditState = EPSN_FOCUSED
                         Else
                             EditState = EPSN_NORMAL
@@ -1916,7 +1916,7 @@ End Select
 WindowProcEdit = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
 Select Case wMsg
     Case WM_SETFOCUS
-        IPAddressEditFocusHwnd = hWnd
+        IPAddressEditFocushWnd = hWnd
         
         #If ImplementThemedBorder = True Then
         
@@ -1931,7 +1931,7 @@ Select Case wMsg
             RaiseEvent SelChange
         End If
     Case WM_KILLFOCUS
-        IPAddressEditFocusHwnd = NULL_PTR
+        IPAddressEditFocushWnd = NULL_PTR
         
         #If ImplementThemedBorder = True Then
         

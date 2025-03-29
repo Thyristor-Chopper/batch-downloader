@@ -1116,18 +1116,18 @@ Begin VB.Form frmOptions
          TabIndex        =   109
          Top             =   120
          Width           =   6255
-         Begin VB.PictureBox pbBackground 
-            AutoRedraw      =   -1  'True
-            Enabled         =   0   'False
-            Height          =   1380
-            Left            =   600
-            ScaleHeight     =   1320
-            ScaleWidth      =   3855
+         Begin prjDownloadBooster.SmallWindow pbBackground 
+            Height          =   1860
+            Left            =   480
             TabIndex        =   111
             TabStop         =   0   'False
             Tag             =   "nobgdraw"
-            Top             =   360
+            Top             =   240
             Width           =   3915
+            _ExtentX        =   6906
+            _ExtentY        =   3281
+            Caption         =   "다운로드 부스터"
+            MaximizeBox     =   0   'False
             Begin prjDownloadBooster.CheckBoxW CheckBoxW1 
                Height          =   255
                Left            =   120
@@ -1207,12 +1207,12 @@ Begin VB.Form frmOptions
                Width           =   975
             End
             Begin VB.Image imgPreview 
-               Height          =   375
-               Left            =   3120
+               Height          =   135
+               Left            =   0
                Stretch         =   -1  'True
                Top             =   0
                Visible         =   0   'False
-               Width           =   855
+               Width           =   135
             End
          End
          Begin VB.PictureBox pbPreview 
@@ -1471,12 +1471,9 @@ Private Sub cbFrameSkin_Click()
     End If
     
     If (cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1) Then
-        Dim Rgn&
-        Rgn = CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300)
-        SetWindowRgn pbBackground.hWnd, Rgn, True
-        DeleteObject Rgn
+        RemoveVisualStyles pbBackground.hWnd
     ElseIf Loaded Then
-        SetWindowRgn pbBackground.hWnd, 0&, True
+        ActivateVisualStyles pbBackground.hWnd
     End If
     pbBackground.Refresh
 End Sub
@@ -1511,6 +1508,12 @@ Private Sub cbSkin_Click()
         If cbSkin.ListIndex = 2 And DPI <> 96 Then
             MsgBox t("이 스킨의 일부 요소는 96 DPI(100% 배율)에서만 표시됩니다.", "Some of the elements of this skin only works in 96 DPI (100% size)."), 48
         End If
+    End If
+    If optUserFore.Value Then
+        CheckBoxW1.VisualStyles = False
+        FrameW5.VisualStyles = False
+        CheckBoxW1.ForeColor = pgFore.BackColor
+        FrameW5.ForeColor = pgFore.BackColor
     End If
 End Sub
 
@@ -1827,6 +1830,7 @@ aftermaxtrdcheck:
     
     If chkEnableBackgroundImage.Value > 0 And GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "") = "" Then
         MsgBox t("배경 그림이 선택되지 않았습니다.", "Background image is not selected."), 48
+        SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", "0"
         NoDisable = True
     End If
     
@@ -1834,8 +1838,8 @@ aftermaxtrdcheck:
     Dim MII As MENUITEMINFO
     hSysMenu = GetSystemMenu(frmMain.hWnd, 0)
     MainFormOnTop = (chkAlwaysOnTop.Value = 1)
-    SetWindowPos frmMain.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    SetWindowPos frmMain.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     With MII
         .cbSize = Len(MII)
         .fMask = MIIM_STATE
@@ -1854,6 +1858,13 @@ aftermaxtrdcheck:
         Next i
     End If
     BuildHeaderCache
+    
+    If optUserFore.Value Then
+        CheckBoxW1.VisualStyles = False
+        FrameW5.VisualStyles = False
+        CheckBoxW1.ForeColor = pgFore.BackColor
+        FrameW5.ForeColor = pgFore.BackColor
+    End If
     
     RedrawPreview
     ColorChanged = False
@@ -2148,7 +2159,7 @@ Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, HWND_TOPMOST, HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
     On Error Resume Next
     Me.Icon = frmMain.imgWrench.ListImages(1).Picture
@@ -2256,7 +2267,7 @@ Private Sub Form_Load()
     End Select
     trRequestInterval_Scroll
     
-    pbBackground.BorderStyle = 0
+    pbBackground.Enabled = False
     SetPreviewPosition
     
     imgPreview.Top = 0
@@ -2461,11 +2472,11 @@ Private Sub Form_Load()
     Label11.Caption = t(Label11.Caption, "File URL:")
     FrameW5.Caption = t(FrameW5.Caption, " Download status ")
     CheckBoxW1.Caption = t(CheckBoxW1.Caption, "Open when done")
-    tR chkAsterisk, "&Asterisk"
-    tR chkExclamation, "&Exclamation"
-    tR chkError, "E&rror"
-    tR chkQuestion, "&Question"
-    tR Label12, "Leave the fields blank to use the default sound."
+    tr chkAsterisk, "&Asterisk"
+    tr chkExclamation, "&Exclamation"
+    tr chkError, "E&rror"
+    tr chkQuestion, "&Question"
+    tr Label12, "Leave the fields blank to use the default sound."
     chkAsterisk.Value = GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1)
     chkExclamation.Value = GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1)
     chkError.Value = GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1)
@@ -2474,17 +2485,18 @@ Private Sub Form_Load()
     txtExclamation.Text = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
     txtError.Text = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
     txtQuestion.Text = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
-    tR chkAllowDuplicates, "Allow dupl&icates in queue"
-    tR Label13, "&Font:"
-    tR Label14, "Ma&x. number of threads:"
-    tR Label15, "(restart required)"
-    tR Label16, Label15.Caption
-    tR FrameW6, " Sound settings "
-    tR Label17, "Set the headers when requesting to the server on download. Headers set in Download Options have higher priority."
-    tR Label18, "T&hread scroll:"
-    tR optLinePerScroll, "Per li&ne"
-    tR optScreenPerScroll, "Pe&r screen"
-    tR Label19, "Thread request i&nterval:"
+    tr chkAllowDuplicates, "Allow dupl&icates in queue"
+    tr Label13, "&Font:"
+    tr Label14, "Ma&x. number of threads:"
+    tr Label15, "(restart required)"
+    tr Label16, Label15.Caption
+    tr FrameW6, " Sound settings "
+    tr Label17, "Set the headers when requesting to the server on download. Headers set in Download Options have higher priority."
+    tr Label18, "T&hread scroll:"
+    tr optLinePerScroll, "Per li&ne"
+    tr optScreenPerScroll, "Pe&r screen"
+    tr Label19, "Thread request i&nterval:"
+    pbBackground.Caption = t("다운로드 부스터", "Download Booster")
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
@@ -2599,25 +2611,6 @@ Sub DrawTabBackground(Optional Force As Boolean = False)
     Next ctrl
     
     BackgroundDrawn(tsTabStrip.SelectedItem.Index) = True
-End Sub
-
-Sub SetPreviewPosition()
-    Dim CaptionHeight As Integer
-    CaptionHeight = GetSystemMetrics(31)
-    Dim Left%, Top%, Width%, Height%
-    Left = 30
-    Top = 6
-    Width = 3915
-    Height = 1380
-    SetWindowLong pbBackground.hWnd, GWL_STYLE, (GetWindowLong(pbBackground.hWnd, GWL_STYLE) Or WS_BORDER Or WS_OVERLAPPED Or WS_CAPTION Or WS_THICKFRAME Or WS_MINIMIZEBOX Or WS_SYSMENU) And (Not WS_MAXIMIZEBOX)
-    SetWindowText pbBackground.hWnd, t("다운로드 부스터", "Download Booster")
-    pbBackground.Top = pbPreview.Top + Top * 15 + 15 + 30
-    pbBackground.Left = pbPreview.Left + Left * 15
-    imgPreview.Width = Width
-    imgPreview.Height = Height
-    pbBackground.Width = Width + PaddedBorderWidth * 15 + DialogBorderWidth * 30
-    pbBackground.Height = Height + PaddedBorderWidth * 15 + DialogBorderWidth * 30 + CaptionHeight * 15
-    RedrawPreview
 End Sub
 
 Private Sub lblSelectColor_Click()
@@ -2738,6 +2731,23 @@ Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
         DoEvents
         RedrawPreview
     End If
+End Sub
+
+Sub SetPreviewPosition()
+    Dim CaptionHeight As Long
+    CaptionHeight = GetSystemMetrics(31&)
+    Dim Left%, Top%, Width%, Height%
+    Left = 30
+    Top = 6
+    Width = 3915
+    Height = 1380
+    pbBackground.Top = pbPreview.Top + Top * 15 + 15 + 30
+    pbBackground.Left = pbPreview.Left + Left * 15
+    imgPreview.Width = Width
+    imgPreview.Height = Height
+    pbBackground.Width = Width + PaddedBorderWidth * 15 + DialogBorderWidth * 30
+    pbBackground.Height = Height + PaddedBorderWidth * 15 + DialogBorderWidth * 30 + CaptionHeight * 15
+    RedrawPreview
 End Sub
 
 Sub RedrawPreview()

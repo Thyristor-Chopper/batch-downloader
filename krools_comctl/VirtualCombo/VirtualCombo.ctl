@@ -291,9 +291,9 @@ Private Const SWP_NOOWNERZORDER As Long = &H200
 Private Const SWP_NOZORDER As Long = &H4
 Private Const SWP_NOACTIVATE As Long = &H10
 #If VBA7 Then
-Private Const HWND_DESKTOP As LongPtr = &H0
+Private Const hWnd_DESKTOP As LongPtr = &H0
 #Else
-Private Const HWND_DESKTOP As Long = &H0
+Private Const hWnd_DESKTOP As Long = &H0
 #End If
 Private Const GWL_STYLE As Long = (-16)
 Private Const CF_UNICODETEXT As Long = 13
@@ -699,7 +699,7 @@ Else
     MoveWindow VirtualComboHandle, 0, 0, .ScaleWidth, .ScaleHeight + IIf(PropIntegralHeight = True, 1, 0), 1
     GetWindowRect VirtualComboHandle, WndRect
     If VirtualComboListHandle <> NULL_PTR Then GetWindowRect VirtualComboListHandle, ListRect
-    MapWindowPoints HWND_DESKTOP, VirtualComboHandle, ListRect, 2
+    MapWindowPoints hWnd_DESKTOP, VirtualComboHandle, ListRect, 2
     EditHeight = ListRect.Top
     Const SM_CYEDGE As Long = 46
     If (ListRect.Bottom - ListRect.Top) > (GetSystemMetrics(SM_CYEDGE) * 2) Then

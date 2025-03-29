@@ -391,7 +391,7 @@ Private Declare Function CloseThemeData Lib "uxtheme" (ByVal Theme As Long) As L
 Private Const ICC_STANDARD_CLASSES As Long = &H4000
 Private Const ICC_COOL_CLASSES As Long = &H400
 Private Const ICC_TAB_CLASSES As Long = &H8
-Private Const DISPID_HWND As Long = -515
+Private Const DISPID_hWnd As Long = -515
 Private Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80
 Private Const SWP_NOMOVE As Long = &H2
 Private Const SWP_NOOWNERZORDER As Long = &H200
@@ -1871,7 +1871,7 @@ If Not Child Is Nothing Then
         On Error GoTo 0
         If Handle = NULL_PTR Then
             On Error Resume Next
-            Handle = CallByDispId(Child.Object, DISPID_HWND, VbGet Or VbMethod)
+            Handle = CallByDispId(Child.Object, DISPID_hWnd, VbGet Or VbMethod)
             On Error GoTo 0
         End If
     End If
@@ -1998,7 +1998,7 @@ If CoolBarHandle <> NULL_PTR Then
                 On Error GoTo 0
                 If Handle = NULL_PTR Then
                     On Error Resume Next
-                    Handle = CallByDispId(Value.Object, DISPID_HWND, VbGet Or VbMethod)
+                    Handle = CallByDispId(Value.Object, DISPID_hWnd, VbGet Or VbMethod)
                     On Error GoTo 0
                 End If
             End If

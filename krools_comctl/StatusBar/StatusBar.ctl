@@ -478,7 +478,7 @@ PropAllowSizeGrip = True
 PropShowTips = False
 PropBackColor = vbButtonFace
 PropDoubleBuffer = True
-If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool((GetWindowLong(UserControl.ContainerHwnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) Else StatusBarSizeGripAllowable = False
+If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool((GetWindowLong(UserControl.ContainerhWnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) Else StatusBarSizeGripAllowable = False
 If StatusBarDesignMode = False Then
     On Error Resume Next
     With UserControl
@@ -568,7 +568,7 @@ If StatusBarDesignMode = False Then
     End With
     On Error GoTo 0
 End If
-If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool((GetWindowLong(UserControl.ContainerHwnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) Else StatusBarSizeGripAllowable = False
+If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool((GetWindowLong(UserControl.ContainerhWnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) Else StatusBarSizeGripAllowable = False
 Call CreateStatusBar
 If InitPanelsCount > 0 And StatusBarHandle <> NULL_PTR Then
     For i = 1 To InitPanelsCount
@@ -734,7 +734,7 @@ If CurrentWindowState = vbMaximized Then
         Call ReCreateStatusBar
     End If
 ElseIf CurrentWindowState = vbNormal And LastWindowState = vbMaximized Then
-    If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool(((GetWindowLong(UserControl.ContainerHwnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) And Extender.Align = vbAlignBottom) Else StatusBarSizeGripAllowable = False
+    If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool(((GetWindowLong(UserControl.ContainerhWnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) And Extender.Align = vbAlignBottom) Else StatusBarSizeGripAllowable = False
     If StatusBarSizeGripAllowable = True And PropAllowSizeGrip = True And Me.IncludesSizeGrip = False Then
         Call ReCreateStatusBar
     End If
@@ -2271,13 +2271,13 @@ Select Case wMsg
     Case WM_WINDOWPOSCHANGED
         Static PrevWndContainer As LongPtr
         If StatusBarAlignable = True Then
-            If PrevWndContainer <> UserControl.ContainerHwnd And PrevWndContainer <> NULL_PTR Then
-                If Not StatusBarSizeGripAllowable = CBool(((GetWindowLong(UserControl.ContainerHwnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) And Extender.Align = vbAlignBottom) Then
+            If PrevWndContainer <> UserControl.ContainerhWnd And PrevWndContainer <> NULL_PTR Then
+                If Not StatusBarSizeGripAllowable = CBool(((GetWindowLong(UserControl.ContainerhWnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) And Extender.Align = vbAlignBottom) Then
                     StatusBarSizeGripAllowable = Not StatusBarSizeGripAllowable
                     Call ReCreateStatusBar
                 End If
             End If
-            PrevWndContainer = UserControl.ContainerHwnd
+            PrevWndContainer = UserControl.ContainerhWnd
         Else
             If StatusBarSizeGripAllowable = True Then
                 StatusBarSizeGripAllowable = False

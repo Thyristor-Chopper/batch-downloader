@@ -20,8 +20,8 @@ Public Const WM_DWMCOMPOSITIONCHANGED = &H31E
 Public Const WM_THEMECHANGED = &H31A
 Public Const WM_DPICHANGED = &H2E0
 Public Const WM_CTLCOLORSCROLLBAR = &H137&
-Public Const HWND_TOPMOST = -1
-Public Const HWND_NOTOPMOST = -2
+Public Const hWnd_TOPMOST = -1
+Public Const hWnd_NOTOPMOST = -2
 Public Const SWP_NOMOVE = &H2
 Public Const SWP_NOSIZE = &H1
 Private Const WMSZ_LEFT = 1
@@ -33,8 +33,6 @@ Private Const WMSZ_BOTTOM = 6
 Private Const WMSZ_BOTTOMLEFT = 7
 Private Const WMSZ_BOTTOMRIGHT = 8
 
-Private mPrevProc_Explorer As Long
-Private mPrevProc_Options As Long
 'Private mPrevProc_Bluemetal As Long
 
 Public MainFormOnTop As Boolean

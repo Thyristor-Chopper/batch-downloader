@@ -283,9 +283,9 @@ Private Declare Function SetCursor Lib "user32" (ByVal hCursor As Long) As Long
 Private Const ICC_TAB_CLASSES As Long = &H8
 Private Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80
 #If VBA7 Then
-Private Const HWND_DESKTOP As LongPtr = &H0
+Private Const hWnd_DESKTOP As LongPtr = &H0
 #Else
-Private Const HWND_DESKTOP As Long = &H0
+Private Const hWnd_DESKTOP As Long = &H0
 #End If
 Private Const GWL_STYLE As Long = (-16)
 Private Const GWL_EXSTYLE As Long = (-20)
@@ -2206,7 +2206,7 @@ If hDCBmp <> NULL_PTR Then
         hBmpOld = SelectObject(hDCBmp, hBmp)
         Dim WndRect As RECT, P As POINTAPI
         GetWindowRect .hWnd, WndRect
-        MapWindowPoints HWND_DESKTOP, hWndParent, WndRect, 2
+        MapWindowPoints hWnd_DESKTOP, hWndParent, WndRect, 2
         P.X = WndRect.Left
         P.Y = WndRect.Top
         SetViewportOrgEx hDCBmp, -P.X, -P.Y, P

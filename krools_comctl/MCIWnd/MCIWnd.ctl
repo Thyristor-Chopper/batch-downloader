@@ -225,7 +225,7 @@ Private Declare Function GetWindow Lib "user32" (ByVal hWnd As Long, ByVal wCmd 
 Private Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80
 Private Const GWL_STYLE As Long = (-16)
 Private Const GW_CHILD As Long = 5
-Private Const GW_HWNDNEXT As Long = 2
+Private Const GW_hWndNEXT As Long = 2
 Private Const WS_VISIBLE As Long = &H10000000
 Private Const WS_CHILD As Long = &H40000000
 Private Const WS_CAPTION As Long = &HC00000
@@ -767,7 +767,7 @@ If MCIWndHandle <> NULL_PTR And EnabledVisualStyles() = True Then
         Else
             RemoveVisualStyles hWnd
         End If
-        hWnd = GetWindow(hWnd, GW_HWNDNEXT)
+        hWnd = GetWindow(hWnd, GW_hWndNEXT)
     Loop
     Me.Refresh
 End If
@@ -788,7 +788,7 @@ If MCIWndHandle <> NULL_PTR Then
     hWnd = GetWindow(MCIWndHandle, GW_CHILD)
     Do While hWnd <> NULL_PTR
         EnableWindow hWnd, IIf(Value = True, 1, 0)
-        hWnd = GetWindow(hWnd, GW_HWNDNEXT)
+        hWnd = GetWindow(hWnd, GW_hWndNEXT)
     Loop
 End If
 UserControl.PropertyChanged "Enabled"

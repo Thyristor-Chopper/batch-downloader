@@ -36,7 +36,7 @@ Declare Function GetSubMenu Lib "user32" (ByVal hMenu As Long, ByVal nPos As Lon
 Declare Function GetMenuItemID Lib "user32" (ByVal hMenu As Long, ByVal nPos As Long) As Long
 Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As Long
 Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
-Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
+Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1
@@ -57,7 +57,7 @@ Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVa
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
 Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
-Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal IDHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
 Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Long) As Long
@@ -87,7 +87,7 @@ Private Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC A
 Private Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowText Lib "user32" Alias "SetWindowTextA" (ByVal hWnd As Long, ByVal lpString As String) As Long
 Declare Function GetCurrentProcessId Lib "kernel32" () As Long
-Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessId As Long) As Long
+Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessID As Long) As Long
 Private Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Long, ByVal uExitCode As Long) As Long
 Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Long) As Long
 Declare Function ExitProcess Lib "kernel32" (ByVal ExitCode As Long) As Long
@@ -154,7 +154,7 @@ Type DWM_COLORIZATION_PARAMS
     
     StripesIntensity As Long
     
-    OPAQUE As Boolean
+    Opaque As Boolean
 End Type
 
 Type MARGINS
@@ -524,15 +524,18 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                     End If
                 Else
                     If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
-                        If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" And (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW") Then
+                        If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" And (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "CheckBox") Then
+                            If CtrlTypeName <> "PictureBox" Then RemoveVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = False
                         Else
+                            If CtrlTypeName <> "PictureBox" Then ActivateVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = True
                         End If
                         'If CtrlTypeName = "ProgressBar" Then ctrl.Refresh
                         'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 0
                     End If
                     If DisableVisualStyle And ctrl.VisualStyles = True Then
+                        If CtrlTypeName <> "PictureBox" Then RemoveVisualStyles ctrl.hWnd
                         ctrl.VisualStyles = False
                         'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 1
                     End If
@@ -541,9 +544,11 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
             If CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ListView" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "ListBoxW" Or CtrlTypeName = "ListBox" Then GoTo nextfor
             If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" Then
                 ctrl.ForeColor = clrForeColor
-                If (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW") Then
+                If (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "CheckBox") Then
+                    If CtrlTypeName <> "PictureBox" Then RemoveVisualStyles ctrl.hWnd
                     ctrl.VisualStyles = False
                 ElseIf (Not DisableVisualStyle) And ctrl.VisualStyles = False And ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
+                    If CtrlTypeName <> "PictureBox" Then ActivateVisualStyles ctrl.hWnd
                     ctrl.VisualStyles = True
                 End If
             End If
@@ -562,16 +567,11 @@ nextfor:
 End Sub
 
 Sub SetClassicTheme(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
-    Dim Rgn&
     If GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0) <> 0 Then
-        Rgn = CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300)
-        SetWindowRgn frmForm.hWnd, Rgn, True
+        RemoveVisualStyles frmForm.hWnd
     ElseIf DisableClassicTheme Then
-        Rgn = CreateRectRgn(0, 0, Screen.Width / Screen.TwipsPerPixelX + 300, Screen.Height / Screen.TwipsPerPixelY + 300)
-        SetWindowRgn frmForm.hWnd, Rgn, True
-        SetWindowRgn frmForm.hWnd, 0&, True
+        ActivateVisualStyles frmForm.hWnd
     End If
-    DeleteObject Rgn
 End Sub
 
 Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpen As Boolean, Optional ByVal InitColor As OLE_COLOR, Optional ByVal SolidOnly As Boolean = False) As Long
@@ -880,7 +880,7 @@ Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As
     LineCount = UBound(Split(Content, vbLf)) + 1
     Dim s%
     Dim ln$
-    Dim cI%, c$
+    Dim CI%, c$
     Dim LineContent$
     For s = 0 To UBound(Split(Content, vbCrLf))
         LineContent = Split(Content, vbCrLf)(s)
@@ -1689,19 +1689,19 @@ Function ExcludeParameters(ByVal URL As String) As String
     End If
 End Function
 
-Function col(Expression, ByRef IfFalse)
+Function Col(Expression, ByRef IfFalse)
     If VarType(Expression) = vbString Then
         If Expression = "" Then
-            col = IfFalse
+            Col = IfFalse
         Else
-            col = Expression
+            Col = Expression
         End If
         Exit Function
     End If
     If Expression Then
-        col = Expression
+        Col = Expression
     Else
-        col = IfFalse
+        Col = IfFalse
     End If
 End Function
 
@@ -1717,7 +1717,7 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
     Else
         HostName = URL
     End If
-    HostName = Left$(HostName, col(InStr(HostName, "/"), Len(HostName) + 1) - 1)
+    HostName = Left$(HostName, Col(InStr(HostName, "/"), Len(HostName) + 1) - 1)
     If Includes(HostName, ":") Then
         HostName = Left$(HostName, InStrRev(HostName, ":") - 1)
     End If
@@ -1726,7 +1726,7 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
     IsYtdlSupported = Includes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
 End Function
 
-Sub tR(ByRef ctrl As Control, ByVal EnglishCaption As String)
+Sub tr(ByRef ctrl As Control, ByVal EnglishCaption As String)
     On Error Resume Next
     ctrl.Caption = t(ctrl.Caption, EnglishCaption)
 End Sub

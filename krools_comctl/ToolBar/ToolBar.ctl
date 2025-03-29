@@ -457,9 +457,9 @@ Private Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As
 Private Const ICC_BAR_CLASSES As Long = &H20
 Private Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80, RDW_FRAME As Long = &H400
 #If VBA7 Then
-Private Const HWND_DESKTOP As LongPtr = &H0
+Private Const hWnd_DESKTOP As LongPtr = &H0
 #Else
-Private Const HWND_DESKTOP As Long = &H0
+Private Const hWnd_DESKTOP As Long = &H0
 #End If
 Private Const GWL_STYLE As Long = (-16)
 Private Const GWL_EXSTYLE As Long = (-20)
@@ -4095,7 +4095,7 @@ If ToolBarHandle <> NULL_PTR Then
         Dim TPMP As TPMPARAMS, P As POINTAPI, Flags As Long
         TPMP.cbSize = LenB(TPMP)
         SendMessage ToolBarHandle, TB_GETRECT, Button.ID, ByVal VarPtr(TPMP.RCExclude)
-        MapWindowPoints ToolBarHandle, HWND_DESKTOP, TPMP.RCExclude, 2
+        MapWindowPoints ToolBarHandle, hWnd_DESKTOP, TPMP.RCExclude, 2
         P.X = TPMP.RCExclude.Left
         P.Y = TPMP.RCExclude.Bottom
         If PropRightToLeft = False Then
@@ -4224,7 +4224,7 @@ If hDCBmp <> NULL_PTR Then
         hBmpOld = SelectObject(hDCBmp, hBmp)
         Dim WndRect As RECT, P As POINTAPI
         GetWindowRect .hWnd, WndRect
-        MapWindowPoints HWND_DESKTOP, hWndParent, WndRect, 2
+        MapWindowPoints hWnd_DESKTOP, hWndParent, WndRect, 2
         P.X = WndRect.Left
         P.Y = WndRect.Top
         SetViewportOrgEx hDCBmp, -P.X, -P.Y, P

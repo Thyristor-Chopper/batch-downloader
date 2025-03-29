@@ -291,7 +291,7 @@ Private CdlFRDialogHandle() As LongPtr, CdlFRDialogCount As Long
 
 Private Const UM_PRETRANSLATEMSG As Long = (WM_USER + 1100)
 Private ComCtlsPreTranslateMsgHookHandle As LongPtr
-Private ComCtlsPreTranslateMsgHwnd As LongPtr, ComCtlsPreTranslateMsgCount As Long
+Private ComCtlsPreTranslateMsghWnd As LongPtr, ComCtlsPreTranslateMsgCount As Long
 
 #End If
 
@@ -379,13 +379,13 @@ Public Sub ComCtlsInitToolTip(ByVal hWnd As LongPtr)
 Public Sub ComCtlsInitToolTip(ByVal hWnd As Long)
 #End If
 #If VBA7 Then
-Const HWND_TOPMOST As LongPtr = (-1)
+Const hWnd_TOPMOST As LongPtr = (-1)
 #Else
-Const HWND_TOPMOST As Long = (-1)
+Const hWnd_TOPMOST As Long = (-1)
 #End If
 Const WS_EX_TOPMOST As Long = &H8
 Const SWP_NOMOVE As Long = &H2, SWP_NOSIZE As Long = &H1, SWP_NOACTIVATE As Long = &H10
-If Not (GetWindowLong(hWnd, GWL_EXSTYLE) And WS_EX_TOPMOST) = WS_EX_TOPMOST Then SetWindowPos hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE Or SWP_NOACTIVATE
+If Not (GetWindowLong(hWnd, GWL_EXSTYLE) And WS_EX_TOPMOST) = WS_EX_TOPMOST Then SetWindowPos hWnd, hWnd_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE Or SWP_NOACTIVATE
 Const TTM_SETMAXTIPWIDTH As Long = (WM_USER + 24)
 SendMessage hWnd, TTM_SETMAXTIPWIDTH, 0, ByVal &H7FFF&
 End Sub
@@ -1379,7 +1379,7 @@ ComCtlsPreTranslateMsgCount = ComCtlsPreTranslateMsgCount - 1
 If ComCtlsPreTranslateMsgHookHandle <> NULL_PTR And ComCtlsPreTranslateMsgCount = 0 Then
     UnhookWindowsHookEx ComCtlsPreTranslateMsgHookHandle
     ComCtlsPreTranslateMsgHookHandle = NULL_PTR
-    ComCtlsPreTranslateMsgHwnd = NULL_PTR
+    ComCtlsPreTranslateMsghWnd = NULL_PTR
 End If
 End Sub
 
@@ -1388,11 +1388,11 @@ Public Sub ComCtlsPreTranslateMsgActivate(ByVal hWnd As LongPtr)
 #Else
 Public Sub ComCtlsPreTranslateMsgActivate(ByVal hWnd As Long)
 #End If
-ComCtlsPreTranslateMsgHwnd = hWnd
+ComCtlsPreTranslateMsghWnd = hWnd
 End Sub
 
 Public Sub ComCtlsPreTranslateMsgDeActivate()
-ComCtlsPreTranslateMsgHwnd = NULL_PTR
+ComCtlsPreTranslateMsghWnd = NULL_PTR
 End Sub
 
 Private Function ComCtlsPreTranslateMsgHookProc(ByVal nCode As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
@@ -1402,8 +1402,8 @@ If nCode >= HC_ACTION And wParam = PM_REMOVE Then
     Dim Msg As TMSG
     CopyMemory Msg, ByVal lParam, LenB(Msg)
     If Msg.Message >= WM_KEYFIRST And Msg.Message <= WM_KEYLAST Then
-        If ComCtlsPreTranslateMsgHwnd <> NULL_PTR And ComCtlsPreTranslateMsgCount > 0 Then
-            If Msg.hWnd = ComCtlsPreTranslateMsgHwnd Then
+        If ComCtlsPreTranslateMsghWnd <> NULL_PTR And ComCtlsPreTranslateMsgCount > 0 Then
+            If Msg.hWnd = ComCtlsPreTranslateMsghWnd Then
                 If SendMessage(Msg.hWnd, UM_PRETRANSLATEMSG, 0, ByVal lParam) <> 0 Then
                     Msg.Message = WM_NULL
                     Msg.wParam = 0

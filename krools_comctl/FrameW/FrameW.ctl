@@ -177,9 +177,9 @@ Private Declare Function CloseThemeData Lib "uxtheme" (ByVal Theme As Long) As L
 
 Private Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80
 #If VBA7 Then
-Private Const HWND_DESKTOP As LongPtr = &H0
+Private Const hWnd_DESKTOP As LongPtr = &H0
 #Else
-Private Const HWND_DESKTOP As Long = &H0
+Private Const hWnd_DESKTOP As Long = &H0
 #End If
 Private Const WM_GETTEXTLENGTH As Long = &HE
 Private Const WM_GETTEXT As Long = &HD
@@ -911,7 +911,7 @@ Set .Picture = Nothing
 If PropTransparent = True Then
     Dim WndRect As RECT, P As POINTAPI
     GetWindowRect .hWnd, WndRect
-    MapWindowPoints HWND_DESKTOP, GetParent(.hWnd), WndRect, 2
+    MapWindowPoints hWnd_DESKTOP, GetParent(.hWnd), WndRect, 2
     P.X = WndRect.Left
     P.Y = WndRect.Top
     SetViewportOrgEx .hDC, -P.X, -P.Y, P

@@ -230,6 +230,17 @@ Begin VB.Form frmMain
       Caption         =   "추가 옵션(&I)..."
       Transparent     =   -1  'True
    End
+   Begin prjDownloadBooster.CheckBoxW chkAutoRetry 
+      Height          =   255
+      Left            =   6810
+      TabIndex        =   23
+      Top             =   2595
+      Width           =   2205
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "오류 시 자동 재시도(&G)"
+      Transparent     =   -1  'True
+   End
    Begin prjDownloadBooster.CommandButtonW cmdStop 
       Height          =   330
       Left            =   7200
@@ -241,6 +252,17 @@ Begin VB.Form frmMain
       Enabled         =   0   'False
       ImageList       =   "imgStopRed"
       Caption         =   "중지(&P) "
+      Transparent     =   -1  'True
+   End
+   Begin prjDownloadBooster.CheckBoxW chkContinueDownload 
+      Height          =   255
+      Left            =   6810
+      TabIndex        =   22
+      Top             =   2370
+      Width           =   1935
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "항상 이어받기(&J)"
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.ImageList imgDropdownReverse 
@@ -406,25 +428,18 @@ Begin VB.Form frmMain
       _ExtentY        =   344
       Transparent     =   -1  'True
    End
-   Begin VB.PictureBox fDownloadInfo 
-      BorderStyle     =   0  '없음
+   Begin prjDownloadBooster.FrameW fDownloadInfo 
       Height          =   3135
       Left            =   360
-      ScaleHeight     =   3135
-      ScaleWidth      =   5175
       TabIndex        =   47
       Top             =   2640
       Visible         =   0   'False
-      Width           =   5175
-      Begin prjDownloadBooster.ucPicBuddy pbdDownloadInfo 
-         Height          =   1215
-         Left            =   3000
-         TabIndex        =   73
-         Top             =   1440
-         Width           =   2055
-         _ExtentX        =   3625
-         _ExtentY        =   2143
-      End
+      Width           =   5655
+      _ExtentX        =   9975
+      _ExtentY        =   5530
+      BorderStyle     =   0
+      Caption         =   " "
+      Transparent     =   -1  'True
       Begin VB.Label lblMergeStatus 
          BackStyle       =   0  '투명
          Caption         =   "-"
@@ -588,15 +603,17 @@ Begin VB.Form frmMain
          Width           =   975
       End
    End
-   Begin VB.PictureBox fThreadInfo 
-      BorderStyle     =   0  '없음
+   Begin prjDownloadBooster.FrameW fThreadInfo 
       Height          =   3495
       Left            =   360
-      ScaleHeight     =   3495
-      ScaleWidth      =   6015
       TabIndex        =   45
       Top             =   2310
       Width           =   6015
+      _ExtentX        =   10610
+      _ExtentY        =   6165
+      BorderStyle     =   0
+      Caption         =   " 스레드 현황 "
+      Transparent     =   -1  'True
       Begin VB.VScrollBar vsProgressScroll 
          Height          =   3495
          LargeChange     =   10
@@ -607,24 +624,26 @@ Begin VB.Form frmMain
          Visible         =   0   'False
          Width           =   255
       End
-      Begin VB.PictureBox pbProgressOuterContainer 
-         BorderStyle     =   0  '없음
+      Begin prjDownloadBooster.FrameW pbProgressOuterContainer 
          Height          =   3495
          Left            =   0
-         ScaleHeight     =   3495
-         ScaleWidth      =   5775
          TabIndex        =   46
          Top             =   0
          Width           =   5775
-         Begin VB.PictureBox pbProgressContainer 
-            BorderStyle     =   0  '없음
+         _ExtentX        =   0
+         _ExtentY        =   0
+         BorderStyle     =   0
+         Transparent     =   -1  'True
+         Begin prjDownloadBooster.FrameW pbProgressContainer 
             Height          =   9015
             Left            =   0
-            ScaleHeight     =   9015
-            ScaleWidth      =   5775
             TabIndex        =   63
             Top             =   0
             Width           =   5775
+            _ExtentX        =   0
+            _ExtentY        =   0
+            BorderStyle     =   0
+            Transparent     =   -1  'True
             Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
                Height          =   255
                Index           =   1
@@ -650,15 +669,6 @@ Begin VB.Form frmMain
                Step            =   10
                MarqueeSpeed    =   35
             End
-            Begin prjDownloadBooster.ucPicBuddy pbdProgressContainer 
-               Height          =   255
-               Left            =   5400
-               TabIndex        =   74
-               Top             =   0
-               Width           =   255
-               _ExtentX        =   450
-               _ExtentY        =   450
-            End
             Begin VB.Label lblDownloader 
                AutoSize        =   -1  'True
                BackStyle       =   0  '투명
@@ -681,24 +691,6 @@ Begin VB.Form frmMain
                Width           =   615
             End
          End
-         Begin prjDownloadBooster.ucPicBuddy pbdProgressOuterContainer 
-            Height          =   375
-            Left            =   5640
-            TabIndex        =   76
-            Top             =   360
-            Width           =   135
-            _ExtentX        =   238
-            _ExtentY        =   661
-         End
-      End
-      Begin prjDownloadBooster.ucPicBuddy pbdThreadInfo 
-         Height          =   255
-         Left            =   5760
-         TabIndex        =   75
-         Top             =   360
-         Width           =   255
-         _ExtentX        =   450
-         _ExtentY        =   450
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdIncreaseThreads 
@@ -734,6 +726,28 @@ Begin VB.Form frmMain
       TabIndex        =   21
       Top             =   2025
       Width           =   1185
+   End
+   Begin prjDownloadBooster.CheckBoxW chkOpenAfterComplete 
+      Height          =   255
+      Left            =   6810
+      TabIndex        =   18
+      Top             =   1560
+      Width           =   2175
+      _ExtentX        =   3836
+      _ExtentY        =   450
+      Caption         =   "완료 후 열기(&C)"
+      Transparent     =   -1  'True
+   End
+   Begin prjDownloadBooster.CheckBoxW chkOpenFolder 
+      Height          =   255
+      Left            =   6810
+      TabIndex        =   19
+      Top             =   1785
+      Width           =   2280
+      _ExtentX        =   4022
+      _ExtentY        =   450
+      Caption         =   "완료 후 폴더 열기(&L)"
+      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW cmdClear 
       Height          =   330
@@ -802,50 +816,6 @@ Begin VB.Form frmMain
       _ExtentY        =   3916
       Caption         =   " 옵션 "
       Transparent     =   -1  'True
-      Begin prjDownloadBooster.CheckBoxW chkOpenAfterComplete 
-         Height          =   255
-         Left            =   90
-         TabIndex        =   18
-         Top             =   240
-         Width           =   2175
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   "완료 후 열기(&C)"
-         Transparent     =   -1  'True
-      End
-      Begin prjDownloadBooster.CheckBoxW chkOpenFolder 
-         Height          =   255
-         Left            =   90
-         TabIndex        =   19
-         Top             =   465
-         Width           =   2280
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   "완료 후 폴더 열기(&L)"
-         Transparent     =   -1  'True
-      End
-      Begin prjDownloadBooster.CheckBoxW chkContinueDownload 
-         Height          =   255
-         Left            =   120
-         TabIndex        =   22
-         Top             =   990
-         Width           =   1935
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   "항상 이어받기(&J)"
-         Transparent     =   -1  'True
-      End
-      Begin prjDownloadBooster.CheckBoxW chkAutoRetry 
-         Height          =   255
-         Left            =   120
-         TabIndex        =   23
-         Top             =   1215
-         Width           =   2205
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   "오류 시 자동 재시도(&G)"
-         Transparent     =   -1  'True
-      End
       Begin VB.Line lbOptionsHeader 
          BorderColor     =   &H80000010&
          Visible         =   0   'False
@@ -2420,8 +2390,8 @@ L2:
         GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & _
         Abs(CInt(AutoName)) & " " & _
         GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100) & " " & _
-        Col(Functions.HeaderCache, "-") & " " & _
-        Col(CurrentHeaderCache, "-"))
+        col(Functions.HeaderCache, "-") & " " & _
+        col(CurrentHeaderCache, "-"))
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -2701,19 +2671,47 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
         Select Case ImgPos
             Case 0 '늘이기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
-                imgBackground.Move 0, 0, Me.Width, Me.Height
+                imgBackground.Width = Me.Width
+                imgBackground.Height = Me.Height
+                imgBackground.Top = 0
+                imgBackground.Left = 0
             Case 1 '높이에 맞추기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
-                imgBackground.Move IIf(ImageCentered, (Me.Width - imgBackground.Width) \ 2, 0), 0, Width / Height * Me.Height, Me.Height
+                imgBackground.Height = Me.Height
+                imgBackground.Width = Width / Height * Me.Height
+                imgBackground.Top = 0
+                If ImageCentered Then
+                    imgBackground.Left = (Me.Width - imgBackground.Width) \ 2
+                Else
+                    imgBackground.Left = 0
+                End If
             Case 2 '너비에 맞추기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
-                imgBackground.Move 0, IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - 480) - imgBackground.Height) \ 2, 0), Me.Width, Height / Width * Me.Width
+                imgBackground.Width = Me.Width
+                imgBackground.Height = Height / Width * Me.Width
+                If ImageCentered Then
+                    imgBackground.Top = ((Me.Height - sbStatusBar.Height - 480) - imgBackground.Height) \ 2
+                Else
+                    imgBackground.Top = 0
+                End If
+                imgBackground.Left = 0
             Case 3 '원본 크기
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
-                imgBackground.Move IIf(ImageCentered, (Me.Width - imgBackground.Width) \ 2, 0), IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - 480) - imgBackground.Height) \ 2, 0), Width, Height
+                imgBackground.Width = Width
+                imgBackground.Height = Height
+                If ImageCentered Then
+                    imgBackground.Top = ((Me.Height - sbStatusBar.Height - 480) - imgBackground.Height) \ 2
+                    imgBackground.Left = (Me.Width - imgBackground.Width) \ 2
+                Else
+                    imgBackground.Top = 0
+                    imgBackground.Left = 0
+                End If
             Case 7 '바둑판식
+                imgBackground.Top = -Height
+                imgBackground.Left = -Width
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
-                imgBackground.Move -Width, -Height, Width, Height
+                imgBackground.Width = Width
+                imgBackground.Height = Height
                 k = 1
                 If Width > 0 And Height > 0 Then
                     For i = 1 To Ceil(Me.Height / Height)
@@ -2761,19 +2759,10 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
         End If
         If ImagePosition < 2 Or ImagePosition = 4 Or ForceRefresh Or ImageCentered Then
             On Error Resume Next
-'            Dim ctrl As Control
-'            For Each ctrl In Me.Controls
-'                If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
-'            Next ctrl
-            fOptions.Refresh
-            chkOpenAfterComplete.Refresh
-            chkOpenFolder.Refresh
-            chkContinueDownload.Refresh
-            chkAutoRetry.Refresh
-            If Not imgTopLeft.Visible Then
-                Frame4.Refresh
-                fTotal.Refresh
-            End If
+            Dim ctrl As Control
+            For Each ctrl In Me.Controls
+                If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
+            Next ctrl
             trThreadCount.VisualStyles = False
             trThreadCount.VisualStyles = True
         End If
@@ -3284,11 +3273,11 @@ afterheaderadd:
     
     cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Download &settings...")
     
-    tr mnuHeaders, "&Headers..."
+    tR mnuHeaders, "&Headers..."
     
     Label11.Caption = fOptions.Caption
     
-    tr mnuErrorInfo, "Error &information..."
+    tR mnuErrorInfo, "Error &information..."
     '언어설정끝
     lbOptionsHeader.X1 = Label11.Width + 60
     
@@ -3304,11 +3293,6 @@ afterheaderadd:
     SetTextColors
     
     SetFont Me
-    
-    pbdDownloadInfo.AttachBuddy fDownloadInfo
-    pbdThreadInfo.AttachBuddy fThreadInfo
-    pbdProgressOuterContainer.AttachBuddy pbProgressOuterContainer
-    pbdProgressContainer.AttachBuddy pbProgressContainer
     
     '이미지 리스트 로드
     imgDropdownReverse.ListImages.Add 1, Picture:=imgDropdownReverse.ListImages(1).ExtractIcon()
@@ -3834,10 +3818,6 @@ End Sub
 Private Sub optTabThreads2_Click()
     fThreadInfo.Visible = -1
     fDownloadInfo.Visible = 0
-    pbdDownloadInfo.AttachBuddy fDownloadInfo
-    pbdThreadInfo.AttachBuddy fThreadInfo
-    pbdProgressOuterContainer.AttachBuddy pbProgressOuterContainer
-    pbdProgressContainer.AttachBuddy pbProgressContainer
 End Sub
 
 Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -3951,8 +3931,5 @@ Private Sub vsProgressScroll_Scroll()
     Else
         pbProgressContainer.Top = CDbl(vsProgressScroll.Value) * 255# * -1# - (105# * CDbl(vsProgressScroll.Value))
     End If
-    If LBFrameEnabled Or imgBackground.Visible Then
-        pbProgressContainer.Refresh
-        pbdProgressContainer.Refresh
-    End If
+    If LBFrameEnabled Or imgBackground.Visible Then pbProgressContainer.Refresh
 End Sub
