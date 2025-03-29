@@ -1053,7 +1053,7 @@ Begin VB.Form frmOptions
             BorderColor     =   &H00404040&
             FillColor       =   &H00808080&
             Height          =   255
-            Left            =   1080
+            Left            =   1110
             Shape           =   4  'µÕ±Ù »ç°¢Çü
             Top             =   915
             Width           =   615
