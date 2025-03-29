@@ -1,4 +1,4 @@
-This product includes software developed by vbAccelerator (/index.html).
+(This product includes software developed by vbAccelerator (/index.html).)
 
 <기능>
 - 여러 화일을 일괄적으로 (순차적으로) 다운로드하는 기능
