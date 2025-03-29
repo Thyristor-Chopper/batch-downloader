@@ -854,7 +854,7 @@ Begin VB.Form frmMain
          BorderColor     =   &H80000010&
          Visible         =   0   'False
          X1              =   600
-         X2              =   2295
+         X2              =   2415
          Y1              =   90
          Y2              =   90
       End
@@ -2962,6 +2962,8 @@ Sub LoadLiveBadukSkin()
         lblURLShadow.Visible = True
         lblFilePathShadow.Visible = True
         lblThreadCountLabelShadow.Visible = True
+        
+        cbWhenExist.Width = 1305
     Else
         imgTopLeft.Visible = 0
         imgTopRight.Visible = 0
@@ -3012,6 +3014,8 @@ Sub LoadLiveBadukSkin()
         lblURL.Font.Bold = False
         lblFilePath.Font.Bold = False
         lblThreadCountLabel.Font.Bold = False
+        
+        cbWhenExist.Width = 1185
     End If
     
     SetFormBackgroundColor Me

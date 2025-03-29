@@ -2402,7 +2402,7 @@ Private Sub Form_Load()
     cbSkin.Clear
     cbSkin.AddItem t("시스템 스타일", "System style")
     cbSkin.AddItem t("고전 스타일", "Classic style")
-    cbSkin.AddItem t("라이브바둑 쪽지", "LiveBaduk memo")
+    cbSkin.AddItem t("라이브 바둑 쪽지", "LiveBaduk memo")
     If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
         cbSkin.ListIndex = 2
     ElseIf Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))) Then
