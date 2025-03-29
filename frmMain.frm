@@ -3055,8 +3055,8 @@ Sub LoadLiveBadukSkin()
                 imgBottomLeft.Visible = 0
                 imgBottomRight.Visible = 0
                 fTygemFrameTransparent.Visible = -1
-                imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
-                imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
+                If imgLeft.Picture.Width = 0 Then imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
+                If imgCenter.Picture.Width = 0 Then imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
                 imgLeft.Height = imgLeft.Height + 30
                 imgLeft.Top = 1620
                 imgCenter.Top = 1620
@@ -3066,15 +3066,15 @@ Sub LoadLiveBadukSkin()
                 lnTygemFrameRight.Visible = False
                 lnTygemFrameBottom.Visible = False
             Case Else
-                imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
-                imgTopRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topright.png")
-                imgTop.Picture = LoadPngIntoPictureWithAlpha(CachePath & "top.png")
-                imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
-                imgRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "right.png")
-                imgBottom.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottom.png")
-                imgBottomLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomleft.png")
-                imgBottomRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomright.png")
-                imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
+                If imgTopLeft.Picture.Width = 0 Then imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
+                If imgTopRight.Picture.Width = 0 Then imgTopRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topright.png")
+                If imgTop.Picture.Width = 0 Then imgTop.Picture = LoadPngIntoPictureWithAlpha(CachePath & "top.png")
+                If imgLeft.Picture.Width = 0 Then imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
+                If imgRight.Picture.Width = 0 Then imgRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "right.png")
+                If imgBottom.Picture.Width = 0 Then imgBottom.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottom.png")
+                If imgBottomLeft.Picture.Width = 0 Then imgBottomLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomleft.png")
+                If imgBottomRight.Picture.Width = 0 Then imgBottomRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomright.png")
+                If imgCenter.Picture.Width = 0 Then imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
                 
                 imgLeft.Top = 1635
                 imgCenter.Top = 1635
