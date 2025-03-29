@@ -407,6 +407,7 @@ Begin VB.Form frmMain
       Transparent     =   -1  'True
    End
    Begin VB.PictureBox fDownloadInfo 
+      AutoRedraw      =   -1  'True
       BorderStyle     =   0  '없음
       Height          =   3135
       Left            =   360
@@ -589,6 +590,7 @@ Begin VB.Form frmMain
       End
    End
    Begin VB.PictureBox fThreadInfo 
+      AutoRedraw      =   -1  'True
       BorderStyle     =   0  '없음
       Height          =   3495
       Left            =   360
@@ -608,6 +610,7 @@ Begin VB.Form frmMain
          Width           =   255
       End
       Begin VB.PictureBox pbProgressOuterContainer 
+         AutoRedraw      =   -1  'True
          BorderStyle     =   0  '없음
          Height          =   3495
          Left            =   0
@@ -617,6 +620,7 @@ Begin VB.Form frmMain
          Top             =   0
          Width           =   5775
          Begin VB.PictureBox pbProgressContainer 
+            AutoRedraw      =   -1  'True
             BorderStyle     =   0  '없음
             Height          =   9015
             Left            =   0
@@ -1264,6 +1268,7 @@ Dim TotalSize As Double
 Dim FormCaption$
 Dim LBFrameEnabled As Boolean
 Dim ErrorCodeDescription As Collection
+Dim ThreadBuddyAttached As Boolean
 
 Const MAIN_FORM_WIDTH As Long = 9450
 
@@ -2761,10 +2766,6 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
         End If
         If ImagePosition < 2 Or ImagePosition = 4 Or ForceRefresh Or ImageCentered Then
             On Error Resume Next
-'            Dim ctrl As Control
-'            For Each ctrl In Me.Controls
-'                If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
-'            Next ctrl
             fOptions.Refresh
             chkOpenAfterComplete.Refresh
             chkOpenFolder.Refresh
@@ -3004,6 +3005,7 @@ Private Sub Form_Load()
 
     ResumeUnsupported = False
     LBFrameEnabled = False
+    ThreadBuddyAttached = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")
     FormCaption = App.Title & IIf(InIDE, "*", "") & " " & App.Major & "." & App.Minor & IIf(App.Revision > 0, "." & App.Revision, "")
     SetTitle
@@ -3296,6 +3298,7 @@ afterheaderadd:
     
     'SetFormBackgroundColor Me
     SetBackgroundImage
+    SetBackgroundPosition
 
 #If HIDEYTDL Then
     mnuYtdlOptions.Visible = False
@@ -3834,10 +3837,10 @@ End Sub
 Private Sub optTabThreads2_Click()
     fThreadInfo.Visible = -1
     fDownloadInfo.Visible = 0
-    pbdDownloadInfo.AttachBuddy fDownloadInfo
-    pbdThreadInfo.AttachBuddy fThreadInfo
-    pbdProgressOuterContainer.AttachBuddy pbProgressOuterContainer
-    pbdProgressContainer.AttachBuddy pbProgressContainer
+    If Not ThreadBuddyAttached Then
+        pbdThreadInfo.AttachBuddy fThreadInfo
+        ThreadBuddyAttached = True
+    End If
 End Sub
 
 Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -3952,7 +3955,6 @@ Private Sub vsProgressScroll_Scroll()
         pbProgressContainer.Top = CDbl(vsProgressScroll.Value) * 255# * -1# - (105# * CDbl(vsProgressScroll.Value))
     End If
     If LBFrameEnabled Or imgBackground.Visible Then
-        pbProgressContainer.Refresh
         pbdProgressContainer.Refresh
     End If
 End Sub
