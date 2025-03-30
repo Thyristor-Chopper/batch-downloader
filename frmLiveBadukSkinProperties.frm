@@ -27,7 +27,7 @@ Begin VB.Form frmLiveBadukSkinProperties
    Begin prjDownloadBooster.CheckBoxW chkEnableBorders 
       Height          =   255
       Left            =   240
-      TabIndex        =   17
+      TabIndex        =   15
       Top             =   3720
       Width           =   2295
       _ExtentX        =   4048
@@ -37,7 +37,7 @@ Begin VB.Form frmLiveBadukSkinProperties
    Begin prjDownloadBooster.FrameW fFrameBackground 
       Height          =   975
       Left            =   120
-      TabIndex        =   13
+      TabIndex        =   11
       Top             =   2640
       Width           =   5055
       _ExtentX        =   8916
@@ -46,7 +46,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.CommandButtonW cmdSelectFrameTexture 
          Height          =   330
          Left            =   1560
-         TabIndex        =   16
+         TabIndex        =   14
          Top             =   570
          Width           =   1455
          _ExtentX        =   2566
@@ -56,7 +56,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.OptionButtonW optFrameTexture 
          Height          =   255
          Left            =   120
-         TabIndex        =   15
+         TabIndex        =   13
          Top             =   600
          Width           =   1335
          _ExtentX        =   2355
@@ -66,7 +66,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.OptionButtonW optFrameTransparent 
          Height          =   255
          Left            =   120
-         TabIndex        =   14
+         TabIndex        =   12
          Top             =   240
          Width           =   2055
          _ExtentX        =   3625
@@ -243,7 +243,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Cancel          =   -1  'True
       Height          =   375
       Left            =   3120
-      TabIndex        =   12
+      TabIndex        =   17
       Top             =   4200
       Width           =   1335
       _ExtentX        =   2355
@@ -254,7 +254,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Default         =   -1  'True
       Height          =   375
       Left            =   960
-      TabIndex        =   11
+      TabIndex        =   16
       Top             =   4200
       Width           =   1335
       _ExtentX        =   2355
