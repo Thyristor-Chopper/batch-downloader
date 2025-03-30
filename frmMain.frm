@@ -4,7 +4,7 @@ Begin VB.Form frmMain
    ClientHeight    =   7740
    ClientLeft      =   165
    ClientTop       =   555
-   ClientWidth     =   12540
+   ClientWidth     =   11715
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -18,14 +18,14 @@ Begin VB.Form frmMain
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
    ScaleHeight     =   7740
-   ScaleWidth      =   12540
+   ScaleWidth      =   11715
    StartUpPosition =   3  'Windows 기본값
    Begin prjDownloadBooster.FrameW fTygemFrameTransparent 
       Height          =   4845
       Left            =   10560
       TabIndex        =   81
       Tag             =   "nobackcolorchange"
-      Top             =   1320
+      Top             =   2280
       Visible         =   0   'False
       Width           =   6495
       _ExtentX        =   11456
@@ -87,7 +87,7 @@ Begin VB.Form frmMain
          X1              =   6480
          X2              =   6480
          Y1              =   435
-         Y2              =   4665
+         Y2              =   4680
       End
       Begin VB.Line Line4 
          BorderColor     =   &H00404040&
@@ -108,7 +108,7 @@ Begin VB.Form frmMain
          X1              =   0
          X2              =   0
          Y1              =   360
-         Y2              =   4680
+         Y2              =   4695
       End
       Begin VB.Line Line1 
          BorderColor     =   &H00404040&
@@ -332,8 +332,8 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   0
       Top             =   7410
-      Width           =   12540
-      _ExtentX        =   22119
+      Width           =   11715
+      _ExtentX        =   20664
       _ExtentY        =   582
       InitPanels      =   "frmMain.frx":28A5
    End
@@ -1139,6 +1139,86 @@ Begin VB.Form frmMain
       ImageListAlignment=   4
       Transparent     =   -1  'True
    End
+   Begin VB.Image imgLBContentBackground 
+      Height          =   375
+      Left            =   10920
+      Stretch         =   -1  'True
+      Top             =   1440
+      Visible         =   0   'False
+      Width           =   495
+   End
+   Begin VB.Image imgBorderBottomRight 
+      Height          =   135
+      Left            =   11040
+      Picture         =   "frmMain.frx":5799
+      Top             =   600
+      Visible         =   0   'False
+      Width           =   135
+   End
+   Begin VB.Image imgBorderBottomLeft 
+      Height          =   135
+      Left            =   10680
+      Picture         =   "frmMain.frx":57E7
+      Top             =   600
+      Visible         =   0   'False
+      Width           =   135
+   End
+   Begin VB.Image imgBorderTopRight 
+      Height          =   135
+      Left            =   11040
+      Picture         =   "frmMain.frx":5833
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   135
+   End
+   Begin VB.Image imgBorderTopLeft 
+      Height          =   135
+      Left            =   10680
+      Picture         =   "frmMain.frx":587F
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   135
+   End
+   Begin VB.Shape pgBorderRight 
+      BackColor       =   &H00C8D0D4&
+      BackStyle       =   1  '투명하지 않음
+      BorderColor     =   &H005F5F5C&
+      Height          =   135
+      Left            =   10680
+      Top             =   1680
+      Visible         =   0   'False
+      Width           =   45
+   End
+   Begin VB.Shape pgBorderLeft 
+      BackColor       =   &H00C8D0D4&
+      BackStyle       =   1  '투명하지 않음
+      BorderColor     =   &H005F5F5C&
+      Height          =   135
+      Left            =   10680
+      Top             =   1440
+      Visible         =   0   'False
+      Width           =   45
+   End
+   Begin VB.Shape pgBorderBottom 
+      BackColor       =   &H00C8D0D4&
+      BackStyle       =   1  '투명하지 않음
+      BorderColor     =   &H005F5F5C&
+      Height          =   45
+      Left            =   10680
+      Top             =   1200
+      Visible         =   0   'False
+      Width           =   615
+   End
+   Begin VB.Shape pgBorderTop 
+      BackColor       =   &H00C8D0D4&
+      BackStyle       =   1  '투명하지 않음
+      BorderColor     =   &H005F5F5C&
+      Height          =   45
+      Left            =   10680
+      Top             =   960
+      Visible         =   0   'False
+      Width           =   615
+   End
    Begin VB.Label lblLBCaption 
       Alignment       =   2  '가운데 맞춤
       BackStyle       =   0  '투명
@@ -1608,6 +1688,7 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
                             FormMinHeight = (8220 + PaddedBorderWidth * 15 * 2) / 15
                             
                             Me.Width = FormWidth * 15
+                            Form_Resize
                             
                             On Error Resume Next
                             Dim ctrl As Control
@@ -2926,10 +3007,10 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
                 imgBackground.Move IIf(ImageCentered, (Me.Width - imgBackground.Width) \ 2, 0), 0, Width / Height * Me.Height, Me.Height
             Case 2 '너비에 맞추기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
-                imgBackground.Move 0, IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - 480) - imgBackground.Height) \ 2, 0), Me.Width, Height / Width * Me.Width
+                imgBackground.Move 0, IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - CaptionHeight * 15 - 15) - imgBackground.Height) \ 2, 0), Me.Width, Height / Width * Me.Width
             Case 3 '원본 크기
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
-                imgBackground.Move IIf(ImageCentered, (Me.Width - imgBackground.Width) \ 2, 0), IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - 480) - imgBackground.Height) \ 2, 0), Width, Height
+                imgBackground.Move IIf(ImageCentered, (Me.Width - imgBackground.Width) \ 2, 0), IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - CaptionHeight * 15 - 15) - imgBackground.Height) \ 2, 0), Width, Height
             Case 7 '바둑판식
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
                 imgBackground.Move -Width, -Height, Width, Height
@@ -3168,6 +3249,32 @@ Sub LoadLiveBadukSkin()
         End If
         
         cbWhenExist.Width = 1305
+        
+        If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", 1) <> 0 Then
+            imgBorderTopLeft.Visible = True
+            imgBorderTopRight.Visible = True
+            imgBorderBottomLeft.Visible = True
+            imgBorderBottomRight.Visible = True
+            pgBorderLeft.Visible = True
+            pgBorderTop.Visible = True
+            pgBorderRight.Visible = True
+            pgBorderBottom.Visible = True
+        Else
+            imgBorderTopLeft.Visible = False
+            imgBorderTopRight.Visible = False
+            imgBorderBottomLeft.Visible = False
+            imgBorderBottomRight.Visible = False
+            pgBorderLeft.Visible = False
+            pgBorderTop.Visible = False
+            pgBorderRight.Visible = False
+            pgBorderBottom.Visible = False
+        End If
+        
+        If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableContentBackground", 0) <> 0 Then
+            imgLBContentBackground.Visible = True
+        Else
+            imgLBContentBackground.Visible = False
+        End If
     Else
         fTygemFrameTransparent.Visible = 0
         imgTopLeft.Visible = 0
@@ -3221,6 +3328,17 @@ Sub LoadLiveBadukSkin()
         lblThreadCountLabel.Font.Bold = False
         
         cbWhenExist.Width = 1185
+        
+        imgBorderTopLeft.Visible = False
+        imgBorderTopRight.Visible = False
+        imgBorderBottomLeft.Visible = False
+        imgBorderBottomRight.Visible = False
+        pgBorderLeft.Visible = False
+        pgBorderTop.Visible = False
+        pgBorderRight.Visible = False
+        pgBorderBottom.Visible = False
+        
+        imgLBContentBackground.Visible = False
     End If
     
     SetFormBackgroundColor Me
@@ -3856,6 +3974,7 @@ Private Sub Form_Resize()
     If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
     If Me.WindowState = 1 Then Exit Sub
     On Error Resume Next
+    
     lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
     cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
@@ -3865,6 +3984,28 @@ Private Sub Form_Resize()
     cmdStartBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdStopBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdEdit.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    
+    imgBorderTopLeft.Left = 0
+    imgBorderTopLeft.Top = 0
+    imgBorderTopRight.Top = 0
+    imgBorderTopRight.Left = Me.Width - imgBorderTopRight.Width - SizingBorderWidth * 15 * 2
+    imgBorderBottomLeft.Left = 0
+    imgBorderBottomLeft.Top = Me.Height - sbStatusBar.Height - imgBorderBottomLeft.Height - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    imgBorderBottomRight.Left = Me.Width - imgBorderBottomRight.Width - SizingBorderWidth * 15 * 2
+    imgBorderBottomRight.Top = Me.Height - sbStatusBar.Height - imgBorderBottomRight.Height - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    pgBorderTop.Left = 0
+    pgBorderTop.Top = -15
+    pgBorderTop.Width = Me.Width
+    pgBorderBottom.Left = 0
+    pgBorderBottom.Top = Me.Height - sbStatusBar.Height - 30 - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    pgBorderBottom.Width = Me.Width
+    pgBorderLeft.Left = -15
+    pgBorderLeft.Top = 0
+    pgBorderLeft.Height = Me.Height
+    pgBorderRight.Top = 0
+    pgBorderRight.Left = Me.Width - 30 - SizingBorderWidth * 15 * 2
+    pgBorderRight.Height = Me.Height
+    
     SetBackgroundPosition
 End Sub
 

@@ -1681,9 +1681,10 @@ Function GetStrFromPtr(ByVal Ptr As Long) As String
 End Function
 
 Sub UpdateBorderWidth()
-    Startup.DialogBorderWidth = GetSystemMetrics(8)
-    Startup.SizingBorderWidth = GetSystemMetrics(33)
+    Startup.DialogBorderWidth = GetSystemMetrics(8&)
+    Startup.SizingBorderWidth = GetSystemMetrics(33&)
     Startup.PaddedBorderWidth = SizingBorderWidth - DialogBorderWidth
+    Startup.CaptionHeight = GetSystemMetrics(31&)
 End Sub
 
 Function ExpandEnvironmentStrings(ByVal strInput As String) As String

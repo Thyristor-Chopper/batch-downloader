@@ -1526,6 +1526,11 @@ Private Sub cbSkin_Click()
         FrameW5.ForeColor = pgFore.BackColor
     End If
     cmdAdvancedSkin.Enabled = (cbSkin.ListIndex = 2)
+    If Not cmdSample.VisualStyles Then
+        RemoveVisualStyles TextBoxW1.hWnd
+    Else
+        ActivateVisualStyles TextBoxW1.hWnd
+    End If
 End Sub
 
 Private Sub cbWhenExist_Click()
@@ -2764,8 +2769,6 @@ Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
 End Sub
 
 Sub SetPreviewPosition()
-    Dim CaptionHeight As Long
-    CaptionHeight = GetSystemMetrics(31&)
     Dim Left%, Top%, Width%, Height%
     Left = 30
     Top = 6
