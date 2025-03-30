@@ -4018,20 +4018,7 @@ End Sub
 'End Sub
 
 Private Sub Form_Resize()
-    If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
-    If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
-    If Me.WindowState = 1 Then Exit Sub
     On Error Resume Next
-    
-    lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
-    cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
-    cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
-    cmdAdd.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
-    cmdDelete.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
-    cmdDeleteDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
-    cmdStartBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
-    cmdStopBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
-    cmdEdit.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     
     imgBorderTopLeft.Left = 0
     imgBorderTopLeft.Top = 0
@@ -4053,6 +4040,20 @@ Private Sub Form_Resize()
     pgBorderRight.Top = 0
     pgBorderRight.Left = Me.Width - 30 - SizingBorderWidth * 15 * 2
     pgBorderRight.Height = Me.Height
+    
+    If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
+    If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
+    If Me.WindowState = 1 Then Exit Sub
+    
+    lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
+    cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdAdd.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdDelete.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdDeleteDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdStartBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdStopBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdEdit.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     
     SetBackgroundPosition
 End Sub

@@ -1167,6 +1167,14 @@ Begin VB.Form frmOptions
             _ExtentY        =   3281
             Caption         =   "다운로드 부스터"
             MaximizeBox     =   0   'False
+            Begin VB.TextBox txtSampleClassic 
+               Height          =   270
+               Left            =   1080
+               TabIndex        =   123
+               Top             =   105
+               Visible         =   0   'False
+               Width           =   2415
+            End
             Begin prjDownloadBooster.CheckBoxW CheckBoxW1 
                Height          =   255
                Left            =   120
@@ -1179,10 +1187,10 @@ Begin VB.Form frmOptions
                Transparent     =   -1  'True
             End
             Begin VB.TextBox TextBoxW1 
-               Height          =   255
+               Height          =   270
                Left            =   1080
                TabIndex        =   116
-               Top             =   120
+               Top             =   105
                Width           =   2415
             End
             Begin prjDownloadBooster.FrameW FrameW5 
@@ -1563,10 +1571,11 @@ Private Sub cbSkin_Click()
     cmdSample.IsTygemButton = (cbSkin.ListIndex = 2)
     cmdSample.Refresh
     pbSampleClassic.Visible = Not cmdSample.VisualStyles
+    txtSampleClassic.Visible = (cbSkin.ListIndex = 1)
     Dim ctrl As Control
     On Error Resume Next
     For Each ctrl In Me.Controls
-        If ctrl.Container Is pbBackground And ctrl.Name <> "cmdSample" And ctrl.Name <> "pbSample" And ctrl.Name <> "pbSampleClassic" Then
+        If ctrl.Container Is pbBackground And ctrl.Name <> "cmdSample" And ctrl.Name <> "pbSample" And ctrl.Name <> "pbSampleClassic" And ctrl.Name <> "txtSampleClassic" Then
             ctrl.VisualStyles = cmdSample.VisualStyles
         End If
     Next ctrl
@@ -1585,11 +1594,6 @@ Private Sub cbSkin_Click()
         FrameW5.ForeColor = pgFore.BackColor
     End If
     cmdAdvancedSkin.Enabled = (cbSkin.ListIndex = 2)
-    If Not cmdSample.VisualStyles Then
-        RemoveVisualStyles TextBoxW1.hWnd
-    Else
-        ActivateVisualStyles TextBoxW1.hWnd
-    End If
 End Sub
 
 Private Sub cbWhenExist_Click()
@@ -2312,6 +2316,8 @@ Private Sub Form_Load()
     lblSelectFore.Left = pgFore.Left
     lblSelectFore.Width = pgFore.Width
     lblSelectFore.Height = pgFore.Height
+    
+    RemoveVisualStyles txtSampleClassic.hWnd
     
     Dim i%
     Dim MaxWidth%, MaxHeight%
