@@ -3270,8 +3270,21 @@ Sub LoadLiveBadukSkin()
             pgBorderBottom.Visible = False
         End If
         
-        If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableContentBackground", 0) <> 0 Then
+        If LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent")) = "texture" Then
             imgLBContentBackground.Visible = True
+            Dim FrameBackgroundPath$
+            FrameBackgroundPath = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
+            If FileExists(FrameBackgroundPath) Then
+                If LCase(Right$(FrameBackgroundPath, 4)) = ".png" Then
+                    Set imgLBContentBackground.Picture = LoadPngIntoPictureWithAlpha(FrameBackgroundPath)
+                Else
+                    imgLBContentBackground.Picture = LoadPicture(FrameBackgroundPath)
+                End If
+            End If
+            imgLBContentBackground.Top = imgTopLeft.Top + imgTopLeft.Height + IIf(fTygemFrameTransparent.Visible, 0, 15)
+            imgLBContentBackground.Left = imgLeft.Left + 150
+            imgLBContentBackground.Width = 6195 - IIf(fTygemFrameTransparent.Visible, 0, 45)
+            imgLBContentBackground.Height = 4215 - IIf(fTygemFrameTransparent.Visible, 0, 30)
         Else
             imgLBContentBackground.Visible = False
         End If

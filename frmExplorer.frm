@@ -760,7 +760,7 @@ Sub ListFiles()
                             li.Selected = True
                             li.EnsureVisible
                         End If
-                    ElseIf Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Then
+                    ElseIf Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
                         If LCase(Name) = LCase(GetFilename(Tags.BrowsePresetPath)) Then
                             li.Selected = True
                             li.EnsureVisible
@@ -904,6 +904,9 @@ setpreview:
     ElseIf Tags.BrowseTargetForm = 5 Then
         fmpth = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", "")
         GoTo setpreview
+    ElseIf Tags.BrowseTargetForm = 6 Then
+        fmpth = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
+        GoTo setpreview
     Else
         If Tags.BrowsePresetPath = "" Then
             fmpth = Trim$(frmMain.txtFileName.Text)
@@ -963,7 +966,7 @@ setpreview:
     Me.Caption = t(Me.Caption, "Select download path")
     If Tags.BrowseTargetForm = 3 Then Me.Caption = t("배경 사진 선택", "Choose background image")
     If Tags.BrowseTargetForm = 4 Then Me.Caption = t("효과음 선택", "Choose sound")
-    If Tags.BrowseTargetForm = 5 Then Me.Caption = t("텍스처 선택", "Choose texture")
+    If Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then Me.Caption = t("텍스처 선택", "Choose texture")
     chkShowFiles.Visible = (Tags.BrowseTargetForm = 2)
     chkShowFiles.Caption = t(chkShowFiles.Caption, "&Show files")
     Label5.Caption = t(Label5.Caption, "Preview:")
@@ -1001,7 +1004,7 @@ setpreview:
     lvDir.Path = Path
     selFileType_Click
     
-    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Then
+    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
         'Me.Height = 8280
     Else
         Me.Height = 6165
@@ -1024,7 +1027,7 @@ setpreview:
     On Error Resume Next
     Me.Icon = frmMain.Icon
     Me.Width = GetSetting("DownloadBooster", "UserData", "ComdlgWidth", 10245) + PaddedBorderWidth * 15 * 2
-    Me.Height = GetSetting("DownloadBooster", "UserData", "ComdlgHeight", 6165) + IIf(Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5, 8835 - 6165, 0) + PaddedBorderWidth * 15 * 2
+    Me.Height = GetSetting("DownloadBooster", "UserData", "ComdlgHeight", 6165) + IIf(Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6, 8835 - 6165, 0) + PaddedBorderWidth * 15 * 2
     
     AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
@@ -1153,7 +1156,7 @@ Sub Form_Resize()
     cmdViews.Left = Me.Width - PaddedBorderWidth * 15 * 2 - 495 - 120 - 30 - 120
     lvFiles.Width = Me.Width - PaddedBorderWidth * 15 * 2 - (9870 - 7935)
     CancelButton.Left = Me.Width - PaddedBorderWidth * 15 * 2 - CancelButton.Width - 120 - 120 - 15
-    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Then
+    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
         lvFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - (8835 - 3960)
     Else
         lvFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - (6165 - 3960)
@@ -1191,7 +1194,7 @@ Private Sub Form_Unload(Cancel As Integer)
     End If
     If Me.WindowState = 0 Then
         SaveSetting "DownloadBooster", "UserData", "ComdlgWidth", Me.Width - PaddedBorderWidth * 15 * 2
-        SaveSetting "DownloadBooster", "UserData", "ComdlgHeight", Me.Height - PaddedBorderWidth * 15 * 2 - IIf(Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5, 8835 - 6165, 0)
+        SaveSetting "DownloadBooster", "UserData", "ComdlgHeight", Me.Height - PaddedBorderWidth * 15 * 2 - IIf(Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6, 8835 - 6165, 0)
     End If
     
     DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
@@ -1220,7 +1223,7 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
             lpMMI.ptMinTrackSize.X = (10245 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
-            lpMMI.ptMinTrackSize.Y = (IIf(Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5, 8835, 6165) + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = (IIf(Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6, 8835, 6165) + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
             lpMMI.ptMaxTrackSize.X = (Screen.Width + 1200) * (DPI / 96)
             lpMMI.ptMaxTrackSize.Y = (Screen.Height + 1200) * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
@@ -1477,7 +1480,7 @@ Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Inte
                 lvDir.Path = LnkPath
                 If Tags.BrowseTargetForm = 2 Then txtFileName.Text = ""
             End If
-        ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Then
+        ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
             OKButton_Click
         End If
     ElseIf Item.IconIndex > 2 And Item.IconIndex <= 10 Then
@@ -1507,7 +1510,7 @@ retrydrive:
 folderinaccessible:
             Alert t("폴더가 존재하지 않거나 접근 권한이 없습니다.", "The folder does not exist or there are no permission to access it."), App.Title, 16
         End If
-    ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Then
+    ElseIf (frmMain.cbWhenExist.ListIndex <> 0 And Tags.BrowseTargetForm <> 2) Or Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
         OKButton_Click
     End If
 End Sub
@@ -1524,7 +1527,7 @@ Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
     If Item.IconIndex = 1 Or (Item.IconIndex > 2 And Item.IconIndex <= 10) Then Exit Sub
     If Tags.BrowseTargetForm <> 2 Then txtFileName.Text = Item.Text
     
-    If (Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5) And Item.IconIndex <> 1 And (Not IsMyComputer) Then
+    If (Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6) And Item.IconIndex <> 1 And (Not IsMyComputer) Then
         On Error Resume Next
         Dim Path$
         Path = lvDir.Path
@@ -1821,7 +1824,7 @@ Private Sub OKButton_Click()
         End If
     End If
     
-    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Then
+    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
         If FolderExists(txtFileName.Text) Then
             If LoadFinished Then
                 txtFileName.SelStart = 0
@@ -1881,7 +1884,7 @@ Private Sub OKButton_Click()
     End If
     On Error GoTo 0
     
-    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Then
+    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
         Path = lvDir.Path
         If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
         If Not FileExists(Path & txtFileName.Text) Then
@@ -1922,9 +1925,20 @@ imgerr:
         frmLiveBadukSkinProperties.optTexture.Value = True
         Unload Me
         Exit Sub
+    ElseIf Tags.BrowseTargetForm = 6 Then
+        On Error GoTo imgerr
+        If LCase(Right$(txtFileName.Text, 4)) = ".png" Then
+            LoadPngIntoPictureWithAlpha Path & txtFileName.Text
+        Else
+            LoadPicture Path & txtFileName.Text
+        End If
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", Path & txtFileName.Text
+        frmLiveBadukSkinProperties.optFrameTexture.Value = True
+        Unload Me
+        Exit Sub
     End If
     
-    If (Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5) And txtFileName.Text = "" Then Exit Sub
+    If (Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6) And txtFileName.Text = "" Then Exit Sub
     
     Dim IsColonPresent As Boolean
     If Len(txtFileName.Text) > 3 And Mid$(txtFileName.Text, 2, 2) = ":\" Then
