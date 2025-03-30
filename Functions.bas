@@ -1089,7 +1089,7 @@ Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As
     MessageBox.optYes.Caption = t("예(&Y)", "&Yes")
     MessageBox.optNo.Caption = t("아니요(&N)", "&No")
     
-    MessageBox.cmdOK.Visible = (MsgBoxMode = 1 Or MsgBoxMode = 3 Or MsgBoxMode = 4 Or MsgBoxMode = 7)
+    MessageBox.cmdOK.Visible = (MsgBoxMode = 1 Or MsgBoxMode = 3 Or MsgBoxMode = 7)
     MessageBox.cmdCancel.Visible = (MsgBoxMode = 3 Or MsgBoxMode = 4 Or MsgBoxMode = 6 Or MsgBoxMode = 7)
     MessageBox.cmdYes.Visible = (MsgBoxMode = 2 Or MsgBoxMode = 4)
     MessageBox.cmdNo.Visible = (MsgBoxMode = 2 Or MsgBoxMode = 4)
