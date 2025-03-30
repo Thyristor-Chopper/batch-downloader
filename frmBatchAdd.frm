@@ -27,9 +27,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   7
       Top             =   900
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   609
-      Caption         =   "고급(&V)..."
+      _extentx        =   2355
+      _extenty        =   609
+      caption         =   "고급(&V)..."
    End
    Begin VB.TextBox txtSavePath 
       Height          =   255
@@ -54,9 +54,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   6
       Top             =   510
       Width           =   1335
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "취소"
+      _extentx        =   0
+      _extenty        =   0
+      caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
       Height          =   340
@@ -64,9 +64,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   5
       Top             =   120
       Width           =   1335
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "확인"
+      _extentx        =   0
+      _extenty        =   0
+      caption         =   "확인"
    End
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   330
@@ -74,9 +74,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   4
       Top             =   3360
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   582
-      Caption         =   "찾아보기(&B)..."
+      _extentx        =   2355
+      _extenty        =   582
+      caption         =   "찾아보기(&B)..."
    End
    Begin VB.Label Label2 
       BackStyle       =   0  '투명
@@ -88,6 +88,7 @@ Begin VB.Form frmBatchAdd
       Width           =   2775
    End
    Begin VB.Label Label1 
+      BackStyle       =   0  '투명
       Caption         =   "각 줄에 파일 주소를 입력하십시오(&L)."
       Height          =   255
       Left            =   120
@@ -185,7 +186,7 @@ Private Sub Form_Load()
     Label1.Caption = t(Label1.Caption, "Enter one UR&L per line:")
     Label2.Caption = t(Label2.Caption, "&Save to:")
     cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
-    tR cmdAdvanced, "Ad&vanced..."
+    tr cmdAdvanced, "Ad&vanced..."
     
     HeaderCache = ""
     

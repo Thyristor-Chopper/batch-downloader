@@ -6,7 +6,6 @@ Begin VB.Form frmLiveBadukSkinProperties
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   5415
-   ControlBox      =   0   'False
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -32,7 +31,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Width           =   2295
       _ExtentX        =   4048
       _ExtentY        =   450
-      Caption         =   "테두리 표시(&W)"
+      Caption         =   "쪽지 테두리 표시(&W)"
    End
    Begin prjDownloadBooster.FrameW fFrameBackground 
       Height          =   975
@@ -169,7 +168,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Width           =   5055
       _ExtentX        =   8916
       _ExtentY        =   2355
-      Caption         =   " 프레임 "
+      Caption         =   " 프레임 테두리 "
       Begin prjDownloadBooster.CommandButtonW cmdSelectTexture 
          Height          =   330
          Left            =   1560
@@ -198,7 +197,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          Width           =   1335
          _ExtentX        =   0
          _ExtentY        =   0
-         Caption         =   "색(&C):"
+         Caption         =   "단색(&C):"
       End
       Begin prjDownloadBooster.OptionButtonW optTransparent 
          Height          =   255

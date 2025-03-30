@@ -486,6 +486,9 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     If clrBackColor < 0 Or clrBackColor > 16777215 Then
         If frmForm.BackColor <> &H8000000F Then frmForm.BackColor = &H8000000F
         clrBackColor = &H8000000F
+    ElseIf GetSetting("DownloadBooster", "Options", "BackColorMainOnly", 0) <> 0 And (Not frmForm Is frmMain) Then
+        frmForm.BackColor = &H8000000F
+        clrBackColor = &H8000000F
     Else
         frmForm.BackColor = clrBackColor
     End If
@@ -495,6 +498,10 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     If clrForeColor < 0 Or clrForeColor > 16777215 Then
         If frmForm.ForeColor <> &H80000012 Then frmForm.ForeColor = &H80000012
         clrForeColor = &H80000012
+    ElseIf GetSetting("DownloadBooster", "Options", "ForeColorMainOnly", 0) <> 0 And (Not frmForm Is frmMain) Then
+        frmForm.ForeColor = &H80000012
+        clrForeColor = &H80000012
+        IsSystemColor = True
     Else
         frmForm.ForeColor = clrForeColor
     End If
