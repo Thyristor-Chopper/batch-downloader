@@ -20,6 +20,16 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   11715
    StartUpPosition =   3  'Windows ±âº»°ª
+   Begin VB.PictureBox pbDummy 
+      AutoRedraw      =   -1  'True
+      Height          =   135
+      Left            =   10680
+      ScaleHeight     =   75
+      ScaleWidth      =   75
+      TabIndex        =   84
+      Top             =   1920
+      Width           =   135
+   End
    Begin prjDownloadBooster.FrameW fTygemFrameTransparent 
       Height          =   4845
       Left            =   10560
@@ -3111,6 +3121,9 @@ Sub LoadLiveBadukSkin()
     Dim LBEnabled As Boolean
     LBEnabled = (CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96)
     If LBEnabled Then
+        Dim SolidFrameVisible As Boolean
+        SolidFrameVisible = False
+        
         LoadPNG
         imgLeft.Visible = -1
         imgCenter.Visible = -1
@@ -3138,6 +3151,7 @@ Sub LoadLiveBadukSkin()
                 imgBottomLeft.Visible = 0
                 imgBottomRight.Visible = 0
                 fTygemFrameTransparent.Visible = -1
+                SolidFrameVisible = True
                 If imgLeft.Picture.Width = 0 Then imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
                 If imgCenter.Picture.Width = 0 Then imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
                 imgLeft.Height = imgLeft.Height + 30
@@ -3270,24 +3284,34 @@ Sub LoadLiveBadukSkin()
             pgBorderBottom.Visible = False
         End If
         
-        If LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent")) = "texture" Then
-            imgLBContentBackground.Visible = True
-            Dim FrameBackgroundPath$
-            FrameBackgroundPath = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
-            If FileExists(FrameBackgroundPath) Then
-                If LCase(Right$(FrameBackgroundPath, 4)) = ".png" Then
-                    Set imgLBContentBackground.Picture = LoadPngIntoPictureWithAlpha(FrameBackgroundPath)
+        Dim FrameBackgroundType$
+        FrameBackgroundType = LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent"))
+        Select Case FrameBackgroundType
+            Case "texture", "solidcolor"
+                imgLBContentBackground.Visible = True
+                If FrameBackgroundType = "texture" Then
+                    Dim FrameBackgroundPath$
+                    FrameBackgroundPath = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
+                    If FileExists(FrameBackgroundPath) Then
+                        If LCase(Right$(FrameBackgroundPath, 4)) = ".png" Then
+                            Set imgLBContentBackground.Picture = LoadPngIntoPictureWithAlpha(FrameBackgroundPath)
+                        Else
+                            imgLBContentBackground.Picture = LoadPicture(FrameBackgroundPath)
+                        End If
+                    Else
+                        GoTo framecolorbackground
+                    End If
                 Else
-                    imgLBContentBackground.Picture = LoadPicture(FrameBackgroundPath)
+framecolorbackground:
+                    Set imgLBContentBackground.Picture = GenerateSolidColor(CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", 16777215)))
                 End If
-            End If
-            imgLBContentBackground.Top = imgTopLeft.Top + imgTopLeft.Height + IIf(fTygemFrameTransparent.Visible, 0, 15)
-            imgLBContentBackground.Left = imgLeft.Left + 150
-            imgLBContentBackground.Width = 6195 - IIf(fTygemFrameTransparent.Visible, 0, 45)
-            imgLBContentBackground.Height = 4215 - IIf(fTygemFrameTransparent.Visible, 0, 30)
-        Else
-            imgLBContentBackground.Visible = False
-        End If
+                imgLBContentBackground.Top = imgTopLeft.Top + imgTopLeft.Height + IIf(fTygemFrameTransparent.Visible, 0, 15)
+                imgLBContentBackground.Left = imgLeft.Left + 150
+                imgLBContentBackground.Width = 6195 - IIf(SolidFrameVisible, 0, 45)
+                imgLBContentBackground.Height = 4215 - IIf(SolidFrameVisible, 0, 30)
+            Case Else
+                imgLBContentBackground.Visible = False
+        End Select
     Else
         fTygemFrameTransparent.Visible = 0
         imgTopLeft.Visible = 0
@@ -3406,6 +3430,17 @@ Private Sub cmdYtdlTest_Click()
     StartYtdlDownload
 End Sub
 #End If
+
+Function GenerateSolidColor(ByVal Color As Long) As IPictureDisp
+    pbDummy.Cls
+    pbDummy.DrawWidth = 5
+    pbDummy.Width = 15
+    pbDummy.Height = 15
+    pbDummy.Line (0, 0)-(15, 15), Color
+    pbDummy.Refresh
+    Set GenerateSolidColor = pbDummy.Image
+    pbDummy.Cls
+End Function
 
 Sub SetTitle(Optional ByVal Title As String = "")
     If Title = "" Then

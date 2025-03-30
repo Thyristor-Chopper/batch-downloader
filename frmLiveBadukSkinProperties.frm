@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmLiveBadukSkinProperties 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "라이브 바둑 쪽지 스킨 등록 정보"
-   ClientHeight    =   4665
+   ClientHeight    =   4905
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   5415
@@ -19,34 +19,44 @@ Begin VB.Form frmLiveBadukSkinProperties
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4665
+   ScaleHeight     =   4905
    ScaleWidth      =   5415
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin prjDownloadBooster.CheckBoxW chkEnableBorders 
       Height          =   255
       Left            =   240
-      TabIndex        =   15
-      Top             =   3720
+      TabIndex        =   17
+      Top             =   4080
       Width           =   2295
       _ExtentX        =   4048
       _ExtentY        =   450
       Caption         =   "쪽지 테두리 표시(&W)"
    End
    Begin prjDownloadBooster.FrameW fFrameBackground 
-      Height          =   975
+      Height          =   1335
       Left            =   120
       TabIndex        =   11
       Top             =   2640
       Width           =   5055
       _ExtentX        =   8916
-      _ExtentY        =   1720
+      _ExtentY        =   2355
       Caption         =   " 프레임 배경 "
+      Begin prjDownloadBooster.OptionButtonW optBackgroundColor 
+         Height          =   255
+         Left            =   120
+         TabIndex        =   13
+         Top             =   600
+         Width           =   1695
+         _ExtentX        =   2990
+         _ExtentY        =   450
+         Caption         =   "단색(&O):"
+      End
       Begin prjDownloadBooster.CommandButtonW cmdSelectFrameTexture 
          Height          =   330
-         Left            =   1560
-         TabIndex        =   14
-         Top             =   570
+         Left            =   1920
+         TabIndex        =   16
+         Top             =   900
          Width           =   1455
          _ExtentX        =   2566
          _ExtentY        =   582
@@ -55,8 +65,8 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.OptionButtonW optFrameTexture 
          Height          =   255
          Left            =   120
-         TabIndex        =   13
-         Top             =   600
+         TabIndex        =   15
+         Top             =   960
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   450
@@ -72,6 +82,33 @@ Begin VB.Form frmLiveBadukSkinProperties
          _ExtentY        =   450
          Value           =   -1  'True
          Caption         =   "반투명(&R)"
+      End
+      Begin VB.Label lblFrameBackgroundColorSelect 
+         BackStyle       =   0  '투명
+         BeginProperty Font 
+            Name            =   "돋움"
+            Size            =   9
+            Charset         =   129
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   2520
+         TabIndex        =   14
+         Top             =   600
+         Width           =   855
+      End
+      Begin VB.Shape pgFrameBackgroundColor 
+         BackStyle       =   1  '투명하지 않음
+         BorderColor     =   &H00404040&
+         FillColor       =   &H00808080&
+         Height          =   255
+         Left            =   1920
+         Shape           =   4  '둥근 사각형
+         Top             =   600
+         Width           =   615
       End
    End
    Begin prjDownloadBooster.FrameW fText 
@@ -171,7 +208,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Caption         =   " 프레임 테두리 "
       Begin prjDownloadBooster.CommandButtonW cmdSelectTexture 
          Height          =   330
-         Left            =   1560
+         Left            =   1920
          TabIndex        =   10
          Top             =   930
          Width           =   1455
@@ -215,7 +252,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          BorderColor     =   &H00404040&
          FillColor       =   &H00808080&
          Height          =   255
-         Left            =   1560
+         Left            =   1920
          Shape           =   4  '둥근 사각형
          Top             =   600
          Width           =   615
@@ -242,8 +279,8 @@ Begin VB.Form frmLiveBadukSkinProperties
       Cancel          =   -1  'True
       Height          =   375
       Left            =   3120
-      TabIndex        =   17
-      Top             =   4200
+      TabIndex        =   19
+      Top             =   4440
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -253,8 +290,8 @@ Begin VB.Form frmLiveBadukSkinProperties
       Default         =   -1  'True
       Height          =   375
       Left            =   960
-      TabIndex        =   16
-      Top             =   4200
+      TabIndex        =   18
+      Top             =   4440
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -280,7 +317,8 @@ Private Sub cmdOK_Click()
     SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", chkShadowColor.Value
     SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", chkTextColor.Value
     SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", chkEnableBorders.Value
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", IIf(optFrameTransparent.Value, "transparent", "texture")
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", IIf(optFrameTransparent.Value, "transparent", IIf(optBackgroundColor.Value, "solidcolor", "texture"))
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", CLng(pgFrameBackgroundColor.BackColor)
     frmOptions.ColorChanged = True
     frmOptions.cmdApply.Enabled = -1
     Unload Me
@@ -319,6 +357,11 @@ Private Sub Form_Load()
     lblSelectTextColor.Width = pgText.Width
     lblSelectTextColor.Height = pgText.Height
     pgText.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 0))
+    lblFrameBackgroundColorSelect.Top = pgFrameBackgroundColor.Top
+    lblFrameBackgroundColorSelect.Left = pgFrameBackgroundColor.Left
+    lblFrameBackgroundColorSelect.Width = pgFrameBackgroundColor.Width
+    lblFrameBackgroundColorSelect.Height = pgFrameBackgroundColor.Height
+    pgFrameBackgroundColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", 16777215))
     chkShadowColor.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", 1))
     chkTextColor.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0))
     Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "transparent"))
@@ -332,6 +375,8 @@ Private Sub Form_Load()
     Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent"))
         Case "texture"
             optFrameTexture.Value = True
+        Case "solidcolor"
+            optBackgroundColor.Value = True
         Case Else
             optFrameTransparent.Value = True
     End Select
@@ -353,6 +398,15 @@ Private Sub Form_Load()
     tr optFrameTexture, "Text&ure:"
     tr chkEnableBorders, "Sho&w borders"
     tr cmdSelectFrameTexture, "Se&lect..."
+    tr optBackgroundColor, "C&olor:"
+End Sub
+
+Private Sub lblFrameBackgroundColorSelect_Click()
+    Dim Color As OLE_COLOR
+    Color = ShowColorDialog(Me.hWnd, True, pgFrameBackgroundColor.BackColor)
+    If Color = -1 Then Exit Sub
+    pgFrameBackgroundColor.BackColor = Color
+    optBackgroundColor.Value = True
 End Sub
 
 Private Sub lblSelectFrameColor_Click()
