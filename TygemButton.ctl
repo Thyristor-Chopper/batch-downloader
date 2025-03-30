@@ -23,6 +23,13 @@ Begin VB.UserControl TygemButton
       Left            =   1200
       Top             =   0
    End
+   Begin VB.Line Line11 
+      BorderColor     =   &H0004D1FD&
+      X1              =   30
+      X2              =   45
+      Y1              =   30
+      Y2              =   45
+   End
    Begin VB.Image imgOverlay 
       Height          =   375
       Left            =   0
@@ -205,9 +212,11 @@ Private Sub MouseOut()
     If m_Enabled Then
         Line1.BorderColor = IIf(m_SplitRight, RGB(252, 251, 164), RGB(253, 209, 4))
         Line2.BorderColor = RGB(253, 209, 4)
+        Line11.BorderColor = RGB(253, 209, 4)
     Else
         Line1.BorderColor = IIf(m_SplitRight, RGB(215, 214, 215), RGB(198, 198, 198))
         Line2.BorderColor = RGB(198, 198, 198)
+        Line11.BorderColor = RGB(198, 198, 198)
     End If
     If m_Enabled Then
         lblCaption.ForeColor = &H0&
@@ -229,11 +238,13 @@ Property Let Enabled(ByVal New_Enabled As Boolean)
         imgCenter(2).Visible = 0
         Line1.BorderColor = IIf(m_SplitRight, RGB(252, 251, 164), RGB(253, 209, 4))
         Line2.BorderColor = RGB(253, 209, 4)
+        Line11.BorderColor = RGB(253, 209, 4)
     Else
         lblCaption.ForeColor = RGB(128, 128, 128)
         imgCenter(2).Visible = -1
         Line1.BorderColor = IIf(m_SplitRight, RGB(215, 214, 215), RGB(198, 198, 198))
         Line2.BorderColor = RGB(198, 198, 198)
+        Line11.BorderColor = RGB(198, 198, 198)
     End If
 End Property
 
@@ -279,6 +290,7 @@ Private Sub SetSplitRight()
     Line4.Visible = Not m_SplitRight
     Line5.Visible = Not m_SplitRight
     Line8.Visible = Not m_SplitRight
+    Line11.Visible = Not m_SplitRight
     Dim i%
     If m_SplitRight Then
         Line3.X1 = 0
@@ -429,6 +441,7 @@ Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Singl
         imgCenter(1).Visible = -1
         Line1.BorderColor = IIf(m_SplitRight, RGB(207, 252, 162), RGB(179, 252, 53))
         Line2.BorderColor = RGB(179, 252, 53)
+        Line11.BorderColor = RGB(179, 252, 53)
     End If
     If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = 255
 End Sub
@@ -518,11 +531,13 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
         imgCenter(2).Visible = 0
         Line1.BorderColor = IIf(m_SplitRight, RGB(252, 251, 164), RGB(253, 209, 4))
         Line2.BorderColor = RGB(253, 209, 4)
+        Line11.BorderColor = RGB(253, 209, 4)
     Else
         lblCaption.ForeColor = RGB(128, 128, 128)
         imgCenter(2).Visible = -1
         Line1.BorderColor = IIf(m_SplitRight, RGB(215, 214, 215), RGB(198, 198, 198))
         Line2.BorderColor = RGB(198, 198, 198)
+        Line11.BorderColor = RGB(198, 198, 198)
     End If
     lblCaption.Caption = Trim$(m_Caption)
     UserControl.BackColor = m_BackColor

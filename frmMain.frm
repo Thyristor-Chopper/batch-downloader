@@ -3070,6 +3070,7 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
             Next i
         End If
         If ImagePosition < 2 Or ImagePosition = 4 Or ForceRefresh Or ImageCentered Then
+dorefresh:
             On Error Resume Next
             fOptions.Refresh
             chkOpenAfterComplete.Refresh
@@ -3087,6 +3088,8 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
             optTabDownload2.Refresh
             optTabThreads2.Refresh
         End If
+    Else
+        GoTo dorefresh
     End If
 End Sub
 
@@ -3110,6 +3113,7 @@ Sub SetBackgroundImage()
                 Set imgBackgroundTile(i) = Nothing
             Next i
         End If
+        SetBackgroundPosition True
     End If
 End Sub
 
