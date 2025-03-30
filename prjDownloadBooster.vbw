@@ -1,4 +1,4 @@
-frmMain = 23, 35, 1097, 698, C, -72, 311, 1182, 1073, C
+frmMain = 160, 31, 1234, 694, C, -72, 311, 1182, 1073, C
 ShellPipe = 0, 0, 0, 0, C, 198, 261, 1268, 920, C
 SPBuffer = 0, 0, 0, 0, C
 Slider = 120, 175, 1263, 842, C, 220, 290, 1290, 949, C
@@ -89,4 +89,4 @@ MTimer = 0, 0, 0, 0, C
 modPicBuddy = 0, 0, 0, 0, C
 ucPicBuddy = 88, 116, 1166, 783, C, 110, 145, 1188, 812, C
 SmallWindow = 176, 232, 1254, 899, C, 73, 185, 1151, 852, C
-frmLiveBadukSkinProperties = 80, 261, 1158, 928, C, 44, 58, 1122, 725, C
+frmLiveBadukSkinProperties = 80, 261, 1158, 928, C, 13, 149, 1091, 816, C

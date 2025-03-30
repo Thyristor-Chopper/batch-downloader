@@ -30,7 +30,7 @@ Begin VB.Form frmMain
       Width           =   6495
       _ExtentX        =   11456
       _ExtentY        =   8546
-      BackColor       =   8421631
+      BackColor       =   12632256
       BorderStyle     =   0
       Caption         =   "FrameW1"
       Begin VB.Label lblLBCaption2 
@@ -3141,22 +3141,29 @@ Sub LoadLiveBadukSkin()
         Label11.Visible = True
         lbOptionsHeader.Visible = True
         
-        Dim ShadowColor As Long
-        ShadowColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", -1))
-        If ShadowColor < 0& Then ShadowColor = 16777215
-        lblLBCaptionShadow.ForeColor = ShadowColor
-        lblLBCaptionShadow2.ForeColor = ShadowColor
-        lblURLShadow.ForeColor = ShadowColor
-        lblFilePathShadow.ForeColor = ShadowColor
-        lblThreadCountLabelShadow.ForeColor = ShadowColor
         lblURL.Font.Bold = True
         lblFilePath.Font.Bold = True
         lblThreadCountLabel.Font.Bold = True
         
-        lblLBCaptionShadow.Visible = -1
-        lblURLShadow.Visible = True
-        lblFilePathShadow.Visible = True
-        lblThreadCountLabelShadow.Visible = True
+        If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", 1) <> 0 Then
+            Dim ShadowColor As Long
+            ShadowColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", 16777215))
+            If ShadowColor < 0& Then ShadowColor = 16777215
+            lblLBCaptionShadow.ForeColor = ShadowColor
+            lblLBCaptionShadow2.ForeColor = ShadowColor
+            lblURLShadow.ForeColor = ShadowColor
+            lblFilePathShadow.ForeColor = ShadowColor
+            lblThreadCountLabelShadow.ForeColor = ShadowColor
+            lblLBCaptionShadow.Visible = True
+            lblURLShadow.Visible = True
+            lblFilePathShadow.Visible = True
+            lblThreadCountLabelShadow.Visible = True
+        Else
+            lblLBCaptionShadow.Visible = False
+            lblURLShadow.Visible = False
+            lblFilePathShadow.Visible = False
+            lblThreadCountLabelShadow.Visible = False
+        End If
         
         cbWhenExist.Width = 1305
     Else
@@ -3240,6 +3247,16 @@ Sub LoadLiveBadukSkin()
         lblTotalSizeThread.ForeColor = &H80000012
         lblRemaining.ForeColor = &H80000012
         lblMergeStatus.ForeColor = &H80000012
+        
+        If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0) <> 0 Then
+            Dim LBTextColor As Long
+            LBTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 0))
+            lblURL.ForeColor = LBTextColor
+            lblFilePath.ForeColor = LBTextColor
+            lblThreadCountLabel.ForeColor = LBTextColor
+            lblLBCaption.ForeColor = LBTextColor
+            lblLBCaption2.ForeColor = LBTextColor
+        End If
     End If
 
     Dim ctrl As Control
