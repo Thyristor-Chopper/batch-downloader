@@ -27,28 +27,32 @@ Begin VB.Form frmLiveBadukSkinProperties
    Begin prjDownloadBooster.FrameW fText 
       Height          =   975
       Left            =   120
-      TabIndex        =   9
+      TabIndex        =   0
       Top             =   120
       Width           =   5055
       _ExtentX        =   8916
       _ExtentY        =   1720
       Caption         =   " 글자 "
       Begin prjDownloadBooster.CheckBoxW chkShadowColor 
-         Caption         =   "그림자 색(&H):"
          Height          =   255
          Left            =   120
-         TabIndex        =   13
+         TabIndex        =   3
          Top             =   600
-         Value           =   1  '확인
          Width           =   1695
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Value           =   1
+         Caption         =   "그림자 색(&H):"
       End
       Begin prjDownloadBooster.CheckBoxW chkTextColor 
-         Caption         =   "글자 색(&X):"
          Height          =   255
          Left            =   120
-         TabIndex        =   12
+         TabIndex        =   1
          Top             =   240
          Width           =   1695
+         _ExtentX        =   0
+         _ExtentY        =   0
+         Caption         =   "글자 색(&X):"
       End
       Begin VB.Label lblSelectTextColor 
          BackStyle       =   0  '투명
@@ -63,7 +67,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          EndProperty
          Height          =   255
          Left            =   2520
-         TabIndex        =   11
+         TabIndex        =   2
          Top             =   240
          Width           =   855
       End
@@ -91,7 +95,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          EndProperty
          Height          =   255
          Left            =   2520
-         TabIndex        =   10
+         TabIndex        =   4
          Top             =   600
          Width           =   855
       End
@@ -109,7 +113,7 @@ Begin VB.Form frmLiveBadukSkinProperties
    Begin prjDownloadBooster.FrameW fFrameColor 
       Height          =   1455
       Left            =   120
-      TabIndex        =   3
+      TabIndex        =   5
       Top             =   1200
       Width           =   5055
       _ExtentX        =   8916
@@ -118,17 +122,17 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.CommandButtonW cmdSelectTexture 
          Height          =   330
          Left            =   1560
-         TabIndex        =   4
+         TabIndex        =   10
          Top             =   930
          Width           =   1455
-         _ExtentX        =   2566
-         _ExtentY        =   582
-         Caption         =   "선택(&S)..."
+         _extentx        =   2566
+         _extenty        =   582
+         caption         =   "선택(&S)..."
       End
       Begin prjDownloadBooster.OptionButtonW optTexture 
          Height          =   255
          Left            =   120
-         TabIndex        =   5
+         TabIndex        =   9
          Top             =   960
          Width           =   1335
          _ExtentX        =   0
@@ -138,7 +142,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.OptionButtonW optColor 
          Height          =   255
          Left            =   120
-         TabIndex        =   6
+         TabIndex        =   7
          Top             =   600
          Width           =   1335
          _ExtentX        =   0
@@ -148,7 +152,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.OptionButtonW optTransparent 
          Height          =   255
          Left            =   120
-         TabIndex        =   7
+         TabIndex        =   6
          Top             =   240
          Width           =   2655
          _ExtentX        =   0
@@ -188,31 +192,23 @@ Begin VB.Form frmLiveBadukSkinProperties
       Cancel          =   -1  'True
       Height          =   375
       Left            =   3120
-      TabIndex        =   2
+      TabIndex        =   12
       Top             =   2760
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      Caption         =   "취소"
+      _extentx        =   2355
+      _extenty        =   661
+      caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
       Default         =   -1  'True
       Height          =   375
       Left            =   960
-      TabIndex        =   1
+      TabIndex        =   11
       Top             =   2760
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      Caption         =   "확인"
-   End
-   Begin VB.CommandButton cmdSelectShadow 
-      Caption         =   "Command1"
-      Height          =   180
-      Left            =   -3720
-      TabIndex        =   0
-      Top             =   120
-      Width           =   90
+      _extentx        =   2355
+      _extenty        =   661
+      caption         =   "확인"
    End
 End
 Attribute VB_Name = "frmLiveBadukSkinProperties"
@@ -236,10 +232,6 @@ Private Sub cmdOK_Click()
     frmOptions.ColorChanged = True
     frmOptions.cmdApply.Enabled = -1
     Unload Me
-End Sub
-
-Private Sub cmdSelectShadow_Click()
-    lblSelectShadow_Click
 End Sub
 
 Private Sub cmdSelectTexture_Click()
