@@ -1050,7 +1050,7 @@ setpreview:
     
     If WinVer >= 6# And Build >= 5048 Then lvFiles.FullRowSelect = True
     
-    If Tags.BrowseTargetForm <> 3 And Tags.BrowseTargetForm <> 5 Then
+    If Tags.BrowseTargetForm <> 3 And Tags.BrowseTargetForm <> 5 And Tags.BrowseTargetForm <> 6 Then
         Label5.Visible = 0
         picPreviewFrame.Visible = 0
     End If
