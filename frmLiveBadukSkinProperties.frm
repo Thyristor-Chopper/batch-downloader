@@ -353,6 +353,7 @@ Private Sub Form_Load()
     tr optFrameTransparent, "Semi-t&ransparent"
     tr optFrameTexture, "Text&ure:"
     tr chkEnableBorders, "Sho&w borders"
+    tr cmdSelectFrameTexture, "Se&lect..."
 End Sub
 
 Private Sub lblSelectFrameColor_Click()
