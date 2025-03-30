@@ -1556,7 +1556,10 @@ Private Sub cbFrameSkin_Click()
 End Sub
 
 Private Sub cbImagePosition_Click()
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        ImageChanged = True
+    End If
 End Sub
 
 Private Sub cbLanguage_Click()
@@ -1878,25 +1881,13 @@ aftermaxtrdcheck:
     Else
         SaveSetting "DownloadBooster", "Options", "Language", 1033
     End If
+    
     SaveSetting "DownloadBooster", "Options", "ImagePosition", cbImagePosition.ListIndex
     frmMain.ImagePosition = cbImagePosition.ListIndex
-    frmMain.SetBackgroundPosition True
     If ImageChanged Then
         SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", chkEnableBackgroundImage.Value
         frmMain.SetBackgroundImage
-        frmMain.fOptions.Refresh
-        Dim VSEnabled As Boolean
-        VSEnabled = frmMain.trThreadCount.VisualStyles
-        frmMain.trThreadCount.VisualStyles = False
-        frmMain.trThreadCount.VisualStyles = True
-        frmMain.trThreadCount.VisualStyles = False
-        frmMain.trThreadCount.VisualStyles = VSEnabled
-        frmMain.chkOpenAfterComplete.Refresh
-        frmMain.chkOpenFolder.Refresh
-        frmMain.chkContinueDownload.Refresh
-        frmMain.chkAutoRetry.Refresh
-        frmMain.optTabDownload2.Refresh
-        frmMain.optTabThreads2.Refresh
+        frmMain.SetBackgroundPosition True
     End If
     
     If Trim$(txtNodePath.Text) <> "" Then

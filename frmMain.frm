@@ -3076,15 +3076,13 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
             chkOpenFolder.Refresh
             chkContinueDownload.Refresh
             chkAutoRetry.Refresh
-            If Not imgTopLeft.Visible Then
+            If Not imgLeft.Visible Then
                 Frame4.Refresh
                 fTotal.Refresh
             End If
             Dim VSEnabled As Boolean
             VSEnabled = trThreadCount.VisualStyles
-            trThreadCount.VisualStyles = False
-            trThreadCount.VisualStyles = True
-            trThreadCount.VisualStyles = False
+            trThreadCount.VisualStyles = Not VSEnabled
             trThreadCount.VisualStyles = VSEnabled
             optTabDownload2.Refresh
             optTabThreads2.Refresh
