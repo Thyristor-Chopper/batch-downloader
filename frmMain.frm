@@ -1715,11 +1715,14 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
                     End Select
                 Case WM_THEMECHANGED
                     SetTextColors
-        '        Case WM_DPICHANGED
-        '            UpdateDPI
-        '
-        '            ISubclass_WindowProc = 1&
-        '            Exit Function
+'                Case WM_DPICHANGED
+'                    UpdateDPI
+'
+'                    ISubclass_WindowProc = 1&
+'                    Exit Function
+                Case WM_CTLCOLORSCROLLBAR
+                    ISubclass_WindowProc = 0&
+                    Exit Function
             End Select
         Case fThreadInfo.hWnd
             Select Case uMsg
@@ -3691,7 +3694,7 @@ afterheaderadd:
     '언어설정
     lblURL.Caption = t(lblURL.Caption, "File &address:")
     lblFilePath.Caption = t(lblFilePath.Caption, "Save &file to:")
-    lblThreadCountLabel.Caption = t(lblThreadCountLabel.Caption, "Threads:")
+    lblThreadCountLabel.Caption = t(lblThreadCountLabel.Caption, "&Threads:")
     cmdClear.Caption = t(cmdClear.Caption, "Clear(&Y)")
     cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
     fTotal.Caption = t(fTotal.Caption, " Total Progress ")
@@ -3943,6 +3946,7 @@ afterheaderadd:
     AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
     AttachMessage Me, Me.hWnd, WM_THEMECHANGED
     'AttachMessage Me, Me.hWnd, WM_DPICHANGED
+    AttachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
     AttachMessage Me, fThreadInfo.hWnd, WM_CTLCOLORSCROLLBAR
 End Sub
 
@@ -4140,6 +4144,7 @@ Private Sub Form_Unload(Cancel As Integer)
     DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
     DetachMessage Me, Me.hWnd, WM_THEMECHANGED
     'DetachMessage Me, Me.hWnd, WM_DPICHANGED
+    DetachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
     DetachMessage Me, fThreadInfo.hWnd, WM_CTLCOLORSCROLLBAR
     
     GetSystemMenu Me.hWnd, 1
