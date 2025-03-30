@@ -3155,11 +3155,13 @@ Sub LoadLiveBadukSkin()
             lblFilePathShadow.ForeColor = ShadowColor
             lblThreadCountLabelShadow.ForeColor = ShadowColor
             lblLBCaptionShadow.Visible = True
+            lblLBCaptionShadow2.Visible = True
             lblURLShadow.Visible = True
             lblFilePathShadow.Visible = True
             lblThreadCountLabelShadow.Visible = True
         Else
             lblLBCaptionShadow.Visible = False
+            lblLBCaptionShadow2.Visible = False
             lblURLShadow.Visible = False
             lblFilePathShadow.Visible = False
             lblThreadCountLabelShadow.Visible = False
