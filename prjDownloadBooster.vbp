@@ -58,7 +58,6 @@ Class=LlbLink; krools_comctl\LinkLabel\LlbLink.cls
 Class=LlbLinks; krools_comctl\LinkLabel\LlbLinks.cls
 PropertyPage=krools_comctl\LinkLabel\PPLinkLabelGeneral.pag
 UserControl=krools_comctl\LinkLabel\LinkLabel.ctl
-Form=frmCustomBackground.frm
 Form=frmAbout.frm
 Module=Common; krools_comctl\Common\Common.bas
 Module=VisualStyles; krools_comctl\Common\VisualStyles.bas

@@ -4150,7 +4150,6 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmBatchAdd
     Unload frmBrowse
     Unload frmOptions
-    Unload frmCustomBackground
     Unload frmExplorer
     Unload frmDummyForm
     Unload frmEditBatch

@@ -1900,15 +1900,9 @@ Private Sub OKButton_Click()
         Else
             LoadPicture Path & txtFileName.Text
         End If
-        SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", Path & txtFileName.Text
-        frmOptions.ImageChanged = True
-        frmOptions.cmdApply.Enabled = True
-        If LCase(Right$(Path & txtFileName.Text, 4)) = ".png" Then
-            Set frmOptions.imgPreview.Picture = LoadPngIntoPictureWithAlpha(Path & txtFileName.Text)
-        Else
-            frmOptions.imgPreview.Picture = LoadPicture(Path & txtFileName.Text)
-        End If
-        frmOptions.cmdSample.Refresh
+        frmOptions.ChangedBackgroundPath = Path & txtFileName.Text
+        Debug.Print frmOptions.ChangedBackgroundPath
+        frmOptions.LoadBackgroundList
         Unload Me
         Exit Sub
 imgerr:
