@@ -79,14 +79,13 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.CommandButtonW cmdChooseBackground 
             Height          =   330
-            Left            =   720
+            Left            =   960
             TabIndex        =   59
             Top             =   1230
-            Width           =   2295
-            _ExtentX        =   2990
+            Width           =   2055
+            _ExtentX        =   3625
             _ExtentY        =   582
-            ImageList       =   "imgBrowse"
-            Caption         =   "  찾아보기(&B)..."
+            Caption         =   "찾아보기(&B)..."
          End
          Begin VB.Label Label2 
             BackStyle       =   0  '투명
@@ -1176,7 +1175,7 @@ Begin VB.Form frmOptions
             Height          =   300
             Left            =   960
             TabIndex        =   83
-            Top             =   870
+            Top             =   885
             Width           =   1575
             _ExtentX        =   2778
             _ExtentY        =   529
@@ -1186,7 +1185,7 @@ Begin VB.Form frmOptions
             Height          =   300
             Left            =   960
             TabIndex        =   82
-            Top             =   555
+            Top             =   570
             Width           =   1575
             _ExtentX        =   2778
             _ExtentY        =   529
@@ -2670,6 +2669,15 @@ Private Sub Form_Load()
     cbImagePosition.ListIndex = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
     cbImagePosition_Click
     chkImageCentered.Value = GetSetting("DownloadBooster", "Options", "BackgroundImageCentered", 0)
+    
+    '임시
+    FrameW1.Enabled = 0
+    Label20.Enabled = 0
+    cmdSaveTheme.Enabled = 0
+    cmdDeleteTheme.Enabled = 0
+    cbTheme.Enabled = 0
+    cbTheme.AddItem t("수정된 테마", "Modified theme")
+    cbTheme.ListIndex = 0
     
     txtNodePath.Text = GetSetting("DownloadBooster", "Options", "NodePath", "")
     txtScriptPath.Text = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
