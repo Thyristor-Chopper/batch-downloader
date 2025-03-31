@@ -26,62 +26,75 @@ Begin VB.Form frmOptions
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
-      Height          =   3135
+      Height          =   4935
       Index           =   3
       Left            =   7080
-      ScaleHeight     =   3075
+      ScaleHeight     =   4875
       ScaleWidth      =   6675
-      TabIndex        =   124
-      Top             =   10680
+      TabIndex        =   61
+      Top             =   5880
       Width           =   6735
-      Begin prjDownloadBooster.FrameW FrameW1 
-         Height          =   1215
+      Begin prjDownloadBooster.ListView lvBackgrounds 
+         Height          =   1935
+         Left            =   360
+         TabIndex        =   125
+         Top             =   2880
+         Width           =   4455
+         _ExtentX        =   7858
+         _ExtentY        =   3413
+         View            =   4
+         LabelEdit       =   2
+         HideSelection   =   0   'False
+         HideColumnHeaders=   -1  'True
+      End
+      Begin VB.ComboBox cbImagePosition 
+         Height          =   300
+         Left            =   4920
+         Style           =   2  '드롭다운 목록
+         TabIndex        =   65
+         Top             =   3600
+         Width           =   1725
+      End
+      Begin prjDownloadBooster.CommandButtonW cmdChooseBackground 
+         Height          =   330
+         Left            =   4920
+         TabIndex        =   63
+         Top             =   2880
+         Width           =   1695
+         _ExtentX        =   2990
+         _ExtentY        =   582
+         ImageList       =   "imgBrowse"
+         Caption         =   "찾아보기(&B)..."
+      End
+      Begin prjDownloadBooster.CheckBoxW chkEnableBackgroundImage 
+         Height          =   255
          Left            =   120
-         TabIndex        =   61
-         Top             =   2400
-         Width           =   3015
-         _ExtentX        =   5318
-         _ExtentY        =   2143
-         Caption         =   " 배경 그림 "
-         Begin VB.ComboBox cbImagePosition 
-            Height          =   300
-            Left            =   630
-            Style           =   2  '드롭다운 목록
-            TabIndex        =   65
-            Top             =   810
-            Width           =   2325
-         End
-         Begin prjDownloadBooster.CommandButtonW cmdChooseBackground 
-            Height          =   330
-            Left            =   2460
-            TabIndex        =   63
-            Top             =   210
-            Width           =   495
-            _ExtentX        =   873
-            _ExtentY        =   582
-            VisualStyles    =   0   'False
-            ImageList       =   "imgBrowse"
-            ImageListAlignment=   4
-         End
-         Begin prjDownloadBooster.CheckBoxW chkEnableBackgroundImage 
-            Height          =   255
-            Left            =   120
-            TabIndex        =   62
-            Top             =   240
-            Width           =   2175
-            _ExtentX        =   3836
-            _ExtentY        =   450
-            Caption         =   "배경 그림 사용(&B)"
-         End
-         Begin VB.Label Label2 
-            BackStyle       =   0  '투명
-            Caption         =   "위치(&P):"
-            Height          =   255
-            Left            =   360
-            TabIndex        =   64
-            Top             =   570
-            Width           =   840
-         End
+         TabIndex        =   62
+         Top             =   2520
+         Width           =   2175
+         _ExtentX        =   3836
+         _ExtentY        =   450
+         Caption         =   "배경 그림 사용(&U)"
+      End
+      Begin prjDownloadBooster.SmallWindow pbBackgroundPreview 
+         Height          =   2295
+         Left            =   1320
+         TabIndex        =   124
+         Top             =   120
+         Width           =   3975
+         _ExtentX        =   7011
+         _ExtentY        =   4048
+         Caption         =   "배경 화면 미리 보기"
+         MaximizeBox     =   0   'False
+      End
+      Begin VB.Label Label2 
+         BackStyle       =   0  '투명
+         Caption         =   "위치(&P):"
+         Height          =   255
+         Left            =   4920
+         TabIndex        =   64
+         Top             =   3360
+         Width           =   840
       End
    End
    Begin VB.PictureBox pbPanel 
@@ -425,12 +438,12 @@ Begin VB.Form frmOptions
       AutoRedraw      =   -1  'True
       Height          =   4905
       Index           =   2
-      Left            =   7080
+      Left            =   14160
       ScaleHeight     =   4845
       ScaleWidth      =   6555
       TabIndex        =   2
       TabStop         =   0   'False
-      Top             =   5640
+      Top             =   6000
       Width           =   6615
       Begin prjDownloadBooster.FrameW FrameW3 
          Height          =   1215
@@ -2582,7 +2595,6 @@ Private Sub Form_Load()
     chkAlwaysResume.Caption = t(chkAlwaysResume.Caption, "&Always resume")
     chkAutoRetry.Caption = t(chkAutoRetry.Caption, "A&uto retry on network error")
     Label3.Caption = t(Label3.Caption, "If filename alrea&dy exists:")
-    FrameW1.Caption = t(FrameW1.Caption, " Background image ")
     chkEnableBackgroundImage.Caption = t(chkEnableBackgroundImage.Caption, "Use &background image")
     Label6.Caption = t(Label6.Caption, "Leave the field blank to use defaults. This option is for advanced users and there is no need to change for normal use.")
     FrameW2.Caption = t(FrameW2.Caption, " Directory settings ")
