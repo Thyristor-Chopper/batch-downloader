@@ -511,7 +511,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     Dim CtrlTypeName$
     For Each ctrl In frmForm.Controls
         CtrlTypeName = TypeName(ctrl)
-        If CtrlTypeName = "CommandButtonEx" Or CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ImageCombo" Or CtrlTypeName = "ToolBar" Or CtrlTypeName = "LinkLabel" Or CtrlTypeName = "Frame" Or CtrlTypeName = "PictureBox" Or CtrlTypeName = "Label" Or CtrlTypeName = "TabStrip" Or CtrlTypeName = "Slider" Or CtrlTypeName = "CheckBox" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "ProgressBar" Or CtrlTypeName = "FrameW" Or CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "StatusBar" Or CtrlTypeName = "ListView" Or CtrlTypeName = "ListBoxW" Then
+        If CtrlTypeName = "CommandButtonEx" Or CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ImageCombo" Or CtrlTypeName = "ToolBar" Or CtrlTypeName = "LinkLabel" Or CtrlTypeName = "Frame" Or CtrlTypeName = "PictureBox" Or CtrlTypeName = "Label" Or CtrlTypeName = "TabStrip" Or CtrlTypeName = "Slider" Or CtrlTypeName = "CheckBox" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "ProgressBar" Or CtrlTypeName = "FrameW" Or CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "StatusBar" Or CtrlTypeName = "ListView" Or CtrlTypeName = "ListBoxW" Or CtrlTypeName = "ListBox" Then
             If (CtrlTypeName = "CommandButtonW" Or CtrlTypeName = "CommandButtonEx") And ctrl.Tag <> "notygchange" Then
                 If EnableLBSkin Then
                     ctrl.IsTygemButton = True
@@ -530,19 +530,18 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                         If CtrlTypeName = "CommandButton" Then ctrl.Style = 0
                     End If
                 Else
-                    If (Not DisableVisualStyle) And ctrl.VisualStyles = False Then
+                    If (Not DisableVisualStyle) Then
                         If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" And (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "CheckBox") Then
-                            If CtrlTypeName <> "PictureBox" Then RemoveVisualStyles ctrl.hWnd
+                            RemoveVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = False
                         Else
-                            If CtrlTypeName <> "PictureBox" Then ActivateVisualStyles ctrl.hWnd
+                            ActivateVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = True
                         End If
                         'If CtrlTypeName = "ProgressBar" Then ctrl.Refresh
                         'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 0
-                    End If
-                    If DisableVisualStyle And ctrl.VisualStyles = True Then
-                        If CtrlTypeName <> "PictureBox" Then RemoveVisualStyles ctrl.hWnd
+                    Else
+                        RemoveVisualStyles ctrl.hWnd
                         ctrl.VisualStyles = False
                         'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 1
                     End If

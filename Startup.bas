@@ -209,6 +209,16 @@ forcegulim:
     End If
     BuildHeaderCache
     
+    '구버전 업그레이드
+    Dim ImagePosition%
+    ImagePosition = CInt(GetSetting("DownloadBooster", "Options", "ImagePosition", 0))
+    Select Case ImagePosition
+        Case 7
+            SaveSetting "DownloadBooster", "Options", "ImagePosition", 4
+        Case 4, 5, 6
+            SaveSetting "DownloadBooster", "Options", "ImagePosition", ImagePosition - 3
+    End Select
+    
     Randomize
     InitVisualStylesFixes
     frmMain.Show vbModeless

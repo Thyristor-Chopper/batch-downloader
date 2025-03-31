@@ -3009,12 +3009,8 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
     If imgBackground.Visible Then
         Dim ImageCentered As Boolean
         Dim ImgPos As Integer
-        ImageCentered = False
         ImgPos = ImagePosition
-        If ImagePosition > 3 And ImagePosition <= 6 Then
-            ImageCentered = True
-            ImgPos = ImgPos - 3
-        End If
+        ImageCentered = (GetSetting("DownloadBooster", "Options", "BackgroundImageCentered", 0) <> 0)
         Dim Width&, Height&
         Width = GetPictureWidth(imgBackground.Picture)
         Height = GetPictureHeight(imgBackground.Picture)
@@ -3031,7 +3027,7 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
             Case 3 '원본 크기
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
                 imgBackground.Move IIf(ImageCentered, (Me.Width - imgBackground.Width) \ 2, 0), IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - CaptionHeight * 15 - 15) - imgBackground.Height) \ 2, 0), Width, Height
-            Case 7 '바둑판식
+            Case 4 '바둑판식
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
                 imgBackground.Move -Width, -Height, Width, Height
                 k = 1
@@ -3072,14 +3068,14 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
                     MaxLoadedTileBackgroundImage = 0
                 End If
         End Select
-        If ImgPos <> 7 And MaxLoadedTileBackgroundImage > 0 Then
+        If ImgPos <> 4 And MaxLoadedTileBackgroundImage > 0 Then
             For i = 1 To MaxLoadedTileBackgroundImage
                 Set imgBackgroundTile(i).Picture = Nothing
                 Unload imgBackgroundTile(i)
                 Set imgBackgroundTile(i) = Nothing
             Next i
         End If
-        If ImagePosition < 2 Or ImagePosition = 4 Or ForceRefresh Or ImageCentered Then
+        If ImagePosition < 2 Or (ImageCentered And ImagePosition = 1) Or ForceRefresh Or ImageCentered Then
 dorefresh:
             On Error Resume Next
             fOptions.Refresh
