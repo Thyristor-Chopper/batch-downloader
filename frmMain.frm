@@ -3385,30 +3385,32 @@ framecolorbackground:
     
     SetFormBackgroundColor Me
     If LBEnabled Then
+        Dim ContentTextColor As Long
+        ContentTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", 0))
         For i = 1 To MAX_THREAD_COUNT
-            lblDownloader(i).ForeColor = &H80000012
-            lblPercentage(i).ForeColor = &H80000012
+            lblDownloader(i).ForeColor = ContentTextColor
+            lblPercentage(i).ForeColor = ContentTextColor
         Next i
-        optTabDownload2.ForeColor = &H80000012
-        optTabThreads2.ForeColor = &H80000012
-        Label8.ForeColor = &H80000012
-        Label2.ForeColor = &H80000012
-        Label3.ForeColor = &H80000012
-        Label4.ForeColor = &H80000012
-        Label5.ForeColor = &H80000012
-        Label6.ForeColor = &H80000012
-        Label7.ForeColor = &H80000012
-        Label10.ForeColor = &H80000012
-        Label9.ForeColor = &H80000012
-        lblFilename.ForeColor = &H80000012
-        lblTotalBytes.ForeColor = &H80000012
-        lblDownloadedBytes.ForeColor = &H80000012
-        lblElapsed.ForeColor = &H80000012
-        lblSpeed.ForeColor = &H80000012
-        lblThreadCount2.ForeColor = &H80000012
-        lblTotalSizeThread.ForeColor = &H80000012
-        lblRemaining.ForeColor = &H80000012
-        lblMergeStatus.ForeColor = &H80000012
+        optTabDownload2.ForeColor = ContentTextColor
+        optTabThreads2.ForeColor = ContentTextColor
+        Label8.ForeColor = ContentTextColor
+        Label2.ForeColor = ContentTextColor
+        Label3.ForeColor = ContentTextColor
+        Label4.ForeColor = ContentTextColor
+        Label5.ForeColor = ContentTextColor
+        Label6.ForeColor = ContentTextColor
+        Label7.ForeColor = ContentTextColor
+        Label10.ForeColor = ContentTextColor
+        Label9.ForeColor = ContentTextColor
+        lblFilename.ForeColor = ContentTextColor
+        lblTotalBytes.ForeColor = ContentTextColor
+        lblDownloadedBytes.ForeColor = ContentTextColor
+        lblElapsed.ForeColor = ContentTextColor
+        lblSpeed.ForeColor = ContentTextColor
+        lblThreadCount2.ForeColor = ContentTextColor
+        lblTotalSizeThread.ForeColor = ContentTextColor
+        lblRemaining.ForeColor = ContentTextColor
+        lblMergeStatus.ForeColor = ContentTextColor
         
         If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0) <> 0 Then
             Dim LBTextColor As Long
