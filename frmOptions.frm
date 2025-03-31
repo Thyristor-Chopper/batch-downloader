@@ -1488,6 +1488,7 @@ Public ColorChanged As Boolean
 Public ImageChanged As Boolean
 Dim VisualStyleChanged As Boolean
 Dim SkinChanged As Boolean
+Dim FontChanged As Boolean
 Dim MouseY As Integer, SelectedListItem As LvwListItem
 Dim BackgroundDrawn(5) As Boolean
 Dim ScrollChanged As Boolean
@@ -1530,7 +1531,10 @@ Private Sub OnFontChange()
     lblFontPreview.Caption = CInt(lblFontPreview.FontSize) & " pt. " & lblFontPreview.FontName
     lblFontPreview.FontBold = False
     lblFontPreview.FontItalic = False
-    If Loaded Then cmdApply.Enabled = -1
+    If Loaded Then
+        cmdApply.Enabled = -1
+        FontChanged = True
+    End If
 End Sub
 
 Private Sub cbFont_Change()
@@ -1844,13 +1848,11 @@ aftermaxtrdcheck:
     End If
     If optSystemColor.Value Then
         SaveSetting "DownloadBooster", "Options", "BackColor", "-1"
-        pgColor.BackColor = &H8000000F
     ElseIf optUserColor.Value Then
         SaveSetting "DownloadBooster", "Options", "BackColor", CLng(pgColor.BackColor)
     End If
     If optSystemFore.Value Then
         SaveSetting "DownloadBooster", "Options", "ForeColor", "-1"
-        pgFore.BackColor = &H80000012
     ElseIf optUserFore.Value Then
         SaveSetting "DownloadBooster", "Options", "ForeColor", CLng(pgFore.BackColor)
     End If
@@ -1872,7 +1874,6 @@ aftermaxtrdcheck:
         cmdChooseBackground.Refresh
         cmdSample.Refresh
         On Error GoTo 0
-        frmMain.SetTextColors
     End If
     If cbLanguage.ListIndex = 0 Then
         SaveSetting "DownloadBooster", "Options", "Language", "0"
@@ -1920,18 +1921,21 @@ aftermaxtrdcheck:
     Else
         SaveSetting "DownloadBooster", "Options", "YtdlPath", ""
     End If
-    cbFont.Text = Trim$(cbFont.Text)
-    If cbFont.Text <> "" And cbFont.Text <> ("(" & t("기본값", "default") & ")") And (Not FontExists(cbFont.Text)) Then
-        MsgBox t("지정한 글꼴이 존재하지 않습니다.", "The specified font does not exist."), vbCritical
-        NoDisable = True
-    Else
-        If cbFont.Text = ("(" & t("기본값", "default") & ")") Then
-            SaveSetting "DownloadBooster", "Options", "Font", ""
+    
+    If FontChanged Then
+        cbFont.Text = Trim$(cbFont.Text)
+        If cbFont.Text <> "" And cbFont.Text <> ("(" & t("기본값", "default") & ")") And (Not FontExists(cbFont.Text)) Then
+            MsgBox t("지정한 글꼴이 존재하지 않습니다.", "The specified font does not exist."), vbCritical
+            NoDisable = True
         Else
-            SaveSetting "DownloadBooster", "Options", "Font", cbFont.Text
+            If cbFont.Text = ("(" & t("기본값", "default") & ")") Then
+                SaveSetting "DownloadBooster", "Options", "Font", ""
+            Else
+                SaveSetting "DownloadBooster", "Options", "Font", cbFont.Text
+            End If
+            SetFont Me, True
+            SetFont frmMain, True
         End If
-        SetFont Me, True
-        SetFont frmMain, True
     End If
     
     If chkEnableBackgroundImage.Value > 0 And GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "") = "" Then
@@ -1977,6 +1981,8 @@ aftermaxtrdcheck:
     ImageChanged = False
     VisualStyleChanged = False
     SkinChanged = False
+    ScrollChanged = False
+    FontChanged = False
     If Not NoDisable Then
         cmdApply.Enabled = 0
     End If
@@ -2270,6 +2276,7 @@ Private Sub Form_Load()
     ColorChanged = False
     SkinChanged = False
     ScrollChanged = False
+    FontChanged = False
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me

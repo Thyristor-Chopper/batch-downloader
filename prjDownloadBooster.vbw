@@ -89,4 +89,4 @@ MTimer = 0, 0, 0, 0, C
 modPicBuddy = 0, 0, 0, 0, C
 ucPicBuddy = 88, 116, 1166, 783, C, 110, 145, 1188, 812, C
 SmallWindow = 176, 232, 1254, 899, C, 73, 185, 1151, 852, C
-frmLiveBadukSkinProperties = 93, 70, 1171, 737, , 13, 149, 1091, 816, C
+frmLiveBadukSkinProperties = 93, 70, 1171, 737, C, 13, 149, 1091, 816, C
