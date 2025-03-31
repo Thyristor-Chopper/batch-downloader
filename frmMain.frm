@@ -1460,6 +1460,13 @@ Begin VB.Form frmMain
       Top             =   0
       Width           =   135
    End
+   Begin VB.Shape pgPattern 
+      BorderStyle     =   0  '≈ı∏Ì
+      Height          =   255
+      Left            =   0
+      Top             =   0
+      Width           =   255
+   End
    Begin VB.Menu mnuListContext 
       Caption         =   "mnuListContext"
       Visible         =   0   'False
@@ -3120,6 +3127,11 @@ Sub SetBackgroundImage()
     End If
 End Sub
 
+Sub SetPattern()
+    pgPattern.FillStyle = CInt(GetSetting("DownloadBooster", "Options", "FormFillStyle", 0)) + 1
+    pgPattern.FillColor = CLng(GetSetting("DownloadBooster", "Options", "FormFillColor", 0))
+End Sub
+
 Sub LoadLiveBadukSkin()
     On Error Resume Next
     Dim i%
@@ -3776,6 +3788,7 @@ afterheaderadd:
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     
     'SetFormBackgroundColor Me
+    SetPattern
     SetBackgroundImage
     SetBackgroundPosition
 
@@ -4048,6 +4061,9 @@ Private Sub Form_Resize()
     pgBorderRight.Top = 0
     pgBorderRight.Left = Me.Width - 30 - SizingBorderWidth * 15 * 2
     pgBorderRight.Height = Me.Height
+    
+    pgPattern.Width = Me.Width
+    pgPattern.Height = Me.Height
     
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
     If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
