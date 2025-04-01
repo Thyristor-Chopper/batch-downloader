@@ -217,6 +217,7 @@ forcegulim:
             SaveSetting "DownloadBooster", "Options", "ImagePosition", 4
         Case 4, 5, 6
             SaveSetting "DownloadBooster", "Options", "ImagePosition", ImagePosition - 3
+            SaveSetting "DownloadBooster", "Options", "BackgroundImageCentered", 1
     End Select
     
     Randomize

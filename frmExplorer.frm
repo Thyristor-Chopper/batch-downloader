@@ -1523,7 +1523,7 @@ Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
             txtFileName.Text = Item.Text
         'End If
     End If
-    If (frmMain.cbWhenExist.ListIndex = 0 And Tags.BrowseTargetForm <> 3 And Tags.BrowseTargetForm <> 4) Or (Not Selected) Then Exit Sub
+    If (frmMain.cbWhenExist.ListIndex = 0 And Tags.BrowseTargetForm <> 3 And Tags.BrowseTargetForm <> 4 And Tags.BrowseTargetForm <> 5 And Tags.BrowseTargetForm <> 6) Or (Not Selected) Then Exit Sub
     If Item.IconIndex = 1 Or (Item.IconIndex > 2 And Item.IconIndex <= 10) Then Exit Sub
     If Tags.BrowseTargetForm <> 2 Then txtFileName.Text = Item.Text
     
