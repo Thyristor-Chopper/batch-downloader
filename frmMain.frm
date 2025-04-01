@@ -20,6 +20,15 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   11715
    StartUpPosition =   3  'Windows 기본값
+   Begin VB.VScrollBar vsProgressScroll 
+      Height          =   3495
+      LargeChange     =   10
+      Left            =   6120
+      Max             =   5
+      TabIndex        =   16
+      Top             =   2280
+      Width           =   255
+   End
    Begin VB.PictureBox pbDummy 
       AutoRedraw      =   -1  'True
       Height          =   135
@@ -755,20 +764,10 @@ Begin VB.Form frmMain
       Height          =   3495
       Left            =   360
       ScaleHeight     =   3495
-      ScaleWidth      =   6015
+      ScaleWidth      =   5775
       TabIndex        =   45
       Top             =   2310
-      Width           =   6015
-      Begin VB.VScrollBar vsProgressScroll 
-         Height          =   3495
-         LargeChange     =   10
-         Left            =   5760
-         Max             =   5
-         TabIndex        =   16
-         Top             =   0
-         Visible         =   0   'False
-         Width           =   255
-      End
+      Width           =   5775
       Begin VB.PictureBox pbProgressOuterContainer 
          AutoRedraw      =   -1  'True
          BorderStyle     =   0  '없음
@@ -1645,98 +1644,83 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
     Dim hSysMenu As Long
     Dim MII As MENUITEMINFO
     
-    Select Case hWnd
-        Case Me.hWnd
-            Select Case uMsg
-                Case WM_GETMINMAXINFO
-                    Dim lpMMI As MINMAXINFO
-                    CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-                    lpMMI.ptMinTrackSize.X = FormWidth * (DPI / 96)
-                    lpMMI.ptMinTrackSize.Y = FormMinHeight * (DPI / 96)
-                    lpMMI.ptMaxTrackSize.X = FormWidth * (DPI / 96)
-                    lpMMI.ptMaxTrackSize.Y = FormMaxHeight * (DPI / 96)
-                    CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
+    Select Case uMsg
+        Case WM_GETMINMAXINFO
+            Dim lpMMI As MINMAXINFO
+            CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
+            lpMMI.ptMinTrackSize.X = FormWidth * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = FormMinHeight * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = FormWidth * (DPI / 96)
+            lpMMI.ptMaxTrackSize.Y = FormMaxHeight * (DPI / 96)
+            CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
+            
+            ISubclass_WindowProc = 1&
+            Exit Function
+        Case WM_INITMENU
+            hSysMenu = GetSystemMenu(Me.hWnd, 0)
+            With MII
+                .cbSize = Len(MII)
+                .fMask = MIIM_STATE
+                .fState = MFS_ENABLED Or IIf(MainFormOnTop, MFS_CHECKED, 0)
+            End With
+            SetMenuItemInfo hSysMenu, 1000, 0, MII
+            
+            ISubclass_WindowProc = 1&
+            Exit Function
+        Case WM_SYSCOMMAND
+            If wParam = 1000 Then '항상 위에 표시
+                MainFormOnTop = Not MainFormOnTop
+                SetWindowPos hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+                SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(CInt(MainFormOnTop))
+                
+                ISubclass_WindowProc = 1&
+                Exit Function
+            ElseIf wParam = 1001 And (Not (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2)) Then '일괄처리 접기
+                cmdBatch_Click
+                
+                ISubclass_WindowProc = 1&
+                Exit Function
+            ElseIf wParam = 1002 And (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2) Then '일괄처리 펼치기
+                cmdBatch_Click
+                
+                ISubclass_WindowProc = 1&
+                Exit Function
+            ElseIf wParam = 1003 And (Not (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2)) Then '창 크기 초기화
+                Me.Height = 8985 + PaddedBorderWidth * 15 * 2
+            
+                ISubclass_WindowProc = 1&
+                Exit Function
+            End If
+'        Case WM_DWMCOMPOSITIONCHANGED
+        Case WM_SETTINGCHANGE
+            Select Case GetStrFromPtr(lParam)
+                Case "WindowMetrics"
+                    UpdateBorderWidth
                     
-                    ISubclass_WindowProc = 1&
-                    Exit Function
-                Case WM_INITMENU
-                    hSysMenu = GetSystemMenu(Me.hWnd, 0)
-                    With MII
-                        .cbSize = Len(MII)
-                        .fMask = MIIM_STATE
-                        .fState = MFS_ENABLED Or IIf(MainFormOnTop, MFS_CHECKED, 0)
-                    End With
-                    SetMenuItemInfo hSysMenu, 1000, 0, MII
+                    FormWidth = (9450 + PaddedBorderWidth * 15 * 2) / 15
+                    FormMinHeight = (8220 + PaddedBorderWidth * 15 * 2) / 15
                     
-                    ISubclass_WindowProc = 1&
-                    Exit Function
-                Case WM_SYSCOMMAND
-                    If wParam = 1000 Then '항상 위에 표시
-                        MainFormOnTop = Not MainFormOnTop
-                        SetWindowPos hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
-                        SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(CInt(MainFormOnTop))
-                        
-                        ISubclass_WindowProc = 1&
-                        Exit Function
-                    ElseIf wParam = 1001 And (Not (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2)) Then '일괄처리 접기
-                        cmdBatch_Click
-                        
-                        ISubclass_WindowProc = 1&
-                        Exit Function
-                    ElseIf wParam = 1002 And (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2) Then '일괄처리 펼치기
-                        cmdBatch_Click
-                        
-                        ISubclass_WindowProc = 1&
-                        Exit Function
-                    ElseIf wParam = 1003 And (Not (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2)) Then
-                        Me.Height = 8985 + PaddedBorderWidth * 15 * 2
+                    Me.Width = FormWidth * 15
+                    Form_Resize
                     
-                        ISubclass_WindowProc = 1&
-                        Exit Function
-                    End If
-        '        Case WM_DWMCOMPOSITIONCHANGED
-        '            OnDWMChange
-                Case WM_SETTINGCHANGE
-                    Select Case GetStrFromPtr(lParam)
-                        Case "WindowMetrics"
-                            UpdateBorderWidth
-                            
-                            FormWidth = (9450 + PaddedBorderWidth * 15 * 2) / 15
-                            FormMinHeight = (8220 + PaddedBorderWidth * 15 * 2) / 15
-                            
-                            Me.Width = FormWidth * 15
-                            Form_Resize
-                            
-                            On Error Resume Next
-                            Dim ctrl As Control
-                            For Each ctrl In frmMain.Controls
-                                If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
-                            Next ctrl
-                            Dim PrevTrackerVisualStyles As Boolean
-                            PrevTrackerVisualStyles = trThreadCount.VisualStyles
-                            trThreadCount.VisualStyles = False
-                            trThreadCount.VisualStyles = True
-                            trThreadCount.VisualStyles = PrevTrackerVisualStyles
-                            
-                            SetTextColors
-                    End Select
-                Case WM_THEMECHANGED
+                    On Error Resume Next
+                    Dim ctrl As Control
+                    For Each ctrl In frmMain.Controls
+                        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
+                    Next ctrl
+                    Dim PrevTrackerVisualStyles As Boolean
+                    PrevTrackerVisualStyles = trThreadCount.VisualStyles
+                    trThreadCount.VisualStyles = False
+                    trThreadCount.VisualStyles = True
+                    trThreadCount.VisualStyles = PrevTrackerVisualStyles
+                    
                     SetTextColors
-'                Case WM_DPICHANGED
-'                    UpdateDPI
-'
-'                    ISubclass_WindowProc = 1&
-'                    Exit Function
-                Case WM_CTLCOLORSCROLLBAR
-                    ISubclass_WindowProc = 0&
-                    Exit Function
             End Select
-        Case fThreadInfo.hWnd
-            Select Case uMsg
-                Case WM_CTLCOLORSCROLLBAR
-                    ISubclass_WindowProc = 0&
-                    Exit Function
-            End Select
+        Case WM_THEMECHANGED
+            SetTextColors
+        Case WM_CTLCOLORSCROLLBAR
+            ISubclass_WindowProc = 0&
+            Exit Function
     End Select
     
     ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
@@ -3437,6 +3421,8 @@ framecolorbackground:
             ctrl.Refresh
         End If
     Next ctrl
+    
+    SetFont Me
 End Sub
 
 #If HIDEYTDL Then
@@ -3956,9 +3942,9 @@ afterheaderadd:
     'AttachMessage Me, Me.hWnd, WM_DWMCOMPOSITIONCHANGED
     AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
     AttachMessage Me, Me.hWnd, WM_THEMECHANGED
-    'AttachMessage Me, Me.hWnd, WM_DPICHANGED
     AttachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
-    AttachMessage Me, fThreadInfo.hWnd, WM_CTLCOLORSCROLLBAR
+    
+    vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
 End Sub
 
 Sub SetTextColors()
@@ -4029,10 +4015,6 @@ Sub SetupSplitButtons()
         End If
     End If
 End Sub
-
-'Sub OnDWMChange()
-'    '
-'End Sub
 
 Private Sub Form_Resize()
     On Error Resume Next
@@ -4156,11 +4138,9 @@ Private Sub Form_Unload(Cancel As Integer)
     'DetachMessage Me, Me.hWnd, WM_DWMCOMPOSITIONCHANGED
     DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
     DetachMessage Me, Me.hWnd, WM_THEMECHANGED
-    'DetachMessage Me, Me.hWnd, WM_DPICHANGED
     DetachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
-    DetachMessage Me, fThreadInfo.hWnd, WM_CTLCOLORSCROLLBAR
     
-    GetSystemMenu Me.hWnd, 1
+    GetSystemMenu Me.hWnd, 1&
     Unload frmMessageBox
     Unload frmAbout
     Unload frmDownloadOptions
@@ -4472,6 +4452,7 @@ End Sub
 Private Sub optTabDownload2_Click()
     fDownloadInfo.Visible = -1
     fThreadInfo.Visible = 0
+    vsProgressScroll.Visible = False
 End Sub
 
 Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -4485,6 +4466,7 @@ Private Sub optTabThreads2_Click()
         pbdThreadInfo.AttachBuddy fThreadInfo
         ThreadBuddyAttached = True
     End If
+    vsProgressScroll.Visible = trThreadCount.Value > 10
 End Sub
 
 Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -4555,12 +4537,12 @@ Sub trThreadCount_Scroll()
             vsProgressScroll.Max = trThreadCount.Value - 10
         End If
         vsProgressScroll.Enabled = -1
-        vsProgressScroll.Visible = -1
+        vsProgressScroll.Visible = fThreadInfo.Visible
     Else
         If vsProgressScroll.Max <> 0 Then vsProgressScroll.Max = 0
         If vsProgressScroll.Enabled Then vsProgressScroll.Enabled = 0
         
-        vsProgressScroll.Visible = 0
+        vsProgressScroll.Visible = False
         pbProgressContainer.Top = 0
     End If
     

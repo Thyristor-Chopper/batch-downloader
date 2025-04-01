@@ -3017,7 +3017,7 @@ Private Sub lvHeaders_MouseDown(Button As Integer, Shift As Integer, X As Single
 End Sub
 
 Private Sub OKButton_Click()
-    cmdApply_Click
+    If cmdApply.Enabled Then cmdApply_Click
     Unload Me
 End Sub
 

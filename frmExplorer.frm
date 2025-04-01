@@ -1031,7 +1031,6 @@ setpreview:
     
     AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
-    'AttachMessage Me, Me.hWnd, WM_DPICHANGED
     
     Dim CurrentView As LvwViewConstants
     CurrentView = lvFiles.View
@@ -1199,7 +1198,6 @@ Private Sub Form_Unload(Cancel As Integer)
     
     DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
-    'DetachMessage Me, Me.hWnd, WM_DPICHANGED
     
     On Error Resume Next
     imgFolder.ListImages.Clear
@@ -1236,11 +1234,6 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
                     UpdateBorderWidth
                     Form_Resize
             End Select
-'        Case WM_DPICHANGED
-'            UpdateDPI
-'
-'            ISubclass_WindowProc = 1&
-'            Exit Function
     End Select
     
     ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)

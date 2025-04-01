@@ -27,9 +27,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   7
       Top             =   900
       Width           =   1335
-      _extentx        =   2355
-      _extenty        =   609
-      caption         =   "고급(&V)..."
+      _ExtentX        =   2355
+      _ExtentY        =   609
+      Caption         =   "고급(&V)..."
    End
    Begin VB.TextBox txtSavePath 
       Height          =   255
@@ -54,9 +54,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   6
       Top             =   510
       Width           =   1335
-      _extentx        =   0
-      _extenty        =   0
-      caption         =   "취소"
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
       Height          =   340
@@ -64,9 +64,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   5
       Top             =   120
       Width           =   1335
-      _extentx        =   0
-      _extenty        =   0
-      caption         =   "확인"
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "확인"
    End
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   330
@@ -74,9 +74,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   4
       Top             =   3360
       Width           =   1335
-      _extentx        =   2355
-      _extenty        =   582
-      caption         =   "찾아보기(&B)..."
+      _ExtentX        =   2355
+      _ExtentY        =   582
+      Caption         =   "찾아보기(&B)..."
    End
    Begin VB.Label Label2 
       BackStyle       =   0  '투명
@@ -197,7 +197,6 @@ Private Sub Form_Load()
     
     AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
-    'AttachMessage Me, Me.hWnd, WM_DPICHANGED
 End Sub
 
 Sub Form_Resize()
@@ -222,7 +221,6 @@ Private Sub Form_Unload(Cancel As Integer)
     
     DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
-    'DetachMessage Me, Me.hWnd, WM_DPICHANGED
 End Sub
 
 Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
@@ -254,11 +252,6 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
                     UpdateBorderWidth
                     Form_Resize
             End Select
-'        Case WM_DPICHANGED
-'            UpdateDPI
-'
-'            ISubclass_WindowProc = 1&
-'            Exit Function
     End Select
     
     ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)

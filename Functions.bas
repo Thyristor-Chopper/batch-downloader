@@ -1435,6 +1435,13 @@ setlbfont:
             frmMain.lblURLShadow.Font.Bold = False
             frmMain.lblFilePathShadow.Font.Bold = False
             frmMain.lblThreadCountLabelShadow.Font.Bold = False
+            FontSize = IIf(LCase(frmMain.lblURL.Font.Name) = "tahoma", 8, 9)
+            frmMain.lblURL.Font.Size = FontSize
+            frmMain.lblFilePath.Font.Size = FontSize
+            frmMain.lblThreadCountLabel.Font.Size = FontSize
+            frmMain.lblURLShadow.Font.Size = FontSize
+            frmMain.lblFilePathShadow.Font.Size = FontSize
+            frmMain.lblThreadCountLabelShadow.Font.Size = FontSize
         End If
     End If
 End Sub
