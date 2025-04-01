@@ -569,9 +569,9 @@ Begin VB.Form frmMain
    Begin VB.PictureBox fDownloadInfo 
       AutoRedraw      =   -1  'True
       BorderStyle     =   0  '¾øÀ½
-      Height          =   3135
+      Height          =   3255
       Left            =   360
-      ScaleHeight     =   3135
+      ScaleHeight     =   3255
       ScaleWidth      =   5175
       TabIndex        =   47
       Top             =   2640
@@ -592,7 +592,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1320
          TabIndex        =   66
-         Top             =   2880
+         Top             =   2940
          Width           =   4335
       End
       Begin VB.Label Label9 
@@ -601,7 +601,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   0
          TabIndex        =   67
-         Top             =   2880
+         Top             =   2940
          Width           =   1335
       End
       Begin VB.Label lblRemaining 
@@ -610,7 +610,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1320
          TabIndex        =   68
-         Top             =   2520
+         Top             =   2580
          Width           =   4335
       End
       Begin VB.Label Label10 
@@ -619,7 +619,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   0
          TabIndex        =   69
-         Top             =   2520
+         Top             =   2580
          Width           =   1215
       End
       Begin VB.Label Label8 
@@ -628,7 +628,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   0
          TabIndex        =   62
-         Top             =   0
+         Top             =   60
          Width           =   1095
       End
       Begin VB.Label lblFilename 
@@ -637,7 +637,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1320
          TabIndex        =   61
-         Top             =   0
+         Top             =   60
          Width           =   4335
       End
       Begin VB.Label lblTotalSizeThread 
@@ -646,7 +646,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1320
          TabIndex        =   60
-         Top             =   2160
+         Top             =   2220
          Width           =   4335
       End
       Begin VB.Label Label7 
@@ -655,7 +655,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   0
          TabIndex        =   59
-         Top             =   2160
+         Top             =   2220
          Width           =   1215
       End
       Begin VB.Label lblThreadCount2 
@@ -664,7 +664,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1320
          TabIndex        =   58
-         Top             =   1800
+         Top             =   1860
          Width           =   4335
       End
       Begin VB.Label Label6 
@@ -673,7 +673,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   0
          TabIndex        =   57
-         Top             =   1800
+         Top             =   1860
          Width           =   975
       End
       Begin VB.Label Label5 
@@ -682,7 +682,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   0
          TabIndex        =   55
-         Top             =   1440
+         Top             =   1500
          Width           =   975
       End
       Begin VB.Label lblSpeed 
@@ -691,7 +691,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1320
          TabIndex        =   54
-         Top             =   1440
+         Top             =   1500
          Width           =   4335
       End
       Begin VB.Label lblElapsed 
@@ -700,7 +700,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1320
          TabIndex        =   53
-         Top             =   1080
+         Top             =   1140
          Width           =   4335
       End
       Begin VB.Label Label4 
@@ -709,7 +709,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   0
          TabIndex        =   52
-         Top             =   1080
+         Top             =   1140
          Width           =   975
       End
       Begin VB.Label lblDownloadedBytes 
@@ -718,7 +718,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1320
          TabIndex        =   51
-         Top             =   720
+         Top             =   780
          Width           =   4335
       End
       Begin VB.Label Label3 
@@ -727,7 +727,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   0
          TabIndex        =   50
-         Top             =   720
+         Top             =   780
          Width           =   1095
       End
       Begin VB.Label lblTotalBytes 
@@ -736,7 +736,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1320
          TabIndex        =   49
-         Top             =   360
+         Top             =   420
          Width           =   4335
       End
       Begin VB.Label Label2 
@@ -745,7 +745,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   0
          TabIndex        =   48
-         Top             =   360
+         Top             =   420
          Width           =   975
       End
    End
@@ -3543,10 +3543,10 @@ Private Sub Form_Load()
         trThreadCount.TickFrequency = 1
     End If
     pbProgressContainer.Height = 360# * CDbl(MAX_THREAD_COUNT)
-    fDownloadInfo.Top = fThreadInfo.Top + 60
+    fDownloadInfo.Top = fThreadInfo.Top '+ 60
     fDownloadInfo.Left = fThreadInfo.Left
     fDownloadInfo.Width = fThreadInfo.Width '5925
-    fDownloadInfo.Height = fThreadInfo.Height - 60
+    fDownloadInfo.Height = fThreadInfo.Height '- 60
     
     LoadLiveBadukSkin
     
