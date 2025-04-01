@@ -143,30 +143,37 @@ Begin VB.Form frmOptions
             Width           =   525
          End
       End
-      Begin prjDownloadBooster.SmallWindow pbBackgroundPreview 
+      Begin VB.PictureBox pbBackgroundPreview 
+         AutoRedraw      =   -1  'True
+         BorderStyle     =   0  '없음
          Height          =   2295
-         Left            =   1320
+         Left            =   2040
+         ScaleHeight     =   2295
+         ScaleWidth      =   2775
          TabIndex        =   52
-         Top             =   120
-         Width           =   3975
-         _ExtentX        =   7011
-         _ExtentY        =   4048
-         Caption         =   "배경 화면 미리 보기"
-         MaximizeBox     =   0   'False
-         MinimizeBox     =   0   'False
-         ControlBox      =   0   'False
+         Top             =   240
+         Width           =   2775
+         Begin VB.Image Image7 
+            Height          =   2190
+            Left            =   0
+            Picture         =   "frmOptions.frx":000C
+            Top             =   0
+            Width           =   2655
+         End
          Begin VB.Image imgBackgroundPreview 
             Height          =   255
-            Left            =   0
+            Left            =   120
             Stretch         =   -1  'True
-            Top             =   0
+            Top             =   120
             Width           =   255
          End
          Begin VB.Shape pgPatternPreview 
+            BackColor       =   &H8000000F&
+            BackStyle       =   1  '투명하지 않음
             BorderStyle     =   0  '투명
             Height          =   255
-            Left            =   0
-            Top             =   0
+            Left            =   120
+            Top             =   120
             Width           =   255
          End
       End
@@ -491,7 +498,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image1 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":000C
+            Picture         =   "frmOptions.frx":0F45
             Top             =   240
             Width           =   480
          End
@@ -506,7 +513,7 @@ Begin VB.Form frmOptions
       ImageHeight     =   16
       ColorDepth      =   8
       MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":0456
+      InitListImages  =   "frmOptions.frx":138F
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
@@ -594,7 +601,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image4 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":083E
+            Picture         =   "frmOptions.frx":1777
             Top             =   240
             Width           =   480
          End
@@ -679,7 +686,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image5 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":0C80
+            Picture         =   "frmOptions.frx":1BB9
             Top             =   240
             Width           =   480
          End
@@ -853,7 +860,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image3 
             Height          =   405
             Left            =   120
-            Picture         =   "frmOptions.frx":10C2
+            Picture         =   "frmOptions.frx":1FFB
             Top             =   240
             Width           =   435
          End
@@ -904,7 +911,7 @@ Begin VB.Form frmOptions
             _ExtentX        =   450
             _ExtentY        =   450
             BuddyControl    =   "txtMaxThreadCount"
-            BuddyProperty   =   "frmOptions.frx":12F4
+            BuddyProperty   =   "frmOptions.frx":222D
             Min             =   2
             Max             =   91
             Value           =   25
@@ -1000,7 +1007,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image2 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":1324
+            Picture         =   "frmOptions.frx":225D
             Top             =   240
             Width           =   480
          End
@@ -1070,7 +1077,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image6 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":1766
+            Picture         =   "frmOptions.frx":269F
             Top             =   240
             Width           =   480
          End
@@ -1108,7 +1115,7 @@ Begin VB.Form frmOptions
          Begin VB.Image imgIcon2 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":1BA8
+            Picture         =   "frmOptions.frx":2AE1
             Top             =   240
             Width           =   480
          End
@@ -1580,7 +1587,7 @@ Begin VB.Form frmOptions
       TabFixedWidth   =   53
       TabScrollWheel  =   0   'False
       Transparent     =   -1  'True
-      InitTabs        =   "frmOptions.frx":1FEA
+      InitTabs        =   "frmOptions.frx":2F23
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -1613,7 +1620,7 @@ Begin VB.Form frmOptions
       ImageHeight     =   16
       ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":21D2
+      InitListImages  =   "frmOptions.frx":310B
    End
 End
 Attribute VB_Name = "frmOptions"
@@ -2590,7 +2597,7 @@ Private Sub Form_Load()
         pgColor.BackColor = clrBackColor
     End If
     pbBackground.BackColor = pgColor.BackColor
-    pbBackgroundPreview.BackColor = pgColor.BackColor
+    pgPatternPreview.BackColor = pgColor.BackColor
     
     cmdApply.Enabled = 0
     
@@ -2655,10 +2662,10 @@ Private Sub Form_Load()
     pgPatternColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "FormFillColor", 0))
     pgPatternPreview.FillColor = pgPatternColor.BackColor
     pgPatternPreview.FillStyle = lvPatterns.ListIndex + 1
-    pgPatternPreview.Width = pbBackgroundPreview.Width
-    pgPatternPreview.Height = pbBackgroundPreview.Height
-    imgBackgroundPreview.Width = pbBackgroundPreview.Width
-    imgBackgroundPreview.Height = pbBackgroundPreview.Height
+    pgPatternPreview.Width = pbBackgroundPreview.Width - 240
+    pgPatternPreview.Height = pbBackgroundPreview.Height - 240
+    imgBackgroundPreview.Width = pbBackgroundPreview.Width - 240
+    imgBackgroundPreview.Height = pbBackgroundPreview.Height - 240
     
     cbImagePosition.Clear
     cbImagePosition.AddItem t("늘이기", "Stretch")
@@ -2807,7 +2814,6 @@ Private Sub Form_Load()
     tr Label20, "&Theme:"
     tr cmdSaveTheme, "S&ave..."
     tr cmdDeleteTheme, "&Delete"
-    pbBackgroundPreview.Caption = t(pbBackgroundPreview.Caption, "Background preview")
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
@@ -2968,7 +2974,7 @@ Private Sub lblSelectColor_Click()
     optUserColor.Value = True
     ColorChanged = True
     pbBackground.BackColor = pgColor.BackColor
-    pbBackgroundPreview.BackColor = pgColor.BackColor
+    pgPatternPreview.BackColor = pgColor.BackColor
     cmdSample.Refresh
     RedrawPreview
 End Sub
@@ -3021,6 +3027,7 @@ Private Sub optSystemColor_Click()
         ColorChanged = True
     End If
     pbBackground.BackColor = &H8000000F
+    pgPatternPreview.BackColor = pbBackground.BackColor
     cmdSample.Refresh
     RedrawPreview
 End Sub
@@ -3043,6 +3050,7 @@ Private Sub optUserColor_Click()
         ColorChanged = True
     End If
     pbBackground.BackColor = pgColor.BackColor
+    pgPatternPreview.BackColor = pbBackground.BackColor
     cmdSample.Refresh
     RedrawPreview
 End Sub
