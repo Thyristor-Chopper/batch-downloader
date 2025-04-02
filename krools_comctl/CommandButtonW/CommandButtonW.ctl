@@ -96,8 +96,8 @@ Time As Long
 PT As POINTAPI
 End Type
 Private Type SIZEAPI
-CX As Long
-CY As Long
+cx As Long
+cy As Long
 End Type
 Private Type BUTTON_SPLITINFO
 Mask As Long
@@ -220,8 +220,8 @@ Private Declare Function SetCursor Lib "user32" (ByVal hCursor As Long) As Long
 Private Declare Function SetTextColor Lib "gdi32" (ByVal hDC As Long, ByVal crColor As Long) As Long
 Private Declare Function CreateSolidBrush Lib "gdi32" (ByVal crColor As Long) As Long
 Private Declare Function FillRect Lib "user32" (ByVal hDC As Long, ByRef lpRect As RECT, ByVal hBrush As Long) As Long
-Private Declare Function TransparentBlt Lib "msimg32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal nWidthSrc As Long, ByVal nHeightSrc As Long, ByVal crTransparent As Long) As Long
-Private Declare Function DrawState Lib "user32" Alias "DrawStateW" (ByVal hDC As Long, ByVal hBrush As Long, ByVal lpDrawStateProc As Long, ByVal lData As Long, ByVal wData As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal fFlags As Long) As Long
+Private Declare Function TransparentBlt Lib "msimg32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal nWidthSrc As Long, ByVal nHeightSrc As Long, ByVal crTransparent As Long) As Long
+Private Declare Function DrawState Lib "user32" Alias "DrawStateW" (ByVal hDC As Long, ByVal hBrush As Long, ByVal lpDrawStateProc As Long, ByVal lData As Long, ByVal wData As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal fFlags As Long) As Long
 Private Declare Function DrawFocusRect Lib "user32" (ByVal hDC As Long, ByRef lpRect As RECT) As Long
 Private Declare Function DrawFrameControl Lib "user32" (ByVal hDC As Long, ByRef lpRect As RECT, ByVal nCtlType As Long, ByVal nFlags As Long) As Long
 Private Declare Function DrawEdge Lib "user32" (ByVal hDC As Long, ByRef qRC As RECT, ByVal Edge As Long, ByVal grfFlags As Long) As Long
@@ -445,6 +445,7 @@ Private PropUseMaskColor As Boolean
 Private PropMaskColor As OLE_COLOR
 Private PropDrawMode As CmdDrawModeConstants
 Private PropIsTygemButton As Boolean
+Private PropRoundButton As Boolean
 
 Private bMouseDown As Boolean
 
@@ -624,7 +625,8 @@ Set PropDownPicture = Nothing
 PropUseMaskColor = False
 PropMaskColor = &HC0C0C0
 PropDrawMode = CmdDrawModeNormal
-'PropIsTygemButton = False
+PropIsTygemButton = False
+PropRoundButton = False
 Call CreateCommandButton
 End Sub
 
@@ -680,6 +682,7 @@ PropUseMaskColor = .ReadProperty("UseMaskColor", False)
 PropMaskColor = .ReadProperty("MaskColor", &HC0C0C0)
 PropDrawMode = .ReadProperty("DrawMode", CmdDrawModeNormal)
 PropIsTygemButton = .ReadProperty("IsTygemButton", False)
+PropRoundButton = .ReadProperty("RoundButton", False)
 tygButton.Visible = PropIsTygemButton
 tygButton.Enabled = Me.Enabled
 tygButton.Caption = PropCaption
@@ -732,7 +735,8 @@ With PropBag
 .WriteProperty "UseMaskColor", PropUseMaskColor, False
 .WriteProperty "MaskColor", PropMaskColor, &HC0C0C0
 .WriteProperty "DrawMode", PropDrawMode, CmdDrawModeNormal
-'.WriteProperty "IsTygemButton", PropIsTygemButton, False
+.WriteProperty "IsTygemButton", PropIsTygemButton, False
+.WriteProperty "RoundButton", PropRoundButton, False
 End With
 End Sub
 
@@ -807,11 +811,11 @@ End Select
 End Sub
 
 Sub SetRgn()
+    Dim RC As RECT
+    Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&
+    
     If PropIsTygemButton Then
-        Dim RC As RECT
         GetWindowRect UserControl.hWnd, RC
-        
-        Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&
         Rgn = CreateRectRgn(0, 0, RC.Right - RC.Left, RC.Bottom - RC.Top)
         If Not tygButton.SplitRight Then
             Rgn1 = CreateRectRgn(0, 0, 2, 1) '¿ÞÂÊ À§
@@ -845,6 +849,35 @@ Sub SetRgn()
             CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
         End If
+        SetWindowRgn UserControl.hWnd, Rgn, True
+        DeleteObject Rgn
+        DeleteObject Rgn1
+        DeleteObject Rgn2
+        DeleteObject Rgn3
+        DeleteObject Rgn4
+        DeleteObject Rgn5
+        DeleteObject Rgn6
+        DeleteObject Rgn7
+        DeleteObject Rgn8
+    ElseIf PropRoundButton And (Not PropVisualStyles) Then
+        GetWindowRect UserControl.hWnd, RC
+        Rgn = CreateRectRgn(0, 0, RC.Right - RC.Left, RC.Bottom - RC.Top)
+        Rgn1 = CreateRectRgn(0, 0, 2, 1)
+        Rgn2 = CreateRectRgn(0, 1, 1, 2)
+        Rgn3 = CreateRectRgn(RC.Right - RC.Left - 2, 0, RC.Right - RC.Left, 1)
+        Rgn4 = CreateRectRgn(RC.Right - RC.Left - 1, 1, RC.Right - RC.Left, 2)
+        Rgn5 = CreateRectRgn(0, RC.Bottom - RC.Top - 1, 2, RC.Bottom - RC.Top)
+        Rgn6 = CreateRectRgn(0, RC.Bottom - RC.Top - 2, 1, RC.Bottom - RC.Top - 1)
+        Rgn7 = CreateRectRgn(RC.Right - RC.Left - 2, RC.Bottom - RC.Top - 1, RC.Right - RC.Left, RC.Bottom - RC.Top)
+        Rgn8 = CreateRectRgn(RC.Right - RC.Left - 1, RC.Bottom - RC.Top - 2, RC.Right - RC.Left, RC.Bottom - RC.Top - 1)
+        CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
         SetWindowRgn UserControl.hWnd, Rgn, True
         DeleteObject Rgn
         DeleteObject Rgn1
@@ -1149,6 +1182,7 @@ If CommandButtonHandle <> NULL_PTR And CommandButtonEnabledVisualStyles = True T
     Me.Refresh
 End If
 UserControl.PropertyChanged "VisualStyles"
+SetRgn
 End Property
 
 Public Property Get Appearance() As CCAppearanceConstants
@@ -1230,6 +1264,15 @@ If CommandButtonHandle <> NULL_PTR Then
 End If
 UserControl.PropertyChanged "IsTygemButton"
 Refresh
+SetRgn
+End Property
+
+Public Property Get RoundButton() As Boolean
+RoundButton = PropRoundButton
+End Property
+
+Public Property Let RoundButton(ByVal Value As Boolean)
+PropRoundButton = Value
 SetRgn
 End Property
 
@@ -2080,8 +2123,8 @@ Attribute Value.VB_MemberFlags = "400"
 Value = CommandButtonValue
 End Property
 
-Public Property Let Value(ByVal NewValue As Boolean)
-If NewValue = True And CommandButtonValue = False Then
+Public Property Let Value(ByVal newValue As Boolean)
+If newValue = True And CommandButtonValue = False Then
     CommandButtonValue = True
     RaiseEvent Click
     CommandButtonValue = False
@@ -2149,8 +2192,8 @@ If CommandButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then
     Dim Size As SIZEAPI
     SendMessage CommandButtonHandle, BCM_GETIDEALSIZE, 0, ByVal VarPtr(Size)
     With UserControl
-    Width = .ScaleX(Size.CX, vbPixels, vbContainerSize)
-    Height = .ScaleY(Size.CY, vbPixels, vbContainerSize)
+    Width = .ScaleX(Size.cx, vbPixels, vbContainerSize)
+    Height = .ScaleY(Size.cy, vbPixels, vbContainerSize)
     End With
 End If
 End Sub
@@ -2222,9 +2265,9 @@ End Function
 Private Function PreTranslateMsg(ByVal lParam As LongPtr) As LongPtr
 PreTranslateMsg = 0
 If lParam <> NULL_PTR Then
-    Dim Msg As TMSG, Handled As Boolean, RetVal As Long
-    CopyMemory Msg, ByVal lParam, LenB(Msg)
-    IOleInPlaceActiveObjectVB_TranslateAccelerator Handled, RetVal, Msg.hWnd, Msg.Message, Msg.wParam, Msg.lParam, GetShiftStateFromMsg()
+    Dim msg As TMSG, Handled As Boolean, RetVal As Long
+    CopyMemory msg, ByVal lParam, LenB(msg)
+    IOleInPlaceActiveObjectVB_TranslateAccelerator Handled, RetVal, msg.hWnd, msg.Message, msg.wParam, msg.lParam, GetShiftStateFromMsg()
     If Handled = True Then PreTranslateMsg = 1
 End If
 End Function
@@ -2617,33 +2660,33 @@ Select Case wMsg
                     End If
                 End If
                 If Not ButtonPicture Is Nothing Then
-                    Dim CX As Long, CY As Long, X As Long, Y As Long
-                    CX = CHimetricToPixel_X(ButtonPicture.Width)
-                    CY = CHimetricToPixel_Y(ButtonPicture.Height)
-                    X = DIS.RCItem.Left + ((DIS.RCItem.Right - DIS.RCItem.Left - CX) \ 2)
-                    Y = DIS.RCItem.Top + ((DIS.RCItem.Bottom - DIS.RCItem.Top - CY) \ 2)
+                    Dim cx As Long, cy As Long, X As Long, Y As Long
+                    cx = CHimetricToPixel_X(ButtonPicture.Width)
+                    cy = CHimetricToPixel_Y(ButtonPicture.Height)
+                    X = DIS.RCItem.Left + ((DIS.RCItem.Right - DIS.RCItem.Left - cx) \ 2)
+                    Y = DIS.RCItem.Top + ((DIS.RCItem.Bottom - DIS.RCItem.Top - cy) \ 2)
                     If Not (DIS.ItemState And ODS_DISABLED) = ODS_DISABLED Or DisabledPictureAvailable = True Then
                         If ButtonPicture.Type = vbPicTypeBitmap And PropUseMaskColor = True Then
                             Dim hDC1 As LongPtr, hBmpOld1 As LongPtr
                             hDC1 = CreateCompatibleDC(DIS.hDC)
                             If hDC1 <> NULL_PTR Then
                                 hBmpOld1 = SelectObject(hDC1, ButtonPicture.Handle)
-                                TransparentBlt DIS.hDC, X, Y, CX, CY, hDC1, 0, 0, CX, CY, WinColor(PropMaskColor)
+                                TransparentBlt DIS.hDC, X, Y, cx, cy, hDC1, 0, 0, cx, cy, WinColor(PropMaskColor)
                                 SelectObject hDC1, hBmpOld1
                                 DeleteDC hDC1
                             End If
                         Else
-                            Call RenderPicture(ButtonPicture, DIS.hDC, X, Y, CX, CY, CommandButtonPictureRenderFlag)
+                            Call RenderPicture(ButtonPicture, DIS.hDC, X, Y, cx, cy, CommandButtonPictureRenderFlag)
                         End If
                     Else
                         If ButtonPicture.Type = vbPicTypeIcon Then
-                            DrawState DIS.hDC, NULL_PTR, NULL_PTR, ButtonPicture.Handle, 0, X, Y, CX, CY, DST_ICON Or DSS_DISABLED
+                            DrawState DIS.hDC, NULL_PTR, NULL_PTR, ButtonPicture.Handle, 0, X, Y, cx, cy, DST_ICON Or DSS_DISABLED
                         Else
                             Dim hImage As LongPtr
                             hImage = BitmapHandleFromPicture(ButtonPicture, vbWhite)
                             ' The DrawState API with DSS_DISABLED will draw white as transparent.
                             ' This will ensure GIF bitmaps or metafiles are better drawn.
-                            DrawState DIS.hDC, NULL_PTR, NULL_PTR, hImage, 0, X, Y, CX, CY, DST_BITMAP Or DSS_DISABLED
+                            DrawState DIS.hDC, NULL_PTR, NULL_PTR, hImage, 0, X, Y, cx, cy, DST_BITMAP Or DSS_DISABLED
                             DeleteObject hImage
                         End If
                     End If

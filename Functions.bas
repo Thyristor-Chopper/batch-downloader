@@ -480,9 +480,11 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     Dim clrForeColor As Long
     Dim DisableVisualStyle As Boolean
     Dim EnableLBSkin As Boolean
+    Dim RoundButton As Boolean
     EnableLBSkin = CBool(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)))
     DisableVisualStyle = CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
+    RoundButton = (GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0) <> 0)
     If clrBackColor < 0 Or clrBackColor > 16777215 Then
         If frmForm.BackColor <> &H8000000F Then frmForm.BackColor = &H8000000F
         clrBackColor = &H8000000F
@@ -534,6 +536,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                         If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" And (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "OptionButtonW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "CheckBox") Then
                             RemoveVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = False
+                            ctrl.RoundButton = RoundButton
                         Else
                             ActivateVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = True
@@ -543,6 +546,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                     Else
                         RemoveVisualStyles ctrl.hWnd
                         ctrl.VisualStyles = False
+                        ctrl.RoundButton = RoundButton
                         'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 1
                     End If
                 End If
