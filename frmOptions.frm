@@ -89,7 +89,7 @@ Begin VB.Form frmOptions
          End
          Begin VB.Label Label2 
             BackStyle       =   0  '투명
-            Caption         =   "위치(&P):"
+            Caption         =   "위치(&S):"
             Height          =   255
             Left            =   120
             TabIndex        =   60
@@ -2754,7 +2754,7 @@ Private Sub Form_Load()
     FrameW2.Caption = t(FrameW2.Caption, " Directory settings ")
     Label5.Caption = t(Label5.Caption, "&Download script:")
     cmdSample.Caption = t(cmdSample.Caption, "Download")
-    Label2.Caption = t(Label2.Caption, "&Position:")
+    Label2.Caption = t(Label2.Caption, "Po&sition:")
     Label8.Caption = t(Label8.Caption, "Butt&on:")
     fHeaders.Caption = t(fHeaders.Caption, " Header settings ")
     chkNoRedirectCheck.Caption = t(chkNoRedirectCheck.Caption, "Don't check fo&r redirects")
