@@ -1282,6 +1282,7 @@ Begin VB.Form frmOptions
             Width           =   2535
             _ExtentX        =   4471
             _ExtentY        =   450
+            Enabled         =   0   'False
             Caption         =   "메인 창에만 적용(&N)"
          End
          Begin prjDownloadBooster.OptionButtonW optUserFore 
@@ -3047,6 +3048,7 @@ Private Sub optSystemColor_Click()
     pgPatternPreview.BackColor = pbBackground.BackColor
     cmdSample.Refresh
     RedrawPreview
+    chkBackColorMainOnly.Enabled = False
 End Sub
 
 Private Sub optSystemFore_Click()
@@ -3059,6 +3061,7 @@ Private Sub optSystemFore_Click()
     FrameW5.VisualStyles = (cbSkin.ListIndex <> 1)
     CheckBoxW1.ForeColor = &H80000012
     FrameW5.ForeColor = &H80000012
+    chkForeColorMainOnly.Enabled = False
 End Sub
 
 Private Sub optUserColor_Click()
@@ -3070,6 +3073,7 @@ Private Sub optUserColor_Click()
     pgPatternPreview.BackColor = pbBackground.BackColor
     cmdSample.Refresh
     RedrawPreview
+    chkBackColorMainOnly.Enabled = True
 End Sub
 
 Private Sub optUserFore_Click()
@@ -3082,6 +3086,7 @@ Private Sub optUserFore_Click()
     FrameW5.VisualStyles = False
     CheckBoxW1.ForeColor = pgFore.BackColor
     FrameW5.ForeColor = pgFore.BackColor
+    chkForeColorMainOnly.Enabled = True
 End Sub
 
 Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
