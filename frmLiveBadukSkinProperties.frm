@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin VB.Form frmLiveBadukSkinProperties 
    BorderStyle     =   3  '크기 고정 대화 상자
-   Caption         =   "라이브 바둑 쪽지 스킨 등록 정보"
+   Caption         =   "스킨 설정"
    ClientHeight    =   5295
    ClientLeft      =   45
    ClientTop       =   435
@@ -436,7 +436,7 @@ Private Sub Form_Load()
     tr cmdSelectTexture, "&Select..."
     tr cmdOK, "OK"
     tr cmdCancel, "Cancel"
-    Me.Caption = t(Me.Caption, "LiveBaduk Memo Skin Properties")
+    Me.Caption = t(Me.Caption, "Skin Settings")
     tr fFrameBackground, " Frame Background "
     tr optFrameTransparent, "Semi-t&ransparent"
     tr optFrameTexture, "Text&ure:"

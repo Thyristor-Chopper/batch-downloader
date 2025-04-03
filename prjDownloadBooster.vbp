@@ -94,6 +94,7 @@ UserControl=lavolpe_picbuddy\ucPicBuddy.ctl
 UserControl=SmallWindow.ctl
 Form=frmLiveBadukSkinProperties.frm
 ResFile32="Booster.res"
+Form=frmClassicSkinProperties.frm
 IconForm="frmBatchAdd"
 Startup="Sub Main"
 HelpFile=""

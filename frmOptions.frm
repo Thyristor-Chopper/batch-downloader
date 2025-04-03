@@ -1638,7 +1638,7 @@ Const gREGVALSYSINFO = "PATH"
 Dim Loaded As Boolean
 Public ColorChanged As Boolean
 Public ImageChanged As Boolean
-Dim VisualStyleChanged As Boolean
+Public VisualStyleChanged As Boolean
 Dim SkinChanged As Boolean
 Dim FontChanged As Boolean
 Dim PatternChanged As Boolean
@@ -1755,7 +1755,7 @@ Private Sub cbSkin_Click()
         CheckBoxW1.ForeColor = pgFore.BackColor
         FrameW5.ForeColor = pgFore.BackColor
     End If
-    cmdAdvancedSkin.Enabled = (cbSkin.ListIndex = 2)
+    cmdAdvancedSkin.Enabled = (cbSkin.ListIndex = 1 Or cbSkin.ListIndex = 2)
 End Sub
 
 Private Sub cbWhenExist_Click()
@@ -1882,7 +1882,14 @@ Private Sub cmdAddHeader_Click()
 End Sub
 
 Private Sub cmdAdvancedSkin_Click()
-    frmLiveBadukSkinProperties.Show vbModal, Me
+    Select Case cbSkin.ListIndex
+        Case 1
+            frmClassicSkinProperties.Show vbModal, Me
+        Case 2
+            frmLiveBadukSkinProperties.Show vbModal, Me
+        Case Else
+            MsgBox t("이 스킨은 설정 기능을 지원하지 않습니다.", "Skin setting not supported for selected skin."), 64
+    End Select
 End Sub
 
 Private Sub cmdApply_Click()
@@ -2617,6 +2624,7 @@ Private Sub Form_Load()
         cbSkin.ListIndex = 2
     ElseIf Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))) Then
         cbSkin.ListIndex = 1
+        cmdSample.RoundButton = (GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0) <> 0)
     Else
         cbSkin.ListIndex = 0
     End If
