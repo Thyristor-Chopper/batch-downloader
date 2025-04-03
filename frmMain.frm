@@ -559,8 +559,8 @@ Begin VB.Form frmMain
       Left            =   1320
       TabIndex        =   14
       Top             =   2055
-      Width           =   255
-      _ExtentX        =   450
+      Width           =   195
+      _ExtentX        =   344
       _ExtentY        =   344
       Value           =   -1  'True
       Transparent     =   -1  'True
@@ -570,8 +570,8 @@ Begin VB.Form frmMain
       Left            =   435
       TabIndex        =   12
       Top             =   2055
-      Width           =   255
-      _ExtentX        =   450
+      Width           =   195
+      _ExtentX        =   344
       _ExtentY        =   344
       Transparent     =   -1  'True
    End
@@ -2863,6 +2863,7 @@ Private Sub cmdOpenFolder_Click()
 End Sub
 
 Private Sub cmdOptions_Click()
+    Unload frmOptions
     frmOptions.Show vbModal, Me
 End Sub
 
@@ -3332,8 +3333,8 @@ framecolorbackground:
         pbTotalProgress.Top = 1560
         pbTotalProgressMarquee.Top = 1560
         
-        optTabDownload2.Width = 255
-        optTabThreads2.Width = 255
+        optTabDownload2.Width = 195
+        optTabThreads2.Width = 195
         optTabDownload2.Caption = ""
         optTabThreads2.Caption = ""
         
@@ -3423,6 +3424,8 @@ framecolorbackground:
     Next ctrl
     
     SetFont Me
+    
+    ThreadBuddyAttached = False
 End Sub
 
 #If HIDEYTDL Then
