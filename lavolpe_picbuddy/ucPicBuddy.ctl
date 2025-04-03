@@ -211,18 +211,18 @@ End Sub
 
 Private Sub UserControl_Initialize()
     UserControl.ScaleMode = vbPixels
-    UserControl.FillColor = vbWhite                 ' design-time settings
-    UserControl.FillStyle = vbDefault
-    UserControl.ForeColor = vbRed
+'    UserControl.FillColor = vbWhite                 ' design-time settings
+'    UserControl.FillStyle = vbDefault
+'    UserControl.ForeColor = vbRed
     m_NoRedraw = True
 End Sub
 
 Private Sub UserControl_Paint()
     If m_UserMode = False Then
-        UserControl.Line (0, 0)-(UserControl.ScaleWidth - 1, UserControl.ScaleHeight - 1), UserControl.ForeColor, B
-        UserControl.CurrentX = 5: UserControl.CurrentY = 5
-        UserControl.Print "Picture"
-        UserControl.CurrentX = 5: UserControl.Print "Buddy"
+'        UserControl.Line (0, 0)-(UserControl.ScaleWidth - 1, UserControl.ScaleHeight - 1), UserControl.ForeColor, B
+'        UserControl.CurrentX = 5: UserControl.CurrentY = 5
+'        UserControl.Print "Picture"
+'        UserControl.CurrentX = 5: UserControl.Print "Buddy"
     ElseIf Not m_NoRedraw Then
         If pvReposition = False Then
             Dim lBlend As Long
