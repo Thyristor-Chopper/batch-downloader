@@ -1144,13 +1144,13 @@ Begin VB.Form frmOptions
       Visible         =   0   'False
       Width           =   6495
       Begin prjDownloadBooster.FrameW FrameW1 
-         Height          =   1230
+         Height          =   1245
          Left            =   120
          TabIndex        =   77
          Top             =   2400
          Width           =   3015
          _ExtentX        =   5318
-         _ExtentY        =   2170
+         _ExtentY        =   2196
          Caption         =   " 테마 "
          Begin prjDownloadBooster.CommandButtonW cmdDeleteTheme 
             Height          =   300
@@ -1192,13 +1192,13 @@ Begin VB.Form frmOptions
          End
       End
       Begin prjDownloadBooster.FrameW Frame6 
-         Height          =   1230
+         Height          =   1245
          Left            =   120
          TabIndex        =   69
          Top             =   3720
          Width           =   3015
          _ExtentX        =   5318
-         _ExtentY        =   2170
+         _ExtentY        =   2196
          Caption         =   " 스킨 "
          Begin VB.ComboBox cbFont 
             Height          =   300
@@ -1266,13 +1266,13 @@ Begin VB.Form frmOptions
          End
       End
       Begin prjDownloadBooster.FrameW Frame4 
-         Height          =   1230
+         Height          =   1245
          Left            =   3360
          TabIndex        =   64
          Top             =   3720
          Width           =   3015
          _ExtentX        =   5318
-         _ExtentY        =   2170
+         _ExtentY        =   2196
          Caption         =   " 글자색 "
          Begin prjDownloadBooster.CheckBoxW chkForeColorMainOnly 
             Height          =   255
@@ -1482,13 +1482,13 @@ Begin VB.Form frmOptions
          End
       End
       Begin prjDownloadBooster.FrameW Frame1 
-         Height          =   1230
+         Height          =   1245
          Left            =   3360
          TabIndex        =   59
          Top             =   2400
          Width           =   3015
          _ExtentX        =   5318
-         _ExtentY        =   2170
+         _ExtentY        =   2196
          Caption         =   " 배경색 "
          Begin prjDownloadBooster.CheckBoxW chkBackColorMainOnly 
             Height          =   255
@@ -1761,6 +1761,7 @@ Private Sub cbSkin_Click()
         FrameW5.ForeColor = pgFore.BackColor
     End If
     cmdAdvancedSkin.Enabled = (cbSkin.ListIndex = 1 Or cbSkin.ListIndex = 2)
+    cmdSample.RoundButton = (GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0) <> 0)
 End Sub
 
 Private Sub cbWhenExist_Click()
