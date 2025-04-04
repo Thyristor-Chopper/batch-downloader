@@ -25,6 +25,9 @@ Declare Sub DwmSetColorizationParameters Lib "dwmapi.dll" Alias "#131" (ByRef Pa
 Private Declare Function RegOpenKeyEx Lib "advapi32" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, ByRef phkResult As Long) As Long
 Private Declare Function RegQueryValueEx Lib "advapi32" Alias "RegQueryValueExA" (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, ByRef lpType As Long, ByVal lpData As String, ByRef lpcbData As Long) As Long
 Private Declare Function RegCloseKey Lib "advapi32" (ByVal hKey As Long) As Long
+Private Declare Function RegEnumKeyEx Lib "advapi32" Alias "RegEnumKeyExW" (ByVal hKey As Long, ByVal dwIndex As Long, ByVal lpName As Long, ByRef lpcName As Long, Optional ByVal lpReserved As Long, Optional ByVal lpClass As Long, Optional ByRef lpcClass As Long, Optional ByVal lpftLastWriteTime As Long) As Long
+Private Declare Function RegQueryInfoKey Lib "advapi32" Alias "RegQueryInfoKeyW" (ByVal hKey As Long, Optional ByVal lpClass As Long, Optional ByRef lpcClass As Long, Optional ByVal lpReserved As Long, Optional ByRef lpcSubKeys As Long, Optional ByRef lpcMaxSubKeyLen As Long, Optional ByRef lpcMaxClassLen As Long, Optional ByRef lpcValues As Long, Optional ByRef lpcMaxValueNameLen As Long, Optional ByRef lpcMaxValueLen As Long, Optional ByRef lpcbSecurityDescriptor As Long, Optional ByVal lpftLastWriteTime As Long) As Long
+Private Declare Function SysReAllocStringLen Lib "oleaut32" (ByVal pBSTR As Long, Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As Long
 Declare Function GetUserDefaultUILanguage Lib "kernel32" () As Integer
 Declare Function GetSystemMenu Lib "user32" (ByVal hWnd As Long, ByVal bRevert As Long) As Long
 Declare Function DeleteMenu Lib "user32" (ByVal hMenu As Long, ByVal nPosition As Long, ByVal wFlags As Long) As Long
@@ -328,6 +331,7 @@ Const KEY_CREATE_LINK = &H20
 Const KEY_ALL_ACCESS = KEY_QUERY_VALUE + KEY_SET_VALUE + _
                        KEY_CREATE_SUB_KEY + KEY_ENUMERATE_SUB_KEYS + _
                        KEY_NOTIFY + KEY_CREATE_LINK + READ_CONTROL
+Const KEY_READ = &H20019
 
 Public SessionHeaders As Collection
 Public SessionHeaderKeys As Collection
@@ -691,6 +695,32 @@ GetKeyError:      ' 오류가 발생하면 지웁니다...
     RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
 End Function
 
+'https://www.vbforums.com/showthread.php?796771-RESOLVED-Help!-cannot-delete-registry-x64-subkeys&p=4894805
+Function GetSubkeys(ByVal KeyRoot As Long, ByVal KeyName As String) As String()
+    Dim Keys() As String
+    Dim hKey&, i&, j&, nBufferLen&, sBuffer$
+    
+    If RegOpenKeyEx(KeyRoot, KeyName, 0&, KEY_READ, hKey) <> ERROR_SUCCESS Then GoTo keyerr
+    If RegQueryInfoKey(hKey, lpcSubKeys:=i, lpcMaxSubKeyLen:=nBufferLen) <> ERROR_SUCCESS Then GoTo keyerr
+    SysReAllocStringLen VarPtr(sBuffer), Length:=nBufferLen
+    ReDim Keys(0 To i - 1) As String
+    j = 0&
+    For i = i - 1& To 0& Step -1&
+        nBufferLen = Len(sBuffer) + 1&
+        If RegEnumKeyEx(hKey, i, StrPtr(sBuffer), nBufferLen) = ERROR_SUCCESS Then
+            Keys(j) = Left$(sBuffer, nBufferLen)
+            j = j + 1&
+        End If
+    Next i
+    
+    RegCloseKey hKey
+    GetSubkeys = Keys
+    Exit Function
+    
+keyerr:
+    GetSubkeys = Keys
+End Function
+
 'https://stackoverflow.com/questions/40651/check-if-a-record-exists-in-a-vb6-collection
 Function Exists(ByVal oCol As Collection, ByVal vKey As String) As Boolean
     On Error Resume Next
@@ -858,7 +888,7 @@ Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As
     NoIcon = False
     
     Dim IconRandomIdx As Integer
-    IconRandomIdx = Int(Rnd * (MessageBox.imgTrain.UBound - MessageBox.imgTrain.LBound + 1)) + MessageBox.imgTrain.LBound
+    IconRandomIdx = Int(Rnd * (MessageBox.imgTrain.ubound - MessageBox.imgTrain.lbound + 1)) + MessageBox.imgTrain.lbound
     MessageBox.imgTrain(IconRandomIdx).Top = 240
     MessageBox.imgTrain(IconRandomIdx).Left = 225
     MessageBox.imgTrain(IconRandomIdx).ZOrder 1

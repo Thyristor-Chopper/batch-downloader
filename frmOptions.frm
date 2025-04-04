@@ -1770,6 +1770,107 @@ End Sub
 
 Private Sub cbTheme_Click()
     cmdDeleteTheme.Enabled = (cbTheme.ListIndex > 0)
+    If cbTheme.ListIndex = 0 Then Exit Sub
+    If Not Loaded Then Exit Sub
+    
+    Dim ThemeName$
+    ThemeName = cbTheme.List(cbTheme.ListIndex)
+    
+    VisualStyleChanged = True
+    ImageChanged = True
+    ColorChanged = True
+    SkinChanged = True
+    FontChanged = True
+    
+    SaveSetting "DownloadBooster", "Options", "RoundClassicButtons", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0)
+    
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinShadowColor", 16777215)
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameColor", 16777215)
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameType", "transparent")
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinTextColor", 0)
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableShadow", 1)
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableTextColor", 0)
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableBorder", 1)
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackgroundType", "transparent")
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackgroundColor", 16777215)
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinContentTextColor", 0)
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameTexture", "")
+    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackground", "")
+    
+    txtCompleteSoundPath.Text = Trim$(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "CompleteSoundPath", ""))
+    
+    If GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", 0) <> 0 Then
+        If cbFrameSkin.ListCount >= 3 Then
+            cbFrameSkin.ListIndex = 2
+        Else
+            cbFrameSkin.ListIndex = 1
+        End If
+    ElseIf GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 And cbFrameSkin.ListCount >= 3 Then
+        cbFrameSkin.ListIndex = 1
+    Else
+        cbFrameSkin.ListIndex = 0
+    End If
+    
+    Dim clrBackColor As Long
+    clrBackColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "BackColor", DefaultBackColor)
+    If clrBackColor < 0 Or clrBackColor > 16777215 Then
+        optSystemColor.Value = True
+        pgColor.BackColor = &H8000000F
+    Else
+        optUserColor.Value = True
+        pgColor.BackColor = clrBackColor
+    End If
+    pbBackground.BackColor = pgColor.BackColor
+    pgPatternPreview.BackColor = pgColor.BackColor
+    
+    chkBeepWhenComplete.Value = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "PlaySound", 1)
+    
+    If CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", 0)) Then
+        cbSkin.ListIndex = 2
+    ElseIf Abs(CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0))) Then
+        cbSkin.ListIndex = 1
+        cmdSample.RoundButton = (GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0) <> 0)
+    Else
+        cbSkin.ListIndex = 0
+    End If
+    
+    cmdSample.VisualStyles = (Not CBool(CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0))))
+    cmdSample.IsTygemButton = Abs(CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", 0))) * (-1)
+    
+    lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "FormFillStyle", 0))
+    
+    ChangedBackgroundPath = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImagePath", "")
+    LoadBackgroundList True
+    
+    pgPatternColor.BackColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "FormFillColor", 0))
+    pgPatternPreview.FillColor = pgPatternColor.BackColor
+    pgPatternPreview.FillStyle = lvPatterns.ListIndex + 1
+    
+    cbImagePosition.ListIndex = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "ImagePosition", 1)
+    cbImagePosition_Click
+    chkImageCentered.Value = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImageCentered", 0)
+    
+    cbFont.Text = Trim$(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "Font", ""))
+    If cbFont.Text = "" Then cbFont.Text = ("(" & t("기본값", "default") & ")")
+    
+    On Error Resume Next
+    
+    Dim clrForeColor As Long
+    clrForeColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "ForeColor", -1)
+    If clrForeColor < 0 Or clrForeColor > 16777215 Then
+        optSystemFore.Value = True
+        pgFore.BackColor = &H80000012
+    Else
+        optUserFore.Value = True
+        pgFore.BackColor = clrForeColor
+        CheckBoxW1.VisualStyles = False
+        FrameW5.VisualStyles = False
+        CheckBoxW1.ForeColor = pgFore.BackColor
+        FrameW5.ForeColor = pgFore.BackColor
+    End If
+    Label11.ForeColor = pgFore.BackColor
+    
+    cmdApply.Enabled = True
 End Sub
 
 Private Sub cbWhenExist_Click()
@@ -2137,6 +2238,8 @@ aftermaxtrdcheck:
         FrameW5.ForeColor = pgFore.BackColor
     End If
     
+    SaveSetting "DownloadBooster", "Options", "Theme", IIf(cbTheme.ListIndex = 0, "", cbTheme.List(cbTheme.ListIndex))
+    
     RedrawPreview
     ColorChanged = False
     ImageChanged = False
@@ -2203,7 +2306,11 @@ End Sub
 
 Private Sub cmdDeleteTheme_Click()
     If cbTheme.ListIndex = 0 Then Exit Sub
-    DeleteSetting "DownloadBooster", "Options\Themes\" & cbTheme.List(cbTheme.ListIndex)
+    On Error Resume Next
+    If MsgBox(t("선택한 테마를 삭제하시겠습니까?", "Delete the selected theme?"), vbQuestion + vbYesNo) = vbYes Then
+        DeleteSetting "DownloadBooster", "Options\Themes\" & cbTheme.List(cbTheme.ListIndex)
+        cbTheme.ListIndex = 0
+    End If
 End Sub
 
 Private Sub cmdEditHeaderName_Click()
@@ -2245,6 +2352,7 @@ Private Sub cmdSaveTheme_Click()
         Exit Sub
     End If
     
+    On Error Resume Next
     DeleteSetting "DownloadBooster", "Options\Themes\" & ThemeName
     
     cbFont.Text = Trim$(cbFont.Text)
@@ -2557,13 +2665,14 @@ Private Sub txtEdit_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub Form_Load()
-    VisualStyleChanged = False
     Loaded = False
+    VisualStyleChanged = False
     ImageChanged = False
     ColorChanged = False
     SkinChanged = False
     ScrollChanged = False
     FontChanged = False
+    
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me
@@ -2808,9 +2917,17 @@ Private Sub Form_Load()
     cbImagePosition_Click
     chkImageCentered.Value = GetSetting("DownloadBooster", "Options", "BackgroundImageCentered", 0)
     
-    '임시
     cbTheme.AddItem t("수정된 테마", "Modified theme")
     cbTheme.ListIndex = 0
+    On Error Resume Next
+    Dim ThemeList() As String
+    ThemeList = GetSubkeys(HKEY_CURRENT_USER, "Software\VB and VBA Program Settings\DownloadBooster\Options\Themes")
+    Dim CurrentTheme$
+    CurrentTheme = GetSetting("DownloadBooster", "Options", "Theme", "")
+    For i = LBound(ThemeList) To UBound(ThemeList)
+        cbTheme.AddItem ThemeList(i)
+        If ThemeList(i) = CurrentTheme Then cbTheme.ListIndex = cbTheme.ListCount - 1
+    Next i
     
     txtNodePath.Text = GetSetting("DownloadBooster", "Options", "NodePath", "")
     txtScriptPath.Text = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
