@@ -562,7 +562,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                     ctrl.VisualStyles = True
                 End If
             End If
-            If CtrlTypeName = "PictureBox" Then
+            If CtrlTypeName = "PictureBox" And (Not ctrl.Tag = "forcebgchange") Then
                 If ctrl.AutoRedraw = True Then GoTo nextfor
             End If
             If ctrl.Tag <> "nobackcolorchange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" And ctrl.BackColor <> clrBackColor Then
