@@ -698,27 +698,34 @@ End Function
 
 'https://www.vbforums.com/showthread.php?796771-RESOLVED-Help!-cannot-delete-registry-x64-subkeys&p=4894805
 Function GetSubkeys(ByVal KeyRoot As Long, ByVal KeyName As String) As String()
-    Dim Keys() As String
+    Dim KeysRev() As String, Keys() As String
     Dim hKey&, i&, j&, nBufferLen&, sBuffer$
     
     If RegOpenKeyEx(KeyRoot, KeyName, 0&, KEY_READ, hKey) <> ERROR_SUCCESS Then GoTo keyerr
     If RegQueryInfoKey(hKey, lpcSubKeys:=i, lpcMaxSubKeyLen:=nBufferLen) <> ERROR_SUCCESS Then GoTo keyerr
     SysReAllocStringLen VarPtr(sBuffer), Length:=nBufferLen
-    ReDim Keys(0 To i - 1) As String
+    ReDim KeysRev(0 To i - 1) As String
     j = 0&
     For i = i - 1& To 0& Step -1&
         nBufferLen = Len(sBuffer) + 1&
         If RegEnumKeyEx(hKey, i, StrPtr(sBuffer), nBufferLen) = ERROR_SUCCESS Then
-            Keys(j) = Left$(sBuffer, nBufferLen)
+            KeysRev(j) = Left$(sBuffer, nBufferLen)
             j = j + 1&
         End If
     Next i
-    
-    RegCloseKey hKey
-    GetSubkeys = Keys
-    Exit Function
+    If j > 0& Then
+        j = j - 1&
+        ReDim Keys(0 To j) As String
+        For i = j To 0& Step -1&
+            Keys(j - i) = KeysRev(i)
+        Next i
+        GetSubkeys = Keys
+        RegCloseKey hKey
+        Exit Function
+    End If
     
 keyerr:
+    RegCloseKey hKey
     GetSubkeys = Keys
 End Function
 
