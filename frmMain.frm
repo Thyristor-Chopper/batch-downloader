@@ -4189,6 +4189,7 @@ Private Sub Form_Unload(Cancel As Integer)
     
     GetSystemMenu Me.hWnd, 1&
     Unload frmMessageBox
+    Unload frmInputBox
     Unload frmAbout
     Unload frmDownloadOptions
     Unload frmMain

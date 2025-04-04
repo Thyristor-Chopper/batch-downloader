@@ -1773,6 +1773,8 @@ Private Sub cbTheme_Click()
     If cbTheme.ListIndex = 0 Then Exit Sub
     If Not Loaded Then Exit Sub
     
+    On Error Resume Next
+    
     Dim ThemeName$
     ThemeName = cbTheme.List(cbTheme.ListIndex)
     
@@ -2309,6 +2311,7 @@ Private Sub cmdDeleteTheme_Click()
     On Error Resume Next
     If MsgBox(t("선택한 테마를 삭제하시겠습니까?", "Delete the selected theme?"), vbQuestion + vbYesNo) = vbYes Then
         DeleteSetting "DownloadBooster", "Options\Themes\" & cbTheme.List(cbTheme.ListIndex)
+        cbTheme.RemoveItem cbTheme.ListIndex
         cbTheme.ListIndex = 0
     End If
 End Sub
@@ -2340,9 +2343,8 @@ End Sub
 
 Private Sub cmdSaveTheme_Click()
     Dim ThemeName$
-    ThemeName = Trim$(InputBox(t("테마 이름을 입력하십시오.", "Choose your theme name."), Default:=IIf(cbTheme.ListIndex = 0, "", cbTheme.List(cbTheme.ListIndex))))
+    ThemeName = InputBoxEx(t("테마 이름을 입력하십시오.", "Choose your theme name."), t("테마 저장", "Save theme"), IIf(cbTheme.ListIndex = 0, "", cbTheme.List(cbTheme.ListIndex)))
     If ThemeName = "" Then
-        MsgBox t("테마 저장이 취소되었습니다.", "Theme was not saved."), 64
         Exit Sub
     ElseIf Includes(ThemeName, "\") Then
         MsgBox t("테마 이름에 허용되지 않은 문자가 포함되어 있습니다.", "Theme name contains invalid characters."), 16

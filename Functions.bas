@@ -13,6 +13,7 @@ Option Explicit
 Public Const MAX_THREAD_COUNT_CONTROL As Integer = 655 '679
 
 Public MsgBoxResults As Collection
+Public InputBoxResults As Collection
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
@@ -856,6 +857,31 @@ Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String
     CutLines = Lines
 End Function
 
+Function InputBoxEx(ByVal Prompt As String, Optional ByVal Title As String, Optional ByVal Default As String)
+    If Title = "" Then Title = App.Title
+    
+    Dim InpBox As frmInputBox
+    Set InpBox = New frmInputBox
+    Randomize
+    InpBox.ResultID = CStr(Rnd * 1E+15)
+    Set InpBox.InputBoxObject = InpBox
+    
+    On Error Resume Next
+    
+    InpBox.cmdOK.Caption = t("확인", "OK")
+    InpBox.cmdCancel.Caption = t("취소", "Cancel")
+    
+    InpBox.lblCaption = Prompt
+    InpBox.txtInput.Text = Default
+    InpBox.Caption = Title
+    
+    InpBox.Show vbModal
+    InputBoxEx = InputBoxResults(InpBox.ResultID)
+    InputBoxResults.Remove InpBox.ResultID
+    Unload InpBox
+    Set InpBox = Nothing
+End Function
+
 Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal MsgBoxMode As Byte = 1) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 And MsgBoxMode <> 3 Then
@@ -888,7 +914,7 @@ Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As
     NoIcon = False
     
     Dim IconRandomIdx As Integer
-    IconRandomIdx = Int(Rnd * (MessageBox.imgTrain.ubound - MessageBox.imgTrain.lbound + 1)) + MessageBox.imgTrain.lbound
+    IconRandomIdx = Int(Rnd * (MessageBox.imgTrain.UBound - MessageBox.imgTrain.LBound + 1)) + MessageBox.imgTrain.LBound
     MessageBox.imgTrain(IconRandomIdx).Top = 240
     MessageBox.imgTrain(IconRandomIdx).Left = 225
     MessageBox.imgTrain(IconRandomIdx).ZOrder 1
