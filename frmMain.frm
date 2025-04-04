@@ -3094,7 +3094,7 @@ dorefresh:
             fTabs.Refresh
             optTabDownload2.Refresh
             optTabThreads2.Refresh
-            If Not cmdBrowse.IsTygemButton Then
+            If (Not cmdBrowse.IsTygemButton) And cmdBrowse.VisualStyles Then
                 Dim ctrl As Control
                 For Each ctrl In Me.Controls
                     If TypeName(ctrl) = "CommandButtonW" Then ctrl.Refresh
