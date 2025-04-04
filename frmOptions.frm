@@ -1224,7 +1224,7 @@ Begin VB.Form frmOptions
             Style           =   2  '드롭다운 목록
             TabIndex        =   73
             Top             =   570
-            Width           =   1545
+            Width           =   1575
          End
          Begin VB.ComboBox cbFrameSkin 
             Height          =   300

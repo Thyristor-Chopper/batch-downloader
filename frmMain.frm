@@ -3094,10 +3094,10 @@ dorefresh:
             fTabs.Refresh
             optTabDownload2.Refresh
             optTabThreads2.Refresh
-            Dim ctrl As Control
-            For Each ctrl In Me.Controls
-                If TypeName(ctrl) = "CommandButtonW" Then ctrl.Refresh
-            Next ctrl
+'            Dim ctrl As Control
+'            For Each ctrl In Me.Controls
+'                If TypeName(ctrl) = "CommandButtonW" Then ctrl.Refresh
+'            Next ctrl
         End If
     Else
         GoTo dorefresh
@@ -3972,6 +3972,9 @@ afterheaderadd:
     AttachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
     
     vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
+    
+    Me.Show vbModeless
+    SetPictureBuddy
 End Sub
 
 Sub SetPictureBuddy()

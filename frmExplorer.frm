@@ -1894,7 +1894,6 @@ Private Sub OKButton_Click()
             LoadPicture Path & txtFileName.Text
         End If
         frmOptions.ChangedBackgroundPath = Path & txtFileName.Text
-        Debug.Print frmOptions.ChangedBackgroundPath
         frmOptions.LoadBackgroundList
         Unload Me
         Exit Sub
