@@ -3094,10 +3094,12 @@ dorefresh:
             fTabs.Refresh
             optTabDownload2.Refresh
             optTabThreads2.Refresh
-'            Dim ctrl As Control
-'            For Each ctrl In Me.Controls
-'                If TypeName(ctrl) = "CommandButtonW" Then ctrl.Refresh
-'            Next ctrl
+            If Not cmdBrowse.IsTygemButton Then
+                Dim ctrl As Control
+                For Each ctrl In Me.Controls
+                    If TypeName(ctrl) = "CommandButtonW" Then ctrl.Refresh
+                Next ctrl
+            End If
         End If
     Else
         GoTo dorefresh
@@ -4102,7 +4104,7 @@ Private Sub Form_Resize()
     cmdStopBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdEdit.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     
-    SetBackgroundPosition
+    If imgBackground.Visible Or imgBackgroundTile(0).Visible Then SetBackgroundPosition
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
