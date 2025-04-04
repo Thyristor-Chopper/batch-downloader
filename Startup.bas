@@ -15,6 +15,8 @@ Public OSLangID As Integer
 Public DPI As Long
 Public DefaultFont$
 
+Public ThemeKeys(35) As String
+
 Sub LoadPNG()
     On Error Resume Next
     MkDir CachePath
@@ -220,7 +222,44 @@ forcegulim:
             SaveSetting "DownloadBooster", "Options", "BackgroundImageCentered", 1
     End Select
     
+    ThemeKeys(0) = "BackColor"
+    ThemeKeys(1) = "BackColorMainOnly"
+    ThemeKeys(2) = "BackgroundImageCentered"
+    ThemeKeys(3) = "BackgroundImagePath"
+    ThemeKeys(4) = "CompleteSoundPath"
+    ThemeKeys(5) = "DisableVisualStyle"
+    ThemeKeys(6) = "EnableAsteriskSound"
+    ThemeKeys(7) = "EnableErrorSound"
+    ThemeKeys(8) = "EnableExclamationSound"
+    ThemeKeys(9) = "EnableLiveBadukMemoSkin"
+    ThemeKeys(10) = "EnableQuestionSound"
+    ThemeKeys(11) = "ErrorSound"
+    ThemeKeys(12) = "ExclamationSound"
+    ThemeKeys(13) = "Font"
+    ThemeKeys(14) = "ForeColor"
+    ThemeKeys(15) = "ForeColorMainOnly"
+    ThemeKeys(16) = "FormFillColor"
+    ThemeKeys(17) = "FormFillStyle"
+    ThemeKeys(18) = "ImagePosition"
+    ThemeKeys(19) = "LiveBadukMemoSkinContentTextColor"
+    ThemeKeys(20) = "LiveBadukMemoSkinEnableBorder"
+    ThemeKeys(21) = "LiveBadukMemoSkinEnableShadow"
+    ThemeKeys(22) = "LiveBadukMemoSkinEnableTextColor"
+    ThemeKeys(23) = "LiveBadukMemoSkinFrameBackgroundColor"
+    ThemeKeys(24) = "LiveBadukMemoSkinFrameBackgroundType"
+    ThemeKeys(25) = "LiveBadukMemoSkinFrameColor"
+    ThemeKeys(26) = "LiveBadukMemoSkinFrameTexture"
+    ThemeKeys(27) = "LiveBadukMemoSkinFrameType"
+    ThemeKeys(28) = "LiveBadukMemoSkinShadowColor"
+    ThemeKeys(29) = "LiveBadukMemoSkinTextColor"
+    ThemeKeys(30) = "PlaySound"
+    ThemeKeys(31) = "QuestionSound"
+    ThemeKeys(32) = "RoundClassicButtons"
+    ThemeKeys(33) = "UseBackgroundImage"
+    ThemeKeys(34) = "UseClassicThemeFrame"
+    ThemeKeys(35) = "DisableDWMWindow"
+    
     Randomize
     InitVisualStylesFixes
-    frmMain.Show vbModeless
+    Load frmMain
 End Sub
