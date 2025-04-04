@@ -2131,6 +2131,8 @@ aftermaxtrdcheck:
         frmMain.pbProgressContainer.Refresh
         frmMain.SetupSplitButtons
         frmMain.SetTextColors
+        frmMain.ThreadBuddyAttached = False
+        frmMain.SetPictureBuddy
     End If
     If VisualStyleChanged Then
         On Error Resume Next

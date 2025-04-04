@@ -1593,7 +1593,7 @@ Dim TotalSize As Double
 Dim FormCaption$
 Dim LBFrameEnabled As Boolean
 Dim ErrorCodeDescription As Collection
-Dim ThreadBuddyAttached As Boolean
+Public ThreadBuddyAttached As Boolean
 
 Const MAIN_FORM_WIDTH As Long = 9450
 
@@ -3990,6 +3990,12 @@ Sub SetPictureBuddy()
         pbdThreadInfo.DetachBuddy
         pbdProgressOuterContainer.DetachBuddy
         pbdProgressContainer.DetachBuddy
+        fThreadInfo.Refresh
+        pbProgressOuterContainer.Refresh
+        pbProgressContainer.Refresh
+        Set fThreadInfo.Picture = Nothing
+        Set pbProgressOuterContainer.Picture = Nothing
+        Set pbProgressContainer.Picture = Nothing
         ThreadBuddyAttached = False
     End If
 End Sub
