@@ -1842,7 +1842,7 @@ Private Sub cbTheme_Click()
     lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "FormFillStyle", 0))
     
     ChangedBackgroundPath = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImagePath", "")
-    LoadBackgroundList True
+    LoadBackgroundList
     
     pgPatternColor.BackColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "FormFillColor", 0))
     pgPatternPreview.FillColor = pgPatternColor.BackColor
