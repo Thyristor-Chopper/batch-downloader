@@ -1872,6 +1872,8 @@ Private Sub cbTheme_Click()
     End If
     Label11.ForeColor = pgFore.BackColor
     
+    RedrawPreview
+    
     cmdApply.Enabled = True
 End Sub
 
@@ -2546,6 +2548,7 @@ nopicture:
     If Loaded Then
         cmdApply.Enabled = -1
         ImageChanged = True
+        RedrawPreview
     End If
 End Sub
 
