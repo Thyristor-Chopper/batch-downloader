@@ -87,14 +87,14 @@ Begin VB.Form frmMain
       Left            =   10680
       ScaleHeight     =   75
       ScaleWidth      =   75
-      TabIndex        =   85
+      TabIndex        =   74
       Top             =   1920
       Width           =   135
    End
    Begin prjDownloadBooster.FrameW fTygemFrameTransparent 
       Height          =   4845
       Left            =   10560
-      TabIndex        =   82
+      TabIndex        =   75
       Tag             =   "nobackcolorchange"
       Top             =   2280
       Visible         =   0   'False
@@ -120,7 +120,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   375
          Left            =   120
-         TabIndex        =   83
+         TabIndex        =   76
          Tag             =   "nosizechange"
          Top             =   120
          Width           =   1215
@@ -141,7 +141,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   135
-         TabIndex        =   84
+         TabIndex        =   77
          Tag             =   "nocolorsizechange"
          Top             =   135
          Width           =   1215
@@ -606,27 +606,18 @@ Begin VB.Form frmMain
       MaskColor       =   16711935
       InitListImages  =   "frmMain.frx":53B1
    End
-   Begin VB.PictureBox fDownloadInfo 
-      AutoRedraw      =   -1  'True
-      BorderStyle     =   0  '없음
+   Begin prjDownloadBooster.FrameW fDownloadInfo 
       Height          =   3255
       Left            =   360
-      ScaleHeight     =   3255
-      ScaleWidth      =   5175
       TabIndex        =   49
       Tag             =   "forcebgchange"
       Top             =   2640
       Visible         =   0   'False
       Width           =   5175
-      Begin prjDownloadBooster.ucPicBuddy pbdDownloadInfo 
-         Height          =   1215
-         Left            =   3000
-         TabIndex        =   74
-         Top             =   1440
-         Width           =   2055
-         _ExtentX        =   3625
-         _ExtentY        =   2143
-      End
+      _ExtentX        =   0
+      _ExtentY        =   0
+      BorderStyle     =   0
+      Transparent     =   -1  'True
       Begin VB.Label lblMergeStatus 
          BackStyle       =   0  '투명
          Caption         =   "-"
@@ -790,39 +781,39 @@ Begin VB.Form frmMain
          Width           =   975
       End
    End
-   Begin VB.PictureBox fThreadInfo 
-      AutoRedraw      =   -1  'True
-      BorderStyle     =   0  '없음
+   Begin prjDownloadBooster.FrameW fThreadInfo 
       Height          =   3495
       Left            =   360
-      ScaleHeight     =   3495
-      ScaleWidth      =   5775
       TabIndex        =   47
       Tag             =   "forcebgchange"
       Top             =   2310
       Width           =   5775
-      Begin VB.PictureBox pbProgressOuterContainer 
-         AutoRedraw      =   -1  'True
-         BorderStyle     =   0  '없음
+      _ExtentX        =   0
+      _ExtentY        =   0
+      BorderStyle     =   0
+      Transparent     =   -1  'True
+      Begin prjDownloadBooster.FrameW pbProgressOuterContainer 
          Height          =   3495
          Left            =   0
-         ScaleHeight     =   3495
-         ScaleWidth      =   5775
          TabIndex        =   48
          Tag             =   "forcebgchange"
          Top             =   0
          Width           =   5775
-         Begin VB.PictureBox pbProgressContainer 
-            AutoRedraw      =   -1  'True
-            BorderStyle     =   0  '없음
+         _ExtentX        =   0
+         _ExtentY        =   0
+         BorderStyle     =   0
+         Transparent     =   -1  'True
+         Begin prjDownloadBooster.FrameW pbProgressContainer 
             Height          =   9015
             Left            =   0
-            ScaleHeight     =   9015
-            ScaleWidth      =   5775
             TabIndex        =   64
             Tag             =   "forcebgchange"
             Top             =   0
             Width           =   5775
+            _ExtentX        =   0
+            _ExtentY        =   0
+            BorderStyle     =   0
+            Transparent     =   -1  'True
             Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
                Height          =   255
                Index           =   1
@@ -848,15 +839,6 @@ Begin VB.Form frmMain
                Step            =   10
                MarqueeSpeed    =   35
             End
-            Begin prjDownloadBooster.ucPicBuddy pbdProgressContainer 
-               Height          =   255
-               Left            =   5400
-               TabIndex        =   75
-               Top             =   0
-               Width           =   255
-               _ExtentX        =   450
-               _ExtentY        =   450
-            End
             Begin VB.Label lblDownloader 
                AutoSize        =   -1  'True
                BackStyle       =   0  '투명
@@ -879,24 +861,6 @@ Begin VB.Form frmMain
                Width           =   615
             End
          End
-         Begin prjDownloadBooster.ucPicBuddy pbdProgressOuterContainer 
-            Height          =   375
-            Left            =   5640
-            TabIndex        =   77
-            Top             =   360
-            Width           =   135
-            _ExtentX        =   238
-            _ExtentY        =   661
-         End
-      End
-      Begin prjDownloadBooster.ucPicBuddy pbdThreadInfo 
-         Height          =   255
-         Left            =   5760
-         TabIndex        =   76
-         Top             =   360
-         Width           =   255
-         _ExtentX        =   450
-         _ExtentY        =   450
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdIncreaseThreads 
@@ -1593,7 +1557,6 @@ Dim TotalSize As Double
 Dim FormCaption$
 Dim LBFrameEnabled As Boolean
 Dim ErrorCodeDescription As Collection
-Public ThreadBuddyAttached As Boolean
 
 Const MAIN_FORM_WIDTH As Long = 9450
 
@@ -3100,6 +3063,10 @@ dorefresh:
                     If TypeName(ctrl) = "CommandButtonW" Then ctrl.Refresh
                 Next ctrl
             End If
+            fDownloadInfo.Refresh
+            fThreadInfo.Refresh
+            pbProgressOuterContainer.Refresh
+            pbProgressContainer.Refresh
         End If
     Else
         GoTo dorefresh
@@ -3128,8 +3095,6 @@ Sub SetBackgroundImage()
         End If
         SetBackgroundPosition True
     End If
-    
-    SetPictureBuddy
 End Sub
 
 Sub SetPattern()
@@ -3454,9 +3419,6 @@ framecolorbackground:
     Next ctrl
     
     SetFont Me
-    
-    SetPictureBuddy
-    ThreadBuddyAttached = False
 End Sub
 
 #If HIDEYTDL Then
@@ -3503,7 +3465,6 @@ Private Sub Form_Load()
 
     ResumeUnsupported = False
     LBFrameEnabled = False
-    ThreadBuddyAttached = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")
     FormCaption = App.Title & IIf(InIDE, "*", "") & " " & App.Major & "." & App.Minor & IIf(App.Revision > 0, "." & App.Revision, "")
     SetTitle
@@ -3976,28 +3937,6 @@ afterheaderadd:
     vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
     
     Me.Show vbModeless
-    SetPictureBuddy
-End Sub
-
-Sub SetPictureBuddy()
-    If imgBackground.Visible Or imgBackgroundTile(0).Visible Or imgTopLeft.Visible Or fTygemFrameTransparent.Visible Then
-        pbdDownloadInfo.AttachBuddy fDownloadInfo
-        pbdThreadInfo.AttachBuddy fThreadInfo
-        pbdProgressOuterContainer.AttachBuddy pbProgressOuterContainer
-        pbdProgressContainer.AttachBuddy pbProgressContainer
-    Else
-        pbdDownloadInfo.DetachBuddy
-        pbdThreadInfo.DetachBuddy
-        pbdProgressOuterContainer.DetachBuddy
-        pbdProgressContainer.DetachBuddy
-        fThreadInfo.Refresh
-        pbProgressOuterContainer.Refresh
-        pbProgressContainer.Refresh
-        Set fThreadInfo.Picture = Nothing
-        Set pbProgressOuterContainer.Picture = Nothing
-        Set pbProgressContainer.Picture = Nothing
-        ThreadBuddyAttached = False
-    End If
 End Sub
 
 Sub SetTextColors()
@@ -4516,10 +4455,6 @@ End Sub
 Private Sub optTabThreads2_Click()
     fThreadInfo.Visible = -1
     fDownloadInfo.Visible = 0
-    If Not ThreadBuddyAttached Then
-        SetPictureBuddy
-        ThreadBuddyAttached = True
-    End If
     vsProgressScroll.Visible = trThreadCount.Value > 10
 End Sub
 
@@ -4635,6 +4570,6 @@ Private Sub vsProgressScroll_Scroll()
         pbProgressContainer.Top = CDbl(vsProgressScroll.Value) * 255# * -1# - (105# * CDbl(vsProgressScroll.Value))
     End If
     If LBFrameEnabled Or imgBackground.Visible Then
-        pbdProgressContainer.Refresh
+        pbProgressContainer.Refresh
     End If
 End Sub
