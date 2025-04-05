@@ -40,7 +40,7 @@ Declare Function GetSubMenu Lib "user32" (ByVal hMenu As Long, ByVal nPos As Lon
 Declare Function GetMenuItemID Lib "user32" (ByVal hMenu As Long, ByVal nPos As Long) As Long
 Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As Long
 Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
-Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
 Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1
@@ -61,7 +61,7 @@ Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVa
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
 Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
-Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal IDHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
 Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Long) As Long
@@ -889,6 +889,10 @@ Function InputBoxEx(ByVal Prompt As String, Optional ByVal Title As String, Opti
     Set InpBox = Nothing
 End Function
 
+Function RandInt(StartNumber, EndNumber)
+    RandInt = Int(Rnd * (EndNumber - StartNumber + 1)) + StartNumber
+End Function
+
 Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal MsgBoxMode As Byte = 1) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 And MsgBoxMode <> 3 Then
@@ -921,7 +925,16 @@ Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As
     NoIcon = False
     
     Dim IconRandomIdx As Integer
-    IconRandomIdx = Int(Rnd * (MessageBox.imgTrain.UBound - MessageBox.imgTrain.LBound + 1)) + MessageBox.imgTrain.LBound
+    Select Case RandInt(1, 1000)
+        Case 290
+            IconRandomIdx = 3
+        Case 345
+            IconRandomIdx = 4
+        Case 419
+            IconRandomIdx = 2
+        Case Else
+            IconRandomIdx = RandInt(0, 1)
+    End Select
     MessageBox.imgTrain(IconRandomIdx).Top = 240
     MessageBox.imgTrain(IconRandomIdx).Left = 225
     MessageBox.imgTrain(IconRandomIdx).ZOrder 1
