@@ -53,7 +53,7 @@ Begin VB.Form frmDownloadOptions
          _ExtentX        =   2143
          _ExtentY        =   582
          Enabled         =   0   'False
-         Caption         =   "이름변경(&R)"
+         Caption         =   "이름 변경(&R)"
       End
       Begin VB.TextBox txtEdit 
          Height          =   255
