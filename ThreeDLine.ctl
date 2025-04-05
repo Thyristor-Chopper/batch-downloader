@@ -7,6 +7,7 @@ Begin VB.UserControl ThreeDLine
    ClientWidth     =   4800
    ScaleHeight     =   3600
    ScaleWidth      =   4800
+   Windowless      =   -1  'True
    Begin VB.Line Line1 
       BorderColor     =   &H80000010&
       X1              =   0
@@ -32,4 +33,5 @@ Option Explicit
 Private Sub UserControl_Resize()
     Line1.X2 = UserControl.Width - Screen.TwipsPerPixelX
     Line2.X2 = UserControl.Width
+    UserControl.Height = 2 * Screen.TwipsPerPixelY
 End Sub

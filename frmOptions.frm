@@ -205,10 +205,11 @@ Begin VB.Form frmOptions
          Width           =   6375
          _ExtentX        =   11245
          _ExtentY        =   7646
+         BorderStyle     =   0
          Caption         =   " 효과음 설정 "
          Begin prjDownloadBooster.FrameW fCompleteSound 
             Height          =   735
-            Left            =   720
+            Left            =   840
             TabIndex        =   84
             Top             =   720
             Width           =   5535
@@ -266,7 +267,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.FrameW fAsterisk 
             Height          =   735
-            Left            =   720
+            Left            =   840
             TabIndex        =   89
             Top             =   1440
             Width           =   5535
@@ -324,7 +325,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.FrameW fExclamation 
             Height          =   735
-            Left            =   720
+            Left            =   840
             TabIndex        =   94
             Top             =   2160
             Width           =   5535
@@ -382,7 +383,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.FrameW fError 
             Height          =   735
-            Left            =   720
+            Left            =   840
             TabIndex        =   99
             Top             =   2880
             Width           =   5535
@@ -440,7 +441,7 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.FrameW fQuestion 
             Height          =   675
-            Left            =   720
+            Left            =   840
             TabIndex        =   104
             Top             =   3600
             Width           =   5535
@@ -496,11 +497,30 @@ Begin VB.Form frmOptions
                Caption         =   "▶"
             End
          End
+         Begin prjDownloadBooster.SimpleFrame SimpleFrame5 
+            Height          =   255
+            Left            =   0
+            TabIndex        =   139
+            Top             =   0
+            Width           =   6375
+            _ExtentX        =   11245
+            _ExtentY        =   450
+            Caption         =   "효과음 설정"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "굴림"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
          Begin VB.Label Label12 
             BackStyle       =   0  '투명
             Caption         =   "기본값을 사용하려면 필드를 비워두십시오."
             Height          =   255
-            Left            =   840
+            Left            =   960
             TabIndex        =   83
             Top             =   360
             Width           =   4815
@@ -544,6 +564,7 @@ Begin VB.Form frmOptions
          Width           =   6375
          _ExtentX        =   11245
          _ExtentY        =   2143
+         BorderStyle     =   0
          Caption         =   " 연결 설정 "
          Begin prjDownloadBooster.Slider trRequestInterval 
             Height          =   450
@@ -588,6 +609,25 @@ Begin VB.Form frmOptions
             _ExtentY        =   450
             Caption         =   "리다이렉트 검사 안 함(&R)"
          End
+         Begin prjDownloadBooster.SimpleFrame SimpleFrame3 
+            Height          =   255
+            Left            =   0
+            TabIndex        =   137
+            Top             =   0
+            Width           =   6375
+            _ExtentX        =   11245
+            _ExtentY        =   450
+            Caption         =   "연결 설정"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "굴림"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
          Begin VB.Label lblIntervalDisplay 
             AutoSize        =   -1  'True
             BackStyle       =   0  '투명
@@ -621,20 +661,21 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   41
          Top             =   1440
-         Width           =   6135
-         _ExtentX        =   10821
+         Width           =   6375
+         _ExtentX        =   11245
          _ExtentY        =   5953
+         BorderStyle     =   0
          Caption         =   " 헤더 설정 "
          Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
             Height          =   330
-            Left            =   3480
+            Left            =   3630
             TabIndex        =   45
             Top             =   2940
-            Width           =   1215
-            _ExtentX        =   2143
+            Width           =   1335
+            _ExtentX        =   2355
             _ExtentY        =   582
             Enabled         =   0   'False
-            Caption         =   "이름변경(&R)"
+            Caption         =   "이름 변경(&R)"
          End
          Begin VB.TextBox txtEdit 
             Height          =   255
@@ -646,22 +687,22 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.CommandButtonW cmdDeleteHeader 
             Height          =   330
-            Left            =   2160
+            Left            =   2250
             TabIndex        =   44
             Top             =   2940
-            Width           =   1215
-            _ExtentX        =   2143
+            Width           =   1335
+            _ExtentX        =   2355
             _ExtentY        =   582
             Enabled         =   0   'False
             Caption         =   "삭제(&D)"
          End
          Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
             Height          =   330
-            Left            =   4800
+            Left            =   5040
             TabIndex        =   46
             Top             =   2940
-            Width           =   1215
-            _ExtentX        =   2143
+            Width           =   1335
+            _ExtentX        =   2355
             _ExtentY        =   582
             Enabled         =   0   'False
             Caption         =   "편집(&E)"
@@ -671,8 +712,8 @@ Begin VB.Form frmOptions
             Left            =   840
             TabIndex        =   43
             Top             =   2940
-            Width           =   1215
-            _ExtentX        =   2143
+            Width           =   1335
+            _ExtentX        =   2355
             _ExtentY        =   582
             Caption         =   "추가(&A)"
          End
@@ -681,8 +722,8 @@ Begin VB.Form frmOptions
             Left            =   840
             TabIndex        =   42
             Top             =   720
-            Width           =   5175
-            _ExtentX        =   9128
+            Width           =   5535
+            _ExtentX        =   9763
             _ExtentY        =   3784
             VisualTheme     =   1
             View            =   3
@@ -692,6 +733,25 @@ Begin VB.Form frmOptions
             ShowLabelTips   =   -1  'True
             HighlightColumnHeaders=   -1  'True
             AutoSelectFirstItem=   0   'False
+         End
+         Begin prjDownloadBooster.SimpleFrame SimpleFrame4 
+            Height          =   255
+            Left            =   0
+            TabIndex        =   138
+            Top             =   0
+            Width           =   6375
+            _ExtentX        =   11245
+            _ExtentY        =   450
+            Caption         =   "헤더 설정"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "굴림"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin VB.Image Image5 
             Height          =   480
@@ -707,7 +767,7 @@ Begin VB.Form frmOptions
             Left            =   840
             TabIndex        =   130
             Top             =   240
-            Width           =   5175
+            Width           =   5535
          End
       End
    End
@@ -727,9 +787,10 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   20
          Top             =   2160
-         Width           =   5895
-         _ExtentX        =   10398
+         Width           =   6375
+         _ExtentX        =   11245
          _ExtentY        =   4207
+         BorderStyle     =   0
          Caption         =   " 인터페이스 "
          Begin prjDownloadBooster.OptionButtonW optScreenPerScroll 
             Height          =   255
@@ -831,6 +892,25 @@ Begin VB.Form frmOptions
             Top             =   1710
             Width           =   1455
          End
+         Begin prjDownloadBooster.SimpleFrame SimpleFrame2 
+            Height          =   255
+            Left            =   0
+            TabIndex        =   136
+            Top             =   0
+            Width           =   6375
+            _ExtentX        =   11245
+            _ExtentY        =   450
+            Caption         =   "인터페이스"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "굴림"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
          Begin VB.Label Label18 
             AutoSize        =   -1  'True
             BackStyle       =   0  '투명
@@ -876,6 +956,7 @@ Begin VB.Form frmOptions
          Width           =   6375
          _ExtentX        =   11245
          _ExtentY        =   3413
+         BorderStyle     =   0
          Caption         =   " 다운로드 설정 "
          Begin prjDownloadBooster.UpDown udMaxThreadCount 
             Height          =   255
@@ -978,6 +1059,25 @@ Begin VB.Form frmOptions
             Top             =   1560
             Width           =   690
          End
+         Begin prjDownloadBooster.SimpleFrame SimpleFrame1 
+            Height          =   255
+            Left            =   0
+            TabIndex        =   135
+            Top             =   0
+            Width           =   6375
+            _ExtentX        =   11245
+            _ExtentY        =   450
+            Caption         =   "다운로드 설정"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "굴림"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
          Begin VB.Image Image2 
             Height          =   480
             Left            =   120
@@ -1033,9 +1133,10 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   117
          Top             =   2040
-         Width           =   5535
-         _ExtentX        =   9763
+         Width           =   6375
+         _ExtentX        =   11245
          _ExtentY        =   1296
+         BorderStyle     =   0
          Caption         =   " 고급 다운로드 설정 "
          Begin prjDownloadBooster.CheckBoxW chkNoCleanup 
             Height          =   255
@@ -1047,6 +1148,25 @@ Begin VB.Form frmOptions
             _ExtentY        =   450
             Caption         =   "조각 파일 유지(&N)"
             Transparent     =   -1  'True
+         End
+         Begin prjDownloadBooster.SimpleFrame SimpleFrame7 
+            Height          =   255
+            Left            =   0
+            TabIndex        =   141
+            Top             =   0
+            Width           =   6375
+            _ExtentX        =   11245
+            _ExtentY        =   450
+            Caption         =   "고급 다운로드 설정"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "굴림"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin VB.Image Image6 
             Height          =   480
@@ -1064,27 +1184,47 @@ Begin VB.Form frmOptions
          Width           =   6375
          _ExtentX        =   11245
          _ExtentY        =   3201
+         BorderStyle     =   0
          Caption         =   " 경로 설정 "
          Begin VB.TextBox txtYtdlPath 
-            Height          =   255
+            Height          =   270
             Left            =   2760
             TabIndex        =   116
             Top             =   1440
-            Width           =   3495
+            Width           =   3615
          End
          Begin VB.TextBox txtNodePath 
-            Height          =   255
+            Height          =   270
             Left            =   2760
             TabIndex        =   112
             Top             =   720
-            Width           =   3495
+            Width           =   3615
          End
          Begin VB.TextBox txtScriptPath 
-            Height          =   255
+            Height          =   270
             Left            =   2760
             TabIndex        =   114
             Top             =   1080
-            Width           =   3495
+            Width           =   3615
+         End
+         Begin prjDownloadBooster.SimpleFrame SimpleFrame6 
+            Height          =   255
+            Left            =   0
+            TabIndex        =   140
+            Top             =   0
+            Width           =   6375
+            _ExtentX        =   11245
+            _ExtentY        =   450
+            Caption         =   "경로 설정"
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "굴림"
+               Size            =   9
+               Charset         =   129
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
          End
          Begin VB.Image imgIcon2 
             Height          =   480
@@ -3061,6 +3201,14 @@ Private Sub Form_Load()
     tr Label20, "&Theme:"
     tr cmdSaveTheme, "S&ave..."
     tr cmdDeleteTheme, "&Delete"
+    
+    tr SimpleFrame1, Trim$(Frame2.Caption)
+    tr SimpleFrame2, Trim$(Frame5.Caption)
+    tr SimpleFrame3, Trim$(FrameW3.Caption)
+    tr SimpleFrame4, Trim$(fHeaders.Caption)
+    tr SimpleFrame5, Trim$(FrameW6.Caption)
+    tr SimpleFrame6, Trim$(FrameW2.Caption)
+    tr SimpleFrame7, Trim$(FrameW4.Caption)
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775

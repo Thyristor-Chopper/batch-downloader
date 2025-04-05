@@ -96,6 +96,7 @@ Form=frmInputBox.frm
 UserControl=krools_comctl\Animation\Animation.ctl
 PropertyPage=krools_comctl\Animation\PPAnimationGeneral.pag
 ResFile32="Booster.res"
+UserControl=SimpleFrame.ctl
 IconForm="frmBatchAdd"
 Startup="Sub Main"
 HelpFile=""

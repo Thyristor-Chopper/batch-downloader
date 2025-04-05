@@ -123,33 +123,33 @@ Begin VB.Form frmMessageBox
    End
    Begin VB.Image imgError 
       Height          =   360
-      Left            =   60
+      Left            =   75
       Picture         =   "frmMessageBox.frx":000C
-      Top             =   60
+      Top             =   90
       Visible         =   0   'False
       Width           =   360
    End
    Begin VB.Image imgExclamation 
       Height          =   360
-      Left            =   60
+      Left            =   75
       Picture         =   "frmMessageBox.frx":00C1
-      Top             =   60
+      Top             =   90
       Visible         =   0   'False
       Width           =   360
    End
    Begin VB.Image imgQuestion 
       Height          =   360
-      Left            =   60
+      Left            =   75
       Picture         =   "frmMessageBox.frx":01DC
-      Top             =   60
+      Top             =   90
       Visible         =   0   'False
       Width           =   360
    End
    Begin VB.Image imgInformation 
       Height          =   360
-      Left            =   60
+      Left            =   75
       Picture         =   "frmMessageBox.frx":029A
-      Top             =   60
+      Top             =   90
       Visible         =   0   'False
       Width           =   360
    End
