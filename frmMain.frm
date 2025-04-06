@@ -988,7 +988,7 @@ Begin VB.Form frmMain
       End
       Begin prjDownloadBooster.CheckBoxW chkContinueDownload 
          Height          =   255
-         Left            =   120
+         Left            =   90
          TabIndex        =   24
          Top             =   990
          Width           =   1935
@@ -999,7 +999,7 @@ Begin VB.Form frmMain
       End
       Begin prjDownloadBooster.CheckBoxW chkAutoRetry 
          Height          =   255
-         Left            =   120
+         Left            =   90
          TabIndex        =   25
          Top             =   1215
          Width           =   2205

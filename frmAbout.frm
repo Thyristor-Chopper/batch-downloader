@@ -30,7 +30,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   21
+      TabIndex        =   20
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -40,7 +40,7 @@ Begin VB.Form frmAbout
          Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   3  '양방향
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   0
          Width           =   4815
       End
@@ -64,7 +64,7 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   1440
       Width           =   4815
       Begin VB.TextBox txtShellPipe 
@@ -96,14 +96,14 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   16
+      TabIndex        =   15
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
       Begin prjDownloadBooster.ListView lvMisc 
          Height          =   3255
          Left            =   0
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   0
          Width           =   4815
          _ExtentX        =   8493
@@ -126,23 +126,10 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   14
+      TabIndex        =   13
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin prjDownloadBooster.LinkLabel lblReadOnline 
-         Height          =   255
-         Left            =   1440
-         TabIndex        =   9
-         Tag             =   "nocolorchange"
-         Top             =   2280
-         Visible         =   0   'False
-         Width           =   1815
-         _ExtentX        =   3201
-         _ExtentY        =   450
-         Caption         =   "frmAbout.frx":01B4
-         Transparent     =   -1  'True
-      End
       Begin VB.TextBox txtLicensePlaceholder 
          Enabled         =   0   'False
          Height          =   270
@@ -182,33 +169,11 @@ Begin VB.Form frmAbout
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   18
-      TabStop         =   0   'False
-      Top             =   1440
-      Width           =   4815
-      Begin VB.TextBox txtPNG 
-         Height          =   3255
-         Left            =   0
-         Locked          =   -1  'True
-         MultiLine       =   -1  'True
-         ScrollBars      =   2  '수직
-         TabIndex        =   12
-         Top             =   0
-         Width           =   4815
-      End
-   End
-   Begin VB.PictureBox pbLicenses 
-      BorderStyle     =   0  '없음
-      Height          =   3255
-      Index           =   1
-      Left            =   2640
-      ScaleHeight     =   3255
-      ScaleWidth      =   4815
       TabIndex        =   17
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin VB.TextBox txtCC 
+      Begin VB.TextBox txtPNG 
          Height          =   3255
          Left            =   0
          Locked          =   -1  'True
@@ -222,11 +187,33 @@ Begin VB.Form frmAbout
    Begin VB.PictureBox pbLicenses 
       BorderStyle     =   0  '없음
       Height          =   3255
+      Index           =   1
+      Left            =   2640
+      ScaleHeight     =   3255
+      ScaleWidth      =   4815
+      TabIndex        =   16
+      TabStop         =   0   'False
+      Top             =   1440
+      Width           =   4815
+      Begin VB.TextBox txtCC 
+         Height          =   3255
+         Left            =   0
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   2  '수직
+         TabIndex        =   10
+         Top             =   0
+         Width           =   4815
+      End
+   End
+   Begin VB.PictureBox pbLicenses 
+      BorderStyle     =   0  '없음
+      Height          =   3255
       Index           =   4
       Left            =   2640
       ScaleHeight     =   3255
       ScaleWidth      =   4815
-      TabIndex        =   15
+      TabIndex        =   14
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
@@ -236,7 +223,7 @@ Begin VB.Form frmAbout
          Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   2  '수직
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   0
          Width           =   4815
       End
@@ -250,7 +237,7 @@ Begin VB.Form frmAbout
       ImageHeight     =   32
       ColorDepth      =   8
       MaskColor       =   16711935
-      InitListImages  =   "frmAbout.frx":01F6
+      InitListImages  =   "frmAbout.frx":01B4
    End
    Begin prjDownloadBooster.FrameW FrameW1 
       Height          =   3255
@@ -292,7 +279,7 @@ Begin VB.Form frmAbout
       Caption         =   "This product includes software developed by vbAccelerator (/index.html)."
       Height          =   375
       Left            =   1080
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   4800
       Width           =   4935
    End
@@ -370,10 +357,7 @@ Private Sub Form_Load()
     pbLicenseLoadProgress.Width = txtLicense.Width
     pbLicenseLoadProgress.Top = txtLicense.Top + txtLicense.Height + 30
     pbLicenseLoadProgress.Left = txtLicense.Left
-    lblReadOnline.Top = txtLicense.Top + txtLicense.Height + 30 + pbLicenseLoadProgress.Height + 60
-    lblReadOnline.Left = txtLicense.Left
     cmdOK.Caption = t(cmdOK.Caption, "OK")
-    lblReadOnline.Caption = t(lblReadOnline.Caption, "<A>[Read online]</A>")
     
     timLicenseLoader.Enabled = True
     
@@ -534,10 +518,6 @@ Private Sub Form_Unload(Cancel As Integer)
     timLicenseLoader.Enabled = False
 End Sub
 
-Private Sub lblReadOnline_LinkActivate(ByVal Link As LlbLink, ByVal Reason As LlbLinkActivateReasonConstants)
-    Shell "cmd /c start """" https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
-End Sub
-
 Private Sub lvItems_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
     On Error Resume Next
     If Selected = False Then Exit Sub
@@ -567,16 +547,15 @@ Private Sub timLicenseLoader_Timer()
     End If
     
     On Error GoTo LicenseFail
-    'timLicenseLoader.Enabled = 0
     Dim i%
-    For i = 0 To 6
+    For i = 0 To 1
         txtLicense.Text = txtLicense.Text & LoadResString(LineNum + i) & vbCrLf
-        DoEvents
     Next i
     pbLicenseLoadProgress.value = LineNum
     txtLicensePlaceholder.Text = t("라이선스를 불러오는 중... (", "Loading the license text... (") & Floor(LineNum / 812 * 100) & "%)"
-    LineNum = LineNum + 7
+    LineNum = LineNum + 2
     Exit Sub
+    
 LicenseFail:
     txtLicense.Text = t("라이선스를 불러올 수 없습니다. 다음 링크에서 확인할 수 있습니다.", "Unable to load the license. Check this URL:") & vbCrLf & " https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
     timLicenseLoader.Enabled = 0
