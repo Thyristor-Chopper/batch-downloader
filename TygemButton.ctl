@@ -321,6 +321,8 @@ Property Let Caption(ByVal New_Caption As String)
     m_Caption = New_Caption
     PropertyChanged "Caption"
     lblCaption.Caption = Trim$(m_Caption)
+    If Not m_Icon Is Nothing Then _
+        lblCaption.Caption = "  " & Trim$(lblCaption.Caption)
 End Property
 
 Property Get FontName() As String
@@ -372,6 +374,7 @@ Property Get BackColor() As OLE_COLOR
 End Property
 
 Property Let BackColor(ByVal New_BackColor As OLE_COLOR)
+    m_BackColor = New_BackColor
     UserControl.BackColor = New_BackColor
     PropertyChanged "BackColor"
 End Property

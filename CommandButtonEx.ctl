@@ -27,7 +27,6 @@ Begin VB.UserControl CommandButtonEx
       _ExtentX        =   2778
       _ExtentY        =   661
       Caption         =   "Command1"
-      BackColor       =   0
    End
    Begin prjDownloadBooster.TygemButton tygButtonSplit 
       Height          =   375
@@ -38,9 +37,7 @@ Begin VB.UserControl CommandButtonEx
       Width           =   255
       _ExtentX        =   450
       _ExtentY        =   661
-      BackColor       =   0
       FontSize        =   0
-      ButtonIcon      =   "CommandButtonEx.ctx":0000
       SplitRight      =   -1  'True
    End
    Begin VB.CommandButton cmdButton 
@@ -77,14 +74,14 @@ Begin VB.UserControl CommandButtonEx
       ImageHeight     =   5
       ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "CommandButtonEx.ctx":0051
+      InitListImages  =   "CommandButtonEx.ctx":0000
    End
    Begin prjDownloadBooster.ImageList imgIcon 
       Left            =   120
       Top             =   1080
       _ExtentX        =   1005
       _ExtentY        =   1005
-      InitListImages  =   "CommandButtonEx.ctx":0741
+      InitListImages  =   "CommandButtonEx.ctx":0300
    End
 End
 Attribute VB_Name = "CommandButtonEx"
@@ -124,8 +121,8 @@ Const NM_GETCUSTOMSPLITRECT As Long = BCN_FIRST + &H3&
 
 Private Type NMHDR
     hWndFrom As Long
-    idFrom As Long
-    code As Long
+    IDFrom As Long
+    Code As Long
 End Type
 
 Private Type BUTTON_IMAGELIST
@@ -274,8 +271,10 @@ End Property
 Private Sub SetVisualStyles()
     If m_VisualStyles Then
         ActivateVisualStyles cmdButton.hWnd
+        ActivateVisualStyles cmdButtonSplit.hWnd
     Else
         DeactivateVisualStyles cmdButton.hWnd
+        DeactivateVisualStyles cmdButtonSplit.hWnd
     End If
     SetRgn
 End Sub
@@ -330,7 +329,7 @@ End Property
 
 Private Sub SetIcon()
     SetImageList
-    If imgIcon.ListImages.Count > 0 Then Set tygButton.ButtonIcon = imgIcon.ListImages(1).ExtractIcon
+    If imgIcon.ListImages.Count > 0 Then Set tygButton.ButtonIcon = imgIcon.ListImages(1).ExtractIcon Else Set tygButton.ButtonIcon = Nothing
 End Sub
 
 Private Sub SetImageList()
@@ -455,7 +454,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
     Select Case uMsg
         Case WM_NOTIFY
             CopyMemory VarPtr(NMHDR), lParam, Len(NMHDR)
-            Select Case NMHDR.code
+            Select Case NMHDR.Code
                 Case BCN_DROPDOWN
                     If NMHDR.hWndFrom = cmdButton.hWnd Then RaiseEvent DropDown
                     IBSSubclass_WindowProc = 1&
@@ -547,12 +546,17 @@ Private Sub UserControl_Initialize()
     cmdButtonSplit.Top = 0
     tygButtonSplit.Top = 0
     
+    imgDropdown.ListImages.Add 1, Picture:=imgDropdown.ListImages(1).ExtractIcon()
+    imgDropdown.ListImages.Add 1, Picture:=imgDropdown.ListImages(1).ExtractIcon()
+    imgDropdown.ListImages.Add 5, Picture:=imgDropdown.ListImages(1).ExtractIcon()
+    
     Dim BTNIML As BUTTON_IMAGELIST
     BTNIML.hImageList = imgDropdown.hImageList
     BTNIML.uAlign = IconAlignmentCenter
     SendMessage cmdButtonSplit.hWnd, BCM_SETIMAGELIST, 0&, ByVal VarPtr(BTNIML)
     UserControl.Refresh
     cmdButtonSplit.Refresh
+    Set tygButtonSplit.ButtonIcon = imgDropdown.ListImages(1).ExtractIcon()
     
     InitCommonControls
     
@@ -741,3 +745,6 @@ Private Sub SetRgn()
     End If
 End Sub
 
+Function GetImageList() As ImageList
+    Set GetImageList = imgIcon
+End Function
