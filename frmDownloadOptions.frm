@@ -334,7 +334,7 @@ Sub NextTabPage(Optional ByVal Reverse As Boolean = False)
 End Sub
 
 Private Sub CancelButton_Click()
-    Unload Me
+    Me.Hide
 End Sub
 
 Private Sub cbAudioFormat_Click()
@@ -342,7 +342,7 @@ Private Sub cbAudioFormat_Click()
 End Sub
 
 Private Sub chkAutoYtdl_Click()
-    optDisableYtdl.Enabled = (chkAutoYtdl.Value = 0)
+    optDisableYtdl.Enabled = (chkAutoYtdl.value = 0)
     optUseYtdl.Enabled = optDisableYtdl.Enabled
     optUseYtdl_Click
 End Sub
@@ -354,6 +354,14 @@ End Sub
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 9 And IsKeyPressed(gksKeyboardctrl) Then
         NextTabPage IsKeyPressed(gksKeyboardShift)
+    End If
+End Sub
+
+Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
+    If UnloadMode = 0 Then
+        Cancel = 1
+        Me.Hide
+        Exit Sub
     End If
 End Sub
 
@@ -372,7 +380,7 @@ Private Sub OKButton_Click()
         Dim RawHeaders$
         RawHeaders = ""
         For i = 1 To lvHeaders.ListItems.Count
-            If Trim$(lvHeaders.ListItems(i).Text) <> "" Then
+            If Trim$(lvHeaders.ListItems(i).Text) <> "" And (Not Exists(Headers, CStr(Trim$(lvHeaders.ListItems(i).Text)))) Then
                 Headers.Add CStr(lvHeaders.ListItems(i).ListSubItems(1).Text), CStr(Trim$(lvHeaders.ListItems(i).Text))
                 HeaderKeys.Add CStr(Trim$(lvHeaders.ListItems(i).Text))
                 RawHeaders = RawHeaders & LCase(Trim$(lvHeaders.ListItems(i).Text)) & ": " & lvHeaders.ListItems(i).ListSubItems(1).Text & vbLf
@@ -393,20 +401,20 @@ Private Sub OKButton_Click()
             frmEditBatch.EncodedHeaders = HeaderCache
     End Select
     
-    SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.Value
+    SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.value
     
-    frmMain.ytdlEnabled = optUseYtdl.Value
-    If optUseYtdl.Value Then
+    frmMain.ytdlEnabled = optUseYtdl.value
+    If optUseYtdl.value Then
         frmMain.ytdlFormat = Replace(txtFormat.Text, " ", "")
         If frmMain.ytdlFormat = txtFormat.List(0) Then frmMain.ytdlFormat = ""
-        frmMain.ytdlExtractAudio = (chkExtractAudio.Value = 1)
+        frmMain.ytdlExtractAudio = (chkExtractAudio.value = 1)
         frmMain.ytdlAudioFormat = cbAudioFormat.ListIndex
-        frmMain.ytdlAudioBitrateType = IIf(optVBR.Value, AudioBitrateType.VBR, AudioBitrateType.CBR)
+        frmMain.ytdlAudioBitrateType = IIf(optVBR.value, AudioBitrateType.VBR, AudioBitrateType.CBR)
         frmMain.ytdlAudioVBR = CByte(cbVBR.Text)
         frmMain.ytdlAudioCBR = CInt(Left$(cbBitRate.Text, InStr(cbBitRate.Text, " ") - 1))
     End If
     
-    Unload Me
+    Me.Hide
 End Sub
 
 Private Sub optDisableYtdl_Click()
@@ -417,19 +425,19 @@ Private Sub optUseYtdl_Click()
     Dim ctrl As Control
     On Error Resume Next
     For Each ctrl In fYtdl.ContainedControls
-        ctrl.Enabled = (optUseYtdl.Value Or chkAutoYtdl.Value = 1)
+        ctrl.Enabled = (optUseYtdl.value Or chkAutoYtdl.value = 1)
     Next ctrl
     
-    If optUseYtdl.Value Or chkAutoYtdl.Value = 1 Then
-        Label4.Enabled = (chkExtractAudio.Value = 1)
-        cbAudioFormat.Enabled = (chkExtractAudio.Value = 1)
-        optVBR.Enabled = (chkExtractAudio.Value = 1) And cbAudioFormat.ListIndex = 1
-        optCBR.Enabled = (chkExtractAudio.Value = 1) And cbAudioFormat.ListIndex = 1
-        cbVBR.Enabled = (chkExtractAudio.Value = 1) And cbAudioFormat.ListIndex = 1
-        cbBitRate.Enabled = (chkExtractAudio.Value = 1) And cbAudioFormat.ListIndex = 1
-        If chkExtractAudio.Value = 1 And cbAudioFormat.ListIndex = 1 Then
-            cbVBR.Enabled = optVBR.Value
-            cbBitRate.Enabled = optCBR.Value
+    If optUseYtdl.value Or chkAutoYtdl.value = 1 Then
+        Label4.Enabled = (chkExtractAudio.value = 1)
+        cbAudioFormat.Enabled = (chkExtractAudio.value = 1)
+        optVBR.Enabled = (chkExtractAudio.value = 1) And cbAudioFormat.ListIndex = 1
+        optCBR.Enabled = (chkExtractAudio.value = 1) And cbAudioFormat.ListIndex = 1
+        cbVBR.Enabled = (chkExtractAudio.value = 1) And cbAudioFormat.ListIndex = 1
+        cbBitRate.Enabled = (chkExtractAudio.value = 1) And cbAudioFormat.ListIndex = 1
+        If chkExtractAudio.value = 1 And cbAudioFormat.ListIndex = 1 Then
+            cbVBR.Enabled = optVBR.value
+            cbBitRate.Enabled = optCBR.value
         End If
     End If
 End Sub
@@ -456,7 +464,7 @@ Private Sub Form_Load()
         pbPanel(i).Visible = 0
         pbPanel(i).Enabled = 0
         pbPanel(i).Top = 465
-        pbPanel(i).Left = 165
+        pbPanel(i).Left = 180
         pbPanel(i).BorderStyle = 0
         pbPanel(i).AutoRedraw = True
         If MaxWidth < pbPanel(i).Width Then MaxWidth = pbPanel(i).Width
@@ -466,8 +474,8 @@ Private Sub Form_Load()
         pbPanel(i).Width = MaxWidth
         pbPanel(i).Height = MaxHeight
     Next i
-    tsTabStrip.Width = MaxWidth + 105
-    tsTabStrip.Height = MaxHeight + 390
+    tsTabStrip.Width = MaxWidth + 120
+    tsTabStrip.Height = MaxHeight + 410
     tsTabStrip.Top = 120
     tsTabStrip.Left = 120
     CancelButton.Top = tsTabStrip.Top + tsTabStrip.Height + 60
@@ -540,11 +548,9 @@ Private Sub Form_Load()
     txtFormat.AddItem "hls_opus_0_0"
     txtFormat.ListIndex = 0
     
-    chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
+    chkAutoYtdl.value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
     
     Me.Caption = t(Me.Caption, "Download settings")
-    If Tags.DownloadOptionsTargetForm = 2 Then Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
-    If Tags.DownloadOptionsTargetForm = 1 Then Me.Caption = Me.Caption & " - " & t("일괄 다운로드", "Batch Download")
     tsTabStrip.Tabs(2).Caption = t("  헤더  ", " Headers ")
     
     chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
@@ -562,36 +568,13 @@ Private Sub Form_Load()
     cmdDeleteHeader.Caption = t(cmdDeleteHeader.Caption, "&Delete")
     cmdEditHeaderName.Caption = t(cmdEditHeaderName.Caption, "&Rename")
     cmdEditHeaderValue.Caption = t(cmdEditHeaderValue.Caption, "&Edit")
-    Select Case Tags.DownloadOptionsTargetForm
-        Case 0
-            lblDescription.Caption = t(lblDescription.Caption, "Headers here are only applied in this session. Go to <A>Options</A> to change them permanently.")
-        Case 1
-            lblDescription.Caption = t("일괄 다운로드할 파일들에 접속할 때 요청할 헤더를 지정하십시오.", "Specify the headers for this batch download.")
-        Case Else
-            lblDescription.Caption = t("이 파일 다운로드 시에 요청할 헤더를 지정하십시오.", "Specify the headers when requesting this file to download.")
-    End Select
+    
+    lvHeaders.ColumnHeaders.Clear
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
     lvHeaders.SmallIcons = imgFiles
     
-    Dim Header
-    For Each Header In HeaderKeys
-        lvHeaders.ListItems.Add(, , Header, , 1).ListSubItems.Add , , Headers(CStr(Header))
-    Next Header
-    
-    optUseYtdl.Value = frmMain.ytdlEnabled
-    txtFormat.Text = Replace(frmMain.ytdlFormat, " ", "")
-    If txtFormat.Text = "" Then txtFormat.ListIndex = 0
-    chkExtractAudio.Value = Abs(CInt(frmMain.ytdlExtractAudio))
-    cbAudioFormat.ListIndex = frmMain.ytdlAudioFormat
-    IIf(frmMain.ytdlAudioBitrateType = CBR, optCBR, optVBR).Value = True
-    cbVBR.ListIndex = frmMain.ytdlAudioVBR
-    For i = 0 To cbBitRate.ListCount - 1
-        If CInt(Left$(cbBitRate.List(i), InStr(cbBitRate.List(i), " ") - 1)) = frmMain.ytdlAudioCBR Then
-            cbBitRate.ListIndex = i
-            Exit For
-        End If
-    Next i
+    LoadSettings
     
 #If HIDEYTDL Then
     tsTabStrip.Tabs(2).Selected = True
@@ -602,6 +585,40 @@ Private Sub Form_Load()
 #End If
     
     optUseYtdl_Click
+End Sub
+
+Sub LoadSettings()
+    If Tags.DownloadOptionsTargetForm = 2 Then Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
+    If Tags.DownloadOptionsTargetForm = 1 Then Me.Caption = Me.Caption & " - " & t("일괄 다운로드", "Batch Download")
+    Select Case Tags.DownloadOptionsTargetForm
+        Case 0
+            lblDescription.Caption = t(lblDescription.Caption, "Headers here are only applied in this session. Go to <A>Options</A> to change them permanently.")
+        Case 1
+            lblDescription.Caption = t("일괄 다운로드할 파일들에 접속할 때 요청할 헤더를 지정하십시오.", "Specify the headers for this batch download.")
+        Case Else
+            lblDescription.Caption = t("이 파일 다운로드 시에 요청할 헤더를 지정하십시오.", "Specify the headers when requesting this file to download.")
+    End Select
+    
+    Dim Header
+    lvHeaders.ListItems.Clear
+    For Each Header In HeaderKeys
+        lvHeaders.ListItems.Add(, , Header, , 1).ListSubItems.Add , , Headers(CStr(Header))
+    Next Header
+    
+    optUseYtdl.value = frmMain.ytdlEnabled
+    txtFormat.Text = Replace(frmMain.ytdlFormat, " ", "")
+    If txtFormat.Text = "" Then txtFormat.ListIndex = 0
+    chkExtractAudio.value = Abs(CInt(frmMain.ytdlExtractAudio))
+    cbAudioFormat.ListIndex = frmMain.ytdlAudioFormat
+    IIf(frmMain.ytdlAudioBitrateType = CBR, optCBR, optVBR).value = True
+    cbVBR.ListIndex = frmMain.ytdlAudioVBR
+    Dim i%
+    For i = 0 To cbBitRate.ListCount - 1
+        If CInt(Left$(cbBitRate.List(i), InStr(cbBitRate.List(i), " ") - 1)) = frmMain.ytdlAudioCBR Then
+            cbBitRate.ListIndex = i
+            Exit For
+        End If
+    Next i
 End Sub
 
 Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)

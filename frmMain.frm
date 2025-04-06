@@ -1613,6 +1613,7 @@ Private Sub cmdDownloadOptions_Click()
     Tags.DownloadOptionsTargetForm = 0
     Set frmDownloadOptions.Headers = SessionHeaders
     Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
+    frmDownloadOptions.LoadSettings
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
@@ -2855,7 +2856,7 @@ Private Sub cmdOpenFolder_Click()
 End Sub
 
 Private Sub cmdOptions_Click()
-    Unload frmOptions
+    frmOptions.LoadSettings
     frmOptions.Show vbModal, Me
 End Sub
 
@@ -3478,7 +3479,7 @@ Private Sub Form_Load()
     ErrorCodeDescription.Add t("서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", "Server has denied your request. The file may not exist or have insufficient permissions to access it."), "108"
     
     MAX_THREAD_COUNT = CInt(GetSetting("DownloadBooster", "Options", "MaxThreadCount", 25))
-
+    
     ResumeUnsupported = False
     LBFrameEnabled = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")

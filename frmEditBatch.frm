@@ -30,9 +30,9 @@ Begin VB.Form frmEditBatch
       TabIndex        =   9
       Top             =   2640
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   582
-      Caption         =   "확인"
+      _extentx        =   2355
+      _extenty        =   582
+      caption         =   "확인"
    End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
@@ -41,9 +41,9 @@ Begin VB.Form frmEditBatch
       TabIndex        =   10
       Top             =   2640
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   582
-      Caption         =   "취소"
+      _extentx        =   2355
+      _extenty        =   582
+      caption         =   "취소"
    End
    Begin prjDownloadBooster.FrameW fInfo 
       Height          =   2415
@@ -60,9 +60,9 @@ Begin VB.Form frmEditBatch
          TabIndex        =   8
          Top             =   1920
          Width           =   1695
-         _ExtentX        =   2990
-         _ExtentY        =   582
-         Caption         =   "헤더(&H)..."
+         _extentx        =   2990
+         _extenty        =   582
+         caption         =   "헤더(&H)..."
       End
       Begin prjDownloadBooster.CommandButtonW cmdYtdl 
          Height          =   330
@@ -70,9 +70,9 @@ Begin VB.Form frmEditBatch
          TabIndex        =   7
          Top             =   1920
          Width           =   1695
-         _ExtentX        =   2990
-         _ExtentY        =   582
-         Caption         =   "&youtube-dl..."
+         _extentx        =   2990
+         _extenty        =   582
+         caption         =   "&youtube-dl..."
       End
       Begin prjDownloadBooster.CommandButtonW cmdBrowse 
          Height          =   330
@@ -80,9 +80,9 @@ Begin VB.Form frmEditBatch
          TabIndex        =   5
          Top             =   1380
          Width           =   1575
-         _ExtentX        =   2778
-         _ExtentY        =   582
-         Caption         =   "찾아보기(&B)..."
+         _extentx        =   2778
+         _extenty        =   582
+         caption         =   "찾아보기(&B)..."
       End
       Begin VB.TextBox txtFilePath 
          Height          =   255
@@ -167,6 +167,7 @@ Private Sub cmdHeaders_Click()
     Set DecodedHeaders = DecodeHeaderCache(EncodedHeaders)
     Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
     Set frmDownloadOptions.Headers = DecodedHeaders("values")
+    frmDownloadOptions.LoadSettings
 #If HIDEYTDL Then
     frmDownloadOptions.Show vbModal, Me
     Exit Sub
@@ -238,9 +239,10 @@ Private Sub cmdYtdl_Click()
     Set DecodedHeaders = DecodeHeaderCache(EncodedHeaders)
     Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
     Set frmDownloadOptions.Headers = DecodedHeaders("values")
+    frmDownloadOptions.LoadSettings
     frmDownloadOptions.Show vbModal, Me
 End Sub
- 
+
 Private Sub Form_Activate()
     On Error Resume Next
     txtURL.SetFocus

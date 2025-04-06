@@ -114,6 +114,7 @@ Private Sub cmdAdvanced_Click()
     Tags.DownloadOptionsTargetForm = 1
     Set frmDownloadOptions.HeaderKeys = New Collection
     Set frmDownloadOptions.Headers = New Collection
+    frmDownloadOptions.LoadSettings
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
