@@ -3952,8 +3952,6 @@ afterheaderadd:
     AttachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
     
     vsProgressScroll.Visible = (trThreadCount.value > 10 And optTabThreads2.value)
-    
-    Me.Show vbModeless
 End Sub
 
 Sub SetTextColors()

@@ -359,7 +359,7 @@ Private Sub Form_Load()
     
     LineNum = 1
     Me.Caption = t(App.Title & " 정보", "About " & App.Title)
-    picIcon.Picture = frmMain.Icon
+    Set picIcon.Picture = frmMain.Icon
     lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & IIf(App.Revision > 0, "." & App.Revision, "")
     lblTitle.Caption = App.Title
     lblDescription.Caption = t("이 프로그램에는 외부 라이브러리가 일부 포함되어 있으며 라이선스는 다음과 같습니다.", "This program includes external libraries. Check out the license of them below.")
@@ -375,7 +375,7 @@ Private Sub Form_Load()
     cmdOK.Caption = t(cmdOK.Caption, "OK")
     lblReadOnline.Caption = t(lblReadOnline.Caption, "<A>[Read online]</A>")
     
-    timLicenseLoader.Enabled = -1
+    timLicenseLoader.Enabled = True
     
     lvItems.ListItems.Add , , "Krool's Comctl", 1
     lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2
@@ -530,6 +530,10 @@ Private Sub Form_Load()
     FrameW1.Caption = t(FrameW1.Caption, "&License")
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+    timLicenseLoader.Enabled = False
+End Sub
+
 Private Sub lblReadOnline_LinkActivate(ByVal Link As LlbLink, ByVal Reason As LlbLinkActivateReasonConstants)
     Shell "cmd /c start """" https://raw.githubusercontent.com/nodejs/node/refs/heads/v0.10/LICENSE"
 End Sub
@@ -569,7 +573,7 @@ Private Sub timLicenseLoader_Timer()
         txtLicense.Text = txtLicense.Text & LoadResString(LineNum + i) & vbCrLf
         DoEvents
     Next i
-    pbLicenseLoadProgress.Value = LineNum
+    pbLicenseLoadProgress.value = LineNum
     txtLicensePlaceholder.Text = t("라이선스를 불러오는 중... (", "Loading the license text... (") & Floor(LineNum / 812 * 100) & "%)"
     LineNum = LineNum + 7
     Exit Sub

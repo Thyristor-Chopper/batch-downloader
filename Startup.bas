@@ -222,5 +222,5 @@ forcegulim:
     
     Randomize
     InitVisualStylesFixes
-    Load frmMain
+    frmMain.Show
 End Sub
