@@ -47,12 +47,12 @@ Begin VB.UserControl SSTabEx
    End
    Begin VB.PictureBox picAux2 
       AutoRedraw      =   -1  'True
-      BorderStyle     =   0  'None
+      BorderStyle     =   0  '¾øÀ½
       Height          =   624
       Left            =   1944
-      ScaleHeight     =   52
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleHeight     =   42
+      ScaleMode       =   3  'ÇÈ¼¿
+      ScaleWidth      =   61
       TabIndex        =   5
       Top             =   684
       Visible         =   0   'False
@@ -60,12 +60,12 @@ Begin VB.UserControl SSTabEx
    End
    Begin VB.PictureBox picInactiveTabBodyThemed 
       AutoRedraw      =   -1  'True
-      BorderStyle     =   0  'None
+      BorderStyle     =   0  '¾øÀ½
       Height          =   624
       Left            =   972
-      ScaleHeight     =   52
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleHeight     =   42
+      ScaleMode       =   3  'ÇÈ¼¿
+      ScaleWidth      =   61
       TabIndex        =   4
       Top             =   684
       Visible         =   0   'False
@@ -73,12 +73,12 @@ Begin VB.UserControl SSTabEx
    End
    Begin VB.PictureBox picTabBodyThemed 
       AutoRedraw      =   -1  'True
-      BorderStyle     =   0  'None
+      BorderStyle     =   0  '¾øÀ½
       Height          =   624
       Left            =   0
-      ScaleHeight     =   52
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleHeight     =   42
+      ScaleMode       =   3  'ÇÈ¼¿
+      ScaleWidth      =   61
       TabIndex        =   3
       Top             =   684
       Visible         =   0   'False
@@ -86,12 +86,12 @@ Begin VB.UserControl SSTabEx
    End
    Begin VB.PictureBox picAux 
       AutoRedraw      =   -1  'True
-      BorderStyle     =   0  'None
+      BorderStyle     =   0  '¾øÀ½
       Height          =   624
       Left            =   1944
-      ScaleHeight     =   52
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleHeight     =   42
+      ScaleMode       =   3  'ÇÈ¼¿
+      ScaleWidth      =   61
       TabIndex        =   2
       Top             =   0
       Visible         =   0   'False
@@ -111,12 +111,12 @@ Begin VB.UserControl SSTabEx
    End
    Begin VB.PictureBox picRotate 
       AutoRedraw      =   -1  'True
-      BorderStyle     =   0  'None
+      BorderStyle     =   0  '¾øÀ½
       Height          =   624
       Left            =   972
-      ScaleHeight     =   52
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleHeight     =   42
+      ScaleMode       =   3  'ÇÈ¼¿
+      ScaleWidth      =   61
       TabIndex        =   1
       Top             =   0
       Visible         =   0   'False
@@ -124,12 +124,12 @@ Begin VB.UserControl SSTabEx
    End
    Begin VB.PictureBox picDraw 
       AutoRedraw      =   -1  'True
-      BorderStyle     =   0  'None
+      BorderStyle     =   0  '¾øÀ½
       Height          =   624
       Left            =   0
-      ScaleHeight     =   52
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleHeight     =   42
+      ScaleMode       =   3  'ÇÈ¼¿
+      ScaleWidth      =   61
       TabIndex        =   0
       Top             =   0
       Visible         =   0   'False
@@ -140,7 +140,7 @@ Attribute VB_Name = "SSTabEx"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = True
+Attribute VB_Exposed = False
 Option Explicit
 
 ' Uncomment the line below for IDE protection when running uncompiled (some features will be lost in the IDE when it is uncommented)

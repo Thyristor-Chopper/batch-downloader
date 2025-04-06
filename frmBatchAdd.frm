@@ -108,7 +108,7 @@ Dim PrevKeyCode As Integer
 Dim Initialized As Boolean
 Public HeaderCache$
 
-Implements ISubclass
+Implements IBSSubclass
 
 Private Sub cmdAdvanced_Click()
     Tags.DownloadOptionsTargetForm = 1
@@ -223,15 +223,16 @@ Private Sub Form_Unload(Cancel As Integer)
     DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
 End Sub
 
-Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
-    '
-End Property
+Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
+    IBSSubclass_MsgResponse = emrConsume
+End Function
 
-Private Property Get ISubclass_MsgResponse() As EMsgResponse
-    ISubclass_MsgResponse = emrConsume
-End Property
+Private Sub IBSSubclass_UnsubclassIt()
+    DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+End Sub
 
-Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long
     On Error Resume Next
  
     Select Case uMsg
@@ -244,7 +245,7 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
             lpMMI.ptMaxTrackSize.Y = (Screen.Height + 1200) * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
-            ISubclass_WindowProc = 1&
+            IBSSubclass_WindowProc = 1&
             Exit Function
         Case WM_SETTINGCHANGE
             Select Case GetStrFromPtr(lParam)
@@ -254,7 +255,7 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
             End Select
     End Select
     
-    ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+    IBSSubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
 End Function
 
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)

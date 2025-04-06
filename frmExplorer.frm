@@ -450,7 +450,7 @@ Dim ExtToSmallIcon As Collection
 Dim FirstListed As Boolean
 Dim LoadFinished As Boolean
 
-Implements ISubclass
+Implements IBSSubclass
 
 Sub ShowDesktopItems()
     Dim li As LvwListItem
@@ -475,19 +475,19 @@ Private Sub cbFolderList_Click()
     Dim Path$
     
     For i = 1 To tbPlaces.Buttons.Count
-        tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
+        tbPlaces.Buttons(i).value = TbrButtonValueUnpressed
     Next i
     
     Select Case cbFolderList.SelectedItem.Index
         Case 1
             lvDir.Path = GetSpecialfolder(CSIDL_RECENT)
-            tbPlaces.Buttons(1).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(1).value = TbrButtonValuePressed
         Case 2
             lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
-            tbPlaces.Buttons(2).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(2).value = TbrButtonValuePressed
         Case 3
             lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
-            tbPlaces.Buttons(3).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(3).value = TbrButtonValuePressed
         Case 4
             ShowMyComputer
             Exit Sub
@@ -538,7 +538,7 @@ End Sub
 Private Sub chkHidden_Click()
     ListedOn = ""
     If Loaded Then ListFiles
-    SaveSetting "DownloadBooster", "UserData", "ShowHidden", chkHidden.Value
+    SaveSetting "DownloadBooster", "UserData", "ShowHidden", chkHidden.value
 End Sub
 
 Sub ListFiles()
@@ -634,7 +634,7 @@ Sub ListFiles()
         If Name <> "." And Name <> ".." Then
             If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
                 Shown = True
-                If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." And Name <> ".." Then Shown = False
+                If chkUnixHidden.value = 0 And Left$(Name, 1) = "." And Name <> ".." Then Shown = False
                 
                 If Shown And Replace(Path & Name, "?", "") = (Path & Name) Then
                     If totalcnt + 1 <= PrevCnt Then
@@ -694,7 +694,7 @@ Sub ListFiles()
     PatternsSplit = Split(Pattern, ";")
     Dim ShowHidden As VbFileAttribute
     ShowHidden = 0
-    If chkHidden.Value = 1 Then ShowHidden = vbHidden
+    If chkHidden.value = 1 Then ShowHidden = vbHidden
     Name = Dir(Path, vbNormal Or vbReadOnly Or vbArchive Or ShowHidden)
     Dim cnt As Double
     cnt = 0
@@ -710,7 +710,7 @@ Sub ListFiles()
             Next i
 
             Shown = True
-            If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." Then Shown = False
+            If chkUnixHidden.value = 0 And Left$(Name, 1) = "." Then Shown = False
 
             Icon = 2
             If LCase(GetExtensionName(Name)) = "lnk" Then
@@ -719,11 +719,11 @@ Sub ListFiles()
                     LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
                 If FolderExists(LnkPath) Then
                     Icon = 1
-                ElseIf Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then
+                ElseIf Tags.BrowseTargetForm = 2 And chkShowFiles.value <> 1 Then
                     Shown = False
                 End If
             Else
-                If Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then Shown = False
+                If Tags.BrowseTargetForm = 2 And chkShowFiles.value <> 1 Then Shown = False
             End If
 
             SmallIcon = Icon
@@ -839,13 +839,13 @@ End Sub
 Private Sub chkShowFiles_Click()
     ListedOn = ""
     If Loaded Then ListFiles
-    SaveSetting "DownloadBooster", "UserData", "ShowFiles", chkShowFiles.Value
+    SaveSetting "DownloadBooster", "UserData", "ShowFiles", chkShowFiles.value
 End Sub
 
 Private Sub chkUnixHidden_Click()
     ListedOn = ""
     If Loaded Then ListFiles
-    SaveSetting "DownloadBooster", "UserData", "ShowUnixHidden", chkUnixHidden.Value
+    SaveSetting "DownloadBooster", "UserData", "ShowUnixHidden", chkUnixHidden.value
 End Sub
 
 Private Sub cmdPreview_Click()
@@ -905,7 +905,6 @@ Private Sub Form_Load()
     selFileType.ListIndex = 0
     
     On Error Resume Next
-    Me.Icon = frmMain.imgOpenFolder.ListImages(1).Picture
     
     Dim Path$
     Path = lvDir.Path
@@ -1036,9 +1035,9 @@ setpreview:
     lvFiles.Groups.Add , , t("네트워크 드라이브", "Network Drives")
     lvFiles.Groups.Add , , t("기타", "Others")
     
-    chkHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowHidden", 0)
-    chkUnixHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowUnixHidden", 1)
-    chkShowFiles.Value = GetSetting("DownloadBooster", "UserData", "ShowFiles", 0)
+    chkHidden.value = GetSetting("DownloadBooster", "UserData", "ShowHidden", 0)
+    chkUnixHidden.value = GetSetting("DownloadBooster", "UserData", "ShowUnixHidden", 1)
+    chkShowFiles.value = GetSetting("DownloadBooster", "UserData", "ShowFiles", 0)
     
     cmdPreview.Visible = (Tags.BrowseTargetForm = 4)
     
@@ -1167,9 +1166,9 @@ Sub ShowMyComputer()
     Next k
     
     For k = 1 To tbPlaces.Buttons.Count
-        tbPlaces.Buttons(k).Value = TbrButtonValueUnpressed
+        tbPlaces.Buttons(k).value = TbrButtonValueUnpressed
     Next k
-    tbPlaces.Buttons(4).Value = TbrButtonValuePressed
+    tbPlaces.Buttons(4).value = TbrButtonValuePressed
     cbFolderList.ComboItems(4).Selected = True
     tbToolBar.Buttons(2).Enabled = True
     tbToolBar.Buttons(3).Enabled = False
@@ -1236,15 +1235,12 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload Me
 End Sub
 
-Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
-    '
-End Property
+Private Sub IBSSubclass_UnsubclassIt()
+    DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+End Sub
 
-Private Property Get ISubclass_MsgResponse() As EMsgResponse
-    ISubclass_MsgResponse = emrConsume
-End Property
-
-Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long
     On Error Resume Next
  
     Select Case uMsg
@@ -1257,7 +1253,7 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
             lpMMI.ptMaxTrackSize.Y = (Screen.Height + 1200) * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
-            ISubclass_WindowProc = 1&
+            IBSSubclass_WindowProc = 1&
             Exit Function
         Case WM_SETTINGCHANGE
             Select Case GetStrFromPtr(lParam)
@@ -1267,7 +1263,11 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
             End Select
     End Select
     
-    ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+    IBSSubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+End Function
+
+Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
+    IBSSubclass_MsgResponse = emrConsume
 End Function
 
 Private Sub lvDir_Change()
@@ -1353,21 +1353,21 @@ Private Sub lvDir_Change()
     SaveSetting "DownloadBooster", "UserData", "LastSaveDir", lvDir.Path
     
     For i = 1 To tbPlaces.Buttons.Count
-        tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
+        tbPlaces.Buttons(i).value = TbrButtonValueUnpressed
     Next i
     
     Path = lvDir.Path
     Select Case Path
         Case GetSpecialfolder(CSIDL_RECENT)
-            tbPlaces.Buttons(1).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(1).value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_DESKTOP)
-            tbPlaces.Buttons(2).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(2).value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_PERSONAL)
-            tbPlaces.Buttons(3).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(3).value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_FAVORITES)
-            tbPlaces.Buttons(5).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(5).value = TbrButtonValuePressed
         Case Environ$("USERPROFILE")
-            tbPlaces.Buttons(6).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(6).value = TbrButtonValuePressed
     End Select
     
     If ItemCount < cbFolderList.ComboItems.Count Then
@@ -1939,7 +1939,7 @@ imgerr:
             LoadPicture Path & txtFileName.Text
         End If
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", Path & txtFileName.Text
-        frmLiveBadukSkinProperties.optTexture.Value = True
+        frmLiveBadukSkinProperties.optTexture.value = True
         Unload Me
         Exit Sub
     ElseIf Tags.BrowseTargetForm = 6 Then
@@ -1950,7 +1950,7 @@ imgerr:
             LoadPicture Path & txtFileName.Text
         End If
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", Path & txtFileName.Text
-        frmLiveBadukSkinProperties.optFrameTexture.Value = True
+        frmLiveBadukSkinProperties.optFrameTexture.value = True
         Unload Me
         Exit Sub
     End If
@@ -2057,7 +2057,7 @@ Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
     
     Dim i%
     For i = 1 To tbPlaces.Buttons.Count
-        tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
+        tbPlaces.Buttons(i).value = TbrButtonValueUnpressed
     Next i
     
     If IsMyComputer Then ListedOn = ""
@@ -2090,15 +2090,15 @@ Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
     Path = lvDir.Path
     Select Case Path
         Case GetSpecialfolder(CSIDL_RECENT)
-            tbPlaces.Buttons(1).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(1).value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_DESKTOP)
-            tbPlaces.Buttons(2).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(2).value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_PERSONAL)
-            tbPlaces.Buttons(3).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(3).value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_FAVORITES)
-            tbPlaces.Buttons(5).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(5).value = TbrButtonValuePressed
         Case Environ$("USERPROFILE")
-            tbPlaces.Buttons(6).Value = TbrButtonValuePressed
+            tbPlaces.Buttons(6).value = TbrButtonValuePressed
     End Select
 End Sub
 

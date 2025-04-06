@@ -58,7 +58,7 @@ BackStyle property:
 Caption property:
 	Type: String
 	Returns or sets the caption of the currently selected tab by the TabSel property.
-	Captions can have accelerators by adding "&" before the letter that will act as the accelerator.
+	Captions can have accelerators by adding "" before the letter that will act as the accelerator.
 
 
 ChangeControlsBackColor property:
@@ -315,7 +315,7 @@ TabCaption property:
 	Additional parameter(s):
 	    In	Required	Index	As	Integer
 	Returns or sets the caption of a tab identified by the Index parameter.
-	Captions can have accelerators by adding "&" before the letter that will act as the accelerator.
+	Captions can have accelerators by adding "" before the letter that will act as the accelerator.
 
 
 TabControls property:

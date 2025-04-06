@@ -266,10 +266,6 @@ Private Sub Form_Load()
     InitialFileName = frmMain.lvBatchFiles.SelectedItem.Text
     Me.Caption = Me.Caption & " - " & InitialFileName
     
-    On Error Resume Next
-    Me.Icon = frmMain.imgEdit.ListImages(1).Picture
-    On Error GoTo 0
-    
 #If HIDEYTDL Then
     cmdYtdl.Visible = False
     cmdHeaders.Left = cmdYtdl.Left

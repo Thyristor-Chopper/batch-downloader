@@ -8,20 +8,20 @@ BEGIN
 END
 Attribute VB_Name = "IBSSubclass"
 Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
+Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = True
+Attribute VB_Exposed = False
 Option Explicit
 
-Public Function MsgResponse(ByVal hWnd As Long, ByVal iMsg As Long) As Long
+Public Function MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
     '
 End Function
 
-Function WindowProc(ByVal hWnd As Long, ByVal iMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long
+Function WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long
 Attribute WindowProc.VB_Description = "Raised whenever a message you have subclassed is sent."
     '
 End Function
 
 Public Sub UnsubclassIt()
-
+    '
 End Sub

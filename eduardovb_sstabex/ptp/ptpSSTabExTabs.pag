@@ -4,10 +4,10 @@ Begin VB.PropertyPage ptpSSTabExTabs
    ClientHeight    =   6300
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   6504
+   ClientWidth     =   6510
    BeginProperty Font 
       Name            =   "Tahoma"
-      Size            =   7.8
+      Size            =   7.5
       Charset         =   0
       Weight          =   400
       Underline       =   0   'False
@@ -15,14 +15,14 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Strikethrough   =   0   'False
    EndProperty
    LockControls    =   -1  'True
-   PaletteMode     =   0  'Halftone
+   PaletteMode     =   0  '반명암
    ScaleHeight     =   6300
-   ScaleWidth      =   6504
+   ScaleWidth      =   6510
    Begin VB.CommandButton cmdMoveControlToTab 
       Caption         =   "Move a control to this tab"
       Height          =   315
       Left            =   3348
-      Style           =   1  'Graphical
+      Style           =   1  '그래픽
       TabIndex        =   15
       ToolTipText     =   "Add Tab at this position"
       Top             =   1824
@@ -32,7 +32,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Caption         =   "Help"
       Height          =   340
       Left            =   288
-      Style           =   1  'Graphical
+      Style           =   1  '그래픽
       TabIndex        =   37
       ToolTipText     =   "Add Tab at this position"
       Top             =   5760
@@ -44,7 +44,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Enabled         =   0   'False
       Height          =   315
       Left            =   3360
-      Style           =   1  'Graphical
+      Style           =   1  '그래픽
       TabIndex        =   14
       ToolTipText     =   "Add Tab at this position"
       Top             =   1440
@@ -63,7 +63,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   930
          Picture         =   "ptpSSTabExTabs.pgx":0000
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   20
          Tag             =   "E"
          ToolTipText     =   "Clear Picture"
@@ -74,13 +74,13 @@ Begin VB.PropertyPage ptpSSTabExTabs
          AutoRedraw      =   -1  'True
          AutoSize        =   -1  'True
          BackColor       =   &H00C0C0C0&
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   540
          Left            =   120
-         ScaleHeight     =   45
-         ScaleMode       =   3  'Pixel
-         ScaleWidth      =   45
+         ScaleHeight     =   36
+         ScaleMode       =   3  '픽셀
+         ScaleWidth      =   36
          TabIndex        =   17
          TabStop         =   0   'False
          Top             =   270
@@ -90,7 +90,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   930
          Picture         =   "ptpSSTabExTabs.pgx":058A
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   18
          Tag             =   "E"
          ToolTipText     =   "Browse Picture"
@@ -102,7 +102,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   930
          Picture         =   "ptpSSTabExTabs.pgx":06D4
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   19
          Tag             =   "E"
          ToolTipText     =   "Clear Picture"
@@ -123,7 +123,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   936
          Picture         =   "ptpSSTabExTabs.pgx":081E
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   25
          Tag             =   "E"
          ToolTipText     =   "Clear Picture"
@@ -134,7 +134,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   936
          Picture         =   "ptpSSTabExTabs.pgx":0968
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   24
          Tag             =   "E"
          ToolTipText     =   "Browse Picture"
@@ -145,13 +145,13 @@ Begin VB.PropertyPage ptpSSTabExTabs
          AutoRedraw      =   -1  'True
          AutoSize        =   -1  'True
          BackColor       =   &H00C0C0C0&
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   540
          Left            =   120
-         ScaleHeight     =   45
-         ScaleMode       =   3  'Pixel
-         ScaleWidth      =   45
+         ScaleHeight     =   36
+         ScaleMode       =   3  '픽셀
+         ScaleWidth      =   36
          TabIndex        =   23
          TabStop         =   0   'False
          Top             =   270
@@ -162,7 +162,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   936
          Picture         =   "ptpSSTabExTabs.pgx":0AB2
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   26
          Tag             =   "E"
          ToolTipText     =   "Clear Picture"
@@ -183,7 +183,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   930
          Picture         =   "ptpSSTabExTabs.pgx":103C
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   30
          Tag             =   "E"
          ToolTipText     =   "Clear Picture"
@@ -194,7 +194,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   930
          Picture         =   "ptpSSTabExTabs.pgx":1186
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   29
          Tag             =   "E"
          ToolTipText     =   "Browse Picture"
@@ -205,13 +205,13 @@ Begin VB.PropertyPage ptpSSTabExTabs
          AutoRedraw      =   -1  'True
          AutoSize        =   -1  'True
          BackColor       =   &H00C0C0C0&
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   540
          Left            =   120
-         ScaleHeight     =   45
-         ScaleMode       =   3  'Pixel
-         ScaleWidth      =   45
+         ScaleHeight     =   36
+         ScaleMode       =   3  '픽셀
+         ScaleWidth      =   36
          TabIndex        =   28
          TabStop         =   0   'False
          Top             =   270
@@ -222,7 +222,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   930
          Picture         =   "ptpSSTabExTabs.pgx":12D0
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   31
          Tag             =   "E"
          ToolTipText     =   "Clear Picture"
@@ -243,7 +243,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   930
          Picture         =   "ptpSSTabExTabs.pgx":185A
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   35
          Tag             =   "E"
          ToolTipText     =   "Clear Picture"
@@ -254,7 +254,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   930
          Picture         =   "ptpSSTabExTabs.pgx":19A4
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   34
          Tag             =   "E"
          ToolTipText     =   "Browse Picture"
@@ -265,13 +265,13 @@ Begin VB.PropertyPage ptpSSTabExTabs
          AutoRedraw      =   -1  'True
          AutoSize        =   -1  'True
          BackColor       =   &H00C0C0C0&
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   540
          Left            =   120
-         ScaleHeight     =   45
-         ScaleMode       =   3  'Pixel
-         ScaleWidth      =   45
+         ScaleHeight     =   36
+         ScaleMode       =   3  '픽셀
+         ScaleWidth      =   36
          TabIndex        =   33
          TabStop         =   0   'False
          Top             =   270
@@ -282,7 +282,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
          Height          =   375
          Left            =   930
          Picture         =   "ptpSSTabExTabs.pgx":1AEE
-         Style           =   1  'Graphical
+         Style           =   1  '그래픽
          TabIndex        =   36
          Tag             =   "E"
          ToolTipText     =   "Clear Picture"
@@ -307,7 +307,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "Marlett"
-         Size            =   10.8
+         Size            =   10.5
          Charset         =   2
          Weight          =   500
          Underline       =   0   'False
@@ -327,7 +327,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "Marlett"
-         Size            =   10.8
+         Size            =   10.5
          Charset         =   2
          Weight          =   500
          Underline       =   0   'False
@@ -361,7 +361,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Height          =   315
       Left            =   5745
       Picture         =   "ptpSSTabExTabs.pgx":2078
-      Style           =   1  'Graphical
+      Style           =   1  '그래픽
       TabIndex        =   8
       Tag             =   "E"
       ToolTipText     =   "Move Tab Right"
@@ -373,7 +373,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Height          =   315
       Left            =   5340
       Picture         =   "ptpSSTabExTabs.pgx":21C2
-      Style           =   1  'Graphical
+      Style           =   1  '그래픽
       TabIndex        =   7
       Tag             =   "E"
       ToolTipText     =   "Move Tab Left"
@@ -384,7 +384,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Caption         =   "Insert tab"
       Height          =   315
       Left            =   2400
-      Style           =   1  'Graphical
+      Style           =   1  '그래픽
       TabIndex        =   4
       ToolTipText     =   "Add Tab at this position"
       Top             =   75
@@ -394,7 +394,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Height          =   315
       Left            =   3510
       Picture         =   "ptpSSTabExTabs.pgx":230C
-      Style           =   1  'Graphical
+      Style           =   1  '그래픽
       TabIndex        =   5
       Tag             =   "E"
       ToolTipText     =   "Remove Tab"
@@ -426,7 +426,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Height          =   456
       Left            =   1872
       MouseIcon       =   "ptpSSTabExTabs.pgx":2456
-      MousePointer    =   99  'Custom
+      MousePointer    =   99  '사용자 정의
       TabIndex        =   38
       Top             =   5712
       Visible         =   0   'False
@@ -441,7 +441,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Width           =   2796
    End
    Begin VB.Label Label3 
-      Alignment       =   1  'Right Justify
+      Alignment       =   1  '오른쪽 맞춤
       Caption         =   "TabToolTipText:"
       Height          =   225
       Left            =   240
@@ -450,7 +450,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Width           =   1485
    End
    Begin VB.Label Label13 
-      Alignment       =   1  'Right Justify
+      Alignment       =   1  '오른쪽 맞춤
       Caption         =   "TabCaption:"
       Height          =   225
       Left            =   240
@@ -459,7 +459,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Width           =   1485
    End
    Begin VB.Label Label2 
-      Alignment       =   1  'Right Justify
+      Alignment       =   1  '오른쪽 맞춤
       Caption         =   "Change order:"
       Height          =   270
       Left            =   4050
@@ -468,7 +468,7 @@ Begin VB.PropertyPage ptpSSTabExTabs
       Width           =   1200
    End
    Begin VB.Label Label1 
-      Alignment       =   1  'Right Justify
+      Alignment       =   1  '오른쪽 맞춤
       Caption         =   "Current Tab:"
       Height          =   225
       Left            =   60
@@ -479,9 +479,9 @@ Begin VB.PropertyPage ptpSSTabExTabs
 End
 Attribute VB_Name = "ptpSSTabExTabs"
 Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
+Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = True
+Attribute VB_Exposed = False
 Option Explicit
 
 Private Enum vbExMouseButtonsConstants
@@ -523,7 +523,7 @@ Private mTabs As Long
 Private mStrImagesDifferences As String
 
 Private Sub cmdBrowsePicture_Click()
-    Dim iDlg As New CDlg
+    Dim iDlg As New cDlg
     
     'iDlg.Filter = "Image files (*.bmp, *.ico)|*.bmp;*.ico"
     iDlg.Filter = "Bitmap files (*.bmp)|*.bmp"
@@ -560,7 +560,7 @@ End Sub
 
 
 Private Sub cmdBrowsePic16_Click()
-    Dim iDlg As New CDlg
+    Dim iDlg As New cDlg
     
     iDlg.Filter = "Bitmap files (*.bmp)|*.bmp"
     iDlg.ShowOpen
@@ -596,7 +596,7 @@ Private Sub cmdDeletePic16_Click()
 End Sub
 
 Private Sub cmdBrowsePic20_Click()
-    Dim iDlg As New CDlg
+    Dim iDlg As New cDlg
     
     iDlg.Filter = "Bitmap files (*.bmp)|*.bmp"
     iDlg.ShowOpen
@@ -632,7 +632,7 @@ Private Sub cmdDeletePic20_Click()
 End Sub
 
 Private Sub cmdBrowsePic24_Click()
-    Dim iDlg As New CDlg
+    Dim iDlg As New cDlg
     
     iDlg.Filter = "Bitmap files (*.bmp)|*.bmp"
     iDlg.ShowOpen
@@ -712,7 +712,7 @@ Private Sub cmdMoveContainedControls_Click()
     iStr = InputBox("Enter the tab number where the controls will be moved.", "Enter tab number")
     If iStr <> "" Then
         If IsNumeric(iStr) Then
-            t = Val(iStr)
+            t = val(iStr)
             If (t > -1) And (t - (mTabs - 1)) Then
                 If t = mTabSel Then
                     MsgBox "Destination tab number must be different than current tab.", vbExclamation

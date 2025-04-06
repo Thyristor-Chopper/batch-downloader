@@ -16,6 +16,33 @@ Begin VB.UserControl CommandButtonEx
    EndProperty
    ScaleHeight     =   1755
    ScaleWidth      =   2310
+   Begin prjDownloadBooster.TygemButton tygButton 
+      Height          =   375
+      Left            =   0
+      TabIndex        =   0
+      TabStop         =   0   'False
+      Top             =   480
+      Visible         =   0   'False
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   661
+      Caption         =   "Command1"
+      BackColor       =   0
+   End
+   Begin prjDownloadBooster.TygemButton tygButtonSplit 
+      Height          =   375
+      Left            =   1680
+      TabIndex        =   1
+      TabStop         =   0   'False
+      Top             =   480
+      Width           =   255
+      _ExtentX        =   450
+      _ExtentY        =   661
+      BackColor       =   0
+      FontSize        =   0
+      ButtonIcon      =   "CommandButtonEx.ctx":0000
+      SplitRight      =   -1  'True
+   End
    Begin VB.CommandButton cmdButton 
       Caption         =   "Command1"
       Height          =   375
@@ -50,40 +77,14 @@ Begin VB.UserControl CommandButtonEx
       ImageHeight     =   5
       ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "CommandButtonEx.ctx":0000
+      InitListImages  =   "CommandButtonEx.ctx":0051
    End
    Begin prjDownloadBooster.ImageList imgIcon 
       Left            =   120
       Top             =   1080
       _ExtentX        =   1005
       _ExtentY        =   1005
-      InitListImages  =   "CommandButtonEx.ctx":06F0
-   End
-   Begin prjDownloadBooster.TygemButton tygButton 
-      Height          =   375
-      Left            =   0
-      TabIndex        =   0
-      TabStop         =   0   'False
-      Top             =   480
-      Visible         =   0   'False
-      Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Caption         =   "Command1"
-      BackColor       =   0
-   End
-   Begin prjDownloadBooster.TygemButton tygButtonSplit 
-      Height          =   375
-      Left            =   1680
-      TabIndex        =   1
-      TabStop         =   0   'False
-      Top             =   480
-      Width           =   255
-      _ExtentX        =   450
-      _ExtentY        =   661
-      BackColor       =   0
-      FontSize        =   0
-      ButtonIcon      =   "CommandButtonEx.ctx":0710
+      InitListImages  =   "CommandButtonEx.ctx":0741
    End
 End
 Attribute VB_Name = "CommandButtonEx"
@@ -93,7 +94,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Implements ISubclass
+Implements IBSSubclass
 
 Private Declare Function ActivateVisualStyles Lib "uxtheme.dll" Alias "SetWindowTheme" (ByVal hWnd As Long, Optional ByVal pszSubAppName As Long = 0&, Optional ByVal pszSubIdList As Long = 0&) As Long
 Private Declare Function DeactivateVisualStyles Lib "uxtheme.dll" Alias "SetWindowTheme" (ByVal hWnd As Long, Optional ByRef pszSubAppName As String = " ", Optional ByRef pszSubIdList As String = " ") As Long
@@ -125,13 +126,6 @@ Private Type NMHDR
     hWndFrom As Long
     idFrom As Long
     code As Long
-End Type
-
-Private Type RECT
-    Left As Long
-    Top As Long
-    Right As Long
-    Bottom As Long
 End Type
 
 Private Type BUTTON_IMAGELIST
@@ -166,6 +160,12 @@ Dim m_SplitButton As Boolean
 Const m_def_VisualStyles As Boolean = True
 Dim m_VisualStyles As Boolean
 
+Const m_def_RoundButton As Boolean = False
+Dim m_RoundButton As Boolean
+
+Const m_def_Transparent As Boolean = False
+Dim m_Transparent As Boolean
+
 Const m_def_IconPosition = IconAlignment.IconAlignmentLeft
 Dim m_IconPosition As IconAlignment
 
@@ -173,7 +173,8 @@ Dim m_Icon As IPictureDisp
 
 Dim m_Font As StdFont
 
-Dim CanShowNativeSplitButton As Boolean
+Private CanShowNativeSplitButton As Boolean
+Private CommandButtonTransparentBrush As Long
 
 Event Click()
 Event DropDown()
@@ -221,6 +222,8 @@ Private Sub SetSplitButton()
             DetachMessage Me, UserControl.hWnd, WM_NOTIFY
         End If
     End If
+    tygButton.SplitLeft = m_SplitButton
+    SetRgn
 End Sub
 
 Property Get IsTygemButton() As Boolean
@@ -236,6 +239,7 @@ End Property
 Private Sub SetIsTygemButton()
     tygButton.Visible = m_IsTygemButton
     tygButtonSplit.Visible = (m_IsTygemButton And m_SplitButton)
+    SetRgn
 End Sub
 
 Property Get VisualStyles() As Boolean
@@ -248,12 +252,32 @@ Property Let VisualStyles(ByVal New_VisualStyles As Boolean)
     SetVisualStyles
 End Property
 
+Property Get RoundButton() As Boolean
+    RoundButton = m_RoundButton
+End Property
+
+Property Let RoundButton(ByVal New_RoundButton As Boolean)
+    m_RoundButton = New_RoundButton
+    PropertyChanged "RoundButton"
+    SetRgn
+End Property
+
+Property Get Transparent() As Boolean
+    Transparent = m_Transparent
+End Property
+
+Property Let Transparent(ByVal New_Transparent As Boolean)
+    m_Transparent = New_Transparent
+    PropertyChanged "Transparent"
+End Property
+
 Private Sub SetVisualStyles()
     If m_VisualStyles Then
         ActivateVisualStyles cmdButton.hWnd
     Else
         DeactivateVisualStyles cmdButton.hWnd
     End If
+    SetRgn
 End Sub
 
 Property Get Default() As Boolean
@@ -286,6 +310,7 @@ End Property
 Property Let Caption(ByVal New_Caption As String)
     m_Caption = New_Caption
     PropertyChanged "Caption"
+    SetCaption
 End Property
 
 Private Sub SetCaption()
@@ -416,15 +441,13 @@ Private Sub cmdButtonSplit_MouseDown(Button As Integer, Shift As Integer, X As S
     cmdButtonSplit_Click
 End Sub
 
-Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
-    '
-End Property
+Private Sub IBSSubclass_UnsubclassIt()
+    DetachMessage Me, UserControl.hWnd, WM_NOTIFY
+    DetachMessage Me, UserControl.hWnd, WM_CTLCOLORSTATIC
+    DetachMessage Me, UserControl.hWnd, WM_CTLCOLORBTN
+End Sub
 
-Private Property Get ISubclass_MsgResponse() As EMsgResponse
-    ISubclass_MsgResponse = emrConsume
-End Property
-
-Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long
     On Error Resume Next
     
     Dim NMHDR As NMHDR
@@ -435,15 +458,54 @@ Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, By
             Select Case NMHDR.code
                 Case BCN_DROPDOWN
                     If NMHDR.hWndFrom = cmdButton.hWnd Then RaiseEvent DropDown
-                    ISubclass_WindowProc = 1&
+                    IBSSubclass_WindowProc = 1&
                     Exit Function
                 Case NM_GETCUSTOMSPLITRECT
-                    ISubclass_WindowProc = 0&
+                    IBSSubclass_WindowProc = 0&
                     Exit Function
             End Select
+        Case WM_CTLCOLORSTATIC, WM_CTLCOLORBTN
+            IBSSubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+            If m_Transparent = True Then
+                SetBkMode wParam, 1&
+                Dim hDCBmp As Long
+                Dim hBmp As Long, hBmpOld As Long
+                With UserControl
+                    If Not CommandButtonTransparentBrush Then
+                        hDCBmp = CreateCompatibleDC(wParam)
+                        If hDCBmp Then
+                            hBmp = CreateCompatibleBitmap(wParam, .ScaleWidth / Screen.TwipsPerPixelX, .ScaleHeight / Screen.TwipsPerPixelY)
+                            If hBmp Then
+                                Dim hWndParent As Long
+                                hWndParent = GetParent(.hWnd)
+                                If (GetWindowLong(hWndParent, GWL_EXSTYLE) And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Then SetLayout hDCBmp, LAYOUT_RTL
+                                hBmpOld = SelectObject(hDCBmp, hBmp)
+                                Dim WndRect As RECT, P As POINTAPI
+                                GetWindowRect .hWnd, WndRect
+                                MapWindowPoints hWnd_DESKTOP, hWndParent, WndRect, 2&
+                                P.X = WndRect.Left
+                                P.Y = WndRect.Top
+                                SetViewportOrgEx hDCBmp, -P.X, -P.Y, P
+                                SendMessage hWndParent, WM_PAINT, hDCBmp, ByVal 0&
+                                SetViewportOrgEx hDCBmp, P.X, P.Y, P
+                                CommandButtonTransparentBrush = CreatePatternBrush(hBmp)
+                                SelectObject hDCBmp, hBmpOld
+                                DeleteObject hBmp
+                            End If
+                            DeleteDC hDCBmp
+                        End If
+                    End If
+                End With
+                If CommandButtonTransparentBrush Then IBSSubclass_WindowProc = CommandButtonTransparentBrush
+            End If
+            Exit Function
     End Select
     
-    ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+    IBSSubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+End Function
+
+Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
+    IBSSubclass_MsgResponse = emrConsume
 End Function
 
 Private Sub tygButton_Click()
@@ -495,6 +557,9 @@ Private Sub UserControl_Initialize()
     InitCommonControls
     
     CanShowNativeSplitButton = (WinVer >= 6#)
+    
+    AttachMessage Me, UserControl.hWnd, WM_CTLCOLORSTATIC
+    AttachMessage Me, UserControl.hWnd, WM_CTLCOLORBTN
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -510,6 +575,8 @@ Private Sub UserControl_InitProperties()
     Set m_Font = New StdFont
     m_Font.Name = "굴림"
     m_Font.Size = 9
+    m_RoundButton = m_def_RoundButton
+    m_Transparent = m_def_Transparent
 End Sub
 
 Private Sub UserControl_Resize()
@@ -534,6 +601,16 @@ Private Sub UserControl_Resize()
     tygButtonSplit.Left = tygButton.Width
     cmdButtonSplit.Visible = m_SplitButton And (Not CanShowNativeSplitButton)
     tygButtonSplit.Visible = (m_SplitButton And m_IsTygemButton)
+    
+    If (Not m_IsTygemButton) And m_Transparent Then
+        If CommandButtonTransparentBrush Then
+            DeleteObject CommandButtonTransparentBrush
+            CommandButtonTransparentBrush = 0&
+        End If
+        RedrawWindow cmdButton.hWnd, 0&, 0&, RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE
+    End If
+    
+    SetRgn
 End Sub
 
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
@@ -546,6 +623,8 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     m_IsTygemButton = PropBag.ReadProperty("IsTygemButton", m_def_IsTygemButton)
     m_VisualStyles = PropBag.ReadProperty("VisualStyles", m_def_VisualStyles)
     Set m_Font = PropBag.ReadProperty("Font", Nothing)
+    m_RoundButton = PropBag.ReadProperty("RoundButton", m_def_RoundButton)
+    m_Transparent = PropBag.ReadProperty("Transparent", m_def_Transparent)
     
     SetEnabled
     SetCaption
@@ -556,10 +635,18 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     SetVisualStyles
     SetFont
     SetDefault
+    
+    SetRgn
 End Sub
 
 Private Sub UserControl_Terminate()
     DetachMessage Me, UserControl.hWnd, WM_NOTIFY
+    DetachMessage Me, UserControl.hWnd, WM_CTLCOLORSTATIC
+    DetachMessage Me, UserControl.hWnd, WM_CTLCOLORBTN
+    If CommandButtonTransparentBrush Then
+        DeleteObject CommandButtonTransparentBrush
+        CommandButtonTransparentBrush = 0&
+    End If
 End Sub
 
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
@@ -572,9 +659,85 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     Call PropBag.WriteProperty("VisualStyles", m_VisualStyles, m_def_VisualStyles)
     Call PropBag.WriteProperty("Font", m_Font, Nothing)
     Call PropBag.WriteProperty("IconPosition", m_IconPosition, m_def_IconPosition)
+    Call PropBag.WriteProperty("RoundButton", m_RoundButton, m_def_RoundButton)
+    Call PropBag.WriteProperty("Transparent", m_Transparent, m_def_Transparent)
 End Sub
 
 Sub Refresh()
-    cmdButton.Refresh
+    If CommandButtonTransparentBrush Then
+        DeleteObject CommandButtonTransparentBrush
+        CommandButtonTransparentBrush = 0&
+    End If
     UserControl.Refresh
+    cmdButton.Refresh
+    RedrawWindow UserControl.hWnd, 0&, 0&, RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE Or RDW_ALLCHILDREN
+    SetRgn
 End Sub
+
+Private Sub SetRgn()
+    Dim RC As RECT
+    Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&
+    
+    If m_IsTygemButton Then
+        GetWindowRect UserControl.hWnd, RC
+        Rgn = CreateRectRgn(0, 0, RC.Right - RC.Left, RC.Bottom - RC.Top)
+        Rgn1 = CreateRectRgn(0, 0, 2, 1) '왼쪽 위
+        Rgn2 = CreateRectRgn(0, 1, 1, 2)
+        Rgn3 = CreateRectRgn(RC.Right - RC.Left - 2, 0, RC.Right - RC.Left, 1) '오른쪽 위
+        Rgn4 = CreateRectRgn(RC.Right - RC.Left - 1, 1, RC.Right - RC.Left, 2)
+        Rgn5 = CreateRectRgn(0, RC.Bottom - RC.Top - 1, 2, RC.Bottom - RC.Top) '왼쪽 아래
+        Rgn6 = CreateRectRgn(0, RC.Bottom - RC.Top - 2, 1, RC.Bottom - RC.Top - 1)
+        Rgn7 = CreateRectRgn(RC.Right - RC.Left - 2, RC.Bottom - RC.Top - 1, RC.Right - RC.Left, RC.Bottom - RC.Top) '오른쪽 아래
+        Rgn8 = CreateRectRgn(RC.Right - RC.Left - 1, RC.Bottom - RC.Top - 2, RC.Right - RC.Left, RC.Bottom - RC.Top - 1)
+        CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
+        SetWindowRgn UserControl.hWnd, Rgn, True
+        DeleteObject Rgn
+        DeleteObject Rgn1
+        DeleteObject Rgn2
+        DeleteObject Rgn3
+        DeleteObject Rgn4
+        DeleteObject Rgn5
+        DeleteObject Rgn6
+        DeleteObject Rgn7
+        DeleteObject Rgn8
+    ElseIf m_RoundButton And (Not m_VisualStyles) Then
+        GetWindowRect UserControl.hWnd, RC
+        Rgn = CreateRectRgn(0, 0, RC.Right - RC.Left, RC.Bottom - RC.Top)
+        Rgn1 = CreateRectRgn(0, 0, 2, 1)
+        Rgn2 = CreateRectRgn(0, 1, 1, 2)
+        Rgn3 = CreateRectRgn(RC.Right - RC.Left - 2, 0, RC.Right - RC.Left, 1)
+        Rgn4 = CreateRectRgn(RC.Right - RC.Left - 1, 1, RC.Right - RC.Left, 2)
+        Rgn5 = CreateRectRgn(0, RC.Bottom - RC.Top - 1, 2, RC.Bottom - RC.Top)
+        Rgn6 = CreateRectRgn(0, RC.Bottom - RC.Top - 2, 1, RC.Bottom - RC.Top - 1)
+        Rgn7 = CreateRectRgn(RC.Right - RC.Left - 2, RC.Bottom - RC.Top - 1, RC.Right - RC.Left, RC.Bottom - RC.Top)
+        Rgn8 = CreateRectRgn(RC.Right - RC.Left - 1, RC.Bottom - RC.Top - 2, RC.Right - RC.Left, RC.Bottom - RC.Top - 1)
+        CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
+        CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
+        SetWindowRgn UserControl.hWnd, Rgn, True
+        DeleteObject Rgn
+        DeleteObject Rgn1
+        DeleteObject Rgn2
+        DeleteObject Rgn3
+        DeleteObject Rgn4
+        DeleteObject Rgn5
+        DeleteObject Rgn6
+        DeleteObject Rgn7
+        DeleteObject Rgn8
+    Else
+        SetWindowRgn UserControl.hWnd, 0&, True
+    End If
+End Sub
+

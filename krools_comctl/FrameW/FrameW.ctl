@@ -7,7 +7,7 @@ Begin VB.UserControl FrameW
    ClientTop       =   0
    ClientWidth     =   2400
    ControlContainer=   -1  'True
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  'Åõ¸í
    ForwardFocus    =   -1  'True
    PropertyPages   =   "FrameW.ctx":0000
    ScaleHeight     =   1800
@@ -203,7 +203,7 @@ Private Const BF_RIGHT As Long = 4
 Private Const BF_BOTTOM As Long = 8
 Private Const BF_RECT As Long = BF_LEFT Or BF_TOP Or BF_RIGHT Or BF_BOTTOM
 Private Const BF_MONO As Long = &H8000&
-Implements CCISubclass
+Implements IBSSubclass
 Implements OLEGuids.IObjectSafety
 Implements OLEGuids.IPerPropertyBrowsingVB
 Private FrameMouseOver As Boolean
@@ -224,6 +224,18 @@ Private PropAlignment As VBRUN.AlignmentConstants
 Private PropTransparent As Boolean
 Private PropPicture As IPictureDisp
 Private PropPictureAlignment As CCLeftRightAlignmentConstants
+
+Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
+    IBSSubclass_MsgResponse = emrConsume
+End Function
+
+Private Sub IBSSubclass_UnsubclassIt()
+    DetachMessage Me, UserControl.hWnd, WM_PRINTCLIENT
+    DetachMessage Me, UserControl.hWnd, WM_GETTEXTLENGTH
+    DetachMessage Me, UserControl.hWnd, WM_GETTEXT
+    DetachMessage Me, UserControl.hWnd, WM_SETTEXT
+    DetachMessage Me, UserControl.hWnd, WM_MOUSELEAVE
+End Sub
 
 Private Sub IObjectSafety_GetInterfaceSafetyOptions(ByRef riid As OLEGuids.OLECLSID, ByRef pdwSupportedOptions As Long, ByRef pdwEnabledOptions As Long)
 Const INTERFACESAFE_FOR_UNTRUSTED_CALLER As Long = &H1, INTERFACESAFE_FOR_UNTRUSTED_DATA As Long = &H2
@@ -254,15 +266,62 @@ If DispId = DispIdBorderStyle Then
 End If
 End Sub
 
-Private Sub IPerPropertyBrowsingVB_GetPredefinedValue(ByRef Handled As Boolean, ByVal DispId As Long, ByVal Cookie As Long, ByRef Value As Variant)
+Private Sub IPerPropertyBrowsingVB_GetPredefinedValue(ByRef Handled As Boolean, ByVal DispId As Long, ByVal Cookie As Long, ByRef value As Variant)
 If DispId = DispIdBorderStyle Then
-    Value = Cookie
+    value = Cookie
     Handled = True
 End If
 End Sub
 
+Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal wMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long
+    Select Case wMsg
+        Case WM_PRINTCLIENT
+            Dim ClientRect As RECT
+            GetClientRect UserControl.hWnd, ClientRect
+            BitBlt wParam, 0, 0, ClientRect.Right - ClientRect.Left, ClientRect.Bottom - ClientRect.Top, UserControl.hDC, 0, 0, vbSrcCopy
+            IBSSubclass_WindowProc = 0
+            Exit Function
+        Case WM_GETTEXTLENGTH
+            IBSSubclass_WindowProc = Len(PropCaption)
+            Exit Function
+        Case WM_GETTEXT, WM_SETTEXT
+            Dim Length As Long, Text As String
+            If wMsg = WM_GETTEXT Then
+                If wParam > 0 And lParam <> 0 Then
+                    Length = Len(PropCaption) + 1
+                    If wParam < Length Then Length = CLng(wParam)
+                    Text = Left$(PropCaption, Length - 1) & vbNullChar
+                    CopyMemory ByVal lParam, ByVal StrPtr(Text), Length * 2
+                    IBSSubclass_WindowProc = Length - 1
+                Else
+                    IBSSubclass_WindowProc = 0
+                End If
+            ElseIf wMsg = WM_SETTEXT Then
+                If lParam <> 0 Then Length = lstrlen(lParam)
+                If Length > 0 Then
+                    Text = String$(Length, vbNullChar)
+                    CopyMemory ByVal StrPtr(Text), ByVal lParam, Length * 2
+                    Me.Caption = Text
+                    IBSSubclass_WindowProc = 1
+                ElseIf lParam = 0 Then
+                    Me.Caption = vbNullString
+                    IBSSubclass_WindowProc = 1
+                Else
+                    IBSSubclass_WindowProc = 0
+                End If
+            End If
+            Exit Function
+    End Select
+    IBSSubclass_WindowProc = CallOldWindowProc(hWnd, wMsg, wParam, lParam)
+    If wMsg = WM_MOUSELEAVE Then
+        If FrameMouseOver = True Then
+            FrameMouseOver = False
+            RaiseEvent MouseLeave
+        End If
+    End If
+End Function
+
 Private Sub UserControl_Initialize()
-Call ComCtlsLoadShellMod
 Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 End Sub
 
@@ -286,7 +345,13 @@ If PropRightToLeft = False Then PropAlignment = vbLeftJustify Else PropAlignment
 PropTransparent = False
 Set PropPicture = Nothing
 If PropRightToLeft = False Then PropPictureAlignment = CCLeftRightAlignmentLeft Else PropPictureAlignment = CCLeftRightAlignmentRight
-If FrameDesignMode = False Then Call ComCtlsSetSubclass(UserControl.hWnd, Me, 0)
+If FrameDesignMode = False Then
+    AttachMessage Me, UserControl.hWnd, WM_PRINTCLIENT
+    AttachMessage Me, UserControl.hWnd, WM_GETTEXTLENGTH
+    AttachMessage Me, UserControl.hWnd, WM_GETTEXT
+    AttachMessage Me, UserControl.hWnd, WM_SETTEXT
+    AttachMessage Me, UserControl.hWnd, WM_MOUSELEAVE
+End If
 End Sub
 
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
@@ -322,7 +387,13 @@ If PropUseMnemonic = True Then
 Else
     UserControl.AccessKeys = vbNullString
 End If
-If FrameDesignMode = False Then Call ComCtlsSetSubclass(UserControl.hWnd, Me, 0)
+If FrameDesignMode = False Then
+    AttachMessage Me, UserControl.hWnd, WM_PRINTCLIENT
+    AttachMessage Me, UserControl.hWnd, WM_GETTEXTLENGTH
+    AttachMessage Me, UserControl.hWnd, WM_GETTEXT
+    AttachMessage Me, UserControl.hWnd, WM_SETTEXT
+    AttachMessage Me, UserControl.hWnd, WM_MOUSELEAVE
+End If
 End Sub
 
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
@@ -422,8 +493,11 @@ End Sub
 
 Private Sub UserControl_Terminate()
 Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
-Call ComCtlsRemoveSubclass(UserControl.hWnd)
-Call ComCtlsReleaseShellMod
+DetachMessage Me, UserControl.hWnd, WM_PRINTCLIENT
+DetachMessage Me, UserControl.hWnd, WM_GETTEXTLENGTH
+DetachMessage Me, UserControl.hWnd, WM_GETTEXT
+DetachMessage Me, UserControl.hWnd, WM_SETTEXT
+DetachMessage Me, UserControl.hWnd, WM_MOUSELEAVE
 End Sub
 
 Public Property Get Name() As String
@@ -436,8 +510,8 @@ Attribute Tag.VB_Description = "Stores any extra data needed for your program."
 Tag = Extender.Tag
 End Property
 
-Public Property Let Tag(ByVal Value As String)
-Extender.Tag = Value
+Public Property Let Tag(ByVal value As String)
+Extender.Tag = value
 End Property
 
 Public Property Get Parent() As Object
@@ -450,8 +524,8 @@ Attribute Container.VB_Description = "Returns the container of an object."
 Set Container = Extender.Container
 End Property
 
-Public Property Set Container(ByVal Value As Object)
-Set Extender.Container = Value
+Public Property Set Container(ByVal value As Object)
+Set Extender.Container = value
 End Property
 
 Public Property Get Left() As Single
@@ -459,8 +533,8 @@ Attribute Left.VB_Description = "Returns/sets the distance between the internal 
 Left = Extender.Left
 End Property
 
-Public Property Let Left(ByVal Value As Single)
-Extender.Left = Value
+Public Property Let Left(ByVal value As Single)
+Extender.Left = value
 End Property
 
 Public Property Get Top() As Single
@@ -468,8 +542,8 @@ Attribute Top.VB_Description = "Returns/sets the distance between the internal t
 Top = Extender.Top
 End Property
 
-Public Property Let Top(ByVal Value As Single)
-Extender.Top = Value
+Public Property Let Top(ByVal value As Single)
+Extender.Top = value
 End Property
 
 Public Property Get Width() As Single
@@ -477,8 +551,8 @@ Attribute Width.VB_Description = "Returns/sets the width of an object."
 Width = Extender.Width
 End Property
 
-Public Property Let Width(ByVal Value As Single)
-Extender.Width = Value
+Public Property Let Width(ByVal value As Single)
+Extender.Width = value
 End Property
 
 Public Property Get Height() As Single
@@ -486,8 +560,8 @@ Attribute Height.VB_Description = "Returns/sets the height of an object."
 Height = Extender.Height
 End Property
 
-Public Property Let Height(ByVal Value As Single)
-Extender.Height = Value
+Public Property Let Height(ByVal value As Single)
+Extender.Height = value
 End Property
 
 Public Property Get Visible() As Boolean
@@ -495,8 +569,8 @@ Attribute Visible.VB_Description = "Returns/sets a value that determines whether
 Visible = Extender.Visible
 End Property
 
-Public Property Let Visible(ByVal Value As Boolean)
-Extender.Visible = Value
+Public Property Let Visible(ByVal value As Boolean)
+Extender.Visible = value
 End Property
 
 Public Property Get ToolTipText() As String
@@ -505,8 +579,8 @@ Attribute ToolTipText.VB_MemberFlags = "400"
 ToolTipText = Extender.ToolTipText
 End Property
 
-Public Property Let ToolTipText(ByVal Value As String)
-Extender.ToolTipText = Value
+Public Property Let ToolTipText(ByVal value As String)
+Extender.ToolTipText = value
 End Property
 
 Public Property Get WhatsThisHelpID() As Long
@@ -515,8 +589,8 @@ Attribute WhatsThisHelpID.VB_MemberFlags = "400"
 WhatsThisHelpID = Extender.WhatsThisHelpID
 End Property
 
-Public Property Let WhatsThisHelpID(ByVal Value As Long)
-Extender.WhatsThisHelpID = Value
+Public Property Let WhatsThisHelpID(ByVal value As Long)
+Extender.WhatsThisHelpID = value
 End Property
 
 Public Property Get DragIcon() As IPictureDisp
@@ -525,12 +599,12 @@ Attribute DragIcon.VB_MemberFlags = "400"
 Set DragIcon = Extender.DragIcon
 End Property
 
-Public Property Let DragIcon(ByVal Value As IPictureDisp)
-Extender.DragIcon = Value
+Public Property Let DragIcon(ByVal value As IPictureDisp)
+Extender.DragIcon = value
 End Property
 
-Public Property Set DragIcon(ByVal Value As IPictureDisp)
-Set Extender.DragIcon = Value
+Public Property Set DragIcon(ByVal value As IPictureDisp)
+Set Extender.DragIcon = value
 End Property
 
 Public Property Get DragMode() As Integer
@@ -539,8 +613,8 @@ Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
 
-Public Property Let DragMode(ByVal Value As Integer)
-Extender.DragMode = Value
+Public Property Let DragMode(ByVal value As Integer)
+Extender.DragMode = value
 End Property
 
 Public Sub Drag(Optional ByRef Action As Variant)
@@ -594,8 +668,8 @@ Attribute VisualStyles.VB_Description = "Returns/sets a value that determines wh
 VisualStyles = PropVisualStyles
 End Property
 
-Public Property Let VisualStyles(ByVal Value As Boolean)
-PropVisualStyles = Value
+Public Property Let VisualStyles(ByVal value As Boolean)
+PropVisualStyles = value
 Call DrawFrame
 UserControl.PropertyChanged "VisualStyles"
 End Property
@@ -606,10 +680,10 @@ Attribute Appearance.VB_UserMemId = -520
 Appearance = UserControl.Appearance
 End Property
 
-Public Property Let Appearance(ByVal Value As CCAppearanceConstants)
-Select Case Value
+Public Property Let Appearance(ByVal value As CCAppearanceConstants)
+Select Case value
     Case CCAppearanceFlat, CCAppearance3D
-        UserControl.Appearance = Value
+        UserControl.Appearance = value
     Case Else
         Err.Raise 380
 End Select
@@ -624,8 +698,8 @@ Attribute BackColor.VB_UserMemId = -501
 BackColor = UserControl.BackColor
 End Property
 
-Public Property Let BackColor(ByVal Value As OLE_COLOR)
-UserControl.BackColor = Value
+Public Property Let BackColor(ByVal value As OLE_COLOR)
+UserControl.BackColor = value
 Call DrawFrame
 UserControl.PropertyChanged "BackColor"
 End Property
@@ -636,8 +710,8 @@ Attribute ForeColor.VB_UserMemId = -513
 ForeColor = UserControl.ForeColor
 End Property
 
-Public Property Let ForeColor(ByVal Value As OLE_COLOR)
-UserControl.ForeColor = Value
+Public Property Let ForeColor(ByVal value As OLE_COLOR)
+UserControl.ForeColor = value
 Call DrawFrame
 UserControl.PropertyChanged "ForeColor"
 End Property
@@ -648,8 +722,8 @@ Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
 
-Public Property Let Enabled(ByVal Value As Boolean)
-UserControl.Enabled = Value
+Public Property Let Enabled(ByVal value As Boolean)
+UserControl.Enabled = value
 Call DrawFrame
 UserControl.PropertyChanged "Enabled"
 End Property
@@ -659,16 +733,16 @@ Attribute OLEDropMode.VB_Description = "Returns/Sets whether this object can act
 OLEDropMode = UserControl.OLEDropMode
 End Property
 
-Public Property Let OLEDropMode(ByVal Value As OLEDropModeConstants)
+Public Property Let OLEDropMode(ByVal value As OLEDropModeConstants)
 ' Setting OLEDropMode to OLEDropModeManual will fail when windowless controls are contained in the user control.
 Const DRAGDROP_E_ALREADYREGISTERED As Long = &H80040101
-Select Case Value
+Select Case value
     Case OLEDropModeNone, OLEDropModeManual
         On Error Resume Next
-        UserControl.OLEDropMode = Value
+        UserControl.OLEDropMode = value
         If Err.Number = DRAGDROP_E_ALREADYREGISTERED Then
             RevokeDragDrop UserControl.hWnd
-            UserControl.OLEDropMode = Value
+            UserControl.OLEDropMode = value
         End If
         On Error GoTo 0
     Case Else
@@ -682,10 +756,10 @@ Attribute MousePointer.VB_Description = "Returns/sets the type of mouse pointer 
 MousePointer = PropMousePointer
 End Property
 
-Public Property Let MousePointer(ByVal Value As CCMousePointerConstants)
-Select Case Value
+Public Property Let MousePointer(ByVal value As CCMousePointerConstants)
+Select Case value
     Case 0 To 16, 99
-        PropMousePointer = Value
+        PropMousePointer = value
     Case Else
         Err.Raise 380
 End Select
@@ -710,16 +784,16 @@ Attribute MouseIcon.VB_Description = "Returns/sets a custom mouse icon."
 Set MouseIcon = PropMouseIcon
 End Property
 
-Public Property Let MouseIcon(ByVal Value As IPictureDisp)
-Set Me.MouseIcon = Value
+Public Property Let MouseIcon(ByVal value As IPictureDisp)
+Set Me.MouseIcon = value
 End Property
 
-Public Property Set MouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
+Public Property Set MouseIcon(ByVal value As IPictureDisp)
+If value Is Nothing Then
     Set PropMouseIcon = Nothing
 Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropMouseIcon = Value
+    If value.Type = vbPicTypeIcon Or value.Handle = NULL_PTR Then
+        Set PropMouseIcon = value
     Else
         If FrameDesignMode = True Then
             MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
@@ -738,8 +812,8 @@ Attribute MouseTrack.VB_Description = "Returns/sets whether mouse events occurs 
 MouseTrack = PropMouseTrack
 End Property
 
-Public Property Let MouseTrack(ByVal Value As Boolean)
-PropMouseTrack = Value
+Public Property Let MouseTrack(ByVal value As Boolean)
+PropMouseTrack = value
 UserControl.PropertyChanged "MouseTrack"
 End Property
 
@@ -749,8 +823,8 @@ Attribute RightToLeft.VB_UserMemId = -611
 RightToLeft = PropRightToLeft
 End Property
 
-Public Property Let RightToLeft(ByVal Value As Boolean)
-PropRightToLeft = Value
+Public Property Let RightToLeft(ByVal value As Boolean)
+PropRightToLeft = value
 UserControl.RightToLeft = PropRightToLeft
 Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
 If PropRightToLeft = False Then
@@ -769,10 +843,10 @@ Attribute RightToLeftMode.VB_Description = "Returns/sets the right-to-left mode.
 RightToLeftMode = PropRightToLeftMode
 End Property
 
-Public Property Let RightToLeftMode(ByVal Value As CCRightToLeftModeConstants)
-Select Case Value
+Public Property Let RightToLeftMode(ByVal value As CCRightToLeftModeConstants)
+Select Case value
     Case CCRightToLeftModeNoControl, CCRightToLeftModeVBAME, CCRightToLeftModeSystemLocale, CCRightToLeftModeUserLocale, CCRightToLeftModeOSLanguage
-        PropRightToLeftMode = Value
+        PropRightToLeftMode = value
     Case Else
         Err.Raise 380
 End Select
@@ -786,10 +860,10 @@ Attribute BorderStyle.VB_UserMemId = -504
 BorderStyle = PropBorderStyle
 End Property
 
-Public Property Let BorderStyle(ByVal Value As Integer)
-Select Case Value
+Public Property Let BorderStyle(ByVal value As Integer)
+Select Case value
     Case vbBSNone, vbFixedSingle
-        PropBorderStyle = Value
+        PropBorderStyle = value
     Case Else
         Err.Raise 380
 End Select
@@ -803,9 +877,9 @@ Attribute Caption.VB_UserMemId = -518
 Caption = PropCaption
 End Property
 
-Public Property Let Caption(ByVal Value As String)
-If PropCaption = Value Then Exit Property
-PropCaption = Value
+Public Property Let Caption(ByVal value As String)
+If PropCaption = value Then Exit Property
+PropCaption = value
 If PropUseMnemonic = True Then UserControl.AccessKeys = ChrW(AccelCharCode(PropCaption))
 Call DrawFrame
 UserControl.PropertyChanged "Caption"
@@ -816,8 +890,8 @@ Attribute UseMnemonic.VB_Description = "Returns/sets a value that specifies whet
 UseMnemonic = PropUseMnemonic
 End Property
 
-Public Property Let UseMnemonic(ByVal Value As Boolean)
-PropUseMnemonic = Value
+Public Property Let UseMnemonic(ByVal value As Boolean)
+PropUseMnemonic = value
 If PropUseMnemonic = True Then
     UserControl.AccessKeys = ChrW(AccelCharCode(PropCaption))
 Else
@@ -832,10 +906,10 @@ Attribute Alignment.VB_Description = "Returns/sets the alignment."
 Alignment = PropAlignment
 End Property
 
-Public Property Let Alignment(ByVal Value As VBRUN.AlignmentConstants)
-Select Case Value
+Public Property Let Alignment(ByVal value As VBRUN.AlignmentConstants)
+Select Case value
     Case vbLeftJustify, vbCenter, vbRightJustify
-        PropAlignment = Value
+        PropAlignment = value
     Case Else
         Err.Raise 380
 End Select
@@ -848,8 +922,8 @@ Attribute Transparent.VB_Description = "Returns/sets a value indicating if the b
 Transparent = PropTransparent
 End Property
 
-Public Property Let Transparent(ByVal Value As Boolean)
-PropTransparent = Value
+Public Property Let Transparent(ByVal value As Boolean)
+PropTransparent = value
 Call DrawFrame
 UserControl.PropertyChanged "Transparent"
 End Property
@@ -859,15 +933,15 @@ Attribute Picture.VB_Description = "Returns/sets a graphic to be displayed in a 
 Set Picture = PropPicture
 End Property
 
-Public Property Let Picture(ByVal Value As IPictureDisp)
-Set Me.Picture = Value
+Public Property Let Picture(ByVal value As IPictureDisp)
+Set Me.Picture = value
 End Property
 
-Public Property Set Picture(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
+Public Property Set Picture(ByVal value As IPictureDisp)
+If value Is Nothing Then
     Set PropPicture = Nothing
 Else
-    Set UserControl.Picture = Value
+    Set UserControl.Picture = value
     Set PropPicture = UserControl.Picture
     Set UserControl.Picture = Nothing
 End If
@@ -881,10 +955,10 @@ Attribute PictureAlignment.VB_Description = "Returns/sets the picture alignment.
 PictureAlignment = PropPictureAlignment
 End Property
 
-Public Property Let PictureAlignment(ByVal Value As CCLeftRightAlignmentConstants)
-Select Case Value
+Public Property Let PictureAlignment(ByVal value As CCLeftRightAlignmentConstants)
+Select Case value
     Case CCLeftRightAlignmentLeft, CCLeftRightAlignmentRight
-        PropPictureAlignment = Value
+        PropPictureAlignment = value
     Case Else
         Err.Raise 380
 End Select
@@ -1143,59 +1217,3 @@ End If
 Set .Picture = .Image
 End With
 End Sub
-
-#If VBA7 Then
-Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
-#Else
-Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
-#End If
-CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
-End Function
-
-Private Function WindowProcUserControl(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
-Select Case wMsg
-    Case WM_PRINTCLIENT
-        Dim ClientRect As RECT
-        GetClientRect UserControl.hWnd, ClientRect
-        BitBlt wParam, 0, 0, ClientRect.Right - ClientRect.Left, ClientRect.Bottom - ClientRect.Top, UserControl.hDC, 0, 0, vbSrcCopy
-        WindowProcUserControl = 0
-        Exit Function
-    Case WM_GETTEXTLENGTH
-        WindowProcUserControl = Len(PropCaption)
-        Exit Function
-    Case WM_GETTEXT, WM_SETTEXT
-        Dim Length As Long, Text As String
-        If wMsg = WM_GETTEXT Then
-            If wParam > 0 And lParam <> 0 Then
-                Length = Len(PropCaption) + 1
-                If wParam < Length Then Length = CLng(wParam)
-                Text = Left$(PropCaption, Length - 1) & vbNullChar
-                CopyMemory ByVal lParam, ByVal StrPtr(Text), Length * 2
-                WindowProcUserControl = Length - 1
-            Else
-                WindowProcUserControl = 0
-            End If
-        ElseIf wMsg = WM_SETTEXT Then
-            If lParam <> 0 Then Length = lstrlen(lParam)
-            If Length > 0 Then
-                Text = String$(Length, vbNullChar)
-                CopyMemory ByVal StrPtr(Text), ByVal lParam, Length * 2
-                Me.Caption = Text
-                WindowProcUserControl = 1
-            ElseIf lParam = 0 Then
-                Me.Caption = vbNullString
-                WindowProcUserControl = 1
-            Else
-                WindowProcUserControl = 0
-            End If
-        End If
-        Exit Function
-End Select
-WindowProcUserControl = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-If wMsg = WM_MOUSELEAVE Then
-    If FrameMouseOver = True Then
-        FrameMouseOver = False
-        RaiseEvent MouseLeave
-    End If
-End If
-End Function
