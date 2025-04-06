@@ -367,6 +367,7 @@ Begin VB.Form frmMain
       Step            =   10
       MarqueeSpeed    =   35
       Scrolling       =   2
+      ShowInTaskBar   =   -1  'True
    End
    Begin prjDownloadBooster.ProgressBar pbTotalProgress 
       Height          =   255

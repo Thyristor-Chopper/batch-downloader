@@ -215,7 +215,6 @@ Private Const PBS_SMOOTH As Long = &H1
 Private Const PBS_VERTICAL As Long = &H4
 Private Const PBS_MARQUEE As Long = &H8
 Private Const PBS_SMOOTHREVERSE As Long = &H10
-Implements CCISubclass
 Implements OLEGuids.IObjectSafety
 Implements OLEGuids.IPerPropertyBrowsingVB
 Private ProgressBarHandle As LongPtr
@@ -1114,15 +1113,6 @@ End Property
 
 Public Property Let Text(ByVal Value As String)
 If PropText = Value Then Exit Property
-If ProgressBarDesignMode = True Then
-    If ProgressBarHandle <> NULL_PTR Then
-        If Value = vbNullString And Not PropText = vbNullString Then
-            Call ComCtlsRemoveSubclass(ProgressBarHandle)
-        ElseIf Not Value = vbNullString And PropText = vbNullString Then
-            Call ComCtlsSetSubclass(ProgressBarHandle, Me, 2)
-        End If
-    End If
-End If
 PropText = Value
 If ProgressBarHandle <> NULL_PTR Then InvalidateRect ProgressBarHandle, ByVal NULL_PTR, 1
 UserControl.PropertyChanged "Text"
@@ -1169,11 +1159,8 @@ Me.ForeColor = PropForeColor
 Me.State = PropState
 If ProgressBarDesignMode = False Then
     If ProgressBarHandle <> NULL_PTR Then
-        ProgressBarDblClickSupported = CBool((GetClassLong(ProgressBarHandle, GCL_STYLE) And CS_DBLCLKS) <> 0)
-        Call ComCtlsSetSubclass(ProgressBarHandle, Me, 1)
+        ProgressBarDblClickSupported = False
     End If
-ElseIf Not PropText = vbNullString Then
-    If ProgressBarHandle <> NULL_PTR Then Call ComCtlsSetSubclass(ProgressBarHandle, Me, 2)
 End If
 End Sub
 
@@ -1195,7 +1182,6 @@ End Sub
 
 Private Sub DestroyProgressBar()
 If ProgressBarHandle = NULL_PTR Then Exit Sub
-Call ComCtlsRemoveSubclass(ProgressBarHandle)
 ShowWindow ProgressBarHandle, SW_HIDE
 SetParent ProgressBarHandle, NULL_PTR
 DestroyWindow ProgressBarHandle
@@ -1346,145 +1332,3 @@ PtInRect = 0
 If X >= lpRect.Left And X < lpRect.Right And Y >= lpRect.Top And Y < lpRect.Bottom Then PtInRect = 1
 End Function
 
-#If VBA7 Then
-Private Function CCISubclass_Message(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
-#Else
-Private Function CCISubclass_Message(ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal dwRefData As Long) As Long
-#End If
-Select Case dwRefData
-    Case 1
-        CCISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
-    Case 2
-        CCISubclass_Message = WindowProcControlDesignMode(hWnd, wMsg, wParam, lParam)
-End Select
-End Function
-
-Private Function WindowProcControl(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
-Select Case wMsg
-    Case WM_SETCURSOR
-        If LoWord(CLng(lParam)) = HTCLIENT Then
-            If MousePointerID(PropMousePointer) <> 0 Then
-                SetCursor LoadCursor(NULL_PTR, MousePointerID(PropMousePointer))
-                WindowProcControl = 1
-                Exit Function
-            ElseIf PropMousePointer = 99 Then
-                If Not PropMouseIcon Is Nothing Then
-                    SetCursor PropMouseIcon.Handle
-                    WindowProcControl = 1
-                    Exit Function
-                End If
-            End If
-        End If
-    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN
-        If ProgressBarDblClickSupported = False Then
-            If ProgressBarDblClickTickCount = 0 Then
-                ProgressBarDblClickTickCount = CLngToULng(GetTickCount())
-                ProgressBarDblClickX = Get_X_lParam(lParam)
-                ProgressBarDblClickY = Get_Y_lParam(lParam)
-            Else
-                If (CLngToULng(GetTickCount()) - ProgressBarDblClickTickCount) <= ProgressBarDblClickTime Then
-                    Dim DblClickRect As RECT
-                    With DblClickRect
-                    .Left = ProgressBarDblClickX - (ProgressBarDblClickCX \ 2)
-                    .Right = ProgressBarDblClickX + (ProgressBarDblClickCX \ 2)
-                    .Top = ProgressBarDblClickY - (ProgressBarDblClickCY \ 2)
-                    .Bottom = ProgressBarDblClickY + (ProgressBarDblClickCY \ 2)
-                    End With
-                    If PtInRect(DblClickRect, Get_X_lParam(lParam), Get_Y_lParam(lParam)) <> 0 Then ProgressBarIsDblClick = True
-                End If
-                ProgressBarDblClickTickCount = CLngToULng(GetTickCount())
-                ProgressBarDblClickX = Get_X_lParam(lParam)
-                ProgressBarDblClickY = Get_Y_lParam(lParam)
-            End If
-            If ProgressBarIsDblClick = True Then
-                Select Case wMsg
-                    Case WM_LBUTTONDOWN
-                        wMsg = WM_LBUTTONDBLCLK
-                    Case WM_MBUTTONDOWN
-                        wMsg = WM_MBUTTONDBLCLK
-                    Case WM_RBUTTONDOWN
-                        wMsg = WM_RBUTTONDBLCLK
-                End Select
-                ProgressBarIsDblClick = False
-            End If
-        End If
-End Select
-WindowProcControl = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-Select Case wMsg
-    Case WM_THEMECHANGED
-        If ProgressBarNoThemeFrameChanged = False Then Call ComCtlsFrameChanged(hWnd)
-    Case WM_PAINT, WM_PRINTCLIENT
-        If Not PropText = vbNullString Then
-            If wMsg = WM_PAINT Then
-                If wParam = 0 Then
-                    Dim hDC As LongPtr
-                    hDC = GetDC(hWnd)
-                    If hDC <> NULL_PTR Then
-                        Call TextDraw(hWnd, hDC)
-                        ReleaseDC hWnd, hDC
-                    End If
-                Else
-                    Call TextDraw(hWnd, wParam)
-                End If
-            ElseIf wMsg = WM_PRINTCLIENT Then
-                If wParam <> 0 Then Call TextDraw(hWnd, wParam)
-            End If
-        End If
-    Case WM_LBUTTONDBLCLK, WM_MBUTTONDBLCLK, WM_RBUTTONDBLCLK
-        RaiseEvent DblClick
-    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
-        Dim X As Single
-        Dim Y As Single
-        X = UserControl.ScaleX(Get_X_lParam(lParam), vbPixels, vbTwips)
-        Y = UserControl.ScaleY(Get_Y_lParam(lParam), vbPixels, vbTwips)
-        Select Case wMsg
-            Case WM_LBUTTONDOWN
-                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-                ProgressBarIsClick = True
-            Case WM_MBUTTONDOWN
-                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-                ProgressBarIsClick = True
-            Case WM_RBUTTONDOWN
-                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-                ProgressBarIsClick = True
-            Case WM_MOUSEMOVE
-                If ProgressBarMouseOver = False And PropMouseTrack = True Then
-                    ProgressBarMouseOver = True
-                    RaiseEvent MouseEnter
-                    Call ComCtlsRequestMouseLeave(hWnd)
-                End If
-                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
-            Case WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
-                Select Case wMsg
-                    Case WM_LBUTTONUP
-                        RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-                    Case WM_MBUTTONUP
-                        RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-                    Case WM_RBUTTONUP
-                        RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-                End Select
-                If ProgressBarIsClick = True Then
-                    ProgressBarIsClick = False
-                    If (X >= 0 And X <= UserControl.Width) And (Y >= 0 And Y <= UserControl.Height) Then RaiseEvent Click
-                End If
-        End Select
-    Case WM_MOUSELEAVE
-        If ProgressBarMouseOver = True Then
-            ProgressBarMouseOver = False
-            RaiseEvent MouseLeave
-        End If
-End Select
-End Function
-
-Private Function WindowProcControlDesignMode(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
-Select Case wMsg
-    Case WM_PAINT, WM_PRINTCLIENT
-        WindowProcControlDesignMode = WindowProcControl(hWnd, wMsg, wParam, lParam)
-        Exit Function
-End Select
-WindowProcControlDesignMode = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-Select Case wMsg
-    Case WM_DESTROY, WM_NCDESTROY
-        Call ComCtlsRemoveSubclass(hWnd)
-End Select
-End Function
