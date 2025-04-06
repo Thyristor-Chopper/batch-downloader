@@ -120,7 +120,7 @@ VersionLegalCopyright="개조저항이여 영원하리"
 VersionLegalTrademarks="ㅎ"
 VersionProductName="다운로드 부스터"
 CondComp="HIDEYTDL = 1"
-CompilationType=-1
+CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=-1
 CodeViewDebugInfo=0

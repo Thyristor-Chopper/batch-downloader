@@ -7,6 +7,7 @@ Attribute VB_Name = "Subclass"
 Option Explicit
 
 Private Const GWL_WNDPROC = (-4)
+Public Const WM_NOTIFY = &H4E&
 Public Const WM_MOVE = &H3&
 Public Const WM_SETCURSOR = &H20&
 Public Const WM_NCPAINT = &H85&

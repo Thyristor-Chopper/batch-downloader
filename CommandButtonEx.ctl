@@ -16,6 +16,31 @@ Begin VB.UserControl CommandButtonEx
    EndProperty
    ScaleHeight     =   1755
    ScaleWidth      =   2310
+   Begin VB.CommandButton cmdButton 
+      Caption         =   "Command1"
+      Height          =   375
+      Left            =   0
+      TabIndex        =   3
+      Top             =   0
+      Width           =   1575
+   End
+   Begin VB.CommandButton cmdButtonSplit 
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   1680
+      TabIndex        =   2
+      TabStop         =   0   'False
+      Top             =   0
+      Width           =   255
+   End
    Begin prjDownloadBooster.ImageList imgDropdown 
       Left            =   840
       Top             =   1080
@@ -34,76 +59,31 @@ Begin VB.UserControl CommandButtonEx
       _ExtentY        =   1005
       InitListImages  =   "CommandButtonEx.ctx":06F0
    End
-   Begin VB.PictureBox pbContainer 
-      BorderStyle     =   0  '¾øÀ½
-      BeginProperty Font 
-         Name            =   "µ¸¿ò"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   975
+   Begin prjDownloadBooster.TygemButton tygButton 
+      Height          =   375
       Left            =   0
-      ScaleHeight     =   975
-      ScaleWidth      =   2175
+      TabIndex        =   0
+      TabStop         =   0   'False
+      Top             =   480
+      Visible         =   0   'False
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   661
+      Caption         =   "Command1"
+      BackColor       =   0
+   End
+   Begin prjDownloadBooster.TygemButton tygButtonSplit 
+      Height          =   375
+      Left            =   1680
       TabIndex        =   1
       TabStop         =   0   'False
-      Top             =   0
-      Width           =   2175
-      Begin prjDownloadBooster.TygemButton tygButton 
-         Height          =   375
-         Left            =   0
-         TabIndex        =   3
-         TabStop         =   0   'False
-         Top             =   480
-         Visible         =   0   'False
-         Width           =   1575
-         _ExtentX        =   2778
-         _ExtentY        =   661
-         Caption         =   "Command1"
-         BackColor       =   0
-      End
-      Begin prjDownloadBooster.TygemButton tygButtonSplit 
-         Height          =   375
-         Left            =   1680
-         TabIndex        =   2
-         TabStop         =   0   'False
-         Top             =   480
-         Width           =   255
-         _ExtentX        =   450
-         _ExtentY        =   661
-         BackColor       =   0
-         FontSize        =   0
-         ButtonIcon      =   "CommandButtonEx.ctx":0710
-      End
-      Begin VB.CommandButton cmdButtonSplit 
-         BeginProperty Font 
-            Name            =   "µ¸¿ò"
-            Size            =   9
-            Charset         =   129
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Left            =   1680
-         TabIndex        =   4
-         TabStop         =   0   'False
-         Top             =   0
-         Width           =   255
-      End
-      Begin VB.CommandButton cmdButton 
-         Caption         =   "Command1"
-         Height          =   375
-         Left            =   0
-         TabIndex        =   0
-         Top             =   0
-         Width           =   1575
-      End
+      Top             =   480
+      Width           =   255
+      _ExtentX        =   450
+      _ExtentY        =   661
+      BackColor       =   0
+      FontSize        =   0
+      ButtonIcon      =   "CommandButtonEx.ctx":0710
    End
 End
 Attribute VB_Name = "CommandButtonEx"
@@ -113,11 +93,13 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Implements ISubclass
+
 Private Declare Function ActivateVisualStyles Lib "uxtheme.dll" Alias "SetWindowTheme" (ByVal hWnd As Long, Optional ByVal pszSubAppName As Long = 0&, Optional ByVal pszSubIdList As Long = 0&) As Long
 Private Declare Function DeactivateVisualStyles Lib "uxtheme.dll" Alias "SetWindowTheme" (ByVal hWnd As Long, Optional ByRef pszSubAppName As String = " ", Optional ByRef pszSubIdList As String = " ") As Long
 Private Declare Sub InitCommonControls Lib "comctl32.dll" ()
 Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
-
+Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByVal pDestination As Long, ByVal pSource As Long, ByVal Length As Long)
 Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 
@@ -135,6 +117,15 @@ Const BCM_FIRST As Long = &H1600
 Const BCM_GETIDEALSIZE As Long = (BCM_FIRST + 1)
 Const BCM_SETIMAGELIST As Long = (BCM_FIRST + 2)
 Const BCM_GETIMAGELIST As Long = (BCM_FIRST + 3)
+Const BCN_FIRST As Long = -1250&
+Const BCN_DROPDOWN As Long = BCN_FIRST + &H2&
+Const NM_GETCUSTOMSPLITRECT As Long = BCN_FIRST + &H3&
+
+Private Type NMHDR
+    hWndFrom As Long
+    idFrom As Long
+    code As Long
+End Type
 
 Private Type RECT
     Left As Long
@@ -161,7 +152,6 @@ End Enum
 Const m_def_Enabled = True
 Dim m_Enabled As Boolean
 
-Const m_def_Caption = "Button"
 Dim m_Caption As String
 
 Const m_def_BackColor = &H8000000F
@@ -226,9 +216,9 @@ Private Sub SetSplitButton()
     If CanShowNativeSplitButton Then
         If m_SplitButton Then
             SetWindowLong cmdButton.hWnd, GWL_STYLE, GetWindowLong(cmdButton.hWnd, GWL_STYLE) Or IIf(Extender.Default, BS_DEFSPLITBUTTON, BS_SPLITBUTTON)
-            HookCommandButtonEx cmdButton, pbContainer, Me
+            AttachMessage Me, UserControl.hWnd, WM_NOTIFY
         Else
-            UnhookCommandButtonEx cmdButton, pbContainer
+            DetachMessage Me, UserControl.hWnd, WM_NOTIFY
         End If
     End If
 End Sub
@@ -426,6 +416,36 @@ Private Sub cmdButtonSplit_MouseDown(Button As Integer, Shift As Integer, X As S
     cmdButtonSplit_Click
 End Sub
 
+Private Property Let ISubclass_MsgResponse(ByVal RHS As EMsgResponse)
+    '
+End Property
+
+Private Property Get ISubclass_MsgResponse() As EMsgResponse
+    ISubclass_MsgResponse = emrConsume
+End Property
+
+Private Function ISubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    On Error Resume Next
+    
+    Dim NMHDR As NMHDR
+ 
+    Select Case uMsg
+        Case WM_NOTIFY
+            CopyMemory VarPtr(NMHDR), lParam, Len(NMHDR)
+            Select Case NMHDR.code
+                Case BCN_DROPDOWN
+                    If NMHDR.hWndFrom = cmdButton.hWnd Then RaiseEvent DropDown
+                    ISubclass_WindowProc = 1&
+                    Exit Function
+                Case NM_GETCUSTOMSPLITRECT
+                    ISubclass_WindowProc = 0&
+                    Exit Function
+            End Select
+    End Select
+    
+    ISubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
+End Function
+
 Private Sub tygButton_Click()
     RaiseEvent Click
 End Sub
@@ -479,7 +499,7 @@ End Sub
 
 Private Sub UserControl_InitProperties()
     m_Enabled = m_def_Enabled
-    m_Caption = m_def_Caption
+    m_Caption = Ambient.DisplayName
     m_BackColor = m_def_BackColor
     Set m_Icon = Nothing
     m_SplitButton = m_def_SplitButton
@@ -514,14 +534,11 @@ Private Sub UserControl_Resize()
     tygButtonSplit.Left = tygButton.Width
     cmdButtonSplit.Visible = m_SplitButton And (Not CanShowNativeSplitButton)
     tygButtonSplit.Visible = (m_SplitButton And m_IsTygemButton)
-    
-    pbContainer.Width = UserControl.Width
-    pbContainer.Height = UserControl.Height
 End Sub
 
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     m_Enabled = PropBag.ReadProperty("Enabled", m_def_Enabled)
-    m_Caption = PropBag.ReadProperty("Caption", m_def_Caption)
+    m_Caption = PropBag.ReadProperty("Caption", Ambient.DisplayName)
     m_BackColor = PropBag.ReadProperty("BackColor", m_def_BackColor)
     Set m_Icon = PropBag.ReadProperty("Icon", Nothing)
     m_IconPosition = PropBag.ReadProperty("IconPosition", m_def_IconPosition)
@@ -542,12 +559,12 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
 End Sub
 
 Private Sub UserControl_Terminate()
-    UnhookCommandButtonEx cmdButton, pbContainer
+    DetachMessage Me, UserControl.hWnd, WM_NOTIFY
 End Sub
 
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     Call PropBag.WriteProperty("Enabled", m_Enabled, m_def_Enabled)
-    Call PropBag.WriteProperty("Caption", m_Caption, m_def_Caption)
+    Call PropBag.WriteProperty("Caption", m_Caption, Ambient.DisplayName)
     Call PropBag.WriteProperty("BackColor", m_BackColor, m_def_BackColor)
     Call PropBag.WriteProperty("Icon", m_Icon, Nothing)
     Call PropBag.WriteProperty("SplitButton", m_SplitButton, m_def_SplitButton)
@@ -557,12 +574,7 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     Call PropBag.WriteProperty("IconPosition", m_IconPosition, m_def_IconPosition)
 End Sub
 
-Sub ClickDropdown()
-    RaiseEvent DropDown
-End Sub
-
 Sub Refresh()
     cmdButton.Refresh
-    pbContainer.Refresh
     UserControl.Refresh
 End Sub
