@@ -20,18 +20,6 @@ Begin VB.Form frmExplorer
    ScaleHeight     =   8325
    ScaleWidth      =   9750
    StartUpPosition =   1  '소유자 가운데
-   Begin prjDownloadBooster.Animation aniLoading 
-      Height          =   495
-      Left            =   120
-      TabIndex        =   19
-      Top             =   7080
-      Visible         =   0   'False
-      Width           =   2175
-      _ExtentX        =   3836
-      _ExtentY        =   873
-      BackColor       =   -2147483643
-      Center          =   -1  'True
-   End
    Begin prjDownloadBooster.CommandButtonW cmdPreview 
       Height          =   345
       Left            =   8160
@@ -39,19 +27,11 @@ Begin VB.Form frmExplorer
       Top             =   5280
       Visible         =   0   'False
       Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   609
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Enabled         =   0   'False
-      Caption         =   "미리 듣기(&P)"
+      _extentx        =   2566
+      _extenty        =   609
+      font            =   "frmExplorer.frx":000C
+      enabled         =   0
+      caption         =   "미리 듣기(&P)"
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -60,9 +40,9 @@ Begin VB.Form frmExplorer
       TabIndex        =   5
       Top             =   4920
       Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   609
-      Caption         =   "취소"
+      _extentx        =   2566
+      _extenty        =   609
+      caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW OKButton 
       Default         =   -1  'True
@@ -71,9 +51,9 @@ Begin VB.Form frmExplorer
       TabIndex        =   4
       Top             =   4560
       Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   609
-      Caption         =   "확인"
+      _extentx        =   2566
+      _extenty        =   609
+      caption         =   "확인"
    End
    Begin prjDownloadBooster.CheckBoxW chkShowFiles 
       Height          =   255
@@ -94,7 +74,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   32
       ColorDepth      =   8
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":000C
+      InitListImages  =   "frmExplorer.frx":0030
    End
    Begin VB.PictureBox pbPlacesBarContainer 
       BackColor       =   &H8000000C&
@@ -122,11 +102,11 @@ Begin VB.Form frmExplorer
          Orientation     =   1
          Divider         =   0   'False
          AllowCustomize  =   0   'False
-         ButtonHeight    =   35
+         ButtonHeight    =   51
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
-         InitButtons     =   "frmExplorer.frx":393C
+         InitButtons     =   "frmExplorer.frx":3960
       End
    End
    Begin VB.DirListBox lvDir 
@@ -148,7 +128,7 @@ Begin VB.Form frmExplorer
       Width           =   2175
    End
    Begin prjDownloadBooster.ImageCombo cbFolderList 
-      Height          =   315
+      Height          =   330
       Left            =   1680
       TabIndex        =   11
       Top             =   120
@@ -168,7 +148,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   16
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":3F4C
+      InitListImages  =   "frmExplorer.frx":3F70
    End
    Begin prjDownloadBooster.ImageList imgFolder 
       Left            =   8640
@@ -179,7 +159,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   32
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":7414
+      InitListImages  =   "frmExplorer.frx":7438
    End
    Begin VB.PictureBox picPreviewFrame 
       Enabled         =   0   'False
@@ -206,9 +186,9 @@ Begin VB.Form frmExplorer
       Top             =   120
       Visible         =   0   'False
       Width           =   375
-      _ExtentX        =   661
-      _ExtentY        =   582
-      Caption         =   "v"
+      _extentx        =   661
+      _extenty        =   582
+      caption         =   "v"
    End
    Begin prjDownloadBooster.ListView lvFiles 
       Height          =   3960
@@ -297,7 +277,7 @@ Begin VB.Form frmExplorer
       Wrappable       =   0   'False
       AllowCustomize  =   0   'False
       ButtonWidth     =   23
-      InitButtons     =   "frmExplorer.frx":9CD4
+      InitButtons     =   "frmExplorer.frx":9CF8
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
@@ -671,8 +651,6 @@ Sub ListFiles()
                             Label4.Enabled = 0
                             txtFileName.Enabled = 0
                             Label2.Enabled = 0
-                            aniLoading.Visible = True
-                            aniLoading.Play
                         End If
                         If totalcnt Mod 100 = 0 Then DoEvents
                     ElseIf totalcnt <= 1 Then
@@ -797,8 +775,6 @@ Sub ListFiles()
                         Label4.Enabled = 0
                         txtFileName.Enabled = 0
                         Label2.Enabled = 0
-                        aniLoading.Visible = True
-                        aniLoading.Play
                     End If
                     If totalcnt Mod 100 = 0 Then DoEvents
                 End If
@@ -832,8 +808,6 @@ Sub ListFiles()
     Label4.Enabled = True
     txtFileName.Enabled = True
     Label2.Enabled = True
-    aniLoading.Visible = False
-    aniLoading.StopPlay
 End Sub
 
 Private Sub chkShowFiles_Click()
@@ -1072,14 +1046,6 @@ setpreview:
         picPreviewFrame.Visible = 0
     End If
     
-    If InIDE Then
-        aniLoading.LoadFile AppPath() & "SEARCH.AVI"
-    Else
-        aniLoading.LoadRes 100
-    End If
-    aniLoading.Top = lvFiles.Top + 30
-    aniLoading.Left = lvFiles.Left + 30
-    
     lvDir_Change
 End Sub
 
@@ -1173,8 +1139,6 @@ Sub ShowMyComputer()
     cbFolderList.ComboItems(4).Selected = True
     tbToolBar.Buttons(2).Enabled = True
     tbToolBar.Buttons(3).Enabled = False
-    aniLoading.Visible = False
-    aniLoading.StopPlay
 End Sub
 
 Sub Form_Resize()
@@ -1212,9 +1176,6 @@ Sub Form_Resize()
     picPreviewFrame.Top = Label5.Top
     cmdPreview.Left = CancelButton.Left - 120 - CancelButton.Width
     cmdPreview.Top = CancelButton.Top + CancelButton.Height + 30
-    
-    aniLoading.Width = lvFiles.Width - 60
-    aniLoading.Height = lvFiles.Height - 60
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
