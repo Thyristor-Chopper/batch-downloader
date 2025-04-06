@@ -905,6 +905,7 @@ Private Sub Form_Load()
     selFileType.ListIndex = 0
     
     On Error Resume Next
+    Me.Icon = frmMain.imgOpenFolder.ListImages(1).Picture
     
     Dim Path$
     Path = lvDir.Path
@@ -1235,6 +1236,10 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload Me
 End Sub
 
+Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
+    IBSSubclass_MsgResponse = emrConsume
+End Function
+
 Private Sub IBSSubclass_UnsubclassIt()
     DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
@@ -1264,10 +1269,6 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
     End Select
     
     IBSSubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
-End Function
-
-Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
-    IBSSubclass_MsgResponse = emrConsume
 End Function
 
 Private Sub lvDir_Change()

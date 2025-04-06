@@ -87,7 +87,6 @@ frmInputBox = 110, 145, 1188, 790, C, 37, 38, 1115, 683, C
 Animation = 0, 0, 0, 0, C, 242, 319, 1320, 964, C
 PPAnimationGeneral = 0, 0, 0, 0, C, 0, 0, 1078, 645, C
 SimpleFrame = 66, 87, 1144, 732, C, 44, 58, 1122, 703, C
-CommandButtonEx = 168, 149, 1243, 794, C, 22, 29, 1095, 674, C
 IBSSubclass = 30, 31, 1103, 676, C
 mBSPropsDB = 0, 0, 0, 0, C
 mBSSubclass = 0, 0, 1073, 645, C

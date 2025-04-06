@@ -24,17 +24,6 @@ Begin VB.Form frmOptions
    ScaleWidth      =   14775
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
-   Begin prjDownloadBooster.ImageList imgDownload 
-      Left            =   14040
-      Top             =   0
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      ImageWidth      =   16
-      ImageHeight     =   16
-      ColorDepth      =   4
-      MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":000C
-   End
    Begin prjDownloadBooster.ImageList imgWrench 
       Left            =   13440
       Top             =   0
@@ -43,7 +32,7 @@ Begin VB.Form frmOptions
       ImageWidth      =   16
       ImageHeight     =   16
       ColorDepth      =   4
-      InitListImages  =   "frmOptions.frx":002C
+      InitListImages  =   "frmOptions.frx":000C
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
@@ -177,7 +166,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image7 
             Height          =   2190
             Left            =   0
-            Picture         =   "frmOptions.frx":0514
+            Picture         =   "frmOptions.frx":04F4
             Top             =   0
             Width           =   2655
          End
@@ -539,7 +528,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image1 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":144D
+            Picture         =   "frmOptions.frx":142D
             Top             =   240
             Width           =   480
          End
@@ -554,7 +543,7 @@ Begin VB.Form frmOptions
       ImageHeight     =   16
       ColorDepth      =   8
       MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":1897
+      InitListImages  =   "frmOptions.frx":1877
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
@@ -662,7 +651,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image4 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":1C7F
+            Picture         =   "frmOptions.frx":1C5F
             Top             =   240
             Width           =   480
          End
@@ -767,7 +756,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image5 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":20C1
+            Picture         =   "frmOptions.frx":20A1
             Top             =   240
             Width           =   480
          End
@@ -944,7 +933,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image3 
             Height          =   405
             Left            =   120
-            Picture         =   "frmOptions.frx":2503
+            Picture         =   "frmOptions.frx":24E3
             Top             =   240
             Width           =   435
          End
@@ -977,7 +966,7 @@ Begin VB.Form frmOptions
             _ExtentX        =   450
             _ExtentY        =   450
             BuddyControl    =   "txtMaxThreadCount"
-            BuddyProperty   =   "frmOptions.frx":2735
+            BuddyProperty   =   "frmOptions.frx":2715
             Min             =   2
             Max             =   91
             Value           =   25
@@ -1092,7 +1081,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image2 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":2765
+            Picture         =   "frmOptions.frx":2745
             Top             =   240
             Width           =   480
          End
@@ -1182,7 +1171,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image6 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":2BA7
+            Picture         =   "frmOptions.frx":2B87
             Top             =   240
             Width           =   480
          End
@@ -1240,7 +1229,7 @@ Begin VB.Form frmOptions
          Begin VB.Image imgIcon2 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":2FE9
+            Picture         =   "frmOptions.frx":2FC9
             Top             =   240
             Width           =   480
          End
@@ -1733,7 +1722,7 @@ Begin VB.Form frmOptions
       TabFixedWidth   =   53
       TabScrollWheel  =   0   'False
       Transparent     =   -1  'True
-      InitTabs        =   "frmOptions.frx":342B
+      InitTabs        =   "frmOptions.frx":340B
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -1766,7 +1755,7 @@ Begin VB.Form frmOptions
       ImageHeight     =   16
       ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":3613
+      InitListImages  =   "frmOptions.frx":35F3
    End
 End
 Attribute VB_Name = "frmOptions"
@@ -2280,6 +2269,7 @@ aftermaxtrdcheck:
         RedrawPreview
         cmdChooseBackground.Refresh
         frmMain.pbProgressContainer.Refresh
+        frmMain.SetupSplitButtons
         frmMain.SetTextColors
     End If
     If VisualStyleChanged Then
@@ -2636,6 +2626,10 @@ Private Sub cmdTestQuestion_Click()
     End If
 End Sub
 
+Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
+    IBSSubclass_MsgResponse = emrConsume
+End Function
+
 Private Sub IBSSubclass_UnsubclassIt()
     DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
     DetachMessage Me, Me.hWnd, WM_THEMECHANGED
@@ -2657,10 +2651,6 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
     End Select
     
     IBSSubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
-End Function
-
-Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
-    IBSSubclass_MsgResponse = emrConsume
 End Function
 
 Private Sub lblFillColorSelect_Click()
@@ -2833,6 +2823,10 @@ Private Sub Form_Load()
     SetFormBackgroundColor Me
     SetFont Me
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    
+    On Error Resume Next
+    Me.Icon = frmMain.imgWrench.ListImages(1).Picture
+    On Error GoTo 0
     
     Set PreviewControls(0) = Label11
     Set PreviewControls(1) = TextBoxW1
@@ -3266,8 +3260,7 @@ activefail:
     End If
     
 nextcode:
-    imgDownload.ListImages.Add , , frmMain.cmdGo.GetImageList().ListImages(1).ExtractIcon()
-    cmdSample.ImageList = imgDownload
+    cmdSample.ImageList = frmMain.imgDownload
     
 #If HIDEYTDL Then
     txtYtdlPath.Visible = False

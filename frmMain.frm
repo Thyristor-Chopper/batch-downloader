@@ -20,17 +20,6 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   11715
    StartUpPosition =   3  'Windows 기본값
-   Begin prjDownloadBooster.ImageList imgDropdown 
-      Left            =   9240
-      Top             =   6720
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      ImageWidth      =   16
-      ImageHeight     =   16
-      ColorDepth      =   4
-      MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":1782
-   End
    Begin prjDownloadBooster.FrameW fTabs 
       Height          =   255
       Left            =   480
@@ -98,14 +87,14 @@ Begin VB.Form frmMain
       Left            =   10680
       ScaleHeight     =   75
       ScaleWidth      =   75
-      TabIndex        =   71
+      TabIndex        =   74
       Top             =   1920
       Width           =   135
    End
    Begin prjDownloadBooster.FrameW fTygemFrameTransparent 
       Height          =   4845
       Left            =   10560
-      TabIndex        =   72
+      TabIndex        =   75
       Tag             =   "nobackcolorchange"
       Top             =   2280
       Visible         =   0   'False
@@ -131,7 +120,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   375
          Left            =   120
-         TabIndex        =   73
+         TabIndex        =   76
          Tag             =   "nosizechange"
          Top             =   120
          Width           =   1215
@@ -152,7 +141,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   135
-         TabIndex        =   74
+         TabIndex        =   77
          Tag             =   "nocolorsizechange"
          Top             =   135
          Width           =   1215
@@ -202,21 +191,21 @@ Begin VB.Form frmMain
       Begin VB.Image imgBottomRight2 
          Height          =   180
          Left            =   6345
-         Picture         =   "frmMain.frx":1EF2
+         Picture         =   "frmMain.frx":1782
          Top             =   4665
          Width           =   150
       End
       Begin VB.Image imgTopRight2 
          Height          =   435
          Left            =   6345
-         Picture         =   "frmMain.frx":1F44
+         Picture         =   "frmMain.frx":17D4
          Top             =   0
          Width           =   150
       End
       Begin VB.Image imgBottom2 
          Height          =   195
          Left            =   1725
-         Picture         =   "frmMain.frx":1F9B
+         Picture         =   "frmMain.frx":182B
          Stretch         =   -1  'True
          Top             =   4650
          Width           =   4635
@@ -224,14 +213,14 @@ Begin VB.Form frmMain
       Begin VB.Image imgBottomLeft2 
          Height          =   180
          Left            =   0
-         Picture         =   "frmMain.frx":2038
+         Picture         =   "frmMain.frx":18C8
          Top             =   4665
          Width           =   1725
       End
       Begin VB.Image imgTop2 
          Height          =   450
          Left            =   1725
-         Picture         =   "frmMain.frx":20BC
+         Picture         =   "frmMain.frx":194C
          Stretch         =   -1  'True
          Top             =   0
          Width           =   4620
@@ -239,7 +228,7 @@ Begin VB.Form frmMain
       Begin VB.Image imgTopLeft2 
          Height          =   435
          Left            =   0
-         Picture         =   "frmMain.frx":2186
+         Picture         =   "frmMain.frx":1A16
          Top             =   0
          Width           =   1725
       End
@@ -252,73 +241,43 @@ Begin VB.Form frmMain
          Width           =   975
       End
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdOpen 
+   Begin prjDownloadBooster.CommandButtonW cmdOpen 
       Height          =   330
       Left            =   7200
       TabIndex        =   29
       Top             =   4065
-      Width           =   1935
+      Width           =   1695
       _ExtentX        =   2990
       _ExtentY        =   582
       Enabled         =   0   'False
+      ImageList       =   "imgOpenFile"
       Caption         =   "열기(&O) "
-      Icon            =   "frmMain.frx":225D
-      SplitButton     =   -1  'True
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdOpenBatch 
+   Begin prjDownloadBooster.CommandButtonW cmdOpenBatch 
       Height          =   375
       Left            =   240
-      TabIndex        =   38
+      TabIndex        =   39
       Top             =   6960
-      Width           =   1815
+      Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
       Enabled         =   0   'False
-      Caption         =   "열기(&W)"
-      Icon            =   "frmMain.frx":25AF
-      SplitButton     =   -1  'True
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      ImageList       =   "imgOpenFile"
+      Caption         =   "열기(&W) "
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdDelete 
+   Begin prjDownloadBooster.CommandButtonW cmdDelete 
       Height          =   375
       Left            =   4200
-      TabIndex        =   40
+      TabIndex        =   42
       Top             =   6960
-      Width           =   1575
+      Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
       Enabled         =   0   'False
-      Caption         =   "제거(&V)"
-      Icon            =   "frmMain.frx":2901
-      SplitButton     =   -1  'True
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      ImageList       =   "imgMinus"
+      Caption         =   "제거(&V) "
       Transparent     =   -1  'True
    End
    Begin VB.TextBox txtURL 
@@ -328,7 +287,7 @@ Begin VB.Form frmMain
       Top             =   105
       Width           =   5745
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdDownloadOptions 
+   Begin prjDownloadBooster.CommandButtonW cmdDownloadOptions 
       Height          =   330
       Left            =   7200
       TabIndex        =   28
@@ -337,21 +296,12 @@ Begin VB.Form frmMain
       _ExtentX        =   3413
       _ExtentY        =   582
       Caption         =   "다운로드 설정(&S)..."
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.ListView lvLogTest 
       Height          =   1335
       Left            =   6600
-      TabIndex        =   36
+      TabIndex        =   37
       Top             =   4080
       Visible         =   0   'False
       Width           =   615
@@ -359,68 +309,51 @@ Begin VB.Form frmMain
       _ExtentY        =   2355
       View            =   3
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdYtdlTest 
+   Begin prjDownloadBooster.CommandButtonW cmdYtdlTest 
       Height          =   375
       Left            =   6600
-      TabIndex        =   35
+      TabIndex        =   36
       Top             =   5520
       Visible         =   0   'False
       Width           =   615
       _ExtentX        =   1085
       _ExtentY        =   661
       Caption         =   "ㅇ"
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdEdit 
+   Begin prjDownloadBooster.CommandButtonW cmdEdit 
       Height          =   375
       Left            =   5880
-      TabIndex        =   41
+      TabIndex        =   44
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
       Enabled         =   0   'False
+      ImageList       =   "imgEdit"
       Caption         =   "편집(&N)..."
-      Icon            =   "frmMain.frx":2C53
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdStopBatch 
+   Begin prjDownloadBooster.ImageList imgEdit 
+      Left            =   9240
+      Top             =   5880
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      ColorDepth      =   4
+      InitListImages  =   "frmMain.frx":1AED
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
       Height          =   375
       Left            =   7560
-      TabIndex        =   43
+      TabIndex        =   46
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
       Enabled         =   0   'False
-      Caption         =   "중지(&Z)"
-      Icon            =   "frmMain.frx":30A5
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      ImageList       =   "imgStopRed"
+      Caption         =   "중지(&Z) "
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.ProgressBar pbTotalProgressMarquee 
@@ -434,7 +367,6 @@ Begin VB.Form frmMain
       Step            =   10
       MarqueeSpeed    =   35
       Scrolling       =   2
-      ShowInTaskBar   =   -1  'True
    End
    Begin prjDownloadBooster.ProgressBar pbTotalProgress 
       Height          =   255
@@ -446,6 +378,26 @@ Begin VB.Form frmMain
       Step            =   10
       MarqueeSpeed    =   35
    End
+   Begin prjDownloadBooster.ImageList imgWrench 
+      Left            =   9240
+      Top             =   6600
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      ColorDepth      =   4
+      InitListImages  =   "frmMain.frx":1FD5
+   End
+   Begin prjDownloadBooster.ImageList imgErase 
+      Left            =   9840
+      Top             =   6600
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":24BD
+   End
    Begin prjDownloadBooster.StatusBar sbStatusBar 
       Align           =   2  '아래 맞춤
       Height          =   330
@@ -454,12 +406,12 @@ Begin VB.Form frmMain
       Width           =   11715
       _ExtentX        =   20664
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":33F7
+      InitPanels      =   "frmMain.frx":28A5
    End
    Begin prjDownloadBooster.ListView lvBatchFiles 
       Height          =   870
       Left            =   240
-      TabIndex        =   37
+      TabIndex        =   38
       Top             =   6075
       Visible         =   0   'False
       Width           =   8895
@@ -476,7 +428,7 @@ Begin VB.Form frmMain
       HighlightColumnHeaders=   -1  'True
       AutoSelectFirstItem=   0   'False
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdAbout 
+   Begin prjDownloadBooster.CommandButtonW cmdAbout 
       Height          =   300
       Left            =   7080
       TabIndex        =   27
@@ -485,18 +437,9 @@ Begin VB.Form frmMain
       _ExtentX        =   3413
       _ExtentY        =   529
       Caption         =   "프로그램 정보(&U)..."
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdOptions 
+   Begin prjDownloadBooster.CommandButtonW cmdOptions 
       Height          =   300
       Left            =   7080
       TabIndex        =   26
@@ -504,89 +447,169 @@ Begin VB.Form frmMain
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
+      ImageList       =   "imgWrench"
       Caption         =   "추가 옵션(&I)..."
-      Icon            =   "frmMain.frx":36FB
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdStop 
+   Begin prjDownloadBooster.CommandButtonW cmdStop 
       Height          =   330
       Left            =   7200
-      TabIndex        =   32
+      TabIndex        =   33
       Top             =   4815
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   582
       Enabled         =   0   'False
+      ImageList       =   "imgStopRed"
       Caption         =   "중지(&P) "
-      Icon            =   "frmMain.frx":3B4D
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdAddToQueue 
+   Begin prjDownloadBooster.ImageList imgDropdownReverse 
+      Left            =   9840
+      Top             =   5880
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   13
+      ImageHeight     =   5
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":2BA9
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdOpenDropdown 
+      Height          =   375
+      Left            =   1800
+      TabIndex        =   40
+      Top             =   6960
+      Width           =   255
+      _ExtentX        =   450
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      ImageList       =   "imgDropdown"
+      ImageListAlignment=   4
+      Transparent     =   -1  'True
+   End
+   Begin prjDownloadBooster.ImageList imgDropdown 
+      Left            =   9840
+      Top             =   5160
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   13
+      ImageHeight     =   5
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":2EA9
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
+      Height          =   375
+      Left            =   5520
+      TabIndex        =   43
+      Top             =   6960
+      Width           =   255
+      _ExtentX        =   450
+      _ExtentY        =   661
+      Enabled         =   0   'False
+      ImageList       =   "imgDropdown"
+      ImageListAlignment=   4
+      Transparent     =   -1  'True
+   End
+   Begin prjDownloadBooster.ImageList imgPlusYellow 
+      Left            =   9840
+      Top             =   4440
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":31A9
+   End
+   Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
       Left            =   7200
-      TabIndex        =   33
+      TabIndex        =   34
       Top             =   5190
       Visible         =   0   'False
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   582
+      ImageList       =   "imgPlusYellow"
       Caption         =   "목록에 추가(&Q)"
-      Icon            =   "frmMain.frx":3E9F
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdStartBatch 
+   Begin prjDownloadBooster.CommandButtonW cmdStartBatch 
       Height          =   375
       Left            =   7560
-      TabIndex        =   42
+      TabIndex        =   45
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
       Enabled         =   0   'False
-      Caption         =   "시작(&S)"
-      Icon            =   "frmMain.frx":41F1
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      ImageList       =   "imgPlay"
+      Caption         =   "시작(&S) "
       Transparent     =   -1  'True
+   End
+   Begin prjDownloadBooster.ImageList imgStopRed 
+      Left            =   9840
+      Top             =   3720
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":3591
+   End
+   Begin prjDownloadBooster.ImageList imgPlay 
+      Left            =   9840
+      Top             =   3000
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":3979
+   End
+   Begin prjDownloadBooster.ImageList imgDownload 
+      Left            =   9840
+      Top             =   2280
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":40E9
+   End
+   Begin prjDownloadBooster.ImageList imgMinus 
+      Left            =   9840
+      Top             =   1560
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":44D1
+   End
+   Begin prjDownloadBooster.ImageList imgOpenFile 
+      Left            =   9840
+      Top             =   840
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":4C41
+   End
+   Begin prjDownloadBooster.ImageList imgOpenFolder 
+      Left            =   9840
+      Top             =   120
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmMain.frx":53B1
    End
    Begin prjDownloadBooster.FrameW fDownloadInfo 
       Height          =   3255
       Left            =   360
-      TabIndex        =   46
+      TabIndex        =   49
       Tag             =   "forcebgchange"
       Top             =   2640
       Visible         =   0   'False
@@ -600,7 +623,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   64
+         TabIndex        =   67
          Top             =   2940
          Width           =   4335
       End
@@ -609,7 +632,7 @@ Begin VB.Form frmMain
          Caption         =   "조각 결합 현황:"
          Height          =   255
          Left            =   0
-         TabIndex        =   65
+         TabIndex        =   68
          Top             =   2940
          Width           =   1335
       End
@@ -618,7 +641,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   66
+         TabIndex        =   69
          Top             =   2580
          Width           =   4335
       End
@@ -627,7 +650,7 @@ Begin VB.Form frmMain
          Caption         =   "남은 시간:"
          Height          =   255
          Left            =   0
-         TabIndex        =   67
+         TabIndex        =   70
          Top             =   2580
          Width           =   1215
       End
@@ -636,7 +659,7 @@ Begin VB.Form frmMain
          Caption         =   "파일 이름:"
          Height          =   255
          Left            =   0
-         TabIndex        =   60
+         TabIndex        =   63
          Top             =   60
          Width           =   1095
       End
@@ -645,7 +668,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   59
+         TabIndex        =   62
          Top             =   60
          Width           =   4335
       End
@@ -654,7 +677,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   58
+         TabIndex        =   61
          Top             =   2220
          Width           =   4335
       End
@@ -663,7 +686,7 @@ Begin VB.Form frmMain
          Caption         =   "스레드당 크기:"
          Height          =   255
          Left            =   0
-         TabIndex        =   57
+         TabIndex        =   60
          Top             =   2220
          Width           =   1215
       End
@@ -672,7 +695,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   56
+         TabIndex        =   59
          Top             =   1860
          Width           =   4335
       End
@@ -681,7 +704,7 @@ Begin VB.Form frmMain
          Caption         =   "스레드 수:"
          Height          =   255
          Left            =   0
-         TabIndex        =   55
+         TabIndex        =   58
          Top             =   1860
          Width           =   975
       End
@@ -690,7 +713,7 @@ Begin VB.Form frmMain
          Caption         =   "속도:"
          Height          =   255
          Left            =   0
-         TabIndex        =   54
+         TabIndex        =   57
          Top             =   1500
          Width           =   975
       End
@@ -699,7 +722,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   53
+         TabIndex        =   56
          Top             =   1500
          Width           =   4335
       End
@@ -708,7 +731,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   52
+         TabIndex        =   55
          Top             =   1140
          Width           =   4335
       End
@@ -717,7 +740,7 @@ Begin VB.Form frmMain
          Caption         =   "경과 시간:"
          Height          =   255
          Left            =   0
-         TabIndex        =   51
+         TabIndex        =   54
          Top             =   1140
          Width           =   975
       End
@@ -726,7 +749,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   50
+         TabIndex        =   53
          Top             =   780
          Width           =   4335
       End
@@ -735,7 +758,7 @@ Begin VB.Form frmMain
          Caption         =   "받은 크기:"
          Height          =   255
          Left            =   0
-         TabIndex        =   49
+         TabIndex        =   52
          Top             =   780
          Width           =   1095
       End
@@ -744,7 +767,7 @@ Begin VB.Form frmMain
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   48
+         TabIndex        =   51
          Top             =   420
          Width           =   4335
       End
@@ -753,7 +776,7 @@ Begin VB.Form frmMain
          Caption         =   "총 크기:"
          Height          =   255
          Left            =   0
-         TabIndex        =   47
+         TabIndex        =   50
          Top             =   420
          Width           =   975
       End
@@ -761,7 +784,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.FrameW fThreadInfo 
       Height          =   3495
       Left            =   360
-      TabIndex        =   44
+      TabIndex        =   47
       Tag             =   "forcebgchange"
       Top             =   2310
       Width           =   5775
@@ -772,7 +795,7 @@ Begin VB.Form frmMain
       Begin prjDownloadBooster.FrameW pbProgressOuterContainer 
          Height          =   3495
          Left            =   0
-         TabIndex        =   45
+         TabIndex        =   48
          Tag             =   "forcebgchange"
          Top             =   0
          Width           =   5775
@@ -783,7 +806,7 @@ Begin VB.Form frmMain
          Begin prjDownloadBooster.FrameW pbProgressContainer 
             Height          =   9015
             Left            =   0
-            TabIndex        =   61
+            TabIndex        =   64
             Tag             =   "forcebgchange"
             Top             =   0
             Width           =   5775
@@ -823,7 +846,7 @@ Begin VB.Form frmMain
                Height          =   180
                Index           =   1
                Left            =   0
-               TabIndex        =   63
+               TabIndex        =   66
                Top             =   45
                Width           =   750
             End
@@ -833,14 +856,14 @@ Begin VB.Form frmMain
                Height          =   255
                Index           =   1
                Left            =   5040
-               TabIndex        =   62
+               TabIndex        =   65
                Top             =   45
                Width           =   615
             End
          End
       End
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdIncreaseThreads 
+   Begin prjDownloadBooster.CommandButtonW cmdIncreaseThreads 
       Height          =   330
       Left            =   6930
       TabIndex        =   9
@@ -849,19 +872,11 @@ Begin VB.Form frmMain
       Width           =   375
       _ExtentX        =   661
       _ExtentY        =   582
+      ImageListAlignment=   4
       Caption         =   ">"
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdDecreaseThreads 
+   Begin prjDownloadBooster.CommandButtonW cmdDecreaseThreads 
       Height          =   330
       Left            =   1560
       TabIndex        =   7
@@ -870,16 +885,8 @@ Begin VB.Form frmMain
       Width           =   375
       _ExtentX        =   661
       _ExtentY        =   582
+      ImageListAlignment=   4
       Caption         =   "<"
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
    Begin VB.ComboBox cbWhenExist 
@@ -890,7 +897,7 @@ Begin VB.Form frmMain
       Top             =   2025
       Width           =   1185
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdClear 
+   Begin prjDownloadBooster.CommandButtonW cmdClear 
       Height          =   330
       Left            =   7350
       TabIndex        =   2
@@ -898,59 +905,33 @@ Begin VB.Form frmMain
       Width           =   1785
       _ExtentX        =   3149
       _ExtentY        =   582
+      ImageList       =   "imgErase"
       Caption         =   "초기화(&Y) "
-      Icon            =   "frmMain.frx":4543
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdAdd 
+   Begin prjDownloadBooster.CommandButtonW cmdAdd 
       Height          =   375
       Left            =   2520
-      TabIndex        =   39
+      TabIndex        =   41
       Top             =   6960
       Width           =   1575
       _ExtentX        =   2778
       _ExtentY        =   661
-      Caption         =   "추가(&R)..."
-      Icon            =   "frmMain.frx":4895
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      ImageList       =   "imgPlusYellow"
+      Caption         =   " 추가(&R)..."
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdBatch 
+   Begin prjDownloadBooster.CommandButtonW cmdBatch 
       Height          =   330
       Left            =   7200
-      TabIndex        =   34
+      TabIndex        =   35
       Top             =   5565
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   582
+      ImageList       =   "imgDropdown"
+      ImageListAlignment=   1
       Caption         =   "  일괄 처리(&H)"
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      IconPosition    =   1
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.FrameW fTotal 
@@ -968,7 +949,7 @@ Begin VB.Form frmMain
          Caption         =   "중지됨"
          Height          =   255
          Left            =   120
-         TabIndex        =   69
+         TabIndex        =   72
          Top             =   285
          Width           =   735
       End
@@ -1049,7 +1030,7 @@ Begin VB.Form frmMain
          Caption         =   "."
          Height          =   180
          Left            =   0
-         TabIndex        =   70
+         TabIndex        =   73
          Top             =   0
          Visible         =   0   'False
          Width           =   60
@@ -1065,25 +1046,16 @@ Begin VB.Form frmMain
          Width           =   690
       End
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdOpenFolder 
+   Begin prjDownloadBooster.CommandButtonW cmdOpenFolder 
       Height          =   330
       Left            =   7200
-      TabIndex        =   30
+      TabIndex        =   31
       Top             =   4440
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   582
+      ImageList       =   "imgOpenFolder"
       Caption         =   "폴더 열기(&E) "
-      Icon            =   "frmMain.frx":4BE7
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
    Begin VB.Timer timElapsed 
@@ -1108,7 +1080,7 @@ Begin VB.Form frmMain
       SelStart        =   1
       Transparent     =   -1  'True
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdBrowse 
+   Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   330
       Left            =   7350
       TabIndex        =   5
@@ -1116,17 +1088,8 @@ Begin VB.Form frmMain
       Width           =   1785
       _ExtentX        =   3149
       _ExtentY        =   582
+      ImageList       =   "imgOpenFolder"
       Caption         =   " 찾아보기(&B)..."
-      Icon            =   "frmMain.frx":4F39
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
    Begin VB.TextBox txtFileName 
@@ -1136,25 +1099,16 @@ Begin VB.Form frmMain
       Top             =   450
       Width           =   5745
    End
-   Begin prjDownloadBooster.CommandButtonEx cmdGo 
+   Begin prjDownloadBooster.CommandButtonW cmdGo 
       Height          =   330
       Left            =   7200
-      TabIndex        =   31
+      TabIndex        =   32
       Top             =   4815
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   582
+      ImageList       =   "imgDownload"
       Caption         =   "다운로드(&D) "
-      Icon            =   "frmMain.frx":528B
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "굴림"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.FrameW Frame4 
@@ -1168,6 +1122,19 @@ Begin VB.Form frmMain
       Caption         =   "                  "
       Transparent     =   -1  'True
    End
+   Begin prjDownloadBooster.CommandButtonW cmdOpenFileDropdown 
+      Height          =   330
+      Left            =   8880
+      TabIndex        =   30
+      Top             =   4065
+      Width           =   255
+      _ExtentX        =   450
+      _ExtentY        =   582
+      Enabled         =   0   'False
+      ImageList       =   "imgDropdown"
+      ImageListAlignment=   4
+      Transparent     =   -1  'True
+   End
    Begin VB.Image imgLBContentBackground 
       Height          =   375
       Left            =   10920
@@ -1179,7 +1146,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderBottomRight 
       Height          =   135
       Left            =   11040
-      Picture         =   "frmMain.frx":55DD
+      Picture         =   "frmMain.frx":5799
       Top             =   600
       Visible         =   0   'False
       Width           =   135
@@ -1187,7 +1154,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderBottomLeft 
       Height          =   135
       Left            =   10680
-      Picture         =   "frmMain.frx":562B
+      Picture         =   "frmMain.frx":57E7
       Top             =   600
       Visible         =   0   'False
       Width           =   135
@@ -1195,7 +1162,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderTopRight 
       Height          =   135
       Left            =   11040
-      Picture         =   "frmMain.frx":5677
+      Picture         =   "frmMain.frx":5833
       Top             =   240
       Visible         =   0   'False
       Width           =   135
@@ -1203,7 +1170,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderTopLeft 
       Height          =   135
       Left            =   10680
-      Picture         =   "frmMain.frx":56C3
+      Picture         =   "frmMain.frx":587F
       Top             =   240
       Visible         =   0   'False
       Width           =   135
@@ -1264,7 +1231,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000008&
       Height          =   375
       Left            =   240
-      TabIndex        =   68
+      TabIndex        =   71
       Tag             =   "nosizechange"
       Top             =   1320
       Visible         =   0   'False
@@ -1286,7 +1253,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   375
       Left            =   255
-      TabIndex        =   75
+      TabIndex        =   78
       Tag             =   "nocolorsizechange"
       Top             =   1335
       Visible         =   0   'False
@@ -1432,7 +1399,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   180
       Left            =   255
-      TabIndex        =   76
+      TabIndex        =   79
       Tag             =   "nocolorchange"
       Top             =   165
       Visible         =   0   'False
@@ -1445,7 +1412,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   180
       Left            =   255
-      TabIndex        =   77
+      TabIndex        =   80
       Tag             =   "nocolorchange"
       Top             =   510
       Visible         =   0   'False
@@ -1458,7 +1425,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   180
       Left            =   255
-      TabIndex        =   78
+      TabIndex        =   81
       Tag             =   "nocolorchange"
       Top             =   885
       Visible         =   0   'False
@@ -2189,6 +2156,7 @@ nextln:
         NextBatchDownload
     ElseIf RetVal = 0 Then
         cmdOpen.Enabled = -1
+        cmdOpenFileDropdown.Enabled = -1
         If chkOpenAfterComplete.value Then
             cmdOpen_Click
         End If
@@ -2238,6 +2206,7 @@ Sub OnStart()
     cmdStartBatch.Enabled = 0
     
     cmdOpen.Enabled = 0
+    cmdOpenFileDropdown.Enabled = 0
     
     lblTotalBytes.Caption = t("대기 중...", "Pending...")
     lblDownloadedBytes.Caption = t("대기 중...", "Pending...")
@@ -2515,7 +2484,7 @@ Sub cmdBatch_Click()
     hSysMenu = GetSystemMenu(Me.hWnd, 0)
     
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then
-        Set cmdBatch.Icon = imgDropdown.ListImages(2).ExtractIcon()
+        cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
         cmdAddToQueue.Visible = -1
         FormWidth = (MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2) / 15
@@ -2546,7 +2515,7 @@ Sub cmdBatch_Click()
         FormMaxHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
         'sbStatusBar.AllowSizeGrip = False
         Me.Height = 6930 + PaddedBorderWidth * 15 * 2
-        Set cmdBatch.Icon = imgDropdown.ListImages(1).ExtractIcon()
+        cmdBatch.ImageList = imgDropdown
         lvBatchFiles.Visible = 0
         cmdAddToQueue.Visible = 0
         
@@ -2638,17 +2607,21 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
         On Error GoTo L1
         If lvBatchFiles.SelectedItem.Index = CurrentBatchIdx Then
             cmdDelete.Enabled = 0
+            cmdDeleteDropdown.Enabled = 0
             cmdEdit.Enabled = 0
         ElseIf lvBatchFiles.SelectedItem.Text <> "" And lvBatchFiles.SelectedItem.Selected Then
             cmdDelete.Enabled = -1
+            cmdDeleteDropdown.Enabled = -1
             cmdEdit.Enabled = -1
         Else
             cmdDelete.Enabled = 0
+            cmdDeleteDropdown.Enabled = 0
             cmdEdit.Enabled = 0
         End If
         GoTo L2
 L1:
         cmdDelete.Enabled = 0
+        cmdDeleteDropdown.Enabled = 0
         cmdEdit.Enabled = 0
 L2:
         On Error GoTo 0
@@ -2772,7 +2745,15 @@ L2:
 End Sub
 
 Private Sub cmdDelete_DropDown()
+    cmdDeleteDropdown_Click
+End Sub
+
+Private Sub cmdDeleteDropdown_Click()
     Me.PopupMenu mnuDeleteDropdown, , cmdDelete.Left, cmdDelete.Top + cmdDelete.Height
+End Sub
+
+Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    cmdDeleteDropdown_Click
 End Sub
 
 Private Sub cmdEdit_Click()
@@ -2834,7 +2815,7 @@ Private Sub cmdOpen_Click()
 End Sub
 
 Private Sub cmdOpen_DropDown()
-    Me.PopupMenu mnuOpenFileDropdown, , cmdOpen.Left, cmdOpen.Top + cmdOpen.Height
+    cmdOpenFileDropdown_Click
 End Sub
 
 Private Sub cmdOpenBatch_Click()
@@ -2843,7 +2824,23 @@ Private Sub cmdOpenBatch_Click()
 End Sub
 
 Private Sub cmdOpenBatch_DropDown()
+    cmdOpenDropdown_Click
+End Sub
+
+Private Sub cmdOpenDropdown_Click()
     Me.PopupMenu mnuOpenDropdown, , cmdOpenBatch.Left, cmdOpenBatch.Top + cmdOpenBatch.Height
+End Sub
+
+Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    cmdOpenDropdown_Click
+End Sub
+
+Private Sub cmdOpenFileDropdown_Click()
+    Me.PopupMenu mnuOpenFileDropdown, , cmdOpen.Left, cmdOpen.Top + cmdOpen.Height
+End Sub
+
+Private Sub cmdOpenFileDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    cmdOpenFileDropdown_Click
 End Sub
 
 Private Sub cmdOpenFolder_Click()
@@ -2880,6 +2877,7 @@ Private Sub cmdStartBatch_Click()
     timElapsed.Enabled = -1
     chkOpenAfterComplete.Enabled = 0
     cmdOpen.Enabled = 0
+    cmdOpenFileDropdown.Enabled = 0
     cmdGo.Enabled = 0
     StartDownload lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2), lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1)
 End Sub
@@ -2899,6 +2897,7 @@ Private Sub cmdStop_Click()
         
         OnStop False
         cmdOpen.Enabled = 0
+        cmdOpenFileDropdown.Enabled = 0
         
         If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
             Dim KillTemp As Boolean
@@ -3696,6 +3695,8 @@ afterheaderadd:
     cbWhenExist.AddItem t("덮어쓰기", "Overwrite")
     cbWhenExist.AddItem t("이름 변경", "Rename")
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
+    
+    SetupSplitButtons
 
     '언어설정
     lblURL.Caption = t(lblURL.Caption, "File &address:")
@@ -3921,6 +3922,27 @@ afterheaderadd:
     imgFrameTexture.Width = fTygemFrameTransparent.Width
     imgFrameTexture.Height = fTygemFrameTransparent.Height
     
+    '이미지 리스트 로드
+    imgDropdownReverse.ListImages.Add 1, Picture:=imgDropdownReverse.ListImages(1).ExtractIcon()
+    imgDropdownReverse.ListImages.Add 1, Picture:=imgDropdownReverse.ListImages(1).ExtractIcon()
+    imgDropdownReverse.ListImages.Add 5, Picture:=imgDropdownReverse.ListImages(1).ExtractIcon()
+    
+    imgDropdown.ListImages.Add 1, Picture:=imgDropdown.ListImages(1).ExtractIcon()
+    imgDropdown.ListImages.Add 1, Picture:=imgDropdown.ListImages(1).ExtractIcon()
+    imgDropdown.ListImages.Add 5, Picture:=imgDropdown.ListImages(1).ExtractIcon()
+    
+    imgPlay.ListImages.Add 1, Picture:=imgPlay.ListImages(1).ExtractIcon()
+    imgPlay.ListImages.Add 1, Picture:=imgPlay.ListImages(1).ExtractIcon()
+    imgPlay.ListImages.Add 5, Picture:=imgPlay.ListImages(1).ExtractIcon()
+    
+    imgMinus.ListImages.Add 1, Picture:=imgMinus.ListImages(1).ExtractIcon()
+    imgMinus.ListImages.Add 1, Picture:=imgMinus.ListImages(1).ExtractIcon()
+    imgMinus.ListImages.Add 5, Picture:=imgMinus.ListImages(1).ExtractIcon()
+    
+    imgOpenFile.ListImages.Add 1, Picture:=imgOpenFile.ListImages(1).ExtractIcon()
+    imgOpenFile.ListImages.Add 1, Picture:=imgOpenFile.ListImages(1).ExtractIcon()
+    imgOpenFile.ListImages.Add 5, Picture:=imgOpenFile.ListImages(1).ExtractIcon()
+    
     AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     AttachMessage Me, Me.hWnd, WM_INITMENU
     AttachMessage Me, Me.hWnd, WM_SYSCOMMAND
@@ -3958,6 +3980,51 @@ Sub SetTextColors()
     End If
 End Sub
 
+Sub SetupSplitButtons()
+    cmdOpenBatch.GetTygemButton().SplitLeft = True
+    cmdOpenDropdown.GetTygemButton().SplitRight = True
+    cmdOpenBatch.SetRgn
+    cmdOpenDropdown.SetRgn
+    
+    cmdDelete.GetTygemButton().SplitLeft = True
+    cmdDeleteDropdown.GetTygemButton().SplitRight = True
+    cmdDelete.SetRgn
+    cmdDeleteDropdown.SetRgn
+    
+    cmdOpen.GetTygemButton().SplitLeft = True
+    cmdOpenFileDropdown.GetTygemButton().SplitRight = True
+    cmdOpen.SetRgn
+    cmdOpenFileDropdown.SetRgn
+
+    If WinVer >= 6.1 Then
+        If GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0) = 0 Then
+            cmdOpenBatch.SplitButton = True
+            cmdOpenBatch.Width = 1935
+            cmdOpenDropdown.Visible = False
+            
+            cmdDelete.SplitButton = True
+            cmdDelete.Width = 1575
+            cmdDeleteDropdown.Visible = False
+            
+            cmdOpen.SplitButton = True
+            cmdOpen.Width = 1935
+            cmdOpenFileDropdown.Visible = False
+        Else
+            cmdOpenBatch.SplitButton = False
+            cmdOpenBatch.Width = 1575
+            cmdOpenDropdown.Visible = True
+            
+            cmdDelete.SplitButton = False
+            cmdDelete.Width = 1335
+            cmdDeleteDropdown.Visible = True
+            
+            cmdOpen.SplitButton = False
+            cmdOpen.Width = 1695
+            cmdOpenFileDropdown.Visible = True
+        End If
+    End If
+End Sub
+
 Private Sub Form_Resize()
     On Error Resume Next
     
@@ -3991,8 +4058,10 @@ Private Sub Form_Resize()
     
     lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
     cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdAdd.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdDelete.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
+    cmdDeleteDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdStartBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdStopBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdEdit.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
@@ -4196,20 +4265,26 @@ Private Sub lvBatchFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As
     If Selected Then
         If BatchStarted And Item.Index = CurrentBatchIdx Then
             cmdDelete.Enabled = 0
+            cmdDeleteDropdown.Enabled = 0
             cmdEdit.Enabled = 0
         Else
             cmdDelete.Enabled = -1
+            cmdDeleteDropdown.Enabled = -1
             cmdEdit.Enabled = -1
         End If
         
         If Item.ListSubItems(3).Text = t("완료", "Done") Then
             cmdOpenBatch.Enabled = -1
+            cmdOpenDropdown.Enabled = -1
         Else
             cmdOpenBatch.Enabled = 0
+            cmdOpenDropdown.Enabled = 0
         End If
     Else
         cmdDelete.Enabled = 0
+        cmdDeleteDropdown.Enabled = 0
         cmdOpenBatch.Enabled = 0
+        cmdOpenDropdown.Enabled = 0
         
         cmdEdit.Enabled = 0
     End If
