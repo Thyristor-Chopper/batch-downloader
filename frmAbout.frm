@@ -326,6 +326,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim LineNum As Integer
+Public EasterEggEnabled As Boolean
 
 Private Sub cmdOK_Click()
     Unload Me
@@ -361,13 +362,19 @@ Private Sub Form_Load()
     
     timLicenseLoader.Enabled = True
     
-    lvItems.ListItems.Add , , "Krool's Comctl", 1
-    lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2
-    lvItems.ListItems.Add , , "ShellPipe (v7)", 1
-    lvItems.ListItems.Add , , "iconv-lite (v0.6.3)", 2
-    lvItems.ListItems.Add , , "PNG with alpha", 1
-    lvItems.ListItems.Add , , "vbAccelerator SSubTmr", 2
-    lvItems.ListItems.Add , , t("기타 출처", "Other references"), 1
+    Dim EasterEggMultiplier As Byte
+    EasterEggMultiplier = 0
+    If EasterEggEnabled Then
+        EasterEggMultiplier = Abs(CInt(RandInt(1, 10000) = 294)) * 2
+    End If
+    
+    lvItems.ListItems.Add , , "Krool's Comctl", 1 + EasterEggMultiplier
+    lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2 + EasterEggMultiplier
+    lvItems.ListItems.Add , , "ShellPipe (v7)", 1 + EasterEggMultiplier
+    lvItems.ListItems.Add , , "iconv-lite (v0.6.3)", 2 + EasterEggMultiplier
+    lvItems.ListItems.Add , , "PNG with alpha", 1 + EasterEggMultiplier
+    lvItems.ListItems.Add , , "vbAccelerator SSubTmr", 2 + EasterEggMultiplier
+    lvItems.ListItems.Add , , t("기타 출처", "Other references"), 1 + EasterEggMultiplier
     lvItems.ListItems(1).Selected = True
     
     txtIconv.Text = txtIconv.Text & "Copyright (c) 2011 Alexander Shtuchkin" & vbCrLf
