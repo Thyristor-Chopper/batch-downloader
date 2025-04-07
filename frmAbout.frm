@@ -326,7 +326,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim LineNum As Integer
-Public EasterEggEnabled As Boolean
 
 Private Sub cmdOK_Click()
     Unload Me
@@ -363,10 +362,8 @@ Private Sub Form_Load()
     timLicenseLoader.Enabled = True
     
     Dim EasterEggMultiplier As Byte
-    EasterEggMultiplier = 0
-    If EasterEggEnabled Then
-        EasterEggMultiplier = Abs(CInt(RandInt(1, 10000) = 294)) * 2
-    End If
+    Randomize
+    EasterEggMultiplier = Abs(CInt(RandInt(1, 10000) = 2094)) * 2
     
     lvItems.ListItems.Add , , "Krool's Comctl", 1 + EasterEggMultiplier
     lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2 + EasterEggMultiplier

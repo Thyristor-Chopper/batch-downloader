@@ -2342,7 +2342,6 @@ Private Sub chkOpenFolder_Click()
 End Sub
 
 Private Sub cmdAbout_Click()
-    frmAbout.EasterEggEnabled = (IsKeyPressed(gksKeyboardctrl) And IsKeyPressed(gksKeyboardAlt) And IsKeyPressed(gksKeyboardShift))
     frmAbout.Show vbModal, Me
 End Sub
 
