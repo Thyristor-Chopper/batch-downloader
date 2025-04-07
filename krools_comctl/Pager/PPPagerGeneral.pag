@@ -257,7 +257,7 @@ End Sub
 
 Private Sub TextBorderWidth_Validate(Cancel As Boolean)
 If Not IsNumeric(TextBorderWidth.Text) Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextBorderWidth.Text = PropertyPage.SelectedControls(0).BorderWidth
     TextBorderWidth.SetFocus
     Cancel = True
@@ -271,7 +271,7 @@ Else
     If Cancel = False Then
         TextBorderWidth.Text = SngValue
     Else
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextBorderWidth.Text = PropertyPage.SelectedControls(0).BorderWidth
         TextBorderWidth.SetFocus
     End If
@@ -299,7 +299,7 @@ End Sub
 
 Private Sub TextButtonSize_Validate(Cancel As Boolean)
 If Not IsNumeric(TextButtonSize.Text) Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextButtonSize.Text = PropertyPage.SelectedControls(0).ButtonSize
     TextButtonSize.SetFocus
     Cancel = True
@@ -313,7 +313,7 @@ Else
     If Cancel = False Then
         TextButtonSize.Text = SngValue
     Else
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextButtonSize.Text = PropertyPage.SelectedControls(0).ButtonSize
         TextButtonSize.SetFocus
     End If

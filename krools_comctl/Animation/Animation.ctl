@@ -487,7 +487,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -539,7 +539,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -598,7 +598,7 @@ UserControl.PropertyChanged "BackColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -657,7 +657,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If AnimationDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -699,7 +699,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -726,7 +726,7 @@ UserControl.PropertyChanged "RightToLeftMode"
 End Property
 
 Public Property Get AutoPlay() As Boolean
-Attribute AutoPlay.VB_Description = "Returns/sets a value that determines whether or not the animation will start playing as soon as the AVI clip is loaded."
+Attribute AutoPlay.VB_Description = "Returns/sets a Value that determines whether or not the animation will start playing as soon as the AVI clip is loaded."
 AutoPlay = PropAutoPlay
 End Property
 
@@ -754,7 +754,7 @@ UserControl.PropertyChanged "BackStyle"
 End Property
 
 Public Property Get Center() As Boolean
-Attribute Center.VB_Description = "Returns/sets a value that determines whether the animation is centered or not."
+Attribute Center.VB_Description = "Returns/sets a Value that determines whether the animation is centered or not."
 Center = PropCenter
 End Property
 
@@ -870,7 +870,7 @@ End If
 End Sub
 
 Public Property Get Playing() As Boolean
-Attribute Playing.VB_Description = "Returns a value that determines whether an AVI clip is playing or not."
+Attribute Playing.VB_Description = "Returns a Value that determines whether an AVI clip is playing or not."
 Attribute Playing.VB_MemberFlags = "400"
 If AnimationHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then
     Playing = CBool(SendMessage(AnimationHandle, ACM_ISPLAYING, 0, ByVal 0&) <> 0)

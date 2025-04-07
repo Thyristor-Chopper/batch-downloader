@@ -732,7 +732,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -784,7 +784,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -861,7 +861,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -891,7 +891,7 @@ UserControl.PropertyChanged "BackColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -950,7 +950,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If CommandLinkDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -995,7 +995,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -1151,7 +1151,7 @@ Attribute Hint.VB_UserMemId = -517
 If CommandLinkHandle <> NULL_PTR Then
     Dim Length As Long
     Hint = String(CLng(SendMessage(CommandLinkHandle, BCM_GETNOTELENGTH, 0, ByVal 0&)), vbNullChar)
-    Length = Len(Hint) + 1 ' wParam [in, out] ; Thus the value must be stored in a variable and pointed to it.
+    Length = Len(Hint) + 1 ' wParam [in, out] ; Thus the Value must be stored in a variable and pointed to it.
     SendMessage CommandLinkHandle, BCM_GETNOTE, VarPtr(Length), ByVal StrPtr(Hint)
 Else
     Hint = PropHint
@@ -1218,7 +1218,7 @@ UserControl.PropertyChanged "Picture"
 End Property
 
 Public Property Get Transparent() As Boolean
-Attribute Transparent.VB_Description = "Returns/sets a value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
+Attribute Transparent.VB_Description = "Returns/sets a Value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
 Transparent = PropTransparent
 End Property
 
@@ -1305,7 +1305,7 @@ RedrawWindow UserControl.hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDA
 End Sub
 
 Public Property Get Value() As Boolean
-Attribute Value.VB_Description = "Returns/sets the value of an object."
+Attribute Value.VB_Description = "Returns/sets the Value of an object."
 Attribute Value.VB_UserMemId = 0
 Attribute Value.VB_MemberFlags = "400"
 Value = CommandLinkValue
@@ -1343,7 +1343,7 @@ End If
 End Function
 
 Public Property Get Pushed() As Boolean
-Attribute Pushed.VB_Description = "Returns/sets a value that indicates if the command link is in the pushed state."
+Attribute Pushed.VB_Description = "Returns/sets a Value that indicates if the command link is in the pushed state."
 Attribute Pushed.VB_MemberFlags = "400"
 If CommandLinkHandle <> NULL_PTR Then Pushed = CBool((SendMessage(CommandLinkHandle, BM_GETSTATE, 0, ByVal 0&) And BST_PUSHED) = BST_PUSHED)
 End Property
@@ -1353,7 +1353,7 @@ If CommandLinkHandle <> NULL_PTR Then SendMessage CommandLinkHandle, BM_SETSTATE
 End Property
 
 Public Property Get Hot() As Boolean
-Attribute Hot.VB_Description = "Returns/sets a value that indicates if the command button is hot; that is, the mouse is hovering over it. Requires comctl32.dll version 6.0 or higher."
+Attribute Hot.VB_Description = "Returns/sets a Value that indicates if the command button is hot; that is, the mouse is hovering over it. Requires comctl32.dll version 6.0 or higher."
 Attribute Hot.VB_MemberFlags = "400"
 If CommandLinkHandle <> NULL_PTR Then Hot = CBool((SendMessage(CommandLinkHandle, BM_GETSTATE, 0, ByVal 0&) And BST_HOT) = BST_HOT)
 End Property

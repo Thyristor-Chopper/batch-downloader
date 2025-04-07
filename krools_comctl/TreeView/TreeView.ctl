@@ -1115,7 +1115,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -1153,7 +1153,7 @@ Extender.WhatsThisHelpID = Value
 End Property
 
 Public Property Get Align() As Integer
-Attribute Align.VB_Description = "Returns/sets a value that determines where an object is displayed on a form."
+Attribute Align.VB_Description = "Returns/sets a Value that determines where an object is displayed on a form."
 Attribute Align.VB_MemberFlags = "400"
 Align = Extender.Align
 End Property
@@ -1177,7 +1177,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -1264,7 +1264,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -1303,7 +1303,7 @@ UserControl.PropertyChanged "VisualTheme"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1340,14 +1340,14 @@ UserControl.PropertyChanged "OLEDragDropScroll"
 End Property
 
 Public Property Get OLEDragExpandTime() As Long
-Attribute OLEDragExpandTime.VB_Description = "Returns/sets the OLE drag expand time in milliseconds. A value of 0 indicates that auto-expansion is disabled. A value of -1 indicates that the system's double click time, multiplied with 2, is used."
+Attribute OLEDragExpandTime.VB_Description = "Returns/sets the OLE drag expand time in milliseconds. A Value of 0 indicates that auto-expansion is disabled. A Value of -1 indicates that the system's double click time, multiplied with 2, is used."
 OLEDragExpandTime = PropOLEDragExpandTime
 End Property
 
 Public Property Let OLEDragExpandTime(ByVal Value As Long)
 If Value < -1 Then
     If TreeViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1405,7 +1405,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If TreeViewDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1457,7 +1457,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -1644,7 +1644,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Redraw() As Boolean
-Attribute Redraw.VB_Description = "Returns/sets a value that determines whether or not the tree view redraws when changing the nodes. You can speed up the creation of large lists by disabling this property before adding the nodes."
+Attribute Redraw.VB_Description = "Returns/sets a Value that determines whether or not the tree view redraws when changing the nodes. You can speed up the creation of large lists by disabling this property before adding the nodes."
 Redraw = PropRedraw
 End Property
 
@@ -1740,7 +1740,7 @@ UserControl.PropertyChanged "LineColor"
 End Property
 
 Public Property Get LabelEdit() As TvwLabelEditConstants
-Attribute LabelEdit.VB_Description = "Returns/sets a value that determines if a user can edit the label of a node."
+Attribute LabelEdit.VB_Description = "Returns/sets a Value that determines if a user can edit the label of a node."
 LabelEdit = PropLabelEdit
 End Property
 
@@ -1766,7 +1766,7 @@ UserControl.PropertyChanged "LabelEdit"
 End Property
 
 Public Property Get Checkboxes() As Boolean
-Attribute Checkboxes.VB_Description = "Returns/sets a value which determines if the control displays a checkbox next to each item in the tree."
+Attribute Checkboxes.VB_Description = "Returns/sets a Value which determines if the control displays a checkbox next to each item in the tree."
 Checkboxes = PropCheckboxes
 End Property
 
@@ -1793,7 +1793,7 @@ UserControl.PropertyChanged "Checkboxes"
 End Property
 
 Public Property Get ShowTips() As Boolean
-Attribute ShowTips.VB_Description = "Returns/sets a value that determines whether the tool tip text properties will be displayed or not."
+Attribute ShowTips.VB_Description = "Returns/sets a Value that determines whether the tool tip text properties will be displayed or not."
 ShowTips = PropShowTips
 End Property
 
@@ -1813,7 +1813,7 @@ UserControl.PropertyChanged "ShowTips"
 End Property
 
 Public Property Get HideSelection() As Boolean
-Attribute HideSelection.VB_Description = "Returns/sets a value that determines whether the selected item will display as selected when the tree view loses focus or not."
+Attribute HideSelection.VB_Description = "Returns/sets a Value that determines whether the selected item will display as selected when the tree view loses focus or not."
 HideSelection = PropHideSelection
 End Property
 
@@ -1854,7 +1854,7 @@ UserControl.PropertyChanged "FullRowSelect"
 End Property
 
 Public Property Get HotTracking() As Boolean
-Attribute HotTracking.VB_Description = "Returns/sets a value which determines if items are highlighted as the mousepointer passes over them."
+Attribute HotTracking.VB_Description = "Returns/sets a Value which determines if items are highlighted as the mousepointer passes over them."
 HotTracking = PropHotTracking
 End Property
 
@@ -1881,7 +1881,7 @@ End Property
 Public Property Let Indentation(ByVal Value As Single)
 If Value < 0 Then
     If TreeViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1894,7 +1894,7 @@ ErrValue = Err.Number
 On Error GoTo 0
 If LngValue < 0 Or ErrValue <> 0 Then
     If TreeViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1917,7 +1917,7 @@ UserControl.PropertyChanged "PathSeparator"
 End Property
 
 Public Property Get Scroll() As Boolean
-Attribute Scroll.VB_Description = "Returns/sets a value which determines if the tree view displays scrollbars and allows scrolling (vertical and horizontal)."
+Attribute Scroll.VB_Description = "Returns/sets a Value which determines if the tree view displays scrollbars and allows scrolling (vertical and horizontal)."
 Scroll = PropScroll
 End Property
 
@@ -1937,7 +1937,7 @@ UserControl.PropertyChanged "Scroll"
 End Property
 
 Public Property Get SingleSel() As Boolean
-Attribute SingleSel.VB_Description = "Returns/sets a value which determines if selecting a new item in the tree expands that item and collapses the previously selected item."
+Attribute SingleSel.VB_Description = "Returns/sets a Value which determines if selecting a new item in the tree expands that item and collapses the previously selected item."
 SingleSel = PropSingleSel
 End Property
 
@@ -1957,7 +1957,7 @@ UserControl.PropertyChanged "SingleSel"
 End Property
 
 Public Property Get Sorted() As Boolean
-Attribute Sorted.VB_Description = "Returns/sets a value indicating if the nodes are automatically sorted."
+Attribute Sorted.VB_Description = "Returns/sets a Value indicating if the nodes are automatically sorted."
 Sorted = PropSorted
 End Property
 
@@ -1968,7 +1968,7 @@ UserControl.PropertyChanged "Sorted"
 End Property
 
 Public Property Get SortOrder() As TvwSortOrderConstants
-Attribute SortOrder.VB_Description = "Returns/sets a value that determines whether the nodes will be sorted in ascending or descending order."
+Attribute SortOrder.VB_Description = "Returns/sets a Value that determines whether the nodes will be sorted in ascending or descending order."
 SortOrder = PropSortOrder
 End Property
 
@@ -2009,7 +2009,7 @@ UserControl.PropertyChanged "InsertMarkColor"
 End Property
 
 Public Property Get DoubleBuffer() As Boolean
-Attribute DoubleBuffer.VB_Description = "Returns/sets a value that determines whether the control paints via double-buffering, which reduces flicker. Requires comctl32.dll version 6.1 or higher."
+Attribute DoubleBuffer.VB_Description = "Returns/sets a Value that determines whether the control paints via double-buffering, which reduces flicker. Requires comctl32.dll version 6.1 or higher."
 DoubleBuffer = PropDoubleBuffer
 End Property
 
@@ -2052,7 +2052,7 @@ UserControl.PropertyChanged "IMEMode"
 End Property
 
 Public Property Get MultiSelect() As TvwMultiSelectConstants
-Attribute MultiSelect.VB_Description = "Returns/sets a value indicating whether a user can make multiple selections in the tree view and how the multiple selections can be made."
+Attribute MultiSelect.VB_Description = "Returns/sets a Value indicating whether a user can make multiple selections in the tree view and how the multiple selections can be made."
 MultiSelect = PropMultiSelect
 End Property
 
@@ -3001,7 +3001,7 @@ If TreeViewHandle <> NULL_PTR Then
         ' - If you change the font by returning CDRF_NEWFONT, the tree view control might display clipped text.
         '   This behavior is necessary for backward compatibility with earlier versions of the common controls.
         '   If you want to change the font of a tree view control, you will get better results if you send a CCM_SETVERSION message
-        '   with the wParam value set to 5 before adding any items to the control.
+        '   with the wParam Value set to 5 before adding any items to the control.
         SendMessage TreeViewHandle, CCM_SETVERSION, 5, ByVal 0&
     End If
     SendMessage TreeViewHandle, TVM_SETINDENT, PropIndentation, ByVal 0&
@@ -3075,7 +3075,7 @@ End If
 End Function
 
 Public Function HitTestInsertMark(ByVal X As Single, ByVal Y As Single, Optional ByRef After As Boolean) As TvwNode
-Attribute HitTestInsertMark.VB_Description = "Returns a reference to the node object located at the coordinates of X and Y and retrieves a value that determines where the insertion point should appear."
+Attribute HitTestInsertMark.VB_Description = "Returns a reference to the node object located at the coordinates of X and Y and retrieves a Value that determines where the insertion point should appear."
 If TreeViewHandle <> NULL_PTR Then
     Dim TVHTI As TVHITTESTINFO
     With TVHTI
@@ -4175,10 +4175,10 @@ Select Case wMsg
                                         End If
                                     End If
                                 Case Else
-                                    ' It is not safe to rely on TVC_UNKNOWN only. The action member can have an unknown value.
-                                    ' If the caret item was changed by code then the action value is TVC_UNKNOWN for sure.
-                                    ' However, if there is no caret item and the tree view received focus by tab key then the action value is &H1000.
-                                    ' Thus clear all highlighted items in case the focused item was changed by code or by an unknown action value.
+                                    ' It is not safe to rely on TVC_UNKNOWN only. The action member can have an unknown Value.
+                                    ' If the caret item was changed by code then the action Value is TVC_UNKNOWN for sure.
+                                    ' However, if there is no caret item and the tree view received focus by tab key then the action Value is &H1000.
+                                    ' Thus clear all highlighted items in case the focused item was changed by code or by an unknown action Value.
                                     TreeViewAnchorItem = ClearSelectedItems(.ItemNew.hItem)
                             End Select
                         End If

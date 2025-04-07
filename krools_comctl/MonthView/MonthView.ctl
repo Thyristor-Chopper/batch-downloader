@@ -734,7 +734,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -786,7 +786,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -867,7 +867,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -887,7 +887,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -946,7 +946,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -985,7 +985,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -1105,17 +1105,17 @@ Select Case Value
     Case #1/1/1900# To #12/31/9999 11:59:59 PM#
         If Fix(Value) > Me.MaxDate Then
             If MonthViewDesignMode = True Then
-                MsgBoxInternal "A value was specified for the MinDate property that is higher than the current value of MaxDate", vbCritical + vbOKOnly
+                MsgBoxInternal "A Value was specified for the MinDate property that is higher than the current Value of MaxDate", vbCritical + vbOKOnly
                 Exit Property
             Else
-                Err.Raise 35775, Description:="A value was specified for the MinDate property that is higher than the current value of MaxDate"
+                Err.Raise 35775, Description:="A Value was specified for the MinDate property that is higher than the current Value of MaxDate"
             End If
         Else
             PropMinDate = Fix(Value)
         End If
     Case Else
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1154,17 +1154,17 @@ Select Case Value
     Case #1/1/1900# To #12/31/9999 11:59:59 PM#
         If Fix(Value) < Me.MinDate Then
             If MonthViewDesignMode = True Then
-                MsgBoxInternal "A value was specified for the MaxDate property that is lower than the current value of MinDate", vbCritical + vbOKOnly
+                MsgBoxInternal "A Value was specified for the MaxDate property that is lower than the current Value of MinDate", vbCritical + vbOKOnly
                 Exit Property
             Else
-                Err.Raise 35774, Description:="A value was specified for the MaxDate property that is lower than the current value of MinDate"
+                Err.Raise 35774, Description:="A Value was specified for the MaxDate property that is lower than the current Value of MinDate"
             End If
         Else
             PropMaxDate = Fix(Value)
         End If
     Case Else
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1336,7 +1336,7 @@ Me.Value = DateSerial(VBA.Year(PropValue), VBA.Month(PropValue), Value)
 End Property
 
 Public Property Get ShowToday() As Boolean
-Attribute ShowToday.VB_Description = "Returns/sets a value that determines whether or not the control displays the 'Today xx/xx/xx' literal at the bottom."
+Attribute ShowToday.VB_Description = "Returns/sets a Value that determines whether or not the control displays the 'Today xx/xx/xx' literal at the bottom."
 ShowToday = PropShowToday
 End Property
 
@@ -1358,7 +1358,7 @@ UserControl.PropertyChanged "ShowToday"
 End Property
 
 Public Property Get ShowTodayCircle() As Boolean
-Attribute ShowTodayCircle.VB_Description = "Returns/sets a value that determines whether or not the control does circle the 'Today' date."
+Attribute ShowTodayCircle.VB_Description = "Returns/sets a Value that determines whether or not the control does circle the 'Today' date."
 ShowTodayCircle = PropShowTodayCircle
 End Property
 
@@ -1380,7 +1380,7 @@ UserControl.PropertyChanged "ShowTodayCircle"
 End Property
 
 Public Property Get ShowWeekNumbers() As Boolean
-Attribute ShowWeekNumbers.VB_Description = "Returns/sets a value that determines whether the control displays week numbers to the left of each row of days."
+Attribute ShowWeekNumbers.VB_Description = "Returns/sets a Value that determines whether the control displays week numbers to the left of each row of days."
 ShowWeekNumbers = PropShowWeekNumbers
 End Property
 
@@ -1402,7 +1402,7 @@ UserControl.PropertyChanged "ShowWeekNumbers"
 End Property
 
 Public Property Get ShowTrailingDates() As Boolean
-Attribute ShowTrailingDates.VB_Description = "Returns/sets a value that determines whether the control displays the dates from the previous and next months. Requires comctl32.dll version 6.1 or higher."
+Attribute ShowTrailingDates.VB_Description = "Returns/sets a Value that determines whether the control displays the dates from the previous and next months. Requires comctl32.dll version 6.1 or higher."
 ShowTrailingDates = PropShowTrailingDates
 End Property
 
@@ -1424,7 +1424,7 @@ UserControl.PropertyChanged "ShowTrailingDates"
 End Property
 
 Public Property Get ScrollRate() As Long
-Attribute ScrollRate.VB_Description = "Returns/sets a value that determines the number of months that the control moves when the user clicks a scroll button. If this value is zero, the month delta is reset to the default, which is the number of months displayed."
+Attribute ScrollRate.VB_Description = "Returns/sets a Value that determines the number of months that the control moves when the user clicks a scroll button. If this Value is zero, the month delta is reset to the default, which is the number of months displayed."
 If MonthViewHandle <> NULL_PTR Then
     ScrollRate = CLng(SendMessage(MonthViewHandle, MCM_GETMONTHDELTA, 0, ByVal 0&))
 Else
@@ -1435,7 +1435,7 @@ End Property
 Public Property Let ScrollRate(ByVal Value As Long)
 If Value < 0 Then
     If MonthViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1447,7 +1447,7 @@ UserControl.PropertyChanged "ScrollRate"
 End Property
 
 Public Property Get StartOfWeek() As Integer
-Attribute StartOfWeek.VB_Description = "Returns/sets a value that determines the day of the week [Mon-Sun] displayed in the leftmost column of days."
+Attribute StartOfWeek.VB_Description = "Returns/sets a Value that determines the day of the week [Mon-Sun] displayed in the leftmost column of days."
 If MonthViewHandle <> NULL_PTR And MonthViewDesignMode = False Then
     StartOfWeek = LoWord(CLng(SendMessage(MonthViewHandle, MCM_GETFIRSTDAYOFWEEK, 0, ByVal 0&))) + 1
 Else
@@ -1477,7 +1477,7 @@ UserControl.PropertyChanged "StartOfWeek"
 End Property
 
 Public Property Get MultiSelect() As Boolean
-Attribute MultiSelect.VB_Description = "Returns/sets a value that determines whether the user can select multiple dates."
+Attribute MultiSelect.VB_Description = "Returns/sets a Value that determines whether the user can select multiple dates."
 MultiSelect = PropMultiSelect
 End Property
 
@@ -1488,7 +1488,7 @@ UserControl.PropertyChanged "MultiSelect"
 End Property
 
 Public Property Get DayState() As Boolean
-Attribute DayState.VB_Description = "Returns/sets a value that determines whether or not the control requests information about which days should be displayed in bold. Use the GetDayBold event to provide the requested information."
+Attribute DayState.VB_Description = "Returns/sets a Value that determines whether or not the control requests information about which days should be displayed in bold. Use the GetDayBold event to provide the requested information."
 DayState = PropDayState
 End Property
 
@@ -1512,7 +1512,7 @@ If Value > 0 Then
     PropMaxSelCount = Value
 Else
     If MonthViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1531,24 +1531,24 @@ Public Property Let MonthColumns(ByVal Value As Byte)
 If Value > 0 Then
     If Value > 12 Then
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "A value was specified for MonthRows or MonthColumns that is not between 1 and 12", vbCritical + vbOKOnly
+            MsgBoxInternal "A Value was specified for MonthRows or MonthColumns that is not between 1 and 12", vbCritical + vbOKOnly
             Exit Property
         Else
-            Err.Raise Number:=35776, Description:="A value was specified for MonthRows or MonthColumns that is not between 1 and 12"
+            Err.Raise Number:=35776, Description:="A Value was specified for MonthRows or MonthColumns that is not between 1 and 12"
         End If
     ElseIf (Value * PropMonthRows) > 12 Then
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "A value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12", vbCritical + vbOKOnly
+            MsgBoxInternal "A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12", vbCritical + vbOKOnly
             Exit Property
         Else
-            Err.Raise Number:=35777, Description:="A value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
+            Err.Raise Number:=35777, Description:="A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
         End If
     Else
         PropMonthColumns = Value
     End If
 Else
     If MonthViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1570,24 +1570,24 @@ Public Property Let MonthRows(ByVal Value As Byte)
 If Value > 0 Then
     If Value > 12 Then
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "A value was specified for MonthRows or MonthColumns that is not between 1 and 12", vbCritical + vbOKOnly
+            MsgBoxInternal "A Value was specified for MonthRows or MonthColumns that is not between 1 and 12", vbCritical + vbOKOnly
             Exit Property
         Else
-            Err.Raise Number:=35776, Description:="A value was specified for MonthRows or MonthColumns that is not between 1 and 12"
+            Err.Raise Number:=35776, Description:="A Value was specified for MonthRows or MonthColumns that is not between 1 and 12"
         End If
     ElseIf (Value * PropMonthColumns) > 12 Then
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "A value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12", vbCritical + vbOKOnly
+            MsgBoxInternal "A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12", vbCritical + vbOKOnly
             Exit Property
         Else
-            Err.Raise Number:=35777, Description:="A value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
+            Err.Raise Number:=35777, Description:="A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
         End If
     Else
         PropMonthRows = Value
     End If
 Else
     If MonthViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1621,7 +1621,7 @@ UserControl.PropertyChanged "View"
 End Property
 
 Public Property Get UseShortestDayNames() As Boolean
-Attribute UseShortestDayNames.VB_Description = "Returns/sets a value that determines whether the control uses the shortest instead of the short day names. Requires comctl32.dll version 6.1 or higher."
+Attribute UseShortestDayNames.VB_Description = "Returns/sets a Value that determines whether the control uses the shortest instead of the short day names. Requires comctl32.dll version 6.1 or higher."
 UseShortestDayNames = PropUseShortestDayNames
 End Property
 
@@ -1903,7 +1903,7 @@ RedrawWindow UserControl.hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDA
 End Sub
 
 Public Property Get SystemStartOfWeek() As Integer
-Attribute SystemStartOfWeek.VB_Description = "Returns a value that determines the local (system) day of the week [Mon-Sun]."
+Attribute SystemStartOfWeek.VB_Description = "Returns a Value that determines the local (system) day of the week [Mon-Sun]."
 Attribute SystemStartOfWeek.VB_MemberFlags = "400"
 Const LOCALE_USER_DEFAULT As Long = &H400
 Const LOCALE_IFIRSTDAYOFWEEK As Long = &H100C, LOCALE_RETURN_NUMBER As Long = &H20000000
@@ -1929,7 +1929,7 @@ End If
 End Function
 
 Public Function HitTest(ByVal X As Single, ByVal Y As Single, Optional ByRef HitDate As Date) As MvwHitResultConstants
-Attribute HitTest.VB_Description = "A method that returns a value which indicates the element located at the specified X and Y coordinates."
+Attribute HitTest.VB_Description = "A method that returns a Value which indicates the element located at the specified X and Y coordinates."
 If MonthViewHandle <> NULL_PTR Then
     Dim MCHT As MCHITTESTINFO
     With MCHT
@@ -2016,8 +2016,8 @@ End Property
 
 Public Sub ComputeControlSize(ByVal MonthColumns As Byte, ByVal MonthRows As Byte, ByRef Width As Single, ByRef Height As Single)
 Attribute ComputeControlSize.VB_Description = "A method that returns the width and height for a given number of columns and rows."
-If MonthColumns > 12 Or MonthRows > 12 Then Err.Raise Number:=35776, Description:="A value was specified for MonthRows or MonthColumns that is not between 1 and 12"
-If (MonthColumns * MonthRows) > 12 Then Err.Raise Number:=35777, Description:="A value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
+If MonthColumns > 12 Or MonthRows > 12 Then Err.Raise Number:=35776, Description:="A Value was specified for MonthRows or MonthColumns that is not between 1 and 12"
+If (MonthColumns * MonthRows) > 12 Then Err.Raise Number:=35777, Description:="A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
 Dim ModRect As RECT
 Call GetReqRect(MonthColumns, MonthRows, ModRect)
 With UserControl
@@ -2027,8 +2027,8 @@ End With
 End Sub
 
 Private Sub ComputeInternalControlSize(ByVal MonthColumns As Byte, ByVal MonthRows As Byte, ByRef Width As Long, ByRef Height As Long)
-If MonthColumns > 12 Or MonthRows > 12 Then Err.Raise Number:=35776, Description:="A value was specified for MonthRows or MonthColumns that is not between 1 and 12"
-If (MonthColumns * MonthRows) > 12 Then Err.Raise Number:=35777, Description:="A value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
+If MonthColumns > 12 Or MonthRows > 12 Then Err.Raise Number:=35776, Description:="A Value was specified for MonthRows or MonthColumns that is not between 1 and 12"
+If (MonthColumns * MonthRows) > 12 Then Err.Raise Number:=35777, Description:="A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
 Dim ModRect As RECT
 Call GetReqRect(MonthColumns, MonthRows, ModRect)
 Width = (ModRect.Right - ModRect.Left)

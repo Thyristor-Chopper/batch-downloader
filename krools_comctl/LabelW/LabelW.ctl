@@ -565,7 +565,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -608,7 +608,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -654,7 +654,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get Appearance() As CCAppearanceConstants
-Attribute Appearance.VB_Description = "Returns/sets a value that determines whether an object is painted two-dimensional or with 3-D effects."
+Attribute Appearance.VB_Description = "Returns/sets a Value that determines whether an object is painted two-dimensional or with 3-D effects."
 Attribute Appearance.VB_UserMemId = -520
 Appearance = UserControl.Appearance
 End Property
@@ -701,7 +701,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -771,7 +771,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If LabelDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -905,7 +905,7 @@ Me.Caption = Value
 End Property
 
 Public Property Get UseMnemonic() As Boolean
-Attribute UseMnemonic.VB_Description = "Returns/sets a value that specifies whether an & in the caption property defines an access key."
+Attribute UseMnemonic.VB_Description = "Returns/sets a Value that specifies whether an & in the caption property defines an access key."
 UseMnemonic = PropUseMnemonic
 End Property
 
@@ -935,7 +935,7 @@ UserControl.PropertyChanged "AutoSize"
 End Property
 
 Public Property Get WordWrap() As Boolean
-Attribute WordWrap.VB_Description = "Returns/sets a value that determines whether a control may break lines within the text in order to prevent overflow."
+Attribute WordWrap.VB_Description = "Returns/sets a Value that determines whether a control may break lines within the text in order to prevent overflow."
 WordWrap = PropWordWrap
 End Property
 
@@ -968,7 +968,7 @@ UserControl.PropertyChanged "SingleLine"
 End Property
 
 Public Property Get EllipsisFormat() As LblEllipsisFormatConstants
-Attribute EllipsisFormat.VB_Description = "Returns/sets a value indicating if and where the ellipsis character is appended, denoting that the caption extends beyond the length of the label. The auto size and the word wrap property may be set to false to see the ellipsis character."
+Attribute EllipsisFormat.VB_Description = "Returns/sets a Value indicating if and where the ellipsis character is appended, denoting that the caption extends beyond the length of the label. The auto size and the word wrap property may be set to false to see the ellipsis character."
 EllipsisFormat = PropEllipsisFormat
 End Property
 
@@ -985,7 +985,7 @@ UserControl.PropertyChanged "EllipsisFormat"
 End Property
 
 Public Property Get MimicTextBox() As Boolean
-Attribute MimicTextBox.VB_Description = "Returns/sets a value that determines whether or not to mimic the text-displaying characteristics of a multiline text box. This includes to break on characters instead on words. This is only meaningful if the word wrap property is set to true."
+Attribute MimicTextBox.VB_Description = "Returns/sets a Value that determines whether or not to mimic the text-displaying characteristics of a multiline text box. This includes to break on characters instead on words. This is only meaningful if the word wrap property is set to true."
 MimicTextBox = PropMimicTextBox
 End Property
 

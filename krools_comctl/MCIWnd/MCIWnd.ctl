@@ -648,7 +648,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -700,7 +700,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -747,7 +747,7 @@ hWndUserControl = UserControl.hWnd
 End Property
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -775,7 +775,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -842,7 +842,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If MCIWndDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -897,7 +897,7 @@ UserControl.PropertyChanged "BorderStyle"
 End Property
 
 Public Property Get Repeat() As Boolean
-Attribute Repeat.VB_Description = "Returns/sets a value indicating if the playback continuously repeats when the play button on the play bar is pressed."
+Attribute Repeat.VB_Description = "Returns/sets a Value indicating if the playback continuously repeats when the play button on the play bar is pressed."
 If MCIWndHandle <> NULL_PTR Then
     Repeat = CBool(SendMessage(MCIWndHandle, MCIWNDM_GETREPEAT, 0, ByVal 0&) <> 0)
 Else
@@ -912,7 +912,7 @@ UserControl.PropertyChanged "Repeat"
 End Property
 
 Public Property Get ErrorDlg() As Boolean
-Attribute ErrorDlg.VB_Description = "Returns/sets a value that determines whether MCI errors cause an error dialog to be displayed or not."
+Attribute ErrorDlg.VB_Description = "Returns/sets a Value that determines whether MCI errors cause an error dialog to be displayed or not."
 ErrorDlg = PropErrorDlg
 End Property
 
@@ -929,7 +929,7 @@ UserControl.PropertyChanged "ErrorDlg"
 End Property
 
 Public Property Get Record() As Boolean
-Attribute Record.VB_Description = "Returns/sets a value indicating if recording controls or recording entries appear on the play bar or in the menus."
+Attribute Record.VB_Description = "Returns/sets a Value indicating if recording controls or recording entries appear on the play bar or in the menus."
 Record = PropRecord
 End Property
 
@@ -947,7 +947,7 @@ UserControl.PropertyChanged "Record"
 End Property
 
 Public Property Get Playbar() As Boolean
-Attribute Playbar.VB_Description = "Returns/sets a value indicating if a play bar appears in the control. The play bar lets the user control playback and recording of MCI devices."
+Attribute Playbar.VB_Description = "Returns/sets a Value indicating if a play bar appears in the control. The play bar lets the user control playback and recording of MCI devices."
 Playbar = PropPlaybar
 End Property
 
@@ -966,7 +966,7 @@ UserControl.PropertyChanged "Playbar"
 End Property
 
 Public Property Get Menu() As Boolean
-Attribute Menu.VB_Description = "Returns/sets a value indicating if a menu appears on the play bar and if a right mouse-click over the control displays a pop-up menu."
+Attribute Menu.VB_Description = "Returns/sets a Value indicating if a menu appears on the play bar and if a right mouse-click over the control displays a pop-up menu."
 Menu = PropMenu
 End Property
 
@@ -984,7 +984,7 @@ UserControl.PropertyChanged "Menu"
 End Property
 
 Public Property Get AllowOpen() As Boolean
-Attribute AllowOpen.VB_Description = "Returns/sets a value indicating if the control allows or prohibits users from accessing the open and close commands."
+Attribute AllowOpen.VB_Description = "Returns/sets a Value indicating if the control allows or prohibits users from accessing the open and close commands."
 AllowOpen = PropAllowOpen
 End Property
 
@@ -1002,7 +1002,7 @@ UserControl.PropertyChanged "AllowOpen"
 End Property
 
 Public Property Get AutoSizeWindow() As Boolean
-Attribute AutoSizeWindow.VB_Description = "Returns/sets a value that determines whether or not the control will change the dimensions of the window when the image size changes."
+Attribute AutoSizeWindow.VB_Description = "Returns/sets a Value that determines whether or not the control will change the dimensions of the window when the image size changes."
 AutoSizeWindow = PropAutoSizeWindow
 End Property
 
@@ -1020,7 +1020,7 @@ UserControl.PropertyChanged "AutoSizeWindow"
 End Property
 
 Public Property Get AutoSizeMovie() As Boolean
-Attribute AutoSizeMovie.VB_Description = "Returns/sets a value that determines whether or not the control will change the dimensions of the image size when the window size changes."
+Attribute AutoSizeMovie.VB_Description = "Returns/sets a Value that determines whether or not the control will change the dimensions of the image size when the window size changes."
 AutoSizeMovie = PropAutoSizeMovie
 End Property
 
@@ -1045,7 +1045,7 @@ End Property
 Public Property Let TimerFreq(ByVal Value As Integer)
 If Value <= 0 Then
     If MCIWndDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1068,7 +1068,7 @@ End Property
 Public Property Let Zoom(ByVal Value As Long)
 If Value <= 0 Then
     If MCIWndDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1509,7 +1509,7 @@ Err.Raise Number:=383, Description:="Property is read-only"
 End Property
 
 Public Property Get Volume() As Long
-Attribute Volume.VB_Description = "Returns/sets the audio volume level of the MCI device. Specify 1000 for the normal volume level. Specify larger values for a louder volume level and smaller values for a more quiet volume level."
+Attribute Volume.VB_Description = "Returns/sets the audio volume level of the MCI device. Specify 1000 for the normal volume level. Specify larger Values for a louder volume level and smaller Values for a more quiet volume level."
 Attribute Volume.VB_MemberFlags = "400"
 If MCIWndHandle <> NULL_PTR Then Volume = CLng(SendMessage(MCIWndHandle, MCIWNDM_GETVOLUME, 0, ByVal 0&))
 End Property
@@ -1519,7 +1519,7 @@ If MCIWndHandle <> NULL_PTR Then SendMessage MCIWndHandle, MCIWNDM_SETVOLUME, 0,
 End Property
 
 Public Property Get Speed() As Long
-Attribute Speed.VB_Description = "Returns/sets the speed of the MCI device. Specify 1000 for the normal speed. Specify larger values for faster speeds and smaller values for slower speeds."
+Attribute Speed.VB_Description = "Returns/sets the speed of the MCI device. Specify 1000 for the normal speed. Specify larger Values for faster speeds and smaller Values for slower speeds."
 Attribute Speed.VB_MemberFlags = "400"
 If MCIWndHandle <> NULL_PTR Then Speed = CLng(SendMessage(MCIWndHandle, MCIWNDM_GETSPEED, 0, ByVal 0&))
 End Property

@@ -820,7 +820,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -872,7 +872,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -981,7 +981,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -1000,7 +1000,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1074,7 +1074,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If ImageComboDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1130,7 +1130,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -1255,7 +1255,7 @@ UserControl.PropertyChanged "ImageList"
 End Property
 
 Public Property Get Style() As ImcStyleConstants
-Attribute Style.VB_Description = "Returns/sets a value that determines the type of control and the behavior of its list box portion."
+Attribute Style.VB_Description = "Returns/sets a Value that determines the type of control and the behavior of its list box portion."
 Style = PropStyle
 End Property
 
@@ -1280,7 +1280,7 @@ UserControl.PropertyChanged "Style"
 End Property
 
 Public Property Get Locked() As Boolean
-Attribute Locked.VB_Description = "Returns/sets a value indicating whether the contents can be edited."
+Attribute Locked.VB_Description = "Returns/sets a Value indicating whether the contents can be edited."
 Locked = PropLocked
 End Property
 
@@ -1385,7 +1385,7 @@ End Property
 Public Property Let Indentation(ByVal Value As Long)
 If Value < 0 Then
     If ImageComboDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1396,7 +1396,7 @@ UserControl.PropertyChanged "Indentation"
 End Property
 
 Public Property Get ExtendedUI() As Boolean
-Attribute ExtendedUI.VB_Description = "Returns/sets a value that determines whether the default UI or the extended UI is used."
+Attribute ExtendedUI.VB_Description = "Returns/sets a Value that determines whether the default UI or the extended UI is used."
 If ImageComboHandle <> NULL_PTR And PropStyle <> ImcStyleSimpleCombo Then
     ExtendedUI = CBool(SendMessage(ImageComboHandle, CB_GETEXTENDEDUI, 0, ByVal 0&) = 1)
 Else
@@ -1421,7 +1421,7 @@ Select Case Value
         PropMaxDropDownItems = Value
     Case Else
         If ImageComboDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1432,7 +1432,7 @@ UserControl.PropertyChanged "MaxDropDownItems"
 End Property
 
 Public Property Get ShowImages() As Boolean
-Attribute ShowImages.VB_Description = "Returns/sets a value that determines whether the edit box and the drop-down list will display item images or not."
+Attribute ShowImages.VB_Description = "Returns/sets a Value that determines whether the edit box and the drop-down list will display item images or not."
 ShowImages = PropShowImages
 End Property
 
@@ -1457,7 +1457,7 @@ End Property
 Public Property Let MaxLength(ByVal Value As Long)
 If Value < 0 Then
     If ImageComboDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1487,7 +1487,7 @@ UserControl.PropertyChanged "IMEMode"
 End Property
 
 Public Property Get EllipsisFormat() As ImcEllipsisFormatConstants
-Attribute EllipsisFormat.VB_Description = "Returns/sets a value indicating if and where the ellipsis character is appended, denoting that the text extends beyond the edge of the control. Requires comctl32.dll version 6.1 or higher."
+Attribute EllipsisFormat.VB_Description = "Returns/sets a Value indicating if and where the ellipsis character is appended, denoting that the text extends beyond the edge of the control. Requires comctl32.dll version 6.1 or higher."
 EllipsisFormat = PropEllipsisFormat
 End Property
 
@@ -1980,7 +1980,7 @@ End If
 End Property
 
 Public Property Get DroppedDown() As Boolean
-Attribute DroppedDown.VB_Description = "Returns/sets a value that determines whether the drop-down list is dropped down or not."
+Attribute DroppedDown.VB_Description = "Returns/sets a Value that determines whether the drop-down list is dropped down or not."
 Attribute DroppedDown.VB_MemberFlags = "400"
 If ImageComboHandle <> NULL_PTR Then DroppedDown = CBool(SendMessage(ImageComboHandle, CB_GETDROPPEDSTATE, 0, ByVal 0&) <> 0)
 End Property

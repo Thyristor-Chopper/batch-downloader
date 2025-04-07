@@ -754,7 +754,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -806,7 +806,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -919,7 +919,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -961,7 +961,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1045,7 +1045,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If VListBoxDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1099,7 +1099,7 @@ UserControl.PropertyChanged "RightToLeftMode"
 End Property
 
 Public Property Get Redraw() As Boolean
-Attribute Redraw.VB_Description = "Returns/sets a value that determines whether or not the list box redraws when changing the items. You can speed up the creation of large lists by disabling this property before adding the items."
+Attribute Redraw.VB_Description = "Returns/sets a Value that determines whether or not the list box redraws when changing the items. You can speed up the creation of large lists by disabling this property before adding the items."
 Redraw = PropRedraw
 End Property
 
@@ -1133,7 +1133,7 @@ UserControl.PropertyChanged "BorderStyle"
 End Property
 
 Public Property Get MultiColumn() As Boolean
-Attribute MultiColumn.VB_Description = "Returns/sets a value that determines whether or not the control is scrolled horizontally and the items are displayed in multiple columns."
+Attribute MultiColumn.VB_Description = "Returns/sets a Value that determines whether or not the control is scrolled horizontally and the items are displayed in multiple columns."
 MultiColumn = PropMultiColumn
 End Property
 
@@ -1144,7 +1144,7 @@ UserControl.PropertyChanged "MultiColumn"
 End Property
 
 Public Property Get IntegralHeight() As Boolean
-Attribute IntegralHeight.VB_Description = "Returns/sets a value indicating whether the control displays partial items."
+Attribute IntegralHeight.VB_Description = "Returns/sets a Value indicating whether the control displays partial items."
 IntegralHeight = PropIntegralHeight
 End Property
 
@@ -1159,7 +1159,7 @@ UserControl.PropertyChanged "IntegralHeight"
 End Property
 
 Public Property Get AllowSelection() As Boolean
-Attribute AllowSelection.VB_Description = "Returns/sets a value indicating if the list box enables selection of items."
+Attribute AllowSelection.VB_Description = "Returns/sets a Value indicating if the list box enables selection of items."
 AllowSelection = PropAllowSelection
 End Property
 
@@ -1170,7 +1170,7 @@ UserControl.PropertyChanged "AllowSelection"
 End Property
 
 Public Property Get MultiSelect() As VBRUN.MultiSelectConstants
-Attribute MultiSelect.VB_Description = "Returns/sets a value that determines whether a user can make multiple selections in a control."
+Attribute MultiSelect.VB_Description = "Returns/sets a Value that determines whether a user can make multiple selections in a control."
 MultiSelect = PropMultiSelect
 End Property
 
@@ -1197,7 +1197,7 @@ End Property
 Public Property Let HorizontalExtent(ByVal Value As Single)
 If Value < 0 Then
     If VListBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1209,7 +1209,7 @@ UserControl.PropertyChanged "HorizontalExtent"
 End Property
 
 Public Property Get UseTabStops() As Boolean
-Attribute UseTabStops.VB_Description = "Returns/sets a value indicating if the list box can recognize and expand tab characters when drawing its strings."
+Attribute UseTabStops.VB_Description = "Returns/sets a Value indicating if the list box can recognize and expand tab characters when drawing its strings."
 UseTabStops = PropUseTabStops
 End Property
 
@@ -1220,7 +1220,7 @@ UserControl.PropertyChanged "UseTabStops"
 End Property
 
 Public Property Get DisableNoScroll() As Boolean
-Attribute DisableNoScroll.VB_Description = "Returns/sets a value that determines whether scroll bars are disabled instead of hided when they are not needed."
+Attribute DisableNoScroll.VB_Description = "Returns/sets a Value that determines whether scroll bars are disabled instead of hided when they are not needed."
 DisableNoScroll = PropDisableNoScroll
 End Property
 
@@ -1231,7 +1231,7 @@ UserControl.PropertyChanged "DisableNoScroll"
 End Property
 
 Public Property Get DrawMode() As VlbDrawModeConstants
-Attribute DrawMode.VB_Description = "Returns/sets a value indicating whether your code or the operating system will handle drawing of the elements."
+Attribute DrawMode.VB_Description = "Returns/sets a Value indicating whether your code or the operating system will handle drawing of the elements."
 DrawMode = PropDrawMode
 End Property
 
@@ -1696,7 +1696,7 @@ End If
 End Function
 
 Public Function HitTestInsertMark(ByVal X As Single, ByVal Y As Single, Optional ByRef After As Boolean) As Long
-Attribute HitTestInsertMark.VB_Description = "Returns the index of the item located at the coordinates of X and Y and retrieves a value that determines where the insertion point should appear."
+Attribute HitTestInsertMark.VB_Description = "Returns the index of the item located at the coordinates of X and Y and retrieves a Value that determines where the insertion point should appear."
 If VListBoxHandle <> NULL_PTR Then
     Dim P As POINTAPI, XY As Currency, Index As Long
     P.X = UserControl.ScaleX(X, vbContainerPosition, vbPixels)
@@ -1753,7 +1753,7 @@ OLEDraggedItem = VListBoxDragIndex - 1
 End Property
 
 Public Function GetIdealHorizontalExtent() As Single
-Attribute GetIdealHorizontalExtent.VB_Description = "Gets the ideal value for the horizontal extent property."
+Attribute GetIdealHorizontalExtent.VB_Description = "Gets the ideal Value for the horizontal extent property."
 If VListBoxHandle <> NULL_PTR Then
     Dim Count As Long
     Count = CLng(SendMessage(VListBoxHandle, LB_GETCOUNT, 0, ByVal 0&))

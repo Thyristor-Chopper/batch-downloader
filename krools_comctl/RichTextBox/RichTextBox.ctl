@@ -1415,7 +1415,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -1467,7 +1467,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -1544,7 +1544,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -1563,7 +1563,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1575,7 +1575,7 @@ UserControl.PropertyChanged "Enabled"
 End Property
 
 Public Property Get AllowDropFiles() As Boolean
-Attribute AllowDropFiles.VB_Description = "Returns/sets a value that determines whether drag-drop files are allowed or not. Only applicable when there is no OLE drop target available."
+Attribute AllowDropFiles.VB_Description = "Returns/sets a Value that determines whether drag-drop files are allowed or not. Only applicable when there is no OLE drop target available."
 If RichTextBoxHandle <> NULL_PTR Then
     AllowDropFiles = CBool((GetWindowLong(RichTextBoxHandle, GWL_EXSTYLE) And WS_EX_ACCEPTFILES) <> 0)
 Else
@@ -1702,7 +1702,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If RichTextBoxDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1807,7 +1807,7 @@ UserControl.PropertyChanged "BackColor"
 End Property
 
 Public Property Get Locked() As Boolean
-Attribute Locked.VB_Description = "Returns/sets a value indicating whether the contents can be edited."
+Attribute Locked.VB_Description = "Returns/sets a Value indicating whether the contents can be edited."
 If RichTextBoxHandle <> NULL_PTR Then
     Locked = CBool((GetWindowLong(RichTextBoxHandle, GWL_STYLE) And ES_READONLY) <> 0)
 Else
@@ -1822,7 +1822,7 @@ UserControl.PropertyChanged "Locked"
 End Property
 
 Public Property Get HideSelection() As Boolean
-Attribute HideSelection.VB_Description = "Returns/sets a value indicating if the selection in an edit control is hidden when the control loses focus."
+Attribute HideSelection.VB_Description = "Returns/sets a Value indicating if the selection in an edit control is hidden when the control loses focus."
 HideSelection = PropHideSelection
 End Property
 
@@ -1833,7 +1833,7 @@ UserControl.PropertyChanged "HideSelection"
 End Property
 
 Public Property Get PasswordChar() As String
-Attribute PasswordChar.VB_Description = "Returns/sets a value that determines whether characters typed by a user or placeholder characters are displayed in a control."
+Attribute PasswordChar.VB_Description = "Returns/sets a Value that determines whether characters typed by a user or placeholder characters are displayed in a control."
 If RichTextBoxHandle <> NULL_PTR Then
     PasswordChar = ChrW(CLng(SendMessage(RichTextBoxHandle, EM_GETPASSWORDCHAR, 0, ByVal 0&)))
 Else
@@ -1849,7 +1849,7 @@ ElseIf Len(Value) = 1 Then
     PropPasswordChar = AscW(Value)
 Else
     If RichTextBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1863,7 +1863,7 @@ UserControl.PropertyChanged "PasswordChar"
 End Property
 
 Public Property Get UseSystemPasswordChar() As Boolean
-Attribute UseSystemPasswordChar.VB_Description = "Returns/sets a value indicating if the default system password character is used. This property has precedence over the password char property."
+Attribute UseSystemPasswordChar.VB_Description = "Returns/sets a Value indicating if the default system password character is used. This property has precedence over the password char property."
 UseSystemPasswordChar = PropUseSystemPasswordChar
 End Property
 
@@ -1874,7 +1874,7 @@ UserControl.PropertyChanged "UseSystemPasswordChar"
 End Property
 
 Public Property Get MultiLine() As Boolean
-Attribute MultiLine.VB_Description = "Returns/sets a value that determines whether a control can accept multiple lines of text."
+Attribute MultiLine.VB_Description = "Returns/sets a Value that determines whether a control can accept multiple lines of text."
 MultiLine = PropMultiLine
 End Property
 
@@ -1896,7 +1896,7 @@ End Property
 Public Property Let MaxLength(ByVal Value As Long)
 If Value < 0 Then
     If RichTextBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1908,7 +1908,7 @@ UserControl.PropertyChanged "MaxLength"
 End Property
 
 Public Property Get ScrollBars() As VBRUN.ScrollBarConstants
-Attribute ScrollBars.VB_Description = "Returns/sets a value indicating whether an object has vertical or horizontal scroll bars."
+Attribute ScrollBars.VB_Description = "Returns/sets a Value indicating whether an object has vertical or horizontal scroll bars."
 ScrollBars = PropScrollBars
 End Property
 
@@ -1924,7 +1924,7 @@ UserControl.PropertyChanged "ScrollBars"
 End Property
 
 Public Property Get WantReturn() As Boolean
-Attribute WantReturn.VB_Description = "Returns/sets a value that determines when the user presses RETURN to perform the default button or to advance to the next line. This property applies only to a multiline rich text box and when there is any default button on the form."
+Attribute WantReturn.VB_Description = "Returns/sets a Value that determines when the user presses RETURN to perform the default button or to advance to the next line. This property applies only to a multiline rich text box and when there is any default button on the form."
 WantReturn = PropWantReturn
 End Property
 
@@ -1953,7 +1953,7 @@ UserControl.PropertyChanged "WantReturn"
 End Property
 
 Public Property Get DisableNoScroll() As Boolean
-Attribute DisableNoScroll.VB_Description = "Returns/sets a value that determines whether scroll bars are disabled instead of hided when they are not needed."
+Attribute DisableNoScroll.VB_Description = "Returns/sets a Value that determines whether scroll bars are disabled instead of hided when they are not needed."
 DisableNoScroll = PropDisableNoScroll
 End Property
 
@@ -1968,7 +1968,7 @@ UserControl.PropertyChanged "DisableNoScroll"
 End Property
 
 Public Property Get AutoURLDetect() As Boolean
-Attribute AutoURLDetect.VB_Description = "Returns/sets a value indicating if automatic detection of hyperlinks is enabled or disabled."
+Attribute AutoURLDetect.VB_Description = "Returns/sets a Value indicating if automatic detection of hyperlinks is enabled or disabled."
 If RichTextBoxHandle <> NULL_PTR Then
     AutoURLDetect = CBool(SendMessage(RichTextBoxHandle, EM_GETAUTOURLDETECT, 0, ByVal 0&) = 1)
 Else
@@ -1990,7 +1990,7 @@ End Property
 Public Property Let BulletIndent(ByVal Value As Single)
 If Value < 0 Then
     If RichTextBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2005,7 +2005,7 @@ If LngValue >= 0 And ErrValue = 0 Then
     PropBulletIndent = LngValue
 Else
     If RichTextBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2015,7 +2015,7 @@ UserControl.PropertyChanged "BulletIndent"
 End Property
 
 Public Property Get SelectionBar() As Boolean
-Attribute SelectionBar.VB_Description = "Returns/sets a value that determines whether or not the control adds space to the left margin where the cursor changes to a right-up arrow, allowing the user to select full lines of text."
+Attribute SelectionBar.VB_Description = "Returns/sets a Value that determines whether or not the control adds space to the left margin where the cursor changes to a right-up arrow, allowing the user to select full lines of text."
 SelectionBar = PropSelectionBar
 End Property
 
@@ -2113,14 +2113,14 @@ UserControl.PropertyChanged "TextMode"
 End Property
 
 Public Property Get UndoLimit() As Long
-Attribute UndoLimit.VB_Description = "Returns/sets the maximum number of actions that can be stored in the undo queue. A value of 0 indicates that the undo feature is disabled."
+Attribute UndoLimit.VB_Description = "Returns/sets the maximum number of actions that can be stored in the undo queue. A Value of 0 indicates that the undo feature is disabled."
 UndoLimit = PropUndoLimit
 End Property
 
 Public Property Let UndoLimit(ByVal Value As Long)
 If Value < 0 Then
     If RichTextBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2161,7 +2161,7 @@ UserControl.PropertyChanged "IMEMode"
 End Property
 
 Public Property Get AllowOverType() As Boolean
-Attribute AllowOverType.VB_Description = "Returns/sets a value indicating if overtype mode is allowed to be activated."
+Attribute AllowOverType.VB_Description = "Returns/sets a Value indicating if overtype mode is allowed to be activated."
 AllowOverType = PropAllowOverType
 End Property
 
@@ -2172,7 +2172,7 @@ UserControl.PropertyChanged "AllowOverType"
 End Property
 
 Public Property Get OverTypeMode() As Boolean
-Attribute OverTypeMode.VB_Description = "Returns/sets a value indicating if overtype mode is active. In overtype mode, the characters you type replace existing characters one by one."
+Attribute OverTypeMode.VB_Description = "Returns/sets a Value indicating if overtype mode is active. In overtype mode, the characters you type replace existing characters one by one."
 OverTypeMode = PropOverTypeMode
 End Property
 
@@ -2188,7 +2188,7 @@ UserControl.PropertyChanged "OverTypeMode"
 End Property
 
 Public Property Get UseCrLf() As Boolean
-Attribute UseCrLf.VB_Description = "Returns/sets a value that determines whether or not the control translates each Cr into a CrLf for the text property."
+Attribute UseCrLf.VB_Description = "Returns/sets a Value that determines whether or not the control translates each Cr into a CrLf for the text property."
 UseCrLf = PropUseCrLf
 End Property
 
@@ -2198,7 +2198,7 @@ UserControl.PropertyChanged "UseCrLf"
 End Property
 
 Public Property Get AutoVerbMenu() As Boolean
-Attribute AutoVerbMenu.VB_Description = "Returns/sets a value that indicating whether the selected object's verbs will be displayed in a popup menu when the right mouse button is clicked."
+Attribute AutoVerbMenu.VB_Description = "Returns/sets a Value that indicating whether the selected object's verbs will be displayed in a popup menu when the right mouse button is clicked."
 AutoVerbMenu = PropAutoVerbMenu
 End Property
 
@@ -2725,7 +2725,7 @@ End If
 End Property
 
 Public Property Get SelAlignment() As Variant
-Attribute SelAlignment.VB_Description = "Returns/sets a value that controls the alignment of a paragraph."
+Attribute SelAlignment.VB_Description = "Returns/sets a Value that controls the alignment of a paragraph."
 Attribute SelAlignment.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim REPF2 As REPARAFORMAT2
@@ -2931,7 +2931,7 @@ End If
 End Property
 
 Public Property Get SelBullet() As Variant
-Attribute SelBullet.VB_Description = "Returns/sets a value that determines if a paragraph in the current selection or insertion point has the bullet style."
+Attribute SelBullet.VB_Description = "Returns/sets a Value that determines if a paragraph in the current selection or insertion point has the bullet style."
 Attribute SelBullet.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim REPF2 As REPARAFORMAT2
@@ -2968,7 +2968,7 @@ End If
 End Property
 
 Public Property Get SelCharOffset() As Variant
-Attribute SelCharOffset.VB_Description = "Returns/sets a value that determines whether text appears on the baseline (normal), as a superscript above the baseline, or as a subscript below the baseline."
+Attribute SelCharOffset.VB_Description = "Returns/sets a Value that determines whether text appears on the baseline (normal), as a superscript above the baseline, or as a subscript below the baseline."
 Attribute SelCharOffset.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim RECF2 As RECHARFORMAT2
@@ -3002,7 +3002,7 @@ End If
 End Property
 
 Public Property Get SelColor() As Variant
-Attribute SelColor.VB_Description = "Returns/sets a value that determines the color of the currently selected text."
+Attribute SelColor.VB_Description = "Returns/sets a Value that determines the color of the currently selected text."
 Attribute SelColor.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim RECF2 As RECHARFORMAT2
@@ -3038,7 +3038,7 @@ End If
 End Property
 
 Public Property Get SelBkColor() As Variant
-Attribute SelBkColor.VB_Description = "Returns/sets a value that determines the background color of the currently selected text."
+Attribute SelBkColor.VB_Description = "Returns/sets a Value that determines the background color of the currently selected text."
 Attribute SelBkColor.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim RECF2 As RECHARFORMAT2
@@ -3117,7 +3117,7 @@ End If
 End Property
 
 Public Property Get SelFontSize() As Variant
-Attribute SelFontSize.VB_Description = "Returns/sets a value that specifies the size of the font used to display the currently selected text."
+Attribute SelFontSize.VB_Description = "Returns/sets a Value that specifies the size of the font used to display the currently selected text."
 Attribute SelFontSize.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim RECF2 As RECHARFORMAT2
@@ -3151,7 +3151,7 @@ End If
 End Property
 
 Public Property Get SelFontCharset() As Variant
-Attribute SelFontCharset.VB_Description = "Returns/sets a value that specifies the charset of the font used to display the currently selected text."
+Attribute SelFontCharset.VB_Description = "Returns/sets a Value that specifies the charset of the font used to display the currently selected text."
 Attribute SelFontCharset.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim RECF2 As RECHARFORMAT2
@@ -3187,7 +3187,7 @@ End If
 End Property
 
 Public Property Get SelProtected() As Variant
-Attribute SelProtected.VB_Description = "Returns/sets a value that determines if the selected text is protected against editing."
+Attribute SelProtected.VB_Description = "Returns/sets a Value that determines if the selected text is protected against editing."
 Attribute SelProtected.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim RECF2 As RECHARFORMAT2
@@ -3327,7 +3327,7 @@ End If
 End Property
 
 Public Property Get SelVisible() As Variant
-Attribute SelVisible.VB_Description = "Returns/sets a value that determines if the selected text is visible or hidden."
+Attribute SelVisible.VB_Description = "Returns/sets a Value that determines if the selected text is visible or hidden."
 Attribute SelVisible.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim RECF2 As RECHARFORMAT2
@@ -3365,7 +3365,7 @@ End If
 End Property
 
 Public Property Get SelLink() As Variant
-Attribute SelLink.VB_Description = "Returns/sets a value that determines if the selected text is marked as hyperlink or not."
+Attribute SelLink.VB_Description = "Returns/sets a Value that determines if the selected text is marked as hyperlink or not."
 Attribute SelLink.VB_MemberFlags = "400"
 If RichTextBoxHandle <> NULL_PTR Then
     Dim RECF2 As RECHARFORMAT2
@@ -3572,7 +3572,7 @@ End If
 End Sub
 
 Public Function GetLine(ByVal LineNumber As Long) As String
-Attribute GetLine.VB_Description = "Retrieves the text of the specified line. A value of 0 indicates that the text of the current line number (the line that contains the caret) will be retrieved."
+Attribute GetLine.VB_Description = "Retrieves the text of the specified line. A Value of 0 indicates that the text of the current line number (the line that contains the caret) will be retrieved."
 If LineNumber < 0 Then Err.Raise 380
 If RichTextBoxHandle <> NULL_PTR Then
     Dim FirstCharPos As Long, Length As Long

@@ -48,7 +48,7 @@ Set Item = ShadowTreeView.FSelectedNodesItem(Index)
 End Property
 
 Public Function Exists(ByVal Index As Long) As Boolean
-Attribute Exists.VB_Description = "Returns a value indicating if a given index in the selected nodes collection exists."
+Attribute Exists.VB_Description = "Returns a Value indicating if a given index in the selected nodes collection exists."
 Exists = CBool(Index <= Me.Count And Index > 0)
 End Function
 

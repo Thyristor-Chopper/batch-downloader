@@ -117,7 +117,7 @@ ReportIconIndex = ShadowListItem.FListSubItemProp(PropSubItemIndex, 5)
 End Property
 
 Public Property Get Bold() As Boolean
-Attribute Bold.VB_Description = "Returns/sets a value that determines whether the text is displayed with a bold font or not."
+Attribute Bold.VB_Description = "Returns/sets a Value that determines whether the text is displayed with a bold font or not."
 Bold = ShadowListItem.FListSubItemProp(PropSubItemIndex, 6)
 End Property
 

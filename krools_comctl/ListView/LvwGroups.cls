@@ -104,7 +104,7 @@ Set Item = PropGroup(Index)
 End Property
 
 Public Function Exists(ByVal Index As Variant) As Boolean
-Attribute Exists.VB_Description = "Returns a value indicating if a given index or key in the groups collection exists."
+Attribute Exists.VB_Description = "Returns a Value indicating if a given index or key in the groups collection exists."
 On Error Resume Next
 PropGroup.Item Index
 Exists = CBool(Err.Number = 0)
@@ -133,7 +133,7 @@ Next i
 End Sub
 
 Public Property Get Sorted() As Boolean
-Attribute Sorted.VB_Description = "Returns/sets a value indicating if the groups are automatically sorted."
+Attribute Sorted.VB_Description = "Returns/sets a Value indicating if the groups are automatically sorted."
 Sorted = PropSorted
 End Property
 
@@ -143,7 +143,7 @@ If PropSorted = True Then ShadowListView.FGroupsSort Me
 End Property
 
 Public Property Get SortOrder() As LvwSortOrderConstants
-Attribute SortOrder.VB_Description = "Returns/sets a value that determines whether the groups will be sorted in ascending or descending order."
+Attribute SortOrder.VB_Description = "Returns/sets a Value that determines whether the groups will be sorted in ascending or descending order."
 SortOrder = PropSortOrder
 End Property
 

@@ -647,7 +647,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -699,7 +699,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -805,7 +805,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -864,7 +864,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -926,7 +926,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If IPAddressDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1090,7 +1090,7 @@ Else
             If Not OldText = Buffer(0) & "." & Buffer(1) & "." & Buffer(2) & "." & Buffer(3) Then RaiseEvent Change
         Else
             If IPAddressDesignMode = True Then
-                MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+                MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise 380
@@ -1098,7 +1098,7 @@ Else
         End If
     Else
         If IPAddressDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1125,7 +1125,7 @@ UserControl.PropertyChanged "AutoSelect"
 End Property
 
 Public Property Get Locked() As Boolean
-Attribute Locked.VB_Description = "Returns/sets a value indicating whether the contents can be edited."
+Attribute Locked.VB_Description = "Returns/sets a Value indicating whether the contents can be edited."
 Locked = PropLocked
 End Property
 
@@ -1238,7 +1238,7 @@ End If
 End Property
 
 Public Property Get Min(ByVal Item As Integer) As Byte
-Attribute Min.VB_Description = "Returns/sets the minimum value that the specified item accepts."
+Attribute Min.VB_Description = "Returns/sets the minimum Value that the specified item accepts."
 Attribute Min.VB_MemberFlags = "400"
 If Item > 4 Or Item < 1 Then Err.Raise 5
 Min = IPAddressMin(Item)
@@ -1251,7 +1251,7 @@ IPAddressMin(Item) = Value
 End Property
 
 Public Property Get Max(ByVal Item As Integer) As Byte
-Attribute Max.VB_Description = "Returns/sets the maximum value that the specified item accepts."
+Attribute Max.VB_Description = "Returns/sets the maximum Value that the specified item accepts."
 Attribute Max.VB_MemberFlags = "400"
 If Item > 4 Or Item < 1 Then Err.Raise 5
 Max = IPAddressMax(Item)
@@ -1264,7 +1264,7 @@ IPAddressMax(Item) = Value
 End Property
 
 Public Property Get Value() As Long
-Attribute Value.VB_Description = "Returns/sets a value which represents the text of all four items."
+Attribute Value.VB_Description = "Returns/sets a Value which represents the text of all four items."
 Attribute Value.VB_MemberFlags = "400"
 Dim Length(1 To 4) As Long
 If IPAddressEditHandle(1) <> NULL_PTR Then Length(1) = CLng(SendMessage(IPAddressEditHandle(1), WM_GETTEXTLENGTH, 0, ByVal 0&))

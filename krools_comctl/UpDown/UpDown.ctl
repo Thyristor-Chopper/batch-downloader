@@ -487,7 +487,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -530,7 +530,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -572,7 +572,7 @@ hWndUserControl = UserControl.hWnd
 End Property
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -590,7 +590,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -649,7 +649,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If UpDownDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -688,7 +688,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -805,7 +805,7 @@ If Not BuddyControl Is Nothing Then
     Else
         On Error Resume Next
         Select Case LCase$(Value)
-            Case "_default", "_value"
+            Case "_default", "_Value"
                 Value = "_Default"
                 CallByName BuddyControl, "", VbGet
                 Success = CBool(Err.Number = 0)
@@ -817,7 +817,7 @@ If Not BuddyControl Is Nothing Then
     End If
     If Success = False Then
         If UpDownDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -841,7 +841,7 @@ UserControl.PropertyChanged "BuddyProperty"
 End Property
 
 Public Property Get SyncBuddy() As Boolean
-Attribute SyncBuddy.VB_Description = "Returns/sets a value indicating if the control synchronizes the value property with a property in the buddy control. In order to synchronize changes done from the buddy control it is necessary to use the 'SyncFromBuddy' method."
+Attribute SyncBuddy.VB_Description = "Returns/sets a Value indicating if the control synchronizes the Value property with a property in the buddy control. In order to synchronize changes done from the buddy control it is necessary to use the 'SyncFromBuddy' method."
 SyncBuddy = Not CBool(PropBuddyProperty = vbNullString)
 End Property
 
@@ -864,7 +864,7 @@ If Value = True Then
         On Error GoTo 0
         If PropBuddyProperty = vbNullString Then
             If UpDownDesignMode = True Then
-                MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+                MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise 380
@@ -878,7 +878,7 @@ UserControl.PropertyChanged "SyncBuddy"
 End Property
 
 Public Property Get Min() As Long
-Attribute Min.VB_Description = "Returns/sets the minimum value."
+Attribute Min.VB_Description = "Returns/sets the minimum Value."
 If UpDownHandle <> NULL_PTR Then
     SendMessage UpDownHandle, UDM_GETRANGE32, VarPtr(Min), ByVal 0&
 Else
@@ -892,7 +892,7 @@ If Value <= Me.Max Then
     If Me.Value < PropMin Then Me.Value = PropMin
 Else
     If UpDownDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -904,7 +904,7 @@ UserControl.PropertyChanged "Min"
 End Property
 
 Public Property Get Max() As Long
-Attribute Max.VB_Description = "Returns/sets the maximum value."
+Attribute Max.VB_Description = "Returns/sets the maximum Value."
 If UpDownHandle <> NULL_PTR Then
     SendMessage UpDownHandle, UDM_GETRANGE32, 0, ByVal VarPtr(Max)
 Else
@@ -918,7 +918,7 @@ If Value >= Me.Min Then
     If Me.Value > PropMax Then Me.Value = PropMax
 Else
     If UpDownDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -977,7 +977,7 @@ UserControl.PropertyChanged "Increment"
 End Property
 
 Public Property Get Wrap() As Boolean
-Attribute Wrap.VB_Description = "Returns/sets a value that determines whether or not the position will be wrapped if it is incremented or decremented beyond the ending or beginning of the range."
+Attribute Wrap.VB_Description = "Returns/sets a Value that determines whether or not the position will be wrapped if it is incremented or decremented beyond the ending or beginning of the range."
 Wrap = PropWrap
 End Property
 
@@ -988,7 +988,7 @@ UserControl.PropertyChanged "Wrap"
 End Property
 
 Public Property Get HotTracking() As Boolean
-Attribute HotTracking.VB_Description = "Returns/sets a value that determines whether or not the control highlights the up arrow and down arrow as the pointer passes over them. This flag is ignored on Windows XP (or above) when the desktop theme overrides it."
+Attribute HotTracking.VB_Description = "Returns/sets a Value that determines whether or not the control highlights the up arrow and down arrow as the pointer passes over them. This flag is ignored on Windows XP (or above) when the desktop theme overrides it."
 HotTracking = PropHotTracking
 End Property
 
@@ -1022,7 +1022,7 @@ UserControl.PropertyChanged "Orientation"
 End Property
 
 Public Property Get ThousandsSeparator() As Boolean
-Attribute ThousandsSeparator.VB_Description = "Returns/sets a value indicating if a thousands separator is inserted between every three decimal digits. Only applicable if the number style property is set to decimal."
+Attribute ThousandsSeparator.VB_Description = "Returns/sets a Value indicating if a thousands separator is inserted between every three decimal digits. Only applicable if the number style property is set to decimal."
 ThousandsSeparator = PropThousandsSeparator
 End Property
 
@@ -1104,7 +1104,7 @@ RedrawWindow UserControl.hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDA
 End Sub
 
 Public Sub SyncFromBuddy()
-Attribute SyncFromBuddy.VB_Description = "Method to update the value property with the property in the buddy control."
+Attribute SyncFromBuddy.VB_Description = "Method to update the Value property with the property in the buddy control."
 Call SyncProperty(True)
 End Sub
 

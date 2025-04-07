@@ -114,7 +114,7 @@ Attribute Click.VB_UserMemId = -600
 Public Event Scroll(ByVal Shift As Integer, ByVal Direction As PgrDirectionConstants, ByVal X As Single, ByVal Y As Single, ByRef Delta As Single, ByVal ClientLeft As Single, ByVal ClientTop As Single, ByVal ClientRight As Single, ByVal ClientBottom As Single)
 Attribute Scroll.VB_Description = "Occurs whenever the pager control scrolls the buddy control."
 Public Event CalcSize(ByRef Width As Single, ByRef Height As Single)
-Attribute CalcSize.VB_Description = "Occurs whenever the pager control needs to know the size of the buddy control. Default values are set but you can change them if necessary. You do not need to handle this event in most circumstances."
+Attribute CalcSize.VB_Description = "Occurs whenever the pager control needs to know the size of the buddy control. Default Values are set but you can change them if necessary. You do not need to handle this event in most circumstances."
 Public Event HotChanged()
 Attribute HotChanged.VB_Description = "Occurrs when the pager control's hot state changes. Requires comctl32.dll version 6.0 or higher."
 Public Event MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -536,7 +536,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -579,7 +579,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get Align() As Integer
-Attribute Align.VB_Description = "Returns/sets a value that determines where an object is displayed on a form."
+Attribute Align.VB_Description = "Returns/sets a Value that determines where an object is displayed on a form."
 Attribute Align.VB_MemberFlags = "400"
 Align = Extender.Align
 End Property
@@ -589,7 +589,7 @@ Extender.Align = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -643,7 +643,7 @@ UserControl.PropertyChanged "BackColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -713,7 +713,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If PagerDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -752,7 +752,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -887,7 +887,7 @@ End Property
 Public Property Let BorderWidth(ByVal Value As Single)
 If Value < 0 Then
     If PagerDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -906,7 +906,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     End If
 Else
     If PagerDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -916,7 +916,7 @@ UserControl.PropertyChanged "BorderWidth"
 End Property
 
 Public Property Get AutoScroll() As Boolean
-Attribute AutoScroll.VB_Description = "Returns/sets a value that determines whether or not the pager control will automatically scroll the buddy control when the mouse hovers over a scroll button."
+Attribute AutoScroll.VB_Description = "Returns/sets a Value that determines whether or not the pager control will automatically scroll the buddy control when the mouse hovers over a scroll button."
 AutoScroll = PropAutoScroll
 End Property
 
@@ -936,7 +936,7 @@ UserControl.PropertyChanged "AutoScroll"
 End Property
 
 Public Property Get ButtonSize() As Single
-Attribute ButtonSize.VB_Description = "Returns/sets the current button size. A value of -1 indicates that the default system size will be used."
+Attribute ButtonSize.VB_Description = "Returns/sets the current button size. A Value of -1 indicates that the default system size will be used."
 If PagerHandle <> NULL_PTR And PagerDesignMode = False Then
     Select Case PropOrientation
         Case PgrOrientationVertical
@@ -961,7 +961,7 @@ End Property
 Public Property Let ButtonSize(ByVal Value As Single)
 If Value < 0 And Not Value = -1 Then
     If PagerDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -983,7 +983,7 @@ ErrValue = Err.Number
 On Error GoTo 0
 If (LngValue < 0 And Not LngValue = -1) Or ErrValue <> 0 Then
     If PagerDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1003,7 +1003,7 @@ Else
             SendMessage PagerHandle, PGM_SETBUTTONSIZE, 0, ByVal LngValue
         Else
             ' There is a minimum size to the pager button, currently 12 pixels.
-            ' However, this can change so you should not depend on this value.
+            ' However, this can change so you should not depend on this Value.
             SendMessage PagerHandle, PGM_SETBUTTONSIZE, 0, ByVal PropButtonSize
             PropButtonSize = CLng(SendMessage(PagerHandle, PGM_GETBUTTONSIZE, 0, ByVal 0&))
         End If
@@ -1090,7 +1090,7 @@ If PagerHandle <> NULL_PTR Then SendMessage PagerHandle, PGM_RECALCSIZE, 0, ByVa
 End Sub
 
 Public Function GetButtonState(ByVal Button As PgrButtonConstants) As PgrButtonStateConstants
-Attribute GetButtonState.VB_Description = "Retrieves the state of the specified button. The return value can be a combination of values using a bitwise OR."
+Attribute GetButtonState.VB_Description = "Retrieves the state of the specified button. The return Value can be a combination of Values using a bitwise OR."
 Select Case Button
     Case PgrButtonTopOrLeft, PgrButtonBottomOrRight
         If PagerHandle <> NULL_PTR Then GetButtonState = CLng(SendMessage(PagerHandle, PGM_GETBUTTONSTATE, 0, ByVal CLng(Button)))

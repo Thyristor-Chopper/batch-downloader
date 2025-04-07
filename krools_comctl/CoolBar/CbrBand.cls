@@ -247,7 +247,7 @@ PropToolTipText = Value
 End Property
 
 Public Property Get UseCoolBarPicture() As Boolean
-Attribute UseCoolBarPicture.VB_Description = "Returns/sets a value indicating whether this band uses the picture of the cool bar or uses its own."
+Attribute UseCoolBarPicture.VB_Description = "Returns/sets a Value indicating whether this band uses the picture of the cool bar or uses its own."
 UseCoolBarPicture = PropUseCoolBarPicture
 End Property
 
@@ -284,7 +284,7 @@ End If
 End Property
 
 Public Property Get UseCoolBarColors() As Boolean
-Attribute UseCoolBarColors.VB_Description = "Returns/sets a value indicating whether this band uses the fore- and back color of the cool bar or uses its own."
+Attribute UseCoolBarColors.VB_Description = "Returns/sets a Value indicating whether this band uses the fore- and back color of the cool bar or uses its own."
 UseCoolBarColors = PropUseCoolBarColors
 End Property
 
@@ -314,7 +314,7 @@ If PropUseCoolBarColors = False Then ShadowCoolBar.FBandForeColor(PropID) = Prop
 End Property
 
 Public Property Get NewRow() As Boolean
-Attribute NewRow.VB_Description = "Returns/sets a value indicating whether this band starts a new row in the cool bar."
+Attribute NewRow.VB_Description = "Returns/sets a Value indicating whether this band starts a new row in the cool bar."
 NewRow = ShadowCoolBar.FBandNewRow(PropID)
 End Property
 
@@ -324,7 +324,7 @@ ShadowCoolBar.FBandNewRow(PropID) = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = ShadowCoolBar.FBandVisible(PropID)
 End Property
 
@@ -333,7 +333,7 @@ ShadowCoolBar.FBandVisible(PropID) = Value
 End Property
 
 Public Property Get ChildEdge() As Boolean
-Attribute ChildEdge.VB_Description = "Returns/sets a value indicating whether the band has an edge at the top and bottom of the child control."
+Attribute ChildEdge.VB_Description = "Returns/sets a Value indicating whether the band has an edge at the top and bottom of the child control."
 ChildEdge = ShadowCoolBar.FBandChildEdge(PropID)
 End Property
 
@@ -342,7 +342,7 @@ ShadowCoolBar.FBandChildEdge(PropID) = Value
 End Property
 
 Public Property Get UseChevron() As Boolean
-Attribute UseChevron.VB_Description = "Returns/sets a value indicating if a chevron button is used when the band is smaller than it's ideal width."
+Attribute UseChevron.VB_Description = "Returns/sets a Value indicating if a chevron button is used when the band is smaller than it's ideal width."
 UseChevron = ShadowCoolBar.FBandUseChevron(PropID)
 End Property
 
@@ -351,7 +351,7 @@ ShadowCoolBar.FBandUseChevron(PropID) = Value
 End Property
 
 Public Property Get HideCaption() As Boolean
-Attribute HideCaption.VB_Description = "Returns/sets a value indicating if the caption of the band will be kept hidden."
+Attribute HideCaption.VB_Description = "Returns/sets a Value indicating if the caption of the band will be kept hidden."
 HideCaption = ShadowCoolBar.FBandHideCaption(PropID)
 End Property
 

@@ -166,7 +166,7 @@ Private Sub cmdHeaders_Click()
     Dim DecodedHeaders As Collection
     Set DecodedHeaders = DecodeHeaderCache(EncodedHeaders)
     Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
-    Set frmDownloadOptions.Headers = DecodedHeaders("values")
+    Set frmDownloadOptions.Headers = DecodedHeaders("Values")
     frmDownloadOptions.LoadSettings
 #If HIDEYTDL Then
     frmDownloadOptions.Show vbModal, Me
@@ -238,7 +238,7 @@ Private Sub cmdYtdl_Click()
     Dim DecodedHeaders As Collection
     Set DecodedHeaders = DecodeHeaderCache(EncodedHeaders)
     Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
-    Set frmDownloadOptions.Headers = DecodedHeaders("values")
+    Set frmDownloadOptions.Headers = DecodedHeaders("Values")
     frmDownloadOptions.LoadSettings
     frmDownloadOptions.Show vbModal, Me
 End Sub

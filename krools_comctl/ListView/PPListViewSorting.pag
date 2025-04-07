@@ -175,7 +175,7 @@ End Sub
 
 Private Sub TextSortKey_Validate(Cancel As Boolean)
 If Not IsNumeric(TextSortKey.Text) Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextSortKey.Text = PropertyPage.SelectedControls(0).SortKey
     TextSortKey.SetFocus
     Cancel = True
@@ -189,7 +189,7 @@ Else
     If Cancel = False Then
         TextSortKey.Text = IntValue
     Else
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextSortKey.Text = PropertyPage.SelectedControls(0).SortKey
         TextSortKey.SetFocus
     End If

@@ -145,7 +145,7 @@ End Select
 End Property
 
 Public Function Exists(ByVal Index As Variant) As Boolean
-Attribute Exists.VB_Description = "Returns a value indicating if a given index or key in the combo items collection exists."
+Attribute Exists.VB_Description = "Returns a Value indicating if a given index or key in the combo items collection exists."
 On Error Resume Next
 PropComboItem.Item Index
 Exists = CBool(Err.Number = 0)

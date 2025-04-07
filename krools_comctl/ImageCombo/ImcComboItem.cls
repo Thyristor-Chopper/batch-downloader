@@ -149,7 +149,7 @@ ShadowImageCombo.FComboItemIndentation(PropIndex) = Value
 End Property
 
 Public Property Get Selected() As Boolean
-Attribute Selected.VB_Description = "Returns/sets a value that determines whether the combo item is selected or not."
+Attribute Selected.VB_Description = "Returns/sets a Value that determines whether the combo item is selected or not."
 Selected = ShadowImageCombo.FComboItemSelected(PropIndex)
 End Property
 

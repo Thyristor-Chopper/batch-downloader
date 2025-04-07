@@ -74,7 +74,7 @@ ShadowLinkLabel.FLinkCaption(PropIndex) = Value
 End Property
 
 Public Property Get Selected() As Boolean
-Attribute Selected.VB_Description = "Returns/sets a value that determines whether the link is selected or not."
+Attribute Selected.VB_Description = "Returns/sets a Value that determines whether the link is selected or not."
 Selected = ShadowLinkLabel.FLinkSelected(PropIndex)
 End Property
 
@@ -83,7 +83,7 @@ ShadowLinkLabel.FLinkSelected(PropIndex) = Value
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether the link is enabled and can respond to user input or not."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether the link is enabled and can respond to user input or not."
 Enabled = ShadowLinkLabel.FLinkEnabled(PropIndex)
 End Property
 
@@ -92,7 +92,7 @@ ShadowLinkLabel.FLinkEnabled(PropIndex) = Value
 End Property
 
 Public Property Get Visited() As Boolean
-Attribute Visited.VB_Description = "Returns/sets a value that determines whether the link has been visited by the user or not."
+Attribute Visited.VB_Description = "Returns/sets a Value that determines whether the link has been visited by the user or not."
 Visited = ShadowLinkLabel.FLinkVisited(PropIndex)
 End Property
 
@@ -101,7 +101,7 @@ ShadowLinkLabel.FLinkVisited(PropIndex) = Value
 End Property
 
 Public Property Get Hot() As Boolean
-Attribute Hot.VB_Description = "Returns/sets a value that determines whether the link is hot or not. This is only meaningful if the hot tracking property is set to true."
+Attribute Hot.VB_Description = "Returns/sets a Value that determines whether the link is hot or not. This is only meaningful if the hot tracking property is set to true."
 Hot = ShadowLinkLabel.FLinkHot(PropIndex)
 End Property
 

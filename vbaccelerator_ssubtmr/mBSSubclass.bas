@@ -1134,9 +1134,9 @@ Private Function GetIDEMainHwnd() As Long
     GetIDEMainHwnd = mIDEMainHwnd
 End Function
 
-Private Function MakeTrue(value As Boolean) As Boolean
+Private Function MakeTrue(Value As Boolean) As Boolean
     MakeTrue = True
-    value = True
+    Value = True
 End Function
 
 Private Function IsHwndOfCodeWindowWatched(nHwnd As Long) As Boolean
@@ -1565,13 +1565,13 @@ Private Function UnsignedAdd(ByVal Start As Long, ByVal Incr As Long) As Long
     UnsignedAdd = ((Start Xor &H80000000) + Incr) Xor &H80000000
 End Function
 
-Private Function CLongToULong(ByVal value As Long) As Double
+Private Function CLongToULong(ByVal Value As Long) As Double
     Const OFFSET_4 As Double = 4294967296#
     '
-    If value < 0 Then
-        CLongToULong = value + OFFSET_4
+    If Value < 0 Then
+        CLongToULong = Value + OFFSET_4
     Else
-        CLongToULong = value
+        CLongToULong = Value
     End If
 End Function
 

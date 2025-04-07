@@ -291,7 +291,7 @@ End Sub
 
 Private Sub TextImageHeight_Validate(Cancel As Boolean)
 If Not IsNumeric(TextImageHeight.Text) Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextImageHeight.Text = PropertyPage.SelectedControls(0).ImageHeight
     TextImageHeight.SetFocus
     Cancel = True
@@ -305,7 +305,7 @@ Else
     If Cancel = False Then
         TextImageHeight.Text = LngValue
     Else
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextImageHeight.Text = PropertyPage.SelectedControls(0).ImageHeight
         TextImageHeight.SetFocus
     End If
@@ -337,7 +337,7 @@ End Sub
 
 Private Sub TextImageWidth_Validate(Cancel As Boolean)
 If Not IsNumeric(TextImageWidth.Text) Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextImageWidth.Text = PropertyPage.SelectedControls(0).ImageWidth
     TextImageWidth.SetFocus
     Cancel = True
@@ -351,7 +351,7 @@ Else
     If Cancel = False Then
         TextImageWidth.Text = LngValue
     Else
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextImageWidth.Text = PropertyPage.SelectedControls(0).ImageWidth
         TextImageWidth.SetFocus
     End If

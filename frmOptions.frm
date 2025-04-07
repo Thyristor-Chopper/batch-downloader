@@ -1903,7 +1903,7 @@ Private Sub cbSkin_Click()
             MsgBox t("이 스킨의 일부 요소는 96 DPI(100% 배율)에서만 표시됩니다.", "Some of the elements of this skin only works in 96 DPI (100% size)."), 48
         End If
     End If
-    If optUserFore.value Then
+    If optUserFore.Value Then
         CheckBoxW1.VisualStyles = False
         FrameW5.VisualStyles = False
         CheckBoxW1.ForeColor = pgFore.BackColor
@@ -1965,16 +1965,16 @@ Private Sub cbTheme_Click()
     Dim clrBackColor As Long
     clrBackColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "BackColor", DefaultBackColor)
     If clrBackColor < 0 Or clrBackColor > 16777215 Then
-        optSystemColor.value = True
+        optSystemColor.Value = True
         pgColor.BackColor = &H8000000F
     Else
-        optUserColor.value = True
+        optUserColor.Value = True
         pgColor.BackColor = clrBackColor
     End If
     pbBackground.BackColor = pgColor.BackColor
     pgPatternPreview.BackColor = pgColor.BackColor
     
-    chkBeepWhenComplete.value = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "PlaySound", 1)
+    chkBeepWhenComplete.Value = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "PlaySound", 1)
     
     If CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", 0)) Then
         cbSkin.ListIndex = 2
@@ -1999,7 +1999,7 @@ Private Sub cbTheme_Click()
     
     cbImagePosition.ListIndex = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "ImagePosition", 1)
     cbImagePosition_Click
-    chkImageCentered.value = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImageCentered", 0)
+    chkImageCentered.Value = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImageCentered", 0)
     
     cbFont.Text = Trim$(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "Font", ""))
     If cbFont.Text = "" Then cbFont.Text = ("(" & t("기본값", "default") & ")")
@@ -2009,10 +2009,10 @@ Private Sub cbTheme_Click()
     Dim clrForeColor As Long
     clrForeColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "ForeColor", -1)
     If clrForeColor < 0 Or clrForeColor > 16777215 Then
-        optSystemFore.value = True
+        optSystemFore.Value = True
         pgFore.BackColor = &H80000012
     Else
-        optUserFore.value = True
+        optUserFore.Value = True
         pgFore.BackColor = clrForeColor
         CheckBoxW1.VisualStyles = False
         FrameW5.VisualStyles = False
@@ -2046,7 +2046,7 @@ End Sub
 
 Private Sub chkAsterisk_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fAsterisk, chkAsterisk, (chkAsterisk.value = 1)
+    EnableFrameControls fAsterisk, chkAsterisk, (chkAsterisk.Value = 1)
 End Sub
 
 Private Sub chkAutoRetry_Click()
@@ -2062,7 +2062,7 @@ End Sub
 
 Private Sub chkBeepWhenComplete_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fCompleteSound, chkBeepWhenComplete, (chkBeepWhenComplete.value = 1)
+    EnableFrameControls fCompleteSound, chkBeepWhenComplete, (chkBeepWhenComplete.Value = 1)
 End Sub
 
 Private Sub chkDontLoadIcons_Click()
@@ -2074,12 +2074,12 @@ End Sub
 
 Private Sub chkError_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fError, chkError, (chkError.value = 1)
+    EnableFrameControls fError, chkError, (chkError.Value = 1)
 End Sub
 
 Private Sub chkExclamation_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fExclamation, chkExclamation, (chkExclamation.value = 1)
+    EnableFrameControls fExclamation, chkExclamation, (chkExclamation.Value = 1)
 End Sub
 
 Private Sub chkExcludeMergeFromElapsed_Click()
@@ -2134,7 +2134,7 @@ End Sub
 
 Private Sub chkQuestion_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fQuestion, chkQuestion, (chkQuestion.value = 1)
+    EnableFrameControls fQuestion, chkQuestion, (chkQuestion.Value = 1)
 End Sub
 
 Private Sub chkRememberURL_Click()
@@ -2172,31 +2172,31 @@ Private Sub cmdApply_Click()
     
     Dim i%
     
-    SaveSetting "DownloadBooster", "Options", "NoCleanup", chkNoCleanup.value
-    SaveSetting "DownloadBooster", "Options", "RememberURL", chkRememberURL.value
-    SaveSetting "DownloadBooster", "Options", "NoRedirectCheck", chkNoRedirectCheck.value
-    SaveSetting "DownloadBooster", "Options", "ForceGet", chkForceGet.value
-    SaveSetting "DownloadBooster", "Options", "Ignore300", chkIgnore300.value
-    SaveSetting "DownloadBooster", "Options", "LazyElapsed", chkLazyElapsed.value
-    SaveSetting "DownloadBooster", "Options", "ExcludeMergeFromElapsed", chkExcludeMergeFromElapsed.value
-    SaveSetting "DownloadBooster", "Options", "ForceWin31Dialog", chkForceOldDialog.value
-    SaveSetting "DownloadBooster", "Options", "DontLoadIcons", chkDontLoadIcons.value
-    SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.value
+    SaveSetting "DownloadBooster", "Options", "NoCleanup", chkNoCleanup.Value
+    SaveSetting "DownloadBooster", "Options", "RememberURL", chkRememberURL.Value
+    SaveSetting "DownloadBooster", "Options", "NoRedirectCheck", chkNoRedirectCheck.Value
+    SaveSetting "DownloadBooster", "Options", "ForceGet", chkForceGet.Value
+    SaveSetting "DownloadBooster", "Options", "Ignore300", chkIgnore300.Value
+    SaveSetting "DownloadBooster", "Options", "LazyElapsed", chkLazyElapsed.Value
+    SaveSetting "DownloadBooster", "Options", "ExcludeMergeFromElapsed", chkExcludeMergeFromElapsed.Value
+    SaveSetting "DownloadBooster", "Options", "ForceWin31Dialog", chkForceOldDialog.Value
+    SaveSetting "DownloadBooster", "Options", "DontLoadIcons", chkDontLoadIcons.Value
+    SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.Value
     SaveSetting "DownloadBooster", "Options", "CompleteSoundPath", Trim$(txtCompleteSoundPath.Text)
-    SaveSetting "DownloadBooster", "Options", "AllowDuplicatesInQueue", chkAllowDuplicates.value
-    SaveSetting "DownloadBooster", "Options", "ScrollOneScreen", IIf(optScreenPerScroll.value, 1, 0)
-    SaveSetting "DownloadBooster", "Options", "BackColorMainOnly", chkBackColorMainOnly.value
-    SaveSetting "DownloadBooster", "Options", "ForeColorMainOnly", chkForeColorMainOnly.value
+    SaveSetting "DownloadBooster", "Options", "AllowDuplicatesInQueue", chkAllowDuplicates.Value
+    SaveSetting "DownloadBooster", "Options", "ScrollOneScreen", IIf(optScreenPerScroll.Value, 1, 0)
+    SaveSetting "DownloadBooster", "Options", "BackColorMainOnly", chkBackColorMainOnly.Value
+    SaveSetting "DownloadBooster", "Options", "ForeColorMainOnly", chkForeColorMainOnly.Value
     If ScrollChanged Then
-        frmMain.ScrollOneScreen = optScreenPerScroll.value
+        frmMain.ScrollOneScreen = optScreenPerScroll.Value
         frmMain.trThreadCount_Scroll
         frmMain.pbProgressContainer.Top = 0
-        frmMain.vsProgressScroll.value = 0
+        frmMain.vsProgressScroll.Value = 0
         frmMain.pbProgressContainer.Refresh
-        frmMain.vsProgressScroll.LargeChange = IIf(optScreenPerScroll.value, 1, 10)
+        frmMain.vsProgressScroll.LargeChange = IIf(optScreenPerScroll.Value, 1, 10)
     End If
-    If trRequestInterval.value < 8 Then
-        SaveSetting "DownloadBooster", "Options", "ThreadRequestInterval", CInt(IntervalValues(trRequestInterval.value) * 1000)
+    If trRequestInterval.Value < 8 Then
+        SaveSetting "DownloadBooster", "Options", "ThreadRequestInterval", CInt(IntervalValues(trRequestInterval.Value) * 1000)
         trRequestInterval.Max = 7
     End If
     
@@ -2228,27 +2228,27 @@ maxtrdnotint:
     End If
 aftermaxtrdcheck:
     
-    SaveSetting "DownloadBooster", "Options", "EnableAsteriskSound", chkAsterisk.value
-    SaveSetting "DownloadBooster", "Options", "EnableExclamationSound", chkExclamation.value
-    SaveSetting "DownloadBooster", "Options", "EnableErrorSound", chkError.value
-    SaveSetting "DownloadBooster", "Options", "EnableQuestionSound", chkQuestion.value
+    SaveSetting "DownloadBooster", "Options", "EnableAsteriskSound", chkAsterisk.Value
+    SaveSetting "DownloadBooster", "Options", "EnableExclamationSound", chkExclamation.Value
+    SaveSetting "DownloadBooster", "Options", "EnableErrorSound", chkError.Value
+    SaveSetting "DownloadBooster", "Options", "EnableQuestionSound", chkQuestion.Value
     SaveSetting "DownloadBooster", "Options", "AsteriskSound", txtAsterisk.Text
     SaveSetting "DownloadBooster", "Options", "ExclamationSound", txtExclamation.Text
     SaveSetting "DownloadBooster", "Options", "ErrorSound", txtError.Text
     SaveSetting "DownloadBooster", "Options", "QuestionSound", txtQuestion.Text
     
-    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenWhenComplete.value
-    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenDirWhenComplete.value
-    SaveSetting "DownloadBooster", "Options", "PlaySound", chkBeepWhenComplete.value
-    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkAlwaysResume.value
-    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.value
+    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenWhenComplete.Value
+    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenDirWhenComplete.Value
+    SaveSetting "DownloadBooster", "Options", "PlaySound", chkBeepWhenComplete.Value
+    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkAlwaysResume.Value
+    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
     SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
     frmMain.cbWhenExist.ListIndex = cbWhenExist.ListIndex
     
-    frmMain.chkOpenAfterComplete.value = chkOpenWhenComplete.value
-    frmMain.chkOpenFolder.value = chkOpenDirWhenComplete.value
-    frmMain.chkContinueDownload.value = chkAlwaysResume.value
-    frmMain.chkAutoRetry.value = chkAutoRetry.value
+    frmMain.chkOpenAfterComplete.Value = chkOpenWhenComplete.Value
+    frmMain.chkOpenFolder.Value = chkOpenDirWhenComplete.Value
+    frmMain.chkContinueDownload.Value = chkAlwaysResume.Value
+    frmMain.chkAutoRetry.Value = chkAutoRetry.Value
     
     If cbFrameSkin.ListCount >= 3 Then
         If cbFrameSkin.ListIndex = 1 Then
@@ -2259,14 +2259,14 @@ aftermaxtrdcheck:
             EnableDWMWindow frmMain.hWnd
         End If
     End If
-    If optSystemColor.value Then
+    If optSystemColor.Value Then
         SaveSetting "DownloadBooster", "Options", "BackColor", "-1"
-    ElseIf optUserColor.value Then
+    ElseIf optUserColor.Value Then
         SaveSetting "DownloadBooster", "Options", "BackColor", CLng(pgColor.BackColor)
     End If
-    If optSystemFore.value Then
+    If optSystemFore.Value Then
         SaveSetting "DownloadBooster", "Options", "ForeColor", "-1"
-    ElseIf optUserFore.value Then
+    ElseIf optUserFore.Value Then
         SaveSetting "DownloadBooster", "Options", "ForeColor", CLng(pgFore.BackColor)
     End If
     SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
@@ -2299,7 +2299,7 @@ aftermaxtrdcheck:
     SaveSetting "DownloadBooster", "Options", "ImagePosition", cbImagePosition.ListIndex
     frmMain.ImagePosition = cbImagePosition.ListIndex
     If ImageChanged Then
-        SaveSetting "DownloadBooster", "Options", "BackgroundImageCentered", chkImageCentered.value
+        SaveSetting "DownloadBooster", "Options", "BackgroundImageCentered", chkImageCentered.Value
         SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", IIf(lvBackgrounds.ListIndex <> 0, 1, 0)
         SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", ChangedBackgroundPath
         frmMain.SetBackgroundImage
@@ -2362,7 +2362,7 @@ aftermaxtrdcheck:
     Dim hSysMenu As Long
     Dim MII As MENUITEMINFO
     hSysMenu = GetSystemMenu(frmMain.hWnd, 0)
-    MainFormOnTop = (chkAlwaysOnTop.value = 1)
+    MainFormOnTop = (chkAlwaysOnTop.Value = 1)
     SetWindowPos frmMain.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     With MII
@@ -2384,7 +2384,7 @@ aftermaxtrdcheck:
     End If
     BuildHeaderCache
     
-    If optUserFore.value Then
+    If optUserFore.Value Then
         CheckBoxW1.VisualStyles = False
         FrameW5.VisualStyles = False
         CheckBoxW1.ForeColor = pgFore.BackColor
@@ -2523,37 +2523,37 @@ Private Sub cmdSaveTheme_Click()
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", IIf((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1), 1, 0)
     
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "CompleteSoundPath", Trim$(txtCompleteSoundPath.Text)
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackColorMainOnly", chkBackColorMainOnly.value
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ForeColorMainOnly", chkForeColorMainOnly.value
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackColorMainOnly", chkBackColorMainOnly.Value
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ForeColorMainOnly", chkForeColorMainOnly.Value
     
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "FormFillStyle", lvPatterns.ListIndex
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "FormFillColor", pgPatternColor.BackColor
     
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableAsteriskSound", chkAsterisk.value
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableExclamationSound", chkExclamation.value
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableErrorSound", chkError.value
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableQuestionSound", chkQuestion.value
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableAsteriskSound", chkAsterisk.Value
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableExclamationSound", chkExclamation.Value
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableErrorSound", chkError.Value
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableQuestionSound", chkQuestion.Value
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "AsteriskSound", txtAsterisk.Text
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ExclamationSound", txtExclamation.Text
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ErrorSound", txtError.Text
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "QuestionSound", txtQuestion.Text
     
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "PlaySound", chkBeepWhenComplete.value
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "PlaySound", chkBeepWhenComplete.Value
     
-    If optSystemColor.value Then
+    If optSystemColor.Value Then
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackColor", "-1"
-    ElseIf optUserColor.value Then
+    ElseIf optUserColor.Value Then
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackColor", CLng(pgColor.BackColor)
     End If
-    If optSystemFore.value Then
+    If optSystemFore.Value Then
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ForeColor", "-1"
-    ElseIf optUserFore.value Then
+    ElseIf optUserFore.Value Then
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ForeColor", CLng(pgFore.BackColor)
     End If
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ImagePosition", cbImagePosition.ListIndex
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImageCentered", chkImageCentered.value
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImageCentered", chkImageCentered.Value
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", IIf(lvBackgrounds.ListIndex <> 0, 1, 0)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImagePath", ChangedBackgroundPath
     
@@ -2641,8 +2641,7 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
         Me.Hide
         Exit Sub
     End If
-    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
-    DetachMessage Me, Me.hWnd, WM_THEMECHANGED
+    IBSSubclass_UnsubclassIt
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
@@ -2788,10 +2787,10 @@ Private Sub trRequestInterval_Change()
 End Sub
 
 Private Sub trRequestInterval_Scroll()
-    If trRequestInterval.value = 8 Then
+    If trRequestInterval.Value = 8 Then
         lblIntervalDisplay.Caption = "(" & t("사용자 지정", "Customized") & ")"
     Else
-        lblIntervalDisplay.Caption = "(" & IntervalValues(trRequestInterval.value) & t("초", " second" & IIf(IntervalValues(trRequestInterval.value) = 1, "", "s")) & ")"
+        lblIntervalDisplay.Caption = "(" & IntervalValues(trRequestInterval.Value) & t("초", " second" & IIf(IntervalValues(trRequestInterval.Value) = 1, "", "s")) & ")"
     End If
     If Loaded Then cmdApply.Enabled = -1
 End Sub
@@ -2841,7 +2840,6 @@ Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetFormBackgroundColor Me
     SetFont Me
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
     On Error Resume Next
     Me.Icon = frmMain.imgWrench.ListImages(1).Picture
@@ -3052,10 +3050,10 @@ Private Sub Form_Load()
     tr chkExclamation, "&Exclamation"
     tr chkError, "E&rror"
     tr chkQuestion, "&Question"
-    chkAsterisk.value = GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1)
-    chkExclamation.value = GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1)
-    chkError.value = GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1)
-    chkQuestion.value = GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1)
+    chkAsterisk.Value = GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1)
+    chkExclamation.Value = GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1)
+    chkError.Value = GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1)
+    chkQuestion.Value = GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1)
     txtAsterisk.Text = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
     txtExclamation.Text = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
     txtError.Text = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
@@ -3156,45 +3154,47 @@ nextcode:
 End Sub
 
 Sub LoadSettings()
-    chkNoCleanup.value = GetSetting("DownloadBooster", "Options", "NoCleanup", 0)
-    chkNoRedirectCheck.value = GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0)
-    chkForceGet.value = GetSetting("DownloadBooster", "Options", "ForceGet", 1)
-    chkIgnore300.value = GetSetting("DownloadBooster", "Options", "Ignore300", 0)
-    chkAlwaysOnTop.value = Abs(CInt(MainFormOnTop))
-    chkLazyElapsed.value = GetSetting("DownloadBooster", "Options", "LazyElapsed", 0)
-    chkExcludeMergeFromElapsed.value = GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", 0)
-    chkForceOldDialog.value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
-    chkDontLoadIcons.value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
-    chkRememberURL.value = GetSetting("DownloadBooster", "Options", "RememberURL", 1)
-    chkAutoYtdl.value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
+    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    
+    chkNoCleanup.Value = GetSetting("DownloadBooster", "Options", "NoCleanup", 0)
+    chkNoRedirectCheck.Value = GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0)
+    chkForceGet.Value = GetSetting("DownloadBooster", "Options", "ForceGet", 1)
+    chkIgnore300.Value = GetSetting("DownloadBooster", "Options", "Ignore300", 0)
+    chkAlwaysOnTop.Value = Abs(CInt(MainFormOnTop))
+    chkLazyElapsed.Value = GetSetting("DownloadBooster", "Options", "LazyElapsed", 0)
+    chkExcludeMergeFromElapsed.Value = GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", 0)
+    chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
+    chkDontLoadIcons.Value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
+    chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 1)
+    chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
     txtCompleteSoundPath.Text = Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", ""))
-    chkAllowDuplicates.value = GetSetting("DownloadBooster", "Options", "AllowDuplicatesInQueue", 0)
+    chkAllowDuplicates.Value = GetSetting("DownloadBooster", "Options", "AllowDuplicatesInQueue", 0)
     txtMaxThreadCount.Text = GetSetting("DownloadBooster", "Options", "MaxThreadCount", 25)
     udMaxThreadCount.SyncFromBuddy
-    optLinePerScroll.value = True
-    optScreenPerScroll.value = (GetSetting("DownloadBooster", "Options", "ScrollOneScreen", 0) <> 0)
-    chkBackColorMainOnly.value = GetSetting("DownloadBooster", "Options", "BackColorMainOnly", 0)
-    chkForeColorMainOnly.value = GetSetting("DownloadBooster", "Options", "ForeColorMainOnly", 0)
+    optLinePerScroll.Value = True
+    optScreenPerScroll.Value = (GetSetting("DownloadBooster", "Options", "ScrollOneScreen", 0) <> 0)
+    chkBackColorMainOnly.Value = GetSetting("DownloadBooster", "Options", "BackColorMainOnly", 0)
+    chkForeColorMainOnly.Value = GetSetting("DownloadBooster", "Options", "ForeColorMainOnly", 0)
     Select Case CInt(GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100))
         Case 10
-            trRequestInterval.value = 0
+            trRequestInterval.Value = 0
         Case 50
-            trRequestInterval.value = 1
+            trRequestInterval.Value = 1
         Case 100
-            trRequestInterval.value = 2
+            trRequestInterval.Value = 2
         Case 300
-            trRequestInterval.value = 3
+            trRequestInterval.Value = 3
         Case 500
-            trRequestInterval.value = 4
+            trRequestInterval.Value = 4
         Case 1000
-            trRequestInterval.value = 5
+            trRequestInterval.Value = 5
         Case 3000
-            trRequestInterval.value = 6
+            trRequestInterval.Value = 6
         Case 5000
-            trRequestInterval.value = 7
+            trRequestInterval.Value = 7
         Case Else
             trRequestInterval.Max = 8
-            trRequestInterval.value = 8
+            trRequestInterval.Value = 8
     End Select
     trRequestInterval_Scroll
     
@@ -3213,20 +3213,20 @@ Sub LoadSettings()
     Dim clrBackColor As Long
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
     If clrBackColor < 0 Or clrBackColor > 16777215 Then
-        optSystemColor.value = True
+        optSystemColor.Value = True
         pgColor.BackColor = &H8000000F
     Else
-        optUserColor.value = True
+        optUserColor.Value = True
         pgColor.BackColor = clrBackColor
     End If
     pbBackground.BackColor = pgColor.BackColor
     pgPatternPreview.BackColor = pgColor.BackColor
     
-    chkOpenWhenComplete.value = frmMain.chkOpenAfterComplete.value
-    chkOpenDirWhenComplete.value = frmMain.chkOpenFolder.value
-    chkBeepWhenComplete.value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
-    chkAlwaysResume.value = frmMain.chkContinueDownload.value
-    chkAutoRetry.value = frmMain.chkAutoRetry.value
+    chkOpenWhenComplete.Value = frmMain.chkOpenAfterComplete.Value
+    chkOpenDirWhenComplete.Value = frmMain.chkOpenFolder.Value
+    chkBeepWhenComplete.Value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
+    chkAlwaysResume.Value = frmMain.chkContinueDownload.Value
+    chkAutoRetry.Value = frmMain.chkAutoRetry.Value
     
     If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
         cbSkin.ListIndex = 2
@@ -3268,7 +3268,7 @@ Sub LoadSettings()
     
     cbImagePosition.ListIndex = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
     cbImagePosition_Click
-    chkImageCentered.value = GetSetting("DownloadBooster", "Options", "BackgroundImageCentered", 0)
+    chkImageCentered.Value = GetSetting("DownloadBooster", "Options", "BackgroundImageCentered", 0)
     
     cbTheme.Clear
     cbTheme.AddItem t("수정된 테마", "Modified theme")
@@ -3295,10 +3295,10 @@ Sub LoadSettings()
     Dim clrForeColor As Long
     clrForeColor = GetSetting("DownloadBooster", "Options", "ForeColor", -1)
     If clrForeColor < 0 Or clrForeColor > 16777215 Then
-        optSystemFore.value = True
+        optSystemFore.Value = True
         pgFore.BackColor = &H80000012
     Else
-        optUserFore.value = True
+        optUserFore.Value = True
         pgFore.BackColor = clrForeColor
         CheckBoxW1.VisualStyles = False
         FrameW5.VisualStyles = False
@@ -3395,7 +3395,7 @@ Private Sub lblSelectColor_Click()
     If Color = -1 Then Exit Sub
     pgColor.BackColor = Color
     cmdApply.Enabled = -1
-    optUserColor.value = True
+    optUserColor.Value = True
     ColorChanged = True
     pbBackground.BackColor = pgColor.BackColor
     pgPatternPreview.BackColor = pgColor.BackColor
@@ -3409,7 +3409,7 @@ Private Sub lblSelectFore_Click()
     If Color = -1 Then Exit Sub
     pgFore.BackColor = Color
     cmdApply.Enabled = -1
-    optUserFore.value = True
+    optUserFore.Value = True
     ColorChanged = True
     Label11.ForeColor = pgFore.BackColor
     CheckBoxW1.VisualStyles = False
@@ -3558,7 +3558,7 @@ Private Sub txtExclamation_Change()
 End Sub
 
 Private Sub txtMaxThreadCount_Change()
-    If IsNumeric(txtMaxThreadCount.Text) Then udMaxThreadCount.value = CInt(txtMaxThreadCount.Text)
+    If IsNumeric(txtMaxThreadCount.Text) Then udMaxThreadCount.Value = CInt(txtMaxThreadCount.Text)
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 

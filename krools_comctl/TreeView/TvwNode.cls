@@ -223,7 +223,7 @@ ExpandedImageIndex = PropExpandedImageIndex
 End Property
 
 Public Property Get NoImages() As Boolean
-Attribute NoImages.VB_Description = "Returns/sets a value indicating that no images will be drawn."
+Attribute NoImages.VB_Description = "Returns/sets a Value indicating that no images will be drawn."
 NoImages = PropNoImages
 End Property
 
@@ -242,7 +242,7 @@ ShadowTreeView.FNodeSelected(PropHandle) = Value
 End Property
 
 Public Property Get CheckBox() As Boolean
-Attribute CheckBox.VB_Description = "Returns/sets a value that determines whether or not the node displays a checkbox. This is only meaningful if the checkboxes property is set to true."
+Attribute CheckBox.VB_Description = "Returns/sets a Value that determines whether or not the node displays a checkbox. This is only meaningful if the checkboxes property is set to true."
 CheckBox = ShadowTreeView.FNodeCheckBox(PropHandle)
 End Property
 
@@ -251,7 +251,7 @@ ShadowTreeView.FNodeCheckBox(PropHandle) = Value
 End Property
 
 Public Property Get Checked() As Boolean
-Attribute Checked.VB_Description = "Returns/sets a value that determines whether the node is checked or not."
+Attribute Checked.VB_Description = "Returns/sets a Value that determines whether the node is checked or not."
 Checked = ShadowTreeView.FNodeChecked(PropHandle)
 End Property
 
@@ -260,7 +260,7 @@ ShadowTreeView.FNodeChecked(PropHandle) = Value
 End Property
 
 Public Property Get Bold() As Boolean
-Attribute Bold.VB_Description = "Returns/sets a value that determines whether the text is displayed with a bold font or not."
+Attribute Bold.VB_Description = "Returns/sets a Value that determines whether the text is displayed with a bold font or not."
 Bold = ShadowTreeView.FNodeBold(PropHandle)
 End Property
 
@@ -278,7 +278,7 @@ ShadowTreeView.FNodeGhosted(PropHandle) = Value
 End Property
 
 Public Property Get Expanded() As Boolean
-Attribute Expanded.VB_Description = "Returns/sets a value which specifies if a node is expanded."
+Attribute Expanded.VB_Description = "Returns/sets a Value which specifies if a node is expanded."
 Expanded = ShadowTreeView.FNodeExpanded(PropHandle)
 End Property
 
@@ -296,7 +296,7 @@ ShadowTreeView.FNodeEnabled(PropHandle) = Value
 End Property
 
 Public Property Get Sorted() As Boolean
-Attribute Sorted.VB_Description = "Returns/sets a value indicating if the nodes are automatically sorted."
+Attribute Sorted.VB_Description = "Returns/sets a Value indicating if the nodes are automatically sorted."
 Sorted = PropSorted
 End Property
 
@@ -306,7 +306,7 @@ If PropSorted = True Then ShadowTreeView.FNodeSort PropHandle, PropSortType
 End Property
 
 Public Property Get SortOrder() As TvwSortOrderConstants
-Attribute SortOrder.VB_Description = "Returns/sets a value that determines whether the nodes will be sorted in ascending or descending order."
+Attribute SortOrder.VB_Description = "Returns/sets a Value that determines whether the nodes will be sorted in ascending or descending order."
 SortOrder = PropSortOrder
 End Property
 
@@ -454,7 +454,7 @@ FullPath = ShadowTreeView.FNodeFullPath(PropHandle)
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = ShadowTreeView.FNodeVisible(PropHandle)
 End Property
 

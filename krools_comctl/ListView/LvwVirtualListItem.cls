@@ -66,12 +66,12 @@ ShadowListView.FListItemSelected(PropIndex) = Value
 End Property
 
 Public Property Get Checked() As Boolean
-Attribute Checked.VB_Description = "Returns a value that determines whether the virtual list item is checked or not."
+Attribute Checked.VB_Description = "Returns a Value that determines whether the virtual list item is checked or not."
 Checked = ShadowListView.FListItemChecked(PropIndex)
 End Property
 
 Public Property Get Hot() As Boolean
-Attribute Hot.VB_Description = "Returns/sets a value that determines whether the virtual list item is hot or not. This is only meaningful if the hot tracking property is set to true."
+Attribute Hot.VB_Description = "Returns/sets a Value that determines whether the virtual list item is hot or not. This is only meaningful if the hot tracking property is set to true."
 Hot = ShadowListView.FListItemHot(PropIndex)
 End Property
 
@@ -116,7 +116,7 @@ Err.Raise Number:=383, Description:="Property is read-only"
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns a value that determines whether an object is visible or hidden. Requires comctl32.dll version 6.0 or higher."
+Attribute Visible.VB_Description = "Returns a Value that determines whether an object is visible or hidden. Requires comctl32.dll version 6.0 or higher."
 Visible = ShadowListView.FListItemVisible(PropIndex)
 End Property
 

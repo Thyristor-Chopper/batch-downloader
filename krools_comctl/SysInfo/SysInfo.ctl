@@ -327,7 +327,7 @@ SysInfoDevNotifyHandle = NULL_PTR
 End Sub
 
 Public Property Get ACStatus() As SysACStatusConstants
-Attribute ACStatus.VB_Description = "Returns a value that indicates whether or not the system is using AC power."
+Attribute ACStatus.VB_Description = "Returns a Value that indicates whether or not the system is using AC power."
 Attribute ACStatus.VB_MemberFlags = "400"
 Dim SPS As SYSTEM_POWER_STATUS
 If GetSystemPowerStatus(SPS) <> 0 Then ACStatus = SPS.ACLineStatus
@@ -338,7 +338,7 @@ Err.Raise Number:=383, Description:="Property is read-only"
 End Property
 
 Public Property Get BatteryFullTime() As Long
-Attribute BatteryFullTime.VB_Description = "Returns a value that indicates the full charge life of the battery."
+Attribute BatteryFullTime.VB_Description = "Returns a Value that indicates the full charge life of the battery."
 Attribute BatteryFullTime.VB_MemberFlags = "400"
 Dim SPS As SYSTEM_POWER_STATUS
 If GetSystemPowerStatus(SPS) <> 0 Then BatteryFullTime = SPS.BatteryFullLifeTime
@@ -360,7 +360,7 @@ Err.Raise Number:=383, Description:="Property is read-only"
 End Property
 
 Public Property Get BatteryLifeTime() As Long
-Attribute BatteryLifeTime.VB_Description = "Returns a value that indicates the remaining life of the battery."
+Attribute BatteryLifeTime.VB_Description = "Returns a Value that indicates the remaining life of the battery."
 Attribute BatteryLifeTime.VB_MemberFlags = "400"
 Dim SPS As SYSTEM_POWER_STATUS
 If GetSystemPowerStatus(SPS) <> 0 Then BatteryLifeTime = SPS.BatteryLifeTime
@@ -371,7 +371,7 @@ Err.Raise Number:=383, Description:="Property is read-only"
 End Property
 
 Public Property Get BatteryStatus() As SysBatteryStatusConstants
-Attribute BatteryStatus.VB_Description = "Returns a value that indicates the status of the battery's charge."
+Attribute BatteryStatus.VB_Description = "Returns a Value that indicates the status of the battery's charge."
 Attribute BatteryStatus.VB_MemberFlags = "400"
 Dim SPS As SYSTEM_POWER_STATUS
 If GetSystemPowerStatus(SPS) <> 0 Then BatteryStatus = SPS.BatteryFlag

@@ -27,11 +27,19 @@ Begin VB.Form frmExplorer
       Top             =   5280
       Visible         =   0   'False
       Width           =   1455
-      _extentx        =   2566
-      _extenty        =   609
-      font            =   "frmExplorer.frx":000C
-      enabled         =   0
-      caption         =   "미리 듣기(&P)"
+      _ExtentX        =   2566
+      _ExtentY        =   609
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "굴림"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Enabled         =   0   'False
+      Caption         =   "미리 듣기(&P)"
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -40,9 +48,9 @@ Begin VB.Form frmExplorer
       TabIndex        =   5
       Top             =   4920
       Width           =   1455
-      _extentx        =   2566
-      _extenty        =   609
-      caption         =   "취소"
+      _ExtentX        =   2566
+      _ExtentY        =   609
+      Caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW OKButton 
       Default         =   -1  'True
@@ -51,9 +59,9 @@ Begin VB.Form frmExplorer
       TabIndex        =   4
       Top             =   4560
       Width           =   1455
-      _extentx        =   2566
-      _extenty        =   609
-      caption         =   "확인"
+      _ExtentX        =   2566
+      _ExtentY        =   609
+      Caption         =   "확인"
    End
    Begin prjDownloadBooster.CheckBoxW chkShowFiles 
       Height          =   255
@@ -74,7 +82,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   32
       ColorDepth      =   8
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":0030
+      InitListImages  =   "frmExplorer.frx":000C
    End
    Begin VB.PictureBox pbPlacesBarContainer 
       BackColor       =   &H8000000C&
@@ -102,11 +110,11 @@ Begin VB.Form frmExplorer
          Orientation     =   1
          Divider         =   0   'False
          AllowCustomize  =   0   'False
-         ButtonHeight    =   51
+         ButtonHeight    =   35
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
-         InitButtons     =   "frmExplorer.frx":3960
+         InitButtons     =   "frmExplorer.frx":393C
       End
    End
    Begin VB.DirListBox lvDir 
@@ -128,7 +136,7 @@ Begin VB.Form frmExplorer
       Width           =   2175
    End
    Begin prjDownloadBooster.ImageCombo cbFolderList 
-      Height          =   330
+      Height          =   315
       Left            =   1680
       TabIndex        =   11
       Top             =   120
@@ -148,7 +156,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   16
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":3F70
+      InitListImages  =   "frmExplorer.frx":3F4C
    End
    Begin prjDownloadBooster.ImageList imgFolder 
       Left            =   8640
@@ -159,7 +167,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   32
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":7438
+      InitListImages  =   "frmExplorer.frx":7414
    End
    Begin VB.PictureBox picPreviewFrame 
       Enabled         =   0   'False
@@ -186,9 +194,9 @@ Begin VB.Form frmExplorer
       Top             =   120
       Visible         =   0   'False
       Width           =   375
-      _extentx        =   661
-      _extenty        =   582
-      caption         =   "v"
+      _ExtentX        =   661
+      _ExtentY        =   582
+      Caption         =   "v"
    End
    Begin prjDownloadBooster.ListView lvFiles 
       Height          =   3960
@@ -277,7 +285,7 @@ Begin VB.Form frmExplorer
       Wrappable       =   0   'False
       AllowCustomize  =   0   'False
       ButtonWidth     =   23
-      InitButtons     =   "frmExplorer.frx":9CF8
+      InitButtons     =   "frmExplorer.frx":9CD4
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
@@ -455,19 +463,19 @@ Private Sub cbFolderList_Click()
     Dim Path$
     
     For i = 1 To tbPlaces.Buttons.Count
-        tbPlaces.Buttons(i).value = TbrButtonValueUnpressed
+        tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
     Next i
     
     Select Case cbFolderList.SelectedItem.Index
         Case 1
             lvDir.Path = GetSpecialfolder(CSIDL_RECENT)
-            tbPlaces.Buttons(1).value = TbrButtonValuePressed
+            tbPlaces.Buttons(1).Value = TbrButtonValuePressed
         Case 2
             lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
-            tbPlaces.Buttons(2).value = TbrButtonValuePressed
+            tbPlaces.Buttons(2).Value = TbrButtonValuePressed
         Case 3
             lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
-            tbPlaces.Buttons(3).value = TbrButtonValuePressed
+            tbPlaces.Buttons(3).Value = TbrButtonValuePressed
         Case 4
             ShowMyComputer
             Exit Sub
@@ -518,7 +526,7 @@ End Sub
 Private Sub chkHidden_Click()
     ListedOn = ""
     If Loaded Then ListFiles
-    SaveSetting "DownloadBooster", "UserData", "ShowHidden", chkHidden.value
+    SaveSetting "DownloadBooster", "UserData", "ShowHidden", chkHidden.Value
 End Sub
 
 Sub ListFiles()
@@ -614,7 +622,7 @@ Sub ListFiles()
         If Name <> "." And Name <> ".." Then
             If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
                 Shown = True
-                If chkUnixHidden.value = 0 And Left$(Name, 1) = "." And Name <> ".." Then Shown = False
+                If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." And Name <> ".." Then Shown = False
                 
                 If Shown And Replace(Path & Name, "?", "") = (Path & Name) Then
                     If totalcnt + 1 <= PrevCnt Then
@@ -672,7 +680,7 @@ Sub ListFiles()
     PatternsSplit = Split(Pattern, ";")
     Dim ShowHidden As VbFileAttribute
     ShowHidden = 0
-    If chkHidden.value = 1 Then ShowHidden = vbHidden
+    If chkHidden.Value = 1 Then ShowHidden = vbHidden
     Name = Dir(Path, vbNormal Or vbReadOnly Or vbArchive Or ShowHidden)
     Dim cnt As Double
     cnt = 0
@@ -688,7 +696,7 @@ Sub ListFiles()
             Next i
 
             Shown = True
-            If chkUnixHidden.value = 0 And Left$(Name, 1) = "." Then Shown = False
+            If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." Then Shown = False
 
             Icon = 2
             If LCase(GetExtensionName(Name)) = "lnk" Then
@@ -697,11 +705,11 @@ Sub ListFiles()
                     LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
                 If FolderExists(LnkPath) Then
                     Icon = 1
-                ElseIf Tags.BrowseTargetForm = 2 And chkShowFiles.value <> 1 Then
+                ElseIf Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then
                     Shown = False
                 End If
             Else
-                If Tags.BrowseTargetForm = 2 And chkShowFiles.value <> 1 Then Shown = False
+                If Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then Shown = False
             End If
 
             SmallIcon = Icon
@@ -813,13 +821,13 @@ End Sub
 Private Sub chkShowFiles_Click()
     ListedOn = ""
     If Loaded Then ListFiles
-    SaveSetting "DownloadBooster", "UserData", "ShowFiles", chkShowFiles.value
+    SaveSetting "DownloadBooster", "UserData", "ShowFiles", chkShowFiles.Value
 End Sub
 
 Private Sub chkUnixHidden_Click()
     ListedOn = ""
     If Loaded Then ListFiles
-    SaveSetting "DownloadBooster", "UserData", "ShowUnixHidden", chkUnixHidden.value
+    SaveSetting "DownloadBooster", "UserData", "ShowUnixHidden", chkUnixHidden.Value
 End Sub
 
 Private Sub cmdPreview_Click()
@@ -1010,9 +1018,9 @@ setpreview:
     lvFiles.Groups.Add , , t("네트워크 드라이브", "Network Drives")
     lvFiles.Groups.Add , , t("기타", "Others")
     
-    chkHidden.value = GetSetting("DownloadBooster", "UserData", "ShowHidden", 0)
-    chkUnixHidden.value = GetSetting("DownloadBooster", "UserData", "ShowUnixHidden", 1)
-    chkShowFiles.value = GetSetting("DownloadBooster", "UserData", "ShowFiles", 0)
+    chkHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowHidden", 0)
+    chkUnixHidden.Value = GetSetting("DownloadBooster", "UserData", "ShowUnixHidden", 1)
+    chkShowFiles.Value = GetSetting("DownloadBooster", "UserData", "ShowFiles", 0)
     
     cmdPreview.Visible = (Tags.BrowseTargetForm = 4)
     
@@ -1133,9 +1141,9 @@ Sub ShowMyComputer()
     Next k
     
     For k = 1 To tbPlaces.Buttons.Count
-        tbPlaces.Buttons(k).value = TbrButtonValueUnpressed
+        tbPlaces.Buttons(k).Value = TbrButtonValueUnpressed
     Next k
-    tbPlaces.Buttons(4).value = TbrButtonValuePressed
+    tbPlaces.Buttons(4).Value = TbrButtonValuePressed
     cbFolderList.ComboItems(4).Selected = True
     tbToolBar.Buttons(2).Enabled = True
     tbToolBar.Buttons(3).Enabled = False
@@ -1188,8 +1196,7 @@ Private Sub Form_Unload(Cancel As Integer)
         SaveSetting "DownloadBooster", "UserData", "ComdlgHeight", Me.Height - PaddedBorderWidth * 15 * 2 - IIf(Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6, 8835 - 6165, 0)
     End If
     
-    DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
-    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    IBSSubclass_UnsubclassIt
     
     On Error Resume Next
     imgFolder.ListImages.Clear
@@ -1315,21 +1322,21 @@ Private Sub lvDir_Change()
     SaveSetting "DownloadBooster", "UserData", "LastSaveDir", lvDir.Path
     
     For i = 1 To tbPlaces.Buttons.Count
-        tbPlaces.Buttons(i).value = TbrButtonValueUnpressed
+        tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
     Next i
     
     Path = lvDir.Path
     Select Case Path
         Case GetSpecialfolder(CSIDL_RECENT)
-            tbPlaces.Buttons(1).value = TbrButtonValuePressed
+            tbPlaces.Buttons(1).Value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_DESKTOP)
-            tbPlaces.Buttons(2).value = TbrButtonValuePressed
+            tbPlaces.Buttons(2).Value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_PERSONAL)
-            tbPlaces.Buttons(3).value = TbrButtonValuePressed
+            tbPlaces.Buttons(3).Value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_FAVORITES)
-            tbPlaces.Buttons(5).value = TbrButtonValuePressed
+            tbPlaces.Buttons(5).Value = TbrButtonValuePressed
         Case Environ$("USERPROFILE")
-            tbPlaces.Buttons(6).value = TbrButtonValuePressed
+            tbPlaces.Buttons(6).Value = TbrButtonValuePressed
     End Select
     
     If ItemCount < cbFolderList.ComboItems.Count Then
@@ -1901,7 +1908,7 @@ imgerr:
             LoadPicture Path & txtFileName.Text
         End If
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", Path & txtFileName.Text
-        frmLiveBadukSkinProperties.optTexture.value = True
+        frmLiveBadukSkinProperties.optTexture.Value = True
         Unload Me
         Exit Sub
     ElseIf Tags.BrowseTargetForm = 6 Then
@@ -1912,7 +1919,7 @@ imgerr:
             LoadPicture Path & txtFileName.Text
         End If
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", Path & txtFileName.Text
-        frmLiveBadukSkinProperties.optFrameTexture.value = True
+        frmLiveBadukSkinProperties.optFrameTexture.Value = True
         Unload Me
         Exit Sub
     End If
@@ -2019,7 +2026,7 @@ Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
     
     Dim i%
     For i = 1 To tbPlaces.Buttons.Count
-        tbPlaces.Buttons(i).value = TbrButtonValueUnpressed
+        tbPlaces.Buttons(i).Value = TbrButtonValueUnpressed
     Next i
     
     If IsMyComputer Then ListedOn = ""
@@ -2052,15 +2059,15 @@ Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
     Path = lvDir.Path
     Select Case Path
         Case GetSpecialfolder(CSIDL_RECENT)
-            tbPlaces.Buttons(1).value = TbrButtonValuePressed
+            tbPlaces.Buttons(1).Value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_DESKTOP)
-            tbPlaces.Buttons(2).value = TbrButtonValuePressed
+            tbPlaces.Buttons(2).Value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_PERSONAL)
-            tbPlaces.Buttons(3).value = TbrButtonValuePressed
+            tbPlaces.Buttons(3).Value = TbrButtonValuePressed
         Case GetSpecialfolder(CSIDL_FAVORITES)
-            tbPlaces.Buttons(5).value = TbrButtonValuePressed
+            tbPlaces.Buttons(5).Value = TbrButtonValuePressed
         Case Environ$("USERPROFILE")
-            tbPlaces.Buttons(6).value = TbrButtonValuePressed
+            tbPlaces.Buttons(6).Value = TbrButtonValuePressed
     End Select
 End Sub
 

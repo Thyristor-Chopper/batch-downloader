@@ -103,7 +103,7 @@ Option Explicit
 '
 'PollInterval Long, read/write.  Default: 50.
 '
-'        This is a value in milliseconds used to:
+'        This is a Value in milliseconds used to:
 '
 '        * Look for data or EOF from the child process'
 '          OutPipe and ErrPipe.
@@ -125,7 +125,7 @@ Option Explicit
 '
 'WaitForIdle Long, read/write.  Default: 200.
 '
-'        This is a value in milliseconds used to wait for
+'        This is a Value in milliseconds used to wait for
 '        the child process to finish initialization.  No
 '        waiting takes place for Console child processes.
 '
@@ -146,7 +146,7 @@ Option Explicit
 '        Waits WaitMs milliseconds for the child process to
 '        complete.  If the child doesn't finish, terminates
 '        the child process with KillReturnCode.  Caller
-'        may check for KillReturnCode value to determine
+'        may check for KillReturnCode Value to determine
 '        that the process was killed.
 '
 '        Closes pipes and cleans up the process.
@@ -294,7 +294,7 @@ Option Explicit
 '
 '&H80042B02 in ShellPipe.PollInterval
 '
-'        PollInterval value supplied is outside the valid
+'        PollInterval Value supplied is outside the valid
 '        range 10 to 65535.
 '
 '&H80042B03 in ShellPipe.WaitForIdle

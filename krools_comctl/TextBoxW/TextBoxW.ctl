@@ -904,7 +904,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -956,7 +956,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -1033,7 +1033,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -1075,7 +1075,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1087,7 +1087,7 @@ UserControl.PropertyChanged "Enabled"
 End Property
 
 Public Property Get AllowDropFiles() As Boolean
-Attribute AllowDropFiles.VB_Description = "Returns/sets a value that determines whether drag-drop files are allowed or not. Only applicable when there is no OLE drop target available."
+Attribute AllowDropFiles.VB_Description = "Returns/sets a Value that determines whether drag-drop files are allowed or not. Only applicable when there is no OLE drop target available."
 If TextBoxHandle <> NULL_PTR Then
     AllowDropFiles = CBool((GetWindowLong(TextBoxHandle, GWL_EXSTYLE) And WS_EX_ACCEPTFILES) <> 0)
 Else
@@ -1175,7 +1175,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If TextBoxDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1327,7 +1327,7 @@ UserControl.PropertyChanged "Alignment"
 End Property
 
 Public Property Get AllowOnlyNumbers() As Boolean
-Attribute AllowOnlyNumbers.VB_Description = "Returns/sets a value indicating if only numbers are allowed to be entered."
+Attribute AllowOnlyNumbers.VB_Description = "Returns/sets a Value indicating if only numbers are allowed to be entered."
 AllowOnlyNumbers = PropAllowOnlyNumbers
 End Property
 
@@ -1347,7 +1347,7 @@ UserControl.PropertyChanged "AllowOnlyNumbers"
 End Property
 
 Public Property Get Locked() As Boolean
-Attribute Locked.VB_Description = "Returns/sets a value indicating whether the contents can be edited."
+Attribute Locked.VB_Description = "Returns/sets a Value indicating whether the contents can be edited."
 If TextBoxHandle <> NULL_PTR Then
     Locked = CBool((GetWindowLong(TextBoxHandle, GWL_STYLE) And ES_READONLY) <> 0)
 Else
@@ -1362,7 +1362,7 @@ UserControl.PropertyChanged "Locked"
 End Property
 
 Public Property Get HideSelection() As Boolean
-Attribute HideSelection.VB_Description = "Returns/sets a value indicating if the selection in an edit control is hidden when the control loses focus."
+Attribute HideSelection.VB_Description = "Returns/sets a Value indicating if the selection in an edit control is hidden when the control loses focus."
 HideSelection = PropHideSelection
 End Property
 
@@ -1373,7 +1373,7 @@ UserControl.PropertyChanged "HideSelection"
 End Property
 
 Public Property Get PasswordChar() As String
-Attribute PasswordChar.VB_Description = "Returns/sets a value that determines whether characters typed by a user or placeholder characters are displayed in a control."
+Attribute PasswordChar.VB_Description = "Returns/sets a Value that determines whether characters typed by a user or placeholder characters are displayed in a control."
 If TextBoxHandle <> NULL_PTR Then
     PasswordChar = ChrW(CLng(SendMessage(TextBoxHandle, EM_GETPASSWORDCHAR, 0, ByVal 0&)))
 Else
@@ -1389,7 +1389,7 @@ ElseIf Len(Value) = 1 Then
     PropPasswordChar = AscW(Value)
 Else
     If TextBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1403,7 +1403,7 @@ UserControl.PropertyChanged "PasswordChar"
 End Property
 
 Public Property Get UseSystemPasswordChar() As Boolean
-Attribute UseSystemPasswordChar.VB_Description = "Returns/sets a value indicating if the default system password character is used. This property has precedence over the password char property."
+Attribute UseSystemPasswordChar.VB_Description = "Returns/sets a Value indicating if the default system password character is used. This property has precedence over the password char property."
 UseSystemPasswordChar = PropUseSystemPasswordChar
 End Property
 
@@ -1414,7 +1414,7 @@ UserControl.PropertyChanged "UseSystemPasswordChar"
 End Property
 
 Public Property Get MultiLine() As Boolean
-Attribute MultiLine.VB_Description = "Returns/sets a value that determines whether a control can accept multiple lines of text."
+Attribute MultiLine.VB_Description = "Returns/sets a Value that determines whether a control can accept multiple lines of text."
 MultiLine = PropMultiLine
 End Property
 
@@ -1432,7 +1432,7 @@ End Property
 Public Property Let MaxLength(ByVal Value As Long)
 If Value < 0 Then
     If TextBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1444,7 +1444,7 @@ UserControl.PropertyChanged "MaxLength"
 End Property
 
 Public Property Get ScrollBars() As VBRUN.ScrollBarConstants
-Attribute ScrollBars.VB_Description = "Returns/sets a value indicating whether an object has vertical or horizontal scroll bars."
+Attribute ScrollBars.VB_Description = "Returns/sets a Value indicating whether an object has vertical or horizontal scroll bars."
 ScrollBars = PropScrollBars
 End Property
 
@@ -1471,7 +1471,7 @@ UserControl.PropertyChanged "CueBanner"
 End Property
 
 Public Property Get CueBannerAlways() As Boolean
-Attribute CueBannerAlways.VB_Description = "Returns/sets a value indicating if the cue banner is displayed even when the text box has focus. Only applicable if the multi line property is set to false. Requires comctl32.dll version 6.0 or higher."
+Attribute CueBannerAlways.VB_Description = "Returns/sets a Value indicating if the cue banner is displayed even when the text box has focus. Only applicable if the multi line property is set to false. Requires comctl32.dll version 6.0 or higher."
 CueBannerAlways = PropCueBannerAlways
 End Property
 
@@ -1482,7 +1482,7 @@ UserControl.PropertyChanged "CueBannerAlways"
 End Property
 
 Public Property Get CharacterCasing() As TxtCharacterCasingConstants
-Attribute CharacterCasing.VB_Description = "Returns/sets a value indicating if the text box modifies the case of characters as they are typed."
+Attribute CharacterCasing.VB_Description = "Returns/sets a Value indicating if the text box modifies the case of characters as they are typed."
 CharacterCasing = PropCharacterCasing
 End Property
 
@@ -1514,7 +1514,7 @@ UserControl.PropertyChanged "CharacterCasing"
 End Property
 
 Public Property Get WantReturn() As Boolean
-Attribute WantReturn.VB_Description = "Returns/sets a value that determines when the user presses RETURN to perform the default button or to advance to the next line. This property applies only to a multiline text box and when there is any default button on the form."
+Attribute WantReturn.VB_Description = "Returns/sets a Value that determines when the user presses RETURN to perform the default button or to advance to the next line. This property applies only to a multiline text box and when there is any default button on the form."
 WantReturn = PropWantReturn
 End Property
 
@@ -1547,7 +1547,7 @@ UserControl.PropertyChanged "IMEMode"
 End Property
 
 Public Property Get NetAddressValidator() As Boolean
-Attribute NetAddressValidator.VB_Description = "Returns/sets a value that indicates if the content of the control represents a network address, which you can use to input and validate the format of IPv4, IPv6 and named DNS addresses. Requires comctl32.dll version 6.1 or higher."
+Attribute NetAddressValidator.VB_Description = "Returns/sets a Value that indicates if the content of the control represents a network address, which you can use to input and validate the format of IPv4, IPv6 and named DNS addresses. Requires comctl32.dll version 6.1 or higher."
 NetAddressValidator = PropNetAddressValidator
 End Property
 
@@ -1564,7 +1564,7 @@ UserControl.PropertyChanged "NetAddressValidator"
 End Property
 
 Public Property Get NetAddressType() As TxtNetAddressTypeConstants
-Attribute NetAddressType.VB_Description = "Returns/sets a value which represents a network address type, which will be used as a validation mask. Requires comctl32.dll version 6.1 or higher."
+Attribute NetAddressType.VB_Description = "Returns/sets a Value which represents a network address type, which will be used as a validation mask. Requires comctl32.dll version 6.1 or higher."
 NetAddressType = PropNetAddressType
 End Property
 
@@ -1625,7 +1625,7 @@ UserControl.PropertyChanged "NetAddressType"
 End Property
 
 Public Property Get AllowOverType() As Boolean
-Attribute AllowOverType.VB_Description = "Returns/sets a value indicating if overtype mode is allowed to be activated."
+Attribute AllowOverType.VB_Description = "Returns/sets a Value indicating if overtype mode is allowed to be activated."
 AllowOverType = PropAllowOverType
 End Property
 
@@ -1636,7 +1636,7 @@ UserControl.PropertyChanged "AllowOverType"
 End Property
 
 Public Property Get OverTypeMode() As Boolean
-Attribute OverTypeMode.VB_Description = "Returns/sets a value indicating if overtype mode is active. In overtype mode, the characters you type replace existing characters one by one."
+Attribute OverTypeMode.VB_Description = "Returns/sets a Value indicating if overtype mode is active. In overtype mode, the characters you type replace existing characters one by one."
 OverTypeMode = PropOverTypeMode
 End Property
 
@@ -1898,7 +1898,7 @@ End If
 End Property
 
 Public Function GetLine(ByVal LineNumber As Long) As String
-Attribute GetLine.VB_Description = "Retrieves the text of the specified line. A value of 0 indicates that the text of the current line number (the line that contains the caret) will be retrieved."
+Attribute GetLine.VB_Description = "Retrieves the text of the specified line. A Value of 0 indicates that the text of the current line number (the line that contains the caret) will be retrieved."
 If LineNumber < 0 Then Err.Raise 380
 If TextBoxHandle <> NULL_PTR Then
     Dim FirstCharPos As Long, Length As Long

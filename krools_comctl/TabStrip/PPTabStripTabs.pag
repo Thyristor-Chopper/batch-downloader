@@ -398,7 +398,7 @@ Else
     If Cancel = False Then TextImage.Text = CStr(LngValue)
 End If
 If Cancel = True Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextImage.Text = PropertyPage.SelectedControls(0).Tabs(CurrIndex).Image
     Else

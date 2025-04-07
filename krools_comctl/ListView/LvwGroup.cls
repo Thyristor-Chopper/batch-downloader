@@ -157,7 +157,7 @@ ShadowListView.FGroupSubsetLink(PropID) = Value
 End Property
 
 Public Property Get Collapsible() As Boolean
-Attribute Collapsible.VB_Description = "Returns/sets a value that determines whether the group can be collapsed or not. Requires comctl32.dll version 6.1 or higher."
+Attribute Collapsible.VB_Description = "Returns/sets a Value that determines whether the group can be collapsed or not. Requires comctl32.dll version 6.1 or higher."
 Collapsible = ShadowListView.FGroupCollapsible(PropID)
 End Property
 
@@ -166,7 +166,7 @@ ShadowListView.FGroupCollapsible(PropID) = Value
 End Property
 
 Public Property Get Collapsed() As Boolean
-Attribute Collapsed.VB_Description = "Returns/sets a value that determines whether the group is collapsed or not. Requires comctl32.dll version 6.1 or higher."
+Attribute Collapsed.VB_Description = "Returns/sets a Value that determines whether the group is collapsed or not. Requires comctl32.dll version 6.1 or higher."
 Collapsed = ShadowListView.FGroupCollapsed(PropID)
 End Property
 
@@ -175,7 +175,7 @@ ShadowListView.FGroupCollapsed(PropID) = Value
 End Property
 
 Public Property Get ShowHeader() As Boolean
-Attribute ShowHeader.VB_Description = "Returns/sets a value that determines whether the group displays a header or not. Requires comctl32.dll version 6.1 or higher."
+Attribute ShowHeader.VB_Description = "Returns/sets a Value that determines whether the group displays a header or not. Requires comctl32.dll version 6.1 or higher."
 ShowHeader = ShadowListView.FGroupShowHeader(PropID)
 End Property
 
@@ -184,7 +184,7 @@ ShadowListView.FGroupShowHeader(PropID) = Value
 End Property
 
 Public Property Get Selected() As Boolean
-Attribute Selected.VB_Description = "Returns/sets a value that determines whether the group is selected or not. Requires comctl32.dll version 6.1 or higher."
+Attribute Selected.VB_Description = "Returns/sets a Value that determines whether the group is selected or not. Requires comctl32.dll version 6.1 or higher."
 Selected = ShadowListView.FGroupSelected(PropID)
 End Property
 
@@ -193,7 +193,7 @@ ShadowListView.FGroupSelected(PropID) = Value
 End Property
 
 Public Property Get Subseted() As Boolean
-Attribute Subseted.VB_Description = "Returns/sets a value that determines whether the group displays only a portion of its items or not. Requires comctl32.dll version 6.1 or higher."
+Attribute Subseted.VB_Description = "Returns/sets a Value that determines whether the group displays only a portion of its items or not. Requires comctl32.dll version 6.1 or higher."
 Subseted = ShadowListView.FGroupSubseted(PropID)
 End Property
 
@@ -202,7 +202,7 @@ ShadowListView.FGroupSubseted(PropID) = Value
 End Property
 
 Public Property Get SubsetLinkSelected() As Boolean
-Attribute SubsetLinkSelected.VB_Description = "Returns/sets a value that determines whether the subset link of the group is selected or not. Requires comctl32.dll version 6.1 or higher."
+Attribute SubsetLinkSelected.VB_Description = "Returns/sets a Value that determines whether the subset link of the group is selected or not. Requires comctl32.dll version 6.1 or higher."
 SubsetLinkSelected = ShadowListView.FGroupSubsetLinkSelected(PropID)
 End Property
 

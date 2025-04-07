@@ -163,7 +163,7 @@ ShadowListView.FColumnHeaderSortArrow(PropIndex) = Value
 End Property
 
 Public Property Get IconOnRight() As Boolean
-Attribute IconOnRight.VB_Description = "Returns/sets a value that determines if the icon appears on the right of the column header."
+Attribute IconOnRight.VB_Description = "Returns/sets a Value that determines if the icon appears on the right of the column header."
 IconOnRight = ShadowListView.FColumnHeaderIconOnRight(PropIndex)
 End Property
 
@@ -172,7 +172,7 @@ ShadowListView.FColumnHeaderIconOnRight(PropIndex) = Value
 End Property
 
 Public Property Get Resizable() As Boolean
-Attribute Resizable.VB_Description = "Returns/sets a value that determines whether or not the column header can be modified by a user action to resize it."
+Attribute Resizable.VB_Description = "Returns/sets a Value that determines whether or not the column header can be modified by a user action to resize it."
 Resizable = ShadowListView.FColumnHeaderResizable(PropIndex, PropResizable)
 End Property
 
@@ -181,7 +181,7 @@ ShadowListView.FColumnHeaderResizable(PropIndex, PropResizable) = Value
 End Property
 
 Public Property Get SplitButton() As Boolean
-Attribute SplitButton.VB_Description = "Returns/sets a value that determines whether or not the column header displays a split button. The ColumnDropDown event is fired when the split button is clicked. Requires comctl32.dll version 6.1 or higher."
+Attribute SplitButton.VB_Description = "Returns/sets a Value that determines whether or not the column header displays a split button. The ColumnDropDown event is fired when the split button is clicked. Requires comctl32.dll version 6.1 or higher."
 SplitButton = ShadowListView.FColumnHeaderSplitButton(PropIndex)
 End Property
 
@@ -190,7 +190,7 @@ ShadowListView.FColumnHeaderSplitButton(PropIndex) = Value
 End Property
 
 Public Property Get CheckBox() As Boolean
-Attribute CheckBox.VB_Description = "Returns/sets a value that determines whether or not the column header displays a checkbox. This is only meaningful if the allow column checkboxes property is set to true. Requires comctl32.dll version 6.1 or higher."
+Attribute CheckBox.VB_Description = "Returns/sets a Value that determines whether or not the column header displays a checkbox. This is only meaningful if the allow column checkboxes property is set to true. Requires comctl32.dll version 6.1 or higher."
 CheckBox = ShadowListView.FColumnHeaderCheckBox(PropIndex)
 End Property
 
@@ -208,7 +208,7 @@ ShadowListView.FColumnHeaderChecked(PropIndex) = Value
 End Property
 
 Public Property Get Bold() As Boolean
-Attribute Bold.VB_Description = "Returns/sets a value that determines whether the text is displayed with a bold font or not."
+Attribute Bold.VB_Description = "Returns/sets a Value that determines whether the text is displayed with a bold font or not."
 Bold = PropBold
 End Property
 
@@ -264,7 +264,7 @@ ShadowListView.FColumnHeaderFilterType(PropIndex) = Value
 End Property
 
 Public Property Get FilterValue() As Variant
-Attribute FilterValue.VB_Description = "Returns/sets the filter value of the column header."
+Attribute FilterValue.VB_Description = "Returns/sets the filter Value of the column header."
 FilterValue = ShadowListView.FColumnHeaderFilterValue(PropIndex)
 End Property
 

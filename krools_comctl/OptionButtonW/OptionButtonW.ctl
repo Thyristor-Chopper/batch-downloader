@@ -771,7 +771,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -823,7 +823,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -900,7 +900,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -919,7 +919,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Appearance() As CCAppearanceConstants
-Attribute Appearance.VB_Description = "Returns/sets a value that determines whether an object is painted two-dimensional or with 3-D effects."
+Attribute Appearance.VB_Description = "Returns/sets a Value that determines whether an object is painted two-dimensional or with 3-D effects."
 Attribute Appearance.VB_UserMemId = -520
 Appearance = UserControl.Appearance
 End Property
@@ -973,7 +973,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1032,7 +1032,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If OptionButtonDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1225,7 +1225,7 @@ End Property
 Public Property Let ImageListMargin(ByVal Value As Single)
 If Value < 0 Then
     If OptionButtonDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1243,7 +1243,7 @@ UserControl.PropertyChanged "ImageListMargin"
 End Property
 
 Public Property Get Value() As OLE_OPTEXCLUSIVE
-Attribute Value.VB_Description = "Returns/sets the value of an object."
+Attribute Value.VB_Description = "Returns/sets the Value of an object."
 Attribute Value.VB_UserMemId = 0
 Value = PropValue
 End Property
@@ -1345,7 +1345,7 @@ UserControl.PropertyChanged "TextAlignment"
 End Property
 
 Public Property Get PushLike() As Boolean
-Attribute PushLike.VB_Description = "Returns/sets a value that determines whether or not the control look and act like a push button."
+Attribute PushLike.VB_Description = "Returns/sets a Value that determines whether or not the control look and act like a push button."
 PushLike = PropPushLike
 End Property
 
@@ -1428,7 +1428,7 @@ UserControl.PropertyChanged "Picture"
 End Property
 
 Public Property Get WordWrap() As Boolean
-Attribute WordWrap.VB_Description = "Returns/sets a value that determines whether a control may break lines within the text in order to prevent overflow."
+Attribute WordWrap.VB_Description = "Returns/sets a Value that determines whether a control may break lines within the text in order to prevent overflow."
 WordWrap = PropWordWrap
 End Property
 
@@ -1451,7 +1451,7 @@ UserControl.PropertyChanged "WordWrap"
 End Property
 
 Public Property Get Transparent() As Boolean
-Attribute Transparent.VB_Description = "Returns/sets a value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
+Attribute Transparent.VB_Description = "Returns/sets a Value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
 Transparent = PropTransparent
 End Property
 
@@ -1564,7 +1564,7 @@ UserControl.PropertyChanged "DownPicture"
 End Property
 
 Public Property Get UseMaskColor() As Boolean
-Attribute UseMaskColor.VB_Description = "Returns/sets a value which determines if the button control will use the mask color property. Only applicable if the style property is set to 1 (graphical)."
+Attribute UseMaskColor.VB_Description = "Returns/sets a Value which determines if the button control will use the mask color property. Only applicable if the style property is set to 1 (graphical)."
 UseMaskColor = PropUseMaskColor
 End Property
 
@@ -1586,7 +1586,7 @@ UserControl.PropertyChanged "MaskColor"
 End Property
 
 Public Property Get DrawMode() As OptDrawModeConstants
-Attribute DrawMode.VB_Description = "Returns/sets a value indicating whether your code or the operating system will handle drawing of the elements."
+Attribute DrawMode.VB_Description = "Returns/sets a Value indicating whether your code or the operating system will handle drawing of the elements."
 DrawMode = PropDrawMode
 End Property
 
@@ -1728,7 +1728,7 @@ RedrawWindow UserControl.hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDA
 End Sub
 
 Public Property Get Pushed() As Boolean
-Attribute Pushed.VB_Description = "Returns/sets a value that indicates if the option button is in the pushed state."
+Attribute Pushed.VB_Description = "Returns/sets a Value that indicates if the option button is in the pushed state."
 Attribute Pushed.VB_MemberFlags = "400"
 If OptionButtonHandle <> NULL_PTR Then Pushed = CBool((SendMessage(OptionButtonHandle, BM_GETSTATE, 0, ByVal 0&) And BST_PUSHED) = BST_PUSHED)
 End Property
@@ -1738,7 +1738,7 @@ If OptionButtonHandle <> NULL_PTR Then SendMessage OptionButtonHandle, BM_SETSTA
 End Property
 
 Public Property Get Hot() As Boolean
-Attribute Hot.VB_Description = "Returns/sets a value that indicates if the option button is hot; that is, the mouse is hovering over it. Requires comctl32.dll version 6.0 or higher."
+Attribute Hot.VB_Description = "Returns/sets a Value that indicates if the option button is hot; that is, the mouse is hovering over it. Requires comctl32.dll version 6.0 or higher."
 Attribute Hot.VB_MemberFlags = "400"
 If OptionButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then Hot = CBool((SendMessage(OptionButtonHandle, BM_GETSTATE, 0, ByVal 0&) And BST_HOT) = BST_HOT)
 End Property
@@ -2303,7 +2303,7 @@ Select Case wMsg
         End If
     Case UM_CHECKVALUE
         ' It is necessary to wait after all controls are initalized.
-        ' If the property value is still valid here then notify the container so that option groups behave correctly.
+        ' If the property Value is still valid here then notify the container so that option groups behave correctly.
         If PropValue = True Then UserControl.PropertyChanged "Value"
         Exit Function
 End Select

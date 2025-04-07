@@ -266,9 +266,9 @@ If DispId = DispIdBorderStyle Then
 End If
 End Sub
 
-Private Sub IPerPropertyBrowsingVB_GetPredefinedValue(ByRef Handled As Boolean, ByVal DispId As Long, ByVal Cookie As Long, ByRef value As Variant)
+Private Sub IPerPropertyBrowsingVB_GetPredefinedValue(ByRef Handled As Boolean, ByVal DispId As Long, ByVal Cookie As Long, ByRef Value As Variant)
 If DispId = DispIdBorderStyle Then
-    value = Cookie
+    Value = Cookie
     Handled = True
 End If
 End Sub
@@ -510,8 +510,8 @@ Attribute Tag.VB_Description = "Stores any extra data needed for your program."
 Tag = Extender.Tag
 End Property
 
-Public Property Let Tag(ByVal value As String)
-Extender.Tag = value
+Public Property Let Tag(ByVal Value As String)
+Extender.Tag = Value
 End Property
 
 Public Property Get Parent() As Object
@@ -524,8 +524,8 @@ Attribute Container.VB_Description = "Returns the container of an object."
 Set Container = Extender.Container
 End Property
 
-Public Property Set Container(ByVal value As Object)
-Set Extender.Container = value
+Public Property Set Container(ByVal Value As Object)
+Set Extender.Container = Value
 End Property
 
 Public Property Get Left() As Single
@@ -533,8 +533,8 @@ Attribute Left.VB_Description = "Returns/sets the distance between the internal 
 Left = Extender.Left
 End Property
 
-Public Property Let Left(ByVal value As Single)
-Extender.Left = value
+Public Property Let Left(ByVal Value As Single)
+Extender.Left = Value
 End Property
 
 Public Property Get Top() As Single
@@ -542,8 +542,8 @@ Attribute Top.VB_Description = "Returns/sets the distance between the internal t
 Top = Extender.Top
 End Property
 
-Public Property Let Top(ByVal value As Single)
-Extender.Top = value
+Public Property Let Top(ByVal Value As Single)
+Extender.Top = Value
 End Property
 
 Public Property Get Width() As Single
@@ -551,8 +551,8 @@ Attribute Width.VB_Description = "Returns/sets the width of an object."
 Width = Extender.Width
 End Property
 
-Public Property Let Width(ByVal value As Single)
-Extender.Width = value
+Public Property Let Width(ByVal Value As Single)
+Extender.Width = Value
 End Property
 
 Public Property Get Height() As Single
@@ -560,17 +560,17 @@ Attribute Height.VB_Description = "Returns/sets the height of an object."
 Height = Extender.Height
 End Property
 
-Public Property Let Height(ByVal value As Single)
-Extender.Height = value
+Public Property Let Height(ByVal Value As Single)
+Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
-Public Property Let Visible(ByVal value As Boolean)
-Extender.Visible = value
+Public Property Let Visible(ByVal Value As Boolean)
+Extender.Visible = Value
 End Property
 
 Public Property Get ToolTipText() As String
@@ -579,8 +579,8 @@ Attribute ToolTipText.VB_MemberFlags = "400"
 ToolTipText = Extender.ToolTipText
 End Property
 
-Public Property Let ToolTipText(ByVal value As String)
-Extender.ToolTipText = value
+Public Property Let ToolTipText(ByVal Value As String)
+Extender.ToolTipText = Value
 End Property
 
 Public Property Get WhatsThisHelpID() As Long
@@ -589,8 +589,8 @@ Attribute WhatsThisHelpID.VB_MemberFlags = "400"
 WhatsThisHelpID = Extender.WhatsThisHelpID
 End Property
 
-Public Property Let WhatsThisHelpID(ByVal value As Long)
-Extender.WhatsThisHelpID = value
+Public Property Let WhatsThisHelpID(ByVal Value As Long)
+Extender.WhatsThisHelpID = Value
 End Property
 
 Public Property Get DragIcon() As IPictureDisp
@@ -599,22 +599,22 @@ Attribute DragIcon.VB_MemberFlags = "400"
 Set DragIcon = Extender.DragIcon
 End Property
 
-Public Property Let DragIcon(ByVal value As IPictureDisp)
-Extender.DragIcon = value
+Public Property Let DragIcon(ByVal Value As IPictureDisp)
+Extender.DragIcon = Value
 End Property
 
-Public Property Set DragIcon(ByVal value As IPictureDisp)
-Set Extender.DragIcon = value
+Public Property Set DragIcon(ByVal Value As IPictureDisp)
+Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
 
-Public Property Let DragMode(ByVal value As Integer)
-Extender.DragMode = value
+Public Property Let DragMode(ByVal Value As Integer)
+Extender.DragMode = Value
 End Property
 
 Public Sub Drag(Optional ByRef Action As Variant)
@@ -664,26 +664,26 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
-Public Property Let VisualStyles(ByVal value As Boolean)
-PropVisualStyles = value
+Public Property Let VisualStyles(ByVal Value As Boolean)
+PropVisualStyles = Value
 Call DrawFrame
 UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Appearance() As CCAppearanceConstants
-Attribute Appearance.VB_Description = "Returns/sets a value that determines whether an object is painted two-dimensional or with 3-D effects."
+Attribute Appearance.VB_Description = "Returns/sets a Value that determines whether an object is painted two-dimensional or with 3-D effects."
 Attribute Appearance.VB_UserMemId = -520
 Appearance = UserControl.Appearance
 End Property
 
-Public Property Let Appearance(ByVal value As CCAppearanceConstants)
-Select Case value
+Public Property Let Appearance(ByVal Value As CCAppearanceConstants)
+Select Case Value
     Case CCAppearanceFlat, CCAppearance3D
-        UserControl.Appearance = value
+        UserControl.Appearance = Value
     Case Else
         Err.Raise 380
 End Select
@@ -698,8 +698,8 @@ Attribute BackColor.VB_UserMemId = -501
 BackColor = UserControl.BackColor
 End Property
 
-Public Property Let BackColor(ByVal value As OLE_COLOR)
-UserControl.BackColor = value
+Public Property Let BackColor(ByVal Value As OLE_COLOR)
+UserControl.BackColor = Value
 Call DrawFrame
 UserControl.PropertyChanged "BackColor"
 End Property
@@ -710,20 +710,20 @@ Attribute ForeColor.VB_UserMemId = -513
 ForeColor = UserControl.ForeColor
 End Property
 
-Public Property Let ForeColor(ByVal value As OLE_COLOR)
-UserControl.ForeColor = value
+Public Property Let ForeColor(ByVal Value As OLE_COLOR)
+UserControl.ForeColor = Value
 Call DrawFrame
 UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
 
-Public Property Let Enabled(ByVal value As Boolean)
-UserControl.Enabled = value
+Public Property Let Enabled(ByVal Value As Boolean)
+UserControl.Enabled = Value
 Call DrawFrame
 UserControl.PropertyChanged "Enabled"
 End Property
@@ -733,16 +733,16 @@ Attribute OLEDropMode.VB_Description = "Returns/Sets whether this object can act
 OLEDropMode = UserControl.OLEDropMode
 End Property
 
-Public Property Let OLEDropMode(ByVal value As OLEDropModeConstants)
+Public Property Let OLEDropMode(ByVal Value As OLEDropModeConstants)
 ' Setting OLEDropMode to OLEDropModeManual will fail when windowless controls are contained in the user control.
 Const DRAGDROP_E_ALREADYREGISTERED As Long = &H80040101
-Select Case value
+Select Case Value
     Case OLEDropModeNone, OLEDropModeManual
         On Error Resume Next
-        UserControl.OLEDropMode = value
+        UserControl.OLEDropMode = Value
         If Err.Number = DRAGDROP_E_ALREADYREGISTERED Then
             RevokeDragDrop UserControl.hWnd
-            UserControl.OLEDropMode = value
+            UserControl.OLEDropMode = Value
         End If
         On Error GoTo 0
     Case Else
@@ -756,10 +756,10 @@ Attribute MousePointer.VB_Description = "Returns/sets the type of mouse pointer 
 MousePointer = PropMousePointer
 End Property
 
-Public Property Let MousePointer(ByVal value As CCMousePointerConstants)
-Select Case value
+Public Property Let MousePointer(ByVal Value As CCMousePointerConstants)
+Select Case Value
     Case 0 To 16, 99
-        PropMousePointer = value
+        PropMousePointer = Value
     Case Else
         Err.Raise 380
 End Select
@@ -784,19 +784,19 @@ Attribute MouseIcon.VB_Description = "Returns/sets a custom mouse icon."
 Set MouseIcon = PropMouseIcon
 End Property
 
-Public Property Let MouseIcon(ByVal value As IPictureDisp)
-Set Me.MouseIcon = value
+Public Property Let MouseIcon(ByVal Value As IPictureDisp)
+Set Me.MouseIcon = Value
 End Property
 
-Public Property Set MouseIcon(ByVal value As IPictureDisp)
-If value Is Nothing Then
+Public Property Set MouseIcon(ByVal Value As IPictureDisp)
+If Value Is Nothing Then
     Set PropMouseIcon = Nothing
 Else
-    If value.Type = vbPicTypeIcon Or value.Handle = NULL_PTR Then
-        Set PropMouseIcon = value
+    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+        Set PropMouseIcon = Value
     Else
         If FrameDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -812,8 +812,8 @@ Attribute MouseTrack.VB_Description = "Returns/sets whether mouse events occurs 
 MouseTrack = PropMouseTrack
 End Property
 
-Public Property Let MouseTrack(ByVal value As Boolean)
-PropMouseTrack = value
+Public Property Let MouseTrack(ByVal Value As Boolean)
+PropMouseTrack = Value
 UserControl.PropertyChanged "MouseTrack"
 End Property
 
@@ -823,8 +823,8 @@ Attribute RightToLeft.VB_UserMemId = -611
 RightToLeft = PropRightToLeft
 End Property
 
-Public Property Let RightToLeft(ByVal value As Boolean)
-PropRightToLeft = value
+Public Property Let RightToLeft(ByVal Value As Boolean)
+PropRightToLeft = Value
 UserControl.RightToLeft = PropRightToLeft
 Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
 If PropRightToLeft = False Then
@@ -843,10 +843,10 @@ Attribute RightToLeftMode.VB_Description = "Returns/sets the right-to-left mode.
 RightToLeftMode = PropRightToLeftMode
 End Property
 
-Public Property Let RightToLeftMode(ByVal value As CCRightToLeftModeConstants)
-Select Case value
+Public Property Let RightToLeftMode(ByVal Value As CCRightToLeftModeConstants)
+Select Case Value
     Case CCRightToLeftModeNoControl, CCRightToLeftModeVBAME, CCRightToLeftModeSystemLocale, CCRightToLeftModeUserLocale, CCRightToLeftModeOSLanguage
-        PropRightToLeftMode = value
+        PropRightToLeftMode = Value
     Case Else
         Err.Raise 380
 End Select
@@ -860,10 +860,10 @@ Attribute BorderStyle.VB_UserMemId = -504
 BorderStyle = PropBorderStyle
 End Property
 
-Public Property Let BorderStyle(ByVal value As Integer)
-Select Case value
+Public Property Let BorderStyle(ByVal Value As Integer)
+Select Case Value
     Case vbBSNone, vbFixedSingle
-        PropBorderStyle = value
+        PropBorderStyle = Value
     Case Else
         Err.Raise 380
 End Select
@@ -877,21 +877,21 @@ Attribute Caption.VB_UserMemId = -518
 Caption = PropCaption
 End Property
 
-Public Property Let Caption(ByVal value As String)
-If PropCaption = value Then Exit Property
-PropCaption = value
+Public Property Let Caption(ByVal Value As String)
+If PropCaption = Value Then Exit Property
+PropCaption = Value
 If PropUseMnemonic = True Then UserControl.AccessKeys = ChrW(AccelCharCode(PropCaption))
 Call DrawFrame
 UserControl.PropertyChanged "Caption"
 End Property
 
 Public Property Get UseMnemonic() As Boolean
-Attribute UseMnemonic.VB_Description = "Returns/sets a value that specifies whether an & in the caption property defines an access key."
+Attribute UseMnemonic.VB_Description = "Returns/sets a Value that specifies whether an & in the caption property defines an access key."
 UseMnemonic = PropUseMnemonic
 End Property
 
-Public Property Let UseMnemonic(ByVal value As Boolean)
-PropUseMnemonic = value
+Public Property Let UseMnemonic(ByVal Value As Boolean)
+PropUseMnemonic = Value
 If PropUseMnemonic = True Then
     UserControl.AccessKeys = ChrW(AccelCharCode(PropCaption))
 Else
@@ -906,10 +906,10 @@ Attribute Alignment.VB_Description = "Returns/sets the alignment."
 Alignment = PropAlignment
 End Property
 
-Public Property Let Alignment(ByVal value As VBRUN.AlignmentConstants)
-Select Case value
+Public Property Let Alignment(ByVal Value As VBRUN.AlignmentConstants)
+Select Case Value
     Case vbLeftJustify, vbCenter, vbRightJustify
-        PropAlignment = value
+        PropAlignment = Value
     Case Else
         Err.Raise 380
 End Select
@@ -918,12 +918,12 @@ UserControl.PropertyChanged "Alignment"
 End Property
 
 Public Property Get Transparent() As Boolean
-Attribute Transparent.VB_Description = "Returns/sets a value indicating if the background is a replica of the underlying background to simulate transparency."
+Attribute Transparent.VB_Description = "Returns/sets a Value indicating if the background is a replica of the underlying background to simulate transparency."
 Transparent = PropTransparent
 End Property
 
-Public Property Let Transparent(ByVal value As Boolean)
-PropTransparent = value
+Public Property Let Transparent(ByVal Value As Boolean)
+PropTransparent = Value
 Call DrawFrame
 UserControl.PropertyChanged "Transparent"
 End Property
@@ -933,15 +933,15 @@ Attribute Picture.VB_Description = "Returns/sets a graphic to be displayed in a 
 Set Picture = PropPicture
 End Property
 
-Public Property Let Picture(ByVal value As IPictureDisp)
-Set Me.Picture = value
+Public Property Let Picture(ByVal Value As IPictureDisp)
+Set Me.Picture = Value
 End Property
 
-Public Property Set Picture(ByVal value As IPictureDisp)
-If value Is Nothing Then
+Public Property Set Picture(ByVal Value As IPictureDisp)
+If Value Is Nothing Then
     Set PropPicture = Nothing
 Else
-    Set UserControl.Picture = value
+    Set UserControl.Picture = Value
     Set PropPicture = UserControl.Picture
     Set UserControl.Picture = Nothing
 End If
@@ -955,10 +955,10 @@ Attribute PictureAlignment.VB_Description = "Returns/sets the picture alignment.
 PictureAlignment = PropPictureAlignment
 End Property
 
-Public Property Let PictureAlignment(ByVal value As CCLeftRightAlignmentConstants)
-Select Case value
+Public Property Let PictureAlignment(ByVal Value As CCLeftRightAlignmentConstants)
+Select Case Value
     Case CCLeftRightAlignmentLeft, CCLeftRightAlignmentRight
-        PropPictureAlignment = value
+        PropPictureAlignment = Value
     Case Else
         Err.Raise 380
 End Select

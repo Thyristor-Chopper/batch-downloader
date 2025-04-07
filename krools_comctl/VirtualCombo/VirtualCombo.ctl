@@ -798,7 +798,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -850,7 +850,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -987,7 +987,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -1029,7 +1029,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1103,7 +1103,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If VirtualComboDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1166,7 +1166,7 @@ UserControl.PropertyChanged "RightToLeftMode"
 End Property
 
 Public Property Get Style() As VcbStyleConstants
-Attribute Style.VB_Description = "Returns/sets a value that determines the type of control and the behavior of its list box portion."
+Attribute Style.VB_Description = "Returns/sets a Value that determines the type of control and the behavior of its list box portion."
 Style = PropStyle
 End Property
 
@@ -1186,7 +1186,7 @@ UserControl.PropertyChanged "Style"
 End Property
 
 Public Property Get Locked() As Boolean
-Attribute Locked.VB_Description = "Returns/sets a value indicating whether the contents can be edited."
+Attribute Locked.VB_Description = "Returns/sets a Value indicating whether the contents can be edited."
 Locked = PropLocked
 End Property
 
@@ -1261,7 +1261,7 @@ Me.Text = Value
 End Property
 
 Public Property Get ExtendedUI() As Boolean
-Attribute ExtendedUI.VB_Description = "Returns/sets a value that determines whether the default UI or the extended UI is used."
+Attribute ExtendedUI.VB_Description = "Returns/sets a Value that determines whether the default UI or the extended UI is used."
 If VirtualComboHandle <> NULL_PTR And PropStyle <> VcbStyleSimpleCombo Then
     ExtendedUI = CBool(SendMessage(VirtualComboHandle, CB_GETEXTENDEDUI, 0, ByVal 0&) = 1)
 Else
@@ -1287,7 +1287,7 @@ Select Case Value
         VirtualComboDropDownHeightState = False
     Case Else
         If VirtualComboDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1298,7 +1298,7 @@ UserControl.PropertyChanged "MaxDropDownItems"
 End Property
 
 Public Property Get IntegralHeight() As Boolean
-Attribute IntegralHeight.VB_Description = "Returns/sets a value indicating whether the control displays partial items."
+Attribute IntegralHeight.VB_Description = "Returns/sets a Value indicating whether the control displays partial items."
 IntegralHeight = PropIntegralHeight
 End Property
 
@@ -1320,7 +1320,7 @@ End Property
 Public Property Let MaxLength(ByVal Value As Long)
 If Value < 0 Then
     If VirtualComboDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1332,7 +1332,7 @@ UserControl.PropertyChanged "MaxLength"
 End Property
 
 Public Property Get UseListBackColor() As Boolean
-Attribute UseListBackColor.VB_Description = "Returns/sets a value which determines if the combo box control will use the list back color property."
+Attribute UseListBackColor.VB_Description = "Returns/sets a Value which determines if the combo box control will use the list back color property."
 UseListBackColor = PropUseListBackColor
 End Property
 
@@ -1343,7 +1343,7 @@ UserControl.PropertyChanged "UseListBackColor"
 End Property
 
 Public Property Get UseListForeColor() As Boolean
-Attribute UseListForeColor.VB_Description = "Returns/sets a value which determines if the combo box control will use the list fore color property."
+Attribute UseListForeColor.VB_Description = "Returns/sets a Value which determines if the combo box control will use the list fore color property."
 UseListForeColor = PropUseListForeColor
 End Property
 
@@ -1391,7 +1391,7 @@ End Property
 Public Property Let HorizontalExtent(ByVal Value As Single)
 If Value < 0 Then
     If VirtualComboDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1403,7 +1403,7 @@ UserControl.PropertyChanged "HorizontalExtent"
 End Property
 
 Public Property Get DrawMode() As VcbDrawModeConstants
-Attribute DrawMode.VB_Description = "Returns/sets a value indicating whether your code or the operating system will handle drawing of the elements."
+Attribute DrawMode.VB_Description = "Returns/sets a Value indicating whether your code or the operating system will handle drawing of the elements."
 DrawMode = PropDrawMode
 End Property
 
@@ -1447,7 +1447,7 @@ UserControl.PropertyChanged "ScrollTrack"
 End Property
 
 Public Property Get AutoSelect() As Boolean
-Attribute AutoSelect.VB_Description = "Returns/sets a value that determines whether or not the items can be selected automatically after an user input in the edit portion of the control."
+Attribute AutoSelect.VB_Description = "Returns/sets a Value that determines whether or not the items can be selected automatically after an user input in the edit portion of the control."
 AutoSelect = PropAutoSelect
 End Property
 
@@ -1457,7 +1457,7 @@ UserControl.PropertyChanged "AutoSelect"
 End Property
 
 Public Property Get AlwaysFindExact() As Boolean
-Attribute AlwaysFindExact.VB_Description = "Returns/sets a value indicating whether to always enforce exact string matches. This also changes the behavior of automatically selecting an item when the user drops down the list of the virtual combo."
+Attribute AlwaysFindExact.VB_Description = "Returns/sets a Value indicating whether to always enforce exact string matches. This also changes the behavior of automatically selecting an item when the user drops down the list of the virtual combo."
 AlwaysFindExact = PropAlwaysFindExact
 End Property
 
@@ -1804,7 +1804,7 @@ End If
 End Property
 
 Public Property Get DroppedDown() As Boolean
-Attribute DroppedDown.VB_Description = "Returns/sets a value that determines whether the drop-down list is dropped down or not."
+Attribute DroppedDown.VB_Description = "Returns/sets a Value that determines whether the drop-down list is dropped down or not."
 Attribute DroppedDown.VB_MemberFlags = "400"
 If VirtualComboHandle <> NULL_PTR Then DroppedDown = CBool(SendMessage(VirtualComboHandle, CB_GETDROPPEDSTATE, 0, ByVal 0&) <> 0)
 End Property
@@ -1899,7 +1899,7 @@ End If
 End Function
 
 Public Function GetIdealHorizontalExtent() As Single
-Attribute GetIdealHorizontalExtent.VB_Description = "Gets the ideal value for the horizontal extent property."
+Attribute GetIdealHorizontalExtent.VB_Description = "Gets the ideal Value for the horizontal extent property."
 If VirtualComboHandle <> NULL_PTR And VirtualComboListHandle <> NULL_PTR Then
     Dim Count As Long
     Count = CLng(SendMessage(VirtualComboHandle, CB_GETCOUNT, 0, ByVal 0&))

@@ -424,7 +424,7 @@ Private Sub Form_Load()
     txtShellPipe.Text = txtShellPipe.Text & "spawned process." & vbCrLf
     txtShellPipe.Text = txtShellPipe.Text & "" & vbCrLf
     txtShellPipe.Text = txtShellPipe.Text & "The demonstration project runs a WSH script that" & vbCrLf
-    txtShellPipe.Text = txtShellPipe.Text & "accepts String values, then returns them reversed." & vbCrLf
+    txtShellPipe.Text = txtShellPipe.Text & "accepts String Values, then returns them reversed." & vbCrLf
     txtShellPipe.Text = txtShellPipe.Text & "" & vbCrLf
     txtShellPipe.Text = txtShellPipe.Text & "" & vbCrLf
     txtShellPipe.Text = txtShellPipe.Text & "Demo Project Files" & vbCrLf
@@ -558,7 +558,7 @@ Private Sub timLicenseLoader_Timer()
     For i = 0 To 1
         txtLicense.Text = txtLicense.Text & LoadResString(LineNum + i) & vbCrLf
     Next i
-    pbLicenseLoadProgress.value = LineNum
+    pbLicenseLoadProgress.Value = LineNum
     txtLicensePlaceholder.Text = t("라이선스를 불러오는 중... (", "Loading the license text... (") & Floor(LineNum / 812 * 100) & "%)"
     LineNum = LineNum + 2
     Exit Sub

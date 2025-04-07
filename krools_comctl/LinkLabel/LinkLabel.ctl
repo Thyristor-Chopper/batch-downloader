@@ -671,7 +671,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -723,7 +723,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -818,7 +818,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -861,7 +861,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -920,7 +920,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If LinkLabelDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1049,7 +1049,7 @@ UserControl.PropertyChanged "HotTracking"
 End Property
 
 Public Property Get UnderlineHot() As Boolean
-Attribute UnderlineHot.VB_Description = "Returns/sets a value that determines whether hot link items to be displayed with underlined text or not. This property is ignored at design time."
+Attribute UnderlineHot.VB_Description = "Returns/sets a Value that determines whether hot link items to be displayed with underlined text or not. This property is ignored at design time."
 UnderlineHot = PropUnderlineHot
 End Property
 
@@ -1060,7 +1060,7 @@ UserControl.PropertyChanged "UnderlineHot"
 End Property
 
 Public Property Get UnderlineCold() As Boolean
-Attribute UnderlineCold.VB_Description = "Returns/sets a value that determines whether cold link items to be displayed with underlined text or not. This property is ignored at design time."
+Attribute UnderlineCold.VB_Description = "Returns/sets a Value that determines whether cold link items to be displayed with underlined text or not. This property is ignored at design time."
 UnderlineCold = PropUnderlineCold
 End Property
 
@@ -1071,7 +1071,7 @@ UserControl.PropertyChanged "UnderlineCold"
 End Property
 
 Public Property Get UseMnemonic() As Boolean
-Attribute UseMnemonic.VB_Description = "Returns/sets a value that specifies whether an & in the caption property defines an access key. Requires comctl32.dll version 6.1 or higher."
+Attribute UseMnemonic.VB_Description = "Returns/sets a Value that specifies whether an & in the caption property defines an access key. Requires comctl32.dll version 6.1 or higher."
 UseMnemonic = PropUseMnemonic
 End Property
 
@@ -1082,7 +1082,7 @@ UserControl.PropertyChanged "UseMnemonic"
 End Property
 
 Public Property Get Transparent() As Boolean
-Attribute Transparent.VB_Description = "Returns/sets a value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
+Attribute Transparent.VB_Description = "Returns/sets a Value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
 Transparent = PropTransparent
 End Property
 
@@ -1093,7 +1093,7 @@ UserControl.PropertyChanged "Transparent"
 End Property
 
 Public Property Get ShowTips() As Boolean
-Attribute ShowTips.VB_Description = "Returns/sets a value that determines whether the LinkGetTipText event will be raised to retrieve a tool tip text to be displayed or not."
+Attribute ShowTips.VB_Description = "Returns/sets a Value that determines whether the LinkGetTipText event will be raised to retrieve a tool tip text to be displayed or not."
 ShowTips = PropShowTips
 End Property
 

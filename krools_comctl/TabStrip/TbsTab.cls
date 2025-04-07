@@ -122,7 +122,7 @@ ImageIndex = PropImageIndex
 End Property
 
 Public Property Get Selected() As Boolean
-Attribute Selected.VB_Description = "Returns/sets a value that determines whether the tab is selected or not."
+Attribute Selected.VB_Description = "Returns/sets a Value that determines whether the tab is selected or not."
 Selected = ShadowTabStrip.FTabSelected(PropIndex)
 End Property
 
@@ -131,7 +131,7 @@ ShadowTabStrip.FTabSelected(PropIndex) = Value
 End Property
 
 Public Property Get Pressed() As Boolean
-Attribute Pressed.VB_Description = "Returns/sets a value that determines whether the tab is pressed or not. This is only meaningful if the style property is set to buttons or flat buttons."
+Attribute Pressed.VB_Description = "Returns/sets a Value that determines whether the tab is pressed or not. This is only meaningful if the style property is set to buttons or flat buttons."
 Pressed = ShadowTabStrip.FTabPressed(PropIndex)
 End Property
 
@@ -140,7 +140,7 @@ ShadowTabStrip.FTabPressed(PropIndex) = Value
 End Property
 
 Public Property Get HighLighted() As Boolean
-Attribute HighLighted.VB_Description = "Returns/sets a value that determines whether the tab is highlighted or not. This has no visible effect if the version of comctl32.dll is 6.0 or higher and the visual styles property is set to true."
+Attribute HighLighted.VB_Description = "Returns/sets a Value that determines whether the tab is highlighted or not. This has no visible effect if the version of comctl32.dll is 6.0 or higher and the visual styles property is set to true."
 HighLighted = ShadowTabStrip.FTabHighLighted(PropIndex)
 End Property
 

@@ -542,7 +542,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -571,7 +571,7 @@ Extender.WhatsThisHelpID = Value
 End Property
 
 Public Property Get Align() As Integer
-Attribute Align.VB_Description = "Returns/sets a value that determines where an object is displayed on a form."
+Attribute Align.VB_Description = "Returns/sets a Value that determines where an object is displayed on a form."
 Attribute Align.VB_MemberFlags = "400"
 Align = Extender.Align
 End Property
@@ -595,7 +595,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -673,7 +673,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -694,7 +694,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -752,7 +752,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If ProgressBarDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -791,7 +791,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -860,7 +860,7 @@ If Value < Me.Max Then
     If PropValue < PropRange.Min Then PropValue = PropRange.Min
 Else
     If ProgressBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -886,7 +886,7 @@ If Value > Me.Min Then
     If PropValue > PropRange.Max Then PropValue = PropRange.Max
 Else
     If ProgressBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -928,7 +928,7 @@ End If
 End Property
 
 Public Property Get Step() As Long
-Attribute Step.VB_Description = "Returns/sets the step value for the 'StepIt' procedure."
+Attribute Step.VB_Description = "Returns/sets the step Value for the 'StepIt' procedure."
 If ProgressBarHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then
     Step = CLng(SendMessage(ProgressBarHandle, PBM_GETSTEP, 0, ByVal 0&))
 Else
@@ -943,7 +943,7 @@ UserControl.PropertyChanged "Step"
 End Property
 
 Public Property Get StepAutoReset() As Boolean
-Attribute StepAutoReset.VB_Description = "Returns/sets a value that determines whether the position will be automatically reset when the maximum is exceeded or not. Only applicable for the 'StepIt' procedure."
+Attribute StepAutoReset.VB_Description = "Returns/sets a Value that determines whether the position will be automatically reset when the maximum is exceeded or not. Only applicable for the 'StepIt' procedure."
 StepAutoReset = PropStepAutoReset
 End Property
 
@@ -953,7 +953,7 @@ UserControl.PropertyChanged "StepAutoReset"
 End Property
 
 Public Property Get MarqueeAnimation() As Boolean
-Attribute MarqueeAnimation.VB_Description = "Returns/sets a value that determines whether the marquee animation is on or off. Requires comctl32.dll version 6.0 or higher."
+Attribute MarqueeAnimation.VB_Description = "Returns/sets a Value that determines whether the marquee animation is on or off. Requires comctl32.dll version 6.0 or higher."
 MarqueeAnimation = PropMarqueeAnimation
 End Property
 
@@ -974,7 +974,7 @@ If Value > 0 Then
     PropMarqueeSpeed = Value
 Else
     If ProgressBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1025,7 +1025,7 @@ UserControl.PropertyChanged "Scrolling"
 End Property
 
 Public Property Get SmoothReverse() As Boolean
-Attribute SmoothReverse.VB_Description = "Returns/sets a value that determines the animation behavior when moving backward. If this is set, then a smooth transition will occur, otherwise it will jump to the lower value. Requires comctl32.dll version 6.1 or higher."
+Attribute SmoothReverse.VB_Description = "Returns/sets a Value that determines the animation behavior when moving backward. If this is set, then a smooth transition will occur, otherwise it will jump to the lower Value. Requires comctl32.dll version 6.1 or higher."
 SmoothReverse = PropSmoothReverse
 End Property
 
@@ -1081,7 +1081,7 @@ UserControl.PropertyChanged "State"
 End Property
 
 Public Property Get ShowInTaskBar() As Boolean
-Attribute ShowInTaskBar.VB_Description = "Returns/sets a value that indicates if the progress state and value appears in the Windows 95 taskbar. Requires comctl32.dll version 6.1 or higher."
+Attribute ShowInTaskBar.VB_Description = "Returns/sets a Value that indicates if the progress state and Value appears in the Windows 95 taskbar. Requires comctl32.dll version 6.1 or higher."
 ShowInTaskBar = PropShowInTaskBar
 End Property
 
@@ -1105,7 +1105,7 @@ UserControl.PropertyChanged "ShowInTaskBar"
 End Property
 
 Public Property Get Text() As String
-Attribute Text.VB_Description = "Returns/sets the text contained in an object. Placeholders: {0} = Value, {1} = Min, {2} = Max and {3} = Percent value between 0 and 100."
+Attribute Text.VB_Description = "Returns/sets the text contained in an object. Placeholders: {0} = Value, {1} = Min, {2} = Max and {3} = Percent Value between 0 and 100."
 Text = PropText
 End Property
 
@@ -1310,7 +1310,7 @@ For Pos = 1 To Len(PropText)
         Case "{2}" ' Max
             Text = Text & CStr(Me.Max)
             Pos = Pos + 2
-        Case "{3}" ' Percent value between 0 and 100
+        Case "{3}" ' Percent Value between 0 and 100
             Text = Text & Format$((CDbl(Me.Value - Me.Min) / CDbl(Me.Max - Me.Min)) * 100, "0")
             Pos = Pos + 2
         Case Else

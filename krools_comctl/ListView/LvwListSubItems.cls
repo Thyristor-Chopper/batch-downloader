@@ -96,7 +96,7 @@ End If
 End Property
 
 Public Function Exists(ByVal Index As Variant) As Boolean
-Attribute Exists.VB_Description = "Returns a value indicating if a given index or key in the list sub items collection exists."
+Attribute Exists.VB_Description = "Returns a Value indicating if a given index or key in the list sub items collection exists."
 Dim SubItemIndex As Long
 SubItemIndex = ShadowListItem.FListSubItemsItem(Index)
 Exists = CBool(SubItemIndex > 0 And SubItemIndex <= ShadowListItem.FListSubItemsCount)

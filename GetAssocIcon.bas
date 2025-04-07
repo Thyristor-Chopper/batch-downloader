@@ -69,7 +69,7 @@ Public Function GetAssocIcon( _
     '       o An executable file (EXE, DLL, OCX?), or
     '       o An .ico file, or
     '       o A data file of some "type" (as defined by its file extension
-    '         value) that has a file association, or
+    '         Value) that has a file association, or
     '       o A file extension in the form ".ext" or "anything.ext" but
     '         only if Extension = True!
     '

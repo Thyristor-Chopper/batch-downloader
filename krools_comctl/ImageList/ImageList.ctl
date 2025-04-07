@@ -310,7 +310,7 @@ Else
         PropImageWidth = Value
     Else
         If ImageListDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -340,7 +340,7 @@ Else
         PropImageHeight = Value
     Else
         If ImageListDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -381,7 +381,7 @@ UserControl.PropertyChanged "ColorDepth"
 End Property
 
 Public Property Get RightToLeftMirror() As Boolean
-Attribute RightToLeftMirror.VB_Description = "Returns/sets a value indicating if an list image is drawn mirrored on a right-to-left device context to preserve directional-sensitivity. Requires comctl32.dll version 6.0 or higher."
+Attribute RightToLeftMirror.VB_Description = "Returns/sets a Value indicating if an list image is drawn mirrored on a right-to-left device context to preserve directional-sensitivity. Requires comctl32.dll version 6.0 or higher."
 RightToLeftMirror = PropRightToLeftMirror
 End Property
 
@@ -404,7 +404,7 @@ UserControl.PropertyChanged "RightToLeftMirror"
 End Property
 
 Public Property Get UseBackColor() As Boolean
-Attribute UseBackColor.VB_Description = "Returns/sets a value which determines if the image list control will use the back color property. Icons will be displayed transparantly if the back color is not being used by the image list control."
+Attribute UseBackColor.VB_Description = "Returns/sets a Value which determines if the image list control will use the back color property. Icons will be displayed transparantly if the back color is not being used by the image list control."
 UseBackColor = PropUseBackColor
 End Property
 
@@ -439,7 +439,7 @@ UserControl.PropertyChanged "BackColor"
 End Property
 
 Public Property Get UseMaskColor() As Boolean
-Attribute UseMaskColor.VB_Description = "Returns/sets a value which determines if the image list control will use the mask color property."
+Attribute UseMaskColor.VB_Description = "Returns/sets a Value which determines if the image list control will use the mask color property."
 UseMaskColor = PropUseMaskColor
 End Property
 
@@ -449,7 +449,7 @@ UserControl.PropertyChanged "UseMaskColor"
 End Property
 
 Public Property Get MaskColor() As OLE_COLOR
-Attribute MaskColor.VB_Description = "Returns/sets a value which determines the color to be transparent in image list graphical operations."
+Attribute MaskColor.VB_Description = "Returns/sets a Value which determines the color to be transparent in image list graphical operations."
 MaskColor = PropMaskColor
 End Property
 

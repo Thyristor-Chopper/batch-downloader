@@ -99,7 +99,7 @@ PropText = Value
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether the button menu is enabled or not."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether the button menu is enabled or not."
 Enabled = PropEnabled
 End Property
 
@@ -108,7 +108,7 @@ PropEnabled = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether the button menu is visible or not."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether the button menu is visible or not."
 Visible = PropVisible
 End Property
 
@@ -117,7 +117,7 @@ PropVisible = Value
 End Property
 
 Public Property Get Checked() As Boolean
-Attribute Checked.VB_Description = "Returns/sets a value that determines whether the button menu is checked or not."
+Attribute Checked.VB_Description = "Returns/sets a Value that determines whether the button menu is checked or not."
 Checked = PropChecked
 End Property
 
@@ -126,7 +126,7 @@ PropChecked = Value
 End Property
 
 Public Property Get Separator() As Boolean
-Attribute Separator.VB_Description = "Returns/sets a value that determines whether the button menu is a separator (drawing a horizontal dividing line) or not. A separator ignores the text, enabled and checked properties."
+Attribute Separator.VB_Description = "Returns/sets a Value that determines whether the button menu is a separator (drawing a horizontal dividing line) or not. A separator ignores the text, enabled and checked properties."
 Separator = PropSeparator
 End Property
 

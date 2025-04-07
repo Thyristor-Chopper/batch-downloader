@@ -1165,7 +1165,7 @@ Else
     If Cancel = False Then TextImage.Text = CStr(LngValue)
 End If
 If Cancel = True Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextImage.Text = PropertyPage.SelectedControls(0).Buttons(CurrIndex).Image
     Else
@@ -1267,7 +1267,7 @@ End Sub
 Private Sub TextCustomWidth_Validate(Cancel As Boolean)
 If TextCustomWidth.Text = vbNullString Then Exit Sub
 If Not IsNumeric(TextCustomWidth.Text) Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextCustomWidth.Text = PropertyPage.SelectedControls(0).Buttons(CurrIndex).CustomWidth
     Else
@@ -1285,7 +1285,7 @@ Else
     If Cancel = False Then
         TextCustomWidth.Text = SngValue
     Else
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         If CurrIndex > 0 Then
             TextCustomWidth.Text = PropertyPage.SelectedControls(0).Buttons(CurrIndex).CustomWidth
         Else

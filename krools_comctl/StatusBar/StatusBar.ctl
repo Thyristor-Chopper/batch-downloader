@@ -842,7 +842,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -871,7 +871,7 @@ Extender.WhatsThisHelpID = Value
 End Property
 
 Public Property Get Align() As Integer
-Attribute Align.VB_Description = "Returns/sets a value that determines where an object is displayed on a form."
+Attribute Align.VB_Description = "Returns/sets a Value that determines where an object is displayed on a form."
 Attribute Align.VB_MemberFlags = "400"
 Align = Extender.Align
 End Property
@@ -895,7 +895,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -981,7 +981,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -1005,7 +1005,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1064,7 +1064,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If StatusBarDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1112,7 +1112,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -1193,7 +1193,7 @@ UserControl.PropertyChanged "SimpleText"
 End Property
 
 Public Property Get AllowSizeGrip() As Boolean
-Attribute AllowSizeGrip.VB_Description = "Returns/sets a value indicating if the control is allowed to include a size grip at the right end."
+Attribute AllowSizeGrip.VB_Description = "Returns/sets a Value indicating if the control is allowed to include a size grip at the right end."
 AllowSizeGrip = PropAllowSizeGrip
 End Property
 
@@ -1204,7 +1204,7 @@ UserControl.PropertyChanged "AllowSizeGrip"
 End Property
 
 Public Property Get ShowTips() As Boolean
-Attribute ShowTips.VB_Description = "Returns/sets a value that determines whether the tool tip text properties will be displayed or not."
+Attribute ShowTips.VB_Description = "Returns/sets a Value that determines whether the tool tip text properties will be displayed or not."
 ShowTips = PropShowTips
 End Property
 
@@ -1239,7 +1239,7 @@ UserControl.PropertyChanged "BackColor"
 End Property
 
 Public Property Get DoubleBuffer() As Boolean
-Attribute DoubleBuffer.VB_Description = "Returns/sets a value that determines whether the control paints via double-buffering, which reduces flicker."
+Attribute DoubleBuffer.VB_Description = "Returns/sets a Value that determines whether the control paints via double-buffering, which reduces flicker."
 DoubleBuffer = PropDoubleBuffer
 End Property
 
@@ -1696,7 +1696,7 @@ RedrawWindow UserControl.hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDA
 End Sub
 
 Public Function IncludesSizeGrip() As Boolean
-Attribute IncludesSizeGrip.VB_Description = "Returns a value indicating if the control includes a size grip at the right end."
+Attribute IncludesSizeGrip.VB_Description = "Returns a Value indicating if the control includes a size grip at the right end."
 If StatusBarHandle <> NULL_PTR Then IncludesSizeGrip = CBool((GetWindowLong(StatusBarHandle, GWL_STYLE) And SBARS_SIZEGRIP) = SBARS_SIZEGRIP)
 End Function
 

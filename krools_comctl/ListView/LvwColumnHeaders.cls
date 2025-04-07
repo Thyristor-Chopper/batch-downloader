@@ -110,7 +110,7 @@ Set ItemFromPosition = PropColumnHeader(ShadowListView.FColumnHeadersPositionToI
 End Property
 
 Public Function Exists(ByVal Index As Variant) As Boolean
-Attribute Exists.VB_Description = "Returns a value indicating if a given index or key in the column headers collection exists."
+Attribute Exists.VB_Description = "Returns a Value indicating if a given index or key in the column headers collection exists."
 On Error Resume Next
 PropColumnHeader.Item Index
 Exists = CBool(Err.Number = 0)

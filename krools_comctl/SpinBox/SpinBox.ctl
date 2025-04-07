@@ -556,7 +556,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -608,7 +608,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -695,7 +695,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -739,7 +739,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -801,7 +801,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If SpinBoxDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -864,7 +864,7 @@ UserControl.PropertyChanged "RightToLeftMode"
 End Property
 
 Public Property Get Min() As Long
-Attribute Min.VB_Description = "Returns/sets the minimum value."
+Attribute Min.VB_Description = "Returns/sets the minimum Value."
 If SpinBoxUpDownHandle <> NULL_PTR Then
     SendMessage SpinBoxUpDownHandle, UDM_GETRANGE32, VarPtr(Min), ByVal 0&
 Else
@@ -878,7 +878,7 @@ If Value <= Me.Max Then
     If Me.Value < PropMin Then Me.Value = PropMin
 Else
     If SpinBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -890,7 +890,7 @@ UserControl.PropertyChanged "Min"
 End Property
 
 Public Property Get Max() As Long
-Attribute Max.VB_Description = "Returns/sets the maximum value."
+Attribute Max.VB_Description = "Returns/sets the maximum Value."
 If SpinBoxUpDownHandle <> NULL_PTR Then
     SendMessage SpinBoxUpDownHandle, UDM_GETRANGE32, 0, ByVal VarPtr(Max)
 Else
@@ -904,7 +904,7 @@ If Value >= Me.Min Then
     If Me.Value > PropMax Then Me.Value = PropMax
 Else
     If SpinBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -968,7 +968,7 @@ UserControl.PropertyChanged "Increment"
 End Property
 
 Public Property Get Wrap() As Boolean
-Attribute Wrap.VB_Description = "Returns/sets a value that determines whether or not the position will be wrapped if it is incremented or decremented beyond the ending or beginning of the range."
+Attribute Wrap.VB_Description = "Returns/sets a Value that determines whether or not the position will be wrapped if it is incremented or decremented beyond the ending or beginning of the range."
 Wrap = PropWrap
 End Property
 
@@ -979,7 +979,7 @@ UserControl.PropertyChanged "Wrap"
 End Property
 
 Public Property Get HotTracking() As Boolean
-Attribute HotTracking.VB_Description = "Returns/sets a value that determines whether or not the control highlights the up arrow and down arrow as the pointer passes over them. This flag is ignored on Windows XP (or above) when the desktop theme overrides it."
+Attribute HotTracking.VB_Description = "Returns/sets a Value that determines whether or not the control highlights the up arrow and down arrow as the pointer passes over them. This flag is ignored on Windows XP (or above) when the desktop theme overrides it."
 HotTracking = PropHotTracking
 End Property
 
@@ -1006,7 +1006,7 @@ UserControl.PropertyChanged "Alignment"
 End Property
 
 Public Property Get ThousandsSeparator() As Boolean
-Attribute ThousandsSeparator.VB_Description = "Returns/sets a value that determines whether a thousand separator will be insert between every three decimal digits or not."
+Attribute ThousandsSeparator.VB_Description = "Returns/sets a Value that determines whether a thousand separator will be insert between every three decimal digits or not."
 ThousandsSeparator = PropThousandsSeparator
 End Property
 
@@ -1051,7 +1051,7 @@ UserControl.PropertyChanged "NumberStyle"
 End Property
 
 Public Property Get ArrowKeysChange() As Boolean
-Attribute ArrowKeysChange.VB_Description = "Returns/sets a value that determines whether or not the position can be incremented and decrement when the up arrow and down arrow keys are pressed."
+Attribute ArrowKeysChange.VB_Description = "Returns/sets a Value that determines whether or not the position can be incremented and decrement when the up arrow and down arrow keys are pressed."
 ArrowKeysChange = PropArrowKeysChange
 End Property
 
@@ -1062,7 +1062,7 @@ UserControl.PropertyChanged "ArrowKeysChange"
 End Property
 
 Public Property Get AllowOnlyNumbers() As Boolean
-Attribute AllowOnlyNumbers.VB_Description = "Returns/sets a value indicating if only numbers are allowed to be entered."
+Attribute AllowOnlyNumbers.VB_Description = "Returns/sets a Value indicating if only numbers are allowed to be entered."
 AllowOnlyNumbers = PropAllowOnlyNumbers
 End Property
 
@@ -1114,7 +1114,7 @@ UserControl.PropertyChanged "TextAlignment"
 End Property
 
 Public Property Get Locked() As Boolean
-Attribute Locked.VB_Description = "Returns/sets a value indicating whether the contents can be edited."
+Attribute Locked.VB_Description = "Returns/sets a Value indicating whether the contents can be edited."
 If SpinBoxEditHandle <> NULL_PTR Then
     Locked = CBool((GetWindowLong(SpinBoxEditHandle, GWL_STYLE) And ES_READONLY) <> 0)
 Else
@@ -1129,7 +1129,7 @@ UserControl.PropertyChanged "Locked"
 End Property
 
 Public Property Get HideSelection() As Boolean
-Attribute HideSelection.VB_Description = "Returns/sets a value indicating if the selection in an edit control is hidden when the control loses focus."
+Attribute HideSelection.VB_Description = "Returns/sets a Value indicating if the selection in an edit control is hidden when the control loses focus."
 HideSelection = PropHideSelection
 End Property
 

@@ -946,7 +946,7 @@ PropCancelError = Value
 End Property
 
 Public Property Get HookEvents() As Boolean
-Attribute HookEvents.VB_Description = "Returns/sets a value indicating if the dialog box can raise events that requires a hook callback."
+Attribute HookEvents.VB_Description = "Returns/sets a Value indicating if the dialog box can raise events that requires a hook callback."
 HookEvents = PropHookEvents
 End Property
 
@@ -1214,7 +1214,7 @@ PropMax = Value
 End Property
 
 Public Property Get FromPage() As Long
-Attribute FromPage.VB_Description = "Returns/sets the value for the first page to be printed."
+Attribute FromPage.VB_Description = "Returns/sets the Value for the first page to be printed."
 FromPage = PropFromPage
 End Property
 
@@ -1224,7 +1224,7 @@ PropFromPage = Value
 End Property
 
 Public Property Get ToPage() As Long
-Attribute ToPage.VB_Description = "Returns/sets the value for the first page to be printed."
+Attribute ToPage.VB_Description = "Returns/sets the Value for the first page to be printed."
 ToPage = PropToPage
 End Property
 
@@ -1264,7 +1264,7 @@ If (CommonDialogDMFieldsExclusion And DM_PAPERSIZE) <> 0 Then CommonDialogDMFiel
 End Property
 
 Public Property Get Copies() As Integer
-Attribute Copies.VB_Description = "Returns/sets a value that determines the number of copies to be printed."
+Attribute Copies.VB_Description = "Returns/sets a Value that determines the number of copies to be printed."
 Copies = PropCopies
 End Property
 
@@ -1289,7 +1289,7 @@ If (CommonDialogDMFieldsExclusion And DM_DEFAULTSOURCE) <> 0 Then CommonDialogDM
 End Property
 
 Public Property Get PrintQuality() As CdlPRPQConstants
-Attribute PrintQuality.VB_Description = "Returns/sets a value indicating the printer resolution."
+Attribute PrintQuality.VB_Description = "Returns/sets a Value indicating the printer resolution."
 PrintQuality = PropPrintQuality
 End Property
 
@@ -1319,7 +1319,7 @@ If (CommonDialogDMFieldsExclusion And DM_COLOR) <> 0 Then CommonDialogDMFieldsEx
 End Property
 
 Public Property Get Duplex() As CdlPRDPConstants
-Attribute Duplex.VB_Description = "Returns/sets a value that determines whether a page is printed on both sides."
+Attribute Duplex.VB_Description = "Returns/sets a Value that determines whether a page is printed on both sides."
 Duplex = PropDuplex
 End Property
 
@@ -1334,7 +1334,7 @@ If (CommonDialogDMFieldsExclusion And DM_DUPLEX) <> 0 Then CommonDialogDMFieldsE
 End Property
 
 Public Property Get PrinterDefault() As Boolean
-Attribute PrinterDefault.VB_Description = "Returns/sets a value that determines if user selections in a print dialog box are used to change the default printer."
+Attribute PrinterDefault.VB_Description = "Returns/sets a Value that determines if user selections in a print dialog box are used to change the default printer."
 PrinterDefault = PropPrinterDefault
 End Property
 
@@ -1343,7 +1343,7 @@ PropPrinterDefault = Value
 End Property
 
 Public Property Get PrinterDefaultInit() As Boolean
-Attribute PrinterDefaultInit.VB_Description = "Returns/sets a value that indicates if always the default printer will be initialized in a print or page setup dialog box."
+Attribute PrinterDefaultInit.VB_Description = "Returns/sets a Value that indicates if always the default printer will be initialized in a print or page setup dialog box."
 PrinterDefaultInit = PropPrinterDefaultInit
 End Property
 
@@ -2899,7 +2899,7 @@ Select Case dwRefData
             If GetFocus() <> hWndFocus And hWndFocus <> NULL_PTR Then SetFocusAPI hWndFocus
             If Cancel = True Then
                 CallbackProcDialog = 1
-                If OldColor <> .RGBResult Then ' The SetRGB message works only properly when the callback procedure returns a nonzero value
+                If OldColor <> .RGBResult Then ' The SetRGB message works only properly when the callback procedure returns a nonzero Value
                     If CommonDialogSetRGBMsg = 0 Then CommonDialogSetRGBMsg = RegisterWindowMessage(StrPtr(SETRGBSTRING))
                     SendMessage hDlg, CommonDialogSetRGBMsg, 0, ByVal .RGBResult
                 End If
@@ -2989,7 +2989,7 @@ Select Case dwRefData
                 If (PropFlags And CdlBIFReturnOnlyFSDirs) = CdlBIFReturnOnlyFSDirs Then
                     ' If the CdlBIFReturnOnlyFSDirs flag is set, the OK button remains enabled if the user selects a "\\ServerName" item.
                     ' "\\ServerName" is not a file system path, but a machine name. Whereas "\\ServerName\ShareName\" is a file system path.
-                    ' Therefore it is necessary to check the return value of SHGetPathFromIDList and enable/disable the OK button accordingly.
+                    ' Therefore it is necessary to check the return Value of SHGetPathFromIDList and enable/disable the OK button accordingly.
                     SendMessage hDlg, BFFM_ENABLEOK, 0, ByVal RetVal
                 End If
             Case BFFM_VALIDATEFAILED

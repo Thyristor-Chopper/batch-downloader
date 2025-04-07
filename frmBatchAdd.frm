@@ -220,8 +220,7 @@ Private Sub Form_Unload(Cancel As Integer)
         SaveSetting "DownloadBooster", "UserData", "BatchURLAddHeight", Me.Height - PaddedBorderWidth * 15 * 2
     End If
     
-    DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
-    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    IBSSubclass_UnsubclassIt
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
@@ -231,6 +230,7 @@ End Function
 Private Sub IBSSubclass_UnsubclassIt()
     DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    Debug.Print 1
 End Sub
 
 Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long

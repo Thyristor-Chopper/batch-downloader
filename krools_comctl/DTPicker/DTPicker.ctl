@@ -767,7 +767,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -819,7 +819,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -935,7 +935,7 @@ UserControl.PropertyChanged "CalendarFont"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -954,7 +954,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1013,7 +1013,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If DTPickerDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1059,7 +1059,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -1141,7 +1141,7 @@ UserControl.PropertyChanged "CalendarTrailingForeColor"
 End Property
 
 Public Property Get CalendarShowToday() As Boolean
-Attribute CalendarShowToday.VB_Description = "Returns/sets a value that determines whether or not the calendar displays the 'Today xx/xx/xx' literal at the bottom."
+Attribute CalendarShowToday.VB_Description = "Returns/sets a Value that determines whether or not the calendar displays the 'Today xx/xx/xx' literal at the bottom."
 CalendarShowToday = PropCalendarShowToday
 End Property
 
@@ -1161,7 +1161,7 @@ UserControl.PropertyChanged "CalendarShowToday"
 End Property
 
 Public Property Get CalendarShowTodayCircle() As Boolean
-Attribute CalendarShowTodayCircle.VB_Description = "Returns/sets a value that determines whether or not the calendar does circle the 'Today' date."
+Attribute CalendarShowTodayCircle.VB_Description = "Returns/sets a Value that determines whether or not the calendar does circle the 'Today' date."
 CalendarShowTodayCircle = PropCalendarShowTodayCircle
 End Property
 
@@ -1181,7 +1181,7 @@ UserControl.PropertyChanged "CalendarShowTodayCircle"
 End Property
 
 Public Property Get CalendarShowWeekNumbers() As Boolean
-Attribute CalendarShowWeekNumbers.VB_Description = "Returns/sets a value that determines whether the calendar displays week numbers to the left of each row of days."
+Attribute CalendarShowWeekNumbers.VB_Description = "Returns/sets a Value that determines whether the calendar displays week numbers to the left of each row of days."
 CalendarShowWeekNumbers = PropCalendarShowWeekNumbers
 End Property
 
@@ -1201,7 +1201,7 @@ UserControl.PropertyChanged "CalendarShowWeekNumbers"
 End Property
 
 Public Property Get CalendarShowTrailingDates() As Boolean
-Attribute CalendarShowTrailingDates.VB_Description = "Returns/sets a value that determines whether the calendar displays the dates from the previous and next months. Requires comctl32.dll version 6.1 or higher."
+Attribute CalendarShowTrailingDates.VB_Description = "Returns/sets a Value that determines whether the calendar displays the dates from the previous and next months. Requires comctl32.dll version 6.1 or higher."
 CalendarShowTrailingDates = PropCalendarShowTrailingDates
 End Property
 
@@ -1221,7 +1221,7 @@ UserControl.PropertyChanged "CalendarShowTrailingDates"
 End Property
 
 Public Property Get CalendarAlignment() As CCLeftRightAlignmentConstants
-Attribute CalendarAlignment.VB_Description = "Returns/sets a value that determines whether the calendar will be left or right aligned with the control."
+Attribute CalendarAlignment.VB_Description = "Returns/sets a Value that determines whether the calendar will be left or right aligned with the control."
 CalendarAlignment = PropCalendarAlignment
 End Property
 
@@ -1237,7 +1237,7 @@ UserControl.PropertyChanged "CalendarAlignment"
 End Property
 
 Public Property Get CalendarDayState() As Boolean
-Attribute CalendarDayState.VB_Description = "Returns/sets a value that determines whether or not the calendar requests information about which days should be displayed in bold. Use the CalendarGetDayBold event to provide the requested information. Requires comctl32.dll version 6.1 or higher."
+Attribute CalendarDayState.VB_Description = "Returns/sets a Value that determines whether or not the calendar requests information about which days should be displayed in bold. Use the CalendarGetDayBold event to provide the requested information. Requires comctl32.dll version 6.1 or higher."
 CalendarDayState = PropCalendarDayState
 End Property
 
@@ -1257,7 +1257,7 @@ UserControl.PropertyChanged "CalendarDayState"
 End Property
 
 Public Property Get CalendarUseShortestDayNames() As Boolean
-Attribute CalendarUseShortestDayNames.VB_Description = "Returns/sets a value that determines whether the calendar uses the shortest instead of the short day names. Requires comctl32.dll version 6.1 or higher."
+Attribute CalendarUseShortestDayNames.VB_Description = "Returns/sets a Value that determines whether the calendar uses the shortest instead of the short day names. Requires comctl32.dll version 6.1 or higher."
 CalendarUseShortestDayNames = PropCalendarUseShortestDayNames
 End Property
 
@@ -1295,17 +1295,17 @@ Select Case Value
     Case #1/1/1900# To #12/31/9999 11:59:59 PM#
         If Value > Me.MaxDate Then
             If DTPickerDesignMode = True Then
-                MsgBoxInternal "A value was specified for the MinDate property that is higher than the current value of MaxDate", vbCritical + vbOKOnly
+                MsgBoxInternal "A Value was specified for the MinDate property that is higher than the current Value of MaxDate", vbCritical + vbOKOnly
                 Exit Property
             Else
-                Err.Raise 35775, Description:="A value was specified for the MinDate property that is higher than the current value of MaxDate"
+                Err.Raise 35775, Description:="A Value was specified for the MinDate property that is higher than the current Value of MaxDate"
             End If
         Else
             PropMinDate = Value
         End If
     Case Else
         If DTPickerDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1354,17 +1354,17 @@ Select Case Value
     Case #1/1/1900# To #12/31/9999 11:59:59 PM#
         If Value < Me.MinDate Then
             If DTPickerDesignMode = True Then
-                MsgBoxInternal "A value was specified for the MaxDate property that is lower than the current value of MinDate", vbCritical + vbOKOnly
+                MsgBoxInternal "A Value was specified for the MaxDate property that is lower than the current Value of MinDate", vbCritical + vbOKOnly
                 Exit Property
             Else
-                Err.Raise 35774, Description:="A value was specified for the MaxDate property that is lower than the current value of MinDate"
+                Err.Raise 35774, Description:="A Value was specified for the MaxDate property that is lower than the current Value of MinDate"
             End If
         Else
             PropMaxDate = Value
         End If
     Case Else
         If DTPickerDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1446,7 +1446,7 @@ ElseIf IsNull(DateValue) Then
     End If
 Else
     If DTPickerDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1618,7 +1618,7 @@ Me.Value = DateSerial(VBA.Year(PropValue), VBA.Month(PropValue), VBA.Day(PropVal
 End Property
 
 Public Property Get Format() As DtpFormatConstants
-Attribute Format.VB_Description = "Returns/sets a value that determines whether dates and times are displayed using standard or custom formatting."
+Attribute Format.VB_Description = "Returns/sets a Value that determines whether dates and times are displayed using standard or custom formatting."
 Format = PropFormat
 End Property
 
@@ -1655,7 +1655,7 @@ UserControl.PropertyChanged "CustomFormat"
 End Property
 
 Public Property Get UpDown() As Boolean
-Attribute UpDown.VB_Description = "Returns/sets a value that determines whether an updown (spin) button is used to modify dates instead of a dropdown calendar. This flag is ignored when the time format is set."
+Attribute UpDown.VB_Description = "Returns/sets a Value that determines whether an updown (spin) button is used to modify dates instead of a dropdown calendar. This flag is ignored when the time format is set."
 UpDown = PropUpDown
 End Property
 
@@ -1666,7 +1666,7 @@ UserControl.PropertyChanged "UpDown"
 End Property
 
 Public Property Get CheckBox() As Boolean
-Attribute CheckBox.VB_Description = "Returns/sets a value that determines whether or not the control displays a checkbox to the left of the date. When unchecked, no date is selected."
+Attribute CheckBox.VB_Description = "Returns/sets a Value that determines whether or not the control displays a checkbox to the left of the date. When unchecked, no date is selected."
 CheckBox = PropCheckBox
 End Property
 
@@ -1677,7 +1677,7 @@ UserControl.PropertyChanged "CheckBox"
 End Property
 
 Public Property Get AllowUserInput() As Boolean
-Attribute AllowUserInput.VB_Description = "Returns/sets a value indicating if user input is allowed. It enables when the user press the F2 key or click within the client area. The ParseUserInput event is fired after. It is necessary to parse the input string and take action if necessary."
+Attribute AllowUserInput.VB_Description = "Returns/sets a Value indicating if user input is allowed. It enables when the user press the F2 key or click within the client area. The ParseUserInput event is fired after. It is necessary to parse the input string and take action if necessary."
 AllowUserInput = PropAllowUserInput
 End Property
 
@@ -1688,7 +1688,7 @@ UserControl.PropertyChanged "AllowUserInput"
 End Property
 
 Public Property Get StartOfWeek() As Integer
-Attribute StartOfWeek.VB_Description = "Returns/sets a value that determines the day of the week [Mon-Sun] displayed in the leftmost column of days."
+Attribute StartOfWeek.VB_Description = "Returns/sets a Value that determines the day of the week [Mon-Sun] displayed in the leftmost column of days."
 Dim CalendarHandle As LongPtr
 CalendarHandle = Me.hWndCalendar
 If CalendarHandle <> NULL_PTR And DTPickerDesignMode = False Then
@@ -1829,7 +1829,7 @@ RedrawWindow UserControl.hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDA
 End Sub
 
 Public Property Get DroppedDown() As Boolean
-Attribute DroppedDown.VB_Description = "Returns/sets a value that determines whether the calendar is dropped down or not."
+Attribute DroppedDown.VB_Description = "Returns/sets a Value that determines whether the calendar is dropped down or not."
 Attribute DroppedDown.VB_MemberFlags = "400"
 If DTPickerHandle <> NULL_PTR Then DroppedDown = DTPickerDroppedDown
 End Property
@@ -1892,7 +1892,7 @@ End If
 End Property
 
 Public Property Get SystemStartOfWeek() As Integer
-Attribute SystemStartOfWeek.VB_Description = "Returns a value that determines the local (system) day of the week [Mon-Sun]."
+Attribute SystemStartOfWeek.VB_Description = "Returns a Value that determines the local (system) day of the week [Mon-Sun]."
 Attribute SystemStartOfWeek.VB_MemberFlags = "400"
 Const LOCALE_USER_DEFAULT As Long = &H400
 Const LOCALE_IFIRSTDAYOFWEEK As Long = &H100C, LOCALE_RETURN_NUMBER As Long = &H20000000

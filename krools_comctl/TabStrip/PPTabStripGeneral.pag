@@ -512,7 +512,7 @@ End Sub
 
 Private Sub TextTabFixedWidth_Validate(Cancel As Boolean)
 If Not IsNumeric(TextTabFixedWidth.Text) Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextTabFixedWidth.Text = PropertyPage.SelectedControls(0).TabFixedWidth
     TextTabFixedWidth.SetFocus
     Cancel = True
@@ -526,7 +526,7 @@ Else
     If Cancel = False Then
         TextTabFixedWidth.Text = SngValue
     Else
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextTabFixedWidth.Text = PropertyPage.SelectedControls(0).TabFixedWidth
         TextTabFixedWidth.SetFocus
     End If
@@ -554,7 +554,7 @@ End Sub
 
 Private Sub TextTabFixedHeight_Validate(Cancel As Boolean)
 If Not IsNumeric(TextTabFixedHeight.Text) Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextTabFixedHeight.Text = PropertyPage.SelectedControls(0).TabFixedHeight
     TextTabFixedHeight.SetFocus
     Cancel = True
@@ -568,7 +568,7 @@ Else
     If Cancel = False Then
         TextTabFixedHeight.Text = SngValue
     Else
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextTabFixedHeight.Text = PropertyPage.SelectedControls(0).TabFixedHeight
         TextTabFixedHeight.SetFocus
     End If
@@ -596,7 +596,7 @@ End Sub
 
 Private Sub TextTabMinWidth_Validate(Cancel As Boolean)
 If Not IsNumeric(TextTabMinWidth.Text) Then
-    MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextTabMinWidth.Text = PropertyPage.SelectedControls(0).TabMinWidth
     TextTabMinWidth.SetFocus
     Cancel = True
@@ -610,7 +610,7 @@ Else
     If Cancel = False Then
         TextTabMinWidth.Text = SngValue
     Else
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextTabMinWidth.Text = PropertyPage.SelectedControls(0).TabMinWidth
         TextTabMinWidth.SetFocus
     End If

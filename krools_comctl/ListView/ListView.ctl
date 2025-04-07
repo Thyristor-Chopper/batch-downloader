@@ -1893,7 +1893,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -1945,7 +1945,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -2076,7 +2076,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -2124,7 +2124,7 @@ UserControl.PropertyChanged "VisualTheme"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -2136,7 +2136,7 @@ UserControl.PropertyChanged "Enabled"
 End Property
 
 Public Property Get AllowDropFiles() As Boolean
-Attribute AllowDropFiles.VB_Description = "Returns/sets a value that determines whether drag-drop files are allowed or not. Only applicable when there is no OLE drop target available."
+Attribute AllowDropFiles.VB_Description = "Returns/sets a Value that determines whether drag-drop files are allowed or not. Only applicable when there is no OLE drop target available."
 If ListViewHandle <> NULL_PTR Then
     AllowDropFiles = CBool((GetWindowLong(ListViewHandle, GWL_EXSTYLE) And WS_EX_ACCEPTFILES) <> 0)
 Else
@@ -2238,7 +2238,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If ListViewDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -2291,7 +2291,7 @@ Else
         Set PropHotMouseIcon = Value
     Else
         If ListViewDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -2344,7 +2344,7 @@ Else
         Set PropHeaderMouseIcon = Value
     Else
         If ListViewDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -2408,7 +2408,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -2899,7 +2899,7 @@ UserControl.PropertyChanged "ForeColor"
 End Property
 
 Public Property Get Redraw() As Boolean
-Attribute Redraw.VB_Description = "Returns/sets a value that determines whether or not the list view redraws when changing the list items. You can speed up the creation of large lists by disabling this property before adding the list items."
+Attribute Redraw.VB_Description = "Returns/sets a Value that determines whether or not the list view redraws when changing the list items. You can speed up the creation of large lists by disabling this property before adding the list items."
 Redraw = PropRedraw
 End Property
 
@@ -2980,7 +2980,7 @@ UserControl.PropertyChanged "View"
 End Property
 
 Public Property Get Arrange() As LvwArrangeConstants
-Attribute Arrange.VB_Description = "Returns/sets a value indicating how the icons in a 'icon', 'small icon' or 'tile' view are arranged."
+Attribute Arrange.VB_Description = "Returns/sets a Value indicating how the icons in a 'icon', 'small icon' or 'tile' view are arranged."
 Arrange = PropArrange
 End Property
 
@@ -3027,7 +3027,7 @@ UserControl.PropertyChanged "Arrange"
 End Property
 
 Public Property Get AllowColumnReorder() As Boolean
-Attribute AllowColumnReorder.VB_Description = "Returns/sets a value that determines whether or not a user can reorder column headers in 'report' view."
+Attribute AllowColumnReorder.VB_Description = "Returns/sets a Value that determines whether or not a user can reorder column headers in 'report' view."
 AllowColumnReorder = PropAllowColumnReorder
 End Property
 
@@ -3044,7 +3044,7 @@ UserControl.PropertyChanged "AllowColumnReorder"
 End Property
 
 Public Property Get AllowColumnCheckboxes() As Boolean
-Attribute AllowColumnCheckboxes.VB_Description = "Returns/sets a value that determines whether or not the column headers in 'report' view are allowed to place checkboxes. Requires comctl32.dll version 6.1 or higher."
+Attribute AllowColumnCheckboxes.VB_Description = "Returns/sets a Value that determines whether or not the column headers in 'report' view are allowed to place checkboxes. Requires comctl32.dll version 6.1 or higher."
 AllowColumnCheckboxes = PropAllowColumnCheckboxes
 End Property
 
@@ -3069,7 +3069,7 @@ UserControl.PropertyChanged "AllowColumnCheckboxes"
 End Property
 
 Public Property Get MultiSelect() As Boolean
-Attribute MultiSelect.VB_Description = "Returns/sets a value indicating whether a user can make multiple selections in the list view and how the multiple selections can be made."
+Attribute MultiSelect.VB_Description = "Returns/sets a Value indicating whether a user can make multiple selections in the list view and how the multiple selections can be made."
 MultiSelect = PropMultiSelect
 End Property
 
@@ -3128,7 +3128,7 @@ UserControl.PropertyChanged "GridLines"
 End Property
 
 Public Property Get LabelEdit() As LvwLabelEditConstants
-Attribute LabelEdit.VB_Description = "Returns/sets a value that determines if a user can edit the label of a list item."
+Attribute LabelEdit.VB_Description = "Returns/sets a Value that determines if a user can edit the label of a list item."
 LabelEdit = PropLabelEdit
 End Property
 
@@ -3154,7 +3154,7 @@ UserControl.PropertyChanged "LabelEdit"
 End Property
 
 Public Property Get LabelWrap() As Boolean
-Attribute LabelWrap.VB_Description = "Returns/sets a value that determines if labels are wrapped when the list view is in icon view."
+Attribute LabelWrap.VB_Description = "Returns/sets a Value that determines if labels are wrapped when the list view is in icon view."
 LabelWrap = PropLabelWrap
 End Property
 
@@ -3174,7 +3174,7 @@ UserControl.PropertyChanged "LabelWrap"
 End Property
 
 Public Property Get Sorted() As Boolean
-Attribute Sorted.VB_Description = "Returns/sets a value indicating if the list items are automatically sorted."
+Attribute Sorted.VB_Description = "Returns/sets a Value indicating if the list items are automatically sorted."
 Sorted = PropSorted
 End Property
 
@@ -3200,7 +3200,7 @@ End Property
 Public Property Let SortKey(ByVal Value As Integer)
 If Value < 0 Then
     If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3212,7 +3212,7 @@ UserControl.PropertyChanged "SortKey"
 End Property
 
 Public Property Get SortOrder() As LvwSortOrderConstants
-Attribute SortOrder.VB_Description = "Returns/sets a value that determines whether the list items will be sorted in ascending or descending order."
+Attribute SortOrder.VB_Description = "Returns/sets a Value that determines whether the list items will be sorted in ascending or descending order."
 SortOrder = PropSortOrder
 End Property
 
@@ -3244,7 +3244,7 @@ UserControl.PropertyChanged "SortType"
 End Property
 
 Public Property Get Checkboxes() As Boolean
-Attribute Checkboxes.VB_Description = "Returns/sets a value that determines whether or not a checkbox is displayed next to each list item."
+Attribute Checkboxes.VB_Description = "Returns/sets a Value that determines whether or not a checkbox is displayed next to each list item."
 Checkboxes = PropCheckboxes
 End Property
 
@@ -3261,7 +3261,7 @@ UserControl.PropertyChanged "Checkboxes"
 End Property
 
 Public Property Get HideSelection() As Boolean
-Attribute HideSelection.VB_Description = "Returns/sets a value that determines whether the selected item will display as selected when the list view loses focus or not."
+Attribute HideSelection.VB_Description = "Returns/sets a Value that determines whether the selected item will display as selected when the list view loses focus or not."
 HideSelection = PropHideSelection
 End Property
 
@@ -3282,7 +3282,7 @@ UserControl.PropertyChanged "HideSelection"
 End Property
 
 Public Property Get HideColumnHeaders() As Boolean
-Attribute HideColumnHeaders.VB_Description = "Returns/sets a value that determines whether or not the column headers are hidden in 'report' view."
+Attribute HideColumnHeaders.VB_Description = "Returns/sets a Value that determines whether or not the column headers are hidden in 'report' view."
 HideColumnHeaders = PropHideColumnHeaders
 End Property
 
@@ -3302,7 +3302,7 @@ UserControl.PropertyChanged "HideColumnHeaders"
 End Property
 
 Public Property Get ShowInfoTips() As Boolean
-Attribute ShowInfoTips.VB_Description = "Returns/sets a value that determines whether the tool tip text properties will be displayed or not."
+Attribute ShowInfoTips.VB_Description = "Returns/sets a Value that determines whether the tool tip text properties will be displayed or not."
 ShowInfoTips = PropShowInfoTips
 End Property
 
@@ -3319,7 +3319,7 @@ UserControl.PropertyChanged "ShowInfoTips"
 End Property
 
 Public Property Get ShowLabelTips() As Boolean
-Attribute ShowLabelTips.VB_Description = "Returns/sets a value indicating that if a partially hidden label in any list view mode lacks tool tip text, the list view will unfold the label or not. Unfolding partially hidden labels for the 'icon' view are always done."
+Attribute ShowLabelTips.VB_Description = "Returns/sets a Value indicating that if a partially hidden label in any list view mode lacks tool tip text, the list view will unfold the label or not. Unfolding partially hidden labels for the 'icon' view are always done."
 ShowLabelTips = PropShowLabelTips
 End Property
 
@@ -3336,7 +3336,7 @@ UserControl.PropertyChanged "ShowLabelTips"
 End Property
 
 Public Property Get ShowColumnTips() As Boolean
-Attribute ShowColumnTips.VB_Description = "Returns/sets a value that determines whether the column header tool tip text properties will be displayed or not."
+Attribute ShowColumnTips.VB_Description = "Returns/sets a Value that determines whether the column header tool tip text properties will be displayed or not."
 ShowColumnTips = PropShowColumnTips
 End Property
 
@@ -3356,7 +3356,7 @@ UserControl.PropertyChanged "ShowColumnTips"
 End Property
 
 Public Property Get DoubleBuffer() As Boolean
-Attribute DoubleBuffer.VB_Description = "Returns/sets a value that determines whether the control paints via double-buffering, which reduces flicker. Requires comctl32.dll version 6.0 or higher."
+Attribute DoubleBuffer.VB_Description = "Returns/sets a Value that determines whether the control paints via double-buffering, which reduces flicker. Requires comctl32.dll version 6.0 or higher."
 DoubleBuffer = PropDoubleBuffer
 End Property
 
@@ -3373,7 +3373,7 @@ UserControl.PropertyChanged "DoubleBuffer"
 End Property
 
 Public Property Get HoverSelection() As Boolean
-Attribute HoverSelection.VB_Description = "Returns/sets a value that determines whether or not an list item is automatically selected when the cursor remains over the list item for a certain period of time."
+Attribute HoverSelection.VB_Description = "Returns/sets a Value that determines whether or not an list item is automatically selected when the cursor remains over the list item for a certain period of time."
 HoverSelection = PropHoverSelection
 End Property
 
@@ -3398,7 +3398,7 @@ UserControl.PropertyChanged "HoverSelection"
 End Property
 
 Public Property Get HoverSelectionTime() As Long
-Attribute HoverSelectionTime.VB_Description = "Returns/sets the hover selection time in milliseconds. A value of -1 indicates that the default time is used."
+Attribute HoverSelectionTime.VB_Description = "Returns/sets the hover selection time in milliseconds. A Value of -1 indicates that the default time is used."
 If ListViewHandle <> NULL_PTR Then
     HoverSelectionTime = CLng(SendMessage(ListViewHandle, LVM_GETHOVERTIME, 0, ByVal 0&))
 Else
@@ -3409,7 +3409,7 @@ End Property
 Public Property Let HoverSelectionTime(ByVal Value As Long)
 If Value <= 0 And Not Value = -1 Then
     If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3446,7 +3446,7 @@ UserControl.PropertyChanged "HotTracking"
 End Property
 
 Public Property Get HighlightHot() As Boolean
-Attribute HighlightHot.VB_Description = "Returns/sets a value that determines whether hot items that may be activated to be displayed with highlighted text. Only applicable if the hot tracking property is set to true."
+Attribute HighlightHot.VB_Description = "Returns/sets a Value that determines whether hot items that may be activated to be displayed with highlighted text. Only applicable if the hot tracking property is set to true."
 HighlightHot = PropHighlightHot
 End Property
 
@@ -3465,7 +3465,7 @@ UserControl.PropertyChanged "HighlightHot"
 End Property
 
 Public Property Get UnderlineHot() As Boolean
-Attribute UnderlineHot.VB_Description = "Returns/sets a value that determines whether hot items that may be activated to be displayed with underlined text or not. Only applicable if the hot tracking property is set to true."
+Attribute UnderlineHot.VB_Description = "Returns/sets a Value that determines whether hot items that may be activated to be displayed with underlined text or not. Only applicable if the hot tracking property is set to true."
 UnderlineHot = PropUnderlineHot
 End Property
 
@@ -3495,7 +3495,7 @@ UserControl.PropertyChanged "InsertMarkColor"
 End Property
 
 Public Property Get TextBackground() As CCBackStyleConstants
-Attribute TextBackground.VB_Description = "Returns/sets a value that determines if the text background is transparent or uses the background color of the list view."
+Attribute TextBackground.VB_Description = "Returns/sets a Value that determines if the text background is transparent or uses the background color of the list view."
 TextBackground = PropTextBackground
 End Property
 
@@ -3517,7 +3517,7 @@ UserControl.PropertyChanged "TextBackground"
 End Property
 
 Public Property Get ClickableColumnHeaders() As Boolean
-Attribute ClickableColumnHeaders.VB_Description = "Returns/sets a value that determines whether or not the column headers act like buttons and are clickable in 'report' view."
+Attribute ClickableColumnHeaders.VB_Description = "Returns/sets a Value that determines whether or not the column headers act like buttons and are clickable in 'report' view."
 ClickableColumnHeaders = PropClickableColumnHeaders
 End Property
 
@@ -3542,7 +3542,7 @@ UserControl.PropertyChanged "ClickableColumnHeaders"
 End Property
 
 Public Property Get HighlightColumnHeaders() As Boolean
-Attribute HighlightColumnHeaders.VB_Description = "Returns/sets a value that determines whether or not the control highlights the column headers as the pointer passes over them. This flag is ignored on Windows XP (or above) when the desktop theme overrides it."
+Attribute HighlightColumnHeaders.VB_Description = "Returns/sets a Value that determines whether or not the control highlights the column headers as the pointer passes over them. This flag is ignored on Windows XP (or above) when the desktop theme overrides it."
 HighlightColumnHeaders = PropHighlightColumnHeaders
 End Property
 
@@ -3567,7 +3567,7 @@ UserControl.PropertyChanged "HighlightColumnHeaders"
 End Property
 
 Public Property Get TrackSizeColumnHeaders() As Boolean
-Attribute TrackSizeColumnHeaders.VB_Description = "Returns/sets a value that determines whether or not the control display column header contents even while the user resizes them."
+Attribute TrackSizeColumnHeaders.VB_Description = "Returns/sets a Value that determines whether or not the control display column header contents even while the user resizes them."
 TrackSizeColumnHeaders = PropTrackSizeColumnHeaders
 End Property
 
@@ -3592,7 +3592,7 @@ UserControl.PropertyChanged "TrackSizeColumnHeaders"
 End Property
 
 Public Property Get ResizableColumnHeaders() As Boolean
-Attribute ResizableColumnHeaders.VB_Description = "Returns/sets a value that determines whether or not the user can drag the divider on the column headers in 'report' view to resize them."
+Attribute ResizableColumnHeaders.VB_Description = "Returns/sets a Value that determines whether or not the user can drag the divider on the column headers in 'report' view to resize them."
 ResizableColumnHeaders = PropResizableColumnHeaders
 End Property
 
@@ -3717,7 +3717,7 @@ UserControl.PropertyChanged "PictureAlignment"
 End Property
 
 Public Property Get PictureWatermark() As Boolean
-Attribute PictureWatermark.VB_Description = "Returns/sets a value that determines whether a watermark background bitmap is supplied in the picture property. That means the picture will always be displayed in the lower right corner. Requires comctl32.dll version 6.0 or higher."
+Attribute PictureWatermark.VB_Description = "Returns/sets a Value that determines whether a watermark background bitmap is supplied in the picture property. That means the picture will always be displayed in the lower right corner. Requires comctl32.dll version 6.0 or higher."
 PictureWatermark = PropPictureWatermark
 End Property
 
@@ -3738,7 +3738,7 @@ Select Case Value
         PropTileViewLines = Value
     Case Else
         If ListViewDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -3758,7 +3758,7 @@ UserControl.PropertyChanged "TileViewLines"
 End Property
 
 Public Property Get SnapToGrid() As Boolean
-Attribute SnapToGrid.VB_Description = "Returns/sets a value that determines whether or not the list items automatically snaps into a grid in 'icon', 'small icon' or 'tile' view. Requires comctl32.dll version 6.0 or higher."
+Attribute SnapToGrid.VB_Description = "Returns/sets a Value that determines whether or not the list items automatically snaps into a grid in 'icon', 'small icon' or 'tile' view. Requires comctl32.dll version 6.0 or higher."
 SnapToGrid = PropSnapToGrid
 End Property
 
@@ -3775,7 +3775,7 @@ UserControl.PropertyChanged "SnapToGrid"
 End Property
 
 Public Property Get GroupView() As Boolean
-Attribute GroupView.VB_Description = "Returns/sets a value that determines whether or not the list items display as a group. Requires comctl32.dll version 6.0 or higher."
+Attribute GroupView.VB_Description = "Returns/sets a Value that determines whether or not the list items display as a group. Requires comctl32.dll version 6.0 or higher."
 GroupView = PropGroupView
 End Property
 
@@ -3803,14 +3803,14 @@ UserControl.PropertyChanged "GroupView"
 End Property
 
 Public Property Get GroupSubsetCount() As Long
-Attribute GroupSubsetCount.VB_Description = "Returns/sets the number of list items that will be displayed in a subseted group. A value of 0 indicates that all list items are displayed, which means no subset. Requires comctl32.dll version 6.1 or higher."
+Attribute GroupSubsetCount.VB_Description = "Returns/sets the number of list items that will be displayed in a subseted group. A Value of 0 indicates that all list items are displayed, which means no subset. Requires comctl32.dll version 6.1 or higher."
 GroupSubsetCount = PropGroupSubsetCount
 End Property
 
 Public Property Let GroupSubsetCount(ByVal Value As Long)
 If Value < 0 Then
     If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3822,7 +3822,7 @@ UserControl.PropertyChanged "GroupSubsetCount"
 End Property
 
 Public Property Get UseColumnChevron() As Boolean
-Attribute UseColumnChevron.VB_Description = "Returns/sets a value indicating if a chevron button is used when the column headers are wider than the control width. Requires comctl32.dll version 6.1 or higher."
+Attribute UseColumnChevron.VB_Description = "Returns/sets a Value indicating if a chevron button is used when the column headers are wider than the control width. Requires comctl32.dll version 6.1 or higher."
 UseColumnChevron = PropUseColumnChevron
 End Property
 
@@ -3847,7 +3847,7 @@ UserControl.PropertyChanged "UseColumnChevron"
 End Property
 
 Public Property Get UseColumnFilterBar() As Boolean
-Attribute UseColumnFilterBar.VB_Description = "Returns/sets a value indicating if a filter bar is used on the column headers to allow users to conveniently apply a filter to the display."
+Attribute UseColumnFilterBar.VB_Description = "Returns/sets a Value indicating if a filter bar is used on the column headers to allow users to conveniently apply a filter to the display."
 UseColumnFilterBar = PropUseColumnFilterBar
 End Property
 
@@ -3877,7 +3877,7 @@ UserControl.PropertyChanged "UseColumnFilterBar"
 End Property
 
 Public Property Get AutoSelectFirstItem() As Boolean
-Attribute AutoSelectFirstItem.VB_Description = "Returns/sets a value that determines whether or not the first item will be selected automatically."
+Attribute AutoSelectFirstItem.VB_Description = "Returns/sets a Value that determines whether or not the first item will be selected automatically."
 AutoSelectFirstItem = PropAutoSelectFirstItem
 End Property
 
@@ -3915,7 +3915,7 @@ UserControl.PropertyChanged "IMEMode"
 End Property
 
 Public Property Get VirtualMode() As Boolean
-Attribute VirtualMode.VB_Description = "Returns/sets a value indicating if you have provided your own data-management operations for the control."
+Attribute VirtualMode.VB_Description = "Returns/sets a Value indicating if you have provided your own data-management operations for the control."
 VirtualMode = PropVirtualMode
 End Property
 
@@ -3944,7 +3944,7 @@ If Value < 0 Or Value > 100000000 Then
     ' According to MSDN:
     ' There is a 100,000,000 item limit on a virtualized list view.
     If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3982,7 +3982,7 @@ End Property
 Public Property Let VirtualDisabledInfos(ByVal Value As LvwVirtualPropertyConstants)
 If Value < 0 Then
     If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -4532,7 +4532,7 @@ If ListViewHandle <> NULL_PTR Then
     If (ColumnHeaderIndex - 1) = 0 Then
         ' According to MSDN:
         ' If a column is added to a list view control with index 0 (the leftmost column), it is always LVCFMT_LEFT.
-        ' Workaround: Adjust the fmt value after the insert.
+        ' Workaround: Adjust the fmt Value after the insert.
         If Alignment <> LvwColumnHeaderAlignmentLeft Then Me.FColumnHeaderAlignment(1) = Alignment
     End If
     Call SetColumnsSubItemIndex(1)
@@ -5807,7 +5807,7 @@ If (RC.Right - RC.Left) > 0 And (RC.Bottom - RC.Top) > 0 Then
         End If
     End If
 Else
-    ' Zero width or height is not accepted by LVM_SETWORKAREAS. (Invalid property value)
+    ' Zero width or height is not accepted by LVM_SETWORKAREAS. (Invalid property Value)
     FWorkAreasAdd = -1
 End If
 End Function
@@ -6009,7 +6009,7 @@ If ListViewHandle <> NULL_PTR Then
         ' - If you change the font by returning CDRF_NEWFONT, the list view control might display clipped text.
         '   This behavior is necessary for backward compatibility with earlier versions of the common controls.
         '   If you want to change the font of a list view control, you will get better results if you send a CCM_SETVERSION message
-        '   with the wParam value set to 5 before adding any items to the control.
+        '   with the wParam Value set to 5 before adding any items to the control.
         SendMessage ListViewHandle, CCM_SETVERSION, 5, ByVal 0&
     End If
 End If
@@ -6145,7 +6145,7 @@ End If
 End Function
 
 Public Function HitTestInsertMark(ByVal X As Single, ByVal Y As Single, Optional ByRef After As Boolean) As LvwListItem
-Attribute HitTestInsertMark.VB_Description = "Returns a reference to the list item object located at the coordinates of X and Y and retrieves a value that determines where the insertion point should appear. Requires comctl32.dll version 6.1 or higher."
+Attribute HitTestInsertMark.VB_Description = "Returns a reference to the list item object located at the coordinates of X and Y and retrieves a Value that determines where the insertion point should appear. Requires comctl32.dll version 6.1 or higher."
 If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then
     Dim P As POINTAPI, LVIM As LVINSERTMARK
     P.X = CLng(UserControl.ScaleX(X, vbContainerPosition, vbPixels))
@@ -6335,7 +6335,7 @@ End If
 End Function
 
 Public Function GetVisibleCount() As Long
-Attribute GetVisibleCount.VB_Description = "Returns the number of fully visible list items. If the list view is in 'icon', 'small icon' or 'tile' view then the return value is the total number of list items."
+Attribute GetVisibleCount.VB_Description = "Returns the number of fully visible list items. If the list view is in 'icon', 'small icon' or 'tile' view then the return Value is the total number of list items."
 If ListViewHandle <> NULL_PTR Then GetVisibleCount = CLng(SendMessage(ListViewHandle, LVM_GETCOUNTPERPAGE, 0, ByVal 0&))
 End Function
 
@@ -7041,12 +7041,12 @@ End If
 End Property
 
 Public Property Get ColumnFilterChangedTimeout() As Long
-Attribute ColumnFilterChangedTimeout.VB_Description = "Returns/sets the time in milliseconds before the ColumnFilterChanged event is fired afer a filter was changed. A value of -1 indicates that the ColumnFilterChanged event is fired only when the filter edit is completed."
+Attribute ColumnFilterChangedTimeout.VB_Description = "Returns/sets the time in milliseconds before the ColumnFilterChanged event is fired afer a filter was changed. A Value of -1 indicates that the ColumnFilterChanged event is fired only when the filter edit is completed."
 Attribute ColumnFilterChangedTimeout.VB_MemberFlags = "400"
 If ListViewHandle <> NULL_PTR Then
     If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
     If ListViewHeaderHandle <> NULL_PTR Then
-        ' When passing zero in HDM_SETFILTERCHANGETIMEOUT the timeout interval will not be changed and returns the current value.
+        ' When passing zero in HDM_SETFILTERCHANGETIMEOUT the timeout interval will not be changed and returns the current Value.
         ColumnFilterChangedTimeout = CLng(SendMessage(ListViewHeaderHandle, HDM_SETFILTERCHANGETIMEOUT, 0, ByVal 0&))
     End If
 End If

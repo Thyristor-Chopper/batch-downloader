@@ -1528,16 +1528,6 @@ Begin VB.Form frmMain
          Caption         =   "속성 보기(&R)"
       End
    End
-   Begin VB.Menu mnuDownloadOptions 
-      Caption         =   "mnuDownloadOptions"
-      Visible         =   0   'False
-      Begin VB.Menu mnuYtdlOptions 
-         Caption         =   "&youtube-dl..."
-      End
-      Begin VB.Menu mnuHeaders 
-         Caption         =   "헤더(&H)..."
-      End
-   End
 End
 Attribute VB_Name = "frmMain"
 Attribute VB_GlobalNameSpace = False
@@ -1643,7 +1633,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
             lpMMI.ptMinTrackSize.X = FormWidth * (DPI / 96)
             lpMMI.ptMinTrackSize.Y = FormMinHeight * (DPI / 96)
-            lpMMI.ptMaxTrackSize.X = FormWidth * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = lpMMI.ptMinTrackSize.X
             lpMMI.ptMaxTrackSize.Y = FormMaxHeight * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
@@ -1665,16 +1655,6 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                 MainFormOnTop = Not MainFormOnTop
                 SetWindowPos hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
                 SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(CInt(MainFormOnTop))
-                
-                IBSSubclass_WindowProc = 1&
-                Exit Function
-            ElseIf wParam = 1001 And (Not (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2)) Then '일괄처리 접기
-                cmdBatch_Click
-                
-                IBSSubclass_WindowProc = 1&
-                Exit Function
-            ElseIf wParam = 1002 And (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2) Then '일괄처리 펼치기
-                cmdBatch_Click
                 
                 IBSSubclass_WindowProc = 1&
                 Exit Function
@@ -1731,22 +1711,6 @@ Private Sub mnuErrorInfo_Click()
         Exit Sub
     End If
     MsgBox t("오류 코드", "Error code") & ": " & StatusString & vbCrLf & t("설명", "Description") & ": " & IIf(Exists(ErrorCodeDescription, StatusString), ErrorCodeDescription(StatusString), t("설명이 없습니다.", "Description is unavailable")), 64, t("오류 정보", "Error information")
-End Sub
-
-Private Sub mnuHeaders_Click()
-    Tags.DownloadOptionsTargetForm = 0
-    Set frmDownloadOptions.Headers = SessionHeaders
-    Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
-#If HIDEYTDL Then
-    frmDownloadOptions.Show vbModal, Me
-    Exit Sub
-#End If
-    frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
-    frmDownloadOptions.Show vbModal, Me
-End Sub
-
-Private Sub mnuYtdlOptions_Click()
-    cmdDownloadOptions_Click
 End Sub
 
 #If HIDEYTDL Then
@@ -1827,7 +1791,7 @@ Sub OnData(Data As String)
                 sbStatusBar.Panels(4).Text = ""
                 pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
-                pbTotalProgress.value = 100
+                pbTotalProgress.Value = 100
             Case "UNABLETOCONTINUE"
                 Alert t("이어받기가 불가능합니다. 처음부터 다시 다운로드합니다.", "Unable to resume. Starting over..."), App.Title, 48, False, 5000
             Case "RESUMEUNSUPPORTED"
@@ -1855,11 +1819,11 @@ Sub OnData(Data As String)
                 pbProgressMarquee(idx).MarqueeAnimation = 0
                 pbProgressMarquee(idx).Visible = 0
             End If
-            pbProgress(idx).value = progress
+            pbProgress(idx).Value = progress
             lblPercentage(idx).Caption = "(" & progress & "%)"
         End If
         
-        If trThreadCount.value > 1 And idx = 1 And (CDbl(Split(output, ",")(2)) > 0 Or lblTotalBytes.Caption = "0 바이트") Then lblTotalSizeThread.Caption = ParseSize(CDbl(Split(output, ",")(2)), True)
+        If trThreadCount.Value > 1 And idx = 1 And (CDbl(Split(output, ",")(2)) > 0 Or lblTotalBytes.Caption = "0 바이트") Then lblTotalSizeThread.Caption = ParseSize(CDbl(Split(output, ",")(2)), True)
     ElseIf Left$(Data, 6) = "TOTAL " Then
         output = Right$(Data, Len(Data) - 6)
         Dim strTotal As String
@@ -1889,7 +1853,7 @@ Sub OnData(Data As String)
                 End If
             End If
             If fTotal.Caption <> t(" 전체 다운로드 진행률 ", " Total Progress ") Then fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
-            If pbTotalProgress.value <> 0 Then pbTotalProgress.value = 0
+            If pbTotalProgress.Value <> 0 Then pbTotalProgress.Value = 0
             If DownloadedBytes = -1 Then
                 sbStatusBar.Panels(2).Text = ""
             ElseIf total <= 0 Then
@@ -1923,7 +1887,7 @@ progressAvailable:
                 TotalSize = total
             End If
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
-            pbTotalProgress.value = progress
+            pbTotalProgress.Value = progress
             fTotal.Caption = t(" 전체 다운로드 진행률 (" & progress & "%) ", " Total Progress (" & progress & "%) ")
             If Not BatchStarted Then SetTitle progress & "% " & t("다운로드 중", "Downloading")
         End If
@@ -1965,8 +1929,8 @@ exitif:
 End Sub
 
 Sub NextBatchDownload()
-    Dim i%
     If Not BatchStarted Then Exit Sub
+    Dim i%
     
     If lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("완료", "Done") Then _
         lvBatchFiles.ListItems(CurrentBatchIdx).Checked = False
@@ -1981,7 +1945,7 @@ Sub NextBatchDownload()
         sbStatusBar.Panels(3).Text = ""
         sbStatusBar.Panels(4).Text = ""
         chkOpenAfterComplete.Enabled = -1
-        If chkOpenFolder.value Then
+        If chkOpenFolder.Value Then
             cmdOpenFolder_Click
         End If
         cmdGo.Enabled = -1
@@ -2011,9 +1975,9 @@ Sub NextBatchDownload()
         End If
         
         If lblState.Caption = t("완료됨", "Done") Then
-            pbTotalProgress.value = 100
-            For i = 1 To trThreadCount.value
-                pbProgress(i).value = 100
+            pbTotalProgress.Value = 100
+            For i = 1 To trThreadCount.Value
+                pbProgress(i).Value = 100
                 lblPercentage(i).Caption = "(100%)"
             Next i
         End If
@@ -2040,7 +2004,7 @@ Sub OnExit(RetVal As Long)
             Case 999
                 GoTo nextln
             Case 1
-                If chkAutoRetry.value <> 1 Then
+                If chkAutoRetry.Value <> 1 Then
                     If pbTotalProgressMarquee.Visible And (lblDownloadedBytes.Caption = "-" Or lblDownloadedBytes.Caption = "대기 중...") Then
                         Alert t("해당 파일 주소에 연결할 수 없습니다. 주소가 유효하지 않거나 서버가 응답하지 않습니다.", "The server does not respond or the file URL is invalid."), App.Title, 16
                     Else
@@ -2131,9 +2095,9 @@ nextln:
     OnStop (RetVal = 0)
     Dim i%
     If BatchStarted Then
-        pbTotalProgress.value = 0
+        pbTotalProgress.Value = 0
         For i = 1 To lblDownloader.UBound
-            pbProgress(i).value = 0
+            pbProgress(i).Value = 0
             lblPercentage(i).Caption = ""
         Next i
         
@@ -2158,13 +2122,13 @@ nextln:
     ElseIf RetVal = 0 Then
         cmdOpen.Enabled = -1
         cmdOpenFileDropdown.Enabled = -1
-        If chkOpenAfterComplete.value Then
+        If chkOpenAfterComplete.Value Then
             cmdOpen_Click
         End If
-        If chkOpenFolder.value Then
+        If chkOpenFolder.Value Then
             cmdOpenFolder_Click
         End If
-    ElseIf RetVal = 1 And chkAutoRetry.value Then
+    ElseIf RetVal = 1 And chkAutoRetry.Value Then
         MessageBeep 48
         cmdGo_Click
     End If
@@ -2211,9 +2175,9 @@ Sub OnStart()
     
     lblTotalBytes.Caption = t("대기 중...", "Pending...")
     lblDownloadedBytes.Caption = t("대기 중...", "Pending...")
-    If trThreadCount.value > 1 Then
+    If trThreadCount.Value > 1 Then
         lblTotalSizeThread.Caption = t("대기 중...", "Pending...")
-        lblThreadCount2.Caption = trThreadCount.value
+        lblThreadCount2.Caption = trThreadCount.Value
     Else
         lblTotalSizeThread.Caption = "-"
         lblThreadCount2.Caption = "-"
@@ -2224,14 +2188,14 @@ Sub OnStart()
     lblMergeStatus.Caption = "-"
     
     fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
-    pbTotalProgress.value = 0
+    pbTotalProgress.Value = 0
     Dim i%
-    For i = 1 To trThreadCount.value
+    For i = 1 To trThreadCount.Value
         lblPercentage(i).Caption = ""
-        pbProgress(i).value = 0
+        pbProgress(i).Value = 0
     Next i
     
-    For i = 1 To trThreadCount.value
+    For i = 1 To trThreadCount.Value
         pbProgressMarquee(i).Visible = -1
         pbProgressMarquee(i).MarqueeAnimation = -1
     Next i
@@ -2273,8 +2237,8 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     cmdClear.Enabled = -1
     
     trThreadCount.Enabled = -1
-    If trThreadCount.value > trThreadCount.Min Then cmdDecreaseThreads.Enabled = -1
-    If trThreadCount.value < trThreadCount.Max Then cmdIncreaseThreads.Enabled = -1
+    If trThreadCount.Value > trThreadCount.Min Then cmdDecreaseThreads.Enabled = -1
+    If trThreadCount.Value < trThreadCount.Max Then cmdIncreaseThreads.Enabled = -1
     
     cmdDownloadOptions.Enabled = -1
     
@@ -2283,7 +2247,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     SP.FinishChild 0, 0
     
     Dim i%
-    For i = 1 To trThreadCount.value
+    For i = 1 To trThreadCount.Value
         pbProgressMarquee(i).MarqueeAnimation = 0
         pbProgressMarquee(i).Visible = 0
     Next i
@@ -2293,17 +2257,17 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         pbTotalProgressMarquee.Visible = 0
     End If
     
-    If pbTotalProgress.value < 100 Then
-        pbTotalProgress.value = 0
+    If pbTotalProgress.Value < 100 Then
+        pbTotalProgress.Value = 0
     End If
     
-    If pbTotalProgress.value < 100 Then
+    If pbTotalProgress.Value < 100 Then
         lblState.Caption = t("중지됨", "Stopped")
         sbStatusBar.Panels(1).Text = t("준비", "Ready")
     
         fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
         For i = 1 To lblDownloader.UBound
-            pbProgress(i).value = 0
+            pbProgress(i).Value = 0
             lblPercentage(i).Caption = ""
         Next i
     Else
@@ -2362,19 +2326,19 @@ Private Sub cbWhenExist_Click()
 End Sub
 
 Private Sub chkAutoRetry_Click()
-    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.value
+    SaveSetting "DownloadBooster", "Options", "AutoRetry", chkAutoRetry.Value
 End Sub
 
 Private Sub chkContinueDownload_Click()
-    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkContinueDownload.value
+    SaveSetting "DownloadBooster", "Options", "ContinueDownload", chkContinueDownload.Value
 End Sub
 
 Private Sub chkOpenAfterComplete_Click()
-    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenAfterComplete.value
+    SaveSetting "DownloadBooster", "Options", "OpenWhenComplete", chkOpenAfterComplete.Value
 End Sub
 
 Private Sub chkOpenFolder_Click()
-    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenFolder.value
+    SaveSetting "DownloadBooster", "Options", "OpenFolderWhenComplete", chkOpenFolder.Value
 End Sub
 
 Private Sub cmdAbout_Click()
@@ -2439,16 +2403,15 @@ Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Opt
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , "Y"
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , Headers
 #If HIDEYTDL Then
-    GoTo afterheaderadd
+#Else
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "N"
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "N"
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
+    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
 #End If
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "N"
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , "N"
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
-    lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
-afterheaderadd:
     lvBatchFiles.ListItems(idx).Checked = -1
     If IsDownloading Or cmdStop.Enabled Or BatchStarted Then
         cmdStartBatch.Enabled = 0
@@ -2481,10 +2444,6 @@ End Sub
 Sub cmdBatch_Click()
     On Error Resume Next
     
-    Dim hSysMenu As Long
-    Dim MII As MENUITEMINFO
-    hSysMenu = GetSystemMenu(Me.hWnd, 0)
-    
     If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then
         cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
@@ -2501,15 +2460,6 @@ Sub cmdBatch_Click()
         Else
             Me.Height = formHeight + PaddedBorderWidth * 15 * 2
         End If
-        
-        CheckMenuRadioItem hSysMenu, 1001, 1002, 1002, MF_BYCOMMAND
-        
-        With MII
-            .cbSize = Len(MII)
-            .fMask = MIIM_STATE
-            .fState = MFS_ENABLED
-        End With
-        SetMenuItemInfo hSysMenu, 1003, 0, MII
     Else
         SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
         FormWidth = (MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2) / 15
@@ -2520,15 +2470,6 @@ Sub cmdBatch_Click()
         cmdBatch.ImageList = imgDropdown
         lvBatchFiles.Visible = 0
         cmdAddToQueue.Visible = 0
-        
-        CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
-        
-        With MII
-            .cbSize = Len(MII)
-            .fMask = MIIM_STATE
-            .fState = MFS_GRAYED
-        End With
-        SetMenuItemInfo hSysMenu, 1003, 0, MII
     End If
     SetBackgroundPosition
 End Sub
@@ -2548,8 +2489,8 @@ Private Sub cmdClear_Click()
 End Sub
 
 Private Sub cmdDecreaseThreads_Click()
-    If trThreadCount.value > trThreadCount.Min Then trThreadCount.value = trThreadCount.value - 1
-    If trThreadCount.value = trThreadCount.Min Then
+    If trThreadCount.Value > trThreadCount.Min Then trThreadCount.Value = trThreadCount.Value - 1
+    If trThreadCount.Value = trThreadCount.Min Then
         cmdDecreaseThreads.Enabled = 0
     Else
         cmdDecreaseThreads.Enabled = -1
@@ -2675,11 +2616,11 @@ L2:
     If Len(lblFilename.Caption) > 22 Then lblFilename.Caption = Left$(lblFilename.Caption, 22) & "..."
     
     Dim ContinueDownload As Integer
-    ContinueDownload = chkContinueDownload.value
-    If (Not BatchStarted) And chkContinueDownload.value <> 1 Then
+    ContinueDownload = chkContinueDownload.Value
+    If (Not BatchStarted) And chkContinueDownload.Value <> 1 Then
         Dim PrevPartialDownload As Boolean
-        PrevPartialDownload = (trThreadCount.value <= 1 And FileExists(FileName & ".part.tmp")) Or _
-                              (trThreadCount.value > 1 And FileExists(FileName & ".part_" & trThreadCount.value & ".tmp") And (Not FileExists(FileName & ".part_" & (trThreadCount.value + 1) & ".tmp")))
+        PrevPartialDownload = (trThreadCount.Value <= 1 And FileExists(FileName & ".part.tmp")) Or _
+                              (trThreadCount.Value > 1 And FileExists(FileName & ".part_" & trThreadCount.Value & ".tmp") And (Not FileExists(FileName & ".part_" & (trThreadCount.Value + 1) & ".tmp")))
         If PrevPartialDownload Then
             Dim ContinueMsgboxResult As VbMsgBoxResult
             ContinueMsgboxResult = ConfirmCancel(t("기존에 다운로드 받다가 중지한 파일입니다. 다운로드받은 지점부터 이어서 받으시겠습니까?" & vbCrLf & "　[아니요]를 누를 경우 처음부터 다시 다운로드됩니다.", "This file was previously downloaded partially. Would you like to resume?" & vbCrLf & "  We will download from the start if you choose No."), App.Title)
@@ -2709,7 +2650,7 @@ L2:
         ScriptPath & """ """ & _
         Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & _
         FileName & """ " & _
-        trThreadCount.value & " " & _
+        trThreadCount.Value & " " & _
         GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & _
         cbWhenExist.ListIndex & " " & _
         ContinueDownload & " " & _
@@ -2723,27 +2664,22 @@ L2:
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
+            Exit Sub
         Case SP_CREATEPIPEFAILED
             Alert t("다운로드 시작에 실패했습니다. 다운로더 프로세스로부터 정보를 받아올 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to receieve data from the downloader process. Check if the directory settings are valid."), App.Title, 16
-            If Not BatchStarted Then
-                cmdGo.Enabled = -1
-            End If
-            cmdStop.Enabled = 0
-            cmdStop.Left = Me.Width + 1200
-            cmdGo.Enabled = -1
-            cmdGo.Visible = -1
-            OnStop False
+            
         Case SP_CREATEPROCFAILED
             Alert t("다운로드 시작에 실패했습니다. 다운로더 프로세스를 생성할 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to create the downloader process. Check if the directory settings are valid."), App.Title, 16
-            If Not BatchStarted Then
-                cmdGo.Enabled = -1
-            End If
-            cmdStop.Enabled = 0
-            cmdStop.Left = Me.Width + 1200
-            cmdGo.Enabled = -1
-            cmdGo.Visible = -1
-            OnStop False
     End Select
+    
+    If Not BatchStarted Then
+        cmdGo.Enabled = -1
+    End If
+    cmdStop.Enabled = 0
+    cmdStop.Left = Me.Width + 1200
+    cmdGo.Enabled = -1
+    cmdGo.Visible = -1
+    OnStop False
 End Sub
 
 Private Sub cmdDelete_DropDown()
@@ -2804,8 +2740,8 @@ Private Sub cmdGo_Click()
 End Sub
 
 Private Sub cmdIncreaseThreads_Click()
-    If trThreadCount.value < trThreadCount.Max Then trThreadCount.value = trThreadCount.value + 1
-    If trThreadCount.value = trThreadCount.Max Then
+    If trThreadCount.Value < trThreadCount.Max Then trThreadCount.Value = trThreadCount.Value + 1
+    If trThreadCount.Value = trThreadCount.Max Then
         cmdIncreaseThreads.Enabled = 0
     Else
         cmdIncreaseThreads.Enabled = -1
@@ -2895,7 +2831,7 @@ Private Sub cmdStop_Click()
     End If
     If ConfirmResult = vbYes Then
         Dim CurrentProgress As Integer
-        CurrentProgress = pbTotalProgress.value
+        CurrentProgress = pbTotalProgress.Value
         
         OnStop False
         cmdOpen.Enabled = 0
@@ -2911,11 +2847,11 @@ Private Sub cmdStop_Click()
             End If
             If KillTemp Then
                 On Error Resume Next
-                If trThreadCount.value <= 1 Then
+                If trThreadCount.Value <= 1 Then
                     Kill DownloadPath & ".part.tmp"
                 Else
                     Dim i%
-                    For i = 1 To trThreadCount.value
+                    For i = 1 To trThreadCount.Value
                         Kill DownloadPath & ".part_" & i & ".tmp"
                     Next i
                 End If
@@ -2935,7 +2871,7 @@ Private Sub cmdStopBatch_Click()
     End If
     If ConfirmResult = vbYes Then
         Dim CurrentProgress As Integer
-        CurrentProgress = pbTotalProgress.value
+        CurrentProgress = pbTotalProgress.Value
         
         lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("중지", "Stopped")
         lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = 255
@@ -2965,11 +2901,11 @@ Private Sub cmdStopBatch_Click()
             End If
             If KillTemp Then
                 On Error Resume Next
-                If trThreadCount.value <= 1 Then
+                If trThreadCount.Value <= 1 Then
                     Kill DownloadPath & ".part.tmp"
                 Else
                     Dim i%
-                    For i = 1 To trThreadCount.value
+                    For i = 1 To trThreadCount.Value
                         Kill DownloadPath & ".part_" & i & ".tmp"
                     Next i
                 End If
@@ -3503,13 +3439,10 @@ Private Sub Form_Load()
     
     Dim i%
     For i = 1 To MAX_THREAD_COUNT
-        If i > 1 Then
-            Load lblDownloader(i)
-            Load lblPercentage(i)
-            Load pbProgress(i)
-            Load pbProgressMarquee(i)
-        End If
-        
+        Load lblDownloader(i)
+        Load lblPercentage(i)
+        Load pbProgress(i)
+        Load pbProgressMarquee(i)
         lblDownloader(i).Top = 360# * CDbl(i - 1) + 45#
         lblPercentage(i).Top = 360# * CDbl(i - 1) + 45#
         pbProgress(i).Top = 360# * CDbl(i - 1)
@@ -3560,7 +3493,7 @@ Private Sub Form_Load()
         fTabThreads_Click
     End If
     
-    trThreadCount.value = GetSetting("DownloadBooster", "UserData", "ThreadCount", GetSetting("DownloadBooster", "Options", "ThreadCount", 1))
+    trThreadCount.Value = GetSetting("DownloadBooster", "UserData", "ThreadCount", GetSetting("DownloadBooster", "Options", "ThreadCount", 1))
     trThreadCount_Scroll
     
     lvBatchFiles.ColumnHeaders.Add , "filename", t("파일 이름", "File Name"), 2895
@@ -3570,8 +3503,7 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , "autoname", t("파일 이름 자동 감지", "Autodetect File Name"), 0
     lvBatchFiles.ColumnHeaders.Add , "headers", t("인코딩된 헤더", "Encoded Headers"), 0
 #If HIDEYTDL Then
-    GoTo afterheaderadd
-#End If
+#Else
     lvBatchFiles.ColumnHeaders.Add , "useytdl", "youtube-dl " & t("사용", "used"), 0
     lvBatchFiles.ColumnHeaders.Add , "ytdlformat", "youtube-dl: " & t("포맷", "format"), 0
     lvBatchFiles.ColumnHeaders.Add , "ytdletractaudio", "youtube-dl: " & t("오디오 추출", "extract audio"), 0
@@ -3579,7 +3511,7 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , "ytdlaudioqualitytype", "youtube-dl: " & t("오디오 음질 형식", "audio quality type"), 0
     lvBatchFiles.ColumnHeaders.Add , "ytdlcbr", "youtube-dl: CBR", 0
     lvBatchFiles.ColumnHeaders.Add , "ytdlvbr", "youtube-dl: VBR", 0
-afterheaderadd:
+#End If
 
     Me.Height = 6930
     
@@ -3635,62 +3567,24 @@ afterheaderadd:
         .wID = 2000
     End With
     InsertMenuItem hSysMenu, 2, 1, MII
-
-    '일괄처리목록감추기
-    With MII
-        .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
-        .fType = MFT_STRING
-        .fState = MFS_ENABLED
-        .wID = 1001
-        .dwTypeData = t("간단히 보기(&I)", "S&imple Mode")
-        .cch = Len(.dwTypeData)
-    End With
-    InsertMenuItem hSysMenu, 3, 1, MII
-
-    '일괄처리목록표시
-    With MII
-        .fMask = MIIM_STATE Or MIIM_ID Or MIIM_TYPE
-        .fType = MFT_STRING
-        .fState = MFS_ENABLED
-        .wID = 1002
-        .dwTypeData = t("일괄 처리 보기(&B)", "&Batch Mode")
-        .cch = Len(.dwTypeData)
-    End With
-    InsertMenuItem hSysMenu, 4, 1, MII
-
-    '구분선
-    With MII
-        .cbSize = Len(MII)
-        .fMask = MIIM_ID Or MIIM_TYPE
-        .fType = MFT_SEPARATOR
-        .wID = 2001
-    End With
-    InsertMenuItem hSysMenu, 5, 1, MII
     
     If GetSetting("DownloadBooster", "UserData", "BatchExpanded", 1) <> 0 Then
         cmdBatch_Click
     Else
-        CheckMenuRadioItem hSysMenu, 1001, 1002, 1001, MF_BYCOMMAND
         FormWidth = (MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2) / 15
         FormMinHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
         FormMaxHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
-        With MII
-            .cbSize = Len(MII)
-            .fMask = MIIM_STATE
-            .fState = MFS_GRAYED
-        End With
-        SetMenuItemInfo hSysMenu, 1003, MF_BYCOMMAND, MII
     End If
     
-    chkOpenAfterComplete.value = GetSetting("DownloadBooster", "Options", "OpenWhenComplete", 0)
-    chkOpenFolder.value = GetSetting("DownloadBooster", "Options", "OpenFolderWhenComplete", 0)
+    chkOpenAfterComplete.Value = GetSetting("DownloadBooster", "Options", "OpenWhenComplete", 0)
+    chkOpenFolder.Value = GetSetting("DownloadBooster", "Options", "OpenFolderWhenComplete", 0)
     If GetSetting("DownloadBooster", "Options", "RememberURL", 0) <> 0 Then
         txtURL.Text = GetSetting("DownloadBooster", "UserData", "FileURL", "")
         txtURL.SelStart = 0
         txtURL.SelLength = Len(txtURL.Text)
     End If
-    chkContinueDownload.value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 0)
-    chkAutoRetry.value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
+    chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 0)
+    chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
     
     cbWhenExist.Clear
     cbWhenExist.AddItem t("건너뛰기", "Skip")
@@ -3763,8 +3657,6 @@ afterheaderadd:
     
     cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Download &settings...")
     
-    tr mnuHeaders, "&Headers..."
-    
     Label11.Caption = fOptions.Caption
     
     tr mnuErrorInfo, "Error &information..."
@@ -3778,22 +3670,15 @@ afterheaderadd:
     lblLBCaptionShadow2.Caption = lblLBCaption.Caption
     lblLBCaption2.Caption = lblLBCaption.Caption
     '언어설정끝
+    
     lbOptionsHeader.X1 = Label11.Width + 60
     lbOptionsHeader3D.X1 = Label11.Width + 75
     
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
-    
-    'SetFormBackgroundColor Me
     SetPattern
     SetBackgroundImage
     SetBackgroundPosition
-
-#If HIDEYTDL Then
-    mnuYtdlOptions.Visible = False
-#End If
-    
     SetTextColors
-    
     SetFont Me
     
     'rgnset
@@ -3953,7 +3838,7 @@ afterheaderadd:
     AttachMessage Me, Me.hWnd, WM_THEMECHANGED
     AttachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
     
-    vsProgressScroll.Visible = (trThreadCount.value > 10 And optTabThreads2.value)
+    vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
 End Sub
 
 Sub SetTextColors()
@@ -4085,7 +3970,7 @@ Private Sub Form_Unload(Cancel As Integer)
             Exit Sub
         Else
             Dim CurrentProgress As Integer
-            CurrentProgress = pbTotalProgress.value
+            CurrentProgress = pbTotalProgress.Value
             
             BatchStarted = False
             SP.FinishChild 0, 0
@@ -4100,10 +3985,10 @@ Private Sub Form_Unload(Cancel As Integer)
                 End If
                 If KillTemp Then
                     On Error Resume Next
-                    If trThreadCount.value <= 1 Then
+                    If trThreadCount.Value <= 1 Then
                         Kill DownloadPath & ".part.tmp"
                     Else
-                        For i = 1 To trThreadCount.value
+                        For i = 1 To trThreadCount.Value
                             Kill DownloadPath & ".part_" & i & ".tmp"
                         Next i
                     End If
@@ -4124,7 +4009,7 @@ Private Sub Form_Unload(Cancel As Integer)
     SaveSetting "DownloadBooster", "UserData", "FormTop", Me.Top
     SaveSetting "DownloadBooster", "UserData", "FormLeft", Me.Left
     If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
-    SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.value) * -1) + 1
+    SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
     
     On Error Resume Next
     Me.Hide
@@ -4141,13 +4026,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmDummyForm
     Unload frmEditBatch
     
-    DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
-    DetachMessage Me, Me.hWnd, WM_INITMENU
-    DetachMessage Me, Me.hWnd, WM_SYSCOMMAND
-    'DetachMessage Me, Me.hWnd, WM_DWMCOMPOSITIONCHANGED
-    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
-    DetachMessage Me, Me.hWnd, WM_THEMECHANGED
-    DetachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
+    IBSSubclass_UnsubclassIt
     
     GetSystemMenu Me.hWnd, 1&
     Unload frmMessageBox
@@ -4159,7 +4038,7 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub fTabDownload_Click()
-    optTabDownload2.value = True
+    optTabDownload2.Value = True
     optTabDownload2_Click
 End Sub
 
@@ -4168,7 +4047,7 @@ Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, X As Sin
 End Sub
 
 Private Sub fTabThreads_Click()
-    optTabThreads2.value = True
+    optTabThreads2.Value = True
     optTabThreads2_Click
 End Sub
 
@@ -4296,6 +4175,7 @@ Private Sub lvBatchFiles_KeyDown(KeyCode As Integer, Shift As Integer)
         If lvBatchFiles.SelectedItem.Selected Then cmdDelete_Click
     End If
     Exit Sub
+    
 ErrLn2:
 End Sub
 
@@ -4371,8 +4251,7 @@ Private Sub mnuMoveDown_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(4).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(5).Text
 #If HIDEYTDL Then
-    GoTo afterheaderadd
-#End If
+#Else
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(6).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(7).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(8).Text
@@ -4380,7 +4259,7 @@ Private Sub mnuMoveDown_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(10).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(11).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(DownIdx).ListSubItems(12).Text
-afterheaderadd:
+#End If
     lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(DownIdx).Checked
     lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(DownIdx).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(DownIdx).ListSubItems(1).ForeColor
@@ -4407,8 +4286,7 @@ Private Sub mnuMoveUp_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(4).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(5).Text
 #If HIDEYTDL Then
-    GoTo afterheaderadd
-#End If
+#Else
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(6).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(7).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(8).Text
@@ -4416,7 +4294,7 @@ Private Sub mnuMoveUp_Click()
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(10).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(11).Text
     lvBatchFiles.ListItems(NewIdx).ListSubItems.Add , , lvBatchFiles.ListItems(UpIdx).ListSubItems(12).Text
-afterheaderadd:
+#End If
     lvBatchFiles.ListItems(NewIdx).Checked = lvBatchFiles.ListItems(UpIdx).Checked
     lvBatchFiles.ListItems(NewIdx).ForeColor = lvBatchFiles.ListItems(UpIdx).ForeColor
     lvBatchFiles.ListItems(NewIdx).ListSubItems(1).ForeColor = lvBatchFiles.ListItems(UpIdx).ListSubItems(1).ForeColor
@@ -4472,7 +4350,7 @@ End Sub
 Private Sub optTabThreads2_Click()
     fThreadInfo.Visible = -1
     fDownloadInfo.Visible = 0
-    vsProgressScroll.Visible = trThreadCount.value > 10
+    vsProgressScroll.Visible = trThreadCount.Value > 10
 End Sub
 
 Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -4495,9 +4373,6 @@ Private Sub SP_EOF(ByVal EOFType As SPEOF_TYPES)
 End Sub
 
 Private Sub SP_Error(ByVal Number As Long, ByVal Source As String, CancelDisplay As Boolean)
-    MsgBox "Error " & CStr(Number) & " in " & Source, _
-           vbOKOnly Or vbExclamation, _
-           Caption
     CancelDisplay = True
     SP.FinishChild 0
     OnStop
@@ -4511,36 +4386,32 @@ End Sub
 
 Private Sub trThreadCount_Change()
     trThreadCount_Scroll
-    SaveSetting "DownloadBooster", "UserData", "ThreadCount", trThreadCount.value
-End Sub
-
-Private Sub trThreadCount_KeyDown(KeyCode As Integer, Shift As Integer)
-    trThreadCount_Scroll
+    SaveSetting "DownloadBooster", "UserData", "ThreadCount", trThreadCount.Value
 End Sub
 
 Sub trThreadCount_Scroll()
-    If trThreadCount.value = 1 Then
+    If trThreadCount.Value = 1 Then
         lblThreadCount.Caption = "(" & t("일반 다운로드", "No threading") & ")"
     Else
-        lblThreadCount.Caption = "(" & trThreadCount.value & t("개 스레드", " threads") & ")"
+        lblThreadCount.Caption = "(" & trThreadCount.Value & t("개 스레드", " threads") & ")"
     End If
     Dim i%
-    For i = 1 To trThreadCount.value
+    For i = 1 To trThreadCount.Value
         lblDownloader(i).Visible = -1
         pbProgress(i).Visible = -1
         lblPercentage(i).Visible = -1
     Next i
-    For i = trThreadCount.value + 1 To lblDownloader.UBound
+    For i = trThreadCount.Value + 1 To lblDownloader.UBound
         lblDownloader(i).Visible = 0
         pbProgress(i).Visible = 0
         lblPercentage(i).Visible = 0
     Next i
     
-    If trThreadCount.value - 10 > 0 Then
+    If trThreadCount.Value - 10 > 0 Then
         If ScrollOneScreen Then
-            vsProgressScroll.Max = Ceil(trThreadCount.value / 10) - 1
+            vsProgressScroll.Max = Ceil(trThreadCount.Value / 10) - 1
         Else
-            vsProgressScroll.Max = trThreadCount.value - 10
+            vsProgressScroll.Max = trThreadCount.Value - 10
         End If
         vsProgressScroll.Enabled = -1
         vsProgressScroll.Visible = fThreadInfo.Visible
@@ -4562,12 +4433,12 @@ Sub trThreadCount_Scroll()
 '        optTabThreads2.Value = True
 '    End If
     
-    If trThreadCount.value = trThreadCount.Min Then
+    If trThreadCount.Value = trThreadCount.Min Then
         cmdDecreaseThreads.Enabled = 0
     Else
         cmdDecreaseThreads.Enabled = -1
     End If
-    If trThreadCount.value = trThreadCount.Max Then
+    If trThreadCount.Value = trThreadCount.Max Then
         cmdIncreaseThreads.Enabled = 0
     Else
         cmdIncreaseThreads.Enabled = -1
@@ -4582,9 +4453,9 @@ End Sub
 
 Private Sub vsProgressScroll_Scroll()
     If ScrollOneScreen Then
-        pbProgressContainer.Top = CDbl(pbProgressOuterContainer.Height) * CDbl(vsProgressScroll.value) * -1# - (105# * CDbl(vsProgressScroll.value))
+        pbProgressContainer.Top = CDbl(pbProgressOuterContainer.Height) * CDbl(vsProgressScroll.Value) * -1# - (105# * CDbl(vsProgressScroll.Value))
     Else
-        pbProgressContainer.Top = CDbl(vsProgressScroll.value) * 255# * -1# - (105# * CDbl(vsProgressScroll.value))
+        pbProgressContainer.Top = CDbl(vsProgressScroll.Value) * 255# * -1# - (105# * CDbl(vsProgressScroll.Value))
     End If
     If LBFrameEnabled Or imgBackground.Visible Then
         pbProgressContainer.Refresh

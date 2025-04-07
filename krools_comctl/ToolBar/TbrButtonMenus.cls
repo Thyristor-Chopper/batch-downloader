@@ -100,7 +100,7 @@ Set Item = PropButtonMenu(Index)
 End Property
 
 Public Function Exists(ByVal Index As Variant) As Boolean
-Attribute Exists.VB_Description = "Returns a value indicating if a given index or key in the button menus collection exists."
+Attribute Exists.VB_Description = "Returns a Value indicating if a given index or key in the button menus collection exists."
 On Error Resume Next
 PropButtonMenu.Item Index
 Exists = CBool(Err.Number = 0)

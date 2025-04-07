@@ -116,7 +116,7 @@ ShadowStatusBar.FPanelBevel(PropIndex) = Value
 End Property
 
 Public Property Get AutoSize() As SbrPanelAutoSizeConstants
-Attribute AutoSize.VB_Description = "Returns/sets a value that allows the width of the panel to be automatically sized."
+Attribute AutoSize.VB_Description = "Returns/sets a Value that allows the width of the panel to be automatically sized."
 AutoSize = ShadowStatusBar.FPanelAutoSize(PropIndex)
 End Property
 
@@ -174,7 +174,7 @@ Set ShadowStatusBar.FPanelPicture(PropIndex) = Value
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether the panel text appears as enabled or not."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether the panel text appears as enabled or not."
 Enabled = ShadowStatusBar.FPanelEnabled(PropIndex)
 End Property
 
@@ -183,7 +183,7 @@ ShadowStatusBar.FPanelEnabled(PropIndex) = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether the panel is visible or not."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether the panel is visible or not."
 Visible = ShadowStatusBar.FPanelVisible(PropIndex)
 End Property
 
@@ -192,7 +192,7 @@ ShadowStatusBar.FPanelVisible(PropIndex) = Value
 End Property
 
 Public Property Get Bold() As Boolean
-Attribute Bold.VB_Description = "Returns/sets a value that determines whether the text is displayed with a bold font or not."
+Attribute Bold.VB_Description = "Returns/sets a Value that determines whether the text is displayed with a bold font or not."
 Bold = ShadowStatusBar.FPanelBold(PropIndex)
 End Property
 
@@ -201,7 +201,7 @@ ShadowStatusBar.FPanelBold(PropIndex) = Value
 End Property
 
 Public Property Get PictureOnRight() As Boolean
-Attribute PictureOnRight.VB_Description = "Returns/sets a value that determines if the picture appears on the right of the panel."
+Attribute PictureOnRight.VB_Description = "Returns/sets a Value that determines if the picture appears on the right of the panel."
 PictureOnRight = ShadowStatusBar.FPanelPictureOnRight(PropIndex)
 End Property
 

@@ -1265,7 +1265,7 @@ Else
         Set This = PtrToObj(lCustData)
         This.Message hDlg, wMsg, wParam, lParam, -9
     End If
-    ' Need to return a nonzero value or else the dialog box will not be shown.
+    ' Need to return a nonzero Value or else the dialog box will not be shown.
     ComCtlsCdlFR1CallbackProc = 1
 End If
 End Function
@@ -1289,7 +1289,7 @@ Else
         Set This = PtrToObj(lCustData)
         This.Message hDlg, wMsg, wParam, lParam, -10
     End If
-    ' Need to return a nonzero value or else the dialog box will not be shown.
+    ' Need to return a nonzero Value or else the dialog box will not be shown.
     ComCtlsCdlFR2CallbackProc = 1
 End If
 End Function

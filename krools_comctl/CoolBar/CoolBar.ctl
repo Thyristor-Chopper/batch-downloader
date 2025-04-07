@@ -1135,7 +1135,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -1164,7 +1164,7 @@ Extender.WhatsThisHelpID = Value
 End Property
 
 Public Property Get Align() As Integer
-Attribute Align.VB_Description = "Returns/sets a value that determines where an object is displayed on a form."
+Attribute Align.VB_Description = "Returns/sets a Value that determines where an object is displayed on a form."
 Attribute Align.VB_MemberFlags = "400"
 Align = Extender.Align
 End Property
@@ -1188,7 +1188,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -1262,7 +1262,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -1286,7 +1286,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1345,7 +1345,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If CoolBarDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1414,7 +1414,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -1646,7 +1646,7 @@ UserControl.PropertyChanged "Orientation"
 End Property
 
 Public Property Get BandBorders() As Boolean
-Attribute BandBorders.VB_Description = "Returns/sets a value indicating whether the cool bar displays narrow lines to separate the bands."
+Attribute BandBorders.VB_Description = "Returns/sets a Value indicating whether the cool bar displays narrow lines to separate the bands."
 BandBorders = PropBandBorders
 End Property
 
@@ -1667,7 +1667,7 @@ UserControl.PropertyChanged "BandBorders"
 End Property
 
 Public Property Get FixedOrder() As Boolean
-Attribute FixedOrder.VB_Description = "Returns/sets a value indicating whether the user is allowed to rearrange the order of the bands."
+Attribute FixedOrder.VB_Description = "Returns/sets a Value indicating whether the user is allowed to rearrange the order of the bands."
 FixedOrder = PropFixedOrder
 End Property
 
@@ -1688,7 +1688,7 @@ UserControl.PropertyChanged "FixedOrder"
 End Property
 
 Public Property Get VariantHeight() As Boolean
-Attribute VariantHeight.VB_Description = "Returns/sets a value indicating whether the cool bar allows bands to be displayed with different heights."
+Attribute VariantHeight.VB_Description = "Returns/sets a Value indicating whether the cool bar allows bands to be displayed with different heights."
 VariantHeight = PropVariantHeight
 End Property
 
@@ -1768,7 +1768,7 @@ UserControl.PropertyChanged "Picture"
 End Property
 
 Public Property Get DblClickToggle() As Boolean
-Attribute DblClickToggle.VB_Description = "Returns/sets a value that determines whether or not the cool bar will toggle its maximized or minimized state when the user double-clicks a band."
+Attribute DblClickToggle.VB_Description = "Returns/sets a Value that determines whether or not the cool bar will toggle its maximized or minimized state when the user double-clicks a band."
 DblClickToggle = PropDblClickToggle
 End Property
 
@@ -1788,7 +1788,7 @@ UserControl.PropertyChanged "DblClickToggle"
 End Property
 
 Public Property Get VerticalGripper() As Boolean
-Attribute VerticalGripper.VB_Description = "Returns/sets a value that determines whether or not the size grip will be displayed vertically instead of horizontally in a vertical cool bar."
+Attribute VerticalGripper.VB_Description = "Returns/sets a Value that determines whether or not the size grip will be displayed vertically instead of horizontally in a vertical cool bar."
 VerticalGripper = PropVerticalGripper
 End Property
 
@@ -1810,7 +1810,7 @@ UserControl.PropertyChanged "VerticalGripper"
 End Property
 
 Public Property Get ShowTips() As Boolean
-Attribute ShowTips.VB_Description = "Returns/sets a value that determines whether the tool tip text properties will be displayed or not."
+Attribute ShowTips.VB_Description = "Returns/sets a Value that determines whether the tool tip text properties will be displayed or not."
 ShowTips = PropShowTips
 End Property
 
@@ -1827,7 +1827,7 @@ UserControl.PropertyChanged "ShowTips"
 End Property
 
 Public Property Get DoubleBuffer() As Boolean
-Attribute DoubleBuffer.VB_Description = "Returns/sets a value that determines whether the control paints via double-buffering, which reduces flicker."
+Attribute DoubleBuffer.VB_Description = "Returns/sets a Value that determines whether the control paints via double-buffering, which reduces flicker."
 DoubleBuffer = PropDoubleBuffer
 End Property
 
@@ -2753,7 +2753,7 @@ If CoolBarHandle <> NULL_PTR Then
         ' The '&' won't underline the character, instead it is displayed as a normal character.
         ' This behavior is necessary for backward compatibility with earlier versions of the common controls.
         ' If you want the character to be underlined, it is necessary to send a CCM_SETVERSION message
-        ' with the wParam value set to 5 before adding any items to the control.
+        ' with the wParam Value set to 5 before adding any items to the control.
         SendMessage CoolBarHandle, CCM_SETVERSION, 5, ByVal 0&
     End If
 End If

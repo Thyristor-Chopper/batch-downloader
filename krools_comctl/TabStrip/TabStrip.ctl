@@ -152,9 +152,9 @@ RCItem As RECT
 ItemData As LongPtr
 End Type
 Public Event TabBeforeClick(ByVal TabItem As TbsTab, ByRef Cancel As Boolean)
-Attribute TabBeforeClick.VB_Description = "Occurs when a tab is clicked, or the tab's value setting has been changed. Used to check parameters before actually generating a TabClick event."
+Attribute TabBeforeClick.VB_Description = "Occurs when a tab is clicked, or the tab's Value setting has been changed. Used to check parameters before actually generating a TabClick event."
 Public Event TabClick(ByVal TabItem As TbsTab)
-Attribute TabClick.VB_Description = "Occurs when a tab is clicked, or the tab's value setting has been changed."
+Attribute TabClick.VB_Description = "Occurs when a tab is clicked, or the tab's Value setting has been changed."
 Public Event ItemDraw(ByVal TabItem As TbsTab, ByVal ItemAction As Long, ByVal ItemState As Long, ByVal hDC As Long, ByVal Left As Long, ByVal Top As Long, ByVal Right As Long, ByVal Bottom As Long)
 Attribute ItemDraw.VB_Description = "Occurs when a visual aspect of an owner-drawn tab strip has changed."
 Public Event PreviewKeyDown(ByVal KeyCode As Integer, ByRef IsInputKey As Boolean)
@@ -943,7 +943,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -995,7 +995,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -1072,7 +1072,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -1092,7 +1092,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1151,7 +1151,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If TabStripDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1193,7 +1193,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -1342,7 +1342,7 @@ UserControl.PropertyChanged "ImageList"
 End Property
 
 Public Property Get Placement() As TbsPlacementConstants
-Attribute Placement.VB_Description = "Returns/sets a value that indicates on which side of the control the tabs will be displayed. This property is ignored if the version of comctl32.dll is 6.0 or higher."
+Attribute Placement.VB_Description = "Returns/sets a Value that indicates on which side of the control the tabs will be displayed. This property is ignored if the version of comctl32.dll is 6.0 or higher."
 Placement = PropPlacement
 End Property
 
@@ -1358,7 +1358,7 @@ UserControl.PropertyChanged "Placement"
 End Property
 
 Public Property Get MultiRow() As Boolean
-Attribute MultiRow.VB_Description = "Returns/sets a value indicating whether the control can display more than one row of tabs. This flag is always set to true when the tab style property is set to opposite."
+Attribute MultiRow.VB_Description = "Returns/sets a Value indicating whether the control can display more than one row of tabs. This flag is always set to true when the tab style property is set to opposite."
 MultiRow = PropMultiRow
 End Property
 
@@ -1369,7 +1369,7 @@ UserControl.PropertyChanged "MultiRow"
 End Property
 
 Public Property Get MultiSelect() As Boolean
-Attribute MultiSelect.VB_Description = "Returns/sets a value that determines whether or not multiple tabs can be selected by holding down the CTRL key when clicking. Only applicable if the style property is set to buttons or flat buttons."
+Attribute MultiSelect.VB_Description = "Returns/sets a Value that determines whether or not multiple tabs can be selected by holding down the CTRL key when clicking. Only applicable if the style property is set to buttons or flat buttons."
 MultiSelect = PropMultiSelect
 End Property
 
@@ -1380,7 +1380,7 @@ UserControl.PropertyChanged "MultiSelect"
 End Property
 
 Public Property Get HotTracking() As Boolean
-Attribute HotTracking.VB_Description = "Returns/sets a value that determines whether or not the control highlights the tabs as the pointer passes over them. The flag is ignored on Windows XP (or above) when the desktop theme overrides it."
+Attribute HotTracking.VB_Description = "Returns/sets a Value that determines whether or not the control highlights the tabs as the pointer passes over them. The flag is ignored on Windows XP (or above) when the desktop theme overrides it."
 HotTracking = PropHotTracking
 End Property
 
@@ -1407,7 +1407,7 @@ UserControl.PropertyChanged "Style"
 End Property
 
 Public Property Get TabStyle() As TbsTabStyleConstants
-Attribute TabStyle.VB_Description = "Returns/sets a value that determines how remaining rows of tabs in front of a selected tab are repositioned."
+Attribute TabStyle.VB_Description = "Returns/sets a Value that determines how remaining rows of tabs in front of a selected tab are repositioned."
 TabStyle = PropTabStyle
 End Property
 
@@ -1446,7 +1446,7 @@ End Property
 Public Property Let TabFixedWidth(ByVal Value As Single)
 If Value < 0 Then
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1464,7 +1464,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     End If
 Else
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1481,7 +1481,7 @@ End Property
 Public Property Let TabFixedHeight(ByVal Value As Single)
 If Value < 0 Then
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1499,7 +1499,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     End If
 Else
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1520,7 +1520,7 @@ End Property
 Public Property Let TabMinWidth(ByVal Value As Single)
 If Value < 0 And Not Value = -1 Then
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1536,7 +1536,7 @@ If (IntValue >= 0 Or IntValue = -1) And ErrValue = 0 Then
     If TabStripHandle <> NULL_PTR Then SendMessage TabStripHandle, TCM_SETMINTABWIDTH, 0, ByVal CLng(PropTabMinWidth)
 Else
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1562,7 +1562,7 @@ UserControl.PropertyChanged "TabAlignment"
 End Property
 
 Public Property Get Separators() As Boolean
-Attribute Separators.VB_Description = "Returns/sets a value that determines whether or not the control will draw separators between the tabs. Only applicable if the style property is set to flat buttons."
+Attribute Separators.VB_Description = "Returns/sets a Value that determines whether or not the control will draw separators between the tabs. Only applicable if the style property is set to flat buttons."
 If TabStripHandle <> NULL_PTR Then
     Dim dwStyle As Long
     dwStyle = CLng(SendMessage(TabStripHandle, TCM_GETEXTENDEDSTYLE, 0, ByVal 0&))
@@ -1585,7 +1585,7 @@ UserControl.PropertyChanged "Separators"
 End Property
 
 Public Property Get ShowTips() As Boolean
-Attribute ShowTips.VB_Description = "Returns/sets a value that determines whether the tool tip text properties will be displayed or not."
+Attribute ShowTips.VB_Description = "Returns/sets a Value that determines whether the tool tip text properties will be displayed or not."
 ShowTips = PropShowTips
 End Property
 
@@ -1606,7 +1606,7 @@ UserControl.PropertyChanged "ShowTips"
 End Property
 
 Public Property Get DrawMode() As TbsDrawModeConstants
-Attribute DrawMode.VB_Description = "Returns/sets a value indicating whether your code or the operating system will handle drawing of the elements."
+Attribute DrawMode.VB_Description = "Returns/sets a Value indicating whether your code or the operating system will handle drawing of the elements."
 DrawMode = PropDrawMode
 End Property
 
@@ -1626,7 +1626,7 @@ UserControl.PropertyChanged "DrawMode"
 End Property
 
 Public Property Get TabScrollWheel() As Boolean
-Attribute TabScrollWheel.VB_Description = "Returns/sets a value that determines whether or not the selected tab can be switched using the mouse scroll wheel."
+Attribute TabScrollWheel.VB_Description = "Returns/sets a Value that determines whether or not the selected tab can be switched using the mouse scroll wheel."
 TabScrollWheel = PropTabScrollWheel
 End Property
 
@@ -1636,7 +1636,7 @@ UserControl.PropertyChanged "TabScrollWheel"
 End Property
 
 Public Property Get DoubleBuffer() As Boolean
-Attribute DoubleBuffer.VB_Description = "Returns/sets a value that determines whether the control paints via double-buffering, which reduces flicker."
+Attribute DoubleBuffer.VB_Description = "Returns/sets a Value that determines whether the control paints via double-buffering, which reduces flicker."
 DoubleBuffer = PropDoubleBuffer
 End Property
 
@@ -1646,7 +1646,7 @@ UserControl.PropertyChanged "DoubleBuffer"
 End Property
 
 Public Property Get Transparent() As Boolean
-Attribute Transparent.VB_Description = "Returns/sets a value indicating if the background is a replica of the underlying background to simulate transparency."
+Attribute Transparent.VB_Description = "Returns/sets a Value indicating if the background is a replica of the underlying background to simulate transparency."
 Transparent = PropTransparent
 End Property
 

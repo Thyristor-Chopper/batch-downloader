@@ -1055,14 +1055,14 @@ Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As
                 MessageBox.optNo.Top = MessageBox.optNo.Top - 80
             End If
             If IsEmpty(DefaultOption) Then
-                MessageBox.optYes.value = False
-                MessageBox.optNo.value = False
+                MessageBox.optYes.Value = False
+                MessageBox.optNo.Value = False
                 MessageBox.cmdOK.Enabled = False
             ElseIf DefaultOption = vbYes Then
-                MessageBox.optYes.value = True
+                MessageBox.optYes.Value = True
                 MessageBox.cmdOK.Enabled = True
             Else
-                MessageBox.optNo.value = True
+                MessageBox.optNo.Value = True
                 MessageBox.cmdOK.Enabled = True
             End If
             If LineCount < 2 Then
@@ -1612,7 +1612,7 @@ continue:
     Next i
     
     DecodeHeaderCache.Add HeaderKeys, "keys"
-    DecodeHeaderCache.Add Headers, "values"
+    DecodeHeaderCache.Add Headers, "Values"
 End Function
 
 Function GetSpecialfolder(CSIDL As Long) As String

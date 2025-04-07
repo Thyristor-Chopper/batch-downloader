@@ -790,8 +790,8 @@ Attribute Tag.VB_Description = "Stores any extra data needed for your program."
 Tag = Extender.Tag
 End Property
 
-Public Property Let Tag(ByVal value As String)
-Extender.Tag = value
+Public Property Let Tag(ByVal Value As String)
+Extender.Tag = Value
 End Property
 
 Public Property Get Parent() As Object
@@ -804,8 +804,8 @@ Attribute Container.VB_Description = "Returns the container of an object."
 Set Container = Extender.Container
 End Property
 
-Public Property Set Container(ByVal value As Object)
-Set Extender.Container = value
+Public Property Set Container(ByVal Value As Object)
+Set Extender.Container = Value
 End Property
 
 Public Property Get Left() As Single
@@ -813,8 +813,8 @@ Attribute Left.VB_Description = "Returns/sets the distance between the internal 
 Left = Extender.Left
 End Property
 
-Public Property Let Left(ByVal value As Single)
-Extender.Left = value
+Public Property Let Left(ByVal Value As Single)
+Extender.Left = Value
 End Property
 
 Public Property Get Top() As Single
@@ -822,8 +822,8 @@ Attribute Top.VB_Description = "Returns/sets the distance between the internal t
 Top = Extender.Top
 End Property
 
-Public Property Let Top(ByVal value As Single)
-Extender.Top = value
+Public Property Let Top(ByVal Value As Single)
+Extender.Top = Value
 End Property
 
 Public Property Get Width() As Single
@@ -831,8 +831,8 @@ Attribute Width.VB_Description = "Returns/sets the width of an object."
 Width = Extender.Width
 End Property
 
-Public Property Let Width(ByVal value As Single)
-Extender.Width = value
+Public Property Let Width(ByVal Value As Single)
+Extender.Width = Value
 End Property
 
 Public Property Get Height() As Single
@@ -840,17 +840,17 @@ Attribute Height.VB_Description = "Returns/sets the height of an object."
 Height = Extender.Height
 End Property
 
-Public Property Let Height(ByVal value As Single)
-Extender.Height = value
+Public Property Let Height(ByVal Value As Single)
+Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
-Public Property Let Visible(ByVal value As Boolean)
-Extender.Visible = value
+Public Property Let Visible(ByVal Value As Boolean)
+Extender.Visible = Value
 End Property
 
 Public Property Get ToolTipText() As String
@@ -859,8 +859,8 @@ Attribute ToolTipText.VB_MemberFlags = "400"
 ToolTipText = Extender.ToolTipText
 End Property
 
-Public Property Let ToolTipText(ByVal value As String)
-Extender.ToolTipText = value
+Public Property Let ToolTipText(ByVal Value As String)
+Extender.ToolTipText = Value
 End Property
 
 Public Property Get HelpContextID() As Long
@@ -868,8 +868,8 @@ Attribute HelpContextID.VB_Description = "Specifies the default Help file contex
 HelpContextID = Extender.HelpContextID
 End Property
 
-Public Property Let HelpContextID(ByVal value As Long)
-Extender.HelpContextID = value
+Public Property Let HelpContextID(ByVal Value As Long)
+Extender.HelpContextID = Value
 End Property
 
 Public Property Get WhatsThisHelpID() As Long
@@ -878,8 +878,8 @@ Attribute WhatsThisHelpID.VB_MemberFlags = "400"
 WhatsThisHelpID = Extender.WhatsThisHelpID
 End Property
 
-Public Property Let WhatsThisHelpID(ByVal value As Long)
-Extender.WhatsThisHelpID = value
+Public Property Let WhatsThisHelpID(ByVal Value As Long)
+Extender.WhatsThisHelpID = Value
 End Property
 
 Public Property Get DragIcon() As IPictureDisp
@@ -888,22 +888,22 @@ Attribute DragIcon.VB_MemberFlags = "400"
 Set DragIcon = Extender.DragIcon
 End Property
 
-Public Property Let DragIcon(ByVal value As IPictureDisp)
-Extender.DragIcon = value
+Public Property Let DragIcon(ByVal Value As IPictureDisp)
+Extender.DragIcon = Value
 End Property
 
-Public Property Set DragIcon(ByVal value As IPictureDisp)
-Set Extender.DragIcon = value
+Public Property Set DragIcon(ByVal Value As IPictureDisp)
+Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
 
-Public Property Let DragMode(ByVal value As Integer)
-Extender.DragMode = value
+Public Property Let DragMode(ByVal Value As Integer)
+Extender.DragMode = Value
 End Property
 
 Public Sub Drag(Optional ByRef Action As Variant)
@@ -944,12 +944,12 @@ hWndUserControl = UserControl.hWnd
 End Property
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
-Public Property Let VisualStyles(ByVal value As Boolean)
-PropVisualStyles = value
+Public Property Let VisualStyles(ByVal Value As Boolean)
+PropVisualStyles = Value
 If SliderHandle <> NULL_PTR And EnabledVisualStyles() = True Then
     If PropVisualStyles = True Then
         ActivateVisualStyles SliderHandle
@@ -968,21 +968,21 @@ Attribute BackColor.VB_UserMemId = -501
 BackColor = UserControl.BackColor
 End Property
 
-Public Property Let BackColor(ByVal value As OLE_COLOR)
-UserControl.BackColor = value
+Public Property Let BackColor(ByVal Value As OLE_COLOR)
+UserControl.BackColor = Value
 If SliderHandle <> NULL_PTR Then Call ReCreateSlider
 UserControl.PropertyChanged "BackColor"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
 
-Public Property Let Enabled(ByVal value As Boolean)
-UserControl.Enabled = value
-If SliderHandle <> NULL_PTR Then EnableWindow SliderHandle, IIf(value = True, 1, 0)
+Public Property Let Enabled(ByVal Value As Boolean)
+UserControl.Enabled = Value
+If SliderHandle <> NULL_PTR Then EnableWindow SliderHandle, IIf(Value = True, 1, 0)
 UserControl.PropertyChanged "Enabled"
 End Property
 
@@ -991,10 +991,10 @@ Attribute OLEDropMode.VB_Description = "Returns/Sets whether this object can act
 OLEDropMode = UserControl.OLEDropMode
 End Property
 
-Public Property Let OLEDropMode(ByVal value As OLEDropModeConstants)
-Select Case value
+Public Property Let OLEDropMode(ByVal Value As OLEDropModeConstants)
+Select Case Value
     Case OLEDropModeNone, OLEDropModeManual
-        UserControl.OLEDropMode = value
+        UserControl.OLEDropMode = Value
     Case Else
         Err.Raise 380
 End Select
@@ -1006,10 +1006,10 @@ Attribute MousePointer.VB_Description = "Returns/sets the type of mouse pointer 
 MousePointer = PropMousePointer
 End Property
 
-Public Property Let MousePointer(ByVal value As CCMousePointerConstants)
-Select Case value
+Public Property Let MousePointer(ByVal Value As CCMousePointerConstants)
+Select Case Value
     Case 0 To 16, 99
-        PropMousePointer = value
+        PropMousePointer = Value
     Case Else
         Err.Raise 380
 End Select
@@ -1022,19 +1022,19 @@ Attribute MouseIcon.VB_Description = "Returns/sets a custom mouse icon."
 Set MouseIcon = PropMouseIcon
 End Property
 
-Public Property Let MouseIcon(ByVal value As IPictureDisp)
-Set Me.MouseIcon = value
+Public Property Let MouseIcon(ByVal Value As IPictureDisp)
+Set Me.MouseIcon = Value
 End Property
 
-Public Property Set MouseIcon(ByVal value As IPictureDisp)
-If value Is Nothing Then
+Public Property Set MouseIcon(ByVal Value As IPictureDisp)
+If Value Is Nothing Then
     Set PropMouseIcon = Nothing
 Else
-    If value.Type = vbPicTypeIcon Or value.Handle = NULL_PTR Then
-        Set PropMouseIcon = value
+    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+        Set PropMouseIcon = Value
     Else
         If SliderDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1050,8 +1050,8 @@ Attribute MouseTrack.VB_Description = "Returns/sets whether mouse events occurs 
 MouseTrack = PropMouseTrack
 End Property
 
-Public Property Let MouseTrack(ByVal value As Boolean)
-PropMouseTrack = value
+Public Property Let MouseTrack(ByVal Value As Boolean)
+PropMouseTrack = Value
 UserControl.PropertyChanged "MouseTrack"
 End Property
 
@@ -1061,8 +1061,8 @@ Attribute RightToLeft.VB_UserMemId = -611
 RightToLeft = PropRightToLeft
 End Property
 
-Public Property Let RightToLeft(ByVal value As Boolean)
-PropRightToLeft = value
+Public Property Let RightToLeft(ByVal Value As Boolean)
+PropRightToLeft = Value
 UserControl.RightToLeft = PropRightToLeft
 Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
 Dim dwMask As Long
@@ -1076,12 +1076,12 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
-Public Property Let RightToLeftLayout(ByVal value As Boolean)
-PropRightToLeftLayout = value
+Public Property Let RightToLeftLayout(ByVal Value As Boolean)
+PropRightToLeftLayout = Value
 Me.RightToLeft = PropRightToLeft
 UserControl.PropertyChanged "RightToLeftLayout"
 End Property
@@ -1091,10 +1091,10 @@ Attribute RightToLeftMode.VB_Description = "Returns/sets the right-to-left mode.
 RightToLeftMode = PropRightToLeftMode
 End Property
 
-Public Property Let RightToLeftMode(ByVal value As CCRightToLeftModeConstants)
-Select Case value
+Public Property Let RightToLeftMode(ByVal Value As CCRightToLeftModeConstants)
+Select Case Value
     Case CCRightToLeftModeNoControl, CCRightToLeftModeVBAME, CCRightToLeftModeSystemLocale, CCRightToLeftModeUserLocale, CCRightToLeftModeOSLanguage
-        PropRightToLeftMode = value
+        PropRightToLeftMode = Value
     Case Else
         Err.Raise 380
 End Select
@@ -1103,7 +1103,7 @@ UserControl.PropertyChanged "RightToLeftMode"
 End Property
 
 Public Property Get Min() As Long
-Attribute Min.VB_Description = "Returns/sets the minimum value."
+Attribute Min.VB_Description = "Returns/sets the minimum Value."
 If SliderHandle <> NULL_PTR Then
     Min = CLng(SendMessage(SliderHandle, TBM_GETRANGEMIN, 0, ByVal 0&))
 Else
@@ -1111,9 +1111,9 @@ Else
 End If
 End Property
 
-Public Property Let Min(ByVal value As Long)
-If value < Me.Max Then
-    PropMin = value
+Public Property Let Min(ByVal Value As Long)
+If Value < Me.Max Then
+    PropMin = Value
     If PropValue < PropMin Then PropValue = PropMin
     If PropMin > PropSelStart Then
         PropSelStart = PropMin
@@ -1121,7 +1121,7 @@ If value < Me.Max Then
     End If
 Else
     If SliderDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1140,7 +1140,7 @@ UserControl.PropertyChanged "Min"
 End Property
 
 Public Property Get Max() As Long
-Attribute Max.VB_Description = "Returns/sets the maximum value."
+Attribute Max.VB_Description = "Returns/sets the maximum Value."
 If SliderHandle <> NULL_PTR Then
     Max = CLng(SendMessage(SliderHandle, TBM_GETRANGEMAX, 0, ByVal 0&))
 Else
@@ -1148,9 +1148,9 @@ Else
 End If
 End Property
 
-Public Property Let Max(ByVal value As Long)
-If value > Me.Min Then
-    PropMax = value
+Public Property Let Max(ByVal Value As Long)
+If Value > Me.Min Then
+    PropMax = Value
     If PropValue > PropMax Then PropValue = PropMax
     If PropMax < PropSelStart Then
         PropSelStart = PropMax
@@ -1158,7 +1158,7 @@ If value > Me.Min Then
     End If
 Else
     If SliderDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1176,25 +1176,25 @@ End If
 UserControl.PropertyChanged "Max"
 End Property
 
-Public Property Get value() As Long
-Attribute value.VB_Description = "Returns/sets the current position."
-Attribute value.VB_UserMemId = 0
-Attribute value.VB_MemberFlags = "123c"
+Public Property Get Value() As Long
+Attribute Value.VB_Description = "Returns/sets the current position."
+Attribute Value.VB_UserMemId = 0
+Attribute Value.VB_MemberFlags = "123c"
 If SliderHandle <> NULL_PTR Then
-    value = CLng(SendMessage(SliderHandle, TBM_GETPOS, 0, ByVal 0&))
+    Value = CLng(SendMessage(SliderHandle, TBM_GETPOS, 0, ByVal 0&))
 Else
-    value = PropValue
+    Value = PropValue
 End If
 End Property
 
-Public Property Let value(ByVal NewValue As Long)
+Public Property Let Value(ByVal NewValue As Long)
 If NewValue > Me.Max Then
     NewValue = Me.Max
 ElseIf NewValue < Me.Min Then
     NewValue = Me.Min
 End If
 Dim Changed As Boolean
-Changed = CBool(Me.value <> NewValue)
+Changed = CBool(Me.Value <> NewValue)
 PropValue = NewValue
 If SliderHandle <> NULL_PTR Then SendMessage SliderHandle, TBM_SETPOS, 1, ByVal PropValue
 UserControl.PropertyChanged "Value"
@@ -1211,12 +1211,12 @@ Attribute TickFrequency.VB_Description = "Returns/sets the ratio of ticks; 1tick
 TickFrequency = PropTickFrequency
 End Property
 
-Public Property Let TickFrequency(ByVal value As Long)
-If value > 0 Then
-    PropTickFrequency = value
+Public Property Let TickFrequency(ByVal Value As Long)
+If Value > 0 Then
+    PropTickFrequency = Value
 Else
     If SliderDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1231,18 +1231,18 @@ Attribute Orientation.VB_Description = "Returns/sets the orientation."
 Orientation = PropOrientation
 End Property
 
-Public Property Let Orientation(ByVal value As SldOrientationConstants)
+Public Property Let Orientation(ByVal Value As SldOrientationConstants)
 Dim Swap(0 To 1) As Long
-Select Case value
+Select Case Value
     Case SldOrientationHorizontal, SldOrientationVertical
-        If PropOrientation <> value Then
+        If PropOrientation <> Value Then
             Swap(0) = UserControl.ScaleHeight
             Swap(1) = UserControl.ScaleWidth
         Else
             Swap(0) = -1
             Swap(1) = -1
         End If
-        PropOrientation = value
+        PropOrientation = Value
     Case Else
         Err.Raise 380
 End Select
@@ -1299,8 +1299,8 @@ Else
 End If
 End Property
 
-Public Property Let SmallChange(ByVal value As Long)
-PropSmallChange = value
+Public Property Let SmallChange(ByVal Value As Long)
+PropSmallChange = Value
 If SliderHandle <> NULL_PTR Then SendMessage SliderHandle, TBM_SETLINESIZE, 0, ByVal PropSmallChange
 UserControl.PropertyChanged "SmallChange"
 End Property
@@ -1314,8 +1314,8 @@ Else
 End If
 End Property
 
-Public Property Let LargeChange(ByVal value As Long)
-PropLargeChange = value
+Public Property Let LargeChange(ByVal Value As Long)
+PropLargeChange = Value
 If SliderHandle <> NULL_PTR Then SendMessage SliderHandle, TBM_SETPAGESIZE, 0, ByVal PropLargeChange
 UserControl.PropertyChanged "LargeChange"
 End Property
@@ -1325,10 +1325,10 @@ Attribute TickStyle.VB_Description = "Returns/sets the style (or positioning) of
 TickStyle = PropTickStyle
 End Property
 
-Public Property Let TickStyle(ByVal value As SldTickStyleConstants)
-Select Case value
+Public Property Let TickStyle(ByVal Value As SldTickStyleConstants)
+Select Case Value
     Case SldTickStyleBottomRight, SldTickStyleTopLeft, SldTickStyleBoth, SldTickStyleNone
-        PropTickStyle = value
+        PropTickStyle = Value
     Case Else
         Err.Raise 380
 End Select
@@ -1365,12 +1365,12 @@ UserControl.PropertyChanged "TickStyle"
 End Property
 
 Public Property Get ShowTip() As Boolean
-Attribute ShowTip.VB_Description = "Returns/sets a value that determines whether a position tip will be displayed or not."
+Attribute ShowTip.VB_Description = "Returns/sets a Value that determines whether a position tip will be displayed or not."
 ShowTip = PropShowTip
 End Property
 
-Public Property Let ShowTip(ByVal value As Boolean)
-PropShowTip = value
+Public Property Let ShowTip(ByVal Value As Boolean)
+PropShowTip = Value
 If SliderHandle <> NULL_PTR And SliderDesignMode = False Then
     If PropShowTip = False Then
         SendMessage SliderHandle, TBM_SETTOOLTIPS, 0, ByVal 0&
@@ -1383,14 +1383,14 @@ UserControl.PropertyChanged "ShowTip"
 End Property
 
 Public Property Get TipSide() As SldTipSideConstants
-Attribute TipSide.VB_Description = "Returns/sets a value representing the location at which to display the position tip. Only applicable if the show tip property is set to true."
+Attribute TipSide.VB_Description = "Returns/sets a Value representing the location at which to display the position tip. Only applicable if the show tip property is set to true."
 TipSide = PropTipSide
 End Property
 
-Public Property Let TipSide(ByVal value As SldTipSideConstants)
-Select Case value
+Public Property Let TipSide(ByVal Value As SldTipSideConstants)
+Select Case Value
     Case SldTipSideAboveLeft, SldTipSideBelowRight
-        PropTipSide = value
+        PropTipSide = Value
     Case Else
         Err.Raise 380
 End Select
@@ -1419,12 +1419,12 @@ Attribute SelectRange.VB_Description = "Returns/sets whether or not a trackbar c
 SelectRange = PropSelectRange
 End Property
 
-Public Property Let SelectRange(ByVal value As Boolean)
-If Not PropSelectRange = value Then
-    PropSelStart = Me.value
+Public Property Let SelectRange(ByVal Value As Boolean)
+If Not PropSelectRange = Value Then
+    PropSelStart = Me.Value
     PropSelLength = 0
 End If
-PropSelectRange = value
+PropSelectRange = Value
 If SliderHandle <> NULL_PTR Then
     Dim dwStyle As Long
     dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
@@ -1453,17 +1453,17 @@ If PropSelectRange = True Then
         SelStart = PropSelStart
     End If
 Else
-    SelStart = Me.value
+    SelStart = Me.Value
 End If
 End Property
 
-Public Property Let SelStart(ByVal value As Long)
-Select Case value
+Public Property Let SelStart(ByVal Value As Long)
+Select Case Value
     Case Me.Min To Me.Max
-        PropSelStart = value
+        PropSelStart = Value
     Case Else
         If SliderDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1494,13 +1494,13 @@ Else
 End If
 End Property
 
-Public Property Let SelLength(ByVal value As Long)
+Public Property Let SelLength(ByVal Value As Long)
 If PropSelectRange = True Then
-    If value >= 0 And (PropSelStart + value) <= Me.Max Then
-        PropSelLength = value
+    If Value >= 0 And (PropSelStart + Value) <= Me.Max Then
+        PropSelLength = Value
     Else
         If SliderDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1511,9 +1511,9 @@ If PropSelectRange = True Then
         SendMessage SliderHandle, TBM_SETSELEND, 1, ByVal (PropSelStart + PropSelLength)
     End If
 Else
-    If value <> 0 Then
+    If Value <> 0 Then
         If SliderDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1524,23 +1524,23 @@ UserControl.PropertyChanged "SelLength"
 End Property
 
 Public Property Get Transparent() As Boolean
-Attribute Transparent.VB_Description = "Returns/sets a value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
+Attribute Transparent.VB_Description = "Returns/sets a Value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
 Transparent = PropTransparent
 End Property
 
-Public Property Let Transparent(ByVal value As Boolean)
-PropTransparent = value
+Public Property Let Transparent(ByVal Value As Boolean)
+PropTransparent = Value
 If SliderHandle <> NULL_PTR Then Call ReCreateSlider
 UserControl.PropertyChanged "Transparent"
 End Property
 
 Public Property Get HideThumb() As Boolean
-Attribute HideThumb.VB_Description = "Returns/sets a value that determines whether or not the thumb marker is hidden."
+Attribute HideThumb.VB_Description = "Returns/sets a Value that determines whether or not the thumb marker is hidden."
 HideThumb = PropHideThumb
 End Property
 
-Public Property Let HideThumb(ByVal value As Boolean)
-PropHideThumb = value
+Public Property Let HideThumb(ByVal Value As Boolean)
+PropHideThumb = Value
 If SliderHandle <> NULL_PTR Then
     Dim dwStyle As Long
     dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
@@ -1555,12 +1555,12 @@ UserControl.PropertyChanged "HideThumb"
 End Property
 
 Public Property Get Reversed() As Boolean
-Attribute Reversed.VB_Description = "Returns/sets a value that determines whether or not to reverse the default, making down equal left and up equal right on horizontal orientation and left equal down and right equal up on vertical orientation."
+Attribute Reversed.VB_Description = "Returns/sets a Value that determines whether or not to reverse the default, making down equal left and up equal right on horizontal orientation and left equal down and right equal up on vertical orientation."
 Reversed = PropReversed
 End Property
 
-Public Property Let Reversed(ByVal value As Boolean)
-PropReversed = value
+Public Property Let Reversed(ByVal Value As Boolean)
+PropReversed = Value
 If SliderHandle <> NULL_PTR Then
     Dim dwStyle As Long
     dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
@@ -1578,14 +1578,14 @@ UserControl.PropertyChanged "Reversed"
 End Property
 
 Public Property Get DrawMode() As SldDrawModeConstants
-Attribute DrawMode.VB_Description = "Returns/sets a value indicating whether your code or the operating system will handle drawing of the elements."
+Attribute DrawMode.VB_Description = "Returns/sets a Value indicating whether your code or the operating system will handle drawing of the elements."
 DrawMode = PropDrawMode
 End Property
 
-Public Property Let DrawMode(ByVal value As SldDrawModeConstants)
-Select Case value
+Public Property Let DrawMode(ByVal Value As SldDrawModeConstants)
+Select Case Value
     Case SldDrawModeNormal, SldDrawModeOwnerDraw
-        PropDrawMode = value
+        PropDrawMode = Value
     Case Else
         Err.Raise 380
 End Select
@@ -1649,7 +1649,7 @@ If SliderHandle <> NULL_PTR Then
 End If
 Me.VisualStyles = PropVisualStyles
 Me.Enabled = UserControl.Enabled
-Me.value = PropValue
+Me.Value = PropValue
 Me.TickFrequency = PropTickFrequency
 Me.SmallChange = PropSmallChange
 Me.LargeChange = PropLargeChange

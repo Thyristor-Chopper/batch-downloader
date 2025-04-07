@@ -199,7 +199,7 @@ If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView
 End Property
 
 Public Property Get Checked() As Boolean
-Attribute Checked.VB_Description = "Returns/sets a value that determines whether the list item is checked or not."
+Attribute Checked.VB_Description = "Returns/sets a Value that determines whether the list item is checked or not."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then Checked = ShadowListView.FListItemChecked(PropIndex)
 End Property
 
@@ -220,7 +220,7 @@ If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView
 End Property
 
 Public Property Get Hot() As Boolean
-Attribute Hot.VB_Description = "Returns/sets a value that determines whether the list item is hot or not. This is only meaningful if the hot tracking property is set to true."
+Attribute Hot.VB_Description = "Returns/sets a Value that determines whether the list item is hot or not. This is only meaningful if the hot tracking property is set to true."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then Hot = ShadowListView.FListItemHot(PropIndex)
 End Property
 
@@ -229,7 +229,7 @@ If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView
 End Property
 
 Public Property Get Bold() As Boolean
-Attribute Bold.VB_Description = "Returns/sets a value that determines whether the text is displayed with a bold font or not."
+Attribute Bold.VB_Description = "Returns/sets a Value that determines whether the text is displayed with a bold font or not."
 If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 Bold = PropBold
 End Property
@@ -304,7 +304,7 @@ Err.Raise Number:=383, Description:="Property is read-only"
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns a value that determines whether an object is visible or hidden. Requires comctl32.dll version 6.0 or higher."
+Attribute Visible.VB_Description = "Returns a Value that determines whether an object is visible or hidden. Requires comctl32.dll version 6.0 or higher."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then Visible = ShadowListView.FListItemVisible(PropIndex)
 End Property
 

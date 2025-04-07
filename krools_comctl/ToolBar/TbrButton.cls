@@ -161,7 +161,7 @@ PropDescription = Value
 End Property
 
 Public Property Get Value() As TbrButtonValueConstants
-Attribute Value.VB_Description = "Returns/sets the value of the button."
+Attribute Value.VB_Description = "Returns/sets the Value of the button."
 Value = ShadowToolBar.FButtonValue(PropID)
 End Property
 
@@ -170,7 +170,7 @@ ShadowToolBar.FButtonValue(PropID) = NewValue
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether the button is enabled or not."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether the button is enabled or not."
 Enabled = ShadowToolBar.FButtonEnabled(PropID)
 End Property
 
@@ -179,7 +179,7 @@ ShadowToolBar.FButtonEnabled(PropID) = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether the button menu is visible or not."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether the button menu is visible or not."
 Visible = ShadowToolBar.FButtonVisible(PropID)
 End Property
 
@@ -188,7 +188,7 @@ ShadowToolBar.FButtonVisible(PropID) = Value
 End Property
 
 Public Property Get MixedState() As Boolean
-Attribute MixedState.VB_Description = "Returns/sets a value that determines if a button appears in an indeterminate state."
+Attribute MixedState.VB_Description = "Returns/sets a Value that determines if a button appears in an indeterminate state."
 MixedState = ShadowToolBar.FButtonMixedState(PropID)
 End Property
 
@@ -197,7 +197,7 @@ ShadowToolBar.FButtonMixedState(PropID) = Value
 End Property
 
 Public Property Get HighLighted() As Boolean
-Attribute HighLighted.VB_Description = "Returns/sets a value that determines whether the button is highlighted or not. This has no visible effect if the version of comctl32.dll is 6.0 or higher and the visual styles property is set to true."
+Attribute HighLighted.VB_Description = "Returns/sets a Value that determines whether the button is highlighted or not. This has no visible effect if the version of comctl32.dll is 6.0 or higher and the visual styles property is set to true."
 HighLighted = ShadowToolBar.FButtonHighLighted(PropID)
 End Property
 
@@ -206,7 +206,7 @@ ShadowToolBar.FButtonHighLighted(PropID) = Value
 End Property
 
 Public Property Get NoImage() As Boolean
-Attribute NoImage.VB_Description = "Returns/sets a value indicating that no image will be drawn."
+Attribute NoImage.VB_Description = "Returns/sets a Value indicating that no image will be drawn."
 NoImage = ShadowToolBar.FButtonNoImage(PropID, 0)
 End Property
 
@@ -215,7 +215,7 @@ ShadowToolBar.FButtonNoImage(PropID, PropImageIndex) = Value
 End Property
 
 Public Property Get NoPrefix() As Boolean
-Attribute NoPrefix.VB_Description = "Returns/sets a value indicating if the button text will not have an accelerator prefix associated with it."
+Attribute NoPrefix.VB_Description = "Returns/sets a Value indicating if the button text will not have an accelerator prefix associated with it."
 NoPrefix = ShadowToolBar.FButtonNoPrefix(PropID)
 End Property
 
@@ -224,7 +224,7 @@ ShadowToolBar.FButtonNoPrefix(PropID) = Value
 End Property
 
 Public Property Get AutoSize() As Boolean
-Attribute AutoSize.VB_Description = "Returns/sets a value that indicating if the button should not assign the standard width. Instead, the width will be calculated based on the text plus the image."
+Attribute AutoSize.VB_Description = "Returns/sets a Value that indicating if the button should not assign the standard width. Instead, the width will be calculated based on the text plus the image."
 AutoSize = ShadowToolBar.FButtonAutoSize(PropID)
 End Property
 
@@ -261,7 +261,7 @@ ShadowToolBar.FButtonPosition(PropID) = Value
 End Property
 
 Public Property Get Hot() As Boolean
-Attribute Hot.VB_Description = "Returns/sets a value that determines whether the button is hot or not."
+Attribute Hot.VB_Description = "Returns/sets a Value that determines whether the button is hot or not."
 Hot = ShadowToolBar.FButtonHot(PropID)
 End Property
 

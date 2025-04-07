@@ -1382,7 +1382,7 @@ Extender.Height = Value
 End Property
 
 Public Property Get Visible() As Boolean
-Attribute Visible.VB_Description = "Returns/sets a value that determines whether an object is visible or hidden."
+Attribute Visible.VB_Description = "Returns/sets a Value that determines whether an object is visible or hidden."
 Visible = Extender.Visible
 End Property
 
@@ -1411,7 +1411,7 @@ Extender.WhatsThisHelpID = Value
 End Property
 
 Public Property Get Align() As Integer
-Attribute Align.VB_Description = "Returns/sets a value that determines where an object is displayed on a form."
+Attribute Align.VB_Description = "Returns/sets a Value that determines where an object is displayed on a form."
 Attribute Align.VB_MemberFlags = "400"
 Align = Extender.Align
 End Property
@@ -1435,7 +1435,7 @@ Set Extender.DragIcon = Value
 End Property
 
 Public Property Get DragMode() As Integer
-Attribute DragMode.VB_Description = "Returns/sets a value that determines whether manual or automatic drag mode is used."
+Attribute DragMode.VB_Description = "Returns/sets a Value that determines whether manual or automatic drag mode is used."
 Attribute DragMode.VB_MemberFlags = "400"
 DragMode = Extender.DragMode
 End Property
@@ -1511,7 +1511,7 @@ UserControl.PropertyChanged "Font"
 End Sub
 
 Public Property Get VisualStyles() As Boolean
-Attribute VisualStyles.VB_Description = "Returns/sets a value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
+Attribute VisualStyles.VB_Description = "Returns/sets a Value that determines whether the visual styles are enabled or not. Requires comctl32.dll version 6.0 or higher."
 VisualStyles = PropVisualStyles
 End Property
 
@@ -1534,7 +1534,7 @@ UserControl.PropertyChanged "VisualStyles"
 End Property
 
 Public Property Get Enabled() As Boolean
-Attribute Enabled.VB_Description = "Returns/sets a value that determines whether an object can respond to user-generated events."
+Attribute Enabled.VB_Description = "Returns/sets a Value that determines whether an object can respond to user-generated events."
 Attribute Enabled.VB_UserMemId = -514
 Enabled = UserControl.Enabled
 End Property
@@ -1596,7 +1596,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If ToolBarDesignMode = True Then
-            MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1638,7 +1638,7 @@ UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
-Attribute RightToLeftLayout.VB_Description = "Returns/sets a value indicating if right-to-left mirror placement is turned on."
+Attribute RightToLeftLayout.VB_Description = "Returns/sets a Value indicating if right-to-left mirror placement is turned on."
 RightToLeftLayout = PropRightToLeftLayout
 End Property
 
@@ -2216,7 +2216,7 @@ UserControl.PropertyChanged "BackColor"
 End Property
 
 Public Property Get Style() As TbrStyleConstants
-Attribute Style.VB_Description = "Returns/sets a value that determines how the tool bar is drawn."
+Attribute Style.VB_Description = "Returns/sets a Value that determines how the tool bar is drawn."
 Style = PropStyle
 End Property
 
@@ -2249,7 +2249,7 @@ UserControl.PropertyChanged "Style"
 End Property
 
 Public Property Get TextAlignment() As TbrTextAlignConstants
-Attribute TextAlignment.VB_Description = "Returns/sets a value that determines whether button text is displayed below or to the right of the button image."
+Attribute TextAlignment.VB_Description = "Returns/sets a Value that determines whether button text is displayed below or to the right of the button image."
 TextAlignment = PropTextAlignment
 End Property
 
@@ -2319,7 +2319,7 @@ UserControl.PropertyChanged "Orientation"
 End Property
 
 Public Property Get Divider() As Boolean
-Attribute Divider.VB_Description = "Returns/sets a value that determines whether a two-pixel highlight being drawn at the top of the control or not."
+Attribute Divider.VB_Description = "Returns/sets a Value that determines whether a two-pixel highlight being drawn at the top of the control or not."
 Divider = PropDivider
 End Property
 
@@ -2345,7 +2345,7 @@ UserControl.PropertyChanged "Divider"
 End Property
 
 Public Property Get ShowTips() As Boolean
-Attribute ShowTips.VB_Description = "Returns/sets a value that determines whether the tool tip text properties will be displayed or not."
+Attribute ShowTips.VB_Description = "Returns/sets a Value that determines whether the tool tip text properties will be displayed or not."
 ShowTips = PropShowTips
 End Property
 
@@ -2396,7 +2396,7 @@ UserControl.PropertyChanged "Wrappable"
 End Property
 
 Public Property Get AllowCustomize() As Boolean
-Attribute AllowCustomize.VB_Description = "Returns/sets a value which determines if users can customize the tool bar."
+Attribute AllowCustomize.VB_Description = "Returns/sets a Value which determines if users can customize the tool bar."
 AllowCustomize = PropAllowCustomize
 End Property
 
@@ -2415,7 +2415,7 @@ UserControl.PropertyChanged "AllowCustomize"
 End Property
 
 Public Property Get AltDrag() As Boolean
-Attribute AltDrag.VB_Description = "Returns/sets a value indicating if users can change a button's position by dragging it while holding down the ALT key instead of the SHIFT key. The allow customize property need to be set to true."
+Attribute AltDrag.VB_Description = "Returns/sets a Value indicating if users can change a button's position by dragging it while holding down the ALT key instead of the SHIFT key. The allow customize property need to be set to true."
 AltDrag = PropAltDrag
 End Property
 
@@ -2434,7 +2434,7 @@ UserControl.PropertyChanged "AltDrag"
 End Property
 
 Public Property Get DoubleBuffer() As Boolean
-Attribute DoubleBuffer.VB_Description = "Returns/sets a value that determines whether the control paints via double-buffering, which reduces flicker."
+Attribute DoubleBuffer.VB_Description = "Returns/sets a Value that determines whether the control paints via double-buffering, which reduces flicker."
 DoubleBuffer = PropDoubleBuffer
 End Property
 
@@ -2459,7 +2459,7 @@ End Property
 Public Property Let ButtonHeight(ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2493,7 +2493,7 @@ End Property
 Public Property Let ButtonWidth(ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2519,7 +2519,7 @@ End Property
 Public Property Let MinButtonWidth(ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2539,7 +2539,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     Call UserControl_Resize
 Else
     If ToolBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2556,7 +2556,7 @@ End Property
 Public Property Let MaxButtonWidth(ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2576,7 +2576,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     Call UserControl_Resize
 Else
     If ToolBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2597,7 +2597,7 @@ UserControl.PropertyChanged "InsertMarkColor"
 End Property
 
 Public Property Get Transparent() As Boolean
-Attribute Transparent.VB_Description = "Returns/sets a value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
+Attribute Transparent.VB_Description = "Returns/sets a Value indicating if the background is a replica of the underlying background to simulate transparency. This property is ignored at design time."
 Transparent = PropTransparent
 End Property
 
@@ -2619,7 +2619,7 @@ UserControl.PropertyChanged "HotTracking"
 End Property
 
 Public Property Get HideClippedButtons() As Boolean
-Attribute HideClippedButtons.VB_Description = "Returns/sets a value that determines whether or not partially clipped buttons are hidden."
+Attribute HideClippedButtons.VB_Description = "Returns/sets a Value that determines whether or not partially clipped buttons are hidden."
 HideClippedButtons = PropHideClippedButtons
 End Property
 
@@ -2638,7 +2638,7 @@ UserControl.PropertyChanged "HideClippedButtons"
 End Property
 
 Public Property Get AnchorHot() As Boolean
-Attribute AnchorHot.VB_Description = "Returns/sets a value indicating if the currently hot button will remain hot even if the user moves the mouse out of the control."
+Attribute AnchorHot.VB_Description = "Returns/sets a Value indicating if the currently hot button will remain hot even if the user moves the mouse out of the control."
 If ToolBarHandle <> NULL_PTR Then
     AnchorHot = CBool(SendMessage(ToolBarHandle, TB_GETANCHORHIGHLIGHT, 0, ByVal 0&) <> 0)
 Else
@@ -2653,14 +2653,14 @@ UserControl.PropertyChanged "AnchorHot"
 End Property
 
 Public Property Get MaxTextRows() As Integer
-Attribute MaxTextRows.VB_Description = "Returns/sets the maximum number of text rows displayed on a button. Only applicable if the text alignment property is set to bottom and the value of the max button width property is greater than 0."
+Attribute MaxTextRows.VB_Description = "Returns/sets the maximum number of text rows displayed on a button. Only applicable if the text alignment property is set to bottom and the Value of the max button width property is greater than 0."
 MaxTextRows = PropMaxTextRows
 End Property
 
 Public Property Let MaxTextRows(ByVal Value As Integer)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3262,7 +3262,7 @@ End Property
 Friend Property Let FButtonCustomWidth(ByVal ID As Long, ByVal Value As Single)
 If Value < 0 Then
     If ToolBarDesignMode = True Then
-        MsgBoxInternal "Invalid property value", vbCritical + vbOKOnly
+        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3738,7 +3738,7 @@ Attribute FindMnemonic.VB_Description = "Returns a reference to the button objec
 If ToolBarHandle <> NULL_PTR Then
     ' TB_MAPACCELERATOR matches either the mnemonic character or the first character in a button item.
     ' This behavior is undocumented and unwanted.
-    ' The fix is to use the ID only when TB_MAPACCELERATOR returns a nonzero value.
+    ' The fix is to use the ID only when TB_MAPACCELERATOR returns a nonzero Value.
     Dim ID As Long
     If SendMessage(ToolBarHandle, TB_MAPACCELERATOR, CharCode, ByVal VarPtr(ID)) <> 0 Then
         If IsButtonAvailable(ID) = True Then
@@ -3770,7 +3770,7 @@ End If
 End Function
 
 Public Function HitTestInsertMark(ByVal X As Single, ByVal Y As Single, Optional ByRef After As Boolean) As TbrButton
-Attribute HitTestInsertMark.VB_Description = "Returns a reference to the button object located at the coordinates of X and Y and retrieves a value that determines where the insertion point should appear."
+Attribute HitTestInsertMark.VB_Description = "Returns a reference to the button object located at the coordinates of X and Y and retrieves a Value that determines where the insertion point should appear."
 If ToolBarHandle <> NULL_PTR Then
     Dim P As POINTAPI, TBIM As TBINSERTMARK
     P.X = CLng(UserControl.ScaleX(X, vbContainerPosition, vbPixels))
