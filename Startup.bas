@@ -15,6 +15,24 @@ Public OSLangID As Integer
 Public DPI As Long
 Public DefaultFont$
 
+Enum ResourceType
+    RCData = 10
+    Manifest = 24
+End Enum
+
+Sub ExtractResource(ResourceID, ResourceType As ResourceType, ByVal FileName As String)
+    Static ff As Integer
+    Dim B() As Byte
+    
+    If Not FileExists(CachePath & FileName) Then
+        B = LoadResData(ResourceID, ResourceType)
+        ff = FreeFile()
+        Open CachePath & FileName For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
+End Sub
+
 Sub LoadPNG()
     On Error Resume Next
     MkDir CachePath
@@ -23,69 +41,15 @@ Sub LoadPNG()
     Dim B() As Byte
 
     '라이브바둑 쪽지스킨
-    If Not FileExists(CachePath & "bottom.png") Then
-        B = LoadResData(101, 10)
-        ff = FreeFile()
-        Open CachePath & "bottom.png" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "bottomleft.png") Then
-        B = LoadResData(102, 10)
-        ff = FreeFile()
-        Open CachePath & "bottomleft.png" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "bottomright.png") Then
-        B = LoadResData(103, 10)
-        ff = FreeFile()
-        Open CachePath & "bottomright.png" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "left.png") Then
-        B = LoadResData(104, 10)
-        ff = FreeFile()
-        Open CachePath & "left.png" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "right.png") Then
-        B = LoadResData(105, 10)
-        ff = FreeFile()
-        Open CachePath & "right.png" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "top.png") Then
-        B = LoadResData(106, 10)
-        ff = FreeFile()
-        Open CachePath & "top.png" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "topleft.png") Then
-        B = LoadResData(107, 10)
-        ff = FreeFile()
-        Open CachePath & "topleft.png" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "topright.png") Then
-        B = LoadResData(108, 10)
-        ff = FreeFile()
-        Open CachePath & "topright.png" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-    If Not FileExists(CachePath & "center.png") Then
-        B = LoadResData(109, 10)
-        ff = FreeFile()
-        Open CachePath & "center.png" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
+    ExtractResource 101, RCData, "bottom.png"
+    ExtractResource 102, RCData, "bottomleft.png"
+    ExtractResource 103, RCData, "bottomright.png"
+    ExtractResource 104, RCData, "left.png"
+    ExtractResource 105, RCData, "right.png"
+    ExtractResource 106, RCData, "top.png"
+    ExtractResource 107, RCData, "topleft.png"
+    ExtractResource 108, RCData, "topright.png"
+    ExtractResource 109, RCData, "center.png"
 End Sub
 
 Sub LoadJS()
@@ -96,32 +60,13 @@ Sub LoadJS()
     Dim B() As Byte
     
     '다운로드 스크립트
-    If Not FileExists(CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js") Then
-        B = LoadResData(1, 10)
-        ff = FreeFile()
-        Open CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
+    ExtractResource 1, RCData, "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
     
     'Node.js 실행화일
-    If Not FileExists(CachePath & "node_v0_11_11.exe") Then
-        B = LoadResData(2, 10)
-        ff = FreeFile()
-        Open CachePath & "node_v0_11_11.exe" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
+    ExtractResource 2, RCData, "node_v0_11_11.exe"
     
     'iconv-lite 모듈
-    If Not FileExists(CachePath & "iconv.js") Then
-        B = LoadResData(3, 10)
-        'If B(0) = 0 Then B(0) = 34
-        ff = FreeFile()
-        Open CachePath & "iconv.js" For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
+    ExtractResource 3, RCData, "iconv.js"
 End Sub
 
 Sub Main()
