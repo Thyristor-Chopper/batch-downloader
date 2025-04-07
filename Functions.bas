@@ -61,9 +61,9 @@ Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVa
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
 Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
-Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
-Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal IDHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
+Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal idHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
 Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Long) As Long
 Declare Function GetParent Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function SetParent Lib "user32" (ByVal hWndChild As Long, ByVal hWndNewParent As Long) As Long
@@ -142,6 +142,11 @@ Public Const HTLEFT = 10
 Public Const HTRIGHT = 11
 Public Const HTBOTTOMLEFT = 16
 Public Const HTBOTTOMRIGHT = 17
+
+Enum ResourceType
+    RCData = 10
+    Manifest = 24
+End Enum
 
 Type POINTAPI
    X As Long
@@ -1050,14 +1055,14 @@ Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As
                 MessageBox.optNo.Top = MessageBox.optNo.Top - 80
             End If
             If IsEmpty(DefaultOption) Then
-                MessageBox.optYes.Value = False
-                MessageBox.optNo.Value = False
+                MessageBox.optYes.value = False
+                MessageBox.optNo.value = False
                 MessageBox.cmdOK.Enabled = False
             ElseIf DefaultOption = vbYes Then
-                MessageBox.optYes.Value = True
+                MessageBox.optYes.value = True
                 MessageBox.cmdOK.Enabled = True
             Else
-                MessageBox.optNo.Value = True
+                MessageBox.optNo.value = True
                 MessageBox.cmdOK.Enabled = True
             End If
             If LineCount < 2 Then
@@ -1991,7 +1996,15 @@ Function GetPictureHeight(pic As StdPicture) As Long
     GetPictureHeight = Round(frmMain.ScaleY(pic.Height, vbHimetric, vbTwips))
 End Function
 
-Sub TaskKill(ByVal PID As Long, Optional ByVal ExitCode As Long = 0&)
-    TerminateProcess OpenProcess(PROCESS_ALL_ACCESS, 0&, PID), ExitCode
-    CloseHandle PID
+Sub ExtractResource(ResourceID, ByVal ResourceType As ResourceType, ByVal FileName As String)
+    Static ff As Integer
+    Dim B() As Byte
+    
+    If Not FileExists(CachePath & FileName) Then
+        B = LoadResData(ResourceID, ResourceType)
+        ff = FreeFile()
+        Open CachePath & FileName For Binary Access Write As #ff
+        Put #ff, , B
+        Close #ff
+    End If
 End Sub

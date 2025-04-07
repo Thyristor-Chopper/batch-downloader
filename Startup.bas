@@ -15,24 +15,6 @@ Public OSLangID As Integer
 Public DPI As Long
 Public DefaultFont$
 
-Enum ResourceType
-    RCData = 10
-    Manifest = 24
-End Enum
-
-Sub ExtractResource(ResourceID, ResourceType As ResourceType, ByVal FileName As String)
-    Static ff As Integer
-    Dim B() As Byte
-    
-    If Not FileExists(CachePath & FileName) Then
-        B = LoadResData(ResourceID, ResourceType)
-        ff = FreeFile()
-        Open CachePath & FileName For Binary Access Write As #ff
-        Put #ff, , B
-        Close #ff
-    End If
-End Sub
-
 Sub LoadPNG()
     On Error Resume Next
     MkDir CachePath
