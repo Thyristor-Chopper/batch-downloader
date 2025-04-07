@@ -681,7 +681,7 @@ exitsub:
 End Sub
 
 Private Sub lblDescription_LinkActivate(ByVal Link As LlbLink, ByVal Reason As LlbLinkActivateReasonConstants)
-    Load frmOptions
+    frmOptions.LoadSettings
     frmOptions.tsTabStrip.Tabs(2).Selected = -1
     frmOptions.Show vbModal, Me
 End Sub
