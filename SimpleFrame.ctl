@@ -1,12 +1,15 @@
 VERSION 5.00
 Begin VB.UserControl SimpleFrame 
+   AutoRedraw      =   -1  'True
    BackStyle       =   0  '≈ı∏Ì
+   CanGetFocus     =   0   'False
    ClientHeight    =   225
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   4800
    ScaleHeight     =   225
    ScaleWidth      =   4800
+   ToolboxBitmap   =   "SimpleFrame.ctx":0000
    Windowless      =   -1  'True
    Begin VB.Line Line2 
       BorderColor     =   &H80000014&
@@ -122,4 +125,8 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     PropBag.WriteProperty "Caption", m_Caption, Ambient.DisplayName
     PropBag.WriteProperty "Font", m_Font, Nothing
     PropBag.WriteProperty "ForeColor", m_ForeColor, m_def_ForeColor
+End Sub
+
+Sub Refresh()
+    UserControl.Refresh
 End Sub

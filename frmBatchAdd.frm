@@ -230,7 +230,6 @@ End Function
 Private Sub IBSSubclass_UnsubclassIt()
     DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
-    Debug.Print 1
 End Sub
 
 Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long

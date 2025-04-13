@@ -2635,8 +2635,8 @@ L2:
     Dim NodePath$, ScriptPath$
     NodePath = GetSetting("DownloadBooster", "Options", "NodePath", "")
     ScriptPath = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
-    If NodePath = "" Then NodePath = CachePath & "node_v0_11_11.exe"
-    If ScriptPath = "" Then ScriptPath = CachePath & "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
+    If NodePath = "" Then NodePath = CachePath & NodeFileName
+    If ScriptPath = "" Then ScriptPath = CachePath & ScriptFileName
     Dim CurrentHeaderCache$
     If BatchStarted Then
         CurrentHeaderCache = lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(5).Text

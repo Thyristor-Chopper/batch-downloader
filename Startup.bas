@@ -15,13 +15,10 @@ Public OSLangID As Integer
 Public DPI As Long
 Public DefaultFont$
 
-Sub LoadPNG()
-    On Error Resume Next
-    MkDir CachePath
-    On Error GoTo 0
-    Dim ff As Integer
-    Dim B() As Byte
+Public ScriptFileName As String
+Public NodeFileName As String
 
+Sub LoadPNG()
     '라이브바둑 쪽지스킨
     ExtractResource 101, RCData, "bottom.png"
     ExtractResource 102, RCData, "bottomleft.png"
@@ -35,17 +32,11 @@ Sub LoadPNG()
 End Sub
 
 Sub LoadJS()
-    On Error Resume Next
-    MkDir CachePath
-    On Error GoTo 0
-    Dim ff As Integer
-    Dim B() As Byte
-    
     '다운로드 스크립트
-    ExtractResource 1, RCData, "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
+    ExtractResource 1, RCData, ScriptFileName
     
     'Node.js 실행화일
-    ExtractResource 2, RCData, "node_v0_11_11.exe"
+    ExtractResource 2, RCData, NodeFileName
     
     'iconv-lite 모듈
     ExtractResource 3, RCData, "iconv.js"
@@ -100,6 +91,8 @@ aftertrdcntverify:
     Else
         CachePath = Environ$("TEMP") & "\BOOSTER_JS_CACHE\"
     End If
+    ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
+    NodeFileName = "node_v0_11_11.exe"
     LoadJS
     
     Set SessionHeaders = New Collection

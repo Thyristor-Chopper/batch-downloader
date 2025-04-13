@@ -1997,8 +1997,11 @@ Function GetPictureHeight(pic As StdPicture) As Long
 End Function
 
 Sub ExtractResource(ResourceID, ByVal ResourceType As ResourceType, ByVal FileName As String)
-    Static ff As Integer
+    Dim ff As Integer
     Dim B() As Byte
+    On Error Resume Next
+    MkDir CachePath
+    On Error GoTo 0
     
     If Not FileExists(CachePath & FileName) Then
         B = LoadResData(ResourceID, ResourceType)
