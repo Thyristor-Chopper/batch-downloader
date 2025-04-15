@@ -549,7 +549,6 @@ Private Sub Form_Load()
     
     chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
     
-    Me.Caption = t(Me.Caption, "Download settings")
     tsTabStrip.Tabs(2).Caption = t("  헤더  ", " Headers ")
     
     chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
@@ -589,6 +588,7 @@ End Sub
 Sub LoadSettings()
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
+    Me.Caption = t(Me.Caption, "Download settings")
     If Tags.DownloadOptionsTargetForm = 2 Then Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
     If Tags.DownloadOptionsTargetForm = 1 Then Me.Caption = Me.Caption & " - " & t("일괄 다운로드", "Batch Download")
     Select Case Tags.DownloadOptionsTargetForm
@@ -682,7 +682,7 @@ exitsub:
 End Sub
 
 Private Sub lblDescription_LinkActivate(ByVal Link As LlbLink, ByVal Reason As LlbLinkActivateReasonConstants)
-    frmOptions.LoadSettings
+    'frmOptions.LoadSettings
     frmOptions.tsTabStrip.Tabs(2).Selected = -1
     frmOptions.Show vbModal, Me
 End Sub

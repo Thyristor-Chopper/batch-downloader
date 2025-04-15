@@ -1582,7 +1582,7 @@ Dim FormMaxHeight As Long
 Sub StartYtdlDownload()
     If Not FileExists(GetSetting("DownloadBooster", "Options", "YtdlPath", "")) Then
         If Confirm(t("youtube-dl 실행 파일 경로가 지정되지 않았습니다. 지금 지정하시겠습니까?", "youtube-dl executable path is not specified. Would you like to specify it now?"), App.Title) = vbYes Then
-            frmOptions.LoadSettings
+            'frmOptions.LoadSettings
             frmOptions.tsTabStrip.Tabs(5).Selected = -1
             frmOptions.Show vbModal, Me
         End If
@@ -2793,7 +2793,7 @@ Private Sub cmdOpenFolder_Click()
 End Sub
 
 Private Sub cmdOptions_Click()
-    frmOptions.LoadSettings
+    'frmOptions.LoadSettings
     frmOptions.Show vbModal, Me
 End Sub
 

@@ -588,12 +588,12 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                             ctrl.VisualStyles = False
                             ctrl.RoundButton = RoundButton
                         Else
-                            ActivateVisualStyles ctrl.hWnd
+                            If CtrlTypeName <> "PictureBox" Then ActivateVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = True
                         End If
                         'If CtrlTypeName = "ProgressBar" Then ctrl.Refresh
                         'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 0
-                    Else
+                    ElseIf CtrlTypeName <> "PictureBox" Then
                         RemoveVisualStyles ctrl.hWnd
                         ctrl.VisualStyles = False
                         ctrl.RoundButton = RoundButton

@@ -131,7 +131,7 @@ forcegulim:
     
     Randomize
     InitVisualStylesFixes
-    Load frmOptions
+    'Load frmOptions
     Load frmDownloadOptions
     frmMain.Show
 End Sub
