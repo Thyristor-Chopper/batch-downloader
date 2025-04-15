@@ -107,6 +107,11 @@ Declare Function SetViewportOrgEx Lib "gdi32" (ByVal hDC As Long, ByVal X As Lon
 Declare Function CreatePatternBrush Lib "gdi32" (ByVal hBitmap As Long) As Long
 Declare Function DeleteDC Lib "gdi32" (ByVal hDC As Long) As Long
 
+Private Const CB_ERR As Long = -1
+Private Const CB_ADDSTRING As Long = &H143
+Private Const CB_RESETCONTENT As Long = &H14B
+Private Const CB_SETITEMDATA As Long = &H151
+
 Public Const hWnd_DESKTOP As Long = &H0
 Public Const LAYOUT_RTL As Long = &H1
 Public Const WS_EX_LAYOUTRTL As Long = &H400000, WS_EX_RTLREADING As Long = &H2000
@@ -1911,9 +1916,9 @@ Sub EnableFrameControls(ByRef fFrame As FrameW, ByRef Except As Control, Optiona
     Next ctrl
 End Sub
 
-Function Max(ByRef L, ByRef R)
-    If L > R Then
-        Max = L
+Function Max(ByRef l, ByRef R)
+    If l > R Then
+        Max = l
     Else
         Max = R
     End If
@@ -2010,4 +2015,13 @@ Sub ExtractResource(ResourceID, ByVal ResourceType As ResourceType, ByVal FileNa
         Put #ff, , B
         Close #ff
     End If
+End Sub
+
+'https://stackoverflow.com/questions/1230333/loading-data-in-to-a-combo-box-is-slow
+Sub AddItemToComboBox(cbComboBox As ComboBox, ByVal Text As String)
+    SendMessage cbComboBox.hWnd, CB_ADDSTRING, 0&, ByVal Text
+End Sub
+
+Sub ClearComboBox(cbComboBox As ComboBox)
+    SendMessage cbComboBox.hWnd, CB_RESETCONTENT, 0&, 0&
 End Sub

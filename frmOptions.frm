@@ -2372,7 +2372,7 @@ Private Sub cmdSaveTheme_Click()
         End If
     Next i
     If Not ThemeFound Then
-        cbTheme.AddItem ThemeName
+        AddItemToComboBox cbTheme, ThemeName
         cbTheme.ListIndex = cbTheme.ListCount - 1
     End If
 End Sub
@@ -2703,31 +2703,31 @@ Private Sub Form_Load()
         SaveSetting "DownloadBooster", "Options\Headers", "User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:102.0) Gecko/20100101 Firefox/102.0 PaleMoon/33.2"
     End If
     
-    cbFont.AddItem "(" & t("기본값", "default") & ")"
+    AddItemToComboBox cbFont, "(" & t("기본값", "default") & ")"
     If t(1, 2) = 2 Then
-        If FontExists("Tahoma") Then cbFont.AddItem "Tahoma"
-        If FontExists("Segoe UI") Then cbFont.AddItem "Segoe UI"
+        If FontExists("Tahoma") Then AddItemToComboBox cbFont, "Tahoma"
+        If FontExists("Segoe UI") Then AddItemToComboBox cbFont, "Segoe UI"
     Else
-        If FontExists("굴림") Then cbFont.AddItem "굴림"
-        If FontExists("돋움") Then cbFont.AddItem "돋움"
-        If FontExists("바탕") Then cbFont.AddItem "바탕"
-        If FontExists("궁서") Then cbFont.AddItem "궁서"
-        If FontExists("맑은 고딕") Then cbFont.AddItem "맑은 고딕"
+        If FontExists("굴림") Then AddItemToComboBox cbFont, "굴림"
+        If FontExists("돋움") Then AddItemToComboBox cbFont, "돋움"
+        If FontExists("바탕") Then AddItemToComboBox cbFont, "바탕"
+        If FontExists("궁서") Then AddItemToComboBox cbFont, "궁서"
+        If FontExists("맑은 고딕") Then AddItemToComboBox cbFont, "맑은 고딕"
     End If
     
     If WinVer < 6.2 And IsDWMEnabled() Then
-        cbFrameSkin.AddItem "Windows Aero"
+        AddItemToComboBox cbFrameSkin, "Windows Aero"
     Else
-        cbFrameSkin.AddItem t("시스템 스타일", "System style")
+        AddItemToComboBox cbFrameSkin, t("시스템 스타일", "System style")
     End If
     If IsDWMEnabled() Then
         If WinVer < 6.2 Or LCase(GetFilename(GetKeyValue(HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\ThemeManager", "DllName", "%SystemRoot%\resources\Themes\Aero\aero.msstyles"))) = "aero.msstyles" Then
-            cbFrameSkin.AddItem "Windows " & IIf(WinVer < 6.1, "Vista", "7") & " " & t("베이직", "Basic")
+            AddItemToComboBox cbFrameSkin, "Windows " & IIf(WinVer < 6.1, "Vista", "7") & " " & t("베이직", "Basic")
         Else
-            cbFrameSkin.AddItem t("시스템", "System") & " (" & t("DWM 없음", "No DWM") & ")"
+            AddItemToComboBox cbFrameSkin, t("시스템", "System") & " (" & t("DWM 없음", "No DWM") & ")"
         End If
     End If
-    cbFrameSkin.AddItem t("고전 스타일", "Classic style")
+    AddItemToComboBox cbFrameSkin, t("고전 스타일", "Classic style")
     
     pbBackground.Enabled = False
     SetPreviewPosition
@@ -2737,39 +2737,39 @@ Private Sub Form_Load()
     
     DrawTabBackground
     
-    cbSkin.Clear
-    cbSkin.AddItem t("시스템 스타일", "System style")
-    cbSkin.AddItem t("고전 스타일", "Classic style")
-    cbSkin.AddItem t("라이브바둑쪽지", "LiveBaduk memo")
+    ClearComboBox cbSkin
+    AddItemToComboBox cbSkin, t("시스템 스타일", "System style")
+    AddItemToComboBox cbSkin, t("고전 스타일", "Classic style")
+    AddItemToComboBox cbSkin, t("라이브바둑쪽지", "LiveBaduk memo")
     
-    cbLanguage.Clear
-    cbLanguage.AddItem t("자동", "Auto")
-    cbLanguage.AddItem "한국어"
-    cbLanguage.AddItem "English"
+    ClearComboBox cbLanguage
+    AddItemToComboBox cbLanguage, t("자동", "Auto")
+    AddItemToComboBox cbLanguage, "한국어"
+    AddItemToComboBox cbLanguage, "English"
     
-    cbWhenExist.Clear
-    cbWhenExist.AddItem t("건너뛰기", "Skip")
-    cbWhenExist.AddItem t("덮어쓰기", "Overwrite")
-    cbWhenExist.AddItem t("자동 이름 변경", "Auto Rename")
+    ClearComboBox cbWhenExist
+    AddItemToComboBox cbWhenExist, t("건너뛰기", "Skip")
+    AddItemToComboBox cbWhenExist, t("덮어쓰기", "Overwrite")
+    AddItemToComboBox cbWhenExist, t("자동 이름 변경", "Auto Rename")
     
-    lvPatterns.Clear
-    lvPatterns.AddItem t("(없음)", "(None)")
-    lvPatterns.AddItem t("수평선", "Horizontal lines")
-    lvPatterns.AddItem t("수직선", "Vertical lines")
-    lvPatterns.AddItem t("하향 대각선", "NW-SE lines")
-    lvPatterns.AddItem t("상향 대각선", "NE-SW lines")
-    lvPatterns.AddItem t("교차", "Grid")
-    lvPatterns.AddItem t("대각선 교차", "45 degrees grid")
+    ClearComboBox lvPatterns
+    AddItemToComboBox lvPatterns, t("(없음)", "(None)")
+    AddItemToComboBox lvPatterns, t("수평선", "Horizontal lines")
+    AddItemToComboBox lvPatterns, t("수직선", "Vertical lines")
+    AddItemToComboBox lvPatterns, t("하향 대각선", "NW-SE lines")
+    AddItemToComboBox lvPatterns, t("상향 대각선", "NE-SW lines")
+    AddItemToComboBox lvPatterns, t("교차", "Grid")
+    AddItemToComboBox lvPatterns, t("대각선 교차", "45 degrees grid")
     
-    cbImagePosition.Clear
-    cbImagePosition.AddItem t("늘이기", "Stretch")
-    cbImagePosition.AddItem t("높이에 맞춤", "Fit to height")
-    cbImagePosition.AddItem t("너비에 맞춤", "Fit to width")
-    cbImagePosition.AddItem t("원본 크기 유지", "True size")
-    cbImagePosition.AddItem t("높이 맞춤(가운데)", "Fit to height (centered)")
-    cbImagePosition.AddItem t("너비 맞춤(가운데)", "Fit to width (centered)")
-    cbImagePosition.AddItem t("가운데", "True size (centered)")
-    cbImagePosition.AddItem t("바둑판식", "Tile")
+    ClearComboBox cbImagePosition
+    AddItemToComboBox cbImagePosition, t("늘이기", "Stretch")
+    AddItemToComboBox cbImagePosition, t("높이에 맞춤", "Fit to height")
+    AddItemToComboBox cbImagePosition, t("너비에 맞춤", "Fit to width")
+    AddItemToComboBox cbImagePosition, t("원본 크기 유지", "True size")
+    AddItemToComboBox cbImagePosition, t("높이 맞춤(가운데)", "Fit to height (centered)")
+    AddItemToComboBox cbImagePosition, t("너비 맞춤(가운데)", "Fit to width (centered)")
+    AddItemToComboBox cbImagePosition, t("가운데", "True size (centered)")
+    AddItemToComboBox cbImagePosition, t("바둑판식", "Tile")
     
     LoadSettings
     
@@ -3035,8 +3035,8 @@ Sub LoadSettings()
     cbImagePosition.ListIndex = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
     cbImagePosition_Click
     
-    cbTheme.Clear
-    cbTheme.AddItem t("수정된 테마", "Modified theme")
+    ClearComboBox cbTheme
+    AddItemToComboBox cbTheme, t("수정된 테마", "Modified theme")
     cbTheme.ListIndex = 0
     On Error Resume Next
     Dim ThemeList() As String
@@ -3044,7 +3044,7 @@ Sub LoadSettings()
     Dim CurrentTheme$
     CurrentTheme = GetSetting("DownloadBooster", "Options", "Theme", "")
     For i = LBound(ThemeList) To UBound(ThemeList)
-        cbTheme.AddItem ThemeList(i)
+        AddItemToComboBox cbTheme, ThemeList(i)
         If ThemeList(i) = CurrentTheme Then cbTheme.ListIndex = cbTheme.ListCount - 1
     Next i
     
@@ -3086,20 +3086,19 @@ End Sub
 
 Sub LoadBackgroundList(Optional ByVal OnLoad As Boolean = False)
     Dim BackgroundImagePath$
-    BackgroundImagePath = ChangedBackgroundPath
-    lvBackgrounds.Clear
-    lvBackgrounds.AddItem t("(없음)", "(None)")
-    lvBackgrounds.ListIndex = 0
     Dim BackgroundImageEnabled As Boolean
+    BackgroundImagePath = ChangedBackgroundPath
+    ClearComboBox lvBackgrounds
+    AddItemToComboBox lvBackgrounds, t("(없음)", "(None)")
+    lvBackgrounds.ListIndex = 0
     BackgroundImageEnabled = (GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) <> 0)
     If FileExists(BackgroundImagePath) Then
         Dim li&
         lvBackgroundFiles.Path = GetParentFolderName(BackgroundImagePath)
         For li = 0 To lvBackgroundFiles.ListCount - 1
-            lvBackgrounds.AddItem lvBackgroundFiles.List(li)
+            AddItemToComboBox lvBackgrounds, lvBackgroundFiles.List(li)
             If (Not OnLoad) Or BackgroundImageEnabled Then
                 If LCase(GetFilename(BackgroundImagePath)) = LCase(lvBackgroundFiles.List(li)) Then
-                lvBackgrounds.AddItem lvBackgroundFiles.List(li)
                     lvBackgrounds.ListIndex = li + 1
                 End If
             End If

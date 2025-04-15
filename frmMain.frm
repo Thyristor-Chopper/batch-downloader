@@ -3589,10 +3589,10 @@ Private Sub Form_Load()
     chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 0)
     chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
     
-    cbWhenExist.Clear
-    cbWhenExist.AddItem t("건너뛰기", "Skip")
-    cbWhenExist.AddItem t("덮어쓰기", "Overwrite")
-    cbWhenExist.AddItem t("이름 변경", "Rename")
+    ClearComboBox cbWhenExist
+    AddItemToComboBox cbWhenExist, t("건너뛰기", "Skip")
+    AddItemToComboBox cbWhenExist, t("덮어쓰기", "Overwrite")
+    AddItemToComboBox cbWhenExist, t("이름 변경", "Rename")
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
     
     SetupSplitButtons

@@ -243,7 +243,7 @@ Private Sub Form_Load()
     SetFont Me
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
-    selFileType.AddItem t("葛电 颇老", "All files") & " (*.*)"
+    AddItemToComboBox selFileType, t("葛电 颇老", "All files") & " (*.*)"
     selFileType.ListIndex = 0
     
     On Error Resume Next

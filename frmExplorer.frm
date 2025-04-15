@@ -815,18 +815,18 @@ Private Sub Form_Load()
     selFileType.Clear
     Select Case Tags.BrowseTargetForm
         Case 3
-            selFileType.AddItem t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
-            selFileType.AddItem "JPEG (*.JPG; *.JPEG; *.JPE; *.JFIF)"
-            selFileType.AddItem "GIF (*.GIF)"
-            selFileType.AddItem t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
-            selFileType.AddItem "PNG (*.PNG)"
-            selFileType.AddItem t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
-            selFileType.AddItem t("아이콘", "Icon") & " (*.ICO)"
-            selFileType.AddItem t("커서", "Cursor") & " (*.CUR)"
+            AddItemToComboBox selFileType, t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
+            AddItemToComboBox selFileType, "JPEG (*.JPG; *.JPEG; *.JPE; *.JFIF)"
+            AddItemToComboBox selFileType, "GIF (*.GIF)"
+            AddItemToComboBox selFileType, t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
+            AddItemToComboBox selFileType, "PNG (*.PNG)"
+            AddItemToComboBox selFileType, t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
+            AddItemToComboBox selFileType, t("아이콘", "Icon") & " (*.ICO)"
+            AddItemToComboBox selFileType, t("커서", "Cursor") & " (*.CUR)"
         Case 4
-            selFileType.AddItem t("소리", "Sound") & " (*.WAV)"
+            AddItemToComboBox selFileType, t("소리", "Sound") & " (*.WAV)"
         Case Else
-            selFileType.AddItem t("모든 파일", "All files") & " (*.*)"
+            AddItemToComboBox selFileType, t("모든 파일", "All files") & " (*.*)"
     End Select
     selFileType.ListIndex = 0
     
