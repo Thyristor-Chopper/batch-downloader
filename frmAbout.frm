@@ -514,6 +514,8 @@ Private Sub Form_Load()
     lvMisc.ListItems.Add(, , "https://www.vbforums.com/showthread.php?894947", , 1).ListSubItems.Add , , "wqweto"
     lvMisc.ListItems.Add(, , "https://gist.github.com/jvarn/5e11b1fd741b5f79d8a516c9c2368f17", , 1).ListSubItems.Add , , "jvarn"
     lvMisc.ListItems.Add(, , "https://www.vbforums.com/showthread.php?842795", , 1).ListSubItems.Add , , "Elroy"
+    lvMisc.ListItems.Add(, , "https://stackoverflow.com/questions/1230333", , 1).ListSubItems.Add , , "Robert Harvey"
+    lvMisc.ListItems.Add(, , "https://www.vbforums.com/showthread.php?704979", , 1).ListSubItems.Add , , "Max187Boucher"
     
     FrameW1.Caption = t(FrameW1.Caption, "&License")
 End Sub

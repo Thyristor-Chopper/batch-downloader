@@ -1792,6 +1792,7 @@ Sub OnData(Data As String)
                 pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
                 pbTotalProgress.Value = 100
+                OnStop
             Case "UNABLETOCONTINUE"
                 Alert t("이어받기가 불가능합니다. 처음부터 다시 다운로드합니다.", "Unable to resume. Starting over..."), App.Title, 48, False, 5000
             Case "RESUMEUNSUPPORTED"
@@ -1921,10 +1922,9 @@ progressAvailable:
         If TotalSize <= 0 Then GoTo exitif
         lblMergeStatus.Caption = t(ParseSize(TotalSize) & " 중 " & ParseSize(MergedSize), ParseSize(MergedSize) & " of " & ParseSize(TotalSize)) & " (" & Fix((MergedSize / TotalSize) * 100) & "%)"
 exitif:
-    ElseIf Left$(Data, 11) = "DELETEITEM " Then
+    ElseIf Left$(Data, 16) = "SETMODIFIEDDATE " Then
         On Error Resume Next
-        MsgBox Right$(Data, Len(Data) - 11)
-        Kill Right$(Data, Len(Data) - 11)
+        SetFileDate DownloadPath, Right$(Data, Len(Data) - 16)
     End If
 End Sub
 
@@ -2658,6 +2658,7 @@ L2:
         GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & _
         Abs(CInt(AutoName)) & " " & _
         GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100) & " " & _
+        GetSetting("DownloadBooster", "Options", "UseServerModifiedDate", 1) & " " & _
         Col(Functions.HeaderCache, "-") & " " & _
         Col(CurrentHeaderCache, "-"))
     Select Case SPResult

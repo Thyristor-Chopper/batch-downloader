@@ -95,10 +95,10 @@ Begin VB.Form frmLiveBadukSkinProperties
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   2520
+         Left            =   2160
          TabIndex        =   16
          Top             =   600
-         Width           =   855
+         Width           =   615
       End
       Begin VB.Shape pgFrameBackgroundColor 
          BackStyle       =   1  '투명하지 않음
@@ -141,6 +141,40 @@ Begin VB.Form frmLiveBadukSkinProperties
          _ExtentY        =   450
          Caption         =   "라벨 글자 색(&X):"
       End
+      Begin VB.Label lblSelectTextColor 
+         BackStyle       =   0  '투명
+         BeginProperty Font 
+            Name            =   "돋움"
+            Size            =   9
+            Charset         =   129
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   2160
+         TabIndex        =   2
+         Top             =   240
+         Width           =   615
+      End
+      Begin VB.Label lblSelectShadow 
+         BackStyle       =   0  '투명
+         BeginProperty Font 
+            Name            =   "돋움"
+            Size            =   9
+            Charset         =   129
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   2160
+         TabIndex        =   4
+         Top             =   600
+         Width           =   615
+      End
       Begin VB.Label lblSelectContentColor 
          BackStyle       =   0  '투명
          BeginProperty Font 
@@ -153,10 +187,10 @@ Begin VB.Form frmLiveBadukSkinProperties
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   2520
+         Left            =   2160
          TabIndex        =   6
          Top             =   960
-         Width           =   855
+         Width           =   615
       End
       Begin VB.Shape pgContentColor 
          BackColor       =   &H00000000&
@@ -179,23 +213,6 @@ Begin VB.Form frmLiveBadukSkinProperties
          Top             =   1005
          Width           =   1350
       End
-      Begin VB.Label lblSelectTextColor 
-         BackStyle       =   0  '투명
-         BeginProperty Font 
-            Name            =   "돋움"
-            Size            =   9
-            Charset         =   129
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   2520
-         TabIndex        =   2
-         Top             =   240
-         Width           =   855
-      End
       Begin VB.Shape pgText 
          BackColor       =   &H00000000&
          BackStyle       =   1  '투명하지 않음
@@ -206,23 +223,6 @@ Begin VB.Form frmLiveBadukSkinProperties
          Shape           =   4  '둥근 사각형
          Top             =   240
          Width           =   615
-      End
-      Begin VB.Label lblSelectShadow 
-         BackStyle       =   0  '투명
-         BeginProperty Font 
-            Name            =   "돋움"
-            Size            =   9
-            Charset         =   129
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   2520
-         TabIndex        =   4
-         Top             =   600
-         Width           =   855
       End
       Begin VB.Shape pgShadow 
          BackStyle       =   1  '투명하지 않음
@@ -285,16 +285,6 @@ Begin VB.Form frmLiveBadukSkinProperties
          Value           =   -1  'True
          Caption         =   "반투명(&T)"
       End
-      Begin VB.Shape pgFrameColor 
-         BackStyle       =   1  '투명하지 않음
-         BorderColor     =   &H00404040&
-         FillColor       =   &H00808080&
-         Height          =   255
-         Left            =   2160
-         Shape           =   4  '둥근 사각형
-         Top             =   600
-         Width           =   615
-      End
       Begin VB.Label lblSelectFrameColor 
          BackStyle       =   0  '투명
          BeginProperty Font 
@@ -310,7 +300,17 @@ Begin VB.Form frmLiveBadukSkinProperties
          Left            =   2160
          TabIndex        =   10
          Top             =   600
-         Width           =   855
+         Width           =   615
+      End
+      Begin VB.Shape pgFrameColor 
+         BackStyle       =   1  '투명하지 않음
+         BorderColor     =   &H00404040&
+         FillColor       =   &H00808080&
+         Height          =   255
+         Left            =   2160
+         Shape           =   4  '둥근 사각형
+         Top             =   600
+         Width           =   615
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
@@ -381,30 +381,30 @@ Private Sub Form_Load()
     SetFont Me
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
-    lblSelectShadow.Top = pgShadow.Top
-    lblSelectShadow.Left = pgShadow.Left
-    lblSelectShadow.Width = pgShadow.Width
-    lblSelectShadow.Height = pgShadow.Height
+'    lblSelectShadow.Top = pgShadow.Top
+'    lblSelectShadow.Left = pgShadow.Left
+'    lblSelectShadow.Width = pgShadow.Width
+'    lblSelectShadow.Height = pgShadow.Height
     pgShadow.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", 16777215))
-    lblSelectFrameColor.Top = pgFrameColor.Top
-    lblSelectFrameColor.Left = pgFrameColor.Left
-    lblSelectFrameColor.Width = pgFrameColor.Width
-    lblSelectFrameColor.Height = pgFrameColor.Height
+'    lblSelectFrameColor.Top = pgFrameColor.Top
+'    lblSelectFrameColor.Left = pgFrameColor.Left
+'    lblSelectFrameColor.Width = pgFrameColor.Width
+'    lblSelectFrameColor.Height = pgFrameColor.Height
     pgFrameColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
-    lblSelectTextColor.Top = pgText.Top
-    lblSelectTextColor.Left = pgText.Left
-    lblSelectTextColor.Width = pgText.Width
-    lblSelectTextColor.Height = pgText.Height
+'    lblSelectTextColor.Top = pgText.Top
+'    lblSelectTextColor.Left = pgText.Left
+'    lblSelectTextColor.Width = pgText.Width
+'    lblSelectTextColor.Height = pgText.Height
     pgText.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 0))
-    lblFrameBackgroundColorSelect.Top = pgFrameBackgroundColor.Top
-    lblFrameBackgroundColorSelect.Left = pgFrameBackgroundColor.Left
-    lblFrameBackgroundColorSelect.Width = pgFrameBackgroundColor.Width
-    lblFrameBackgroundColorSelect.Height = pgFrameBackgroundColor.Height
+'    lblFrameBackgroundColorSelect.Top = pgFrameBackgroundColor.Top
+'    lblFrameBackgroundColorSelect.Left = pgFrameBackgroundColor.Left
+'    lblFrameBackgroundColorSelect.Width = pgFrameBackgroundColor.Width
+'    lblFrameBackgroundColorSelect.Height = pgFrameBackgroundColor.Height
     pgFrameBackgroundColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", 16777215))
-    lblSelectContentColor.Top = pgContentColor.Top
-    lblSelectContentColor.Left = pgContentColor.Left
-    lblSelectContentColor.Width = pgContentColor.Width
-    lblSelectContentColor.Height = pgContentColor.Height
+'    lblSelectContentColor.Top = pgContentColor.Top
+'    lblSelectContentColor.Left = pgContentColor.Left
+'    lblSelectContentColor.Width = pgContentColor.Width
+'    lblSelectContentColor.Height = pgContentColor.Height
     pgContentColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", 0))
     chkShadowColor.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", 1))
     chkTextColor.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0))

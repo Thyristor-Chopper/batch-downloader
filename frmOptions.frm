@@ -729,7 +729,7 @@ Begin VB.Form frmOptions
          _ExtentX        =   11456
          _ExtentY        =   3413
          Caption         =   " 다운로드 설정 "
-         Begin prjDownloadBooster.CheckBoxW CheckBoxW2 
+         Begin prjDownloadBooster.CheckBoxW chkUseServerModified 
             Height          =   255
             Left            =   3480
             TabIndex        =   12
@@ -1931,6 +1931,10 @@ Private Sub chkRememberURL_Click()
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 
+Private Sub chkUseServerModified_Click()
+    If Loaded Then cmdApply.Enabled = -1
+End Sub
+
 Private Sub cmdAddHeader_Click()
     If Loaded Then cmdApply.Enabled = -1
     lvHeaders.SetFocus
@@ -1977,6 +1981,7 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "ScrollOneScreen", IIf(optScreenPerScroll.Value, 1, 0)
     SaveSetting "DownloadBooster", "Options", "BackColorMainOnly", chkBackColorMainOnly.Value
     SaveSetting "DownloadBooster", "Options", "ForeColorMainOnly", chkForeColorMainOnly.Value
+    SaveSetting "DownloadBooster", "Options", "UseServerModifiedDate", chkUseServerModified.Value
     If ScrollChanged Then
         frmMain.ScrollOneScreen = optScreenPerScroll.Value
         frmMain.trThreadCount_Scroll
@@ -2652,15 +2657,15 @@ Private Sub Form_Load()
     
     lvHeaders.SmallIcons = imgFiles
     
-    lblSelectColor.Top = pgColor.Top
-    lblSelectColor.Left = pgColor.Left
-    lblSelectColor.Width = pgColor.Width
-    lblSelectColor.Height = pgColor.Height
-    
-    lblSelectFore.Top = pgFore.Top
-    lblSelectFore.Left = pgFore.Left
-    lblSelectFore.Width = pgFore.Width
-    lblSelectFore.Height = pgFore.Height
+'    lblSelectColor.Top = pgColor.Top
+'    lblSelectColor.Left = pgColor.Left
+'    lblSelectColor.Width = pgColor.Width
+'    lblSelectColor.Height = pgColor.Height
+
+'    lblSelectFore.Top = pgFore.Top
+'    lblSelectFore.Left = pgFore.Left
+'    lblSelectFore.Width = pgFore.Width
+'    lblSelectFore.Height = pgFore.Height
     
     RemoveVisualStyles txtSampleClassic.hWnd
     
@@ -2862,6 +2867,7 @@ Private Sub Form_Load()
     tr cmdDeleteTheme, "&Delete"
     tr Label9, "&Background:"
     tr Label12, "T&ext:"
+    tr chkUseServerModified, "Use server's mo&dified date"
     
     AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
     AttachMessage Me, Me.hWnd, WM_THEMECHANGED
@@ -2947,6 +2953,7 @@ Sub LoadSettings()
     optScreenPerScroll.Value = (GetSetting("DownloadBooster", "Options", "ScrollOneScreen", 0) <> 0)
     chkBackColorMainOnly.Value = GetSetting("DownloadBooster", "Options", "BackColorMainOnly", 0)
     chkForeColorMainOnly.Value = GetSetting("DownloadBooster", "Options", "ForeColorMainOnly", 0)
+    chkUseServerModified.Value = GetSetting("DownloadBooster", "Options", "UseServerModifiedDate", 1)
     Select Case CInt(GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100))
         Case 10
             trRequestInterval.Value = 0

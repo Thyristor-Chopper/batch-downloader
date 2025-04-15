@@ -106,6 +106,26 @@ Declare Function MapWindowPoints Lib "user32" (ByVal hWndFrom As Long, ByVal hWn
 Declare Function SetViewportOrgEx Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long, ByRef lpPoint As POINTAPI) As Long
 Declare Function CreatePatternBrush Lib "gdi32" (ByVal hBitmap As Long) As Long
 Declare Function DeleteDC Lib "gdi32" (ByVal hDC As Long) As Long
+Private Declare Function CreateFile Lib "kernel32" Alias "CreateFileA" (ByVal lpFileName As String, ByVal dwDesiredAccess As Long, ByVal dwShareMode As Long, ByVal lpSecurityAttributes As Long, ByVal dwCreationDisposition As Long, ByVal dwFlagsAndAttributes As Long, ByVal hTemplateFile As Long) As Long
+Private Declare Function SetFileTime Lib "kernel32" (ByVal hFile As Long, lpCreationTime As Any, lpLastAccessTime As Any, lpLastWriteTime As Any) As Long
+Private Declare Function SystemTimeToFileTime Lib "kernel32" (lpSystemTime As SYSTEMTIME, lpFileTime As FILETIME) As Long
+Private Declare Function LocalFileTimeToFileTime Lib "kernel32" (lpLocalFileTime As FILETIME, lpFileTime As FILETIME) As Long
+
+Private Type FILETIME
+    LowDateTime As Long
+    HighDateTime As Long
+End Type
+    
+Private Type SYSTEMTIME
+    Year As Integer
+    Month As Integer
+    DayOfWeek As Integer
+    Day As Integer
+    Hour As Integer
+    Minute As Integer
+    Second As Integer
+    Milliseconds As Integer
+End Type
 
 Private Const CB_ERR As Long = -1
 Private Const CB_ADDSTRING As Long = &H143
@@ -2017,7 +2037,7 @@ Sub ExtractResource(ResourceID, ByVal ResourceType As ResourceType, ByVal FileNa
     End If
 End Sub
 
-'https://stackoverflow.com/questions/1230333/loading-data-in-to-a-combo-box-is-slow
+'https://stackoverflow.com/questions/1230333
 Sub AddItemToComboBox(cbComboBox As ComboBox, ByVal Text As String)
     SendMessage cbComboBox.hWnd, CB_ADDSTRING, 0&, ByVal Text
 End Sub
@@ -2025,3 +2045,26 @@ End Sub
 Sub ClearComboBox(cbComboBox As ComboBox)
     SendMessage cbComboBox.hWnd, CB_RESETCONTENT, 0&, 0&
 End Sub
+
+'https://www.vbforums.com/showthread.php?704979
+Function SetFileDate(ByVal sFilename As String, ByVal dFileDate As Date) As Boolean
+    Dim lhwndFile As Long
+    Dim tSystemTime As SYSTEMTIME
+    Dim tLocalTime As FILETIME, tFileTime As FILETIME
+    
+    tSystemTime.Year = Year(dFileDate)
+    tSystemTime.Month = Month(dFileDate)
+    tSystemTime.Day = Day(dFileDate)
+    tSystemTime.DayOfWeek = Weekday(dFileDate) - 1
+    tSystemTime.Hour = Hour(dFileDate)
+    tSystemTime.Minute = Minute(dFileDate)
+    tSystemTime.Second = Second(dFileDate)
+    tSystemTime.Milliseconds = 50
+    lhwndFile = CreateFile(sFilename, 256&, 1&, ByVal 0&, 3&, 0&, 0&)
+    If lhwndFile Then
+        SystemTimeToFileTime tSystemTime, tLocalTime
+        LocalFileTimeToFileTime tLocalTime, tFileTime
+        SetFileDate = (SetFileTime(lhwndFile, 0&, 0&, tFileTime) <> 0)
+        CloseHandle lhwndFile
+    End If
+End Function

@@ -215,6 +215,7 @@ function startDownload(url) {
 				if(endRange - startRange < 0) {
 					print('STATUS', 'COMPLETE');
 					process.exit(0);
+					return;
 				}
 				reqHeaders.Range = 'bytes=' + startRange + '-' + endRange;
 			}
@@ -298,19 +299,21 @@ function startDownload(url) {
 							clearInterval(sizeReporter);
 							print('MERGESIZE', total);
 							if(Number(process.argv[5]) == 0) {
-								for(var i=1; i<=trd; i++)
-									fs.unlinkSync(fn + '.part_' + i + '.tmp');
-									// print('DELETEITEM', fn + '.part_' + i + '.tmp');
+								setLastModified(lastModified);
+								setTimeout(function() {
+									for(var i=1; i<=trd; i++)
+										fs.unlinkSync(fn + '.part_' + i + '.tmp');
+									print('STATUS', 'COMPLETE');
+								}, 5000);
+							} else {
+								setLastModified(lastModified);
+								print('STATUS', 'COMPLETE');
 							}
-							setLastModified(fn, lastModified);
-							print('STATUS', 'COMPLETE');
-							process.exit(0);
 						});
 					} else {
 						fs.renameSync(fn + '.part.tmp', fn);
-						setLastModified(fn, lastModified);
+						setLastModified(lastModified);
 						print('STATUS', 'COMPLETE');
-						process.exit(0);
 					}
 				}
 			} catch (e) {}
@@ -318,11 +321,16 @@ function startDownload(url) {
 	}).end();
 }
 
-function setLastModified(fn, lastModified) {
-	if(process.argv[13] != 1) return;
+function setLastModified(lastModified) {
+	if(process.argv[13] == 0) return;
 	if(lastModified == 'Invalid Date') return;
-	// https://www.vbforums.com/showthread.php?704979-How-to-change-file-date
-	print('SETMODIFIEDDATE', '1');
+	var dateStr = lastModified.getFullYear() + '-';
+	dateStr += (lastModified.getMonth() + 1) + '-';
+	dateStr += lastModified.getDate() + ' ';
+	dateStr += lastModified.getHours() + ':';
+	dateStr += lastModified.getMinutes() + ':';
+	dateStr += lastModified.getSeconds();
+	print('SETMODIFIEDDATE', dateStr);
 }
 
 setInterval(function() {}, 987654321);
