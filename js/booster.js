@@ -35,8 +35,8 @@ var trd = Number(process.argv[4] || process.exit(103)) || process.exit(103);
 fn = fn.replace(/^["]/, '').replace(/["]$/, '');
 var intpath = require('path');
 var http = require(url.slice(0, 6) == 'https:' ? 'https' : 'http');
-var rawHeaders = Buffer(((process.argv[13] == '-' ? '' : process.argv[13]) || ''), 'base64').toString().split('\n');
-var rawSessionHeaders = Buffer(((process.argv[14] == '-' ? '' : process.argv[14]) || ''), 'base64').toString().split('\n');
+var rawHeaders = Buffer(((process.argv[14] == '-' ? '' : process.argv[14]) || ''), 'base64').toString().split('\n');
+var rawSessionHeaders = Buffer(((process.argv[15] == '-' ? '' : process.argv[15]) || ''), 'base64').toString().split('\n');
 var headers = {}, sessionHeaders = {};
 if(rawHeaders.length) rawHeaders.forEach(function(item) {
 	if(item.indexOf(': ') < 0) return;
@@ -89,6 +89,7 @@ function startDownload(url) {
 			return process.exit(108);
 		}
 		
+		var lastModified = new Date(res.headers['last-modified']);
 		var parsed = {
 			dir: intpath.dirname(fn),
 			base: intpath.basename(fn),
@@ -301,11 +302,13 @@ function startDownload(url) {
 									fs.unlinkSync(fn + '.part_' + i + '.tmp');
 									// print('DELETEITEM', fn + '.part_' + i + '.tmp');
 							}
+							setLastModified(fn, lastModified);
 							print('STATUS', 'COMPLETE');
 							process.exit(0);
 						});
 					} else {
 						fs.renameSync(fn + '.part.tmp', fn);
+						setLastModified(fn, lastModified);
 						print('STATUS', 'COMPLETE');
 						process.exit(0);
 					}
@@ -313,6 +316,13 @@ function startDownload(url) {
 			} catch (e) {}
 		}, 100);
 	}).end();
+}
+
+function setLastModified(fn, lastModified) {
+	if(process.argv[13] != 1) return;
+	if(lastModified == 'Invalid Date') return;
+	// https://www.vbforums.com/showthread.php?704979-How-to-change-file-date
+	print('SETMODIFIEDDATE', '1');
 }
 
 setInterval(function() {}, 987654321);
