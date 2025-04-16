@@ -138,7 +138,7 @@ End Sub
 Private Sub cmdOK_Click()
     txtSavePath.Text = Trim$(txtSavePath.Text)
     If Not FolderExists(txtSavePath.Text) Then
-        Alert t("저장 경로가 존재하지 않습니다. [찾아보기] 기능으로 폴더를 찾아볼 수 있습니다.", "Save path does not exist. Use Broewse to browse folders."), App.Title, 16
+        MsgBox t("저장 경로가 존재하지 않습니다. [찾아보기] 기능으로 폴더를 찾아볼 수 있습니다.", "Save path does not exist. Use Broewse to browse folders."), 16
         Exit Sub
     End If
     txtSavePath.Text = FilterFilename(txtSavePath.Text, True)

@@ -960,7 +960,7 @@ Function RandInt(StartNumber, EndNumber)
     RandInt = Int(Rnd * (EndNumber - StartNumber + 1)) + StartNumber
 End Function
 
-Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal MsgBoxMode As Byte = 1) As VbMsgBoxResult
+Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal MsgBoxMode As Byte = 1) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 And MsgBoxMode <> 3 Then
         Select Case MsgBoxMode
@@ -1276,32 +1276,8 @@ Private Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As
     End If
 End Function
 
-Sub Alert(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1)
-    ShowMessageBox Content, Title, Icon, IsModal, AlertTimeout, MsgBoxMode:=1
-End Sub
-
-Function Confirm(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
-    Confirm = ShowMessageBox(Content, Title, Icon, MsgBoxMode:=2)
-End Function
-
 Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
     ConfirmEx = ShowMessageBox(Content, Title, Icon, DefaultOption:=DefaultOption, MsgBoxMode:=3)
-End Function
-
-Function ConfirmCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 32) As VbMsgBoxResult
-    ConfirmCancel = ShowMessageBox(Content, Title, Icon, MsgBoxMode:=4)
-End Function
-
-Function MsgBoxAbortRetryIgnore(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
-    MsgBoxAbortRetryIgnore = ShowMessageBox(Content, Title, Icon, MsgBoxMode:=5)
-End Function
-
-Function MsgBoxRetryCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
-    MsgBoxRetryCancel = ShowMessageBox(Content, Title, Icon, MsgBoxMode:=6)
-End Function
-
-Function MsgBoxOKCancel(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 0) As VbMsgBoxResult
-    MsgBoxOKCancel = ShowMessageBox(Content, Title, Icon, MsgBoxMode:=7)
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
@@ -1966,36 +1942,36 @@ Function Max(ByRef l, ByRef R)
     End If
 End Function
 
-Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional Title = "", Optional HelpFile, Optional Context) As VbMsgBoxResult
+Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional Title = "") As VbMsgBoxResult
     If Title = "" Then Title = App.Title
     Select Case Buttons
         Case vbOKOnly
-            Alert Prompt, Title, 0
+            ShowMessageBox Prompt, Title, 0, MsgBoxMode:=1
             MsgBox = vbOK
         Case vbYesNo
-            MsgBox = Confirm(Prompt, Title, 0)
+            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=2)
         Case vbYesNoCancel
-            MsgBox = ConfirmCancel(Prompt, Title, 0)
+            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=4)
         Case vbOKCancel
-            MsgBox = MsgBoxOKCancel(Prompt, Title, 0)
+            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=7)
         Case vbAbortRetryIgnore
-            MsgBox = MsgBoxAbortRetryIgnore(Prompt, Title, 0)
+            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=5)
         Case vbRetryCancel
-            MsgBox = MsgBoxRetryCancel(Prompt, Title, 0)
+            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=6)
         
         Case vbCritical, vbQuestion, vbExclamation, vbInformation
-            Alert Prompt, Title, Buttons
+            ShowMessageBox Prompt, Title, Buttons, MsgBoxMode:=1
             MsgBox = vbOK
         Case vbCritical + vbYesNo, vbQuestion + vbYesNo, vbExclamation + vbYesNo, vbInformation + vbYesNo
-            MsgBox = Confirm(Prompt, Title, Buttons - vbYesNo)
+            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbYesNo, MsgBoxMode:=2)
         Case vbCritical + vbYesNoCancel, vbQuestion + vbYesNoCancel, vbExclamation + vbYesNoCancel, vbInformation + vbYesNoCancel
-            MsgBox = ConfirmCancel(Prompt, Title, Buttons - vbYesNoCancel)
+            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbYesNoCancel, MsgBoxMode:=4)
         Case vbCritical + vbOKCancel, vbQuestion + vbOKCancel, vbExclamation + vbOKCancel, vbInformation + vbOKCancel
-            MsgBox = MsgBoxOKCancel(Prompt, Title, Buttons - vbOKCancel)
+            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbOKCancel, MsgBoxMode:=7)
         Case vbCritical + vbAbortRetryIgnore, vbQuestion + vbAbortRetryIgnore, vbExclamation + vbAbortRetryIgnore, vbInformation + vbAbortRetryIgnore
-            MsgBox = MsgBoxAbortRetryIgnore(Prompt, Title, Buttons - vbAbortRetryIgnore)
+            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbAbortRetryIgnore, MsgBoxMode:=5)
         Case vbCritical + vbRetryCancel, vbQuestion + vbRetryCancel, vbExclamation + vbRetryCancel, vbInformation + vbRetryCancel
-            MsgBox = MsgBoxRetryCancel(Prompt, Title, Buttons - vbRetryCancel)
+            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbRetryCancel, MsgBoxMode:=6)
         
         Case Else
             MsgBox = MsgBoxInternal(Prompt, Buttons, Title)

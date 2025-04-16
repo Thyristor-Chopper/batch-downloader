@@ -177,7 +177,7 @@ End Sub
 Private Sub cmdOK_Click()
     txtURL.Text = Trim$(txtURL.Text)
     If Left$(txtURL.Text, 7) <> "http://" And Left$(txtURL.Text, 8) <> "https://" Then
-        Alert t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), App.Title, 16
+        MsgBox t("주소가 올바르지 않습니다. 'http://' 또는 'https://'로 시작해야 합니다.", "Invalid address. Must start with 'http://' or 'https://'."), 16
         Exit Sub
     End If
 
@@ -194,7 +194,7 @@ Private Sub cmdOK_Click()
         txtFilePath.Text = txtFilePath.Text & Trim$(Tags.FileNameOnly)
         OnlyFolderInPath = True
     ElseIf Right$(txtFilePath.Text, 1) = "\" Or (Not FolderExists(GetParentFolderName(txtFilePath.Text))) Then
-        Alert t("저장 경로가 존재하지 않습니다. [찾아보기] 기능으로 폴더를 찾아볼 수 있습니다.", "Save path does not exist. Use Broewse to browse folders."), App.Title, 16
+        MsgBox t("저장 경로가 존재하지 않습니다. [찾아보기] 기능으로 폴더를 찾아볼 수 있습니다.", "Save path does not exist. Use Broewse to browse folders."), 16
         Exit Sub
     ElseIf LCase(GetFilename(txtFilePath.Text)) = LCase(Tags.FileNameOnly) Then
         FileNameModified = False
@@ -216,7 +216,7 @@ Private Sub cmdOK_Click()
             frmMain.lvBatchFiles.SelectedItem.ListSubItems(3).ForeColor = &H80000008
             GoTo changeFilepath
         ElseIf txtFilePath.Text <> Trim$(OriginalPath) Then
-            Alert t("다운로드가 이미 완료된 파일의 저장 경로가 수정되지 않았습니다.", "Save path has not been changed because it's already downloaded."), App.Title
+            MsgBox t("다운로드가 이미 완료된 파일의 저장 경로가 수정되지 않았습니다.", "Save path has not been changed because it's already downloaded."), 64
         End If
     Else
 changeFilepath:

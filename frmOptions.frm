@@ -1627,10 +1627,6 @@ Attribute VB_Exposed = False
 '참고 자료:
 '- https://www.vbforums.com/showthread.php?284592-Listview-StartLabelEdit-second-column-*RESOLVED*
 
-Const gREGKEYSYSINFOLOC = "SOFTWARE\Microsoft\Shared Tools Location"
-Const gREGVALSYSINFOLOC = "MSINFO"
-Const gREGKEYSYSINFO = "SOFTWARE\Microsoft\Shared Tools\MSINFO"
-Const gREGVALSYSINFO = "PATH"
 Dim Loaded As Boolean
 Public ColorChanged As Boolean
 Public ImageChanged As Boolean
@@ -1709,10 +1705,7 @@ Private Sub cbImagePosition_Click()
 End Sub
 
 Private Sub cbLanguage_Click()
-    If Loaded Then
-        'Alert t("언어를 변경하려면 프로그램을 재시작해야 합니다.", "To change the language you must restart the application."), App.Title, 64
-        cmdApply.Enabled = -1
-    End If
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
 
 Private Sub cbSkin_Click()
@@ -1744,10 +1737,6 @@ Private Sub cbSkin_Click()
     End If
     cmdAdvancedSkin.Enabled = (cbSkin.ListIndex = 1 Or cbSkin.ListIndex = 2)
     cmdSample.RoundButton = (GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0) <> 0)
-End Sub
-
-Private Sub cbTheme_Change()
-    cbTheme_Click
 End Sub
 
 Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
@@ -1990,8 +1979,8 @@ Private Sub cmdAdvancedSkin_Click()
             frmClassicSkinProperties.Show vbModal, Me
         Case 2
             frmLiveBadukSkinProperties.Show vbModal, Me
-        Case Else
-            MsgBox t("이 스킨은 설정 기능을 지원하지 않습니다.", "Skin setting not supported for selected skin."), 64
+'        Case Else
+'            MsgBox t("이 스킨은 설정 기능을 지원하지 않습니다.", "Skin setting not supported for selected skin."), 64
     End Select
 End Sub
 
@@ -1999,11 +1988,7 @@ Private Sub cmdApply_Click()
     If WinVer >= 6# And cbFrameSkin.ListCount >= 3 Then
         SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", Abs(cbFrameSkin.ListIndex = 1)
     End If
-    If (cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1) Then
-        SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", 1
-    Else
-        SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", 0
-    End If
+    SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", Abs((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
     
     Dim i%
     
@@ -2019,7 +2004,7 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.Value
     SaveSetting "DownloadBooster", "Options", "CompleteSoundPath", Trim$(txtCompleteSoundPath.Text)
     SaveSetting "DownloadBooster", "Options", "AllowDuplicatesInQueue", chkAllowDuplicates.Value
-    SaveSetting "DownloadBooster", "Options", "ScrollOneScreen", IIf(optScreenPerScroll.Value, 1, 0)
+    SaveSetting "DownloadBooster", "Options", "ScrollOneScreen", Abs(optScreenPerScroll.Value)
     SaveSetting "DownloadBooster", "Options", "BackColorMainOnly", chkBackColorMainOnly.Value
     SaveSetting "DownloadBooster", "Options", "ForeColorMainOnly", chkForeColorMainOnly.Value
     SaveSetting "DownloadBooster", "Options", "UseServerModifiedDate", chkUseServerModified.Value
@@ -2136,7 +2121,7 @@ aftermaxtrdcheck:
     SaveSetting "DownloadBooster", "Options", "ImagePosition", cbImagePosition.ListIndex
     frmMain.ImagePosition = cbImagePosition.ListIndex
     If ImageChanged Then
-        SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", IIf(lvBackgrounds.ListIndex <> 0, 1, 0)
+        SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", Abs(lvBackgrounds.ListIndex <> 0)
         SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", ChangedBackgroundPath
         frmMain.SetBackgroundImage
         frmMain.SetBackgroundPosition True
@@ -2146,7 +2131,7 @@ aftermaxtrdcheck:
         If FileExists(Trim$(txtNodePath.Text)) Then
             SaveSetting "DownloadBooster", "Options", "NodePath", Trim$(txtNodePath.Text)
         Else
-            Alert t("Node.js 경로가 존재하지 않습니다.", "Node.js path does not exist."), App.Title, 16
+            MsgBox t("Node.js 경로가 존재하지 않습니다.", "Node.js path does not exist."), 16
             NoDisable = True
         End If
     Else
@@ -2156,7 +2141,7 @@ aftermaxtrdcheck:
         If FileExists(Trim$(txtScriptPath.Text)) Then
             SaveSetting "DownloadBooster", "Options", "ScriptPath", Trim$(txtScriptPath.Text)
         Else
-            Alert t("다운로드 스크립트 경로가 존재하지 않습니다.", "Download script path does not exist."), App.Title, 16
+            MsgBox t("다운로드 스크립트 경로가 존재하지 않습니다.", "Download script path does not exist."), 16
             NoDisable = True
         End If
     Else
@@ -2166,7 +2151,7 @@ aftermaxtrdcheck:
         If FileExists(Trim$(txtYtdlPath.Text)) Then
             SaveSetting "DownloadBooster", "Options", "YtdlPath", Trim$(txtYtdlPath.Text)
         Else
-            Alert t("Youtube-dl 경로가 존재하지 않습니다.", "Youtube-dl path does not exist."), App.Title, 16
+            MsgBox t("Youtube-dl 경로가 존재하지 않습니다.", "Youtube-dl path does not exist."), 16
             NoDisable = True
         End If
     Else
@@ -2538,7 +2523,7 @@ Private Sub lvHeaders_AfterLabelEdit(Cancel As Boolean, NewString As String)
     If NewString = "" Then
 invalidname:
         Cancel = True
-        Alert t("헤더 이름이 잘못되었습니다.", "Invalid header name."), App.Title, 16
+        MsgBox t("헤더 이름이 잘못되었습니다.", "Invalid header name."), 16
         Exit Sub
     End If
     
@@ -2554,7 +2539,7 @@ invalidname:
     For i = 1 To lvHeaders.ListItems.Count
         If LCase(lvHeaders.ListItems(i).Text) = LCase(NewString) Then
             Cancel = True
-            Alert t("해당 이름이 이미 존재합니다.", "Duplicate header name."), App.Title, 16
+            MsgBox t("해당 이름이 이미 존재합니다.", "Duplicate header name."), 16
             Exit Sub
             Exit For
         End If
