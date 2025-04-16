@@ -2255,22 +2255,22 @@ HotMousePointer = PropHotMousePointer
 End Property
 
 Public Property Let HotMousePointer(ByVal Value As CCMousePointerConstants)
-Select Case Value
-    Case 0 To 16, 99
-        PropHotMousePointer = Value
-        If ListViewHandle <> NULL_PTR Then
-            If MousePointerID(PropHotMousePointer) <> 0 Then
-                SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal LoadCursor(NULL_PTR, MousePointerID(PropHotMousePointer))
-            ElseIf PropHotMousePointer = 99 And Not PropHotMouseIcon Is Nothing Then
-                SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal PropHotMouseIcon.Handle
-            Else
-                SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal 0&
-            End If
-        End If
-    Case Else
-        Err.Raise 380
-End Select
-If ListViewDesignMode = False Then Call RefreshMousePointer
+'Select Case Value
+'    Case 0 To 16, 99
+'        PropHotMousePointer = Value
+'        If ListViewHandle <> NULL_PTR Then
+'            If MousePointerID(PropHotMousePointer) <> 0 Then
+'                SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal LoadCursor(NULL_PTR, MousePointerID(PropHotMousePointer))
+'            ElseIf PropHotMousePointer = 99 And Not PropHotMouseIcon Is Nothing Then
+'                SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal PropHotMouseIcon.Handle
+'            Else
+'                SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal 0&
+'            End If
+'        End If
+'    Case Else
+'        Err.Raise 380
+'End Select
+'If ListViewDesignMode = False Then Call RefreshMousePointer
 UserControl.PropertyChanged "HotMousePointer"
 End Property
 
@@ -2284,30 +2284,30 @@ Set Me.HotMouseIcon = Value
 End Property
 
 Public Property Set HotMouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
+'If Value Is Nothing Then
     Set PropHotMouseIcon = Nothing
-Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropHotMouseIcon = Value
-    Else
-        If ListViewDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
-If ListViewHandle <> NULL_PTR Then
-    If MousePointerID(PropHotMousePointer) <> 0 Then
-        SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal LoadCursor(NULL_PTR, MousePointerID(PropHotMousePointer))
-    ElseIf PropHotMousePointer = 99 And Not PropHotMouseIcon Is Nothing Then
-        SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal PropHotMouseIcon.Handle
-    Else
-        SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal 0&
-    End If
-End If
-If ListViewDesignMode = False Then Call RefreshMousePointer
+'Else
+'    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+'        Set PropHotMouseIcon = Value
+'    Else
+'        If ListViewDesignMode = True Then
+'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
+'If ListViewHandle <> NULL_PTR Then
+'    If MousePointerID(PropHotMousePointer) <> 0 Then
+'        SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal LoadCursor(NULL_PTR, MousePointerID(PropHotMousePointer))
+'    ElseIf PropHotMousePointer = 99 And Not PropHotMouseIcon Is Nothing Then
+'        SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal PropHotMouseIcon.Handle
+'    Else
+'        SendMessage ListViewHandle, LVM_SETHOTCURSOR, 0, ByVal 0&
+'    End If
+'End If
+'If ListViewDesignMode = False Then Call RefreshMousePointer
 UserControl.PropertyChanged "HotMouseIcon"
 End Property
 
@@ -2337,21 +2337,21 @@ Set Me.HeaderMouseIcon = Value
 End Property
 
 Public Property Set HeaderMouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
+'If Value Is Nothing Then
     Set PropHeaderMouseIcon = Nothing
-Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropHeaderMouseIcon = Value
-    Else
-        If ListViewDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
-If ListViewDesignMode = False Then Call RefreshMousePointer
+'Else
+'    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+'        Set PropHeaderMouseIcon = Value
+'    Else
+'        If ListViewDesignMode = True Then
+'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
+'If ListViewDesignMode = False Then Call RefreshMousePointer
 UserControl.PropertyChanged "HeaderMouseIcon"
 End Property
 
@@ -2372,38 +2372,38 @@ RightToLeft = PropRightToLeft
 End Property
 
 Public Property Let RightToLeft(ByVal Value As Boolean)
-PropRightToLeft = Value
-UserControl.RightToLeft = PropRightToLeft
-Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
-Dim dwMask As Long
-If ListViewDesignMode = False Then
-    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
-    dwMask = 0
-End If
-If PropRightToLeft = True Then
-    If PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = WS_EX_RTLREADING
-End If
-If ListViewHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ListViewHandle, dwMask)
-If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-If ListViewHeaderHandle <> NULL_PTR Then
-    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = 0
-    Call ComCtlsSetRightToLeft(ListViewHeaderHandle, dwMask)
-    If Me.ColumnHeaders.Count > 0 Then
-        Dim i As Long
-        For i = 1 To Me.ColumnHeaders.Count
-            Call SetColumnRTLReading(i, CBool(PropRightToLeft = True And PropRightToLeftLayout = False))
-        Next i
-    End If
-End If
-If ListViewToolTipHandle <> NULL_PTR Then
-    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = 0
-    Call ComCtlsSetRightToLeft(ListViewToolTipHandle, dwMask)
-End If
-If ListViewHeaderToolTipHandle <> NULL_PTR Then
-    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = 0
-    Call ComCtlsSetRightToLeft(ListViewHeaderToolTipHandle, dwMask)
-End If
+PropRightToLeft = False 'Value
+'UserControl.RightToLeft = PropRightToLeft
+'Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
+'Dim dwMask As Long
+'If ListViewDesignMode = False Then
+'    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
+'    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'    dwMask = 0
+'End If
+'If PropRightToLeft = True Then
+'    If PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = WS_EX_RTLREADING
+'End If
+'If ListViewHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ListViewHandle, dwMask)
+'If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'If ListViewHeaderHandle <> NULL_PTR Then
+'    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = 0
+'    Call ComCtlsSetRightToLeft(ListViewHeaderHandle, dwMask)
+'    If Me.ColumnHeaders.Count > 0 Then
+'        Dim i As Long
+'        For i = 1 To Me.ColumnHeaders.Count
+'            Call SetColumnRTLReading(i, CBool(PropRightToLeft = True And PropRightToLeftLayout = False))
+'        Next i
+'    End If
+'End If
+'If ListViewToolTipHandle <> NULL_PTR Then
+'    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = 0
+'    Call ComCtlsSetRightToLeft(ListViewToolTipHandle, dwMask)
+'End If
+'If ListViewHeaderToolTipHandle <> NULL_PTR Then
+'    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = 0
+'    Call ComCtlsSetRightToLeft(ListViewHeaderToolTipHandle, dwMask)
+'End If
 UserControl.PropertyChanged "RightToLeft"
 End Property
 
@@ -2653,19 +2653,20 @@ End Property
 
 Public Property Get ColumnHeaderIcons() As Variant
 Attribute ColumnHeaderIcons.VB_Description = "Returns/sets the image list control to be used for the column header icons."
-If ListViewDesignMode = False Then
-    If ListViewColumnHeaderIconsHandle = NULL_PTR Then
-        If PropColumnHeaderIconsInit = False And ListViewColumnHeaderIconsObjectPointer = NULL_PTR Then
-            If Not PropColumnHeaderIconsName = "(None)" Then Me.ColumnHeaderIcons = PropColumnHeaderIconsName
-            PropColumnHeaderIconsInit = True
-        End If
-        Set ColumnHeaderIcons = PropColumnHeaderIconsControl
-    Else
-        ColumnHeaderIcons = ListViewColumnHeaderIconsHandle
-    End If
-Else
-    ColumnHeaderIcons = PropColumnHeaderIconsName
-End If
+'If ListViewDesignMode = False Then
+'    If ListViewColumnHeaderIconsHandle = NULL_PTR Then
+'        If PropColumnHeaderIconsInit = False And ListViewColumnHeaderIconsObjectPointer = NULL_PTR Then
+'            If Not PropColumnHeaderIconsName = "(None)" Then Me.ColumnHeaderIcons = PropColumnHeaderIconsName
+'            PropColumnHeaderIconsInit = True
+'        End If
+'        Set ColumnHeaderIcons = PropColumnHeaderIconsControl
+'    Else
+'        ColumnHeaderIcons = ListViewColumnHeaderIconsHandle
+'    End If
+'Else
+'    ColumnHeaderIcons = PropColumnHeaderIconsName
+'End If
+ColumnHeaderIcons = "(None)"
 End Property
 
 Public Property Set ColumnHeaderIcons(ByVal Value As Variant)
@@ -2673,85 +2674,85 @@ Me.ColumnHeaderIcons = Value
 End Property
 
 Public Property Let ColumnHeaderIcons(ByVal Value As Variant)
-If ListViewDesignMode = False Then
-    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHandle <> NULL_PTR And ListViewHeaderHandle <> NULL_PTR Then
-        Dim Success As Boolean, Handle As LongPtr
-        Select Case VarType(Value)
-            Case vbObject
-                If Not Value Is Nothing Then
-                    If TypeName(Value) = "ImageList" Then
-                        On Error Resume Next
-                        Handle = Value.hImageList
-                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                        On Error GoTo 0
-                    Else
-                        Err.Raise Number:=35610, Description:="Invalid object"
-                    End If
-                End If
-                If Success = True Then
-                    SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal Handle
-                    ListViewColumnHeaderIconsObjectPointer = ObjPtr(Value)
-                    ListViewColumnHeaderIconsHandle = NULL_PTR
-                    PropColumnHeaderIconsName = ProperControlName(Value)
-                End If
-            Case vbString
-                On Error Resume Next
-                Dim ControlEnum As Object, CompareName As String
-                For Each ControlEnum In UserControl.ParentControls
-                    If TypeName(ControlEnum) = "ImageList" Then
-                        CompareName = ProperControlName(ControlEnum)
-                        If CompareName = Value And Not CompareName = vbNullString Then
-                            Err.Clear
-                            Handle = ControlEnum.hImageList
-                            Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                            If Success = True Then
-                                SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal Handle
-                                ListViewColumnHeaderIconsObjectPointer = ObjPtr(ControlEnum)
-                                ListViewColumnHeaderIconsHandle = NULL_PTR
-                                PropColumnHeaderIconsName = Value
-                                Exit For
-                            End If
-                        End If
-                    End If
-                Next ControlEnum
-                On Error GoTo 0
-            Case vbLong, &H14 ' vbLongLong
-                Handle = Value
-                Success = CBool(Handle <> NULL_PTR)
-                If Success = True Then
-                    SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal Handle
-                    ListViewColumnHeaderIconsObjectPointer = NULL_PTR
-                    ListViewColumnHeaderIconsHandle = Handle
-                    PropColumnHeaderIconsName = "(None)"
-                End If
-            Case Else
-                Err.Raise 13
-        End Select
-        If Success = False Then
-            SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal 0&
-            ListViewColumnHeaderIconsObjectPointer = NULL_PTR
-            ListViewColumnHeaderIconsHandle = NULL_PTR
-            PropColumnHeaderIconsName = "(None)"
-        ElseIf Handle = NULL_PTR Then
-            SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal 0&
-        End If
-        If Me.ColumnHeaders.Count > 0 Then
-            Dim i As Long, Icon As Long
-            For i = 1 To Me.ColumnHeaders.Count
-                Icon = Me.FColumnHeaderIcon(i)
-                If Icon > 0 Then Me.FColumnHeaderIcon(i) = Icon
-            Next i
-        End If
-        ' Hide and immediately show again to ensure that HDM_LAYOUT will be sent.
-        ShowWindow ListViewHandle, SW_HIDE
-        ShowWindow ListViewHandle, SW_SHOW
-        ' Set the font again to force the view area to reflect the change.
-        If ListViewFontHandle <> NULL_PTR Then SendMessage ListViewHandle, WM_SETFONT, ListViewFontHandle, ByVal 1&
-    End If
-Else
-    PropColumnHeaderIconsName = Value
-End If
+'If ListViewDesignMode = False Then
+'    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'    If ListViewHandle <> NULL_PTR And ListViewHeaderHandle <> NULL_PTR Then
+'        Dim Success As Boolean, Handle As LongPtr
+'        Select Case VarType(Value)
+'            Case vbObject
+'                If Not Value Is Nothing Then
+'                    If TypeName(Value) = "ImageList" Then
+'                        On Error Resume Next
+'                        Handle = Value.hImageList
+'                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                        On Error GoTo 0
+'                    Else
+'                        Err.Raise Number:=35610, Description:="Invalid object"
+'                    End If
+'                End If
+'                If Success = True Then
+'                    SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal Handle
+'                    ListViewColumnHeaderIconsObjectPointer = ObjPtr(Value)
+'                    ListViewColumnHeaderIconsHandle = NULL_PTR
+'                    PropColumnHeaderIconsName = ProperControlName(Value)
+'                End If
+'            Case vbString
+'                On Error Resume Next
+'                Dim ControlEnum As Object, CompareName As String
+'                For Each ControlEnum In UserControl.ParentControls
+'                    If TypeName(ControlEnum) = "ImageList" Then
+'                        CompareName = ProperControlName(ControlEnum)
+'                        If CompareName = Value And Not CompareName = vbNullString Then
+'                            Err.Clear
+'                            Handle = ControlEnum.hImageList
+'                            Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                            If Success = True Then
+'                                SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal Handle
+'                                ListViewColumnHeaderIconsObjectPointer = ObjPtr(ControlEnum)
+'                                ListViewColumnHeaderIconsHandle = NULL_PTR
+'                                PropColumnHeaderIconsName = Value
+'                                Exit For
+'                            End If
+'                        End If
+'                    End If
+'                Next ControlEnum
+'                On Error GoTo 0
+'            Case vbLong, &H14 ' vbLongLong
+'                Handle = Value
+'                Success = CBool(Handle <> NULL_PTR)
+'                If Success = True Then
+'                    SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal Handle
+'                    ListViewColumnHeaderIconsObjectPointer = NULL_PTR
+'                    ListViewColumnHeaderIconsHandle = Handle
+'                    PropColumnHeaderIconsName = "(None)"
+'                End If
+'            Case Else
+'                Err.Raise 13
+'        End Select
+'        If Success = False Then
+'            SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal 0&
+'            ListViewColumnHeaderIconsObjectPointer = NULL_PTR
+'            ListViewColumnHeaderIconsHandle = NULL_PTR
+'            PropColumnHeaderIconsName = "(None)"
+'        ElseIf Handle = NULL_PTR Then
+'            SendMessage ListViewHeaderHandle, HDM_SETIMAGELIST, HDSIL_NORMAL, ByVal 0&
+'        End If
+'        If Me.ColumnHeaders.Count > 0 Then
+'            Dim i As Long, Icon As Long
+'            For i = 1 To Me.ColumnHeaders.Count
+'                Icon = Me.FColumnHeaderIcon(i)
+'                If Icon > 0 Then Me.FColumnHeaderIcon(i) = Icon
+'            Next i
+'        End If
+'        ' Hide and immediately show again to ensure that HDM_LAYOUT will be sent.
+'        ShowWindow ListViewHandle, SW_HIDE
+'        ShowWindow ListViewHandle, SW_SHOW
+'        ' Set the font again to force the view area to reflect the change.
+'        If ListViewFontHandle <> NULL_PTR Then SendMessage ListViewHandle, WM_SETFONT, ListViewFontHandle, ByVal 1&
+'    End If
+'Else
+'    PropColumnHeaderIconsName = Value
+'End If
 UserControl.PropertyChanged "ColumnHeaderIcons"
 End Property
 
@@ -2777,72 +2778,72 @@ Me.GroupIcons = Value
 End Property
 
 Public Property Let GroupIcons(ByVal Value As Variant)
-If ListViewDesignMode = False Then
-    If ListViewHandle <> NULL_PTR Then
-        Dim Success As Boolean, Handle As LongPtr
-        Select Case VarType(Value)
-            Case vbObject
-                If Not Value Is Nothing Then
-                    If TypeName(Value) = "ImageList" Then
-                        On Error Resume Next
-                        Handle = Value.hImageList
-                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                        On Error GoTo 0
-                    Else
-                        Err.Raise Number:=35610, Description:="Invalid object"
-                    End If
-                End If
-                If Success = True Then
-                    If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal Handle
-                    ListViewGroupIconsObjectPointer = ObjPtr(Value)
-                    ListViewGroupIconsHandle = NULL_PTR
-                    PropGroupIconsName = ProperControlName(Value)
-                End If
-            Case vbString
-                On Error Resume Next
-                Dim ControlEnum As Object, CompareName As String
-                For Each ControlEnum In UserControl.ParentControls
-                    If TypeName(ControlEnum) = "ImageList" Then
-                        CompareName = ProperControlName(ControlEnum)
-                        If CompareName = Value And Not CompareName = vbNullString Then
-                            Err.Clear
-                            Handle = ControlEnum.hImageList
-                            Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                            If Success = True Then
-                                If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal Handle
-                                ListViewGroupIconsObjectPointer = ObjPtr(ControlEnum)
-                                ListViewGroupIconsHandle = NULL_PTR
-                                PropGroupIconsName = Value
-                                Exit For
-                            End If
-                        End If
-                    End If
-                Next ControlEnum
-                On Error GoTo 0
-            Case vbLong, &H14 ' vbLongLong
-                Handle = Value
-                Success = CBool(Handle <> NULL_PTR)
-                If Success = True Then
-                    If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal Handle
-                    ListViewGroupIconsObjectPointer = NULL_PTR
-                    ListViewGroupIconsHandle = Handle
-                    PropGroupIconsName = "(None)"
-                End If
-            Case Else
-                Err.Raise 13
-        End Select
-        If Success = False Then
-            If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal 0&
-            ListViewGroupIconsObjectPointer = NULL_PTR
-            ListViewGroupIconsHandle = NULL_PTR
-            PropGroupIconsName = "(None)"
-        ElseIf Handle = NULL_PTR Then
-            If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal 0&
-        End If
-    End If
-Else
-    PropGroupIconsName = Value
-End If
+'If ListViewDesignMode = False Then
+'    If ListViewHandle <> NULL_PTR Then
+'        Dim Success As Boolean, Handle As LongPtr
+'        Select Case VarType(Value)
+'            Case vbObject
+'                If Not Value Is Nothing Then
+'                    If TypeName(Value) = "ImageList" Then
+'                        On Error Resume Next
+'                        Handle = Value.hImageList
+'                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                        On Error GoTo 0
+'                    Else
+'                        Err.Raise Number:=35610, Description:="Invalid object"
+'                    End If
+'                End If
+'                If Success = True Then
+'                    If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal Handle
+'                    ListViewGroupIconsObjectPointer = ObjPtr(Value)
+'                    ListViewGroupIconsHandle = NULL_PTR
+'                    PropGroupIconsName = ProperControlName(Value)
+'                End If
+'            Case vbString
+'                On Error Resume Next
+'                Dim ControlEnum As Object, CompareName As String
+'                For Each ControlEnum In UserControl.ParentControls
+'                    If TypeName(ControlEnum) = "ImageList" Then
+'                        CompareName = ProperControlName(ControlEnum)
+'                        If CompareName = Value And Not CompareName = vbNullString Then
+'                            Err.Clear
+'                            Handle = ControlEnum.hImageList
+'                            Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                            If Success = True Then
+'                                If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal Handle
+'                                ListViewGroupIconsObjectPointer = ObjPtr(ControlEnum)
+'                                ListViewGroupIconsHandle = NULL_PTR
+'                                PropGroupIconsName = Value
+'                                Exit For
+'                            End If
+'                        End If
+'                    End If
+'                Next ControlEnum
+'                On Error GoTo 0
+'            Case vbLong, &H14 ' vbLongLong
+'                Handle = Value
+'                Success = CBool(Handle <> NULL_PTR)
+'                If Success = True Then
+'                    If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal Handle
+'                    ListViewGroupIconsObjectPointer = NULL_PTR
+'                    ListViewGroupIconsHandle = Handle
+'                    PropGroupIconsName = "(None)"
+'                End If
+'            Case Else
+'                Err.Raise 13
+'        End Select
+'        If Success = False Then
+'            If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal 0&
+'            ListViewGroupIconsObjectPointer = NULL_PTR
+'            ListViewGroupIconsHandle = NULL_PTR
+'            PropGroupIconsName = "(None)"
+'        ElseIf Handle = NULL_PTR Then
+'            If ComCtlsSupportLevel() >= 2 Then SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_GROUPHEADER, ByVal 0&
+'        End If
+'    End If
+'Else
+'    PropGroupIconsName = Value
+'End If
 UserControl.PropertyChanged "GroupIcons"
 End Property
 
@@ -3179,16 +3180,7 @@ Sorted = PropSorted
 End Property
 
 Public Property Let Sorted(ByVal Value As Boolean)
-If PropVirtualMode = True And Value = True Then
-    If ListViewDesignMode = True Then
-        MsgBoxInternal "Sorted must be False when VirtualMode is True", vbCritical + vbOKOnly
-        Exit Property
-    Else
-        Err.Raise Number:=383, Description:="Sorted must be False when VirtualMode is True"
-    End If
-End If
 PropSorted = Value
-If PropSorted = True And ListViewDesignMode = False Then Call SortListItems
 UserControl.PropertyChanged "Sorted"
 End Property
 
@@ -3198,16 +3190,7 @@ SortKey = PropSortKey
 End Property
 
 Public Property Let SortKey(ByVal Value As Integer)
-If Value < 0 Then
-    If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-        Exit Property
-    Else
-        Err.Raise 380
-    End If
-End If
 PropSortKey = Value
-If PropSorted = True And ListViewDesignMode = False Then Call SortListItems
 UserControl.PropertyChanged "SortKey"
 End Property
 
@@ -3217,13 +3200,6 @@ SortOrder = PropSortOrder
 End Property
 
 Public Property Let SortOrder(ByVal Value As LvwSortOrderConstants)
-Select Case Value
-    Case LvwSortOrderAscending, LvwSortOrderDescending
-        PropSortOrder = Value
-    Case Else
-        Err.Raise 380
-End Select
-If PropSorted = True And ListViewDesignMode = False Then Call SortListItems
 UserControl.PropertyChanged "SortOrder"
 End Property
 
@@ -3233,13 +3209,6 @@ SortType = PropSortType
 End Property
 
 Public Property Let SortType(ByVal Value As LvwSortTypeConstants)
-Select Case Value
-    Case LvwSortTypeBinary, LvwSortTypeText, LvwSortTypeNumeric, LvwSortTypeCurrency, LvwSortTypeDate, LvwSortTypeLogical
-        PropSortType = Value
-    Case Else
-        Err.Raise 380
-End Select
-If PropSorted = True And ListViewDesignMode = False Then Call SortListItems
 UserControl.PropertyChanged "SortType"
 End Property
 
@@ -3267,17 +3236,17 @@ End Property
 
 Public Property Let HideSelection(ByVal Value As Boolean)
 PropHideSelection = Value
-If ListViewHandle <> NULL_PTR Then
-    Dim dwStyle As Long
-    dwStyle = GetWindowLong(ListViewHandle, GWL_STYLE)
-    If PropHideSelection = True Then
-        If (dwStyle And LVS_SHOWSELALWAYS) = LVS_SHOWSELALWAYS Then dwStyle = dwStyle And Not LVS_SHOWSELALWAYS
-    Else
-        If Not (dwStyle And LVS_SHOWSELALWAYS) = LVS_SHOWSELALWAYS Then dwStyle = dwStyle Or LVS_SHOWSELALWAYS
-    End If
-    SetWindowLong ListViewHandle, GWL_STYLE, dwStyle
-    Me.Refresh
-End If
+'If ListViewHandle <> NULL_PTR Then
+'    Dim dwStyle As Long
+'    dwStyle = GetWindowLong(ListViewHandle, GWL_STYLE)
+'    If PropHideSelection = True Then
+'        If (dwStyle And LVS_SHOWSELALWAYS) = LVS_SHOWSELALWAYS Then dwStyle = dwStyle And Not LVS_SHOWSELALWAYS
+'    Else
+'        If Not (dwStyle And LVS_SHOWSELALWAYS) = LVS_SHOWSELALWAYS Then dwStyle = dwStyle Or LVS_SHOWSELALWAYS
+'    End If
+'    SetWindowLong ListViewHandle, GWL_STYLE, dwStyle
+'    Me.Refresh
+'End If
 UserControl.PropertyChanged "HideSelection"
 End Property
 
@@ -3622,81 +3591,81 @@ Set Picture = PropPicture
 End Property
 
 Public Property Let Picture(ByVal Value As IPictureDisp)
-Set Me.Picture = Value
+'Set Me.Picture = Value
 End Property
 
 Public Property Set Picture(ByVal Value As IPictureDisp)
-Dim LVBKI As LVBKIMAGE
-With LVBKI
-If Value Is Nothing Then
-    Set PropPicture = Nothing
-    If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then
-        .hBmp = NULL_PTR
-        .ulFlags = LVBKIF_SOURCE_NONE
-        SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
-        .ulFlags = LVBKIF_TYPE_WATERMARK
-        SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
-    End If
-Else
-    Set UserControl.Picture = Value
-    Set PropPicture = UserControl.Picture
-    Set UserControl.Picture = Nothing
-    If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then
-        .hBmp = NULL_PTR
-        .ulFlags = LVBKIF_SOURCE_NONE
-        SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
-        .ulFlags = LVBKIF_TYPE_WATERMARK
-        SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
-        .ulFlags = LVBKIF_STYLE_NORMAL
-        If Value.Handle <> NULL_PTR Then
-            .hBmp = BitmapHandleFromPicture(PropPicture, PropBackColor)
-            If PropPictureWatermark = False Then
-                ' There is a much better result without LVS_EX_DOUBLEBUFFER
-                ' when loading picture by 'hBmp'. (Weighing the pros and cons)
-                If PropDoubleBuffer = True Then Me.DoubleBuffer = False
-                Select Case PropPictureAlignment
-                    Case LvwPictureAlignmentTopLeft
-                        .XOffsetPercent = 0
-                        .YOffsetPercent = 0
-                    Case LvwPictureAlignmentTopRight
-                        .XOffsetPercent = 100
-                        .YOffsetPercent = 0
-                    Case LvwPictureAlignmentBottomLeft
-                        .XOffsetPercent = 0
-                        .YOffsetPercent = 100
-                    Case LvwPictureAlignmentBottomRight
-                        .XOffsetPercent = 100
-                        .YOffsetPercent = 100
-                    Case LvwPictureAlignmentCenter
-                        .XOffsetPercent = 50
-                        .YOffsetPercent = 50
-                    Case LvwPictureAlignmentTile
-                        ' There is a better result when no column is selected.
-                        Set Me.SelectedColumn = Nothing
-                        .ulFlags = .ulFlags Or LVBKIF_STYLE_TILE
-                        If ComCtlsSupportLevel() >= 2 And PropView = LvwViewReport Then
-                            If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-                            If ListViewHeaderHandle <> NULL_PTR Then
-                                .ulFlags = .ulFlags Or LVBKIF_FLAG_TILEOFFSET
-                                Dim RC As RECT
-                                GetWindowRect ListViewHeaderHandle, RC
-                                .YOffsetPercent = -(RC.Bottom - RC.Top)
-                            End If
-                        End If
-                End Select
-                .ulFlags = .ulFlags Or LVBKIF_SOURCE_HBITMAP
-            Else
-                ' Here it does not matter whether LVS_EX_DOUBLEBUFFER is set or not.
-                ' Though it is better to set it as it reduces flicker, especially
-                ' when a watermark is in place.
-                If PropDoubleBuffer = False Then Me.DoubleBuffer = True
-                .ulFlags = .ulFlags Or LVBKIF_TYPE_WATERMARK
-            End If
-            SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
-        End If
-    End If
-End If
-End With
+'Dim LVBKI As LVBKIMAGE
+'With LVBKI
+'If Value Is Nothing Then
+'    Set PropPicture = Nothing
+'    If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then
+'        .hBmp = NULL_PTR
+'        .ulFlags = LVBKIF_SOURCE_NONE
+'        SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
+'        .ulFlags = LVBKIF_TYPE_WATERMARK
+'        SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
+'    End If
+'Else
+'    Set UserControl.Picture = Value
+'    Set PropPicture = UserControl.Picture
+'    Set UserControl.Picture = Nothing
+'    If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then
+'        .hBmp = NULL_PTR
+'        .ulFlags = LVBKIF_SOURCE_NONE
+'        SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
+'        .ulFlags = LVBKIF_TYPE_WATERMARK
+'        SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
+'        .ulFlags = LVBKIF_STYLE_NORMAL
+'        If Value.Handle <> NULL_PTR Then
+'            .hBmp = BitmapHandleFromPicture(PropPicture, PropBackColor)
+'            If PropPictureWatermark = False Then
+'                ' There is a much better result without LVS_EX_DOUBLEBUFFER
+'                ' when loading picture by 'hBmp'. (Weighing the pros and cons)
+'                If PropDoubleBuffer = True Then Me.DoubleBuffer = False
+'                Select Case PropPictureAlignment
+'                    Case LvwPictureAlignmentTopLeft
+'                        .XOffsetPercent = 0
+'                        .YOffsetPercent = 0
+'                    Case LvwPictureAlignmentTopRight
+'                        .XOffsetPercent = 100
+'                        .YOffsetPercent = 0
+'                    Case LvwPictureAlignmentBottomLeft
+'                        .XOffsetPercent = 0
+'                        .YOffsetPercent = 100
+'                    Case LvwPictureAlignmentBottomRight
+'                        .XOffsetPercent = 100
+'                        .YOffsetPercent = 100
+'                    Case LvwPictureAlignmentCenter
+'                        .XOffsetPercent = 50
+'                        .YOffsetPercent = 50
+'                    Case LvwPictureAlignmentTile
+'                        ' There is a better result when no column is selected.
+'                        Set Me.SelectedColumn = Nothing
+'                        .ulFlags = .ulFlags Or LVBKIF_STYLE_TILE
+'                        If ComCtlsSupportLevel() >= 2 And PropView = LvwViewReport Then
+'                            If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'                            If ListViewHeaderHandle <> NULL_PTR Then
+'                                .ulFlags = .ulFlags Or LVBKIF_FLAG_TILEOFFSET
+'                                Dim RC As RECT
+'                                GetWindowRect ListViewHeaderHandle, RC
+'                                .YOffsetPercent = -(RC.Bottom - RC.Top)
+'                            End If
+'                        End If
+'                End Select
+'                .ulFlags = .ulFlags Or LVBKIF_SOURCE_HBITMAP
+'            Else
+'                ' Here it does not matter whether LVS_EX_DOUBLEBUFFER is set or not.
+'                ' Though it is better to set it as it reduces flicker, especially
+'                ' when a watermark is in place.
+'                If PropDoubleBuffer = False Then Me.DoubleBuffer = True
+'                .ulFlags = .ulFlags Or LVBKIF_TYPE_WATERMARK
+'            End If
+'            SendMessage ListViewHandle, LVM_SETBKIMAGE, 0, ByVal VarPtr(LVBKI)
+'        End If
+'    End If
+'End If
+'End With
 UserControl.PropertyChanged "Picture"
 End Property
 
@@ -3852,27 +3821,7 @@ UseColumnFilterBar = PropUseColumnFilterBar
 End Property
 
 Public Property Let UseColumnFilterBar(ByVal Value As Boolean)
-PropUseColumnFilterBar = Value
-If ListViewHandle <> NULL_PTR Then
-    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim dwStyle As Long
-        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
-        If Not PropUseColumnFilterBar = CBool((dwStyle And HDS_FILTERBAR) = HDS_FILTERBAR) Then
-            If PropUseColumnFilterBar = True Then
-                If Not (dwStyle And HDS_FILTERBAR) = HDS_FILTERBAR Then dwStyle = dwStyle Or HDS_FILTERBAR
-            Else
-                If (dwStyle And HDS_FILTERBAR) = HDS_FILTERBAR Then dwStyle = dwStyle And Not HDS_FILTERBAR
-            End If
-            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
-            ' Hide and immediately show again to ensure that HDM_LAYOUT will be sent.
-            ShowWindow ListViewHandle, SW_HIDE
-            ShowWindow ListViewHandle, SW_SHOW
-            ' Set the font again to force the view area to reflect the change.
-            If ListViewFontHandle <> NULL_PTR Then SendMessage ListViewHandle, WM_SETFONT, ListViewFontHandle, ByVal 1&
-        End If
-    End If
-End If
+PropUseColumnFilterBar = False
 UserControl.PropertyChanged "UseColumnFilterBar"
 End Property
 
@@ -3920,17 +3869,7 @@ VirtualMode = PropVirtualMode
 End Property
 
 Public Property Let VirtualMode(ByVal Value As Boolean)
-If ListViewDesignMode = False Then
-    Err.Raise Number:=382, Description:="VirtualMode property is read-only at run time"
-Else
-    PropVirtualMode = Value
-    If PropVirtualMode = True Then
-        If PropView = LvwViewTile Then PropView = LvwViewIcon
-        PropArrange = LvwArrangeNone
-        PropSorted = False
-        PropGroupView = False
-    End If
-End If
+PropVirtualMode = False
 UserControl.PropertyChanged "VirtualMode"
 End Property
 
@@ -3940,35 +3879,6 @@ VirtualItemCount = PropVirtualItemCount
 End Property
 
 Public Property Let VirtualItemCount(ByVal Value As Long)
-If Value < 0 Or Value > 100000000 Then
-    ' According to MSDN:
-    ' There is a 100,000,000 item limit on a virtualized list view.
-    If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-        Exit Property
-    Else
-        Err.Raise 380
-    End If
-End If
-If PropVirtualMode = True Then
-    If ListViewHandle <> NULL_PTR And ListViewDesignMode = False Then
-        If SendMessage(ListViewHandle, LVM_SETITEMCOUNT, Value, ByVal LVSICF_NOSCROLL) = 0 Then Err.Raise 380
-        If ListViewListItemsControl = 0 Then
-            Dim LVI As LVITEM
-            With LVI
-            If PropAutoSelectFirstItem = True Then
-                .StateMask = LVIS_SELECTED Or LVIS_FOCUSED
-                .State = LVIS_SELECTED Or LVIS_FOCUSED
-            Else
-                .StateMask = LVIS_FOCUSED
-                .State = LVIS_FOCUSED
-            End If
-            End With
-            SendMessage ListViewHandle, LVM_SETITEMSTATE, 0, ByVal VarPtr(LVI)
-        End If
-        ListViewListItemsControl = Value
-    End If
-End If
 PropVirtualItemCount = Value
 UserControl.PropertyChanged "VirtualItemCount"
 End Property
@@ -3980,14 +3890,6 @@ VirtualDisabledInfos = PropVirtualDisabledInfos
 End Property
 
 Public Property Let VirtualDisabledInfos(ByVal Value As LvwVirtualPropertyConstants)
-If Value < 0 Then
-    If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-        Exit Property
-    Else
-        Err.Raise 380
-    End If
-End If
 PropVirtualDisabledInfos = Value
 UserControl.PropertyChanged "VirtualDisabledInfos"
 End Property
@@ -4027,7 +3929,6 @@ With LVI
 .iIndent = 0
 End With
 If ListViewHandle <> NULL_PTR Then SendMessage ListViewHandle, LVM_INSERTITEM, 0, ByVal VarPtr(LVI)
-If PropSorted = True Then If PropSortKey = 0 Then Call SortListItems
 End Sub
 
 Friend Sub FListItemsRemove(ByVal Index As Long)
@@ -4914,130 +4815,19 @@ End If
 End Property
 
 Friend Property Get FColumnHeaderFilterType(ByVal Index As Long) As LvwColumnHeaderFilterTypeConstants
-If ListViewHandle <> NULL_PTR Then
-    ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim HDI As HDITEM
-        With HDI
-        .Mask = HDI_FILTER
-        SendMessage ListViewHeaderHandle, HDM_GETITEM, Index - 1, ByVal VarPtr(HDI)
-        If (.FilterType And HDFT_HASNOVALUE) = HDFT_HASNOVALUE Then .FilterType = .FilterType And Not HDFT_HASNOVALUE
-        Select Case .FilterType
-            Case HDFT_ISSTRING
-                FColumnHeaderFilterType = LvwColumnHeaderFilterTypeText
-            Case HDFT_ISNUMBER
-                FColumnHeaderFilterType = LvwColumnHeaderFilterTypeNumber
-        End Select
-        End With
-    End If
-End If
+FColumnHeaderFilterType = LvwColumnHeaderFilterTypeText
 End Property
 
 Friend Property Let FColumnHeaderFilterType(ByVal Index As Long, ByVal Value As LvwColumnHeaderFilterTypeConstants)
-If ListViewHandle <> NULL_PTR Then
-    ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Select Case Value
-            Case LvwColumnHeaderFilterTypeText, LvwColumnHeaderFilterTypeNumber
-                Dim HDI As HDITEM
-                With HDI
-                .Mask = HDI_FILTER
-                .FilterType = Value
-                Select Case .FilterType
-                    Case HDFT_ISSTRING
-                        Dim HDTF As HDTEXTFILTER
-                        .pvFilter = VarPtr(HDTF)
-                    Case HDFT_ISNUMBER
-                        Dim LngValue As Long
-                        .pvFilter = VarPtr(LngValue)
-                End Select
-                SendMessage ListViewHeaderHandle, HDM_SETITEM, Index - 1, ByVal VarPtr(HDI)
-                .FilterType = .FilterType Or HDFT_HASNOVALUE
-                .pvFilter = NULL_PTR
-                SendMessage ListViewHeaderHandle, HDM_SETITEM, Index - 1, ByVal VarPtr(HDI)
-                End With
-            Case Else
-                Err.Raise 380
-        End Select
-    End If
-End If
+'
 End Property
 
 Friend Property Get FColumnHeaderFilterValue(ByVal Index As Long) As Variant
-If ListViewHandle <> NULL_PTR Then
-    ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim HDI As HDITEM
-        With HDI
-        .Mask = HDI_FILTER
-        SendMessage ListViewHeaderHandle, HDM_GETITEM, Index - 1, ByVal VarPtr(HDI)
-        If (.FilterType And HDFT_HASNOVALUE) = HDFT_HASNOVALUE Then
-            FColumnHeaderFilterValue = Null
-        Else
-            Select Case .FilterType
-                Case HDFT_ISSTRING
-                    Dim HDTF As HDTEXTFILTER, Buffer As String
-                    Buffer = String(MAX_PATH, vbNullChar) & vbNullChar
-                    HDTF.pszText = StrPtr(Buffer)
-                    HDTF.cchTextMax = Len(Buffer)
-                    .pvFilter = VarPtr(HDTF)
-                    SendMessage ListViewHeaderHandle, HDM_GETITEM, Index - 1, ByVal VarPtr(HDI)
-                    FColumnHeaderFilterValue = Left$(Buffer, InStr(Buffer, vbNullChar) - 1)
-                Case HDFT_ISNUMBER
-                    Dim LngValue As Long
-                    .pvFilter = VarPtr(LngValue)
-                    SendMessage ListViewHeaderHandle, HDM_GETITEM, Index - 1, ByVal VarPtr(HDI)
-                    FColumnHeaderFilterValue = LngValue
-            End Select
-        End If
-        End With
-    End If
-End If
+FColumnHeaderFilterValue = ""
 End Property
 
 Friend Property Let FColumnHeaderFilterValue(ByVal Index As Long, ByVal Value As Variant)
-If ListViewHandle <> NULL_PTR Then
-    ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim HDI As HDITEM
-        With HDI
-        .Mask = HDI_FILTER
-        SendMessage ListViewHeaderHandle, HDM_GETITEM, Index - 1, ByVal VarPtr(HDI)
-        If (.FilterType And HDFT_HASNOVALUE) = HDFT_HASNOVALUE Then .FilterType = .FilterType And Not HDFT_HASNOVALUE
-        Select Case .FilterType
-            Case HDFT_ISSTRING
-                Dim HDTF As HDTEXTFILTER
-                Select Case VarType(Value)
-                    Case vbString
-                        HDTF.pszText = StrPtr(Value)
-                        HDTF.cchTextMax = Len(Value)
-                        .pvFilter = VarPtr(HDTF)
-                    Case vbNull, vbEmpty
-                        .FilterType = .FilterType Or HDFT_HASNOVALUE
-                        .pvFilter = NULL_PTR
-                    Case Else
-                        Err.Raise 13
-                End Select
-            Case HDFT_ISNUMBER
-                Dim LngValue As Long
-                Select Case VarType(Value)
-                    Case vbLong, vbInteger, vbByte
-                        LngValue = Value
-                        .pvFilter = VarPtr(LngValue)
-                    Case vbDouble, vbSingle
-                        LngValue = CLng(Value)
-                        .pvFilter = VarPtr(LngValue)
-                    Case vbNull, vbEmpty
-                        .FilterType = .FilterType Or HDFT_HASNOVALUE
-                        .pvFilter = NULL_PTR
-                    Case Else
-                        Err.Raise 13
-                End Select
-        End Select
-        SendMessage ListViewHeaderHandle, HDM_SETITEM, Index - 1, ByVal VarPtr(HDI)
-        End With
-    End If
-End If
+'
 End Property
 
 Friend Property Get FColumnHeaderLeft(ByVal Index As Long) As Single
@@ -7304,161 +7094,6 @@ If ListViewHandle <> NULL_PTR Then
 End If
 End Sub
 
-Private Sub SortListItems()
-If PropVirtualMode = True Then Exit Sub
-If ListViewHandle <> NULL_PTR Then
-    If SendMessage(ListViewHandle, LVM_GETITEMCOUNT, 0, ByVal 0&) > 0 Then
-        If PropSortKey > Me.ColumnHeaders.Count Then PropSortKey = Me.ColumnHeaders.Count
-        Dim Address As LongPtr
-        Select Case PropSortType
-            Case LvwSortTypeBinary
-                Address = ProcPtr(AddressOf ComCtlsLvwSortingFunctionBinary)
-            Case LvwSortTypeText
-                Address = ProcPtr(AddressOf ComCtlsLvwSortingFunctionText)
-            Case LvwSortTypeNumeric
-                Address = ProcPtr(AddressOf ComCtlsLvwSortingFunctionNumeric)
-            Case LvwSortTypeCurrency
-                Address = ProcPtr(AddressOf ComCtlsLvwSortingFunctionCurrency)
-            Case LvwSortTypeDate
-                Address = ProcPtr(AddressOf ComCtlsLvwSortingFunctionDate)
-            Case LvwSortTypeLogical
-                Address = ProcPtr(AddressOf ComCtlsLvwSortingFunctionLogical)
-        End Select
-        If Address <> NULL_PTR Then
-            Dim This As CCISubclass
-            Set This = Me
-            SendMessage ListViewHandle, LVM_SORTITEMSEX, ObjPtr(This), ByVal Address
-        End If
-    End If
-End If
-End Sub
-
-Private Function ListItemsSortingFunctionBinary(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FListItemText(CLng(lParam1) + 1, PropSortKey)
-Text2 = Me.FListItemText(CLng(lParam2) + 1, PropSortKey)
-ListItemsSortingFunctionBinary = lstrcmp(StrPtr(Text1), StrPtr(Text2))
-If PropSortOrder = LvwSortOrderDescending Then ListItemsSortingFunctionBinary = -ListItemsSortingFunctionBinary
-End Function
-
-Private Function ListItemsSortingFunctionText(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FListItemText(CLng(lParam1) + 1, PropSortKey)
-Text2 = Me.FListItemText(CLng(lParam2) + 1, PropSortKey)
-ListItemsSortingFunctionText = lstrcmpi(StrPtr(Text1), StrPtr(Text2))
-If PropSortOrder = LvwSortOrderDescending Then ListItemsSortingFunctionText = -ListItemsSortingFunctionText
-End Function
-
-Private Function ListItemsSortingFunctionNumeric(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FListItemText(CLng(lParam1) + 1, PropSortKey)
-Text2 = Me.FListItemText(CLng(lParam2) + 1, PropSortKey)
-Dim Dbl1 As Double, Dbl2 As Double
-On Error Resume Next
-Dbl1 = CDbl(Text1)
-Dbl2 = CDbl(Text2)
-On Error GoTo 0
-ListItemsSortingFunctionNumeric = Sgn(Dbl1 - Dbl2)
-If PropSortOrder = LvwSortOrderDescending Then ListItemsSortingFunctionNumeric = -ListItemsSortingFunctionNumeric
-End Function
-
-Private Function ListItemsSortingFunctionCurrency(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FListItemText(CLng(lParam1) + 1, PropSortKey)
-Text2 = Me.FListItemText(CLng(lParam2) + 1, PropSortKey)
-Dim Cur1 As Currency, Cur2 As Currency
-On Error Resume Next
-Cur1 = CCur(Text1)
-Cur2 = CCur(Text2)
-On Error GoTo 0
-ListItemsSortingFunctionCurrency = Sgn(Cur1 - Cur2)
-If PropSortOrder = LvwSortOrderDescending Then ListItemsSortingFunctionCurrency = -ListItemsSortingFunctionCurrency
-End Function
-
-Private Function ListItemsSortingFunctionDate(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FListItemText(CLng(lParam1) + 1, PropSortKey)
-Text2 = Me.FListItemText(CLng(lParam2) + 1, PropSortKey)
-Dim Date1 As Date, Date2 As Date
-On Error Resume Next
-Date1 = CDate(Text1)
-Date2 = CDate(Text2)
-On Error GoTo 0
-ListItemsSortingFunctionDate = Sgn(Date1 - Date2)
-If PropSortOrder = LvwSortOrderDescending Then ListItemsSortingFunctionDate = -ListItemsSortingFunctionDate
-End Function
-
-Private Function ListItemsSortingFunctionLogical(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FListItemText(CLng(lParam1) + 1, PropSortKey)
-Text2 = Me.FListItemText(CLng(lParam2) + 1, PropSortKey)
-ListItemsSortingFunctionLogical = StrCmpLogical(StrPtr(Text1), StrPtr(Text2))
-If PropSortOrder = LvwSortOrderDescending Then ListItemsSortingFunctionLogical = -ListItemsSortingFunctionLogical
-End Function
-
-Private Function GroupsSortingFunctionBinary(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal SortOrder As LvwSortOrderConstants) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FGroupHeader(CLng(lParam1))
-Text2 = Me.FGroupHeader(CLng(lParam2))
-GroupsSortingFunctionBinary = lstrcmp(StrPtr(Text1), StrPtr(Text2))
-If SortOrder = LvwSortOrderDescending Then GroupsSortingFunctionBinary = -GroupsSortingFunctionBinary
-End Function
-
-Private Function GroupsSortingFunctionText(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal SortOrder As LvwSortOrderConstants) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FGroupHeader(CLng(lParam1))
-Text2 = Me.FGroupHeader(CLng(lParam2))
-GroupsSortingFunctionText = lstrcmpi(StrPtr(Text1), StrPtr(Text2))
-If SortOrder = LvwSortOrderDescending Then GroupsSortingFunctionText = -GroupsSortingFunctionText
-End Function
-
-Private Function GroupsSortingFunctionNumeric(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal SortOrder As LvwSortOrderConstants) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FGroupHeader(CLng(lParam1))
-Text2 = Me.FGroupHeader(CLng(lParam2))
-Dim Dbl1 As Double, Dbl2 As Double
-On Error Resume Next
-Dbl1 = CDbl(Text1)
-Dbl2 = CDbl(Text2)
-On Error GoTo 0
-GroupsSortingFunctionNumeric = Sgn(Dbl1 - Dbl2)
-If SortOrder = LvwSortOrderDescending Then GroupsSortingFunctionNumeric = -GroupsSortingFunctionNumeric
-End Function
-
-Private Function GroupsSortingFunctionCurrency(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal SortOrder As LvwSortOrderConstants) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FGroupHeader(CLng(lParam1))
-Text2 = Me.FGroupHeader(CLng(lParam2))
-Dim Cur1 As Currency, Cur2 As Currency
-On Error Resume Next
-Cur1 = CCur(Text1)
-Cur2 = CCur(Text2)
-On Error GoTo 0
-GroupsSortingFunctionCurrency = Sgn(Cur1 - Cur2)
-If SortOrder = LvwSortOrderDescending Then GroupsSortingFunctionCurrency = -GroupsSortingFunctionCurrency
-End Function
-
-Private Function GroupsSortingFunctionDate(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal SortOrder As LvwSortOrderConstants) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FGroupHeader(CLng(lParam1))
-Text2 = Me.FGroupHeader(CLng(lParam2))
-Dim Date1 As Date, Date2 As Date
-On Error Resume Next
-Date1 = CDate(Text1)
-Date2 = CDate(Text2)
-On Error GoTo 0
-GroupsSortingFunctionDate = Sgn(Date1 - Date2)
-If SortOrder = LvwSortOrderDescending Then GroupsSortingFunctionDate = -GroupsSortingFunctionDate
-End Function
-
-Private Function GroupsSortingFunctionLogical(ByVal lParam1 As LongPtr, ByVal lParam2 As LongPtr, ByVal SortOrder As LvwSortOrderConstants) As Long
-Dim Text1 As String, Text2 As String
-Text1 = Me.FGroupHeader(CLng(lParam1))
-Text2 = Me.FGroupHeader(CLng(lParam2))
-GroupsSortingFunctionLogical = StrCmpLogical(StrPtr(Text1), StrPtr(Text2))
-If SortOrder = LvwSortOrderDescending Then GroupsSortingFunctionLogical = -GroupsSortingFunctionLogical
-End Function
-
 Private Function NextGroupID() As Long
 Static ID As Long
 ID = ID + 1
@@ -7580,30 +7215,6 @@ Select Case dwRefData
         CCISubclass_Message = WindowProcHeader(hWnd, wMsg, wParam, lParam)
     Case 5
         CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
-    Case 10
-        CCISubclass_Message = ListItemsSortingFunctionBinary(wParam, lParam)
-    Case 11
-        CCISubclass_Message = ListItemsSortingFunctionText(wParam, lParam)
-    Case 12
-        CCISubclass_Message = ListItemsSortingFunctionNumeric(wParam, lParam)
-    Case 13
-        CCISubclass_Message = ListItemsSortingFunctionCurrency(wParam, lParam)
-    Case 14
-        CCISubclass_Message = ListItemsSortingFunctionDate(wParam, lParam)
-    Case 15
-        CCISubclass_Message = ListItemsSortingFunctionLogical(wParam, lParam)
-    Case 20
-        CCISubclass_Message = GroupsSortingFunctionBinary(wParam, lParam, wMsg)
-    Case 21
-        CCISubclass_Message = GroupsSortingFunctionText(wParam, lParam, wMsg)
-    Case 22
-        CCISubclass_Message = GroupsSortingFunctionNumeric(wParam, lParam, wMsg)
-    Case 23
-        CCISubclass_Message = GroupsSortingFunctionCurrency(wParam, lParam, wMsg)
-    Case 24
-        CCISubclass_Message = GroupsSortingFunctionDate(wParam, lParam, wMsg)
-    Case 25
-        CCISubclass_Message = GroupsSortingFunctionLogical(wParam, lParam, wMsg)
 End Select
 End Function
 

@@ -1144,21 +1144,21 @@ Set Me.MouseIcon = Value
 End Property
 
 Public Property Set MouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
+'If Value Is Nothing Then
     Set PropMouseIcon = Nothing
-Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropMouseIcon = Value
-    Else
-        If TabStripDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
-If TabStripDesignMode = False Then Call RefreshMousePointer
+'Else
+'    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+'        Set PropMouseIcon = Value
+'    Else
+'        If TabStripDesignMode = True Then
+'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
+'If TabStripDesignMode = False Then Call RefreshMousePointer
 UserControl.PropertyChanged "MouseIcon"
 End Property
 
@@ -1249,19 +1249,20 @@ End Property
 
 Public Property Get ImageList() As Variant
 Attribute ImageList.VB_Description = "Returns/sets the image list control to be used."
-If TabStripDesignMode = False Then
-    If TabStripImageListHandle = NULL_PTR Then
-        If PropImageListInit = False And TabStripImageListObjectPointer = NULL_PTR Then
-            If Not PropImageListName = "(None)" Then Me.ImageList = PropImageListName
-            PropImageListInit = True
-        End If
-        Set ImageList = PropImageListControl
-    Else
-        ImageList = TabStripImageListHandle
-    End If
-Else
-    ImageList = PropImageListName
-End If
+'If TabStripDesignMode = False Then
+'    If TabStripImageListHandle = NULL_PTR Then
+'        If PropImageListInit = False And TabStripImageListObjectPointer = NULL_PTR Then
+'            If Not PropImageListName = "(None)" Then Me.ImageList = PropImageListName
+'            PropImageListInit = True
+'        End If
+'        Set ImageList = PropImageListControl
+'    Else
+'        ImageList = TabStripImageListHandle
+'    End If
+'Else
+'    ImageList = PropImageListName
+'End If
+ImageList = "(None)"
 End Property
 
 Public Property Set ImageList(ByVal Value As Variant)
@@ -1269,75 +1270,75 @@ Me.ImageList = Value
 End Property
 
 Public Property Let ImageList(ByVal Value As Variant)
-If TabStripHandle <> NULL_PTR Then
-    Dim Success As Boolean, Handle As LongPtr
-    Select Case VarType(Value)
-        Case vbObject
-            If Not Value Is Nothing Then
-                If TypeName(Value) = "ImageList" Then
-                    On Error Resume Next
-                    Handle = Value.hImageList
-                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                    On Error GoTo 0
-                Else
-                    Err.Raise Number:=35610, Description:="Invalid object"
-                End If
-            End If
-            If Success = True Then
-                SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal Handle
-                TabStripImageListObjectPointer = ObjPtr(Value)
-                TabStripImageListHandle = NULL_PTR
-                PropImageListName = ProperControlName(Value)
-            End If
-        Case vbString
-            On Error Resume Next
-            Dim ControlEnum As Object, CompareName As String
-            For Each ControlEnum In UserControl.ParentControls
-                If TypeName(ControlEnum) = "ImageList" Then
-                    CompareName = ProperControlName(ControlEnum)
-                    If CompareName = Value And Not CompareName = vbNullString Then
-                        Err.Clear
-                        Handle = ControlEnum.hImageList
-                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                        If Success = True Then
-                            SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal Handle
-                            If TabStripDesignMode = False Then
-                                TabStripImageListObjectPointer = ObjPtr(ControlEnum)
-                                TabStripImageListHandle = NULL_PTR
-                            End If
-                            PropImageListName = Value
-                            Exit For
-                        ElseIf TabStripDesignMode = True Then
-                            PropImageListName = Value
-                            Success = True
-                            Exit For
-                        End If
-                    End If
-                End If
-            Next ControlEnum
-            On Error GoTo 0
-        Case vbLong, &H14 ' vbLongLong
-            Handle = Value
-            Success = CBool(Handle <> NULL_PTR)
-            If Success = True Then
-                SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal Handle
-                TabStripImageListObjectPointer = NULL_PTR
-                TabStripImageListHandle = Handle
-                PropImageListName = "(None)"
-            End If
-        Case Else
-            Err.Raise 13
-    End Select
-    If Success = False Then
-        SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal 0&
-        TabStripImageListObjectPointer = NULL_PTR
-        TabStripImageListHandle = NULL_PTR
-        PropImageListName = "(None)"
-    ElseIf Handle = NULL_PTR Then
-        SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal 0&
-    End If
-End If
-If PropMultiRow = False Then Call SetVisualStylesUpDown
+'If TabStripHandle <> NULL_PTR Then
+'    Dim Success As Boolean, Handle As LongPtr
+'    Select Case VarType(Value)
+'        Case vbObject
+'            If Not Value Is Nothing Then
+'                If TypeName(Value) = "ImageList" Then
+'                    On Error Resume Next
+'                    Handle = Value.hImageList
+'                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                    On Error GoTo 0
+'                Else
+'                    Err.Raise Number:=35610, Description:="Invalid object"
+'                End If
+'            End If
+'            If Success = True Then
+'                SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal Handle
+'                TabStripImageListObjectPointer = ObjPtr(Value)
+'                TabStripImageListHandle = NULL_PTR
+'                PropImageListName = ProperControlName(Value)
+'            End If
+'        Case vbString
+'            On Error Resume Next
+'            Dim ControlEnum As Object, CompareName As String
+'            For Each ControlEnum In UserControl.ParentControls
+'                If TypeName(ControlEnum) = "ImageList" Then
+'                    CompareName = ProperControlName(ControlEnum)
+'                    If CompareName = Value And Not CompareName = vbNullString Then
+'                        Err.Clear
+'                        Handle = ControlEnum.hImageList
+'                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                        If Success = True Then
+'                            SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal Handle
+'                            If TabStripDesignMode = False Then
+'                                TabStripImageListObjectPointer = ObjPtr(ControlEnum)
+'                                TabStripImageListHandle = NULL_PTR
+'                            End If
+'                            PropImageListName = Value
+'                            Exit For
+'                        ElseIf TabStripDesignMode = True Then
+'                            PropImageListName = Value
+'                            Success = True
+'                            Exit For
+'                        End If
+'                    End If
+'                End If
+'            Next ControlEnum
+'            On Error GoTo 0
+'        Case vbLong, &H14 ' vbLongLong
+'            Handle = Value
+'            Success = CBool(Handle <> NULL_PTR)
+'            If Success = True Then
+'                SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal Handle
+'                TabStripImageListObjectPointer = NULL_PTR
+'                TabStripImageListHandle = Handle
+'                PropImageListName = "(None)"
+'            End If
+'        Case Else
+'            Err.Raise 13
+'    End Select
+'    If Success = False Then
+'        SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal 0&
+'        TabStripImageListObjectPointer = NULL_PTR
+'        TabStripImageListHandle = NULL_PTR
+'        PropImageListName = "(None)"
+'    ElseIf Handle = NULL_PTR Then
+'        SendMessage TabStripHandle, TCM_SETIMAGELIST, 0, ByVal 0&
+'    End If
+'End If
+'If PropMultiRow = False Then Call SetVisualStylesUpDown
 UserControl.PropertyChanged "ImageList"
 End Property
 
@@ -1590,18 +1591,18 @@ ShowTips = PropShowTips
 End Property
 
 Public Property Let ShowTips(ByVal Value As Boolean)
-PropShowTips = Value
-If TabStripHandle <> NULL_PTR And TabStripDesignMode = False Then
-    If PropShowTips = False Then
-        SendMessage TabStripHandle, TCM_SETTOOLTIPS, 0, ByVal 0&
-    Else
-        If TabStripToolTipHandle <> NULL_PTR Then
-            SendMessage TabStripHandle, TCM_SETTOOLTIPS, TabStripToolTipHandle, ByVal 0&
-        Else
-            Call ReCreateTabStrip
-        End If
-    End If
-End If
+PropShowTips = False 'Value
+'If TabStripHandle <> NULL_PTR And TabStripDesignMode = False Then
+'    If PropShowTips = False Then
+'        SendMessage TabStripHandle, TCM_SETTOOLTIPS, 0, ByVal 0&
+'    Else
+'        If TabStripToolTipHandle <> NULL_PTR Then
+'            SendMessage TabStripHandle, TCM_SETTOOLTIPS, TabStripToolTipHandle, ByVal 0&
+'        Else
+'            Call ReCreateTabStrip
+'        End If
+'    End If
+'End If
 UserControl.PropertyChanged "ShowTips"
 End Property
 
@@ -1733,25 +1734,26 @@ End If
 End Property
 
 Friend Property Get FTabImage(ByVal Index As Long) As Long
-If TabStripHandle <> NULL_PTR Then
-    Dim TCI As TCITEM
-    With TCI
-    .Mask = TCIF_IMAGE
-    SendMessage TabStripHandle, TCM_GETITEM, Index - 1, ByVal VarPtr(TCI)
-    FTabImage = .iImage + 1
-    End With
-End If
+FTabImage = 0&
+'If TabStripHandle <> NULL_PTR Then
+'    Dim TCI As TCITEM
+'    With TCI
+'    .Mask = TCIF_IMAGE
+'    SendMessage TabStripHandle, TCM_GETITEM, Index - 1, ByVal VarPtr(TCI)
+'    FTabImage = .iImage + 1
+'    End With
+'End If
 End Property
 
 Friend Property Let FTabImage(ByVal Index As Long, ByVal Value As Long)
-If TabStripHandle <> NULL_PTR Then
-    Dim TCI As TCITEM
-    With TCI
-    .Mask = TCIF_IMAGE
-    .iImage = Value - 1
-    SendMessage TabStripHandle, TCM_SETITEM, Index - 1, ByVal VarPtr(TCI)
-    End With
-End If
+'If TabStripHandle <> NULL_PTR Then
+'    Dim TCI As TCITEM
+'    With TCI
+'    .Mask = TCIF_IMAGE
+'    .iImage = Value - 1
+'    SendMessage TabStripHandle, TCM_SETITEM, Index - 1, ByVal VarPtr(TCI)
+'    End With
+'End If
 End Property
 
 Friend Property Get FTabSelected(ByVal Index As Long) As Boolean
@@ -2192,34 +2194,34 @@ If TabStripHandle <> NULL_PTR Then
 End If
 End Function
 
-Private Function CreateTransparentBrush(ByVal hDC As LongPtr) As LongPtr
-Dim hDCBmp As LongPtr
-Dim hBmp As LongPtr, hBmpOld As LongPtr
-With UserControl
-hDCBmp = CreateCompatibleDC(hDC)
-If hDCBmp <> NULL_PTR Then
-    hBmp = CreateCompatibleBitmap(hDC, .ScaleWidth, .ScaleHeight)
-    If hBmp <> NULL_PTR Then
-        Dim hWndParent As LongPtr
-        hWndParent = GetParent(.hWnd)
-        If (GetWindowLong(hWndParent, GWL_EXSTYLE) And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Then SetLayout hDCBmp, LAYOUT_RTL
-        hBmpOld = SelectObject(hDCBmp, hBmp)
-        Dim WndRect As RECT, P As POINTAPI
-        GetWindowRect .hWnd, WndRect
-        MapWindowPoints hWnd_DESKTOP, hWndParent, WndRect, 2
-        P.X = WndRect.Left
-        P.Y = WndRect.Top
-        SetViewportOrgEx hDCBmp, -P.X, -P.Y, P
-        SendMessage hWndParent, WM_PAINT, hDCBmp, ByVal 0&
-        SetViewportOrgEx hDCBmp, P.X, P.Y, P
-        CreateTransparentBrush = CreatePatternBrush(hBmp)
-        SelectObject hDCBmp, hBmpOld
-        DeleteObject hBmp
-    End If
-    DeleteDC hDCBmp
-End If
-End With
-End Function
+'Private Function CreateTransparentBrush(ByVal hDC As LongPtr) As LongPtr
+'Dim hDCBmp As LongPtr
+'Dim hBmp As LongPtr, hBmpOld As LongPtr
+'With UserControl
+'hDCBmp = CreateCompatibleDC(hDC)
+'If hDCBmp <> NULL_PTR Then
+'    hBmp = CreateCompatibleBitmap(hDC, .ScaleWidth, .ScaleHeight)
+'    If hBmp <> NULL_PTR Then
+'        Dim hWndParent As LongPtr
+'        hWndParent = GetParent(.hWnd)
+'        If (GetWindowLong(hWndParent, GWL_EXSTYLE) And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Then SetLayout hDCBmp, LAYOUT_RTL
+'        hBmpOld = SelectObject(hDCBmp, hBmp)
+'        Dim WndRect As RECT, P As POINTAPI
+'        GetWindowRect .hWnd, WndRect
+'        MapWindowPoints hWnd_DESKTOP, hWndParent, WndRect, 2
+'        P.X = WndRect.Left
+'        P.Y = WndRect.Top
+'        SetViewportOrgEx hDCBmp, -P.X, -P.Y, P
+'        SendMessage hWndParent, WM_PAINT, hDCBmp, ByVal 0&
+'        SetViewportOrgEx hDCBmp, P.X, P.Y, P
+'        CreateTransparentBrush = CreatePatternBrush(hBmp)
+'        SelectObject hDCBmp, hBmpOld
+'        DeleteObject hBmp
+'    End If
+'    DeleteDC hDCBmp
+'End If
+'End With
+'End Function
 
 Private Sub SetVisualStylesUpDown()
 If TabStripHandle <> NULL_PTR Then
@@ -2340,10 +2342,10 @@ Select Case wMsg
             Dim ClientRect1 As RECT
             GetClientRect hWnd, ClientRect1
             FillRect wParam, ClientRect1, GetSysColorBrush(COLOR_BTNFACE)
-            If PropTransparent = True Then
-                If TabStripTransparentBrush = NULL_PTR Then TabStripTransparentBrush = CreateTransparentBrush(wParam)
-            End If
-            If TabStripBackColorBrush <> NULL_PTR Or TabStripTransparentBrush <> NULL_PTR Then
+'            If PropTransparent = True Then
+'                If TabStripTransparentBrush = NULL_PTR Then TabStripTransparentBrush = CreateTransparentBrush(wParam)
+'            End If
+            If TabStripBackColorBrush <> NULL_PTR Then 'Or TabStripTransparentBrush <> NULL_PTR Then
                 Dim Count As Long, i As Long, RC As RECT
                 Count = CLng(SendMessage(hWnd, TCM_GETITEMCOUNT, 0, ByVal 0&))
                 Dim hRgn As LongPtr, hRgnTab As LongPtr, hRgnFill As LongPtr
@@ -2385,11 +2387,11 @@ Select Case wMsg
                 Next i
                 hRgnFill = CreateRectRgn(ClientRect1.Left, ClientRect1.Top, ClientRect1.Right, ClientRect1.Bottom)
                 CombineRgn hRgnFill, hRgnFill, hRgn, RGN_DIFF
-                If TabStripTransparentBrush = NULL_PTR Then
+                'If TabStripTransparentBrush = NULL_PTR Then
                     FillRgn wParam, hRgnFill, TabStripBackColorBrush
-                Else
-                    FillRgn wParam, hRgnFill, TabStripTransparentBrush
-                End If
+'                Else
+'                    FillRgn wParam, hRgnFill, TabStripTransparentBrush
+'                End If
                 DeleteObject hRgnFill
                 DeleteObject hRgn
             End If
@@ -2602,17 +2604,17 @@ Select Case wMsg
         End If
     Case WM_PRINTCLIENT
         If TabStripHandle <> NULL_PTR Then
-            If PropTransparent = True Then
-                If TabStripTransparentBrush = NULL_PTR Then TabStripTransparentBrush = CreateTransparentBrush(wParam)
-            End If
-            If TabStripBackColorBrush <> NULL_PTR Or TabStripTransparentBrush <> NULL_PTR Then
+'            If PropTransparent = True Then
+'                If TabStripTransparentBrush = NULL_PTR Then TabStripTransparentBrush = CreateTransparentBrush(wParam)
+'            End If
+            If TabStripBackColorBrush <> NULL_PTR Then 'Or TabStripTransparentBrush <> NULL_PTR Then
                 Dim RC As RECT
                 GetClientRect TabStripHandle, RC
-                If TabStripTransparentBrush = NULL_PTR Then
+                'If TabStripTransparentBrush = NULL_PTR Then
                     FillRect wParam, RC, TabStripBackColorBrush
-                Else
-                    FillRect wParam, RC, TabStripTransparentBrush
-                End If
+'                Else
+'                    FillRect wParam, RC, TabStripTransparentBrush
+'                End If
                 WindowProcUserControl = 0
                 Exit Function
             End If

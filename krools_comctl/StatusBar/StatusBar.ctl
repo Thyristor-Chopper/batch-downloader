@@ -6,11 +6,11 @@ Begin VB.UserControl StatusBar
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   2400
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  'Åõ¸í
    HasDC           =   0   'False
    PropertyPages   =   "StatusBar.ctx":0000
    ScaleHeight     =   120
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  'ÇÈ¼¿
    ScaleWidth      =   160
    ToolboxBitmap   =   "StatusBar.ctx":005E
    Begin VB.Timer TimerUpdatePanels 
@@ -478,7 +478,7 @@ PropAllowSizeGrip = True
 PropShowTips = False
 PropBackColor = vbButtonFace
 PropDoubleBuffer = True
-If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool((GetWindowLong(UserControl.ContainerhWnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) Else StatusBarSizeGripAllowable = False
+If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool((GetWindowLong(UserControl.ContainerHwnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) Else StatusBarSizeGripAllowable = False
 If StatusBarDesignMode = False Then
     On Error Resume Next
     With UserControl
@@ -568,7 +568,7 @@ If StatusBarDesignMode = False Then
     End With
     On Error GoTo 0
 End If
-If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool((GetWindowLong(UserControl.ContainerhWnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) Else StatusBarSizeGripAllowable = False
+If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool((GetWindowLong(UserControl.ContainerHwnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) Else StatusBarSizeGripAllowable = False
 Call CreateStatusBar
 If InitPanelsCount > 0 And StatusBarHandle <> NULL_PTR Then
     For i = 1 To InitPanelsCount
@@ -734,7 +734,7 @@ If CurrentWindowState = vbMaximized Then
         Call ReCreateStatusBar
     End If
 ElseIf CurrentWindowState = vbNormal And LastWindowState = vbMaximized Then
-    If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool(((GetWindowLong(UserControl.ContainerhWnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) And Extender.Align = vbAlignBottom) Else StatusBarSizeGripAllowable = False
+    If StatusBarAlignable = True Then StatusBarSizeGripAllowable = CBool(((GetWindowLong(UserControl.ContainerHwnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) And Extender.Align = vbAlignBottom) Else StatusBarSizeGripAllowable = False
     If StatusBarSizeGripAllowable = True And PropAllowSizeGrip = True And Me.IncludesSizeGrip = False Then
         Call ReCreateStatusBar
     End If
@@ -1057,21 +1057,21 @@ Set Me.MouseIcon = Value
 End Property
 
 Public Property Set MouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
+'If Value Is Nothing Then
     Set PropMouseIcon = Nothing
-Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropMouseIcon = Value
-    Else
-        If StatusBarDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
-If StatusBarDesignMode = False Then Call RefreshMousePointer
+'Else
+'    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+'        Set PropMouseIcon = Value
+'    Else
+'        If StatusBarDesignMode = True Then
+'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
+'If StatusBarDesignMode = False Then Call RefreshMousePointer
 UserControl.PropertyChanged "MouseIcon"
 End Property
 
@@ -1092,22 +1092,22 @@ RightToLeft = PropRightToLeft
 End Property
 
 Public Property Let RightToLeft(ByVal Value As Boolean)
-PropRightToLeft = Value
-UserControl.RightToLeft = PropRightToLeft
-Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
-Dim dwMask As Long
-If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-If StatusBarDesignMode = False Then Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
-If StatusBarHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(StatusBarHandle, dwMask)
-Me.SimpleText = Me.SimpleText
-If StatusBarToolTipHandle <> NULL_PTR Then
-    If PropRightToLeft = True Then
-        If PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = WS_EX_RTLREADING
-    Else
-        dwMask = 0
-    End If
-    Call ComCtlsSetRightToLeft(StatusBarToolTipHandle, dwMask)
-End If
+PropRightToLeft = False 'Value
+'UserControl.RightToLeft = PropRightToLeft
+'Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
+'Dim dwMask As Long
+'If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
+'If StatusBarDesignMode = False Then Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'If StatusBarHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(StatusBarHandle, dwMask)
+'Me.SimpleText = Me.SimpleText
+'If StatusBarToolTipHandle <> NULL_PTR Then
+'    If PropRightToLeft = True Then
+'        If PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = WS_EX_RTLREADING
+'    Else
+'        dwMask = 0
+'    End If
+'    Call ComCtlsSetRightToLeft(StatusBarToolTipHandle, dwMask)
+'End If
 UserControl.PropertyChanged "RightToLeft"
 End Property
 
@@ -2271,13 +2271,13 @@ Select Case wMsg
     Case WM_WINDOWPOSCHANGED
         Static PrevWndContainer As LongPtr
         If StatusBarAlignable = True Then
-            If PrevWndContainer <> UserControl.ContainerhWnd And PrevWndContainer <> NULL_PTR Then
-                If Not StatusBarSizeGripAllowable = CBool(((GetWindowLong(UserControl.ContainerhWnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) And Extender.Align = vbAlignBottom) Then
+            If PrevWndContainer <> UserControl.ContainerHwnd And PrevWndContainer <> NULL_PTR Then
+                If Not StatusBarSizeGripAllowable = CBool(((GetWindowLong(UserControl.ContainerHwnd, GWL_STYLE) And WS_THICKFRAME) = WS_THICKFRAME) And Extender.Align = vbAlignBottom) Then
                     StatusBarSizeGripAllowable = Not StatusBarSizeGripAllowable
                     Call ReCreateStatusBar
                 End If
             End If
-            PrevWndContainer = UserControl.ContainerhWnd
+            PrevWndContainer = UserControl.ContainerHwnd
         Else
             If StatusBarSizeGripAllowable = True Then
                 StatusBarSizeGripAllowable = False

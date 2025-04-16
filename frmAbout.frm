@@ -257,7 +257,6 @@ Begin VB.Form frmAbout
          Width           =   1455
          _ExtentX        =   2566
          _ExtentY        =   5741
-         MousePointer    =   4
          Icons           =   "imgItems"
          Arrange         =   2
          LabelEdit       =   2
@@ -360,7 +359,7 @@ Private Sub Form_Load()
     
     Dim EasterEggMultiplier As Byte
     Randomize
-    EasterEggMultiplier = Abs(CInt(RandInt(1, 10000) = 2094)) * 2
+    EasterEggMultiplier = Abs(RandInt(1, 10000) = 2094) * 2
     
     lvItems.ListItems.Add , , "Krool's Comctl", 1 + EasterEggMultiplier
     lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2 + EasterEggMultiplier

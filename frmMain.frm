@@ -1653,7 +1653,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
             If wParam = 1000 Then '항상 위에 표시
                 MainFormOnTop = Not MainFormOnTop
                 SetWindowPos hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
-                SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(CInt(MainFormOnTop))
+                SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(MainFormOnTop)
                 
                 IBSSubclass_WindowProc = 1&
                 Exit Function
@@ -2209,7 +2209,7 @@ Sub OnStart()
 '        Dim BatchCount%
 '        BatchCount = 0
 '        For i = 1 To lvBatchFiles.ListItems.Count
-'            BatchCount = BatchCount + Abs(CInt(lvBatchFiles.ListItems(i).Checked))
+'            BatchCount = BatchCount + Abs(lvBatchFiles.ListItems(i).Checked)
 '        Next i
         SetTitle t(lvBatchFiles.ListItems.Count & "개 중 " & CurrentBatchIdx & "번째 항목 다운로드 중", "Downloading " & CurrentBatchIdx & " of " & lvBatchFiles.ListItems.Count)
     Else
@@ -2655,7 +2655,7 @@ L2:
         GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & _
         GetSetting("DownloadBooster", "Options", "ForceGet", 1) & " " & _
         GetSetting("DownloadBooster", "Options", "Ignore300", 0) & " " & _
-        Abs(CInt(AutoName)) & " " & _
+        Abs(AutoName) & " " & _
         GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100) & " " & _
         GetSetting("DownloadBooster", "Options", "UseServerModifiedDate", 1) & " " & _
         Col(Functions.HeaderCache, "-") & " " & _

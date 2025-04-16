@@ -33,28 +33,17 @@ Begin VB.Form frmDownloadOptions
       TabIndex        =   2
       Top             =   600
       Width           =   6135
-      Begin prjDownloadBooster.LinkLabel lblDescription 
-         Height          =   735
-         Left            =   840
-         TabIndex        =   16
-         Top             =   180
-         Width           =   5175
-         _ExtentX        =   9128
-         _ExtentY        =   1296
-         Caption         =   "frmDownloadOptions.frx":000C
-         Transparent     =   -1  'True
-      End
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
          Height          =   330
          Left            =   3480
          TabIndex        =   20
          Top             =   3660
          Width           =   1215
-         _ExtentX        =   2143
-         _ExtentY        =   582
-         Enabled         =   0   'False
-         Caption         =   "이름 변경(&R)"
-         Transparent     =   -1  'True
+         _extentx        =   2143
+         _extenty        =   582
+         enabled         =   0   'False
+         caption         =   "이름 변경(&R)"
+         transparent     =   -1  'True
       End
       Begin VB.TextBox txtEdit 
          Height          =   255
@@ -70,11 +59,11 @@ Begin VB.Form frmDownloadOptions
          TabIndex        =   19
          Top             =   3660
          Width           =   1215
-         _ExtentX        =   2143
-         _ExtentY        =   582
-         Enabled         =   0   'False
-         Caption         =   "삭제(&D)"
-         Transparent     =   -1  'True
+         _extentx        =   2143
+         _extenty        =   582
+         enabled         =   0   'False
+         caption         =   "삭제(&D)"
+         transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
          Height          =   330
@@ -82,11 +71,11 @@ Begin VB.Form frmDownloadOptions
          TabIndex        =   21
          Top             =   3660
          Width           =   1215
-         _ExtentX        =   2143
-         _ExtentY        =   582
-         Enabled         =   0   'False
-         Caption         =   "편집(&E)"
-         Transparent     =   -1  'True
+         _extentx        =   2143
+         _extenty        =   582
+         enabled         =   0   'False
+         caption         =   "편집(&E)"
+         transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CommandButtonW cmdAddHeader 
          Height          =   330
@@ -94,10 +83,10 @@ Begin VB.Form frmDownloadOptions
          TabIndex        =   18
          Top             =   3660
          Width           =   1215
-         _ExtentX        =   2143
-         _ExtentY        =   582
-         Caption         =   "추가(&A)"
-         Transparent     =   -1  'True
+         _extentx        =   2143
+         _extenty        =   582
+         caption         =   "추가(&A)"
+         transparent     =   -1  'True
       End
       Begin prjDownloadBooster.ListView lvHeaders 
          Height          =   2655
@@ -127,12 +116,21 @@ Begin VB.Form frmDownloadOptions
          ImageHeight     =   16
          ColorDepth      =   4
          MaskColor       =   16711935
-         InitListImages  =   "frmDownloadOptions.frx":00FE
+         InitListImages  =   "frmDownloadOptions.frx":000C
+      End
+      Begin VB.Label lblDescription 
+         BackStyle       =   0  '투명
+         Caption         =   $"frmDownloadOptions.frx":01B4
+         Height          =   735
+         Left            =   840
+         TabIndex        =   16
+         Top             =   180
+         Width           =   5175
       End
       Begin VB.Image imgIcon1 
          Height          =   480
          Left            =   120
-         Picture         =   "frmDownloadOptions.frx":02A6
+         Picture         =   "frmDownloadOptions.frx":0253
          Top             =   120
          Width           =   480
       End
@@ -284,7 +282,7 @@ Begin VB.Form frmDownloadOptions
       Width           =   2400
       _ExtentX        =   4233
       _ExtentY        =   688
-      InitTabs        =   "frmDownloadOptions.frx":06E8
+      InitTabs        =   "frmDownloadOptions.frx":0695
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -293,10 +291,10 @@ Begin VB.Form frmDownloadOptions
       TabIndex        =   24
       Top             =   120
       Width           =   1320
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "취소"
-      Transparent     =   -1  'True
+      _extentx        =   0
+      _extenty        =   0
+      caption         =   "취소"
+      transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW OKButton 
       Default         =   -1  'True
@@ -305,10 +303,10 @@ Begin VB.Form frmDownloadOptions
       TabIndex        =   23
       Top             =   120
       Width           =   1320
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "확인"
-      Transparent     =   -1  'True
+      _extentx        =   0
+      _extenty        =   0
+      caption         =   "확인"
+      transparent     =   -1  'True
    End
 End
 Attribute VB_Name = "frmDownloadOptions"
@@ -595,7 +593,7 @@ Sub LoadSettings()
     If Tags.DownloadOptionsTargetForm = 1 Then Me.Caption = Me.Caption & " - " & t("일괄 다운로드", "Batch Download")
     Select Case Tags.DownloadOptionsTargetForm
         Case 0
-            lblDescription.Caption = t(lblDescription.Caption, "Headers here are only applied in this session. Go to <A>Options</A> to change them permanently.")
+            lblDescription.Caption = t(lblDescription.Caption, "Headers here are only applied in this session. Go to options to change them permanently.")
         Case 1
             lblDescription.Caption = t("일괄 다운로드할 파일들에 접속할 때 요청할 헤더를 지정하십시오.", "Specify the headers for this batch download.")
         Case Else
@@ -613,7 +611,7 @@ Sub LoadSettings()
     optUseYtdl.Value = frmMain.ytdlEnabled
     txtFormat.Text = Replace(frmMain.ytdlFormat, " ", "")
     If txtFormat.Text = "" Then txtFormat.ListIndex = 0
-    chkExtractAudio.Value = Abs(CInt(frmMain.ytdlExtractAudio))
+    chkExtractAudio.Value = Abs(frmMain.ytdlExtractAudio)
     cbAudioFormat.ListIndex = frmMain.ytdlAudioFormat
     IIf(frmMain.ytdlAudioBitrateType = CBR, optCBR, optVBR).Value = True
     cbVBR.ListIndex = frmMain.ytdlAudioVBR
@@ -683,12 +681,6 @@ Private Sub cmdEditHeaderValue_Click()
         OKButton.Enabled = 0
     End If
 exitsub:
-End Sub
-
-Private Sub lblDescription_LinkActivate(ByVal Link As LlbLink, ByVal Reason As LlbLinkActivateReasonConstants)
-    'frmOptions.LoadSettings
-    frmOptions.tsTabStrip.Tabs(2).Selected = -1
-    frmOptions.Show vbModal, Me
 End Sub
 
 Private Sub txtEdit_LostFocus()

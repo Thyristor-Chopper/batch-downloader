@@ -1809,17 +1809,17 @@ Private Sub cbTheme_Click()
     
     chkBeepWhenComplete.Value = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "PlaySound", 1)
     
-    If CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", 0)) Then
+    If Abs(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", 0)) Then
         cbSkin.ListIndex = 2
-    ElseIf Abs(CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0))) Then
+    ElseIf Abs(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0)) Then
         cbSkin.ListIndex = 1
         cmdSample.RoundButton = (GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0) <> 0)
     Else
         cbSkin.ListIndex = 0
     End If
     
-    cmdSample.VisualStyles = (Not CBool(CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0))))
-    cmdSample.IsTygemButton = Abs(CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", 0))) * (-1)
+    cmdSample.VisualStyles = (Not CBool(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0)))
+    cmdSample.IsTygemButton = Abs(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", 0)) * (-1)
     
     lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "FormFillStyle", 0))
     
@@ -1991,7 +1991,7 @@ End Sub
 
 Private Sub cmdApply_Click()
     If WinVer >= 6# And cbFrameSkin.ListCount >= 3 Then
-        SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", Abs(CInt(cbFrameSkin.ListIndex = 1))
+        SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", Abs(cbFrameSkin.ListIndex = 1)
     End If
     If (cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1) Then
         SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", 1
@@ -2201,7 +2201,7 @@ aftermaxtrdcheck:
         .fState = MFS_ENABLED Or IIf(MainFormOnTop, MFS_CHECKED, 0)
     End With
     SetMenuItemInfo hSysMenu, 1000, 0, MII
-    SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(CInt(MainFormOnTop))
+    SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(MainFormOnTop)
     
     On Error Resume Next
     SaveSetting "DownloadBooster", "Options\Headers", "_Dummy_", "x" '오류 방지
@@ -2348,7 +2348,7 @@ Private Sub cmdSaveTheme_Click()
     End If
     
     If WinVer >= 6# And cbFrameSkin.ListCount >= 3 Then
-        SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", Abs(CInt(cbFrameSkin.ListIndex = 1))
+        SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", Abs(cbFrameSkin.ListIndex = 1)
     End If
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", IIf((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1), 1, 0)
     
@@ -2939,7 +2939,7 @@ Sub LoadSettings()
     chkNoRedirectCheck.Value = GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0)
     chkForceGet.Value = GetSetting("DownloadBooster", "Options", "ForceGet", 1)
     chkIgnore300.Value = GetSetting("DownloadBooster", "Options", "Ignore300", 0)
-    chkAlwaysOnTop.Value = Abs(CInt(MainFormOnTop))
+    chkAlwaysOnTop.Value = Abs(MainFormOnTop)
     chkLazyElapsed.Value = GetSetting("DownloadBooster", "Options", "LazyElapsed", 0)
     chkExcludeMergeFromElapsed.Value = GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", 0)
     chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
@@ -3007,17 +3007,17 @@ Sub LoadSettings()
     chkAlwaysResume.Value = frmMain.chkContinueDownload.Value
     chkAutoRetry.Value = frmMain.chkAutoRetry.Value
     
-    If CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
+    If Abs(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
         cbSkin.ListIndex = 2
-    ElseIf Abs(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))) Then
+    ElseIf Abs(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)) Then
         cbSkin.ListIndex = 1
         cmdSample.RoundButton = (GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0) <> 0)
     Else
         cbSkin.ListIndex = 0
     End If
     
-    cmdSample.VisualStyles = (Not CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))))
-    cmdSample.IsTygemButton = Abs(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0))) * (-1)
+    cmdSample.VisualStyles = (Not CBool(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
+    cmdSample.IsTygemButton = Abs(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) * (-1)
     
     Dim LangSet As String
     LangSet = GetSetting("DownloadBooster", "Options", "Language", "0")

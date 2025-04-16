@@ -7,11 +7,11 @@ Begin VB.UserControl ToolBar
    ClientTop       =   0
    ClientWidth     =   2400
    ControlContainer=   -1  'True
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  '≈ı∏Ì
    HasDC           =   0   'False
    PropertyPages   =   "ToolBar.ctx":0000
    ScaleHeight     =   120
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  '«»ºø
    ScaleWidth      =   160
    ToolboxBitmap   =   "ToolBar.ctx":005B
    Begin VB.Timer TimerImageList 
@@ -1250,17 +1250,17 @@ Select Case Align
         End If
 End Select
 If DPICorrectionFactor() <> 1 Then Call SyncObjectRectsToContainer(Me)
-If PropTransparent = True Then
-    MoveWindow ToolBarHandle, 0, 0, .ScaleWidth, .ScaleHeight, 0
-    If ToolBarTransparentBrush <> NULL_PTR Then
-        DeleteObject ToolBarTransparentBrush
-        ToolBarTransparentBrush = NULL_PTR
-    End If
-    UserControl.Refresh
-    RedrawWindow ToolBarHandle, NULL_PTR, NULL_PTR, RDW_FRAME Or RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE
-Else
+'If PropTransparent = True Then
+'    MoveWindow ToolBarHandle, 0, 0, .ScaleWidth, .ScaleHeight, 0
+'    If ToolBarTransparentBrush <> NULL_PTR Then
+'        DeleteObject ToolBarTransparentBrush
+'        ToolBarTransparentBrush = NULL_PTR
+'    End If
+'    UserControl.Refresh
+'    RedrawWindow ToolBarHandle, NULL_PTR, NULL_PTR, RDW_FRAME Or RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE
+'Else
     MoveWindow ToolBarHandle, 0, 0, .ScaleWidth, .ScaleHeight, 1
-End If
+'End If
 End With
 InProc = False
 If Count > 0 And PropWrappable = True Then
@@ -1624,16 +1624,16 @@ RightToLeft = PropRightToLeft
 End Property
 
 Public Property Let RightToLeft(ByVal Value As Boolean)
-PropRightToLeft = Value
-UserControl.RightToLeft = PropRightToLeft
-Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
-Dim dwMask As Long
-If ToolBarDesignMode = False Then
-    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
-    dwMask = 0
-End If
-If ToolBarHandle <> NULL_PTR Then Call ReCreateToolBar
+PropRightToLeft = False 'Value
+'UserControl.RightToLeft = PropRightToLeft
+'Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
+'Dim dwMask As Long
+'If ToolBarDesignMode = False Then
+'    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
+'    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'    dwMask = 0
+'End If
+'If ToolBarHandle <> NULL_PTR Then Call ReCreateToolBar
 UserControl.PropertyChanged "RightToLeft"
 End Property
 
@@ -1703,20 +1703,20 @@ If ToolBarHandle <> NULL_PTR Then
             If Success = True Then
                 LSet OldSize = ImageListSize
                 ImageList_GetIconSize Handle, ImageListSize.CX, ImageListSize.CY
-                If ImageListSizesAreEqual() = True Then
+                'If ImageListSizesAreEqual() = True Then
                     SendMessage ToolBarHandle, TB_SETIMAGELIST, 0, ByVal Handle
                     ToolBarImageListObjectPointer = ObjPtr(Value)
                     ToolBarImageListHandle = NULL_PTR
                     PropImageListName = ProperControlName(Value)
-                Else
-                    LSet ImageListSize = OldSize
-                    If ToolBarDesignMode = True Then
-                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                        Exit Property
-                    Else
-                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                    End If
-                End If
+'                Else
+'                    LSet ImageListSize = OldSize
+'                    If ToolBarDesignMode = True Then
+'                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+'                        Exit Property
+'                    Else
+'                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+'                    End If
+'                End If
             End If
         Case vbString
             On Error Resume Next
@@ -1731,7 +1731,7 @@ If ToolBarHandle <> NULL_PTR Then
                         If Success = True Then
                             LSet OldSize = ImageListSize
                             ImageList_GetIconSize Handle, ImageListSize.CX, ImageListSize.CY
-                            If ImageListSizesAreEqual() = True Then
+                            'If ImageListSizesAreEqual() = True Then
                                 SendMessage ToolBarHandle, TB_SETIMAGELIST, 0, ByVal Handle
                                 If ToolBarDesignMode = False Then
                                     ToolBarImageListObjectPointer = ObjPtr(ControlEnum)
@@ -1739,15 +1739,15 @@ If ToolBarHandle <> NULL_PTR Then
                                 End If
                                 PropImageListName = Value
                                 Exit For
-                            Else
-                                LSet ImageListSize = OldSize
-                                If ToolBarDesignMode = True Then
-                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                                    Exit Property
-                                Else
-                                    Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                                End If
-                            End If
+'                            Else
+'                                LSet ImageListSize = OldSize
+'                                If ToolBarDesignMode = True Then
+'                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+'                                    Exit Property
+'                                Else
+'                                    Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+'                                End If
+'                            End If
                         ElseIf ToolBarDesignMode = True Then
                             PropImageListName = Value
                             Success = True
@@ -1763,20 +1763,20 @@ If ToolBarHandle <> NULL_PTR Then
             If Success = True Then
                 LSet OldSize = ImageListSize
                 ImageList_GetIconSize Handle, ImageListSize.CX, ImageListSize.CY
-                If ImageListSizesAreEqual() = True Then
+                'If ImageListSizesAreEqual() = True Then
                     SendMessage ToolBarHandle, TB_SETIMAGELIST, 0, ByVal Handle
                     ToolBarImageListObjectPointer = NULL_PTR
                     ToolBarImageListHandle = Handle
                     PropImageListName = "(None)"
-                Else
-                    LSet ImageListSize = OldSize
-                    If ToolBarDesignMode = True Then
-                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                        Exit Property
-                    Else
-                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                    End If
-                End If
+'                Else
+'                    LSet ImageListSize = OldSize
+'                    If ToolBarDesignMode = True Then
+'                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+'                        Exit Property
+'                    Else
+'                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+'                    End If
+'                End If
             End If
         Case Else
             Err.Raise 13
@@ -1825,114 +1825,114 @@ Me.DisabledImageList = Value
 End Property
 
 Public Property Let DisabledImageList(ByVal Value As Variant)
-If ToolBarHandle <> NULL_PTR Then
-    Dim Success As Boolean, Handle As LongPtr, OldSize As SIZEAPI
-    Select Case VarType(Value)
-        Case vbObject
-            If Not Value Is Nothing Then
-                If TypeName(Value) = "ImageList" Then
-                    On Error Resume Next
-                    Handle = Value.hImageList
-                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                    On Error GoTo 0
-                Else
-                    Err.Raise Number:=35610, Description:="Invalid object"
-                End If
-            End If
-            If Success = True Then
-                LSet OldSize = DisabledImageListSize
-                ImageList_GetIconSize Handle, DisabledImageListSize.CX, DisabledImageListSize.CY
-                If ImageListSizesAreEqual() = True Then
-                    SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal Handle
-                    ToolBarDisabledImageListObjectPointer = ObjPtr(Value)
-                    ToolBarDisabledImageListHandle = NULL_PTR
-                    PropDisabledImageListName = ProperControlName(Value)
-                Else
-                    LSet DisabledImageListSize = OldSize
-                    If ToolBarDesignMode = True Then
-                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                        Exit Property
-                    Else
-                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                    End If
-                End If
-            End If
-        Case vbString
-            On Error Resume Next
-            Dim ControlEnum As Object, CompareName As String
-            For Each ControlEnum In UserControl.ParentControls
-                If TypeName(ControlEnum) = "ImageList" Then
-                    CompareName = ProperControlName(ControlEnum)
-                    If CompareName = Value And Not CompareName = vbNullString Then
-                        Err.Clear
-                        Handle = ControlEnum.hImageList
-                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                        If Success = True Then
-                            LSet OldSize = DisabledImageListSize
-                            ImageList_GetIconSize Handle, DisabledImageListSize.CX, DisabledImageListSize.CY
-                            If ImageListSizesAreEqual() = True Then
-                                SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal Handle
-                                If ToolBarDesignMode = False Then
-                                    ToolBarDisabledImageListObjectPointer = ObjPtr(ControlEnum)
-                                    ToolBarDisabledImageListHandle = NULL_PTR
-                                End If
-                                PropDisabledImageListName = Value
-                                Exit For
-                            Else
-                                LSet DisabledImageListSize = OldSize
-                                If ToolBarDesignMode = True Then
-                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                                    Exit Property
-                                Else
-                                    Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                                End If
-                            End If
-                        ElseIf ToolBarDesignMode = True Then
-                            PropDisabledImageListName = Value
-                            Success = True
-                            Exit For
-                        End If
-                    End If
-                End If
-            Next ControlEnum
-            On Error GoTo 0
-        Case vbLong, &H14 ' vbLongLong
-            Handle = Value
-            Success = CBool(Handle <> NULL_PTR)
-            If Success = True Then
-                LSet OldSize = DisabledImageListSize
-                ImageList_GetIconSize Handle, DisabledImageListSize.CX, DisabledImageListSize.CY
-                If ImageListSizesAreEqual() = True Then
-                    SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal Handle
-                    ToolBarDisabledImageListObjectPointer = NULL_PTR
-                    ToolBarDisabledImageListHandle = Handle
-                    PropDisabledImageListName = "(None)"
-                Else
-                    LSet DisabledImageListSize = OldSize
-                    If ToolBarDesignMode = True Then
-                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                        Exit Property
-                    Else
-                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                    End If
-                End If
-            End If
-        Case Else
-            Err.Raise 13
-    End Select
-    If Success = False Then
-        If SendMessage(ToolBarHandle, TB_GETDISABLEDIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal 0&
-        ToolBarDisabledImageListObjectPointer = NULL_PTR
-        ToolBarDisabledImageListHandle = NULL_PTR
-        PropDisabledImageListName = "(None)"
-        DisabledImageListSize.CX = 0: DisabledImageListSize.CY = 0
-    ElseIf Handle = NULL_PTR Then
-        If SendMessage(ToolBarHandle, TB_GETDISABLEDIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal 0&
-        DisabledImageListSize.CX = 0: DisabledImageListSize.CY = 0
-    End If
-    Me.Refresh
-End If
-UserControl.PropertyChanged "DisabledImageList"
+'If ToolBarHandle <> NULL_PTR Then
+'    Dim Success As Boolean, Handle As LongPtr, OldSize As SIZEAPI
+'    Select Case VarType(Value)
+'        Case vbObject
+'            If Not Value Is Nothing Then
+'                If TypeName(Value) = "ImageList" Then
+'                    On Error Resume Next
+'                    Handle = Value.hImageList
+'                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                    On Error GoTo 0
+'                Else
+'                    Err.Raise Number:=35610, Description:="Invalid object"
+'                End If
+'            End If
+'            If Success = True Then
+'                LSet OldSize = DisabledImageListSize
+'                ImageList_GetIconSize Handle, DisabledImageListSize.CX, DisabledImageListSize.CY
+'                'If ImageListSizesAreEqual() = True Then
+'                    SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal Handle
+'                    ToolBarDisabledImageListObjectPointer = ObjPtr(Value)
+'                    ToolBarDisabledImageListHandle = NULL_PTR
+'                    PropDisabledImageListName = ProperControlName(Value)
+''                Else
+''                    LSet DisabledImageListSize = OldSize
+''                    If ToolBarDesignMode = True Then
+''                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+''                        Exit Property
+''                    Else
+''                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+''                    End If
+''                End If
+'            End If
+'        Case vbString
+'            On Error Resume Next
+'            Dim ControlEnum As Object, CompareName As String
+'            For Each ControlEnum In UserControl.ParentControls
+'                If TypeName(ControlEnum) = "ImageList" Then
+'                    CompareName = ProperControlName(ControlEnum)
+'                    If CompareName = Value And Not CompareName = vbNullString Then
+'                        Err.Clear
+'                        Handle = ControlEnum.hImageList
+'                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                        If Success = True Then
+'                            LSet OldSize = DisabledImageListSize
+'                            ImageList_GetIconSize Handle, DisabledImageListSize.CX, DisabledImageListSize.CY
+'                            'If ImageListSizesAreEqual() = True Then
+'                                SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal Handle
+'                                If ToolBarDesignMode = False Then
+'                                    ToolBarDisabledImageListObjectPointer = ObjPtr(ControlEnum)
+'                                    ToolBarDisabledImageListHandle = NULL_PTR
+'                                End If
+'                                PropDisabledImageListName = Value
+'                                Exit For
+''                            Else
+''                                LSet DisabledImageListSize = OldSize
+''                                If ToolBarDesignMode = True Then
+''                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+''                                    Exit Property
+''                                Else
+''                                    Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+''                                End If
+''                            End If
+'                        ElseIf ToolBarDesignMode = True Then
+'                            PropDisabledImageListName = Value
+'                            Success = True
+'                            Exit For
+'                        End If
+'                    End If
+'                End If
+'            Next ControlEnum
+'            On Error GoTo 0
+'        Case vbLong, &H14 ' vbLongLong
+'            Handle = Value
+'            Success = CBool(Handle <> NULL_PTR)
+'            If Success = True Then
+'                LSet OldSize = DisabledImageListSize
+'                ImageList_GetIconSize Handle, DisabledImageListSize.CX, DisabledImageListSize.CY
+'                'If ImageListSizesAreEqual() = True Then
+'                    SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal Handle
+'                    ToolBarDisabledImageListObjectPointer = NULL_PTR
+'                    ToolBarDisabledImageListHandle = Handle
+'                    PropDisabledImageListName = "(None)"
+''                Else
+''                    LSet DisabledImageListSize = OldSize
+''                    If ToolBarDesignMode = True Then
+''                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+''                        Exit Property
+''                    Else
+''                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+''                    End If
+''                End If
+'            End If
+'        Case Else
+'            Err.Raise 13
+'    End Select
+'    If Success = False Then
+'        If SendMessage(ToolBarHandle, TB_GETDISABLEDIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal 0&
+'        ToolBarDisabledImageListObjectPointer = NULL_PTR
+'        ToolBarDisabledImageListHandle = NULL_PTR
+'        PropDisabledImageListName = "(None)"
+'        DisabledImageListSize.CX = 0: DisabledImageListSize.CY = 0
+'    ElseIf Handle = NULL_PTR Then
+'        If SendMessage(ToolBarHandle, TB_GETDISABLEDIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETDISABLEDIMAGELIST, 0, ByVal 0&
+'        DisabledImageListSize.CX = 0: DisabledImageListSize.CY = 0
+'    End If
+'    Me.Refresh
+'End If
+'UserControl.PropertyChanged "DisabledImageList"
 End Property
 
 Public Property Get HotImageList() As Variant
@@ -1957,113 +1957,113 @@ Me.HotImageList = Value
 End Property
 
 Public Property Let HotImageList(ByVal Value As Variant)
-If ToolBarHandle <> NULL_PTR Then
-    Dim Success As Boolean, Handle As LongPtr, OldSize As SIZEAPI
-    Select Case VarType(Value)
-        Case vbObject
-            If Not Value Is Nothing Then
-                If TypeName(Value) = "ImageList" Then
-                    On Error Resume Next
-                    Handle = Value.hImageList
-                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                    On Error GoTo 0
-                Else
-                    Err.Raise Number:=35610, Description:="Invalid object"
-                End If
-            End If
-            If Success = True Then
-                LSet OldSize = HotImageListSize
-                ImageList_GetIconSize Handle, HotImageListSize.CX, HotImageListSize.CY
-                If ImageListSizesAreEqual() = True Then
-                    SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal Handle
-                    ToolBarHotImageListObjectPointer = ObjPtr(Value)
-                    ToolBarHotImageListHandle = NULL_PTR
-                    PropHotImageListName = ProperControlName(Value)
-                Else
-                    LSet HotImageListSize = OldSize
-                    If ToolBarDesignMode = True Then
-                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                        Exit Property
-                    Else
-                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                    End If
-                End If
-            End If
-        Case vbString
-            On Error Resume Next
-            Dim ControlEnum As Object, CompareName As String
-            For Each ControlEnum In UserControl.ParentControls
-                If TypeName(ControlEnum) = "ImageList" Then
-                    CompareName = ProperControlName(ControlEnum)
-                    If CompareName = Value And Not CompareName = vbNullString Then
-                        Err.Clear
-                        Handle = ControlEnum.hImageList
-                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                        If Success = True Then
-                            LSet OldSize = HotImageListSize
-                            ImageList_GetIconSize Handle, HotImageListSize.CX, HotImageListSize.CY
-                            If ImageListSizesAreEqual() = True Then
-                                SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal Handle
-                                If ToolBarDesignMode = False Then
-                                    ToolBarHotImageListObjectPointer = ObjPtr(ControlEnum)
-                                    ToolBarHotImageListHandle = NULL_PTR
-                                End If
-                                PropHotImageListName = Value
-                                Exit For
-                            Else
-                                LSet HotImageListSize = OldSize
-                                If ToolBarDesignMode = True Then
-                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                                    Exit Property
-                                Else
-                                    Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                                End If
-                            End If
-                        ElseIf ToolBarDesignMode = True Then
-                            PropHotImageListName = Value
-                            Success = True
-                            Exit For
-                        End If
-                    End If
-                End If
-            Next ControlEnum
-            On Error GoTo 0
-        Case vbLong, &H14 ' vbLongLong
-            Handle = Value
-            Success = CBool(Handle <> NULL_PTR)
-            If Success = True Then
-                LSet OldSize = HotImageListSize
-                ImageList_GetIconSize Handle, HotImageListSize.CX, HotImageListSize.CY
-                If ImageListSizesAreEqual() = True Then
-                    SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal Handle
-                    ToolBarHotImageListObjectPointer = NULL_PTR
-                    ToolBarHotImageListHandle = Handle
-                    PropHotImageListName = "(None)"
-                Else
-                    LSet HotImageListSize = OldSize
-                    If ToolBarDesignMode = True Then
-                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                        Exit Property
-                    Else
-                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                    End If
-                End If
-            End If
-        Case Else
-            Err.Raise 13
-    End Select
-    If Success = False Then
-        If SendMessage(ToolBarHandle, TB_GETHOTIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal 0&
-        PropHotImageListName = "(None)"
-        ToolBarHotImageListObjectPointer = NULL_PTR
-        ToolBarHotImageListHandle = NULL_PTR
-        HotImageListSize.CX = 0: HotImageListSize.CY = 0
-    ElseIf Handle = NULL_PTR Then
-        If SendMessage(ToolBarHandle, TB_GETHOTIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal 0&
-        HotImageListSize.CX = 0: HotImageListSize.CY = 0
-    End If
-    Me.Refresh
-End If
+'If ToolBarHandle <> NULL_PTR Then
+'    Dim Success As Boolean, Handle As LongPtr, OldSize As SIZEAPI
+'    Select Case VarType(Value)
+'        Case vbObject
+'            If Not Value Is Nothing Then
+'                If TypeName(Value) = "ImageList" Then
+'                    On Error Resume Next
+'                    Handle = Value.hImageList
+'                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                    On Error GoTo 0
+'                Else
+'                    Err.Raise Number:=35610, Description:="Invalid object"
+'                End If
+'            End If
+'            If Success = True Then
+'                LSet OldSize = HotImageListSize
+'                ImageList_GetIconSize Handle, HotImageListSize.CX, HotImageListSize.CY
+'                'If ImageListSizesAreEqual() = True Then
+'                    SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal Handle
+'                    ToolBarHotImageListObjectPointer = ObjPtr(Value)
+'                    ToolBarHotImageListHandle = NULL_PTR
+'                    PropHotImageListName = ProperControlName(Value)
+''                Else
+''                    LSet HotImageListSize = OldSize
+''                    If ToolBarDesignMode = True Then
+''                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+''                        Exit Property
+''                    Else
+''                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+''                    End If
+''                End If
+'            End If
+'        Case vbString
+'            On Error Resume Next
+'            Dim ControlEnum As Object, CompareName As String
+'            For Each ControlEnum In UserControl.ParentControls
+'                If TypeName(ControlEnum) = "ImageList" Then
+'                    CompareName = ProperControlName(ControlEnum)
+'                    If CompareName = Value And Not CompareName = vbNullString Then
+'                        Err.Clear
+'                        Handle = ControlEnum.hImageList
+'                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                        If Success = True Then
+'                            LSet OldSize = HotImageListSize
+'                            ImageList_GetIconSize Handle, HotImageListSize.CX, HotImageListSize.CY
+'                            'If ImageListSizesAreEqual() = True Then
+'                                SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal Handle
+'                                If ToolBarDesignMode = False Then
+'                                    ToolBarHotImageListObjectPointer = ObjPtr(ControlEnum)
+'                                    ToolBarHotImageListHandle = NULL_PTR
+'                                End If
+'                                PropHotImageListName = Value
+'                                Exit For
+''                            Else
+''                                LSet HotImageListSize = OldSize
+''                                If ToolBarDesignMode = True Then
+''                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+''                                    Exit Property
+''                                Else
+''                                    Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+''                                End If
+''                            End If
+'                        ElseIf ToolBarDesignMode = True Then
+'                            PropHotImageListName = Value
+'                            Success = True
+'                            Exit For
+'                        End If
+'                    End If
+'                End If
+'            Next ControlEnum
+'            On Error GoTo 0
+'        Case vbLong, &H14 ' vbLongLong
+'            Handle = Value
+'            Success = CBool(Handle <> NULL_PTR)
+'            If Success = True Then
+'                LSet OldSize = HotImageListSize
+'                ImageList_GetIconSize Handle, HotImageListSize.CX, HotImageListSize.CY
+'                'If ImageListSizesAreEqual() = True Then
+'                    SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal Handle
+'                    ToolBarHotImageListObjectPointer = NULL_PTR
+'                    ToolBarHotImageListHandle = Handle
+'                    PropHotImageListName = "(None)"
+''                Else
+''                    LSet HotImageListSize = OldSize
+''                    If ToolBarDesignMode = True Then
+''                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+''                        Exit Property
+''                    Else
+''                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+''                    End If
+''                End If
+'            End If
+'        Case Else
+'            Err.Raise 13
+'    End Select
+'    If Success = False Then
+'        If SendMessage(ToolBarHandle, TB_GETHOTIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal 0&
+'        PropHotImageListName = "(None)"
+'        ToolBarHotImageListObjectPointer = NULL_PTR
+'        ToolBarHotImageListHandle = NULL_PTR
+'        HotImageListSize.CX = 0: HotImageListSize.CY = 0
+'    ElseIf Handle = NULL_PTR Then
+'        If SendMessage(ToolBarHandle, TB_GETHOTIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETHOTIMAGELIST, 0, ByVal 0&
+'        HotImageListSize.CX = 0: HotImageListSize.CY = 0
+'    End If
+'    Me.Refresh
+'End If
 UserControl.PropertyChanged "HotImageList"
 End Property
 
@@ -2089,113 +2089,113 @@ Me.PressedImageList = Value
 End Property
 
 Public Property Let PressedImageList(ByVal Value As Variant)
-If ToolBarHandle <> NULL_PTR Then
-    Dim Success As Boolean, Handle As LongPtr, OldSize As SIZEAPI
-    Select Case VarType(Value)
-        Case vbObject
-            If Not Value Is Nothing Then
-                If TypeName(Value) = "ImageList" Then
-                    On Error Resume Next
-                    Handle = Value.hImageList
-                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                    On Error GoTo 0
-                Else
-                    Err.Raise Number:=35610, Description:="Invalid object"
-                End If
-            End If
-            If Success = True Then
-                LSet OldSize = PressedImageListSize
-                ImageList_GetIconSize Handle, PressedImageListSize.CX, PressedImageListSize.CY
-                If ImageListSizesAreEqual() = True Then
-                    If ComCtlsSupportLevel() >= 2 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal Handle
-                    ToolBarPressedImageListObjectPointer = ObjPtr(Value)
-                    ToolBarPressedImageListHandle = NULL_PTR
-                    PropPressedImageListName = ProperControlName(Value)
-                Else
-                    LSet PressedImageListSize = OldSize
-                    If ToolBarDesignMode = True Then
-                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                        Exit Property
-                    Else
-                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                    End If
-                End If
-            End If
-        Case vbString
-            On Error Resume Next
-            Dim ControlEnum As Object, CompareName As String
-            For Each ControlEnum In UserControl.ParentControls
-                If TypeName(ControlEnum) = "ImageList" Then
-                    CompareName = ProperControlName(ControlEnum)
-                    If CompareName = Value And Not CompareName = vbNullString Then
-                        Err.Clear
-                        Handle = ControlEnum.hImageList
-                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                        If Success = True Then
-                            LSet OldSize = PressedImageListSize
-                            ImageList_GetIconSize Handle, PressedImageListSize.CX, PressedImageListSize.CY
-                            If ImageListSizesAreEqual() = True Then
-                                If ComCtlsSupportLevel() >= 2 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal Handle
-                                If ToolBarDesignMode = False Then
-                                    ToolBarPressedImageListObjectPointer = ObjPtr(ControlEnum)
-                                    ToolBarPressedImageListHandle = NULL_PTR
-                                End If
-                                PropPressedImageListName = Value
-                                Exit For
-                            Else
-                                LSet PressedImageListSize = OldSize
-                                If ToolBarDesignMode = True Then
-                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                                    Exit Property
-                                Else
-                                    Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                                End If
-                            End If
-                        ElseIf ToolBarDesignMode = True Then
-                            PropPressedImageListName = Value
-                            Success = True
-                            Exit For
-                        End If
-                    End If
-                End If
-            Next ControlEnum
-            On Error GoTo 0
-        Case vbLong, &H14 ' vbLongLong
-            Handle = Value
-            Success = CBool(Handle <> NULL_PTR)
-            If Success = True Then
-                LSet OldSize = PressedImageListSize
-                ImageList_GetIconSize Handle, PressedImageListSize.CX, PressedImageListSize.CY
-                If ImageListSizesAreEqual() = True Then
-                    If ComCtlsSupportLevel() >= 2 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal Handle
-                    ToolBarPressedImageListObjectPointer = NULL_PTR
-                    ToolBarPressedImageListHandle = Handle
-                    PropPressedImageListName = "(None)"
-                Else
-                    LSet PressedImageListSize = OldSize
-                    If ToolBarDesignMode = True Then
-                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
-                        Exit Property
-                    Else
-                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
-                    End If
-                End If
-            End If
-        Case Else
-            Err.Raise 13
-    End Select
-    If Success = False Then
-        If ComCtlsSupportLevel() >= 2 Then If SendMessage(ToolBarHandle, TB_GETPRESSEDIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal 0&
-        ToolBarPressedImageListObjectPointer = NULL_PTR
-        ToolBarPressedImageListHandle = NULL_PTR
-        PropPressedImageListName = "(None)"
-        PressedImageListSize.CX = 0: PressedImageListSize.CY = 0
-    ElseIf Handle = NULL_PTR Then
-        If ComCtlsSupportLevel() >= 2 Then If SendMessage(ToolBarHandle, TB_GETPRESSEDIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal 0&
-        PressedImageListSize.CX = 0: PressedImageListSize.CY = 0
-    End If
-    Me.Refresh
-End If
+'If ToolBarHandle <> NULL_PTR Then
+'    Dim Success As Boolean, Handle As LongPtr, OldSize As SIZEAPI
+'    Select Case VarType(Value)
+'        Case vbObject
+'            If Not Value Is Nothing Then
+'                If TypeName(Value) = "ImageList" Then
+'                    On Error Resume Next
+'                    Handle = Value.hImageList
+'                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                    On Error GoTo 0
+'                Else
+'                    Err.Raise Number:=35610, Description:="Invalid object"
+'                End If
+'            End If
+'            If Success = True Then
+'                LSet OldSize = PressedImageListSize
+'                ImageList_GetIconSize Handle, PressedImageListSize.CX, PressedImageListSize.CY
+'                'If ImageListSizesAreEqual() = True Then
+'                    If ComCtlsSupportLevel() >= 2 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal Handle
+'                    ToolBarPressedImageListObjectPointer = ObjPtr(Value)
+'                    ToolBarPressedImageListHandle = NULL_PTR
+'                    PropPressedImageListName = ProperControlName(Value)
+''                Else
+''                    LSet PressedImageListSize = OldSize
+''                    If ToolBarDesignMode = True Then
+''                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+''                        Exit Property
+''                    Else
+''                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+''                    End If
+''                End If
+'            End If
+'        Case vbString
+'            On Error Resume Next
+'            Dim ControlEnum As Object, CompareName As String
+'            For Each ControlEnum In UserControl.ParentControls
+'                If TypeName(ControlEnum) = "ImageList" Then
+'                    CompareName = ProperControlName(ControlEnum)
+'                    If CompareName = Value And Not CompareName = vbNullString Then
+'                        Err.Clear
+'                        Handle = ControlEnum.hImageList
+'                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+'                        If Success = True Then
+'                            LSet OldSize = PressedImageListSize
+'                            ImageList_GetIconSize Handle, PressedImageListSize.CX, PressedImageListSize.CY
+'                            'If ImageListSizesAreEqual() = True Then
+'                                If ComCtlsSupportLevel() >= 2 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal Handle
+'                                If ToolBarDesignMode = False Then
+'                                    ToolBarPressedImageListObjectPointer = ObjPtr(ControlEnum)
+'                                    ToolBarPressedImageListHandle = NULL_PTR
+'                                End If
+'                                PropPressedImageListName = Value
+'                                Exit For
+''                            Else
+''                                LSet PressedImageListSize = OldSize
+''                                If ToolBarDesignMode = True Then
+''                                    MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+''                                    Exit Property
+''                                Else
+''                                    Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+''                                End If
+''                            End If
+'                        ElseIf ToolBarDesignMode = True Then
+'                            PropPressedImageListName = Value
+'                            Success = True
+'                            Exit For
+'                        End If
+'                    End If
+'                End If
+'            Next ControlEnum
+'            On Error GoTo 0
+'        Case vbLong, &H14 ' vbLongLong
+'            Handle = Value
+'            Success = CBool(Handle <> NULL_PTR)
+'            If Success = True Then
+'                LSet OldSize = PressedImageListSize
+'                ImageList_GetIconSize Handle, PressedImageListSize.CX, PressedImageListSize.CY
+'                'If ImageListSizesAreEqual() = True Then
+'                    If ComCtlsSupportLevel() >= 2 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal Handle
+'                    ToolBarPressedImageListObjectPointer = NULL_PTR
+'                    ToolBarPressedImageListHandle = Handle
+'                    PropPressedImageListName = "(None)"
+''                Else
+''                    LSet PressedImageListSize = OldSize
+''                    If ToolBarDesignMode = True Then
+''                        MsgBoxInternal "ImageList Image sizes must be the same", vbCritical + vbOKOnly
+''                        Exit Property
+''                    Else
+''                        Err.Raise Number:=380, Description:="ImageList Image sizes must be the same"
+''                    End If
+''                End If
+'            End If
+'        Case Else
+'            Err.Raise 13
+'    End Select
+'    If Success = False Then
+'        If ComCtlsSupportLevel() >= 2 Then If SendMessage(ToolBarHandle, TB_GETPRESSEDIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal 0&
+'        ToolBarPressedImageListObjectPointer = NULL_PTR
+'        ToolBarPressedImageListHandle = NULL_PTR
+'        PropPressedImageListName = "(None)"
+'        PressedImageListSize.CX = 0: PressedImageListSize.CY = 0
+'    ElseIf Handle = NULL_PTR Then
+'        If ComCtlsSupportLevel() >= 2 Then If SendMessage(ToolBarHandle, TB_GETPRESSEDIMAGELIST, 0, ByVal 0&) <> 0 Then SendMessage ToolBarHandle, TB_SETPRESSEDIMAGELIST, 0, ByVal 0&
+'        PressedImageListSize.CX = 0: PressedImageListSize.CY = 0
+'    End If
+'    Me.Refresh
+'End If
 UserControl.PropertyChanged "PressedImageList"
 End Property
 
@@ -2603,7 +2603,7 @@ End Property
 
 Public Property Let Transparent(ByVal Value As Boolean)
 PropTransparent = Value
-Me.Refresh
+'Me.Refresh
 UserControl.PropertyChanged "Transparent"
 End Property
 
@@ -2721,7 +2721,7 @@ End Select
 .dwData = ObjPtr(NewButton)
 End With
 If ToolBarHandle <> NULL_PTR Then
-    Call ResetCustomizeButtons
+    'Call ResetCustomizeButtons
     If Index = 0 Then
         SendMessage ToolBarHandle, TB_ADDBUTTONS, 1, ByVal VarPtr(TBB)
     Else
@@ -2735,7 +2735,7 @@ End Sub
 
 Friend Sub FButtonsRemove(ByVal ID As Long)
 If ToolBarHandle <> NULL_PTR Then
-    Call ResetCustomizeButtons
+    'Call ResetCustomizeButtons
     SendMessage ToolBarHandle, TB_DELETEBUTTON, SendMessage(ToolBarHandle, TB_COMMANDTOINDEX, ID, ByVal 0&), ByVal 0&
     Call ReCalcButtonSize
 End If
@@ -2745,7 +2745,7 @@ End Sub
 
 Friend Sub FButtonsClear()
 If ToolBarHandle <> NULL_PTR Then
-    Call ResetCustomizeButtons
+    'Call ResetCustomizeButtons
     Do While SendMessage(ToolBarHandle, TB_DELETEBUTTON, 0, ByVal 0&) <> 0: Loop
     Me.Refresh
 End If
@@ -2766,7 +2766,7 @@ End Sub
 Friend Property Let FButtonCaption(ByVal ID As Long, ByVal Value As String)
 If ToolBarHandle <> NULL_PTR Then
     If IsButtonAvailable(ID) = True Then
-        Call ResetCustomizeButtons
+        'Call ResetCustomizeButtons
         Dim NewButton As ShadowButtonStruct
         Call GetShadowButton(ID, NewButton)
         NewButton.Caption = Value
@@ -2826,7 +2826,7 @@ End Property
 Friend Property Let FButtonStyle(ByVal ID As Long, ByVal Caption As String, ByVal ImageIndex As Long, ByVal Value As TbrButtonStyleConstants)
 If ToolBarHandle <> NULL_PTR Then
     If IsButtonAvailable(ID) = True Then
-        Call ResetCustomizeButtons
+        'Call ResetCustomizeButtons
         Dim OldButton As ShadowButtonStruct, NewButton As ShadowButtonStruct
         Call GetShadowButton(ID, OldButton)
         With NewButton
@@ -3576,10 +3576,10 @@ End Sub
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Forces a complete repaint of a object."
 Attribute Refresh.VB_UserMemId = -550
-If ToolBarTransparentBrush <> NULL_PTR Then
-    DeleteObject ToolBarTransparentBrush
-    ToolBarTransparentBrush = NULL_PTR
-End If
+'If ToolBarTransparentBrush <> NULL_PTR Then
+'    DeleteObject ToolBarTransparentBrush
+'    ToolBarTransparentBrush = NULL_PTR
+'End If
 UserControl.Refresh
 RedrawWindow UserControl.hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE Or RDW_ALLCHILDREN
 End Sub
@@ -3622,116 +3622,113 @@ If ToolBarHandle <> NULL_PTR Then
 End If
 End Sub
 
-Public Sub SaveToolBar(ByVal Key As String, ByVal SubKey As String, ByVal Value As String)
-Attribute SaveToolBar.VB_Description = "Saves a tool bar configuration."
-If ToolBarHandle <> NULL_PTR Then
-    Const HKEY_CURRENT_USER As Long = &H80000001
-    Dim TBSP As TBSAVEPARAMS, Buffer As String
-    Buffer = Key & "\" & SubKey
-    With TBSP
-    .hKey = HKEY_CURRENT_USER
-    .pszSubKey = StrPtr(Buffer)
-    .pszValueName = StrPtr(Value)
-    End With
-    SendMessage ToolBarHandle, TB_SAVERESTORE, 1, ByVal VarPtr(TBSP)
-End If
-End Sub
+'Public Sub SaveToolBar(ByVal Key As String, ByVal SubKey As String, ByVal Value As String)
+'If ToolBarHandle <> NULL_PTR Then
+'    Const HKEY_CURRENT_USER As Long = &H80000001
+'    Dim TBSP As TBSAVEPARAMS, Buffer As String
+'    Buffer = Key & "\" & SubKey
+'    With TBSP
+'    .hKey = HKEY_CURRENT_USER
+'    .pszSubKey = StrPtr(Buffer)
+'    .pszValueName = StrPtr(Value)
+'    End With
+'    SendMessage ToolBarHandle, TB_SAVERESTORE, 1, ByVal VarPtr(TBSP)
+'End If
+'End Sub
+'
+'Public Sub RestoreToolBar(ByVal Key As String, ByVal SubKey As String, ByVal Value As String)
+'If ToolBarHandle <> NULL_PTR Then
+'    Const HKEY_CURRENT_USER As Long = &H80000001
+'    Dim TBSP As TBSAVEPARAMS, Buffer As String
+'    Buffer = Key & "\" & SubKey
+'    With TBSP
+'    .hKey = HKEY_CURRENT_USER
+'    .pszSubKey = StrPtr(Buffer)
+'    .pszValueName = StrPtr(Value)
+'    End With
+'    SendMessage ToolBarHandle, TB_SAVERESTORE, 0, ByVal VarPtr(TBSP)
+'End If
+'End Sub
 
-Public Sub RestoreToolBar(ByVal Key As String, ByVal SubKey As String, ByVal Value As String)
-Attribute RestoreToolBar.VB_Description = "Restores a tool bar to its original state after being customized."
-If ToolBarHandle <> NULL_PTR Then
-    Const HKEY_CURRENT_USER As Long = &H80000001
-    Dim TBSP As TBSAVEPARAMS, Buffer As String
-    Buffer = Key & "\" & SubKey
-    With TBSP
-    .hKey = HKEY_CURRENT_USER
-    .pszSubKey = StrPtr(Buffer)
-    .pszValueName = StrPtr(Value)
-    End With
-    SendMessage ToolBarHandle, TB_SAVERESTORE, 0, ByVal VarPtr(TBSP)
-End If
-End Sub
-
-Public Function ContainerKeyDown(ByRef KeyCode As Integer, ByRef Shift As Integer) As TbrButton
-Attribute ContainerKeyDown.VB_Description = "Provides accelerator key access by forwarding the key down events of the container. The key preview property need to be set to true by a form container."
-If ToolBarHandle = NULL_PTR Or (Shift <> vbAltMask And Shift <> (vbAltMask Or vbShiftMask)) Then Exit Function
-If ToolBarPopupMenuHandle <> NULL_PTR Then Exit Function
-If IsWindowEnabled(ToolBarHandle) = 0 Then Exit Function
-Dim ID As Long, Accel As Integer, Count As Long, TBBI As TBBUTTONINFO
-Count = CLng(SendMessage(ToolBarHandle, TB_BUTTONCOUNT, 0, ByVal 0&))
-With TBBI
-.cbSize = LenB(TBBI)
-If Count > 0 Then
-    Dim i As Long
-    .dwMask = TBIF_STATE Or TBIF_STYLE
-    For i = 1 To Count
-        ID = GetButtonID(i)
-        If ID > 0 Then
-            SendMessage ToolBarHandle, TB_GETBUTTONINFO, ID, ByVal VarPtr(TBBI)
-            If (.fsState And TBSTATE_ENABLED) <> 0 And (.fsStyle And BTNS_SEP) = 0 And (.fsStyle And BTNS_NOPREFIX) = 0 Then
-                Accel = AccelCharCode(GetButtonText(ID))
-                If Accel <> 0 Then
-                    If (VkKeyScan(Accel) And &HFF&) = (KeyCode And &HFF&) Then Exit For Else ID = 0
-                Else
-                    ID = 0
-                End If
-            Else
-                ID = 0
-            End If
-        End If
-    Next i
-    If ID > 0 Then
-        If EnumThreadWindows(App.ThreadID, AddressOf ComCtlsTbrEnumThreadWndProc, 0) = 0 Then ID = 0
-    End If
-End If
-If ID > 0 Then
-    .dwMask = TBIF_LPARAM Or TBIF_STYLE
-    SendMessage ToolBarHandle, TB_GETBUTTONINFO, ID, ByVal VarPtr(TBBI)
-    If .lParam <> 0 Then
-        Dim Button As TbrButton
-        Set Button = PtrToObj(.lParam)
-        If (.fsStyle And BTNS_CHECK) <> 0 Then
-            If (.fsStyle And BTNS_GROUP) <> 0 Then
-                If SendMessage(ToolBarHandle, TB_ISBUTTONCHECKED, ID, ByVal 0&) = 0 Then
-                    KeyCode = 0
-                    SendMessage ToolBarHandle, TB_CHECKBUTTON, ID, ByVal 1&
-                    RaiseEvent ButtonClick(Button)
-                End If
-            Else
-                KeyCode = 0
-                If SendMessage(ToolBarHandle, TB_ISBUTTONCHECKED, ID, ByVal 0&) = 0 Then
-                    SendMessage ToolBarHandle, TB_CHECKBUTTON, ID, ByVal 1&
-                Else
-                    SendMessage ToolBarHandle, TB_CHECKBUTTON, ID, ByVal 0&
-                End If
-                RaiseEvent ButtonClick(Button)
-            End If
-        Else
-            KeyCode = 0
-            If (.fsStyle And BTNS_WHOLEDROPDOWN) = 0 Then
-                SendMessage ToolBarHandle, TB_PRESSBUTTON, ID, ByVal 1&
-                UpdateWindow ToolBarHandle
-                Sleep 50
-                SendMessage ToolBarHandle, TB_PRESSBUTTON, ID, ByVal 0&
-                RaiseEvent ButtonClick(Button)
-            Else
-                SendMessage ToolBarHandle, TB_PRESSBUTTON, ID, ByVal 1&
-                RaiseEvent ButtonDropDown(Button)
-                Dim MenuItem As Long
-                MenuItem = ShowButtonMenuItems(Button, True)
-                If Button.hMenu = NULL_PTR Then
-                    If MenuItem >= 1 And MenuItem <= Button.ButtonMenus.Count Then RaiseEvent ButtonMenuClick(Button.ButtonMenus(MenuItem))
-                Else
-                    If MenuItem <> 0 Then RaiseEvent ButtonMenuClick2(Button, MenuItem)
-                End If
-                SendMessage ToolBarHandle, TB_PRESSBUTTON, ID, ByVal 0&
-            End If
-        End If
-        Set ContainerKeyDown = Button
-    End If
-End If
-End With
-End Function
+'Public Function ContainerKeyDown(ByRef KeyCode As Integer, ByRef Shift As Integer) As TbrButton
+'If ToolBarHandle = NULL_PTR Or (Shift <> vbAltMask And Shift <> (vbAltMask Or vbShiftMask)) Then Exit Function
+'If ToolBarPopupMenuHandle <> NULL_PTR Then Exit Function
+'If IsWindowEnabled(ToolBarHandle) = 0 Then Exit Function
+'Dim ID As Long, Accel As Integer, Count As Long, TBBI As TBBUTTONINFO
+'Count = CLng(SendMessage(ToolBarHandle, TB_BUTTONCOUNT, 0, ByVal 0&))
+'With TBBI
+'.cbSize = LenB(TBBI)
+'If Count > 0 Then
+'    Dim i As Long
+'    .dwMask = TBIF_STATE Or TBIF_STYLE
+'    For i = 1 To Count
+'        ID = GetButtonID(i)
+'        If ID > 0 Then
+'            SendMessage ToolBarHandle, TB_GETBUTTONINFO, ID, ByVal VarPtr(TBBI)
+'            If (.fsState And TBSTATE_ENABLED) <> 0 And (.fsStyle And BTNS_SEP) = 0 And (.fsStyle And BTNS_NOPREFIX) = 0 Then
+'                Accel = AccelCharCode(GetButtonText(ID))
+'                If Accel <> 0 Then
+'                    If (VkKeyScan(Accel) And &HFF&) = (KeyCode And &HFF&) Then Exit For Else ID = 0
+'                Else
+'                    ID = 0
+'                End If
+'            Else
+'                ID = 0
+'            End If
+'        End If
+'    Next i
+'    If ID > 0 Then
+'        If EnumThreadWindows(App.ThreadID, AddressOf ComCtlsTbrEnumThreadWndProc, 0) = 0 Then ID = 0
+'    End If
+'End If
+'If ID > 0 Then
+'    .dwMask = TBIF_LPARAM Or TBIF_STYLE
+'    SendMessage ToolBarHandle, TB_GETBUTTONINFO, ID, ByVal VarPtr(TBBI)
+'    If .lParam <> 0 Then
+'        Dim Button As TbrButton
+'        Set Button = PtrToObj(.lParam)
+'        If (.fsStyle And BTNS_CHECK) <> 0 Then
+'            If (.fsStyle And BTNS_GROUP) <> 0 Then
+'                If SendMessage(ToolBarHandle, TB_ISBUTTONCHECKED, ID, ByVal 0&) = 0 Then
+'                    KeyCode = 0
+'                    SendMessage ToolBarHandle, TB_CHECKBUTTON, ID, ByVal 1&
+'                    RaiseEvent ButtonClick(Button)
+'                End If
+'            Else
+'                KeyCode = 0
+'                If SendMessage(ToolBarHandle, TB_ISBUTTONCHECKED, ID, ByVal 0&) = 0 Then
+'                    SendMessage ToolBarHandle, TB_CHECKBUTTON, ID, ByVal 1&
+'                Else
+'                    SendMessage ToolBarHandle, TB_CHECKBUTTON, ID, ByVal 0&
+'                End If
+'                RaiseEvent ButtonClick(Button)
+'            End If
+'        Else
+'            KeyCode = 0
+'            If (.fsStyle And BTNS_WHOLEDROPDOWN) = 0 Then
+'                SendMessage ToolBarHandle, TB_PRESSBUTTON, ID, ByVal 1&
+'                UpdateWindow ToolBarHandle
+'                Sleep 50
+'                SendMessage ToolBarHandle, TB_PRESSBUTTON, ID, ByVal 0&
+'                RaiseEvent ButtonClick(Button)
+'            Else
+'                SendMessage ToolBarHandle, TB_PRESSBUTTON, ID, ByVal 1&
+'                RaiseEvent ButtonDropDown(Button)
+''                Dim MenuItem As Long
+''                MenuItem = ShowButtonMenuItems(Button, True)
+''                If Button.hMenu = NULL_PTR Then
+''                    If MenuItem >= 1 And MenuItem <= Button.ButtonMenus.Count Then RaiseEvent ButtonMenuClick(Button.ButtonMenus(MenuItem))
+''                Else
+''                    If MenuItem <> 0 Then RaiseEvent ButtonMenuClick2(Button, MenuItem)
+''                End If
+'                SendMessage ToolBarHandle, TB_PRESSBUTTON, ID, ByVal 0&
+'            End If
+'        End If
+'        Set ContainerKeyDown = Button
+'    End If
+'End If
+'End With
+'End Function
 
 Public Function FindMnemonic(ByVal CharCode As Long) As TbrButton
 Attribute FindMnemonic.VB_Description = "Returns a reference to the button object with an matching mnemonic character."
@@ -3901,44 +3898,44 @@ End If
 Call UserControl_Resize
 End Property
 
-Private Sub ResetCustomizeButtons()
-If ToolBarCustomizeButtonsCount = 0 Then Exit Sub
-If ToolBarHandle <> NULL_PTR Then
-    Do While SendMessage(ToolBarHandle, TB_DELETEBUTTON, 0, ByVal 0&) <> 0: Loop
-    Dim TBB() As TBBUTTON, i As Long
-    ReDim TBB(0 To (ToolBarCustomizeButtonsCount - 1)) As TBBUTTON
-    For i = 1 To ToolBarCustomizeButtonsCount
-        LSet TBB(i - 1) = ToolBarCustomizeButtons(i).TBB
-        If Not ToolBarCustomizeButtons(i).Caption = vbNullString Then TBB(i - 1).iString = StrPtr(ToolBarCustomizeButtons(i).Caption) Else TBB(i - 1).iString = -1
-    Next i
-    SendMessage ToolBarHandle, TB_ADDBUTTONS, ToolBarCustomizeButtonsCount, ByVal VarPtr(TBB(0))
-    Dim TBBI As TBBUTTONINFO
-    TBBI.cbSize = LenB(TBBI)
-    TBBI.dwMask = TBIF_SIZE
-    For i = 1 To ToolBarCustomizeButtonsCount
-        With ToolBarCustomizeButtons(i)
-        If .CX > 0 And (.TBB.fsStyle And BTNS_AUTOSIZE) = 0 Then
-            TBBI.CX = .CX
-            SendMessage ToolBarHandle, TB_SETBUTTONINFO, GetButtonID(i), ByVal VarPtr(TBBI)
-        End If
-        End With
-    Next i
-    ToolBarCustomizeButtonsCount = 0
-End If
-End Sub
+'Private Sub ResetCustomizeButtons()
+'If ToolBarCustomizeButtonsCount = 0 Then Exit Sub
+'If ToolBarHandle <> NULL_PTR Then
+'    Do While SendMessage(ToolBarHandle, TB_DELETEBUTTON, 0, ByVal 0&) <> 0: Loop
+'    Dim TBB() As TBBUTTON, i As Long
+'    ReDim TBB(0 To (ToolBarCustomizeButtonsCount - 1)) As TBBUTTON
+'    For i = 1 To ToolBarCustomizeButtonsCount
+'        LSet TBB(i - 1) = ToolBarCustomizeButtons(i).TBB
+'        If Not ToolBarCustomizeButtons(i).Caption = vbNullString Then TBB(i - 1).iString = StrPtr(ToolBarCustomizeButtons(i).Caption) Else TBB(i - 1).iString = -1
+'    Next i
+'    SendMessage ToolBarHandle, TB_ADDBUTTONS, ToolBarCustomizeButtonsCount, ByVal VarPtr(TBB(0))
+'    Dim TBBI As TBBUTTONINFO
+'    TBBI.cbSize = LenB(TBBI)
+'    TBBI.dwMask = TBIF_SIZE
+'    For i = 1 To ToolBarCustomizeButtonsCount
+'        With ToolBarCustomizeButtons(i)
+'        If .CX > 0 And (.TBB.fsStyle And BTNS_AUTOSIZE) = 0 Then
+'            TBBI.CX = .CX
+'            SendMessage ToolBarHandle, TB_SETBUTTONINFO, GetButtonID(i), ByVal VarPtr(TBBI)
+'        End If
+'        End With
+'    Next i
+'    ToolBarCustomizeButtonsCount = 0
+'End If
+'End Sub
 
-Private Sub AllocCustomizeButtons()
-If ToolBarCustomizeButtonsCount > 0 Then Exit Sub
-If ToolBarHandle <> NULL_PTR Then
-    Erase ToolBarCustomizeButtons()
-    ToolBarCustomizeButtonsCount = CLng(SendMessage(ToolBarHandle, TB_BUTTONCOUNT, 0, ByVal 0&))
-    If ToolBarCustomizeButtonsCount > 0 Then
-        ReDim ToolBarCustomizeButtons(1 To ToolBarCustomizeButtonsCount) As ShadowButtonStruct
-        Dim i As Long
-        For i = 1 To ToolBarCustomizeButtonsCount: Call GetShadowButton(GetButtonID(i), ToolBarCustomizeButtons(i)): Next i
-    End If
-End If
-End Sub
+'Private Sub AllocCustomizeButtons()
+'If ToolBarCustomizeButtonsCount > 0 Then Exit Sub
+'If ToolBarHandle <> NULL_PTR Then
+'    Erase ToolBarCustomizeButtons()
+'    ToolBarCustomizeButtonsCount = CLng(SendMessage(ToolBarHandle, TB_BUTTONCOUNT, 0, ByVal 0&))
+'    If ToolBarCustomizeButtonsCount > 0 Then
+'        ReDim ToolBarCustomizeButtons(1 To ToolBarCustomizeButtonsCount) As ShadowButtonStruct
+'        Dim i As Long
+'        For i = 1 To ToolBarCustomizeButtonsCount: Call GetShadowButton(GetButtonID(i), ToolBarCustomizeButtons(i)): Next i
+'    End If
+'End If
+'End Sub
 
 Private Sub ModifyButton(ByVal ID As Long, ByRef NewButton As ShadowButtonStruct)
 If ToolBarHandle <> NULL_PTR Then
@@ -4076,110 +4073,110 @@ If ToolBarHandle <> NULL_PTR Then
 End If
 End Sub
 
-Private Function ShowButtonMenuItems(ByVal Button As TbrButton, ByVal Keyboard As Boolean) As Long
-If ToolBarHandle <> NULL_PTR Then
-    If ToolBarPopupMenuHandle <> NULL_PTR Then
-        SendMessage ToolBarHandle, WM_CANCELMODE, 0, ByVal 0&
-        Exit Function
-    End If
-    Dim hMenu As LongPtr
-    If Button.hMenu = NULL_PTR Then
-        If Button.ButtonMenus.Count > 0 Then hMenu = CreatePopupMenu()
-    Else
-        If IsMenu(Button.hMenu) <> 0 Then hMenu = Button.hMenu
-    End If
-    If hMenu <> NULL_PTR Then
-        ToolBarPopupMenuHandle = hMenu
-        Set ToolBarPopupMenuButton = Button
-        ToolBarPopupMenuKeyboard = Keyboard
-        Dim TPMP As TPMPARAMS, P As POINTAPI, Flags As Long
-        TPMP.cbSize = LenB(TPMP)
-        SendMessage ToolBarHandle, TB_GETRECT, Button.ID, ByVal VarPtr(TPMP.RCExclude)
-        MapWindowPoints ToolBarHandle, hWnd_DESKTOP, TPMP.RCExclude, 2
-        P.X = TPMP.RCExclude.Left
-        P.Y = TPMP.RCExclude.Bottom
-        If PropRightToLeft = False Then
-            Flags = TPM_LEFTALIGN
-        Else
-            If PropRightToLeftLayout = True Then Flags = TPM_RIGHTALIGN Else Flags = TPM_LEFTALIGN Or TPM_LAYOUTRTL
-        End If
-        Flags = Flags Or TPM_TOPALIGN Or TPM_LEFTBUTTON Or TPM_VERTICAL Or TPM_RETURNCMD
-        If Button.hMenu = NULL_PTR Then
-            Dim Text As String, Count As Long, i As Long, HasMenuPictureCallback As Boolean
-            Dim MII As MENUITEMINFO
-            MII.cbSize = LenB(MII)
-            For i = 1 To Button.ButtonMenus.Count
-                With Button.ButtonMenus(i)
-                If .Visible = True Then
-                    If .Separator = False Then
-                        MII.fMask = MIIM_STATE Or MIIM_ID Or MIIM_STRING
-                        MII.fType = 0
-                        Text = .Text
-                        MII.dwTypeData = StrPtr(Text)
-                        MII.cch = Len(Text)
-                        If .Picture Is Nothing Then
-                            MII.hBmpItem = NULL_PTR
-                        ElseIf .Picture.Handle = NULL_PTR Then
-                            MII.hBmpItem = NULL_PTR
-                        Else
-                            ' The menu theme is removed when some menu item has hBmpItem set to HBMMENU_CALLBACK.
-                            ' Use 32-bit pre-multiplied alpha RGB bitmaps for best results.
-                            MII.fMask = MII.fMask Or MIIM_BITMAP
-                            If .Picture.Type = vbPicTypeBitmap Then
-                                MII.hBmpItem = .Picture.Handle
-                            Else
-                                MII.hBmpItem = HBMMENU_CALLBACK
-                                HasMenuPictureCallback = True
-                            End If
-                        End If
-                        If .Enabled = True Then
-                            MII.fState = MFS_ENABLED
-                        Else
-                            MII.fState = MFS_DISABLED
-                        End If
-                        If .Checked = True Then
-                            MII.fState = MII.fState Or MFS_CHECKED
-                        Else
-                            MII.fState = MII.fState Or MFS_UNCHECKED
-                        End If
-                    Else
-                        MII.fMask = MIIM_STATE Or MIIM_ID Or MIIM_FTYPE
-                        MII.fType = MFT_SEPARATOR
-                        MII.dwTypeData = 0
-                        MII.cch = 0
-                        MII.hBmpItem = NULL_PTR
-                        MII.fState = 0
-                    End If
-                    MII.wID = i
-                    InsertMenuItem ToolBarPopupMenuHandle, 0, 0, MII
-                    Count = Count + 1
-                End If
-                End With
-            Next i
-            If Count > 0 Then
-                Dim MI As MENUINFO
-                MI.cbSize = LenB(MI)
-                MI.fMask = MIM_MENUDATA
-                MI.dwMenuData = ObjPtr(Button)
-                If HasMenuPictureCallback = True Then
-                    ' The menu theme is lost due to HBMMENU_CALLBACK.
-                    ' Setting a menu background color fixes a one-pixel overlap between the picture and text.
-                    MI.fMask = MI.fMask Or MIM_BACKGROUND
-                    MI.hBrBack = GetSysColorBrush(COLOR_MENU)
-                End If
-                SetMenuInfo ToolBarPopupMenuHandle, MI
-                ShowButtonMenuItems = TrackPopupMenuEx(ToolBarPopupMenuHandle, Flags, P.X, P.Y, ToolBarHandle, TPMP)
-            End If
-            DestroyMenu ToolBarPopupMenuHandle
-        Else
-            If GetMenuItemCount(ToolBarPopupMenuHandle) > 0 Then ShowButtonMenuItems = TrackPopupMenuEx(ToolBarPopupMenuHandle, Flags, P.X, P.Y, ToolBarHandle, TPMP)
-        End If
-        ToolBarPopupMenuHandle = NULL_PTR
-        Set ToolBarPopupMenuButton = Nothing
-        ToolBarPopupMenuKeyboard = False
-    End If
-End If
-End Function
+'Private Function ShowButtonMenuItems(ByVal Button As TbrButton, ByVal Keyboard As Boolean) As Long
+'If ToolBarHandle <> NULL_PTR Then
+'    If ToolBarPopupMenuHandle <> NULL_PTR Then
+'        SendMessage ToolBarHandle, WM_CANCELMODE, 0, ByVal 0&
+'        Exit Function
+'    End If
+'    Dim hMenu As LongPtr
+'    If Button.hMenu = NULL_PTR Then
+'        If Button.ButtonMenus.Count > 0 Then hMenu = CreatePopupMenu()
+'    Else
+'        If IsMenu(Button.hMenu) <> 0 Then hMenu = Button.hMenu
+'    End If
+'    If hMenu <> NULL_PTR Then
+'        ToolBarPopupMenuHandle = hMenu
+'        Set ToolBarPopupMenuButton = Button
+'        ToolBarPopupMenuKeyboard = Keyboard
+'        Dim TPMP As TPMPARAMS, P As POINTAPI, Flags As Long
+'        TPMP.cbSize = LenB(TPMP)
+'        SendMessage ToolBarHandle, TB_GETRECT, Button.ID, ByVal VarPtr(TPMP.RCExclude)
+'        MapWindowPoints ToolBarHandle, hWnd_DESKTOP, TPMP.RCExclude, 2
+'        P.X = TPMP.RCExclude.Left
+'        P.Y = TPMP.RCExclude.Bottom
+'        If PropRightToLeft = False Then
+'            Flags = TPM_LEFTALIGN
+'        Else
+'            If PropRightToLeftLayout = True Then Flags = TPM_RIGHTALIGN Else Flags = TPM_LEFTALIGN Or TPM_LAYOUTRTL
+'        End If
+'        Flags = Flags Or TPM_TOPALIGN Or TPM_LEFTBUTTON Or TPM_VERTICAL Or TPM_RETURNCMD
+'        If Button.hMenu = NULL_PTR Then
+'            Dim Text As String, Count As Long, i As Long, HasMenuPictureCallback As Boolean
+'            Dim MII As MENUITEMINFO
+'            MII.cbSize = LenB(MII)
+'            For i = 1 To Button.ButtonMenus.Count
+'                With Button.ButtonMenus(i)
+'                If .Visible = True Then
+'                    If .Separator = False Then
+'                        MII.fMask = MIIM_STATE Or MIIM_ID Or MIIM_STRING
+'                        MII.fType = 0
+'                        Text = .Text
+'                        MII.dwTypeData = StrPtr(Text)
+'                        MII.cch = Len(Text)
+'                        If .Picture Is Nothing Then
+'                            MII.hBmpItem = NULL_PTR
+'                        ElseIf .Picture.Handle = NULL_PTR Then
+'                            MII.hBmpItem = NULL_PTR
+'                        Else
+'                            ' The menu theme is removed when some menu item has hBmpItem set to HBMMENU_CALLBACK.
+'                            ' Use 32-bit pre-multiplied alpha RGB bitmaps for best results.
+'                            MII.fMask = MII.fMask Or MIIM_BITMAP
+'                            If .Picture.Type = vbPicTypeBitmap Then
+'                                MII.hBmpItem = .Picture.Handle
+'                            Else
+'                                MII.hBmpItem = HBMMENU_CALLBACK
+'                                HasMenuPictureCallback = True
+'                            End If
+'                        End If
+'                        If .Enabled = True Then
+'                            MII.fState = MFS_ENABLED
+'                        Else
+'                            MII.fState = MFS_DISABLED
+'                        End If
+'                        If .Checked = True Then
+'                            MII.fState = MII.fState Or MFS_CHECKED
+'                        Else
+'                            MII.fState = MII.fState Or MFS_UNCHECKED
+'                        End If
+'                    Else
+'                        MII.fMask = MIIM_STATE Or MIIM_ID Or MIIM_FTYPE
+'                        MII.fType = MFT_SEPARATOR
+'                        MII.dwTypeData = 0
+'                        MII.cch = 0
+'                        MII.hBmpItem = NULL_PTR
+'                        MII.fState = 0
+'                    End If
+'                    MII.wID = i
+'                    InsertMenuItem ToolBarPopupMenuHandle, 0, 0, MII
+'                    Count = Count + 1
+'                End If
+'                End With
+'            Next i
+'            If Count > 0 Then
+'                Dim MI As MENUINFO
+'                MI.cbSize = LenB(MI)
+'                MI.fMask = MIM_MENUDATA
+'                MI.dwMenuData = ObjPtr(Button)
+'                If HasMenuPictureCallback = True Then
+'                    ' The menu theme is lost due to HBMMENU_CALLBACK.
+'                    ' Setting a menu background color fixes a one-pixel overlap between the picture and text.
+'                    MI.fMask = MI.fMask Or MIM_BACKGROUND
+'                    MI.hBrBack = GetSysColorBrush(COLOR_MENU)
+'                End If
+'                SetMenuInfo ToolBarPopupMenuHandle, MI
+'                ShowButtonMenuItems = TrackPopupMenuEx(ToolBarPopupMenuHandle, Flags, P.X, P.Y, ToolBarHandle, TPMP)
+'            End If
+'            DestroyMenu ToolBarPopupMenuHandle
+'        Else
+'            If GetMenuItemCount(ToolBarPopupMenuHandle) > 0 Then ShowButtonMenuItems = TrackPopupMenuEx(ToolBarPopupMenuHandle, Flags, P.X, P.Y, ToolBarHandle, TPMP)
+'        End If
+'        ToolBarPopupMenuHandle = NULL_PTR
+'        Set ToolBarPopupMenuButton = Nothing
+'        ToolBarPopupMenuKeyboard = False
+'    End If
+'End If
+'End Function
 
 Private Function NextButtonID() As Long
 Static ID As Long
@@ -4187,57 +4184,57 @@ ID = ID + 1
 NextButtonID = ID
 End Function
 
-Private Function ImageListSizesAreEqual() As Boolean
-ImageListSizesAreEqual = True
-Dim CheckSize As SIZEAPI, i As Long
-For i = 1 To 4
-    CheckSize.CX = VBA.Choose(i, ImageListSize.CX, DisabledImageListSize.CX, HotImageListSize.CX, PressedImageListSize.CX)
-    CheckSize.CY = VBA.Choose(i, ImageListSize.CY, DisabledImageListSize.CY, HotImageListSize.CY, PressedImageListSize.CY)
-    If CheckSize.CX > 0 And CheckSize.CY > 0 Then
-        If ImageListSize.CX > 0 And ImageListSize.CY > 0 Then
-            If CheckSize.CX <> ImageListSize.CX Or CheckSize.CY <> ImageListSize.CY Then ImageListSizesAreEqual = False
-        End If
-        If DisabledImageListSize.CX > 0 And DisabledImageListSize.CY > 0 Then
-            If CheckSize.CX <> DisabledImageListSize.CX Or CheckSize.CY <> DisabledImageListSize.CY Then ImageListSizesAreEqual = False
-        End If
-        If HotImageListSize.CX > 0 And HotImageListSize.CY > 0 Then
-            If CheckSize.CX <> HotImageListSize.CX Or CheckSize.CY <> HotImageListSize.CY Then ImageListSizesAreEqual = False
-        End If
-        If PressedImageListSize.CX > 0 And PressedImageListSize.CY > 0 Then
-            If CheckSize.CX <> PressedImageListSize.CX Or CheckSize.CY <> PressedImageListSize.CY Then ImageListSizesAreEqual = False
-        End If
-    End If
-Next i
-End Function
+'Private Function ImageListSizesAreEqual() As Boolean
+'ImageListSizesAreEqual = True
+'Dim CheckSize As SIZEAPI, i As Long
+'For i = 1 To 4
+'    CheckSize.CX = VBA.Choose(i, ImageListSize.CX, DisabledImageListSize.CX, HotImageListSize.CX, PressedImageListSize.CX)
+'    CheckSize.CY = VBA.Choose(i, ImageListSize.CY, DisabledImageListSize.CY, HotImageListSize.CY, PressedImageListSize.CY)
+'    If CheckSize.CX > 0 And CheckSize.CY > 0 Then
+'        If ImageListSize.CX > 0 And ImageListSize.CY > 0 Then
+'            If CheckSize.CX <> ImageListSize.CX Or CheckSize.CY <> ImageListSize.CY Then ImageListSizesAreEqual = False
+'        End If
+'        If DisabledImageListSize.CX > 0 And DisabledImageListSize.CY > 0 Then
+'            If CheckSize.CX <> DisabledImageListSize.CX Or CheckSize.CY <> DisabledImageListSize.CY Then ImageListSizesAreEqual = False
+'        End If
+'        If HotImageListSize.CX > 0 And HotImageListSize.CY > 0 Then
+'            If CheckSize.CX <> HotImageListSize.CX Or CheckSize.CY <> HotImageListSize.CY Then ImageListSizesAreEqual = False
+'        End If
+'        If PressedImageListSize.CX > 0 And PressedImageListSize.CY > 0 Then
+'            If CheckSize.CX <> PressedImageListSize.CX Or CheckSize.CY <> PressedImageListSize.CY Then ImageListSizesAreEqual = False
+'        End If
+'    End If
+'Next i
+'End Function
 
-Private Function CreateTransparentBrush(ByVal hDC As LongPtr) As LongPtr
-Dim hDCBmp As LongPtr
-Dim hBmp As LongPtr, hBmpOld As LongPtr
-With UserControl
-hDCBmp = CreateCompatibleDC(hDC)
-If hDCBmp <> NULL_PTR Then
-    hBmp = CreateCompatibleBitmap(hDC, .ScaleWidth, .ScaleHeight)
-    If hBmp <> NULL_PTR Then
-        Dim hWndParent As LongPtr
-        hWndParent = GetParent(.hWnd)
-        If (GetWindowLong(hWndParent, GWL_EXSTYLE) And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Then SetLayout hDCBmp, LAYOUT_RTL
-        hBmpOld = SelectObject(hDCBmp, hBmp)
-        Dim WndRect As RECT, P As POINTAPI
-        GetWindowRect .hWnd, WndRect
-        MapWindowPoints hWnd_DESKTOP, hWndParent, WndRect, 2
-        P.X = WndRect.Left
-        P.Y = WndRect.Top
-        SetViewportOrgEx hDCBmp, -P.X, -P.Y, P
-        SendMessage hWndParent, WM_PAINT, hDCBmp, ByVal 0&
-        SetViewportOrgEx hDCBmp, P.X, P.Y, P
-        CreateTransparentBrush = CreatePatternBrush(hBmp)
-        SelectObject hDCBmp, hBmpOld
-        DeleteObject hBmp
-    End If
-    DeleteDC hDCBmp
-End If
-End With
-End Function
+'Private Function CreateTransparentBrush(ByVal hDC As LongPtr) As LongPtr
+'Dim hDCBmp As LongPtr
+'Dim hBmp As LongPtr, hBmpOld As LongPtr
+'With UserControl
+'hDCBmp = CreateCompatibleDC(hDC)
+'If hDCBmp <> NULL_PTR Then
+'    hBmp = CreateCompatibleBitmap(hDC, .ScaleWidth, .ScaleHeight)
+'    If hBmp <> NULL_PTR Then
+'        Dim hWndParent As LongPtr
+'        hWndParent = GetParent(.hWnd)
+'        If (GetWindowLong(hWndParent, GWL_EXSTYLE) And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Then SetLayout hDCBmp, LAYOUT_RTL
+'        hBmpOld = SelectObject(hDCBmp, hBmp)
+'        Dim WndRect As RECT, P As POINTAPI
+'        GetWindowRect .hWnd, WndRect
+'        MapWindowPoints hWnd_DESKTOP, hWndParent, WndRect, 2
+'        P.X = WndRect.Left
+'        P.Y = WndRect.Top
+'        SetViewportOrgEx hDCBmp, -P.X, -P.Y, P
+'        SendMessage hWndParent, WM_PAINT, hDCBmp, ByVal 0&
+'        SetViewportOrgEx hDCBmp, P.X, P.Y, P
+'        CreateTransparentBrush = CreatePatternBrush(hBmp)
+'        SelectObject hDCBmp, hBmpOld
+'        DeleteObject hBmp
+'    End If
+'    DeleteDC hDCBmp
+'End If
+'End With
+'End Function
 
 Private Sub SetVisualStylesToolTip()
 If ToolBarHandle <> NULL_PTR Then
@@ -4551,10 +4548,10 @@ Select Case wMsg
             Dim RC As RECT
             GetClientRect hWnd, RC
             FillRect wParam, RC, ToolBarBackColorBrush
-            If PropTransparent = True Then
-                If ToolBarTransparentBrush = NULL_PTR Then ToolBarTransparentBrush = CreateTransparentBrush(wParam)
-                If ToolBarTransparentBrush <> NULL_PTR Then FillRect wParam, RC, ToolBarTransparentBrush
-            End If
+'            If PropTransparent = True Then
+'                If ToolBarTransparentBrush = NULL_PTR Then ToolBarTransparentBrush = CreateTransparentBrush(wParam)
+'                If ToolBarTransparentBrush <> NULL_PTR Then FillRect wParam, RC, ToolBarTransparentBrush
+'            End If
             WindowProcUserControl = 1
         Else
             WindowProcUserControl = 0
@@ -4619,13 +4616,13 @@ Select Case wMsg
                     If NMTB.iItem > 0 Then
                         Set Button = PtrToObj(GetButtonPtr(NMTB.iItem))
                         RaiseEvent ButtonDropDown(Button)
-                        Dim MenuItem As Long
-                        MenuItem = ShowButtonMenuItems(Button, False)
-                        If Button.hMenu = NULL_PTR Then
-                            If MenuItem >= 1 And MenuItem <= Button.ButtonMenus.Count Then RaiseEvent ButtonMenuClick(Button.ButtonMenus(MenuItem))
-                        Else
-                            If MenuItem <> 0 Then RaiseEvent ButtonMenuClick2(Button, MenuItem)
-                        End If
+'                        Dim MenuItem As Long
+'                        MenuItem = ShowButtonMenuItems(Button, False)
+'                        If Button.hMenu = NULL_PTR Then
+'                            If MenuItem >= 1 And MenuItem <= Button.ButtonMenus.Count Then RaiseEvent ButtonMenuClick(Button.ButtonMenus(MenuItem))
+'                        Else
+'                            If MenuItem <> 0 Then RaiseEvent ButtonMenuClick2(Button, MenuItem)
+'                        End If
                         WindowProcUserControl = TBDDRET_DEFAULT
                     Else
                         WindowProcUserControl = TBDDRET_NODEFAULT
@@ -4636,9 +4633,9 @@ Select Case wMsg
                     CopyMemory NMTBHI, ByVal lParam, LenB(NMTBHI)
                     If NMTBHI.IDNew > 0 Then RaiseEvent ButtonHotChanged(PtrToObj(GetButtonPtr(NMTBHI.IDNew)), True)
                     If NMTBHI.IDOld > 0 Then RaiseEvent ButtonHotChanged(PtrToObj(GetButtonPtr(NMTBHI.IDOld)), False)
-                Case TBN_BEGINADJUST
-                    Call AllocCustomizeButtons
-                    RaiseEvent BeginCustomization
+'                Case TBN_BEGINADJUST
+'                    Call AllocCustomizeButtons
+'                    RaiseEvent BeginCustomization
                 Case TBN_INITCUSTOMIZE
                     Dim hDlg As LongPtr, HideHelpButton As Boolean
                     ' lParam points to a struct of this kind: (undocumented)
@@ -4655,35 +4652,35 @@ Select Case wMsg
                 Case TBN_QUERYINSERT, TBN_QUERYDELETE
                     WindowProcUserControl = 1
                     Exit Function
-                Case TBN_SAVE
-                    Dim NMTBS As NMTBSAVE
-                    CopyMemory NMTBS, ByVal lParam, LenB(NMTBS)
-                    If NMTBS.iItem = -1 Then Call AllocCustomizeButtons
-                Case TBN_RESTORE
-                    Dim NMTBR As NMTBRESTORE
-                    CopyMemory NMTBR, ByVal lParam, LenB(NMTBR)
-                    If NMTBR.iItem = -1 Then Call AllocCustomizeButtons
+'                Case TBN_SAVE
+'                    Dim NMTBS As NMTBSAVE
+'                    CopyMemory NMTBS, ByVal lParam, LenB(NMTBS)
+'                    If NMTBS.iItem = -1 Then Call AllocCustomizeButtons
+'                Case TBN_RESTORE
+'                    Dim NMTBR As NMTBRESTORE
+'                    CopyMemory NMTBR, ByVal lParam, LenB(NMTBR)
+'                    If NMTBR.iItem = -1 Then Call AllocCustomizeButtons
                 Case TBN_TOOLBARCHANGE
                     RaiseEvent CustomizationChange
-                Case TBN_RESET, TBN_CUSTHELP
-                    Dim hWndFocus As LongPtr
-                    hWndFocus = GetFocus()
-                    Select Case NM.Code
-                        Case TBN_RESET
-                            Call ResetCustomizeButtons
-                            Dim CloseDialog As Boolean
-                            RaiseEvent ResetCustomizations(CloseDialog)
-                            If GetFocus() <> hWndFocus And hWndFocus <> NULL_PTR Then SetFocusAPI hWndFocus
-                            If CloseDialog = True Then
-                                WindowProcUserControl = TBNRF_ENDCUSTOMIZE
-                            Else
-                                Call AllocCustomizeButtons
-                            End If
-                            Exit Function
-                        Case TBN_CUSTHELP
-                            RaiseEvent CustomizationHelp
-                            If GetFocus() <> hWndFocus And hWndFocus <> NULL_PTR Then SetFocusAPI hWndFocus
-                    End Select
+'                Case TBN_RESET, TBN_CUSTHELP
+'                    Dim hWndFocus As LongPtr
+'                    hWndFocus = GetFocus()
+'                    Select Case NM.Code
+'                        Case TBN_RESET
+'                            Call ResetCustomizeButtons
+'                            Dim CloseDialog As Boolean
+'                            RaiseEvent ResetCustomizations(CloseDialog)
+'                            If GetFocus() <> hWndFocus And hWndFocus <> NULL_PTR Then SetFocusAPI hWndFocus
+'                            If CloseDialog = True Then
+'                                WindowProcUserControl = TBNRF_ENDCUSTOMIZE
+'                            Else
+'                                Call AllocCustomizeButtons
+'                            End If
+'                            Exit Function
+'                        Case TBN_CUSTHELP
+'                            RaiseEvent CustomizationHelp
+'                            If GetFocus() <> hWndFocus And hWndFocus <> NULL_PTR Then SetFocusAPI hWndFocus
+'                    End Select
                 Case TBN_ENDADJUST
                     RaiseEvent EndCustomization
                 Case TBN_GETBUTTONINFO
