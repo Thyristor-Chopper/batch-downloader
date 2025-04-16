@@ -54,6 +54,7 @@ Begin VB.Form frmDownloadOptions
          _ExtentY        =   582
          Enabled         =   0   'False
          Caption         =   "이름 변경(&R)"
+         Transparent     =   -1  'True
       End
       Begin VB.TextBox txtEdit 
          Height          =   255
@@ -73,6 +74,7 @@ Begin VB.Form frmDownloadOptions
          _ExtentY        =   582
          Enabled         =   0   'False
          Caption         =   "삭제(&D)"
+         Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
          Height          =   330
@@ -84,6 +86,7 @@ Begin VB.Form frmDownloadOptions
          _ExtentY        =   582
          Enabled         =   0   'False
          Caption         =   "편집(&E)"
+         Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CommandButtonW cmdAddHeader 
          Height          =   330
@@ -94,6 +97,7 @@ Begin VB.Form frmDownloadOptions
          _ExtentX        =   2143
          _ExtentY        =   582
          Caption         =   "추가(&A)"
+         Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.ListView lvHeaders 
          Height          =   2655
@@ -292,6 +296,7 @@ Begin VB.Form frmDownloadOptions
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "취소"
+      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW OKButton 
       Default         =   -1  'True
@@ -303,6 +308,7 @@ Begin VB.Form frmDownloadOptions
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "확인"
+      Transparent     =   -1  'True
    End
 End
 Attribute VB_Name = "frmDownloadOptions"

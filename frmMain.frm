@@ -1678,13 +1678,13 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                     On Error Resume Next
                     Dim ctrl As Control
                     For Each ctrl In frmMain.Controls
-                        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then ctrl.Refresh
+                        Select Case TypeName(ctrl)
+                            Case "FrameW", "CheckBoxW", "OptionButtonW", "CommandButtonW", "Slider"
+                                ctrl.Refresh
+                        End Select
                     Next ctrl
-                    Dim PrevTrackerVisualStyles As Boolean
-                    PrevTrackerVisualStyles = trThreadCount.VisualStyles
-                    trThreadCount.VisualStyles = False
-                    trThreadCount.VisualStyles = True
-                    trThreadCount.VisualStyles = PrevTrackerVisualStyles
+                    trThreadCount.VisualStyles = Not trThreadCount.VisualStyles
+                    trThreadCount.VisualStyles = Not trThreadCount.VisualStyles
                     
                     SetTextColors
             End Select
@@ -3005,10 +3005,8 @@ dorefresh:
                 Frame4.Refresh
                 fTotal.Refresh
             End If
-            Dim VSEnabled As Boolean
-            VSEnabled = trThreadCount.VisualStyles
-            trThreadCount.VisualStyles = Not VSEnabled
-            trThreadCount.VisualStyles = VSEnabled
+            trThreadCount.VisualStyles = Not trThreadCount.VisualStyles
+            trThreadCount.VisualStyles = Not trThreadCount.VisualStyles
             fTabs.Refresh
             optTabDownload2.Refresh
             optTabThreads2.Refresh
