@@ -604,8 +604,8 @@ Sub ListFiles()
     End If
     
     Name = Dir(Path, vbDirectory)
-    Dim UpLoopCount%
-    UpLoopCount = 0
+'    Dim UpLoopCount%
+'    UpLoopCount = 0
     Do While Name <> ""
         If Name <> "." And Name <> ".." Then
             If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
@@ -624,9 +624,9 @@ Sub ListFiles()
                     TotalCntProc totalcnt
                 End If
             End If
-        ElseIf Name = ".." Then
-            UpLoopCount = UpLoopCount + 1
-            If UpLoopCount > 1 Then Exit Do
+'        ElseIf Name = ".." Then
+'            UpLoopCount = UpLoopCount + 1
+'            If UpLoopCount > 1 Then Exit Do
         End If
         Name = Dir
     Loop

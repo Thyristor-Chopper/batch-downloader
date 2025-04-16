@@ -7,9 +7,9 @@ Begin VB.PropertyPage PPImageListImages
    ClientTop       =   0
    ClientWidth     =   5790
    LockControls    =   -1  'True
-   PaletteMode     =   0  'Halftone
+   PaletteMode     =   0  '¹Ý¸í¾Ï
    ScaleHeight     =   310
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  'ÇÈ¼¿
    ScaleWidth      =   386
    Begin VB.CommandButton CommandMoveUp 
       Caption         =   ">>"
@@ -132,7 +132,7 @@ Begin VB.PropertyPage PPImageListImages
       Height          =   945
       Left            =   90
       ScaleHeight     =   59
-      ScaleMode       =   3  'Pixel
+      ScaleMode       =   3  'ÇÈ¼¿
       ScaleWidth      =   373
       TabIndex        =   8
       Top             =   1560
@@ -473,7 +473,7 @@ If OpenFileDialog.ShowOpen = True Then
         If PropertyPage.Changed = True Then Call PropertyPage_ApplyChanges
         Dim i As Long, Picture As IPictureDisp
         For i = LBound(FileNames()) To UBound(FileNames())
-            Set Picture = PictureFromPath(Path & FileNames(i))
+            Set Picture = LoadPicture(Path & FileNames(i))
             If Not Picture Is Nothing Then
                 CurrIndex = CurrIndex + 1
                 PropertyPage.SelectedControls(0).ListImages.Add CurrIndex, , Picture

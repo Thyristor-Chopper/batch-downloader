@@ -7,7 +7,7 @@ Begin VB.PropertyPage PPStatusBarPanels
    ClientTop       =   0
    ClientWidth     =   5925
    LockControls    =   -1  'True
-   PaletteMode     =   0  'Halftone
+   PaletteMode     =   0  '반명암
    ScaleHeight     =   4140
    ScaleWidth      =   5925
    Begin VB.CheckBox CheckPictureOnRight 
@@ -24,7 +24,7 @@ Begin VB.PropertyPage PPStatusBarPanels
       Enabled         =   0   'False
       Height          =   315
       Left            =   1200
-      Style           =   2  'Dropdown List
+      Style           =   2  '드롭다운 목록
       TabIndex        =   23
       Top             =   3360
       Width           =   1575
@@ -34,7 +34,7 @@ Begin VB.PropertyPage PPStatusBarPanels
       Enabled         =   0   'False
       Height          =   225
       Left            =   1200
-      Style           =   1  'Graphical
+      Style           =   1  '그래픽
       TabIndex        =   25
       Top             =   3720
       Width           =   495
@@ -65,7 +65,7 @@ Begin VB.PropertyPage PPStatusBarPanels
       Top             =   1920
       Width           =   2655
       Begin VB.PictureBox PictureDraw 
-         Appearance      =   0  'Flat
+         Appearance      =   0  '평면
          Enabled         =   0   'False
          ForeColor       =   &H80000008&
          Height          =   720
@@ -78,7 +78,7 @@ Begin VB.PropertyPage PPStatusBarPanels
          Width           =   960
       End
       Begin VB.PictureBox PictureCommandPictureNo 
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   315
          Left            =   1440
@@ -99,7 +99,7 @@ Begin VB.PropertyPage PPStatusBarPanels
          End
       End
       Begin VB.PictureBox PictureCommandPictureBrowse 
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   315
          Left            =   1440
@@ -120,8 +120,8 @@ Begin VB.PropertyPage PPStatusBarPanels
          End
       End
       Begin VB.Image ImagePicture 
-         Appearance      =   0  'Flat
-         BorderStyle     =   1  'Fixed Single
+         Appearance      =   0  '평면
+         BorderStyle     =   1  '단일 고정
          Enabled         =   0   'False
          Height          =   720
          Left            =   120
@@ -171,7 +171,7 @@ Begin VB.PropertyPage PPStatusBarPanels
       Enabled         =   0   'False
       Height          =   315
       Left            =   1200
-      Style           =   2  'Dropdown List
+      Style           =   2  '드롭다운 목록
       TabIndex        =   19
       Top             =   2640
       Width           =   1575
@@ -181,7 +181,7 @@ Begin VB.PropertyPage PPStatusBarPanels
       Enabled         =   0   'False
       Height          =   315
       Left            =   1200
-      Style           =   2  'Dropdown List
+      Style           =   2  '드롭다운 목록
       TabIndex        =   17
       Top             =   2280
       Width           =   1575
@@ -191,7 +191,7 @@ Begin VB.PropertyPage PPStatusBarPanels
       Enabled         =   0   'False
       Height          =   315
       Left            =   1200
-      Style           =   2  'Dropdown List
+      Style           =   2  '드롭다운 목록
       TabIndex        =   15
       Top             =   1920
       Width           =   1575
@@ -201,7 +201,7 @@ Begin VB.PropertyPage PPStatusBarPanels
       Enabled         =   0   'False
       Height          =   315
       Left            =   1200
-      Style           =   2  'Dropdown List
+      Style           =   2  '드롭다운 목록
       TabIndex        =   21
       Top             =   3000
       Width           =   1575
@@ -1065,7 +1065,7 @@ If CurrIndex > 0 Then
     .Filter = "Picture Files (*.ICO;*.CUR;*.BMP;*.DIB;*.GIF;*.JPG)|*.ICO;*.CUR;*.BMP;*.GIF;*.JPG|Icon & Cursor Files (*.ICO;*.CUR)|*.ICO;*.CUR|Bitmap Files (*.BMP;*.DIB)|*.BMP;*.DIB|GIF Files (*.GIF)|*.GIF|JPEG Files (*.JPG)|*.JPG|All Files (*.*)|*.*"
     .DialogTitle = "Select Picture"
     If .ShowOpen = True Then
-        Set ImagePicture.Picture = PictureFromPath(.FileName)
+        Set ImagePicture.Picture = LoadPicture(.FileName)
         PictureDraw.Refresh
         If Not ImagePicture.Picture Is Nothing Then
             If ImagePicture.Picture.Handle <> 0 Then

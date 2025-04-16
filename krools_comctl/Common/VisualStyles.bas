@@ -202,7 +202,7 @@ Private Const DST_BITMAP As Long = &H4
 Private Const DSS_DISABLED As Long = &H20
 
 Public Sub InitVisualStylesFixes()
-If App.LogMode <> 0 Then Call InitReleaseVisualStylesFixes(AddressOf ReleaseVisualStylesFixes)
+'If App.LogMode <> 0 Then Call InitReleaseVisualStylesFixes(AddressOf ReleaseVisualStylesFixes)
 Dim ICCEX As TINITCOMMONCONTROLSEX
 With ICCEX
 .dwSize = LenB(ICCEX)
@@ -211,58 +211,58 @@ End With
 InitCommonControlsEx ICCEX
 End Sub
 
-Private Sub InitReleaseVisualStylesFixes(ByVal Address As LongPtr)
-Static Release As TRELEASE
-If Release.VTableHeaderPointer <> NULL_PTR Then Exit Sub
-If GetComCtlVersion >= 6 Then
-    Release.VTable(2) = Address
-    Release.VTableHeaderPointer = VarPtr(Release.VTable(0))
-    CopyMemory Release.IUnk, VarPtr(Release.VTableHeaderPointer), PTR_SIZE
-End If
-End Sub
+'Private Sub InitReleaseVisualStylesFixes(ByVal Address As LongPtr)
+'Static Release As TRELEASE
+'If Release.VTableHeaderPointer <> NULL_PTR Then Exit Sub
+'If GetComCtlVersion >= 6 Then
+'    Release.VTable(2) = Address
+'    Release.VTableHeaderPointer = VarPtr(Release.VTable(0))
+'    CopyMemory Release.IUnk, VarPtr(Release.VTableHeaderPointer), PTR_SIZE
+'End If
+'End Sub
+'
+'Private Function ReleaseVisualStylesFixes() As Long
+'Const SEM_NOGPFAULTERRORBOX As Long = &H2
+'SetErrorMode SEM_NOGPFAULTERRORBOX
+'End Function
 
-Private Function ReleaseVisualStylesFixes() As Long
-Const SEM_NOGPFAULTERRORBOX As Long = &H2
-SetErrorMode SEM_NOGPFAULTERRORBOX
-End Function
+'Public Sub SetupVisualStylesFixes(ByVal Form As VB.Form)
+'If GetComCtlVersion() >= 6 Then SendMessage Form.hWnd, WM_UPDATEUISTATE, MakeDWord(UIS_CLEAR, UISF_HIDEFOCUS Or UISF_HIDEACCEL), ByVal 0&
+'If EnabledVisualStyles() = False Then Exit Sub
+'Dim CurrControl As VB.Control
+'For Each CurrControl In Form.Controls
+'    Select Case TypeName(CurrControl)
+'        Case "Frame"
+'            SetWindowSubclass CurrControl.hWnd, AddressOf RedirectFrame, ObjPtr(CurrControl), 0
+'        Case "CommandButton", "OptionButton", "CheckBox"
+'            If CurrControl.Style = vbButtonGraphical Then
+'                SetProp CurrControl.hWnd, StrPtr("VisualStyles"), GetVisualStyles(CurrControl.hWnd)
+'                If CurrControl.Enabled = True Then SetProp CurrControl.hWnd, StrPtr("Enabled"), 1
+'                SetWindowSubclass CurrControl.hWnd, AddressOf RedirectButton, ObjPtr(CurrControl), ObjPtr(CurrControl)
+'            End If
+'    End Select
+'Next CurrControl
+'End Sub
 
-Public Sub SetupVisualStylesFixes(ByVal Form As VB.Form)
-If GetComCtlVersion() >= 6 Then SendMessage Form.hWnd, WM_UPDATEUISTATE, MakeDWord(UIS_CLEAR, UISF_HIDEFOCUS Or UISF_HIDEACCEL), ByVal 0&
-If EnabledVisualStyles() = False Then Exit Sub
-Dim CurrControl As VB.Control
-For Each CurrControl In Form.Controls
-    Select Case TypeName(CurrControl)
-        Case "Frame"
-            SetWindowSubclass CurrControl.hWnd, AddressOf RedirectFrame, ObjPtr(CurrControl), 0
-        Case "CommandButton", "OptionButton", "CheckBox"
-            If CurrControl.Style = vbButtonGraphical Then
-                SetProp CurrControl.hWnd, StrPtr("VisualStyles"), GetVisualStyles(CurrControl.hWnd)
-                If CurrControl.Enabled = True Then SetProp CurrControl.hWnd, StrPtr("Enabled"), 1
-                SetWindowSubclass CurrControl.hWnd, AddressOf RedirectButton, ObjPtr(CurrControl), ObjPtr(CurrControl)
-            End If
-    End Select
-Next CurrControl
-End Sub
-
-Public Sub RemoveVisualStylesFixes(ByVal Form As VB.Form)
-If EnabledVisualStyles() = False Then Exit Sub
-Dim CurrControl As VB.Control
-For Each CurrControl In Form.Controls
-    Select Case TypeName(CurrControl)
-        Case "Frame"
-            RemoveWindowSubclass CurrControl.hWnd, AddressOf RedirectFrame, ObjPtr(CurrControl)
-        Case "CommandButton", "OptionButton", "CheckBox"
-            If CurrControl.Style = vbButtonGraphical Then
-                RemoveProp CurrControl.hWnd, StrPtr("VisualStyles")
-                RemoveProp CurrControl.hWnd, StrPtr("Enabled")
-                RemoveProp CurrControl.hWnd, StrPtr("Hot")
-                RemoveProp CurrControl.hWnd, StrPtr("Painted")
-                RemoveProp CurrControl.hWnd, StrPtr("ButtonPart")
-                RemoveWindowSubclass CurrControl.hWnd, AddressOf RedirectButton, ObjPtr(CurrControl)
-            End If
-    End Select
-Next CurrControl
-End Sub
+'Public Sub RemoveVisualStylesFixes(ByVal Form As VB.Form)
+'If EnabledVisualStyles() = False Then Exit Sub
+'Dim CurrControl As VB.Control
+'For Each CurrControl In Form.Controls
+'    Select Case TypeName(CurrControl)
+'        Case "Frame"
+'            RemoveWindowSubclass CurrControl.hWnd, AddressOf RedirectFrame, ObjPtr(CurrControl)
+'        Case "CommandButton", "OptionButton", "CheckBox"
+'            If CurrControl.Style = vbButtonGraphical Then
+'                RemoveProp CurrControl.hWnd, StrPtr("VisualStyles")
+'                RemoveProp CurrControl.hWnd, StrPtr("Enabled")
+'                RemoveProp CurrControl.hWnd, StrPtr("Hot")
+'                RemoveProp CurrControl.hWnd, StrPtr("Painted")
+'                RemoveProp CurrControl.hWnd, StrPtr("ButtonPart")
+'                RemoveWindowSubclass CurrControl.hWnd, AddressOf RedirectButton, ObjPtr(CurrControl)
+'            End If
+'    End Select
+'Next CurrControl
+'End Sub
 
 Public Function EnabledVisualStyles() As Boolean
 If GetComCtlVersion() >= 6 Then
@@ -288,249 +288,249 @@ End If
 GetComCtlVersion = Value
 End Function
 
-Private Function RedirectFrame(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal uIdSubclass As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
-Select Case wMsg
-    Case WM_PRINTCLIENT, WM_MOUSELEAVE
-        RedirectFrame = DefWindowProc(hWnd, wMsg, wParam, lParam)
-        Exit Function
-End Select
-RedirectFrame = DefSubclassProc(hWnd, wMsg, wParam, lParam)
-If wMsg = WM_NCDESTROY Then Call RemoveRedirectFrame(hWnd, uIdSubclass)
-End Function
+'Private Function RedirectFrame(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal uIdSubclass As LongPtr, ByVal dwRefData As LongPtr) As LongPtr
+'Select Case wMsg
+'    Case WM_PRINTCLIENT, WM_MOUSELEAVE
+'        RedirectFrame = DefWindowProc(hWnd, wMsg, wParam, lParam)
+'        Exit Function
+'End Select
+'RedirectFrame = DefSubclassProc(hWnd, wMsg, wParam, lParam)
+'If wMsg = WM_NCDESTROY Then Call RemoveRedirectFrame(hWnd, uIdSubclass)
+'End Function
+'
+'Private Sub RemoveRedirectFrame(ByVal hWnd As LongPtr, ByVal uIdSubclass As LongPtr)
+'RemoveWindowSubclass hWnd, AddressOf RedirectFrame, uIdSubclass
+'End Sub
 
-Private Sub RemoveRedirectFrame(ByVal hWnd As LongPtr, ByVal uIdSubclass As LongPtr)
-RemoveWindowSubclass hWnd, AddressOf RedirectFrame, uIdSubclass
-End Sub
+'Private Function RedirectButton(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal uIdSubclass As LongPtr, ByVal Button As Object) As LongPtr
+'Dim SetRedraw As Boolean
+'Select Case wMsg
+'    Case WM_NCPAINT
+'        Exit Function
+'    Case WM_PAINT
+'        If IsWindowVisible(hWnd) <> 0 And GetProp(hWnd, StrPtr("VisualStyles")) <> 0 Then
+'            Dim PS As PAINTSTRUCT
+'            SetProp hWnd, StrPtr("Painted"), 1
+'            Call DrawButton(hWnd, BeginPaint(hWnd, PS), Button)
+'            EndPaint hWnd, PS
+'            Exit Function
+'        End If
+'    Case WM_SETFOCUS, WM_ENABLE
+'        If IsWindowVisible(hWnd) <> 0 Then
+'            SetRedraw = True
+'            SendMessage hWnd, WM_SETREDRAW, 0, ByVal 0&
+'        End If
+'End Select
+'RedirectButton = DefSubclassProc(hWnd, wMsg, wParam, lParam)
+'If wMsg = WM_NCDESTROY Then
+'    Call RemoveRedirectButton(hWnd, uIdSubclass)
+'    RemoveProp hWnd, StrPtr("VisualStyles")
+'    RemoveProp hWnd, StrPtr("Enabled")
+'    RemoveProp hWnd, StrPtr("Hot")
+'    RemoveProp hWnd, StrPtr("Painted")
+'    RemoveProp hWnd, StrPtr("ButtonPart")
+'ElseIf IsWindow(hWnd) <> 0 Then
+'    Select Case wMsg
+'        Case WM_THEMECHANGED
+'            SetProp hWnd, StrPtr("VisualStyles"), GetVisualStyles(hWnd)
+'            Button.Refresh
+'        Case WM_MOUSELEAVE
+'            SetProp hWnd, StrPtr("Hot"), 0
+'            Button.Refresh
+'        Case WM_MOUSEMOVE
+'            If GetProp(hWnd, StrPtr("Hot")) = 0 Then
+'                SetProp hWnd, StrPtr("Hot"), 1
+'                InvalidateRect hWnd, ByVal NULL_PTR, 0
+'                Dim TME As TRACKMOUSEEVENTSTRUCT
+'                With TME
+'                .cbSize = LenB(TME)
+'                .hWndTrack = hWnd
+'                .dwFlags = TME_LEAVE
+'                End With
+'                TrackMouseEvent TME
+'            ElseIf GetProp(hWnd, StrPtr("Painted")) = 0 Then
+'                Button.Refresh
+'            End If
+'        Case WM_SETFOCUS, WM_ENABLE
+'            If SetRedraw = True Then
+'                SendMessage hWnd, WM_SETREDRAW, 1, ByVal 0&
+'                If wMsg = WM_ENABLE Then
+'                    SetProp hWnd, StrPtr("Enabled"), 0
+'                    InvalidateRect hWnd, ByVal NULL_PTR, 0
+'                Else
+'                    SetProp hWnd, StrPtr("Enabled"), 1
+'                    Button.Refresh
+'                End If
+'            End If
+'        Case WM_LBUTTONDOWN, WM_LBUTTONUP, WM_RBUTTONUP
+'            Button.Refresh
+'    End Select
+'End If
+'End Function
+'
+'Private Sub RemoveRedirectButton(ByVal hWnd As LongPtr, ByVal uIdSubclass As LongPtr)
+'RemoveWindowSubclass hWnd, AddressOf RedirectButton, uIdSubclass
+'End Sub
 
-Private Function RedirectButton(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr, ByVal uIdSubclass As LongPtr, ByVal Button As Object) As LongPtr
-Dim SetRedraw As Boolean
-Select Case wMsg
-    Case WM_NCPAINT
-        Exit Function
-    Case WM_PAINT
-        If IsWindowVisible(hWnd) <> 0 And GetProp(hWnd, StrPtr("VisualStyles")) <> 0 Then
-            Dim PS As PAINTSTRUCT
-            SetProp hWnd, StrPtr("Painted"), 1
-            Call DrawButton(hWnd, BeginPaint(hWnd, PS), Button)
-            EndPaint hWnd, PS
-            Exit Function
-        End If
-    Case WM_SETFOCUS, WM_ENABLE
-        If IsWindowVisible(hWnd) <> 0 Then
-            SetRedraw = True
-            SendMessage hWnd, WM_SETREDRAW, 0, ByVal 0&
-        End If
-End Select
-RedirectButton = DefSubclassProc(hWnd, wMsg, wParam, lParam)
-If wMsg = WM_NCDESTROY Then
-    Call RemoveRedirectButton(hWnd, uIdSubclass)
-    RemoveProp hWnd, StrPtr("VisualStyles")
-    RemoveProp hWnd, StrPtr("Enabled")
-    RemoveProp hWnd, StrPtr("Hot")
-    RemoveProp hWnd, StrPtr("Painted")
-    RemoveProp hWnd, StrPtr("ButtonPart")
-ElseIf IsWindow(hWnd) <> 0 Then
-    Select Case wMsg
-        Case WM_THEMECHANGED
-            SetProp hWnd, StrPtr("VisualStyles"), GetVisualStyles(hWnd)
-            Button.Refresh
-        Case WM_MOUSELEAVE
-            SetProp hWnd, StrPtr("Hot"), 0
-            Button.Refresh
-        Case WM_MOUSEMOVE
-            If GetProp(hWnd, StrPtr("Hot")) = 0 Then
-                SetProp hWnd, StrPtr("Hot"), 1
-                InvalidateRect hWnd, ByVal NULL_PTR, 0
-                Dim TME As TRACKMOUSEEVENTSTRUCT
-                With TME
-                .cbSize = LenB(TME)
-                .hWndTrack = hWnd
-                .dwFlags = TME_LEAVE
-                End With
-                TrackMouseEvent TME
-            ElseIf GetProp(hWnd, StrPtr("Painted")) = 0 Then
-                Button.Refresh
-            End If
-        Case WM_SETFOCUS, WM_ENABLE
-            If SetRedraw = True Then
-                SendMessage hWnd, WM_SETREDRAW, 1, ByVal 0&
-                If wMsg = WM_ENABLE Then
-                    SetProp hWnd, StrPtr("Enabled"), 0
-                    InvalidateRect hWnd, ByVal NULL_PTR, 0
-                Else
-                    SetProp hWnd, StrPtr("Enabled"), 1
-                    Button.Refresh
-                End If
-            End If
-        Case WM_LBUTTONDOWN, WM_LBUTTONUP, WM_RBUTTONUP
-            Button.Refresh
-    End Select
-End If
-End Function
+'Private Sub DrawButton(ByVal hWnd As LongPtr, ByVal hDC As LongPtr, ByVal Button As Object)
+'Dim Theme As LongPtr, ButtonPart As Long, ButtonState As Long, UIState As Long
+'Dim Enabled As Boolean, Checked As Boolean, Default As Boolean, Hot As Boolean, Pushed As Boolean, Focused As Boolean
+'Dim hFontOld As LongPtr, ButtonFont As IFont
+'Dim ButtonPicture As IPictureDisp, DisabledPictureAvailable As Boolean
+'Dim ClientRect As RECT, TextRect As RECT, RgnClip As LongPtr
+'Dim CX As Long, CY As Long, X As Long, Y As Long
+'ButtonPart = CLng(GetProp(hWnd, StrPtr("ButtonPart")))
+'If ButtonPart = 0 Then
+'    Select Case TypeName(Button)
+'        Case "CommandButton"
+'            ButtonPart = BP_PUSHBUTTON
+'        Case "OptionButton"
+'            ButtonPart = BP_RADIOBUTTON
+'        Case "CheckBox"
+'            ButtonPart = BP_CHECKBOX
+'    End Select
+'    If ButtonPart <> 0 Then SetProp hWnd, StrPtr("ButtonPart"), ButtonPart
+'End If
+'Select Case ButtonPart
+'    Case BP_PUSHBUTTON
+'        Default = Button.Default
+'        If GetFocus() <> hWnd Then
+'            On Error Resume Next
+'            If CLng(Button.Parent.ActiveControl.Default) > 0 Then Else Default = False
+'            On Error GoTo 0
+'        End If
+'    Case BP_RADIOBUTTON
+'        Checked = Button.Value
+'        Default = False
+'    Case BP_CHECKBOX
+'        Checked = IIf(Button.Value = vbChecked, True, False)
+'        Default = False
+'End Select
+'ButtonPart = BP_PUSHBUTTON
+'ButtonState = CLng(SendMessage(hWnd, BM_GETSTATE, 0, ByVal 0&))
+'UIState = CLng(SendMessage(hWnd, WM_QUERYUISTATE, 0, ByVal 0&))
+'Enabled = IIf(GetProp(hWnd, StrPtr("Enabled")) = 1, True, Button.Enabled)
+'Hot = IIf(GetProp(hWnd, StrPtr("Hot")) = 0, False, True)
+'If Checked = True Then Hot = False
+'Pushed = IIf((ButtonState And BST_PUSHED) = 0, False, True)
+'Focused = IIf((ButtonState And BST_FOCUS) = 0, False, True)
+'If Enabled = False Then
+'    ButtonState = PBS_DISABLED
+'    Set ButtonPicture = CoalescePicture(Button.DisabledPicture, Button.Picture)
+'    If Not Button.DisabledPicture Is Nothing Then
+'        If Button.DisabledPicture.Handle <> NULL_PTR Then DisabledPictureAvailable = True
+'    End If
+'ElseIf Hot = True And Pushed = False Then
+'    ButtonState = PBS_HOT
+'    If Checked = True Then
+'        Set ButtonPicture = CoalescePicture(Button.DownPicture, Button.Picture)
+'    Else
+'        Set ButtonPicture = Button.Picture
+'    End If
+'ElseIf Checked = True Or Pushed = True Then
+'    ButtonState = PBS_PRESSED
+'    Set ButtonPicture = CoalescePicture(Button.DownPicture, Button.Picture)
+'ElseIf Focused = True Or Default = True Then
+'    ButtonState = PBS_DEFAULTED
+'    Set ButtonPicture = Button.Picture
+'Else
+'    ButtonState = PBS_NORMAL
+'    Set ButtonPicture = Button.Picture
+'End If
+'If Not ButtonPicture Is Nothing Then
+'    If ButtonPicture.Handle = NULL_PTR Then Set ButtonPicture = Nothing
+'End If
+'GetClientRect hWnd, ClientRect
+'Theme = OpenThemeData(hWnd, StrPtr("Button"))
+'If Theme <> NULL_PTR Then
+'    GetThemeBackgroundRegion Theme, hDC, ButtonPart, ButtonState, ClientRect, RgnClip
+'    ExtSelectClipRgn hDC, RgnClip, RGN_DIFF
+'    Dim Brush As LongPtr
+'    Brush = CreateSolidBrush(WinColor(Button.BackColor))
+'    FillRect hDC, ClientRect, Brush
+'    DeleteObject Brush
+'    If IsThemeBackgroundPartiallyTransparent(Theme, ButtonPart, ButtonState) <> 0 Then DrawThemeParentBackground hWnd, hDC, ClientRect
+'    ExtSelectClipRgn hDC, NULL_PTR, RGN_COPY
+'    DeleteObject RgnClip
+'    DrawThemeBackground Theme, hDC, ButtonPart, ButtonState, ClientRect, ClientRect
+'    GetThemeBackgroundContentRect Theme, hDC, ButtonPart, ButtonState, ClientRect, ClientRect
+'    If Focused = True Then
+'        If Not (UIState And UISF_HIDEFOCUS) = UISF_HIDEFOCUS Then DrawFocusRect hDC, ClientRect
+'    End If
+'    If Not Button.Caption = vbNullString Then
+'        Set ButtonFont = Button.Font
+'        hFontOld = SelectObject(hDC, ButtonFont.hFont)
+'        LSet TextRect = ClientRect
+'        DrawText hDC, StrPtr(Button.Caption), -1, TextRect, DT_CALCRECT Or DT_WORDBREAK Or CLng(IIf((UIState And UISF_HIDEACCEL) = UISF_HIDEACCEL, DT_HIDEPREFIX, 0))
+'        TextRect.Left = ClientRect.Left
+'        TextRect.Right = ClientRect.Right
+'        If ButtonPicture Is Nothing Then
+'            TextRect.Top = ((ClientRect.Bottom - TextRect.Bottom) \ 2) + 3
+'            TextRect.Bottom = TextRect.Top + TextRect.Bottom
+'        Else
+'            TextRect.Top = (ClientRect.Bottom - TextRect.Bottom) + 1
+'            TextRect.Bottom = ClientRect.Bottom
+'        End If
+'        DrawThemeText Theme, hDC, ButtonPart, ButtonState, StrPtr(Button.Caption), -1, DT_CENTER Or DT_WORDBREAK Or CLng(IIf((UIState And UISF_HIDEACCEL) = UISF_HIDEACCEL, DT_HIDEPREFIX, 0)), 0, TextRect
+'        SelectObject hDC, hFontOld
+'        ClientRect.Bottom = TextRect.Top
+'        ClientRect.Left = TextRect.Left
+'    End If
+'    CloseThemeData Theme
+'End If
+'If Not ButtonPicture Is Nothing Then
+'    CX = CHimetricToPixel_X(ButtonPicture.Width)
+'    CY = CHimetricToPixel_Y(ButtonPicture.Height)
+'    X = ClientRect.Left + ((ClientRect.Right - ClientRect.Left - CX) \ 2)
+'    Y = ClientRect.Top + ((ClientRect.Bottom - ClientRect.Top - CY) \ 2)
+'    If Enabled = True Or DisabledPictureAvailable = True Then
+'        If ButtonPicture.Type = vbPicTypeBitmap And Button.UseMaskColor = True Then
+'            Dim hDCScreen As LongPtr
+'            Dim hDC1 As LongPtr, hBmpOld1 As LongPtr
+'            hDCScreen = GetDC(NULL_PTR)
+'            If hDCScreen <> NULL_PTR Then
+'                hDC1 = CreateCompatibleDC(hDCScreen)
+'                If hDC1 <> NULL_PTR Then
+'                    hBmpOld1 = SelectObject(hDC1, ButtonPicture.Handle)
+'                    TransparentBlt hDC, X, Y, CX, CY, hDC1, 0, 0, CX, CY, WinColor(Button.MaskColor)
+'                    SelectObject hDC1, hBmpOld1
+'                    DeleteDC hDC1
+'                End If
+'                ReleaseDC NULL_PTR, hDCScreen
+'            End If
+'        Else
+'            With ButtonPicture
+'            #If Win64 Then
+'            Dim hDC32 As Long
+'            CopyMemory ByVal VarPtr(hDC32), ByVal VarPtr(hDC), 4
+'            .Render hDC32 Or 0&, X Or 0&, Y Or 0&, CX Or 0&, CY Or 0&, 0&, .Height, .Width, -.Height, ByVal 0&
+'            #Else
+'            .Render hDC Or 0&, X Or 0&, Y Or 0&, CX Or 0&, CY Or 0&, 0&, .Height, .Width, -.Height, ByVal 0&
+'            #End If
+'            End With
+'        End If
+'    Else
+'        If ButtonPicture.Type = vbPicTypeIcon Then
+'            DrawState hDC, NULL_PTR, NULL_PTR, ButtonPicture.Handle, NULL_PTR, X, Y, CX, CY, DST_ICON Or DSS_DISABLED
+'        Else
+'            Dim hImage As LongPtr
+'            hImage = BitmapHandleFromPicture(ButtonPicture, vbWhite)
+'            ' The DrawState API with DSS_DISABLED will draw white as transparent.
+'            ' This will ensure GIF bitmaps or metafiles are better drawn.
+'            DrawState hDC, NULL_PTR, NULL_PTR, hImage, NULL_PTR, X, Y, CX, CY, DST_BITMAP Or DSS_DISABLED
+'            DeleteObject hImage
+'        End If
+'    End If
+'End If
+'End Sub
 
-Private Sub RemoveRedirectButton(ByVal hWnd As LongPtr, ByVal uIdSubclass As LongPtr)
-RemoveWindowSubclass hWnd, AddressOf RedirectButton, uIdSubclass
-End Sub
-
-Private Sub DrawButton(ByVal hWnd As LongPtr, ByVal hDC As LongPtr, ByVal Button As Object)
-Dim Theme As LongPtr, ButtonPart As Long, ButtonState As Long, UIState As Long
-Dim Enabled As Boolean, Checked As Boolean, Default As Boolean, Hot As Boolean, Pushed As Boolean, Focused As Boolean
-Dim hFontOld As LongPtr, ButtonFont As IFont
-Dim ButtonPicture As IPictureDisp, DisabledPictureAvailable As Boolean
-Dim ClientRect As RECT, TextRect As RECT, RgnClip As LongPtr
-Dim CX As Long, CY As Long, X As Long, Y As Long
-ButtonPart = CLng(GetProp(hWnd, StrPtr("ButtonPart")))
-If ButtonPart = 0 Then
-    Select Case TypeName(Button)
-        Case "CommandButton"
-            ButtonPart = BP_PUSHBUTTON
-        Case "OptionButton"
-            ButtonPart = BP_RADIOBUTTON
-        Case "CheckBox"
-            ButtonPart = BP_CHECKBOX
-    End Select
-    If ButtonPart <> 0 Then SetProp hWnd, StrPtr("ButtonPart"), ButtonPart
-End If
-Select Case ButtonPart
-    Case BP_PUSHBUTTON
-        Default = Button.Default
-        If GetFocus() <> hWnd Then
-            On Error Resume Next
-            If CLng(Button.Parent.ActiveControl.Default) > 0 Then Else Default = False
-            On Error GoTo 0
-        End If
-    Case BP_RADIOBUTTON
-        Checked = Button.Value
-        Default = False
-    Case BP_CHECKBOX
-        Checked = IIf(Button.Value = vbChecked, True, False)
-        Default = False
-End Select
-ButtonPart = BP_PUSHBUTTON
-ButtonState = CLng(SendMessage(hWnd, BM_GETSTATE, 0, ByVal 0&))
-UIState = CLng(SendMessage(hWnd, WM_QUERYUISTATE, 0, ByVal 0&))
-Enabled = IIf(GetProp(hWnd, StrPtr("Enabled")) = 1, True, Button.Enabled)
-Hot = IIf(GetProp(hWnd, StrPtr("Hot")) = 0, False, True)
-If Checked = True Then Hot = False
-Pushed = IIf((ButtonState And BST_PUSHED) = 0, False, True)
-Focused = IIf((ButtonState And BST_FOCUS) = 0, False, True)
-If Enabled = False Then
-    ButtonState = PBS_DISABLED
-    Set ButtonPicture = CoalescePicture(Button.DisabledPicture, Button.Picture)
-    If Not Button.DisabledPicture Is Nothing Then
-        If Button.DisabledPicture.Handle <> NULL_PTR Then DisabledPictureAvailable = True
-    End If
-ElseIf Hot = True And Pushed = False Then
-    ButtonState = PBS_HOT
-    If Checked = True Then
-        Set ButtonPicture = CoalescePicture(Button.DownPicture, Button.Picture)
-    Else
-        Set ButtonPicture = Button.Picture
-    End If
-ElseIf Checked = True Or Pushed = True Then
-    ButtonState = PBS_PRESSED
-    Set ButtonPicture = CoalescePicture(Button.DownPicture, Button.Picture)
-ElseIf Focused = True Or Default = True Then
-    ButtonState = PBS_DEFAULTED
-    Set ButtonPicture = Button.Picture
-Else
-    ButtonState = PBS_NORMAL
-    Set ButtonPicture = Button.Picture
-End If
-If Not ButtonPicture Is Nothing Then
-    If ButtonPicture.Handle = NULL_PTR Then Set ButtonPicture = Nothing
-End If
-GetClientRect hWnd, ClientRect
-Theme = OpenThemeData(hWnd, StrPtr("Button"))
-If Theme <> NULL_PTR Then
-    GetThemeBackgroundRegion Theme, hDC, ButtonPart, ButtonState, ClientRect, RgnClip
-    ExtSelectClipRgn hDC, RgnClip, RGN_DIFF
-    Dim Brush As LongPtr
-    Brush = CreateSolidBrush(WinColor(Button.BackColor))
-    FillRect hDC, ClientRect, Brush
-    DeleteObject Brush
-    If IsThemeBackgroundPartiallyTransparent(Theme, ButtonPart, ButtonState) <> 0 Then DrawThemeParentBackground hWnd, hDC, ClientRect
-    ExtSelectClipRgn hDC, NULL_PTR, RGN_COPY
-    DeleteObject RgnClip
-    DrawThemeBackground Theme, hDC, ButtonPart, ButtonState, ClientRect, ClientRect
-    GetThemeBackgroundContentRect Theme, hDC, ButtonPart, ButtonState, ClientRect, ClientRect
-    If Focused = True Then
-        If Not (UIState And UISF_HIDEFOCUS) = UISF_HIDEFOCUS Then DrawFocusRect hDC, ClientRect
-    End If
-    If Not Button.Caption = vbNullString Then
-        Set ButtonFont = Button.Font
-        hFontOld = SelectObject(hDC, ButtonFont.hFont)
-        LSet TextRect = ClientRect
-        DrawText hDC, StrPtr(Button.Caption), -1, TextRect, DT_CALCRECT Or DT_WORDBREAK Or CLng(IIf((UIState And UISF_HIDEACCEL) = UISF_HIDEACCEL, DT_HIDEPREFIX, 0))
-        TextRect.Left = ClientRect.Left
-        TextRect.Right = ClientRect.Right
-        If ButtonPicture Is Nothing Then
-            TextRect.Top = ((ClientRect.Bottom - TextRect.Bottom) \ 2) + 3
-            TextRect.Bottom = TextRect.Top + TextRect.Bottom
-        Else
-            TextRect.Top = (ClientRect.Bottom - TextRect.Bottom) + 1
-            TextRect.Bottom = ClientRect.Bottom
-        End If
-        DrawThemeText Theme, hDC, ButtonPart, ButtonState, StrPtr(Button.Caption), -1, DT_CENTER Or DT_WORDBREAK Or CLng(IIf((UIState And UISF_HIDEACCEL) = UISF_HIDEACCEL, DT_HIDEPREFIX, 0)), 0, TextRect
-        SelectObject hDC, hFontOld
-        ClientRect.Bottom = TextRect.Top
-        ClientRect.Left = TextRect.Left
-    End If
-    CloseThemeData Theme
-End If
-If Not ButtonPicture Is Nothing Then
-    CX = CHimetricToPixel_X(ButtonPicture.Width)
-    CY = CHimetricToPixel_Y(ButtonPicture.Height)
-    X = ClientRect.Left + ((ClientRect.Right - ClientRect.Left - CX) \ 2)
-    Y = ClientRect.Top + ((ClientRect.Bottom - ClientRect.Top - CY) \ 2)
-    If Enabled = True Or DisabledPictureAvailable = True Then
-        If ButtonPicture.Type = vbPicTypeBitmap And Button.UseMaskColor = True Then
-            Dim hDCScreen As LongPtr
-            Dim hDC1 As LongPtr, hBmpOld1 As LongPtr
-            hDCScreen = GetDC(NULL_PTR)
-            If hDCScreen <> NULL_PTR Then
-                hDC1 = CreateCompatibleDC(hDCScreen)
-                If hDC1 <> NULL_PTR Then
-                    hBmpOld1 = SelectObject(hDC1, ButtonPicture.Handle)
-                    TransparentBlt hDC, X, Y, CX, CY, hDC1, 0, 0, CX, CY, WinColor(Button.MaskColor)
-                    SelectObject hDC1, hBmpOld1
-                    DeleteDC hDC1
-                End If
-                ReleaseDC NULL_PTR, hDCScreen
-            End If
-        Else
-            With ButtonPicture
-            #If Win64 Then
-            Dim hDC32 As Long
-            CopyMemory ByVal VarPtr(hDC32), ByVal VarPtr(hDC), 4
-            .Render hDC32 Or 0&, X Or 0&, Y Or 0&, CX Or 0&, CY Or 0&, 0&, .Height, .Width, -.Height, ByVal 0&
-            #Else
-            .Render hDC Or 0&, X Or 0&, Y Or 0&, CX Or 0&, CY Or 0&, 0&, .Height, .Width, -.Height, ByVal 0&
-            #End If
-            End With
-        End If
-    Else
-        If ButtonPicture.Type = vbPicTypeIcon Then
-            DrawState hDC, NULL_PTR, NULL_PTR, ButtonPicture.Handle, NULL_PTR, X, Y, CX, CY, DST_ICON Or DSS_DISABLED
-        Else
-            Dim hImage As LongPtr
-            hImage = BitmapHandleFromPicture(ButtonPicture, vbWhite)
-            ' The DrawState API with DSS_DISABLED will draw white as transparent.
-            ' This will ensure GIF bitmaps or metafiles are better drawn.
-            DrawState hDC, NULL_PTR, NULL_PTR, hImage, NULL_PTR, X, Y, CX, CY, DST_BITMAP Or DSS_DISABLED
-            DeleteObject hImage
-        End If
-    End If
-End If
-End Sub
-
-Private Function CoalescePicture(ByVal Picture As IPictureDisp, ByVal DefaultPicture As IPictureDisp) As IPictureDisp
-If Picture Is Nothing Then
-    Set CoalescePicture = DefaultPicture
-ElseIf Picture.Handle = NULL_PTR Then
-    Set CoalescePicture = DefaultPicture
-Else
-    Set CoalescePicture = Picture
-End If
-End Function
+'Private Function CoalescePicture(ByVal Picture As IPictureDisp, ByVal DefaultPicture As IPictureDisp) As IPictureDisp
+'If Picture Is Nothing Then
+'    Set CoalescePicture = DefaultPicture
+'ElseIf Picture.Handle = NULL_PTR Then
+'    Set CoalescePicture = DefaultPicture
+'Else
+'    Set CoalescePicture = Picture
+'End If
+'End Function
 

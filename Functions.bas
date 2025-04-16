@@ -10,7 +10,7 @@ Attribute VB_Name = "Functions"
 
 Option Explicit
 
-Public Const MAX_THREAD_COUNT_CONTROL As Integer = 655 '679
+Public Const MAX_THREAD_COUNT_CONTROL As Long = 655& '679&
 
 Public MsgBoxResults As Collection
 Public InputBoxResults As Collection
@@ -61,7 +61,7 @@ Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVa
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
 Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
-Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal idHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
 Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Long) As Long
@@ -524,7 +524,7 @@ Sub ExtendDWMFrame(ByRef frmForm As Form, Top As Long, Right As Long, Bottom As 
 End Sub
 
 Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
-    SetupVisualStylesFixes frmForm
+    'SetupVisualStylesFixes frmForm
 
     Dim clrBackColor As Long
     Dim clrForeColor As Long

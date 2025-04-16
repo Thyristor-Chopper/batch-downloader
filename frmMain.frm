@@ -3408,8 +3408,6 @@ End Sub
 Private Sub Form_Load()
     On Error Resume Next
     
-    SetupVisualStylesFixes Me
-    
     Set ErrorCodeDescription = New Collection
     ErrorCodeDescription.Add t("서버와의 접속이 끊겼습니다. 다운로드 중 네트워크 오류가 발생했거나 주소가 유효하지 않거나 서버가 응답하지 않습니다.", "Network error"), "1"
     ErrorCodeDescription.Add t("주소나 파일 이름을 지정하지 않았습니다.", "Address or file name unspecified"), "102"

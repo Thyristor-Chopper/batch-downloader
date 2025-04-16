@@ -588,7 +588,7 @@ End Sub
 Sub LoadSettings()
     SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
-    Me.Caption = t(Me.Caption, "Download settings")
+    Me.Caption = t("다운로드 설정", "Download settings")
     If Tags.DownloadOptionsTargetForm = 2 Then Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
     If Tags.DownloadOptionsTargetForm = 1 Then Me.Caption = Me.Caption & " - " & t("일괄 다운로드", "Batch Download")
     Select Case Tags.DownloadOptionsTargetForm

@@ -353,182 +353,182 @@ Public Sub SendKeys(ByRef Text As String, Optional ByRef Wait As Boolean)
 CreateObject("WScript.Shell").SendKeys Text, Wait
 End Sub
 
-' (VB-Overwrite)
-Public Function GetAttr(ByVal PathName As String) As VbFileAttribute
-Const INVALID_FILE_ATTRIBUTES As Long = (-1)
-Const FILE_ATTRIBUTE_NORMAL As Long = &H80
-If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
-Dim dwAttributes As Long
-dwAttributes = GetFileAttributes(StrPtr("\\?\" & PathName))
-If dwAttributes = INVALID_FILE_ATTRIBUTES Then
-    Err.Raise 53
-ElseIf dwAttributes = FILE_ATTRIBUTE_NORMAL Then
-    GetAttr = vbNormal
-Else
-    GetAttr = dwAttributes
-End If
-End Function
-
-' (VB-Overwrite)
-Public Sub SetAttr(ByVal PathName As String, ByVal Attributes As VbFileAttribute)
-Const FILE_ATTRIBUTE_NORMAL As Long = &H80
-Dim dwAttributes As Long
-If Attributes = vbNormal Then
-    dwAttributes = FILE_ATTRIBUTE_NORMAL
-Else
-    If (Attributes And (vbVolume Or vbDirectory Or vbAlias)) <> 0 Then Err.Raise 5
-    dwAttributes = Attributes
-End If
-If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
-If SetFileAttributes(StrPtr("\\?\" & PathName), dwAttributes) = 0 Then Err.Raise 53
-End Sub
-
-' (VB-Overwrite)
-Public Function Dir(Optional ByVal PathMask As String, Optional ByVal Attributes As VbFileAttribute = vbNormal) As String
-#If VBA7 Then
-Const INVALID_HANDLE_VALUE As LongPtr = (-1)
-#Else
-Const INVALID_HANDLE_VALUE As Long = (-1)
-#End If
-Const FILE_ATTRIBUTE_NORMAL As Long = &H80
-Static hFindFile As LongPtr, AttributesCache As VbFileAttribute
-If Attributes = vbVolume Then ' Exact match
-    ' If any other attribute is specified, vbVolume is ignored.
-    If hFindFile <> NULL_PTR Then
-        FindClose hFindFile
-        hFindFile = NULL_PTR
-    End If
-    Dim VolumePathBuffer As String, VolumeNameBuffer As String
-    If Len(PathMask) = 0 Then
-        VolumeNameBuffer = String$(MAX_PATH, vbNullChar)
-        If GetVolumeInformation(NULL_PTR, StrPtr(VolumeNameBuffer), Len(VolumeNameBuffer), ByVal NULL_PTR, ByVal NULL_PTR, ByVal NULL_PTR, NULL_PTR, 0) <> 0 Then Dir = Left$(VolumeNameBuffer, InStr(VolumeNameBuffer, vbNullChar) - 1)
-    Else
-        VolumePathBuffer = String$(MAX_PATH, vbNullChar)
-        If Left$(PathMask, 2) = "\\" Then PathMask = "UNC\" & Mid$(PathMask, 3)
-        If GetVolumePathName(StrPtr("\\?\" & PathMask), StrPtr(VolumePathBuffer), Len(VolumePathBuffer)) <> 0 Then
-            VolumePathBuffer = Left$(VolumePathBuffer, InStr(VolumePathBuffer, vbNullChar) - 1)
-            VolumeNameBuffer = String$(MAX_PATH, vbNullChar)
-            If GetVolumeInformation(StrPtr(VolumePathBuffer), StrPtr(VolumeNameBuffer), Len(VolumeNameBuffer), ByVal NULL_PTR, ByVal NULL_PTR, ByVal NULL_PTR, NULL_PTR, 0) <> 0 Then Dir = Left$(VolumeNameBuffer, InStr(VolumeNameBuffer, vbNullChar) - 1)
-        End If
-    End If
-Else
-    Dim FD As WIN32_FIND_DATA, dwMask As Long
-    If Len(PathMask) = 0 Then
-        If hFindFile <> NULL_PTR Then
-            If FindNextFile(hFindFile, FD) = 0 Then
-                FindClose hFindFile
-                hFindFile = NULL_PTR
-                Exit Function
-            End If
-        Else
-            Err.Raise 5
-            Exit Function
-        End If
-    Else
-        If hFindFile <> NULL_PTR Then
-            FindClose hFindFile
-            hFindFile = NULL_PTR
-        End If
-        Select Case VBA.Right$(PathMask, 1)
-            Case "\", ":", "/"
-                PathMask = PathMask & "*.*"
-        End Select
-        AttributesCache = Attributes
-        If Left$(PathMask, 2) = "\\" Then PathMask = "UNC\" & Mid$(PathMask, 3)
-        hFindFile = FindFirstFile(StrPtr("\\?\" & PathMask), FD)
-        If hFindFile = INVALID_HANDLE_VALUE Then
-            hFindFile = NULL_PTR
-            If Err.LastDllError > 12 Then Err.Raise 52
-            Exit Function
-        End If
-    End If
-    Do
-        If FD.dwFileAttributes = FILE_ATTRIBUTE_NORMAL Then
-            dwMask = 0 ' Found
-        Else
-            dwMask = FD.dwFileAttributes And (Not AttributesCache) And &H16
-        End If
-        If dwMask = 0 Then
-            Dir = Left$(FD.lpszFileName(), InStr(FD.lpszFileName(), vbNullChar) - 1)
-            If FD.dwFileAttributes And vbDirectory Then
-                If Dir <> "." And Dir <> ".." Then Exit Do ' Exclude self and relative path aliases
-            Else
-                Exit Do
-            End If
-        End If
-        If FindNextFile(hFindFile, FD) = 0 Then
-            FindClose hFindFile
-            hFindFile = NULL_PTR
-            Exit Do
-        End If
-    Loop
-End If
-End Function
-
-' (VB-Overwrite)
-Public Sub MkDir(ByVal PathName As String)
-If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
-If CreateDirectory(StrPtr("\\?\" & PathName), NULL_PTR) = 0 Then
-    Const ERROR_PATH_NOT_FOUND As Long = 3
-    If Err.LastDllError = ERROR_PATH_NOT_FOUND Then
-        Err.Raise 76
-    Else
-        Err.Raise 75
-    End If
-End If
-End Sub
-
-' (VB-Overwrite)
-Public Sub RmDir(ByVal PathName As String)
-If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
-If RemoveDirectory(StrPtr("\\?\" & PathName)) = 0 Then
-    Const ERROR_FILE_NOT_FOUND As Long = 2
-    If Err.LastDllError = ERROR_FILE_NOT_FOUND Then
-        Err.Raise 76
-    Else
-        Err.Raise 75
-    End If
-End If
-End Sub
-
-' (VB-Overwrite)
-Public Function FileLen(ByVal PathName As String) As Variant
-Dim FAD As WIN32_FILE_ATTRIBUTE_DATA
-If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
-If GetFileAttributesEx(StrPtr("\\?\" & PathName), 0, VarPtr(FAD)) <> 0 Then
-    Dim Int64 As Currency
-    CopyMemory ByVal VarPtr(Int64), ByVal VarPtr(FAD.nFileSizeLow), 4
-    CopyMemory ByVal UnsignedAdd(VarPtr(Int64), 4), ByVal VarPtr(FAD.nFileSizeHigh), 4
-    FileLen = CDec(0)
-    VarDecFromI8 Int64, FileLen
-Else
-    Err.Raise Number:=53, Description:="File not found: '" & PathName & "'"
-End If
-End Function
-
-' (VB-Overwrite)
-Public Function FileDateTime(ByVal PathName As String) As Date
-Dim FAD As WIN32_FILE_ATTRIBUTE_DATA
-If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
-If GetFileAttributesEx(StrPtr("\\?\" & PathName), 0, VarPtr(FAD)) <> 0 Then
-    Dim FT As FILETIME, ST As SYSTEMTIME
-    FileTimeToLocalFileTime VarPtr(FAD.FTLastWriteTime), VarPtr(FT)
-    FileTimeToSystemTime VarPtr(FT), VarPtr(ST)
-    FileDateTime = DateSerial(ST.wYear, ST.wMonth, ST.wDay) + TimeSerial(ST.wHour, ST.wMinute, ST.wSecond)
-Else
-    Err.Raise Number:=53, Description:="File not found: '" & PathName & "'"
-End If
-End Function
-
-' (VB-Overwrite)
-Public Function Command$()
-If InIDE() = False Then
-    SysReAllocString VarPtr(Command$), PathGetArgs(GetCommandLine())
-    Command$ = LTrim$(Command$)
-Else
-    Command$ = VBA.Command$()
-End If
-End Function
+'' (VB-Overwrite)
+'Public Function GetAttr(ByVal PathName As String) As VbFileAttribute
+'Const INVALID_FILE_ATTRIBUTES As Long = (-1)
+'Const FILE_ATTRIBUTE_NORMAL As Long = &H80
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'Dim dwAttributes As Long
+'dwAttributes = GetFileAttributes(StrPtr("\\?\" & PathName))
+'If dwAttributes = INVALID_FILE_ATTRIBUTES Then
+'    Err.Raise 53
+'ElseIf dwAttributes = FILE_ATTRIBUTE_NORMAL Then
+'    GetAttr = vbNormal
+'Else
+'    GetAttr = dwAttributes
+'End If
+'End Function
+'
+'' (VB-Overwrite)
+'Public Sub SetAttr(ByVal PathName As String, ByVal Attributes As VbFileAttribute)
+'Const FILE_ATTRIBUTE_NORMAL As Long = &H80
+'Dim dwAttributes As Long
+'If Attributes = vbNormal Then
+'    dwAttributes = FILE_ATTRIBUTE_NORMAL
+'Else
+'    If (Attributes And (vbVolume Or vbDirectory Or vbAlias)) <> 0 Then Err.Raise 5
+'    dwAttributes = Attributes
+'End If
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If SetFileAttributes(StrPtr("\\?\" & PathName), dwAttributes) = 0 Then Err.Raise 53
+'End Sub
+'
+'' (VB-Overwrite)
+'Public Function Dir(Optional ByVal PathMask As String, Optional ByVal Attributes As VbFileAttribute = vbNormal) As String
+'#If VBA7 Then
+'Const INVALID_HANDLE_VALUE As LongPtr = (-1)
+'#Else
+'Const INVALID_HANDLE_VALUE As Long = (-1)
+'#End If
+'Const FILE_ATTRIBUTE_NORMAL As Long = &H80
+'Static hFindFile As LongPtr, AttributesCache As VbFileAttribute
+'If Attributes = vbVolume Then ' Exact match
+'    ' If any other attribute is specified, vbVolume is ignored.
+'    If hFindFile <> NULL_PTR Then
+'        FindClose hFindFile
+'        hFindFile = NULL_PTR
+'    End If
+'    Dim VolumePathBuffer As String, VolumeNameBuffer As String
+'    If Len(PathMask) = 0 Then
+'        VolumeNameBuffer = String$(MAX_PATH, vbNullChar)
+'        If GetVolumeInformation(NULL_PTR, StrPtr(VolumeNameBuffer), Len(VolumeNameBuffer), ByVal NULL_PTR, ByVal NULL_PTR, ByVal NULL_PTR, NULL_PTR, 0) <> 0 Then Dir = Left$(VolumeNameBuffer, InStr(VolumeNameBuffer, vbNullChar) - 1)
+'    Else
+'        VolumePathBuffer = String$(MAX_PATH, vbNullChar)
+'        If Left$(PathMask, 2) = "\\" Then PathMask = "UNC\" & Mid$(PathMask, 3)
+'        If GetVolumePathName(StrPtr("\\?\" & PathMask), StrPtr(VolumePathBuffer), Len(VolumePathBuffer)) <> 0 Then
+'            VolumePathBuffer = Left$(VolumePathBuffer, InStr(VolumePathBuffer, vbNullChar) - 1)
+'            VolumeNameBuffer = String$(MAX_PATH, vbNullChar)
+'            If GetVolumeInformation(StrPtr(VolumePathBuffer), StrPtr(VolumeNameBuffer), Len(VolumeNameBuffer), ByVal NULL_PTR, ByVal NULL_PTR, ByVal NULL_PTR, NULL_PTR, 0) <> 0 Then Dir = Left$(VolumeNameBuffer, InStr(VolumeNameBuffer, vbNullChar) - 1)
+'        End If
+'    End If
+'Else
+'    Dim FD As WIN32_FIND_DATA, dwMask As Long
+'    If Len(PathMask) = 0 Then
+'        If hFindFile <> NULL_PTR Then
+'            If FindNextFile(hFindFile, FD) = 0 Then
+'                FindClose hFindFile
+'                hFindFile = NULL_PTR
+'                Exit Function
+'            End If
+'        Else
+'            Err.Raise 5
+'            Exit Function
+'        End If
+'    Else
+'        If hFindFile <> NULL_PTR Then
+'            FindClose hFindFile
+'            hFindFile = NULL_PTR
+'        End If
+'        Select Case VBA.Right$(PathMask, 1)
+'            Case "\", ":", "/"
+'                PathMask = PathMask & "*.*"
+'        End Select
+'        AttributesCache = Attributes
+'        If Left$(PathMask, 2) = "\\" Then PathMask = "UNC\" & Mid$(PathMask, 3)
+'        hFindFile = FindFirstFile(StrPtr("\\?\" & PathMask), FD)
+'        If hFindFile = INVALID_HANDLE_VALUE Then
+'            hFindFile = NULL_PTR
+'            If Err.LastDllError > 12 Then Err.Raise 52
+'            Exit Function
+'        End If
+'    End If
+'    Do
+'        If FD.dwFileAttributes = FILE_ATTRIBUTE_NORMAL Then
+'            dwMask = 0 ' Found
+'        Else
+'            dwMask = FD.dwFileAttributes And (Not AttributesCache) And &H16
+'        End If
+'        If dwMask = 0 Then
+'            Dir = Left$(FD.lpszFileName(), InStr(FD.lpszFileName(), vbNullChar) - 1)
+'            If FD.dwFileAttributes And vbDirectory Then
+'                If Dir <> "." And Dir <> ".." Then Exit Do ' Exclude self and relative path aliases
+'            Else
+'                Exit Do
+'            End If
+'        End If
+'        If FindNextFile(hFindFile, FD) = 0 Then
+'            FindClose hFindFile
+'            hFindFile = NULL_PTR
+'            Exit Do
+'        End If
+'    Loop
+'End If
+'End Function
+'
+'' (VB-Overwrite)
+'Public Sub MkDir(ByVal PathName As String)
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If CreateDirectory(StrPtr("\\?\" & PathName), NULL_PTR) = 0 Then
+'    Const ERROR_PATH_NOT_FOUND As Long = 3
+'    If Err.LastDllError = ERROR_PATH_NOT_FOUND Then
+'        Err.Raise 76
+'    Else
+'        Err.Raise 75
+'    End If
+'End If
+'End Sub
+'
+'' (VB-Overwrite)
+'Public Sub RmDir(ByVal PathName As String)
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If RemoveDirectory(StrPtr("\\?\" & PathName)) = 0 Then
+'    Const ERROR_FILE_NOT_FOUND As Long = 2
+'    If Err.LastDllError = ERROR_FILE_NOT_FOUND Then
+'        Err.Raise 76
+'    Else
+'        Err.Raise 75
+'    End If
+'End If
+'End Sub
+'
+'' (VB-Overwrite)
+'Public Function FileLen(ByVal PathName As String) As Variant
+'Dim FAD As WIN32_FILE_ATTRIBUTE_DATA
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If GetFileAttributesEx(StrPtr("\\?\" & PathName), 0, VarPtr(FAD)) <> 0 Then
+'    Dim Int64 As Currency
+'    CopyMemory ByVal VarPtr(Int64), ByVal VarPtr(FAD.nFileSizeLow), 4
+'    CopyMemory ByVal UnsignedAdd(VarPtr(Int64), 4), ByVal VarPtr(FAD.nFileSizeHigh), 4
+'    FileLen = CDec(0)
+'    VarDecFromI8 Int64, FileLen
+'Else
+'    Err.Raise Number:=53, Description:="File not found: '" & PathName & "'"
+'End If
+'End Function
+'
+'' (VB-Overwrite)
+'Public Function FileDateTime(ByVal PathName As String) As Date
+'Dim FAD As WIN32_FILE_ATTRIBUTE_DATA
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If GetFileAttributesEx(StrPtr("\\?\" & PathName), 0, VarPtr(FAD)) <> 0 Then
+'    Dim FT As FILETIME, ST As SYSTEMTIME
+'    FileTimeToLocalFileTime VarPtr(FAD.FTLastWriteTime), VarPtr(FT)
+'    FileTimeToSystemTime VarPtr(FT), VarPtr(ST)
+'    FileDateTime = DateSerial(ST.wYear, ST.wMonth, ST.wDay) + TimeSerial(ST.wHour, ST.wMinute, ST.wSecond)
+'Else
+'    Err.Raise Number:=53, Description:="File not found: '" & PathName & "'"
+'End If
+'End Function
+'
+'' (VB-Overwrite)
+'Public Function Command$()
+'If InIDE() = False Then
+'    SysReAllocString VarPtr(Command$), PathGetArgs(GetCommandLine())
+'    Command$ = LTrim$(Command$)
+'Else
+'    Command$ = VBA.Command$()
+'End If
+'End Function
 
 Public Function FileExists(ByVal PathName As String) As Boolean
 On Error Resume Next
@@ -539,161 +539,161 @@ On Error GoTo 0
 If (Attributes And (vbDirectory Or vbVolume)) = 0 And ErrVal = 0 Then FileExists = True
 End Function
 
-Public Function AppPath() As String
-If InIDE() = False Then
-    Const MAX_PATH_W As Long = 32767
-    Dim Buffer As String, RetVal As Long
-    Buffer = String$(MAX_PATH, vbNullChar)
-    RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH)
-    If RetVal = MAX_PATH Then ' Path > MAX_PATH
-        Buffer = String$(MAX_PATH_W, vbNullChar)
-        RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH_W)
-    End If
-    If RetVal > 0 Then
-        Buffer = Left$(Buffer, RetVal)
-        AppPath = Left$(Buffer, InStrRev(Buffer, "\"))
-    Else
-        AppPath = App.Path & IIf(VBA.Right$(App.Path, 1) = "\", "", "\")
-    End If
-Else
-    AppPath = App.Path & IIf(VBA.Right$(App.Path, 1) = "\", "", "\")
-End If
-End Function
+'Public Function AppPath() As String
+'If InIDE() = False Then
+'    Const MAX_PATH_W As Long = 32767
+'    Dim Buffer As String, RetVal As Long
+'    Buffer = String$(MAX_PATH, vbNullChar)
+'    RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH)
+'    If RetVal = MAX_PATH Then ' Path > MAX_PATH
+'        Buffer = String$(MAX_PATH_W, vbNullChar)
+'        RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH_W)
+'    End If
+'    If RetVal > 0 Then
+'        Buffer = Left$(Buffer, RetVal)
+'        AppPath = Left$(Buffer, InStrRev(Buffer, "\"))
+'    Else
+'        AppPath = App.Path & IIf(VBA.Right$(App.Path, 1) = "\", "", "\")
+'    End If
+'Else
+'    AppPath = App.Path & IIf(VBA.Right$(App.Path, 1) = "\", "", "\")
+'End If
+'End Function
 
-Public Function AppEXEName() As String
-If InIDE() = False Then
-    Const MAX_PATH_W As Long = 32767
-    Dim Buffer As String, RetVal As Long
-    Buffer = String$(MAX_PATH, vbNullChar)
-    RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH)
-    If RetVal = MAX_PATH Then ' Path > MAX_PATH
-        Buffer = String$(MAX_PATH_W, vbNullChar)
-        RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH_W)
-    End If
-    If RetVal > 0 Then
-        Buffer = Left$(Buffer, RetVal)
-        Buffer = VBA.Right$(Buffer, Len(Buffer) - InStrRev(Buffer, "\"))
-        AppEXEName = Left$(Buffer, InStrRev(Buffer, ".") - 1)
-    Else
-        AppEXEName = App.EXEName
-    End If
-Else
-    AppEXEName = App.EXEName
-End If
-End Function
+'Public Function AppEXEName() As String
+'If InIDE() = False Then
+'    Const MAX_PATH_W As Long = 32767
+'    Dim Buffer As String, RetVal As Long
+'    Buffer = String$(MAX_PATH, vbNullChar)
+'    RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH)
+'    If RetVal = MAX_PATH Then ' Path > MAX_PATH
+'        Buffer = String$(MAX_PATH_W, vbNullChar)
+'        RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH_W)
+'    End If
+'    If RetVal > 0 Then
+'        Buffer = Left$(Buffer, RetVal)
+'        Buffer = VBA.Right$(Buffer, Len(Buffer) - InStrRev(Buffer, "\"))
+'        AppEXEName = Left$(Buffer, InStrRev(Buffer, ".") - 1)
+'    Else
+'        AppEXEName = App.EXEName
+'    End If
+'Else
+'    AppEXEName = App.EXEName
+'End If
+'End Function
 
-Public Function AppMajor() As Integer
-If InIDE() = False Then
-    With GetAppVersionInfo()
-    AppMajor = .dwFileVersionMSHi
-    End With
-Else
-    AppMajor = App.Major
-End If
-End Function
+'Public Function AppMajor() As Integer
+'If InIDE() = False Then
+'    With GetAppVersionInfo()
+'    AppMajor = .dwFileVersionMSHi
+'    End With
+'Else
+'    AppMajor = App.Major
+'End If
+'End Function
+'
+'Public Function AppMinor() As Integer
+'If InIDE() = False Then
+'    With GetAppVersionInfo()
+'    AppMinor = .dwFileVersionMSLo
+'    End With
+'Else
+'    AppMinor = App.Minor
+'End If
+'End Function
+'
+'Public Function AppRevision() As Integer
+'If InIDE() = False Then
+'    With GetAppVersionInfo()
+'    AppRevision = .dwFileVersionLSLo
+'    End With
+'Else
+'    AppRevision = App.Revision
+'End If
+'End Function
 
-Public Function AppMinor() As Integer
-If InIDE() = False Then
-    With GetAppVersionInfo()
-    AppMinor = .dwFileVersionMSLo
-    End With
-Else
-    AppMinor = App.Minor
-End If
-End Function
+'Private Function GetAppVersionInfo() As VS_FIXEDFILEINFO
+'Static Done As Boolean, Value As VS_FIXEDFILEINFO
+'If Done = False Then
+'    Const MAX_PATH_W As Long = 32767
+'    Dim Buffer As String, RetVal As Long
+'    Buffer = String$(MAX_PATH, vbNullChar)
+'    RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH)
+'    If RetVal = MAX_PATH Then ' Path > MAX_PATH
+'        Buffer = String$(MAX_PATH_W, vbNullChar)
+'        RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH_W)
+'    End If
+'    If RetVal > 0 Then
+'        Dim ImagePath As String, Length As Long
+'        ImagePath = Left$(Buffer, RetVal)
+'        Length = GetFileVersionInfoSize(StrPtr(ImagePath), 0)
+'        If Length > 0 Then
+'            Dim DataBuffer() As Byte
+'            ReDim DataBuffer(0 To (Length - 1)) As Byte
+'            If GetFileVersionInfo(StrPtr(ImagePath), 0, Length, VarPtr(DataBuffer(0))) <> 0 Then
+'                Dim hData As LongPtr
+'                If VerQueryValue(VarPtr(DataBuffer(0)), StrPtr("\"), hData, ByVal VarPtr(Length)) <> 0 Then
+'                    If hData <> NULL_PTR Then CopyMemory Value, ByVal hData, LenB(Value)
+'                End If
+'            End If
+'        End If
+'    End If
+'    Done = True
+'End If
+'LSet GetAppVersionInfo = Value
+'End Function
 
-Public Function AppRevision() As Integer
-If InIDE() = False Then
-    With GetAppVersionInfo()
-    AppRevision = .dwFileVersionLSLo
-    End With
-Else
-    AppRevision = App.Revision
-End If
-End Function
+'Public Function HasClipboardText() As Boolean
+'Const CF_UNICODETEXT As Long = 13
+'If OpenClipboard(NULL_PTR) <> 0 Then
+'    HasClipboardText = CBool(IsClipboardFormatAvailable(CF_UNICODETEXT) <> 0)
+'    CloseClipboard
+'End If
+'End Function
+'
+'Public Function GetClipboardText() As String
+'Const CF_UNICODETEXT As Long = 13
+'Dim lpText As LongPtr, lpMem As LongPtr, Length As Long
+'If OpenClipboard(NULL_PTR) <> 0 Then
+'    If IsClipboardFormatAvailable(CF_UNICODETEXT) <> 0 Then
+'        lpText = GetClipboardData(CF_UNICODETEXT)
+'        If lpText <> NULL_PTR Then
+'            lpMem = GlobalLock(lpText)
+'            If lpMem <> NULL_PTR Then
+'                Length = lstrlen(lpMem)
+'                If Length > 0 Then
+'                    GetClipboardText = String$(Length, vbNullChar)
+'                    lstrcpy StrPtr(GetClipboardText), lpMem
+'                End If
+'                GlobalUnlock lpMem
+'            End If
+'        End If
+'    End If
+'    CloseClipboard
+'End If
+'End Function
 
-Private Function GetAppVersionInfo() As VS_FIXEDFILEINFO
-Static Done As Boolean, Value As VS_FIXEDFILEINFO
-If Done = False Then
-    Const MAX_PATH_W As Long = 32767
-    Dim Buffer As String, RetVal As Long
-    Buffer = String$(MAX_PATH, vbNullChar)
-    RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH)
-    If RetVal = MAX_PATH Then ' Path > MAX_PATH
-        Buffer = String$(MAX_PATH_W, vbNullChar)
-        RetVal = GetModuleFileName(NULL_PTR, StrPtr(Buffer), MAX_PATH_W)
-    End If
-    If RetVal > 0 Then
-        Dim ImagePath As String, Length As Long
-        ImagePath = Left$(Buffer, RetVal)
-        Length = GetFileVersionInfoSize(StrPtr(ImagePath), 0)
-        If Length > 0 Then
-            Dim DataBuffer() As Byte
-            ReDim DataBuffer(0 To (Length - 1)) As Byte
-            If GetFileVersionInfo(StrPtr(ImagePath), 0, Length, VarPtr(DataBuffer(0))) <> 0 Then
-                Dim hData As LongPtr
-                If VerQueryValue(VarPtr(DataBuffer(0)), StrPtr("\"), hData, ByVal VarPtr(Length)) <> 0 Then
-                    If hData <> NULL_PTR Then CopyMemory Value, ByVal hData, LenB(Value)
-                End If
-            End If
-        End If
-    End If
-    Done = True
-End If
-LSet GetAppVersionInfo = Value
-End Function
-
-Public Function HasClipboardText() As Boolean
-Const CF_UNICODETEXT As Long = 13
-If OpenClipboard(NULL_PTR) <> 0 Then
-    HasClipboardText = CBool(IsClipboardFormatAvailable(CF_UNICODETEXT) <> 0)
-    CloseClipboard
-End If
-End Function
-
-Public Function GetClipboardText() As String
-Const CF_UNICODETEXT As Long = 13
-Dim lpText As LongPtr, lpMem As LongPtr, Length As Long
-If OpenClipboard(NULL_PTR) <> 0 Then
-    If IsClipboardFormatAvailable(CF_UNICODETEXT) <> 0 Then
-        lpText = GetClipboardData(CF_UNICODETEXT)
-        If lpText <> NULL_PTR Then
-            lpMem = GlobalLock(lpText)
-            If lpMem <> NULL_PTR Then
-                Length = lstrlen(lpMem)
-                If Length > 0 Then
-                    GetClipboardText = String$(Length, vbNullChar)
-                    lstrcpy StrPtr(GetClipboardText), lpMem
-                End If
-                GlobalUnlock lpMem
-            End If
-        End If
-    End If
-    CloseClipboard
-End If
-End Function
-
-Public Sub SetClipboardText(ByRef Text As String)
-Const CF_UNICODETEXT As Long = 13
-Const GMEM_MOVEABLE As Long = &H2
-Dim Buffer As String, Length As Long
-Dim hMem As LongPtr, lpMem As LongPtr
-If OpenClipboard(NULL_PTR) <> 0 Then
-    EmptyClipboard
-    Buffer = Text & vbNullChar
-    Length = LenB(Buffer)
-    hMem = GlobalAlloc(GMEM_MOVEABLE, Length)
-    If hMem <> NULL_PTR Then
-        lpMem = GlobalLock(hMem)
-        If lpMem <> NULL_PTR Then
-            CopyMemory ByVal lpMem, ByVal StrPtr(Buffer), Length
-            GlobalUnlock hMem
-            SetClipboardData CF_UNICODETEXT, hMem
-        End If
-    End If
-    CloseClipboard
-End If
-End Sub
+'Public Sub SetClipboardText(ByRef Text As String)
+'Const CF_UNICODETEXT As Long = 13
+'Const GMEM_MOVEABLE As Long = &H2
+'Dim Buffer As String, Length As Long
+'Dim hMem As LongPtr, lpMem As LongPtr
+'If OpenClipboard(NULL_PTR) <> 0 Then
+'    EmptyClipboard
+'    Buffer = Text & vbNullChar
+'    Length = LenB(Buffer)
+'    hMem = GlobalAlloc(GMEM_MOVEABLE, Length)
+'    If hMem <> NULL_PTR Then
+'        lpMem = GlobalLock(hMem)
+'        If lpMem <> NULL_PTR Then
+'            CopyMemory ByVal lpMem, ByVal StrPtr(Buffer), Length
+'            GlobalUnlock hMem
+'            SetClipboardData CF_UNICODETEXT, hMem
+'        End If
+'    End If
+'    CloseClipboard
+'End If
+'End Sub
 
 Public Function AccelCharCode(ByVal Caption As String) As Integer
 If Caption = vbNullString Then Exit Function
@@ -722,46 +722,46 @@ If Err.Number <> 0 Or Index < 0 Then ProperControlName = Control.Name Else Prope
 On Error GoTo 0
 End Function
 
-Public Function GetTopUserControl(ByVal UserControl As Object) As VB.UserControl
-If UserControl Is Nothing Then Exit Function
-Dim TopUserControl As VB.UserControl, TempUserControl As VB.UserControl
-CopyMemory TempUserControl, ObjPtr(UserControl), PTR_SIZE
-Set TopUserControl = TempUserControl
-CopyMemory TempUserControl, NULL_PTR, PTR_SIZE
-With TopUserControl
-If .ParentControls.Count > 0 Then
-    Dim OldParentControlsType As VBRUN.ParentControlsType
-    OldParentControlsType = .ParentControls.ParentControlsType
-    .ParentControls.ParentControlsType = vbExtender
-    If TypeOf .ParentControls(0) Is VB.VBControlExtender Then
-        .ParentControls.ParentControlsType = vbNoExtender
-        CopyMemory TempUserControl, ObjPtr(.ParentControls(0)), PTR_SIZE
-        Set TopUserControl = TempUserControl
-        CopyMemory TempUserControl, NULL_PTR, PTR_SIZE
-        Dim TempParentControlsType As VBRUN.ParentControlsType
-        Do
-            With TopUserControl
-            If .ParentControls.Count = 0 Then Exit Do
-            TempParentControlsType = .ParentControls.ParentControlsType
-            .ParentControls.ParentControlsType = vbExtender
-            If TypeOf .ParentControls(0) Is VB.VBControlExtender Then
-                .ParentControls.ParentControlsType = vbNoExtender
-                CopyMemory TempUserControl, ObjPtr(.ParentControls(0)), PTR_SIZE
-                Set TopUserControl = TempUserControl
-                CopyMemory TempUserControl, NULL_PTR, PTR_SIZE
-                .ParentControls.ParentControlsType = TempParentControlsType
-            Else
-                .ParentControls.ParentControlsType = TempParentControlsType
-                Exit Do
-            End If
-            End With
-        Loop
-    End If
-    .ParentControls.ParentControlsType = OldParentControlsType
-End If
-End With
-Set GetTopUserControl = TopUserControl
-End Function
+'Public Function GetTopUserControl(ByVal UserControl As Object) As VB.UserControl
+'If UserControl Is Nothing Then Exit Function
+'Dim TopUserControl As VB.UserControl, TempUserControl As VB.UserControl
+'CopyMemory TempUserControl, ObjPtr(UserControl), PTR_SIZE
+'Set TopUserControl = TempUserControl
+'CopyMemory TempUserControl, NULL_PTR, PTR_SIZE
+'With TopUserControl
+'If .ParentControls.Count > 0 Then
+'    Dim OldParentControlsType As VBRUN.ParentControlsType
+'    OldParentControlsType = .ParentControls.ParentControlsType
+'    .ParentControls.ParentControlsType = vbExtender
+'    If TypeOf .ParentControls(0) Is VB.VBControlExtender Then
+'        .ParentControls.ParentControlsType = vbNoExtender
+'        CopyMemory TempUserControl, ObjPtr(.ParentControls(0)), PTR_SIZE
+'        Set TopUserControl = TempUserControl
+'        CopyMemory TempUserControl, NULL_PTR, PTR_SIZE
+'        Dim TempParentControlsType As VBRUN.ParentControlsType
+'        Do
+'            With TopUserControl
+'            If .ParentControls.Count = 0 Then Exit Do
+'            TempParentControlsType = .ParentControls.ParentControlsType
+'            .ParentControls.ParentControlsType = vbExtender
+'            If TypeOf .ParentControls(0) Is VB.VBControlExtender Then
+'                .ParentControls.ParentControlsType = vbNoExtender
+'                CopyMemory TempUserControl, ObjPtr(.ParentControls(0)), PTR_SIZE
+'                Set TopUserControl = TempUserControl
+'                CopyMemory TempUserControl, NULL_PTR, PTR_SIZE
+'                .ParentControls.ParentControlsType = TempParentControlsType
+'            Else
+'                .ParentControls.ParentControlsType = TempParentControlsType
+'                Exit Do
+'            End If
+'            End With
+'        Loop
+'    End If
+'    .ParentControls.ParentControlsType = OldParentControlsType
+'End If
+'End With
+'Set GetTopUserControl = TopUserControl
+'End Function
 
 Public Function MousePointerID(ByVal MousePointer As Integer) As Long
 Select Case MousePointer
@@ -865,253 +865,253 @@ Public Function CloneOLEFont(ByVal Font As IFont) As StdFont
 If Not Font Is Nothing Then Font.Clone CloneOLEFont
 End Function
 
-#If VBA7 Then
-Public Function CloneGDIFont(ByVal hFont As LongPtr) As LongPtr
-#Else
-Public Function CloneGDIFont(ByVal hFont As Long) As Long
-#End If
-If hFont = NULL_PTR Then Exit Function
-Dim LF As LOGFONT
-GetObjectAPI hFont, LenB(LF), LF
-CloneGDIFont = CreateFontIndirect(LF)
-End Function
+'#If VBA7 Then
+'Public Function CloneGDIFont(ByVal hFont As LongPtr) As LongPtr
+'#Else
+'Public Function CloneGDIFont(ByVal hFont As Long) As Long
+'#End If
+'If hFont = NULL_PTR Then Exit Function
+'Dim LF As LOGFONT
+'GetObjectAPI hFont, LenB(LF), LF
+'CloneGDIFont = CreateFontIndirect(LF)
+'End Function
 
-Public Function GetNumberGroupDigit() As String
-GetNumberGroupDigit = Mid$(FormatNumber(1000, 0, , , vbTrue), 2, 1)
-If GetNumberGroupDigit = "0" Then GetNumberGroupDigit = vbNullString
-End Function
+'Public Function GetNumberGroupDigit() As String
+'GetNumberGroupDigit = Mid$(FormatNumber(1000, 0, , , vbTrue), 2, 1)
+'If GetNumberGroupDigit = "0" Then GetNumberGroupDigit = vbNullString
+'End Function
 
-Public Function GetDecimalChar() As String
-GetDecimalChar = Mid$(CStr(1.1), 2, 1)
-End Function
+'Public Function GetDecimalChar() As String
+'GetDecimalChar = Mid$(CStr(1.1), 2, 1)
+'End Function
 
-Public Function CurrentUTC() As Date
-Dim ST As SYSTEMTIME
-GetSystemTime ST
-CurrentUTC = DateSerial(ST.wYear, ST.wMonth, ST.wDay) + TimeSerial(ST.wHour, ST.wMinute, ST.wSecond)
-End Function
+'Public Function CurrentUTC() As Date
+'Dim ST As SYSTEMTIME
+'GetSystemTime ST
+'CurrentUTC = DateSerial(ST.wYear, ST.wMonth, ST.wDay) + TimeSerial(ST.wHour, ST.wMinute, ST.wSecond)
+'End Function
 
-Public Function FromUTC(ByVal UTCDate As Date) As Date
-Dim UT As SYSTEMTIME, LT As SYSTEMTIME
-UT.wYear = VBA.Year(UTCDate)
-UT.wMonth = VBA.Month(UTCDate)
-UT.wDay = VBA.Day(UTCDate)
-UT.wDayOfWeek = VBA.Weekday(UTCDate)
-UT.wHour = VBA.Hour(UTCDate)
-UT.wMinute = VBA.Minute(UTCDate)
-UT.wSecond = VBA.Second(UTCDate)
-UT.wMilliseconds = 0
-If SystemTimeToTzSpecificLocalTime(NULL_PTR, VarPtr(UT), VarPtr(LT)) <> 0 Then
-    FromUTC = DateSerial(LT.wYear, LT.wMonth, LT.wDay) + TimeSerial(LT.wHour, LT.wMinute, LT.wSecond)
-Else
-    FromUTC = UTCDate
-End If
-End Function
+'Public Function FromUTC(ByVal UTCDate As Date) As Date
+'Dim UT As SYSTEMTIME, LT As SYSTEMTIME
+'UT.wYear = VBA.Year(UTCDate)
+'UT.wMonth = VBA.Month(UTCDate)
+'UT.wDay = VBA.Day(UTCDate)
+'UT.wDayOfWeek = VBA.Weekday(UTCDate)
+'UT.wHour = VBA.Hour(UTCDate)
+'UT.wMinute = VBA.Minute(UTCDate)
+'UT.wSecond = VBA.Second(UTCDate)
+'UT.wMilliseconds = 0
+'If SystemTimeToTzSpecificLocalTime(NULL_PTR, VarPtr(UT), VarPtr(LT)) <> 0 Then
+'    FromUTC = DateSerial(LT.wYear, LT.wMonth, LT.wDay) + TimeSerial(LT.wHour, LT.wMinute, LT.wSecond)
+'Else
+'    FromUTC = UTCDate
+'End If
+'End Function
+'
+'Public Function ToUTC(ByVal LocalDate As Date) As Date
+'Dim LT As SYSTEMTIME, UT As SYSTEMTIME
+'LT.wYear = VBA.Year(LocalDate)
+'LT.wMonth = VBA.Month(LocalDate)
+'LT.wDay = VBA.Day(LocalDate)
+'LT.wDayOfWeek = VBA.Weekday(LocalDate)
+'LT.wHour = VBA.Hour(LocalDate)
+'LT.wMinute = VBA.Minute(LocalDate)
+'LT.wSecond = VBA.Second(LocalDate)
+'LT.wMilliseconds = 0
+'If TzSpecificLocalTimeToSystemTime(NULL_PTR, VarPtr(LT), VarPtr(UT)) <> 0 Then
+'    ToUTC = DateSerial(UT.wYear, UT.wMonth, UT.wDay) + TimeSerial(UT.wHour, UT.wMinute, UT.wSecond)
+'Else
+'    ToUTC = LocalDate
+'End If
+'End Function
 
-Public Function ToUTC(ByVal LocalDate As Date) As Date
-Dim LT As SYSTEMTIME, UT As SYSTEMTIME
-LT.wYear = VBA.Year(LocalDate)
-LT.wMonth = VBA.Month(LocalDate)
-LT.wDay = VBA.Day(LocalDate)
-LT.wDayOfWeek = VBA.Weekday(LocalDate)
-LT.wHour = VBA.Hour(LocalDate)
-LT.wMinute = VBA.Minute(LocalDate)
-LT.wSecond = VBA.Second(LocalDate)
-LT.wMilliseconds = 0
-If TzSpecificLocalTimeToSystemTime(NULL_PTR, VarPtr(LT), VarPtr(UT)) <> 0 Then
-    ToUTC = DateSerial(UT.wYear, UT.wMonth, UT.wDay) + TimeSerial(UT.wHour, UT.wMinute, UT.wSecond)
-Else
-    ToUTC = LocalDate
-End If
-End Function
+'Public Function FromJulianDay(ByVal JulianDay As Double) As Date
+'Const JULIANDAY_OFFSET As Double = 2415018.5
+'If JulianDay >= 1757584.5 And JulianDay < 5373484.5 Then
+'    If JulianDay >= JULIANDAY_OFFSET Then
+'        FromJulianDay = CDate(JulianDay - JULIANDAY_OFFSET)
+'    Else
+'        Dim DateValue As Double, Temp As Double
+'        DateValue = JulianDay - JULIANDAY_OFFSET
+'        Temp = Int(DateValue)
+'        FromJulianDay = CDate(Temp + (Temp - DateValue))
+'    End If
+'Else
+'    Err.Raise 5
+'End If
+'End Function
 
-Public Function FromJulianDay(ByVal JulianDay As Double) As Date
-Const JULIANDAY_OFFSET As Double = 2415018.5
-If JulianDay >= 1757584.5 And JulianDay < 5373484.5 Then
-    If JulianDay >= JULIANDAY_OFFSET Then
-        FromJulianDay = CDate(JulianDay - JULIANDAY_OFFSET)
-    Else
-        Dim DateValue As Double, Temp As Double
-        DateValue = JulianDay - JULIANDAY_OFFSET
-        Temp = Int(DateValue)
-        FromJulianDay = CDate(Temp + (Temp - DateValue))
-    End If
-Else
-    Err.Raise 5
-End If
-End Function
+'Public Function ToJulianDay(ByVal OADate As Date) As Double
+'Const JULIANDAY_OFFSET As Double = 2415018.5
+'If CDbl(OADate) >= 0# Then
+'    ToJulianDay = CDbl(OADate) + JULIANDAY_OFFSET
+'Else
+'    Dim Temp As Double
+'    Temp = Fix(CDbl(OADate))
+'    ToJulianDay = Temp - (CDbl(OADate) - Temp) + JULIANDAY_OFFSET
+'End If
+'End Function
+'
+'Public Function FromUnixEpoch(ByVal UnixEpoch As Double) As Date
+'Const UNIXEPOCH_OFFSET As Double = 25569#
+'If UnixEpoch >= -59010681600# And UnixEpoch < 253402300800# Then
+'    Dim DateValue As Double
+'    DateValue = (UnixEpoch / 86400#) + UNIXEPOCH_OFFSET
+'    If DateValue >= 0# Then
+'        FromUnixEpoch = CDate(DateValue)
+'    Else
+'        Dim Temp As Double
+'        Temp = Int(DateValue)
+'        FromUnixEpoch = CDate(Temp + (Temp - DateValue))
+'    End If
+'Else
+'    Err.Raise 5
+'End If
+'End Function
+'
+'Public Function ToUnixEpoch(ByVal OADate As Date) As Double
+'Const UNIXEPOCH_OFFSET As Double = 25569#
+'If CDbl(OADate) >= 0# Then
+'    ToUnixEpoch = (CDbl(OADate) - UNIXEPOCH_OFFSET) * 86400#
+'Else
+'    Dim Temp As Double
+'    Temp = Fix(CDbl(OADate))
+'    ToUnixEpoch = (Temp - (CDbl(OADate) - Temp) - UNIXEPOCH_OFFSET) * 86400#
+'End If
+'End Function
 
-Public Function ToJulianDay(ByVal OADate As Date) As Double
-Const JULIANDAY_OFFSET As Double = 2415018.5
-If CDbl(OADate) >= 0# Then
-    ToJulianDay = CDbl(OADate) + JULIANDAY_OFFSET
-Else
-    Dim Temp As Double
-    Temp = Fix(CDbl(OADate))
-    ToJulianDay = Temp - (CDbl(OADate) - Temp) + JULIANDAY_OFFSET
-End If
-End Function
+'Public Function IsFormLoaded(ByVal FormName As String) As Boolean
+'Dim i As Long
+'For i = 0 To Forms.Count - 1
+'    If StrComp(Forms(i).Name, FormName, vbTextCompare) = 0 Then
+'        IsFormLoaded = True
+'        Exit For
+'    End If
+'Next i
+'End Function
 
-Public Function FromUnixEpoch(ByVal UnixEpoch As Double) As Date
-Const UNIXEPOCH_OFFSET As Double = 25569#
-If UnixEpoch >= -59010681600# And UnixEpoch < 253402300800# Then
-    Dim DateValue As Double
-    DateValue = (UnixEpoch / 86400#) + UNIXEPOCH_OFFSET
-    If DateValue >= 0# Then
-        FromUnixEpoch = CDate(DateValue)
-    Else
-        Dim Temp As Double
-        Temp = Int(DateValue)
-        FromUnixEpoch = CDate(Temp + (Temp - DateValue))
-    End If
-Else
-    Err.Raise 5
-End If
-End Function
+'#If VBA7 Then
+'Public Function GetWindowTitle(ByVal hWnd As LongPtr) As String
+'#Else
+'Public Function GetWindowTitle(ByVal hWnd As Long) As String
+'#End If
+'Dim Buffer As String
+'Buffer = String$(GetWindowTextLength(hWnd) + 1, vbNullChar)
+'GetWindowText hWnd, StrPtr(Buffer), Len(Buffer)
+'GetWindowTitle = Left$(Buffer, Len(Buffer) - 1)
+'End Function
 
-Public Function ToUnixEpoch(ByVal OADate As Date) As Double
-Const UNIXEPOCH_OFFSET As Double = 25569#
-If CDbl(OADate) >= 0# Then
-    ToUnixEpoch = (CDbl(OADate) - UNIXEPOCH_OFFSET) * 86400#
-Else
-    Dim Temp As Double
-    Temp = Fix(CDbl(OADate))
-    ToUnixEpoch = (Temp - (CDbl(OADate) - Temp) - UNIXEPOCH_OFFSET) * 86400#
-End If
-End Function
+'#If VBA7 Then
+'Public Function GetWindowClassName(ByVal hWnd As LongPtr) As String
+'#Else
+'Public Function GetWindowClassName(ByVal hWnd As Long) As String
+'#End If
+'Dim Buffer As String, RetVal As Long
+'Buffer = String$(256, vbNullChar)
+'RetVal = GetClassName(hWnd, StrPtr(Buffer), Len(Buffer))
+'If RetVal > 0 Then GetWindowClassName = Left$(Buffer, RetVal)
+'End Function
 
-Public Function IsFormLoaded(ByVal FormName As String) As Boolean
-Dim i As Long
-For i = 0 To Forms.Count - 1
-    If StrComp(Forms(i).Name, FormName, vbTextCompare) = 0 Then
-        IsFormLoaded = True
-        Exit For
-    End If
-Next i
-End Function
+'Public Sub CenterFormToScreen(ByVal Form As VB.Form, Optional ByVal RefForm As VB.Form)
+'Const MONITOR_DEFAULTTOPRIMARY As Long = &H1
+'If RefForm Is Nothing Then Set RefForm = Form
+'Dim hMonitor As LongPtr, MI As MONITORINFO, WndRect As RECT
+'hMonitor = MonitorFromWindow(RefForm.hWnd, MONITOR_DEFAULTTOPRIMARY)
+'MI.cbSize = LenB(MI)
+'GetMonitorInfo hMonitor, MI
+'GetWindowRect Form.hWnd, WndRect
+'If TypeOf Form Is VB.MDIForm Then
+'    Dim MDIForm As VB.MDIForm
+'    Set MDIForm = Form
+'    MDIForm.Move (MI.RCMonitor.Left + (((MI.RCMonitor.Right - MI.RCMonitor.Left) - (WndRect.Right - WndRect.Left)) \ 2)) * (1440 / DPI_X()), (MI.RCMonitor.Top + (((MI.RCMonitor.Bottom - MI.RCMonitor.Top) - (WndRect.Bottom - WndRect.Top)) \ 2)) * (1440 / DPI_Y())
+'Else
+'    Form.Move (MI.RCMonitor.Left + (((MI.RCMonitor.Right - MI.RCMonitor.Left) - (WndRect.Right - WndRect.Left)) \ 2)) * (1440 / DPI_X()), (MI.RCMonitor.Top + (((MI.RCMonitor.Bottom - MI.RCMonitor.Top) - (WndRect.Bottom - WndRect.Top)) \ 2)) * (1440 / DPI_Y())
+'End If
+'End Sub
 
-#If VBA7 Then
-Public Function GetWindowTitle(ByVal hWnd As LongPtr) As String
-#Else
-Public Function GetWindowTitle(ByVal hWnd As Long) As String
-#End If
-Dim Buffer As String
-Buffer = String$(GetWindowTextLength(hWnd) + 1, vbNullChar)
-GetWindowText hWnd, StrPtr(Buffer), Len(Buffer)
-GetWindowTitle = Left$(Buffer, Len(Buffer) - 1)
-End Function
+'Public Sub FlashForm(ByVal Form As VB.Form)
+'Const FLASHW_CAPTION As Long = &H1, FLASHW_TRAY As Long = &H2, FLASHW_TIMERNOFG As Long = &HC
+'Dim FWI As FLASHWINFO
+'With FWI
+'.cbSize = LenB(FWI)
+'.dwFlags = FLASHW_CAPTION Or FLASHW_TRAY Or FLASHW_TIMERNOFG
+'.hWnd = Form.hWnd
+'.dwTimeout = 0 ' Default cursor blink rate
+'.uCount = 0
+'End With
+'FlashWindowEx FWI
+'End Sub
 
-#If VBA7 Then
-Public Function GetWindowClassName(ByVal hWnd As LongPtr) As String
-#Else
-Public Function GetWindowClassName(ByVal hWnd As Long) As String
-#End If
-Dim Buffer As String, RetVal As Long
-Buffer = String$(256, vbNullChar)
-RetVal = GetClassName(hWnd, StrPtr(Buffer), Len(Buffer))
-If RetVal > 0 Then GetWindowClassName = Left$(Buffer, RetVal)
-End Function
+'Public Function GetFormTitleBarHeight(ByVal Form As VB.Form) As Single
+'Const SM_CYCAPTION As Long = 4, SM_CYMENU As Long = 15
+'Const SM_CYSIZEFRAME As Long = 33, SM_CYFIXEDFRAME As Long = 8
+'Dim CY As Long
+'CY = GetSystemMetrics(SM_CYCAPTION)
+'If GetMenu(Form.hWnd) <> NULL_PTR Then CY = CY + GetSystemMetrics(SM_CYMENU)
+'Select Case Form.BorderStyle
+'    Case vbSizable, vbSizableToolWindow
+'        CY = CY + GetSystemMetrics(SM_CYSIZEFRAME)
+'    Case vbFixedSingle, vbFixedDialog, vbFixedToolWindow
+'        CY = CY + GetSystemMetrics(SM_CYFIXEDFRAME)
+'End Select
+'If CY > 0 Then GetFormTitleBarHeight = Form.ScaleY(CY, vbPixels, Form.ScaleMode)
+'End Function
 
-Public Sub CenterFormToScreen(ByVal Form As VB.Form, Optional ByVal RefForm As VB.Form)
-Const MONITOR_DEFAULTTOPRIMARY As Long = &H1
-If RefForm Is Nothing Then Set RefForm = Form
-Dim hMonitor As LongPtr, MI As MONITORINFO, WndRect As RECT
-hMonitor = MonitorFromWindow(RefForm.hWnd, MONITOR_DEFAULTTOPRIMARY)
-MI.cbSize = LenB(MI)
-GetMonitorInfo hMonitor, MI
-GetWindowRect Form.hWnd, WndRect
-If TypeOf Form Is VB.MDIForm Then
-    Dim MDIForm As VB.MDIForm
-    Set MDIForm = Form
-    MDIForm.Move (MI.RCMonitor.Left + (((MI.RCMonitor.Right - MI.RCMonitor.Left) - (WndRect.Right - WndRect.Left)) \ 2)) * (1440 / DPI_X()), (MI.RCMonitor.Top + (((MI.RCMonitor.Bottom - MI.RCMonitor.Top) - (WndRect.Bottom - WndRect.Top)) \ 2)) * (1440 / DPI_Y())
-Else
-    Form.Move (MI.RCMonitor.Left + (((MI.RCMonitor.Right - MI.RCMonitor.Left) - (WndRect.Right - WndRect.Left)) \ 2)) * (1440 / DPI_X()), (MI.RCMonitor.Top + (((MI.RCMonitor.Bottom - MI.RCMonitor.Top) - (WndRect.Bottom - WndRect.Top)) \ 2)) * (1440 / DPI_Y())
-End If
-End Sub
+'Public Function GetFormNonScaleHeight(ByVal Form As VB.Form) As Single
+'Const SM_CYCAPTION As Long = 4, SM_CYMENU As Long = 15
+'Const SM_CYSIZEFRAME As Long = 33, SM_CYFIXEDFRAME As Long = 8
+'Dim CY As Long
+'CY = GetSystemMetrics(SM_CYCAPTION)
+'If GetMenu(Form.hWnd) <> NULL_PTR Then CY = CY + GetSystemMetrics(SM_CYMENU)
+'Select Case Form.BorderStyle
+'    Case vbSizable, vbSizableToolWindow
+'        CY = CY + (GetSystemMetrics(SM_CYSIZEFRAME) * 2)
+'    Case vbFixedSingle, vbFixedDialog, vbFixedToolWindow
+'        CY = CY + (GetSystemMetrics(SM_CYFIXEDFRAME) * 2)
+'End Select
+'If CY > 0 Then GetFormNonScaleHeight = Form.ScaleY(CY, vbPixels, Form.ScaleMode)
+'End Function
 
-Public Sub FlashForm(ByVal Form As VB.Form)
-Const FLASHW_CAPTION As Long = &H1, FLASHW_TRAY As Long = &H2, FLASHW_TIMERNOFG As Long = &HC
-Dim FWI As FLASHWINFO
-With FWI
-.cbSize = LenB(FWI)
-.dwFlags = FLASHW_CAPTION Or FLASHW_TRAY Or FLASHW_TIMERNOFG
-.hWnd = Form.hWnd
-.dwTimeout = 0 ' Default cursor blink rate
-.uCount = 0
-End With
-FlashWindowEx FWI
-End Sub
+'#If VBA7 Then
+'Public Sub SetWindowRedraw(ByVal hWnd As LongPtr, ByVal Enabled As Boolean)
+'#Else
+'Public Sub SetWindowRedraw(ByVal hWnd As Long, ByVal Enabled As Boolean)
+'#End If
+'Const WM_SETREDRAW As Long = &HB
+'SendMessage hWnd, WM_SETREDRAW, IIf(Enabled = True, 1, 0), ByVal 0&
+'If Enabled = True Then
+'    Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80
+'    RedrawWindow hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE Or RDW_ALLCHILDREN
+'End If
+'End Sub
 
-Public Function GetFormTitleBarHeight(ByVal Form As VB.Form) As Single
-Const SM_CYCAPTION As Long = 4, SM_CYMENU As Long = 15
-Const SM_CYSIZEFRAME As Long = 33, SM_CYFIXEDFRAME As Long = 8
-Dim CY As Long
-CY = GetSystemMetrics(SM_CYCAPTION)
-If GetMenu(Form.hWnd) <> NULL_PTR Then CY = CY + GetSystemMetrics(SM_CYMENU)
-Select Case Form.BorderStyle
-    Case vbSizable, vbSizableToolWindow
-        CY = CY + GetSystemMetrics(SM_CYSIZEFRAME)
-    Case vbFixedSingle, vbFixedDialog, vbFixedToolWindow
-        CY = CY + GetSystemMetrics(SM_CYFIXEDFRAME)
-End Select
-If CY > 0 Then GetFormTitleBarHeight = Form.ScaleY(CY, vbPixels, Form.ScaleMode)
-End Function
+'Public Function GetWindowsDir() As String
+'Static Done As Boolean, Value As String
+'If Done = False Then
+'    Dim Buffer As String
+'    Buffer = String$(MAX_PATH, vbNullChar)
+'    If GetSystemWindowsDirectory(StrPtr(Buffer), MAX_PATH) > 0 Then
+'        Value = Left$(Buffer, InStr(Buffer, vbNullChar) - 1)
+'        Value = Value & IIf(VBA.Right$(Value, 1) = "\", "", "\")
+'    End If
+'    Done = True
+'End If
+'GetWindowsDir = Value
+'End Function
 
-Public Function GetFormNonScaleHeight(ByVal Form As VB.Form) As Single
-Const SM_CYCAPTION As Long = 4, SM_CYMENU As Long = 15
-Const SM_CYSIZEFRAME As Long = 33, SM_CYFIXEDFRAME As Long = 8
-Dim CY As Long
-CY = GetSystemMetrics(SM_CYCAPTION)
-If GetMenu(Form.hWnd) <> NULL_PTR Then CY = CY + GetSystemMetrics(SM_CYMENU)
-Select Case Form.BorderStyle
-    Case vbSizable, vbSizableToolWindow
-        CY = CY + (GetSystemMetrics(SM_CYSIZEFRAME) * 2)
-    Case vbFixedSingle, vbFixedDialog, vbFixedToolWindow
-        CY = CY + (GetSystemMetrics(SM_CYFIXEDFRAME) * 2)
-End Select
-If CY > 0 Then GetFormNonScaleHeight = Form.ScaleY(CY, vbPixels, Form.ScaleMode)
-End Function
-
-#If VBA7 Then
-Public Sub SetWindowRedraw(ByVal hWnd As LongPtr, ByVal Enabled As Boolean)
-#Else
-Public Sub SetWindowRedraw(ByVal hWnd As Long, ByVal Enabled As Boolean)
-#End If
-Const WM_SETREDRAW As Long = &HB
-SendMessage hWnd, WM_SETREDRAW, IIf(Enabled = True, 1, 0), ByVal 0&
-If Enabled = True Then
-    Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80
-    RedrawWindow hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE Or RDW_ALLCHILDREN
-End If
-End Sub
-
-Public Function GetWindowsDir() As String
-Static Done As Boolean, Value As String
-If Done = False Then
-    Dim Buffer As String
-    Buffer = String$(MAX_PATH, vbNullChar)
-    If GetSystemWindowsDirectory(StrPtr(Buffer), MAX_PATH) > 0 Then
-        Value = Left$(Buffer, InStr(Buffer, vbNullChar) - 1)
-        Value = Value & IIf(VBA.Right$(Value, 1) = "\", "", "\")
-    End If
-    Done = True
-End If
-GetWindowsDir = Value
-End Function
-
-Public Function GetSystemDir() As String
-Static Done As Boolean, Value As String
-If Done = False Then
-    Dim Buffer As String
-    Buffer = String$(MAX_PATH, vbNullChar)
-    If GetSystemDirectory(StrPtr(Buffer), MAX_PATH) > 0 Then
-        Value = Left$(Buffer, InStr(Buffer, vbNullChar) - 1)
-        Value = Value & IIf(VBA.Right$(Value, 1) = "\", "", "\")
-    End If
-    Done = True
-End If
-GetSystemDir = Value
-End Function
+'Public Function GetSystemDir() As String
+'Static Done As Boolean, Value As String
+'If Done = False Then
+'    Dim Buffer As String
+'    Buffer = String$(MAX_PATH, vbNullChar)
+'    If GetSystemDirectory(StrPtr(Buffer), MAX_PATH) > 0 Then
+'        Value = Left$(Buffer, InStr(Buffer, vbNullChar) - 1)
+'        Value = Value & IIf(VBA.Right$(Value, 1) = "\", "", "\")
+'    End If
+'    Done = True
+'End If
+'GetSystemDir = Value
+'End Function
 
 #If VBA7 Then
 Public Function GetShiftStateFromParam(ByVal wParam As LongPtr) As ShiftConstants
@@ -1140,34 +1140,34 @@ If GetKeyState(vbKeyShift) < 0 Then GetShiftStateFromMsg = vbShiftMask
 If GetKeyState(vbKeyControl) < 0 Then GetShiftStateFromMsg = GetShiftStateFromMsg Or vbCtrlMask
 If GetKeyState(vbKeyMenu) < 0 Then GetShiftStateFromMsg = GetShiftStateFromMsg Or vbAltMask
 End Function
-
+'
 Public Function GetMouseStateFromMsg() As MouseButtonConstants
 If GetKeyState(vbLeftButton) < 0 Then GetMouseStateFromMsg = vbLeftButton
 If GetKeyState(vbRightButton) < 0 Then GetMouseStateFromMsg = GetMouseStateFromMsg Or vbRightButton
 If GetKeyState(vbMiddleButton) < 0 Then GetMouseStateFromMsg = GetMouseStateFromMsg Or vbMiddleButton
 End Function
+'
+'Public Function GetShiftState() As ShiftConstants
+'GetShiftState = (-vbShiftMask * KeyPressed(vbKeyShift))
+'GetShiftState = GetShiftState Or (-vbCtrlMask * KeyPressed(vbKeyControl))
+'GetShiftState = GetShiftState Or (-vbAltMask * KeyPressed(vbKeyMenu))
+'End Function
+'
+'Public Function GetMouseState() As MouseButtonConstants
+'Const SM_SWAPBUTTON As Long = 23
+'' GetAsyncKeyState requires a mapping of physical mouse buttons to logical mouse buttons.
+'GetMouseState = (-vbLeftButton * KeyPressed(IIf(GetSystemMetrics(SM_SWAPBUTTON) = 0, vbLeftButton, vbRightButton)))
+'GetMouseState = GetMouseState Or (-vbRightButton * KeyPressed(IIf(GetSystemMetrics(SM_SWAPBUTTON) = 0, vbRightButton, vbLeftButton)))
+'GetMouseState = GetMouseState Or (-vbMiddleButton * KeyPressed(vbMiddleButton))
+'End Function
 
-Public Function GetShiftState() As ShiftConstants
-GetShiftState = (-vbShiftMask * KeyPressed(vbKeyShift))
-GetShiftState = GetShiftState Or (-vbCtrlMask * KeyPressed(vbKeyControl))
-GetShiftState = GetShiftState Or (-vbAltMask * KeyPressed(vbKeyMenu))
-End Function
-
-Public Function GetMouseState() As MouseButtonConstants
-Const SM_SWAPBUTTON As Long = 23
-' GetAsyncKeyState requires a mapping of physical mouse buttons to logical mouse buttons.
-GetMouseState = (-vbLeftButton * KeyPressed(IIf(GetSystemMetrics(SM_SWAPBUTTON) = 0, vbLeftButton, vbRightButton)))
-GetMouseState = GetMouseState Or (-vbRightButton * KeyPressed(IIf(GetSystemMetrics(SM_SWAPBUTTON) = 0, vbRightButton, vbLeftButton)))
-GetMouseState = GetMouseState Or (-vbMiddleButton * KeyPressed(vbMiddleButton))
-End Function
-
-Public Function KeyToggled(ByVal KeyCode As KeyCodeConstants) As Boolean
-KeyToggled = CBool(LoByte(GetKeyState(KeyCode)) = 1)
-End Function
- 
-Public Function KeyPressed(ByVal KeyCode As KeyCodeConstants) As Boolean
-KeyPressed = CBool((GetAsyncKeyState(KeyCode) And &H8000&) = &H8000&)
-End Function
+'Public Function KeyToggled(ByVal KeyCode As KeyCodeConstants) As Boolean
+'KeyToggled = CBool(LoByte(GetKeyState(KeyCode)) = 1)
+'End Function
+'
+'Public Function KeyPressed(ByVal KeyCode As KeyCodeConstants) As Boolean
+'KeyPressed = CBool((GetAsyncKeyState(KeyCode) And &H8000&) = &H8000&)
+'End Function
 
 Public Function InIDE(Optional ByRef B As Boolean = True) As Boolean
 If B = True Then Debug.Assert Not InIDE(InIDE) Else B = True
@@ -1192,21 +1192,21 @@ Public Function ProcPtr(ByVal Address As Long) As Long
 ProcPtr = Address
 End Function
 
-Public Function LoByte(ByVal Word As Integer) As Byte
-LoByte = Word And &HFF
-End Function
+'Public Function LoByte(ByVal Word As Integer) As Byte
+'LoByte = Word And &HFF
+'End Function
+'
+'Public Function HiByte(ByVal Word As Integer) As Byte
+'HiByte = (Word And &HFF00&) \ &H100
+'End Function
 
-Public Function HiByte(ByVal Word As Integer) As Byte
-HiByte = (Word And &HFF00&) \ &H100
-End Function
-
-Public Function MakeWord(ByVal LoByte As Byte, ByVal HiByte As Byte) As Integer
-If (HiByte And &H80) <> 0 Then
-    MakeWord = ((HiByte * &H100&) Or LoByte) Or &HFFFF0000
-Else
-    MakeWord = (HiByte * &H100) Or LoByte
-End If
-End Function
+'Public Function MakeWord(ByVal LoByte As Byte, ByVal HiByte As Byte) As Integer
+'If (HiByte And &H80) <> 0 Then
+'    MakeWord = ((HiByte * &H100&) Or LoByte) Or &HFFFF0000
+'Else
+'    MakeWord = (HiByte * &H100) Or LoByte
+'End If
+'End Function
 
 Public Function LoWord(ByVal DWord As Long) As Integer
 If DWord And &H8000& Then
@@ -1265,32 +1265,32 @@ If CodePoint >= &HFFFF8000 And CodePoint <= &H10FFFF Then
 End If
 End Function
 
-Public Function UTF16_To_UTF8(ByRef Source As String) As Byte()
-Const CP_UTF8 As Long = 65001
-Dim Length As Long, Pointer As LongPtr, Size As Long
-Length = Len(Source)
-Pointer = StrPtr(Source)
-Size = WideCharToMultiByte(CP_UTF8, 0, Pointer, Length, NULL_PTR, 0, NULL_PTR, NULL_PTR)
-If Size > 0 Then
-    Dim Buffer() As Byte
-    ReDim Buffer(0 To Size - 1) As Byte
-    WideCharToMultiByte CP_UTF8, 0, Pointer, Length, VarPtr(Buffer(0)), Size, NULL_PTR, NULL_PTR
-    UTF16_To_UTF8 = Buffer()
-End If
-End Function
+'Public Function UTF16_To_UTF8(ByRef Source As String) As Byte()
+'Const CP_UTF8 As Long = 65001
+'Dim Length As Long, Pointer As LongPtr, Size As Long
+'Length = Len(Source)
+'Pointer = StrPtr(Source)
+'Size = WideCharToMultiByte(CP_UTF8, 0, Pointer, Length, NULL_PTR, 0, NULL_PTR, NULL_PTR)
+'If Size > 0 Then
+'    Dim Buffer() As Byte
+'    ReDim Buffer(0 To Size - 1) As Byte
+'    WideCharToMultiByte CP_UTF8, 0, Pointer, Length, VarPtr(Buffer(0)), Size, NULL_PTR, NULL_PTR
+'    UTF16_To_UTF8 = Buffer()
+'End If
+'End Function
 
-Public Function UTF8_To_UTF16(ByRef Source() As Byte) As String
-If IsArrayInitialized(Source()) = False Then Exit Function
-Const CP_UTF8 As Long = 65001
-Dim Size As Long, Pointer As LongPtr, Length As Long
-Size = UBound(Source) - LBound(Source) + 1
-Pointer = VarPtr(Source(LBound(Source)))
-Length = MultiByteToWideChar(CP_UTF8, 0, Pointer, Size, NULL_PTR, 0)
-If Length > 0 Then
-    UTF8_To_UTF16 = Space$(Length)
-    MultiByteToWideChar CP_UTF8, 0, Pointer, Size, StrPtr(UTF8_To_UTF16), Length
-End If
-End Function
+'Public Function UTF8_To_UTF16(ByRef Source() As Byte) As String
+'If IsArrayInitialized(Source()) = False Then Exit Function
+'Const CP_UTF8 As Long = 65001
+'Dim Size As Long, Pointer As LongPtr, Length As Long
+'Size = UBound(Source) - LBound(Source) + 1
+'Pointer = VarPtr(Source(LBound(Source)))
+'Length = MultiByteToWideChar(CP_UTF8, 0, Pointer, Size, NULL_PTR, 0)
+'If Length > 0 Then
+'    UTF8_To_UTF16 = Space$(Length)
+'    MultiByteToWideChar CP_UTF8, 0, Pointer, Size, StrPtr(UTF8_To_UTF16), Length
+'End If
+'End Function
 
 Public Function StrToVar(ByVal Text As String) As Variant
 If Text = vbNullString Then
@@ -1346,7 +1346,7 @@ Else
     CUIntToInt = Value - OFFSET_2
 End If
 End Function
-
+'
 Public Function CIntToUInt(ByVal Value As Integer) As Long
 Const OFFSET_2 As Long = 65536
 If Value < 0 Then
@@ -1355,69 +1355,69 @@ Else
     CIntToUInt = Value
 End If
 End Function
+'
+'Public Function CULngToLng(ByVal Value As Double) As Long
+'Const OFFSET_4 As Double = 4294967296#
+'Const MAXINT_4 As Long = 2147483647
+'If Value < 0 Or Value >= OFFSET_4 Then Err.Raise 6
+'If Value <= MAXINT_4 Then
+'    CULngToLng = Value
+'Else
+'    CULngToLng = Value - OFFSET_4
+'End If
+'End Function
+'
+'Public Function CLngToULng(ByVal Value As Long) As Double
+'Const OFFSET_4 As Double = 4294967296#
+'If Value < 0 Then
+'    CLngToULng = Value + OFFSET_4
+'Else
+'    CLngToULng = Value
+'End If
+'End Function
 
-Public Function CULngToLng(ByVal Value As Double) As Long
-Const OFFSET_4 As Double = 4294967296#
-Const MAXINT_4 As Long = 2147483647
-If Value < 0 Or Value >= OFFSET_4 Then Err.Raise 6
-If Value <= MAXINT_4 Then
-    CULngToLng = Value
-Else
-    CULngToLng = Value - OFFSET_4
-End If
-End Function
+'#If (TWINBASIC = 0) Then
+'Public Function Nz(ByRef Value As Variant, Optional ByRef ValueIfNull As Variant = Empty) As Variant
+'If IsNull(Value) Then Nz = ValueIfNull Else Nz = Value
+'End Function
+'#End If
 
-Public Function CLngToULng(ByVal Value As Long) As Double
-Const OFFSET_4 As Double = 4294967296#
-If Value < 0 Then
-    CLngToULng = Value + OFFSET_4
-Else
-    CLngToULng = Value
-End If
-End Function
+'#If (TWINBASIC = 0) Then
+'Public Function IsArrayInitialized(ByRef VarName As Variant) As Boolean
+'Const VT_BYREF As Integer = &H4000
+'Dim VT As Integer
+'CopyMemory VT, ByVal VarPtr(VarName), 2
+'If (VT And vbArray) = vbArray Then
+'    Dim Ptr As LongPtr
+'    CopyMemory Ptr, ByVal UnsignedAdd(VarPtr(VarName), 8), PTR_SIZE
+'    If (VT And VT_BYREF) = VT_BYREF Then CopyMemory Ptr, ByVal Ptr, PTR_SIZE
+'    IsArrayInitialized = CBool(Ptr <> NULL_PTR)
+'End If
+'End Function
+'#End If
 
-#If (TWINBASIC = 0) Then
-Public Function Nz(ByRef Value As Variant, Optional ByRef ValueIfNull As Variant = Empty) As Variant
-If IsNull(Value) Then Nz = ValueIfNull Else Nz = Value
-End Function
-#End If
+'Public Function NaN() As Double
+'CopyMemory ByVal UnsignedAdd(VarPtr(NaN), 6), &HFFF8, 2
+'End Function
+'
+'Public Function NaN32() As Single
+'CopyMemory ByVal VarPtr(NaN32), &HFFC00000, 4
+'End Function
 
-#If (TWINBASIC = 0) Then
-Public Function IsArrayInitialized(ByRef VarName As Variant) As Boolean
-Const VT_BYREF As Integer = &H4000
-Dim VT As Integer
-CopyMemory VT, ByVal VarPtr(VarName), 2
-If (VT And vbArray) = vbArray Then
-    Dim Ptr As LongPtr
-    CopyMemory Ptr, ByVal UnsignedAdd(VarPtr(VarName), 8), PTR_SIZE
-    If (VT And VT_BYREF) = VT_BYREF Then CopyMemory Ptr, ByVal Ptr, PTR_SIZE
-    IsArrayInitialized = CBool(Ptr <> NULL_PTR)
-End If
-End Function
-#End If
-
-Public Function NaN() As Double
-CopyMemory ByVal UnsignedAdd(VarPtr(NaN), 6), &HFFF8, 2
-End Function
-
-Public Function NaN32() As Single
-CopyMemory ByVal VarPtr(NaN32), &HFFC00000, 4
-End Function
-
-Public Function IsNaN(ByRef Expression As Variant) As Boolean
-Select Case VarType(Expression)
-    Case vbDouble
-        Dim Dbl As Double, IntArr(0 To 3) As Integer
-        Dbl = Expression
-        CopyMemory IntArr(0), Dbl, 8
-        If (IntArr(3) And &H7FF0) = &H7FF0 And (IntArr(0) <> 0 Or IntArr(1) <> 0 Or IntArr(2) <> 0 Or (IntArr(3) And &HF) <> 0) Then IsNaN = True
-    Case vbSingle
-        Dim Sng As Single, Lng As Long
-        Sng = Expression
-        CopyMemory Lng, Sng, 4
-        If (Lng And &H7F800000) = &H7F800000 And (Lng And &H7FFFFF) <> 0 Then IsNaN = True
-End Select
-End Function
+'Public Function IsNaN(ByRef Expression As Variant) As Boolean
+'Select Case VarType(Expression)
+'    Case vbDouble
+'        Dim Dbl As Double, IntArr(0 To 3) As Integer
+'        Dbl = Expression
+'        CopyMemory IntArr(0), Dbl, 8
+'        If (IntArr(3) And &H7FF0) = &H7FF0 And (IntArr(0) <> 0 Or IntArr(1) <> 0 Or IntArr(2) <> 0 Or (IntArr(3) And &HF) <> 0) Then IsNaN = True
+'    Case vbSingle
+'        Dim Sng As Single, Lng As Long
+'        Sng = Expression
+'        CopyMemory Lng, Sng, 4
+'        If (Lng And &H7F800000) = &H7F800000 And (Lng And &H7FFFFF) <> 0 Then IsNaN = True
+'End Select
+'End Function
 
 Public Function DPI_X() As Long
 Const LOGPIXELSX As Long = 88
@@ -1489,54 +1489,54 @@ If OleTranslateColor(Color, hPal, WinColor) <> 0 Then Err.Raise 5
 #End If
 End Function
 
-Public Function PictureFromByteStream(ByRef ByteStream As Variant) As IPictureDisp
-Const GMEM_MOVEABLE As Long = &H2
-Dim IID As CLSID, Stream As IUnknown, NewPicture As IPicture
-Dim B() As Byte, ByteCount As Long
-Dim hMem As LongPtr, lpMem As LongPtr
-With IID
-.Data1 = &H7BF80980
-.Data2 = &HBF32
-.Data3 = &H101A
-.Data4(0) = &H8B
-.Data4(1) = &HBB
-.Data4(3) = &HAA
-.Data4(5) = &H30
-.Data4(6) = &HC
-.Data4(7) = &HAB
-End With
-If VarType(ByteStream) = (vbArray + vbByte) Then
-    B() = ByteStream
-    ByteCount = (UBound(B()) - LBound(B())) + 1
-    hMem = GlobalAlloc(GMEM_MOVEABLE, ByteCount)
-    If hMem <> NULL_PTR Then
-        lpMem = GlobalLock(hMem)
-        If lpMem <> NULL_PTR Then
-            CopyMemory ByVal lpMem, B(LBound(B())), ByteCount
-            GlobalUnlock hMem
-            If CreateStreamOnHGlobal(hMem, 1, Stream) = 0 Then
-                If OleLoadPicture(Stream, ByteCount, 0, IID, NewPicture) = 0 Then Set PictureFromByteStream = NewPicture
-            End If
-        End If
-    End If
-End If
-End Function
+'Public Function PictureFromByteStream(ByRef ByteStream As Variant) As IPictureDisp
+'Const GMEM_MOVEABLE As Long = &H2
+'Dim IID As CLSID, Stream As IUnknown, NewPicture As IPicture
+'Dim B() As Byte, ByteCount As Long
+'Dim hMem As LongPtr, lpMem As LongPtr
+'With IID
+'.Data1 = &H7BF80980
+'.Data2 = &HBF32
+'.Data3 = &H101A
+'.Data4(0) = &H8B
+'.Data4(1) = &HBB
+'.Data4(3) = &HAA
+'.Data4(5) = &H30
+'.Data4(6) = &HC
+'.Data4(7) = &HAB
+'End With
+'If VarType(ByteStream) = (vbArray + vbByte) Then
+'    B() = ByteStream
+'    ByteCount = (UBound(B()) - LBound(B())) + 1
+'    hMem = GlobalAlloc(GMEM_MOVEABLE, ByteCount)
+'    If hMem <> NULL_PTR Then
+'        lpMem = GlobalLock(hMem)
+'        If lpMem <> NULL_PTR Then
+'            CopyMemory ByVal lpMem, B(LBound(B())), ByteCount
+'            GlobalUnlock hMem
+'            If CreateStreamOnHGlobal(hMem, 1, Stream) = 0 Then
+'                If OleLoadPicture(Stream, ByteCount, 0, IID, NewPicture) = 0 Then Set PictureFromByteStream = NewPicture
+'            End If
+'        End If
+'    End If
+'End If
+'End Function
 
-Public Function PictureFromPath(ByVal PathName As String) As IPictureDisp
-Dim IID As CLSID, NewPicture As IPicture
-With IID
-.Data1 = &H7BF80980
-.Data2 = &HBF32
-.Data3 = &H101A
-.Data4(0) = &H8B
-.Data4(1) = &HBB
-.Data4(3) = &HAA
-.Data4(5) = &H30
-.Data4(6) = &HC
-.Data4(7) = &HAB
-End With
-If OleLoadPicturePath(StrPtr(PathName), NULL_PTR, 0, 0, IID, NewPicture) = 0 Then Set PictureFromPath = NewPicture
-End Function
+'Public Function PictureFromPath(ByVal PathName As String) As IPictureDisp
+'Dim IID As CLSID, NewPicture As IPicture
+'With IID
+'.Data1 = &H7BF80980
+'.Data2 = &HBF32
+'.Data3 = &H101A
+'.Data4(0) = &H8B
+'.Data4(1) = &HBB
+'.Data4(3) = &HAA
+'.Data4(5) = &H30
+'.Data4(6) = &HC
+'.Data4(7) = &HAB
+'End With
+'If OleLoadPicturePath(StrPtr(PathName), NULL_PTR, 0, 0, IID, NewPicture) = 0 Then Set PictureFromPath = NewPicture
+'End Function
 
 #If VBA7 Then
 Public Function PictureFromHandle(ByVal Handle As LongPtr, ByVal PicType As VBRUN.PictureTypeConstants) As IPictureDisp

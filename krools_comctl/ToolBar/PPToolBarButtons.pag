@@ -7,7 +7,7 @@ Begin VB.PropertyPage PPToolBarButtons
    ClientTop       =   0
    ClientWidth     =   6225
    LockControls    =   -1  'True
-   PaletteMode     =   0  'Halftone
+   PaletteMode     =   0  '반명암
    ScaleHeight     =   5625
    ScaleWidth      =   6225
    Begin VB.CommandButton CommandForeColor 
@@ -15,7 +15,7 @@ Begin VB.PropertyPage PPToolBarButtons
       Enabled         =   0   'False
       Height          =   225
       Left            =   4200
-      Style           =   1  'Graphical
+      Style           =   1  '그래픽
       TabIndex        =   23
       Top             =   840
       Width           =   495
@@ -55,7 +55,7 @@ Begin VB.PropertyPage PPToolBarButtons
       Top             =   3120
       Width           =   6015
       Begin VB.PictureBox PictureCommandButtonMenuPictureBrowse 
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   315
          Left            =   1560
@@ -76,7 +76,7 @@ Begin VB.PropertyPage PPToolBarButtons
          End
       End
       Begin VB.PictureBox PictureCommandButtonMenuPictureNo 
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   315
          Left            =   1560
@@ -97,7 +97,7 @@ Begin VB.PropertyPage PPToolBarButtons
          End
       End
       Begin VB.PictureBox PictureCommandButtonMenuRemove 
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   315
          Left            =   4860
@@ -119,7 +119,7 @@ Begin VB.PropertyPage PPToolBarButtons
          End
       End
       Begin VB.PictureBox PictureCommandButtonMenuInsert 
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   315
          Left            =   3720
@@ -141,7 +141,7 @@ Begin VB.PropertyPage PPToolBarButtons
          End
       End
       Begin VB.PictureBox PictureCommandButtonMenuNext 
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   315
          Left            =   2460
@@ -152,7 +152,7 @@ Begin VB.PropertyPage PPToolBarButtons
          Top             =   240
          Width           =   300
          Begin VB.CommandButton CommandButtonMenuNext 
-            Appearance      =   0  'Flat
+            Appearance      =   0  '평면
             Caption         =   "4"
             Enabled         =   0   'False
             BeginProperty Font 
@@ -173,7 +173,7 @@ Begin VB.PropertyPage PPToolBarButtons
          End
       End
       Begin VB.PictureBox PictureCommandButtonMenuBack 
-         BorderStyle     =   0  'None
+         BorderStyle     =   0  '없음
          Enabled         =   0   'False
          Height          =   315
          Left            =   2160
@@ -285,7 +285,7 @@ Begin VB.PropertyPage PPToolBarButtons
          Width           =   975
       End
       Begin VB.Label LabelButtonMenuPictureType 
-         BorderStyle     =   1  'Fixed Single
+         BorderStyle     =   1  '단일 고정
          Caption         =   "(None)"
          Height          =   315
          Left            =   120
@@ -376,7 +376,7 @@ Begin VB.PropertyPage PPToolBarButtons
       Enabled         =   0   'False
       Height          =   315
       Left            =   4200
-      Style           =   2  'Dropdown List
+      Style           =   2  '드롭다운 목록
       TabIndex        =   21
       Top             =   480
       Width           =   1815
@@ -386,7 +386,7 @@ Begin VB.PropertyPage PPToolBarButtons
       Enabled         =   0   'False
       Height          =   315
       Left            =   1200
-      Style           =   2  'Dropdown List
+      Style           =   2  '드롭다운 목록
       TabIndex        =   13
       Top             =   1560
       Width           =   1815
@@ -1454,7 +1454,7 @@ If CurrIndex > 0 Then
     .Filter = "Picture Files (*.ICO;*.CUR;*.BMP;*.DIB;*.GIF;*.JPG)|*.ICO;*.CUR;*.BMP;*.GIF;*.JPG|Icon & Cursor Files (*.ICO;*.CUR)|*.ICO;*.CUR|Bitmap Files (*.BMP;*.DIB)|*.BMP;*.DIB|GIF Files (*.GIF)|*.GIF|JPEG Files (*.JPG)|*.JPG|All Files (*.*)|*.*"
     .DialogTitle = "Select Picture"
     If .ShowOpen = True Then
-        Set CurrButtonMenuPicture = PictureFromPath(.FileName)
+        Set CurrButtonMenuPicture = LoadPicture(.FileName)
         If Not CurrButtonMenuPicture Is Nothing Then
             If CurrButtonMenuPicture.Handle <> 0 Then
                 PictureCommandButtonMenuPictureNo.Enabled = True
