@@ -2585,9 +2585,7 @@ End Sub
 Private Sub Form_Load()
     Loaded = False
     
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
-    SetFormBackgroundColor Me
-    SetFont Me
+    InitForm Me
     
     On Error Resume Next
     Me.Icon = frmMain.imgWrench.ListImages(1).Picture
@@ -2873,7 +2871,7 @@ nextcode:
 End Sub
 
 Sub LoadSettings()
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    'SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
     chkNoCleanup.Value = GetSetting("DownloadBooster", "Options", "NoCleanup", 0)
     chkNoRedirectCheck.Value = GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0)

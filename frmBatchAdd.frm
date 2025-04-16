@@ -175,10 +175,7 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
-    SetFormBackgroundColor Me
-    SetFont Me
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    InitForm Me
     Initialized = False
     
     Me.Caption = t(Me.Caption, "Batch download")

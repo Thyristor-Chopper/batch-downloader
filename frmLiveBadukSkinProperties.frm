@@ -376,35 +376,12 @@ Private Sub cmdSelectTexture_Click()
 End Sub
 
 Private Sub Form_Load()
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
-    SetFormBackgroundColor Me
-    SetFont Me
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    InitForm Me
     
-'    lblSelectShadow.Top = pgShadow.Top
-'    lblSelectShadow.Left = pgShadow.Left
-'    lblSelectShadow.Width = pgShadow.Width
-'    lblSelectShadow.Height = pgShadow.Height
     pgShadow.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", 16777215))
-'    lblSelectFrameColor.Top = pgFrameColor.Top
-'    lblSelectFrameColor.Left = pgFrameColor.Left
-'    lblSelectFrameColor.Width = pgFrameColor.Width
-'    lblSelectFrameColor.Height = pgFrameColor.Height
     pgFrameColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
-'    lblSelectTextColor.Top = pgText.Top
-'    lblSelectTextColor.Left = pgText.Left
-'    lblSelectTextColor.Width = pgText.Width
-'    lblSelectTextColor.Height = pgText.Height
     pgText.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 0))
-'    lblFrameBackgroundColorSelect.Top = pgFrameBackgroundColor.Top
-'    lblFrameBackgroundColorSelect.Left = pgFrameBackgroundColor.Left
-'    lblFrameBackgroundColorSelect.Width = pgFrameBackgroundColor.Width
-'    lblFrameBackgroundColorSelect.Height = pgFrameBackgroundColor.Height
     pgFrameBackgroundColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", 16777215))
-'    lblSelectContentColor.Top = pgContentColor.Top
-'    lblSelectContentColor.Left = pgContentColor.Left
-'    lblSelectContentColor.Width = pgContentColor.Width
-'    lblSelectContentColor.Height = pgContentColor.Height
     pgContentColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", 0))
     chkShadowColor.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", 1))
     chkTextColor.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0))

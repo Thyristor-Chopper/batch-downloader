@@ -317,7 +317,7 @@ Public Headers As Collection
 Public HeaderKeys As Collection
 
 Private Sub CancelButton_Click()
-    Me.Hide
+    Unload Me
 End Sub
 
 #If HIDEYTDL Then
@@ -343,13 +343,13 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
-    If UnloadMode = 0 Then
-        Cancel = 1
-        Me.Hide
-        Exit Sub
-    End If
-End Sub
+'Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
+'    If UnloadMode = 0 Then
+'        Cancel = 1
+'        Me.Hide
+'        Exit Sub
+'    End If
+'End Sub
 
 Private Sub OKButton_Click()
     Dim i%
@@ -403,7 +403,7 @@ Private Sub OKButton_Click()
     End If
 #End If
     
-    Me.Hide
+    Unload Me
 End Sub
 
 #If HIDEYTDL Then
@@ -443,9 +443,7 @@ End Sub
 #End If
 
 Private Sub Form_Load()
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
-    SetFormBackgroundColor Me
-    SetFont Me
+    InitForm Me
     
     Dim i%
     Dim MaxWidth%, MaxHeight%
@@ -584,7 +582,7 @@ Private Sub Form_Load()
 End Sub
 
 Sub LoadSettings()
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    'SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
     Me.Caption = t("다운로드 설정", "Download settings")
     If Tags.DownloadOptionsTargetForm = 2 Then Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName

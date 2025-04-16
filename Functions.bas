@@ -111,6 +111,28 @@ Private Declare Function SetFileTime Lib "kernel32" (ByVal hFile As Long, lpCrea
 Private Declare Function SystemTimeToFileTime Lib "kernel32" (lpSystemTime As SYSTEMTIME, lpFileTime As FILETIME) As Long
 Private Declare Function LocalFileTimeToFileTime Lib "kernel32" (lpLocalFileTime As FILETIME, lpFileTime As FILETIME) As Long
 
+Public Const WM_NOTIFY = &H4E&
+Public Const WM_MOVE = &H3&
+Public Const WM_SETCURSOR = &H20&
+Public Const WM_NCPAINT = &H85&
+Public Const WM_COMMAND = &H111&
+Public Const WM_SIZING = &H214
+Public Const WM_GETMINMAXINFO = &H24
+Public Const WM_SYSCOMMAND = &H112
+Public Const WM_INITMENU = &H116
+Public Const WM_SETTINGCHANGE = &H1A
+Public Const WM_DWMCOMPOSITIONCHANGED = &H31E
+Public Const WM_THEMECHANGED = &H31A
+Public Const WM_DPICHANGED = &H2E0
+Public Const WM_CTLCOLORSCROLLBAR = &H137&
+Public Const WM_CTLCOLORSTATIC = &H138
+Public Const WM_CTLCOLORBTN = &H135
+Public Const WM_PAINT As Long = &HF
+Public Const hWnd_TOPMOST = -1
+Public Const hWnd_NOTOPMOST = -2
+Public Const SWP_NOMOVE = &H2
+Public Const SWP_NOSIZE = &H1
+
 Private Type FILETIME
     LowDateTime As Long
     HighDateTime As Long
@@ -2084,4 +2106,11 @@ Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean 
             tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index - 1).Selected = True
         End If
     End If
+End Sub
+
+Sub InitForm(ByRef frmForm As Form)
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow frmForm.hWnd
+    SetFormBackgroundColor frmForm
+    SetFont frmForm
+    SetWindowPos frmForm.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
 End Sub

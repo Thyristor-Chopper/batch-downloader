@@ -14,6 +14,7 @@ Public LangID As Integer
 Public OSLangID As Integer
 Public DPI As Long
 Public DefaultFont$
+Public MainFormOnTop As Boolean
 
 Public ScriptFileName As String
 Public NodeFileName As String
@@ -46,6 +47,7 @@ Sub Main()
     OSLangID = GetUserDefaultUILanguage()
     LangID = GetSetting("DownloadBooster", "Options", "Language", 0)
     If LangID = 0 Then LangID = OSLangID
+    
     App.Title = t(App.Title, "Download Booster")
     
     Dim OverrideWinver$
@@ -58,6 +60,7 @@ dontoverrideversion:
         WinVer = GetWindowsVersion()
     End If
     On Error GoTo 0
+    
     If WinVer < 5.1 Then
         If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") = "1")) Then
             MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
@@ -132,6 +135,6 @@ forcegulim:
     Randomize
     InitVisualStylesFixes
     'Load frmOptions
-    Load frmDownloadOptions
+    'Load frmDownloadOptions
     frmMain.Show
 End Sub

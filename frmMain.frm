@@ -1603,7 +1603,6 @@ Private Sub cmdDownloadOptions_Click()
     Tags.DownloadOptionsTargetForm = 0
     Set frmDownloadOptions.Headers = SessionHeaders
     Set frmDownloadOptions.HeaderKeys = SessionHeaderKeys
-    frmDownloadOptions.LoadSettings
     frmDownloadOptions.Show vbModal, Me
 End Sub
 

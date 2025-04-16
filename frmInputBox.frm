@@ -102,17 +102,12 @@ Private Sub cmdOK_Click()
 End Sub
 
 Private Sub Form_Activate()
-    On Error Resume Next
     txtInput.SelStart = 0
     txtInput.SelLength = Len(txtInput.Text)
-    txtInput.SetFocus
 End Sub
 
 Private Sub Form_Load()
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
-    SetFormBackgroundColor Me
-    SetFont Me
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    InitForm Me
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
