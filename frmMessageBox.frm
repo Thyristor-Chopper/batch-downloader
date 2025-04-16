@@ -16,6 +16,7 @@ Begin VB.Form frmMessageBox
       Strikethrough   =   0   'False
    EndProperty
    Icon            =   "frmMessageBox.frx":0000
+   KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -228,32 +229,16 @@ Private Sub cmdAbort_Click()
     Unload Me
 End Sub
 
-Private Sub cmdAbort_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
-End Sub
-
-Private Sub cmdCancel_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
-End Sub
-
 Private Sub cmdIgnore_Click()
     MsgBoxResult = vbIgnore
     ButtonPressed = -1
     Unload Me
 End Sub
 
-Private Sub cmdIgnore_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
-End Sub
-
 Private Sub cmdNo_Click()
     MsgBoxResult = vbNo
     ButtonPressed = -1
     Unload Me
-End Sub
-
-Private Sub cmdNo_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
 End Sub
 
 Private Sub cmdOK_Click()
@@ -270,18 +255,10 @@ Private Sub cmdOK_Click()
     Unload Me
 End Sub
 
-Private Sub cmdOK_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
-End Sub
-
 Private Sub cmdRetry_Click()
     MsgBoxResult = vbRetry
     ButtonPressed = -1
     Unload Me
-End Sub
-
-Private Sub cmdRetry_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
 End Sub
 
 Private Sub cmdYes_Click()
@@ -296,11 +273,7 @@ Private Sub cmdCancel_Click()
     Unload Me
 End Sub
 
-Private Sub cmdYes_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
-End Sub
-
-Sub PreFocusDefaultButton()
+Private Sub Form_Activate()
     On Error Resume Next
     Select Case MsgBoxMode
         Case 1
@@ -320,73 +293,7 @@ Sub PreFocusDefaultButton()
     End Select
 End Sub
 
-Private Sub Form_Activate()
-    PreFocusDefaultButton
-End Sub
-
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
-End Sub
-
-Private Sub Form_Load()
-    InitForm Me
-    ButtonPressed = 0
-    Init
-End Sub
-
-Sub Init()
-    If MsgBoxMode = 2 Or MsgBoxMode = 5 Then
-        Dim SystemMenu As Long
-        SystemMenu = GetSystemMenu(Me.hWnd, 0)
-        DeleteMenu SystemMenu, SC_CLOSE, MF_BYCOMMAND
-        DeleteMenu SystemMenu, 0, MF_BYCOMMAND
-    End If
-End Sub
-
-Private Sub Form_Paint()
-    PreFocusDefaultButton
-End Sub
-
-Private Sub Form_Unload(Cancel As Integer)
-    If cmdYes.Visible And cmdNo.Visible And (Not cmdCancel.Visible) And (Not ButtonPressed) Then
-        Cancel = 1
-        Exit Sub
-    End If
-    If Not ButtonPressed Then MsgBoxResult = vbCancel
-    GetSystemMenu Me.hWnd, 1
-    If MsgBoxMode <> 1 Then
-        If Functions.MsgBoxResults Is Nothing Then Set Functions.MsgBoxResults = New Collection
-        If Exists(Functions.MsgBoxResults, ResultID) Then Functions.MsgBoxResults.Remove ResultID
-        Functions.MsgBoxResults.Add MsgBoxResult, ResultID
-    End If
-    
-    If Not MessageBoxObject Is Nothing Then
-        Unload MessageBoxObject
-        Set MessageBoxObject = Nothing
-    End If
-End Sub
-
-Private Sub optNo_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
-End Sub
-
-Private Sub optYes_KeyDown(KeyCode As Integer, Shift As Integer)
-    OnKeyDown KeyCode
-End Sub
-
-Private Sub timeout_Timer()
-    cmdOK_Click
-End Sub
-
-Private Sub optNo_Click()
-    cmdOK.Enabled = True
-End Sub
-
-Private Sub optYes_Click()
-    cmdOK.Enabled = True
-End Sub
-
-Sub OnKeyDown(KeyCode As Integer)
     On Error Resume Next
     Select Case KeyCode
         Case 78 'N
@@ -410,4 +317,50 @@ Sub OnKeyDown(KeyCode As Integer)
         Case 73 'I
             If cmdIgnore.Visible Then cmdIgnore_Click
     End Select
+End Sub
+
+Private Sub Form_Load()
+    InitForm Me
+    ButtonPressed = 0
+    Init
+End Sub
+
+Sub Init()
+    If MsgBoxMode = 2 Or MsgBoxMode = 5 Then
+        Dim SystemMenu As Long
+        SystemMenu = GetSystemMenu(Me.hWnd, 0)
+        DeleteMenu SystemMenu, SC_CLOSE, MF_BYCOMMAND
+        DeleteMenu SystemMenu, 0, MF_BYCOMMAND
+    End If
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    If cmdYes.Visible And cmdNo.Visible And (Not cmdCancel.Visible) And (Not ButtonPressed) Then
+        Cancel = 1
+        Exit Sub
+    End If
+    If Not ButtonPressed Then MsgBoxResult = vbCancel
+    GetSystemMenu Me.hWnd, 1
+    If MsgBoxMode <> 1 Then
+        If Functions.MsgBoxResults Is Nothing Then Set Functions.MsgBoxResults = New Collection
+        If Exists(Functions.MsgBoxResults, ResultID) Then Functions.MsgBoxResults.Remove ResultID
+        Functions.MsgBoxResults.Add MsgBoxResult, ResultID
+    End If
+    
+    If Not MessageBoxObject Is Nothing Then
+        Unload MessageBoxObject
+        Set MessageBoxObject = Nothing
+    End If
+End Sub
+
+Private Sub timeout_Timer()
+    cmdOK_Click
+End Sub
+
+Private Sub optNo_Click()
+    cmdOK.Enabled = True
+End Sub
+
+Private Sub optYes_Click()
+    cmdOK.Enabled = True
 End Sub

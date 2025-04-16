@@ -167,7 +167,6 @@ Private Sub cmdHeaders_Click()
     Set DecodedHeaders = DecodeHeaderCache(EncodedHeaders)
     Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
     Set frmDownloadOptions.Headers = DecodedHeaders("Values")
-    frmDownloadOptions.LoadSettings
 #If HIDEYTDL Then
 #Else
     frmDownloadOptions.tsTabStrip.Tabs(2).Selected = True
@@ -240,7 +239,6 @@ Private Sub cmdYtdl_Click()
     Set DecodedHeaders = DecodeHeaderCache(EncodedHeaders)
     Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
     Set frmDownloadOptions.Headers = DecodedHeaders("Values")
-    frmDownloadOptions.LoadSettings
     frmDownloadOptions.Show vbModal, Me
 End Sub
 #End If
@@ -266,10 +264,6 @@ Private Sub Form_Load()
     EncodedHeaders = frmMain.lvBatchFiles.SelectedItem.ListSubItems(5).Text
     InitialFileName = frmMain.lvBatchFiles.SelectedItem.Text
     Me.Caption = Me.Caption & " - " & InitialFileName
-    
-    On Error Resume Next
-    Me.Icon = frmMain.imgEdit.ListImages(1).Picture
-    On Error GoTo 0
     
 #If HIDEYTDL Then
     cmdYtdl.Visible = False

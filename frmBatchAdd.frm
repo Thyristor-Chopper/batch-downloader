@@ -114,7 +114,6 @@ Private Sub cmdAdvanced_Click()
     Tags.DownloadOptionsTargetForm = 1
     Set frmDownloadOptions.HeaderKeys = New Collection
     Set frmDownloadOptions.Headers = New Collection
-    frmDownloadOptions.LoadSettings
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
@@ -189,7 +188,6 @@ Private Sub Form_Load()
     HeaderCache = ""
     
     On Error Resume Next
-    Me.Icon = frmMain.Icon
     Me.Width = GetSetting("DownloadBooster", "UserData", "BatchURLAddWidth", Me.Width - PaddedBorderWidth * 15 * 2) + PaddedBorderWidth * 15 * 2
     Me.Height = GetSetting("DownloadBooster", "UserData", "BatchURLAddHeight", Me.Height - PaddedBorderWidth * 15 * 2) + PaddedBorderWidth * 15 * 2
     

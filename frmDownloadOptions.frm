@@ -39,11 +39,11 @@ Begin VB.Form frmDownloadOptions
          TabIndex        =   20
          Top             =   3660
          Width           =   1215
-         _extentx        =   2143
-         _extenty        =   582
-         enabled         =   0   'False
-         caption         =   "이름 변경(&R)"
-         transparent     =   -1  'True
+         _ExtentX        =   2143
+         _ExtentY        =   582
+         Enabled         =   0   'False
+         Caption         =   "이름 변경(&R)"
+         Transparent     =   -1  'True
       End
       Begin VB.TextBox txtEdit 
          Height          =   255
@@ -59,11 +59,11 @@ Begin VB.Form frmDownloadOptions
          TabIndex        =   19
          Top             =   3660
          Width           =   1215
-         _extentx        =   2143
-         _extenty        =   582
-         enabled         =   0   'False
-         caption         =   "삭제(&D)"
-         transparent     =   -1  'True
+         _ExtentX        =   2143
+         _ExtentY        =   582
+         Enabled         =   0   'False
+         Caption         =   "삭제(&D)"
+         Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
          Height          =   330
@@ -71,11 +71,11 @@ Begin VB.Form frmDownloadOptions
          TabIndex        =   21
          Top             =   3660
          Width           =   1215
-         _extentx        =   2143
-         _extenty        =   582
-         enabled         =   0   'False
-         caption         =   "편집(&E)"
-         transparent     =   -1  'True
+         _ExtentX        =   2143
+         _ExtentY        =   582
+         Enabled         =   0   'False
+         Caption         =   "편집(&E)"
+         Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CommandButtonW cmdAddHeader 
          Height          =   330
@@ -83,10 +83,10 @@ Begin VB.Form frmDownloadOptions
          TabIndex        =   18
          Top             =   3660
          Width           =   1215
-         _extentx        =   2143
-         _extenty        =   582
-         caption         =   "추가(&A)"
-         transparent     =   -1  'True
+         _ExtentX        =   2143
+         _ExtentY        =   582
+         Caption         =   "추가(&A)"
+         Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.ListView lvHeaders 
          Height          =   2655
@@ -291,10 +291,10 @@ Begin VB.Form frmDownloadOptions
       TabIndex        =   24
       Top             =   120
       Width           =   1320
-      _extentx        =   0
-      _extenty        =   0
-      caption         =   "취소"
-      transparent     =   -1  'True
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "취소"
+      Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW OKButton 
       Default         =   -1  'True
@@ -303,10 +303,10 @@ Begin VB.Form frmDownloadOptions
       TabIndex        =   23
       Top             =   120
       Width           =   1320
-      _extentx        =   0
-      _extenty        =   0
-      caption         =   "확인"
-      transparent     =   -1  'True
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "확인"
+      Transparent     =   -1  'True
    End
 End
 Attribute VB_Name = "frmDownloadOptions"
@@ -346,14 +346,6 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
         NextTabPage tsTabStrip, IsKeyPressed(gksKeyboardShift)
     End If
 End Sub
-
-'Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
-'    If UnloadMode = 0 Then
-'        Cancel = 1
-'        Me.Hide
-'        Exit Sub
-'    End If
-'End Sub
 
 Private Sub OKButton_Click()
     Dim i%
@@ -585,7 +577,7 @@ Private Sub Form_Load()
 #End If
 End Sub
 
-Sub LoadSettings()
+Private Sub LoadSettings()
     'SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
     Me.Caption = t("다운로드 설정", "Download settings")

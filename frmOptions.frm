@@ -1750,6 +1750,82 @@ Private Sub cbTheme_Change()
     cbTheme_Click
 End Sub
 
+Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
+    Dim Section$
+    If ThemeName = "" Then Section = "Options" Else Section = "Options\Themes\" & ThemeName
+    On Error Resume Next
+    
+    txtCompleteSoundPath.Text = Trim$(GetSetting("DownloadBooster", Section, "CompleteSoundPath", ""))
+    
+    If GetSetting("DownloadBooster", Section, "UseClassicThemeFrame", 0) <> 0 Then
+        If cbFrameSkin.ListCount >= 3 Then
+            cbFrameSkin.ListIndex = 2
+        Else
+            cbFrameSkin.ListIndex = 1
+        End If
+    ElseIf GetSetting("DownloadBooster", Section, "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 And cbFrameSkin.ListCount >= 3 Then
+        cbFrameSkin.ListIndex = 1
+    Else
+        cbFrameSkin.ListIndex = 0
+    End If
+    
+    Dim clrBackColor As Long
+    clrBackColor = GetSetting("DownloadBooster", Section, "BackColor", DefaultBackColor)
+    If clrBackColor < 0 Or clrBackColor > 16777215 Then
+        optSystemColor.Value = True
+        pgColor.BackColor = &H8000000F
+    Else
+        optUserColor.Value = True
+        pgColor.BackColor = clrBackColor
+    End If
+    pbBackground.BackColor = pgColor.BackColor
+    pgPatternPreview.BackColor = pgColor.BackColor
+    
+    chkBeepWhenComplete.Value = GetSetting("DownloadBooster", Section, "PlaySound", 1)
+    
+    If Abs(GetSetting("DownloadBooster", Section, "EnableLiveBadukMemoSkin", 0)) Then
+        cbSkin.ListIndex = 2
+    ElseIf Abs(GetSetting("DownloadBooster", Section, "DisableVisualStyle", 0)) Then
+        cbSkin.ListIndex = 1
+        cmdSample.RoundButton = (GetSetting("DownloadBooster", Section, "RoundClassicButtons", 0) <> 0)
+    Else
+        cbSkin.ListIndex = 0
+    End If
+    
+    cmdSample.VisualStyles = (Not CBool(GetSetting("DownloadBooster", Section, "DisableVisualStyle", 0)))
+    cmdSample.IsTygemButton = Abs(GetSetting("DownloadBooster", Section, "EnableLiveBadukMemoSkin", 0)) * (-1)
+    
+    lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", Section, "FormFillStyle", 0))
+    
+    ChangedBackgroundPath = GetSetting("DownloadBooster", Section, "BackgroundImagePath", "")
+    LoadBackgroundList IIf(ThemeName = "", True, False)
+    
+    pgPatternColor.BackColor = CLng(GetSetting("DownloadBooster", Section, "FormFillColor", 0))
+    pgPatternPreview.FillColor = pgPatternColor.BackColor
+    pgPatternPreview.FillStyle = lvPatterns.ListIndex + 1
+    
+    cbImagePosition.ListIndex = GetSetting("DownloadBooster", Section, "ImagePosition", 1)
+    cbImagePosition_Click
+    
+    cbFont.Text = Trim$(GetSetting("DownloadBooster", Section, "Font", ""))
+    If cbFont.Text = "" Then cbFont.Text = ("(" & t("기본값", "default") & ")")
+    
+    Dim clrForeColor As Long
+    clrForeColor = GetSetting("DownloadBooster", Section, "ForeColor", -1)
+    If clrForeColor < 0 Or clrForeColor > 16777215 Then
+        optSystemFore.Value = True
+        pgFore.BackColor = &H80000012
+    Else
+        optUserFore.Value = True
+        pgFore.BackColor = clrForeColor
+        CheckBoxW1.VisualStyles = False
+        FrameW5.VisualStyles = False
+        CheckBoxW1.ForeColor = pgFore.BackColor
+        FrameW5.ForeColor = pgFore.BackColor
+    End If
+    Label11.ForeColor = pgFore.BackColor
+End Sub
+
 Private Sub cbTheme_Click()
     cmdDeleteTheme.Enabled = (cbTheme.ListIndex > 0)
     If cbTheme.ListIndex = 0 Then Exit Sub
@@ -1781,77 +1857,7 @@ Private Sub cbTheme_Click()
     SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameTexture", "")
     SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackground", "")
     
-    txtCompleteSoundPath.Text = Trim$(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "CompleteSoundPath", ""))
-    
-    If GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", 0) <> 0 Then
-        If cbFrameSkin.ListCount >= 3 Then
-            cbFrameSkin.ListIndex = 2
-        Else
-            cbFrameSkin.ListIndex = 1
-        End If
-    ElseIf GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 And cbFrameSkin.ListCount >= 3 Then
-        cbFrameSkin.ListIndex = 1
-    Else
-        cbFrameSkin.ListIndex = 0
-    End If
-    
-    Dim clrBackColor As Long
-    clrBackColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "BackColor", DefaultBackColor)
-    If clrBackColor < 0 Or clrBackColor > 16777215 Then
-        optSystemColor.Value = True
-        pgColor.BackColor = &H8000000F
-    Else
-        optUserColor.Value = True
-        pgColor.BackColor = clrBackColor
-    End If
-    pbBackground.BackColor = pgColor.BackColor
-    pgPatternPreview.BackColor = pgColor.BackColor
-    
-    chkBeepWhenComplete.Value = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "PlaySound", 1)
-    
-    If Abs(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", 0)) Then
-        cbSkin.ListIndex = 2
-    ElseIf Abs(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0)) Then
-        cbSkin.ListIndex = 1
-        cmdSample.RoundButton = (GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0) <> 0)
-    Else
-        cbSkin.ListIndex = 0
-    End If
-    
-    cmdSample.VisualStyles = (Not CBool(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0)))
-    cmdSample.IsTygemButton = Abs(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", 0)) * (-1)
-    
-    lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "FormFillStyle", 0))
-    
-    ChangedBackgroundPath = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImagePath", "")
-    LoadBackgroundList
-    
-    pgPatternColor.BackColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "FormFillColor", 0))
-    pgPatternPreview.FillColor = pgPatternColor.BackColor
-    pgPatternPreview.FillStyle = lvPatterns.ListIndex + 1
-    
-    cbImagePosition.ListIndex = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "ImagePosition", 1)
-    cbImagePosition_Click
-    
-    cbFont.Text = Trim$(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "Font", ""))
-    If cbFont.Text = "" Then cbFont.Text = ("(" & t("기본값", "default") & ")")
-    
-    On Error Resume Next
-    
-    Dim clrForeColor As Long
-    clrForeColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "ForeColor", -1)
-    If clrForeColor < 0 Or clrForeColor > 16777215 Then
-        optSystemFore.Value = True
-        pgFore.BackColor = &H80000012
-    Else
-        optUserFore.Value = True
-        pgFore.BackColor = clrForeColor
-        CheckBoxW1.VisualStyles = False
-        FrameW5.VisualStyles = False
-        CheckBoxW1.ForeColor = pgFore.BackColor
-        FrameW5.ForeColor = pgFore.BackColor
-    End If
-    Label11.ForeColor = pgFore.BackColor
+    LoadTheme ThemeName
     
     RedrawPreview
     
@@ -2464,12 +2470,7 @@ Private Sub cmdTestQuestion_Click()
     End If
 End Sub
 
-Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
-'    If UnloadMode = 0 Then
-'        Cancel = 1
-'        Me.Hide
-'        Exit Sub
-'    End If
+Private Sub Form_Unload(Cancel As Integer)
     IBSSubclass_UnsubclassIt
 End Sub
 
@@ -2651,13 +2652,8 @@ Private Sub txtEdit_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub Form_Load()
-    Loaded = False
-    
     InitForm Me
-    
-    On Error Resume Next
-    Me.Icon = frmMain.imgWrench.ListImages(1).Picture
-    On Error GoTo 0
+    Loaded = False
     
     Set PreviewControls(0) = Label11
     Set PreviewControls(1) = TextBoxW1
@@ -2932,8 +2928,9 @@ nextcode:
     Loaded = True
 End Sub
 
-Sub LoadSettings()
+Private Sub LoadSettings()
     'SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    On Error Resume Next
     
     chkNoCleanup.Value = GetSetting("DownloadBooster", "Options", "NoCleanup", 0)
     chkNoRedirectCheck.Value = GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0)
@@ -2946,7 +2943,6 @@ Sub LoadSettings()
     chkDontLoadIcons.Value = GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0)
     chkRememberURL.Value = GetSetting("DownloadBooster", "Options", "RememberURL", 1)
     chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
-    txtCompleteSoundPath.Text = Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", ""))
     chkAllowDuplicates.Value = GetSetting("DownloadBooster", "Options", "AllowDuplicatesInQueue", 0)
     txtMaxThreadCount.Value = GetSetting("DownloadBooster", "Options", "MaxThreadCount", 25)
     optLinePerScroll.Value = True
@@ -2977,47 +2973,12 @@ Sub LoadSettings()
     End Select
     trRequestInterval_Scroll
     
-    If GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0) <> 0 Then
-        If cbFrameSkin.ListCount >= 3 Then
-            cbFrameSkin.ListIndex = 2
-        Else
-            cbFrameSkin.ListIndex = 1
-        End If
-    ElseIf GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 And cbFrameSkin.ListCount >= 3 Then
-        cbFrameSkin.ListIndex = 1
-    Else
-        cbFrameSkin.ListIndex = 0
-    End If
-    
-    Dim clrBackColor As Long
-    clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
-    If clrBackColor < 0 Or clrBackColor > 16777215 Then
-        optSystemColor.Value = True
-        pgColor.BackColor = &H8000000F
-    Else
-        optUserColor.Value = True
-        pgColor.BackColor = clrBackColor
-    End If
-    pbBackground.BackColor = pgColor.BackColor
-    pgPatternPreview.BackColor = pgColor.BackColor
+    LoadTheme
     
     chkOpenWhenComplete.Value = frmMain.chkOpenAfterComplete.Value
     chkOpenDirWhenComplete.Value = frmMain.chkOpenFolder.Value
-    chkBeepWhenComplete.Value = GetSetting("DownloadBooster", "Options", "PlaySound", 1)
     chkAlwaysResume.Value = frmMain.chkContinueDownload.Value
     chkAutoRetry.Value = frmMain.chkAutoRetry.Value
-    
-    If Abs(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) Then
-        cbSkin.ListIndex = 2
-    ElseIf Abs(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)) Then
-        cbSkin.ListIndex = 1
-        cmdSample.RoundButton = (GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0) <> 0)
-    Else
-        cbSkin.ListIndex = 0
-    End If
-    
-    cmdSample.VisualStyles = (Not CBool(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
-    cmdSample.IsTygemButton = Abs(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) * (-1)
     
     Dim LangSet As String
     LangSet = GetSetting("DownloadBooster", "Options", "Language", "0")
@@ -3029,20 +2990,8 @@ Sub LoadSettings()
         cbLanguage.ListIndex = 2
     End If
     cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
-    
-    lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", "Options", "FormFillStyle", 0))
-    
-    ChangedBackgroundPath = GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")
-    LoadBackgroundList True
-    
-    pgPatternColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "FormFillColor", 0))
-    pgPatternPreview.FillColor = pgPatternColor.BackColor
-    pgPatternPreview.FillStyle = lvPatterns.ListIndex + 1
     pgPatternPreview.Width = pbBackground.Width
     pgPatternPreview.Height = pbBackground.Height
-    
-    cbImagePosition.ListIndex = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
-    cbImagePosition_Click
     
     ClearComboBox cbTheme
     AddItemToComboBox cbTheme, t("수정된 테마", "Modified theme")
@@ -3060,26 +3009,6 @@ Sub LoadSettings()
     txtNodePath.Text = GetSetting("DownloadBooster", "Options", "NodePath", "")
     txtScriptPath.Text = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
     txtYtdlPath.Text = GetSetting("DownloadBooster", "Options", "YtdlPath", "")
-    
-    cbFont.Text = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
-    If cbFont.Text = "" Then cbFont.Text = ("(" & t("기본값", "default") & ")")
-    
-    On Error Resume Next
-    
-    Dim clrForeColor As Long
-    clrForeColor = GetSetting("DownloadBooster", "Options", "ForeColor", -1)
-    If clrForeColor < 0 Or clrForeColor > 16777215 Then
-        optSystemFore.Value = True
-        pgFore.BackColor = &H80000012
-    Else
-        optUserFore.Value = True
-        pgFore.BackColor = clrForeColor
-        CheckBoxW1.VisualStyles = False
-        FrameW5.VisualStyles = False
-        CheckBoxW1.ForeColor = pgFore.BackColor
-        FrameW5.ForeColor = pgFore.BackColor
-    End If
-    Label11.ForeColor = pgFore.BackColor
     
     Dim Headers() As String
     Headers = GetAllSettings("DownloadBooster", "Options\Headers")
@@ -3128,7 +3057,7 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Sub DrawTabBackground(Optional Force As Boolean = False)
+Private Sub DrawTabBackground(Optional Force As Boolean = False)
     On Error Resume Next
     Dim ctrl As Control
     Dim i%
@@ -3262,7 +3191,7 @@ Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
     End If
 End Sub
 
-Sub SetPreviewPosition()
+Private Sub SetPreviewPosition()
     Dim Left%, Top%, Width%, Height%
     Left = 30
     Top = 6

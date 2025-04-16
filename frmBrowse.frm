@@ -229,6 +229,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
@@ -244,7 +245,6 @@ Private Sub Form_Load()
     selFileType.ListIndex = 0
     
     On Error Resume Next
-    Me.Icon = frmMain.imgOpenFolder.ListImages(1).Picture
     
     Dim Path$
     Path = lvDir.Path

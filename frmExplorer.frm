@@ -440,7 +440,7 @@ Dim LoadFinished As Boolean
 
 Implements IBSSubclass
 
-Sub ShowDesktopItems()
+Private Sub ShowDesktopItems()
     Dim li As LvwListItem
     
     Set li = lvFiles.ListItems.Add(1, , t("내 컴퓨터", "My Computer"), 9, 14)
@@ -529,7 +529,7 @@ Private Sub chkHidden_Click()
     SaveSetting "DownloadBooster", "UserData", "ShowHidden", chkHidden.Value
 End Sub
 
-Sub ListFiles()
+Private Sub ListFiles()
     If ListedOn <> "" And ListedOn = lvDir.Path Then Exit Sub
     ListedOn = lvDir.Path
     LoadFinished = False
@@ -828,7 +828,6 @@ Private Sub Form_Load()
     selFileType.ListIndex = 0
     
     On Error Resume Next
-    Me.Icon = frmMain.imgOpenFolder.ListImages(1).Picture
     
     Dim Path$
     Path = lvDir.Path
@@ -1020,7 +1019,7 @@ End Sub
 '    mnuFolderFloor.Visible = 0
 'End Sub
 
-Sub ShowMyComputer()
+Private Sub ShowMyComputer()
     IsMyComputer = True
     LoadFinished = True
     ListedOn = ""
@@ -2012,7 +2011,7 @@ Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
     End Select
 End Sub
 
-Sub CreateNewFolder()
+Private Sub CreateNewFolder()
     If Not tbToolBar.Buttons(3).Enabled Then Exit Sub
 
     Randomize
