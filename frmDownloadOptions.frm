@@ -316,27 +316,12 @@ Dim MouseY As Integer
 Public Headers As Collection
 Public HeaderKeys As Collection
 
-Sub NextTabPage(Optional ByVal Reverse As Boolean = False)
-    On Error Resume Next
-    If Not Reverse Then
-        If tsTabStrip.SelectedItem.Index = tsTabStrip.Tabs.Count Then
-            tsTabStrip.Tabs(1).Selected = True
-        Else
-            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index + 1).Selected = True
-        End If
-    Else
-        If tsTabStrip.SelectedItem.Index = 1 Then
-            tsTabStrip.Tabs(tsTabStrip.Tabs.Count).Selected = True
-        Else
-            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index - 1).Selected = True
-        End If
-    End If
-End Sub
-
 Private Sub CancelButton_Click()
     Me.Hide
 End Sub
 
+#If HIDEYTDL Then
+#Else
 Private Sub cbAudioFormat_Click()
     optUseYtdl_Click
 End Sub
@@ -350,10 +335,11 @@ End Sub
 Private Sub chkExtractAudio_Click()
     optUseYtdl_Click
 End Sub
+#End If
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 9 And IsKeyPressed(gksKeyboardctrl) Then
-        NextTabPage IsKeyPressed(gksKeyboardShift)
+        NextTabPage tsTabStrip, IsKeyPressed(gksKeyboardShift)
     End If
 End Sub
 
@@ -401,8 +387,10 @@ Private Sub OKButton_Click()
             frmEditBatch.EncodedHeaders = HeaderCache
     End Select
     
+#If HIDEYTDL Then
+#Else
     SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.Value
-    
+
     frmMain.ytdlEnabled = optUseYtdl.Value
     If optUseYtdl.Value Then
         frmMain.ytdlFormat = Replace(txtFormat.Text, " ", "")
@@ -413,10 +401,13 @@ Private Sub OKButton_Click()
         frmMain.ytdlAudioVBR = CByte(cbVBR.Text)
         frmMain.ytdlAudioCBR = CInt(Left$(cbBitRate.Text, InStr(cbBitRate.Text, " ") - 1))
     End If
+#End If
     
     Me.Hide
 End Sub
 
+#If HIDEYTDL Then
+#Else
 Private Sub optDisableYtdl_Click()
     optUseYtdl_Click
 End Sub
@@ -449,6 +440,7 @@ End Sub
 Private Sub optVBR_Click()
     optUseYtdl_Click
 End Sub
+#End If
 
 Private Sub Form_Load()
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
@@ -489,9 +481,12 @@ Private Sub Form_Load()
     For i = 1 To pbPanel.Count
         tsTabStrip.DrawBackground pbPanel(i).hWnd, pbPanel(i).hDC
     Next i
-    fYtdl.Refresh
     
     On Error Resume Next
+
+#If HIDEYTDL Then
+#Else
+    fYtdl.Refresh
     
     AddItemToComboBox cbAudioFormat, t("자동", "Auto") & " (M4A/Opus)"
     AddItemToComboBox cbAudioFormat, "MP3"
@@ -548,9 +543,7 @@ Private Sub Form_Load()
     txtFormat.ListIndex = 0
     
     chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
-    
-    tsTabStrip.Tabs(2).Caption = t("  헤더  ", " Headers ")
-    
+
     chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
     optDisableYtdl.Caption = t(optDisableYtdl.Caption, "Never use youtube-&dl for all links")
     optUseYtdl.Caption = t(optUseYtdl.Caption, "Always &use youtube-dl for all links")
@@ -558,6 +551,9 @@ Private Sub Form_Load()
     chkExtractAudio.Caption = t(chkExtractAudio.Caption, "&Extract audio")
     Label4.Caption = t(Label4.Caption, "&Audio format:")
     Label3.Caption = t(Label3.Caption, "&Format:")
+#End If
+    
+    tsTabStrip.Tabs(2).Caption = t("  헤더  ", " Headers ")
     
     OKButton.Caption = t(OKButton.Caption, "OK")
     CancelButton.Caption = t(CancelButton.Caption, "Cancel")
@@ -567,7 +563,6 @@ Private Sub Form_Load()
     cmdEditHeaderName.Caption = t(cmdEditHeaderName.Caption, "&Rename")
     cmdEditHeaderValue.Caption = t(cmdEditHeaderValue.Caption, "&Edit")
     
-    lvHeaders.ColumnHeaders.Clear
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
     lvHeaders.SmallIcons = imgFiles
@@ -581,8 +576,11 @@ Private Sub Form_Load()
     pbPanel(1).Visible = False
     pbPanel(2).Enabled = True
 #End If
-    
+
+#If HIDEYTDL Then
+#Else
     optUseYtdl_Click
+#End If
 End Sub
 
 Sub LoadSettings()
@@ -605,7 +603,9 @@ Sub LoadSettings()
     For Each Header In HeaderKeys
         lvHeaders.ListItems.Add(, , Header, , 1).ListSubItems.Add , , Headers(CStr(Header))
     Next Header
-    
+
+#If HIDEYTDL Then
+#Else
     optUseYtdl.Value = frmMain.ytdlEnabled
     txtFormat.Text = Replace(frmMain.ytdlFormat, " ", "")
     If txtFormat.Text = "" Then txtFormat.ListIndex = 0
@@ -620,13 +620,12 @@ Sub LoadSettings()
             Exit For
         End If
     Next i
+#End If
 End Sub
 
-Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
 #If HIDEYTDL Then
-    Exit Sub
-#End If
-    
+#Else
+Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
     On Error Resume Next
     Dim i%
     For i = 1 To pbPanel.Count
@@ -640,6 +639,7 @@ Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
         End If
     Next i
 End Sub
+#End If
 
 Private Sub cmdAddHeader_Click()
     lvHeaders.SetFocus

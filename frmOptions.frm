@@ -1570,30 +1570,13 @@ Dim SkinChanged As Boolean
 Dim FontChanged As Boolean
 Dim PatternChanged As Boolean
 Dim MouseY As Integer, SelectedListItem As LvwListItem
-Dim BackgroundDrawn(6) As Boolean
+Dim BackgroundDrawn(5) As Boolean
 Dim ScrollChanged As Boolean
 Dim IntervalValues(8) As Single
 Public ChangedBackgroundPath$
 Dim PreviewControls(4) As Control
 
 Implements IBSSubclass
-
-Sub NextTabPage(Optional ByVal Reverse As Boolean = False)
-    On Error Resume Next
-    If Not Reverse Then
-        If tsTabStrip.SelectedItem.Index = tsTabStrip.Tabs.Count Then
-            tsTabStrip.Tabs(1).Selected = True
-        Else
-            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index + 1).Selected = True
-        End If
-    Else
-        If tsTabStrip.SelectedItem.Index = 1 Then
-            tsTabStrip.Tabs(tsTabStrip.Tabs.Count).Selected = True
-        Else
-            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index - 1).Selected = True
-        End If
-    End If
-End Sub
 
 Private Sub CancelButton_Click()
     Unload Me
@@ -2621,7 +2604,6 @@ Private Sub Form_Load()
     BackgroundDrawn(3) = False
     BackgroundDrawn(4) = False
     BackgroundDrawn(5) = False
-    BackgroundDrawn(6) = False
     
     IntervalValues(0) = 0.01
     IntervalValues(1) = 0.05
@@ -2633,16 +2615,6 @@ Private Sub Form_Load()
     IntervalValues(7) = 5#
     
     lvHeaders.SmallIcons = imgFiles
-    
-'    lblSelectColor.Top = pgColor.Top
-'    lblSelectColor.Left = pgColor.Left
-'    lblSelectColor.Width = pgColor.Width
-'    lblSelectColor.Height = pgColor.Height
-
-'    lblSelectFore.Top = pgFore.Top
-'    lblSelectFore.Left = pgFore.Left
-'    lblSelectFore.Width = pgFore.Width
-'    lblSelectFore.Height = pgFore.Height
     
     RemoveVisualStyles txtSampleClassic.hWnd
     
@@ -2679,7 +2651,6 @@ Private Sub Form_Load()
     pbPanel(1).Visible = -1
     pbPanel(1).Enabled = -1
     
-    lvHeaders.ColumnHeaders.Clear
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 3000
     If GetSetting("DownloadBooster", "UserData", "HeaderSettingsInitialized", "0") = "0" Then
@@ -2721,22 +2692,18 @@ Private Sub Form_Load()
     
     DrawTabBackground
     
-    ClearComboBox cbSkin
     AddItemToComboBox cbSkin, t("시스템 스타일", "System style")
     AddItemToComboBox cbSkin, t("고전 스타일", "Classic style")
     AddItemToComboBox cbSkin, t("라이브바둑 쪽지", "LiveBaduk memo")
     
-    ClearComboBox cbLanguage
     AddItemToComboBox cbLanguage, t("자동", "Auto")
     AddItemToComboBox cbLanguage, "한국어"
     AddItemToComboBox cbLanguage, "English"
     
-    ClearComboBox cbWhenExist
     AddItemToComboBox cbWhenExist, t("건너뛰기", "Skip")
     AddItemToComboBox cbWhenExist, t("덮어쓰기", "Overwrite")
     AddItemToComboBox cbWhenExist, t("자동 이름 변경", "Auto Rename")
     
-    ClearComboBox lvPatterns
     AddItemToComboBox lvPatterns, t("(없음)", "(None)")
     AddItemToComboBox lvPatterns, t("수평선", "Horizontal lines")
     AddItemToComboBox lvPatterns, t("수직선", "Vertical lines")
@@ -2745,7 +2712,6 @@ Private Sub Form_Load()
     AddItemToComboBox lvPatterns, t("교차", "Grid")
     AddItemToComboBox lvPatterns, t("대각선 교차", "45 degrees grid")
     
-    ClearComboBox cbImagePosition
     AddItemToComboBox cbImagePosition, t("늘이기", "Stretch")
     AddItemToComboBox cbImagePosition, t("높이에 맞춤", "Fit to height")
     AddItemToComboBox cbImagePosition, t("너비에 맞춤", "Fit to width")
@@ -3098,7 +3064,7 @@ End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 9 And IsKeyPressed(gksKeyboardctrl) Then
-        NextTabPage IsKeyPressed(gksKeyboardShift)
+        NextTabPage tsTabStrip, IsKeyPressed(gksKeyboardShift)
     End If
 End Sub
 
@@ -3113,7 +3079,6 @@ Sub DrawTabBackground(Optional Force As Boolean = False)
         BackgroundDrawn(3) = False
         BackgroundDrawn(4) = False
         BackgroundDrawn(5) = False
-        BackgroundDrawn(6) = False
     ElseIf BackgroundDrawn(tsTabStrip.SelectedItem.Index) Then
         Exit Sub
     End If
@@ -3170,24 +3135,6 @@ Private Sub lblSelectFore_Click()
     FrameW5.VisualStyles = False
     CheckBoxW1.ForeColor = pgFore.BackColor
     FrameW5.ForeColor = pgFore.BackColor
-End Sub
-
-Private Sub lvHeaders_ColumnFilterChanged(ByVal ColumnHeader As LvwColumnHeader)
-    Dim i%
-    Dim startIdx As Integer
-    startIdx = 0
-    On Error Resume Next
-    startIdx = lvHeaders.SelectedItem.Index
-    If Not lvHeaders.SelectedItem.Selected Then startIdx = 0
-    For i = startIdx + 1 To lvHeaders.ListItems.Count
-        If i > lvHeaders.ListItems.Count Then Exit For
-        If (ColumnHeader.Index = 1 And Replace(lvHeaders.ListItems(i).Text, ColumnHeader.FilterValue, "") <> lvHeaders.ListItems(i).Text) Or _
-            (ColumnHeader.Index = 2 And Replace(lvHeaders.ListItems(i).ListSubItems(1).Text, ColumnHeader.FilterValue, "") <> lvHeaders.ListItems(i).Text) Then
-            lvHeaders.ListItems(i).Selected = True
-            lvHeaders.ListItems(i).EnsureVisible
-            Exit For
-        End If
-    Next i
 End Sub
 
 Private Sub lvHeaders_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)

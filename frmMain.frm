@@ -3588,7 +3588,6 @@ Private Sub Form_Load()
     chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 0)
     chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
     
-    ClearComboBox cbWhenExist
     AddItemToComboBox cbWhenExist, t("건너뛰기", "Skip")
     AddItemToComboBox cbWhenExist, t("덮어쓰기", "Overwrite")
     AddItemToComboBox cbWhenExist, t("이름 변경", "Rename")

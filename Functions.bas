@@ -2068,3 +2068,20 @@ Function SetFileDate(ByVal sFilename As String, ByVal dFileDate As Date) As Bool
         CloseHandle lhwndFile
     End If
 End Function
+
+Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean = False)
+    On Error Resume Next
+    If Not Reverse Then
+        If tsTabStrip.SelectedItem.Index = tsTabStrip.Tabs.Count Then
+            tsTabStrip.Tabs(1).Selected = True
+        Else
+            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index + 1).Selected = True
+        End If
+    Else
+        If tsTabStrip.SelectedItem.Index = 1 Then
+            tsTabStrip.Tabs(tsTabStrip.Tabs.Count).Selected = True
+        Else
+            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index - 1).Selected = True
+        End If
+    End If
+End Sub
