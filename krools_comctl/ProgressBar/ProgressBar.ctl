@@ -745,21 +745,21 @@ Set Me.MouseIcon = Value
 End Property
 
 Public Property Set MouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
+'If Value Is Nothing Then
     Set PropMouseIcon = Nothing
-Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropMouseIcon = Value
-    Else
-        If ProgressBarDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
-If ProgressBarDesignMode = False Then Call RefreshMousePointer
+'Else
+'    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+'        Set PropMouseIcon = Value
+'    Else
+'        If ProgressBarDesignMode = True Then
+'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
+'If ProgressBarDesignMode = False Then Call RefreshMousePointer
 UserControl.PropertyChanged "MouseIcon"
 End Property
 
@@ -824,23 +824,18 @@ BorderStyle = PropBorderStyle
 End Property
 
 Public Property Let BorderStyle(ByVal Value As Integer)
-Select Case Value
-    Case vbBSNone, vbFixedSingle
-        PropBorderStyle = Value
-    Case Else
-        Err.Raise 380
-End Select
-If ProgressBarHandle <> NULL_PTR Then
-    Dim dwStyle As Long
-    dwStyle = GetWindowLong(ProgressBarHandle, GWL_STYLE)
-    If PropBorderStyle = vbFixedSingle Then
-        If Not (dwStyle And WS_BORDER) = WS_BORDER Then dwStyle = dwStyle Or WS_BORDER
-    Else
-        If (dwStyle And WS_BORDER) = WS_BORDER Then dwStyle = dwStyle And Not WS_BORDER
-    End If
-    SetWindowLong ProgressBarHandle, GWL_STYLE, dwStyle
-    Call ComCtlsFrameChanged(ProgressBarHandle)
-End If
+PropBorderStyle = Value
+'If ProgressBarHandle <> NULL_PTR Then
+'    Dim dwStyle As Long
+'    dwStyle = GetWindowLong(ProgressBarHandle, GWL_STYLE)
+'    If PropBorderStyle = vbFixedSingle Then
+'        If Not (dwStyle And WS_BORDER) = WS_BORDER Then dwStyle = dwStyle Or WS_BORDER
+'    Else
+'        If (dwStyle And WS_BORDER) = WS_BORDER Then dwStyle = dwStyle And Not WS_BORDER
+'    End If
+'    SetWindowLong ProgressBarHandle, GWL_STYLE, dwStyle
+'    Call ComCtlsFrameChanged(ProgressBarHandle)
+'End If
 UserControl.PropertyChanged "BorderStyle"
 End Property
 
@@ -990,19 +985,14 @@ Orientation = PropOrientation
 End Property
 
 Public Property Let Orientation(ByVal Value As PrbOrientationConstants)
-Select Case Value
-    Case PrbOrientationHorizontal, PrbOrientationVertical
-        With UserControl
-        Dim Align As Integer
-        If ProgressBarAlignable = True Then Align = .Extender.Align Else Align = vbAlignNone
-        If Align = vbAlignNone And PropOrientation <> Value Then
-            .Extender.Move .Extender.Left, .Extender.Top, .Extender.Height, .Extender.Width
-        End If
-        End With
-        PropOrientation = Value
-    Case Else
-        Err.Raise 380
-End Select
+With UserControl
+Dim Align As Integer
+If ProgressBarAlignable = True Then Align = .Extender.Align Else Align = vbAlignNone
+If Align = vbAlignNone And PropOrientation <> Value Then
+    .Extender.Move .Extender.Left, .Extender.Top, .Extender.Height, .Extender.Width
+End If
+End With
+PropOrientation = Value
 If ProgressBarHandle <> NULL_PTR Then Call ReCreateProgressBar
 UserControl.PropertyChanged "Orientation"
 End Property
@@ -1055,7 +1045,7 @@ End Property
 
 Public Property Let ForeColor(ByVal Value As OLE_COLOR)
 PropForeColor = Value
-If ProgressBarHandle <> NULL_PTR Then SendMessage ProgressBarHandle, PBM_SETBARCOLOR, 0, ByVal WinColor(PropForeColor)
+'If ProgressBarHandle <> NULL_PTR Then SendMessage ProgressBarHandle, PBM_SETBARCOLOR, 0, ByVal WinColor(PropForeColor)
 UserControl.PropertyChanged "ForeColor"
 End Property
 
@@ -1110,9 +1100,9 @@ Text = PropText
 End Property
 
 Public Property Let Text(ByVal Value As String)
-If PropText = Value Then Exit Property
+'If PropText = Value Then Exit Property
 PropText = Value
-If ProgressBarHandle <> NULL_PTR Then InvalidateRect ProgressBarHandle, ByVal NULL_PTR, 1
+'If ProgressBarHandle <> NULL_PTR Then InvalidateRect ProgressBarHandle, ByVal NULL_PTR, 1
 UserControl.PropertyChanged "Text"
 End Property
 
@@ -1123,7 +1113,7 @@ End Property
 
 Public Property Let TextColor(ByVal Value As OLE_COLOR)
 PropTextColor = Value
-If ProgressBarHandle <> NULL_PTR Then InvalidateRect ProgressBarHandle, ByVal NULL_PTR, 1
+'If ProgressBarHandle <> NULL_PTR Then InvalidateRect ProgressBarHandle, ByVal NULL_PTR, 1
 UserControl.PropertyChanged "TextColor"
 End Property
 
@@ -1197,49 +1187,6 @@ UserControl.Refresh
 RedrawWindow UserControl.hWnd, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE Or RDW_ALLCHILDREN
 End Sub
 
-Public Sub StepIt()
-Attribute StepIt.VB_Description = "Advances the current position by the step increment."
-If ProgressBarHandle <> NULL_PTR And (PropScrolling <> PrbScrollingMarquee Or ComCtlsSupportLevel() = 0) Then
-    Dim Changed As Boolean
-    If PropStepAutoReset = True Then
-        SendMessage ProgressBarHandle, PBM_STEPIT, 0, ByVal 0&
-        Changed = CBool(Me.Value <> PropValue)
-    Else
-        If (Me.Value + Me.Step) <= Me.Max Then
-            SendMessage ProgressBarHandle, PBM_STEPIT, 0, ByVal 0&
-            Changed = CBool(Me.Value <> PropValue)
-        Else
-            Me.Value = Me.Max
-        End If
-    End If
-    If Changed = True Then
-        PropValue = Me.Value
-        UserControl.PropertyChanged "Value"
-        On Error Resume Next
-        UserControl.Extender.DataChanged = True
-        On Error GoTo 0
-        Call CheckTaskBarProgress
-        RaiseEvent Change
-    End If
-End If
-End Sub
-
-Public Sub Increment(ByVal Delta As Long)
-Attribute Increment.VB_Description = "Advances the current position by a specified increment."
-If ProgressBarHandle <> NULL_PTR And (PropScrolling <> PrbScrollingMarquee Or ComCtlsSupportLevel() = 0) Then
-    SendMessage ProgressBarHandle, PBM_DELTAPOS, Delta, ByVal 0&
-    If Me.Value <> PropValue Then
-        PropValue = Me.Value
-        UserControl.PropertyChanged "Value"
-        On Error Resume Next
-        UserControl.Extender.DataChanged = True
-        On Error GoTo 0
-        Call CheckTaskBarProgress
-        RaiseEvent Change
-    End If
-End If
-End Sub
-
 Private Sub CheckTaskBarProgress()
 If PropShowInTaskBar = False Or ProgressBarITaskBarList3 Is Nothing Then Exit Sub
 If ProgressBarHandle <> NULL_PTR Then
@@ -1284,44 +1231,6 @@ If Not CreateITaskBarList3 Is Nothing Then
     If Err.LastDllError <> S_OK Then Set CreateITaskBarList3 = Nothing
 End If
 End Function
-
-Private Sub TextDraw(ByVal hWnd As LongPtr, ByVal hDC As LongPtr)
-If hWnd = NULL_PTR Or hDC = NULL_PTR Then Exit Sub
-If PropText = vbNullString Then Exit Sub
-Dim hFont As LongPtr, hFontOld As LongPtr
-hFont = SendMessage(hWnd, WM_GETFONT, 0, ByVal 0&)
-hFontOld = SelectObject(hDC, hFont)
-Dim OldBkMode As Long, OldTextColor As Long
-OldBkMode = SetBkMode(hDC, 1)
-OldTextColor = SetTextColor(hDC, WinColor(PropTextColor))
-Dim DrawFlags As Long, RC As RECT
-DrawFlags = DT_CENTER Or DT_VCENTER Or DT_SINGLELINE Or DT_NOCLIP
-If PropRightToLeft = True And PropRightToLeftLayout = False Then DrawFlags = DrawFlags Or DT_RTLREADING
-GetClientRect hWnd, RC
-Dim Text As String, Pos As Long
-For Pos = 1 To Len(PropText)
-    Select Case Mid$(PropText, Pos, 3)
-        Case "{0}" ' Value
-            Text = Text & CStr(Me.Value)
-            Pos = Pos + 2
-        Case "{1}" ' Min
-            Text = Text & CStr(Me.Min)
-            Pos = Pos + 2
-        Case "{2}" ' Max
-            Text = Text & CStr(Me.Max)
-            Pos = Pos + 2
-        Case "{3}" ' Percent Value between 0 and 100
-            Text = Text & Format$((CDbl(Me.Value - Me.Min) / CDbl(Me.Max - Me.Min)) * 100, "0")
-            Pos = Pos + 2
-        Case Else
-            Text = Text & Mid$(PropText, Pos, 1)
-    End Select
-Next Pos
-DrawText hDC, StrPtr(Text), -1, RC, DrawFlags
-SetBkMode hDC, OldBkMode
-SetTextColor hDC, OldTextColor
-If hFontOld <> NULL_PTR Then SelectObject hDC, hFontOld
-End Sub
 
 Private Function PtInRect(ByRef lpRect As RECT, ByVal X As Long, ByVal Y As Long) As Long
 ' Avoid API declare since x64 calling convention aligns 8 bytes per argument.

@@ -1,7 +1,7 @@
 frmMain = 71, 110, 1143, 771, C, 117, 45, 1104, 746, C
 ShellPipe = 0, 0, 0, 0, C, 198, 261, 1268, 920, C
 SPBuffer = 0, 0, 0, 0, C
-Slider = 114, 229, 1257, 896, C, 220, 290, 1290, 949, C
+Slider = 74, 135, 1217, 802, C, 220, 290, 1290, 949, C
 ComCtlsBase = 22, 29, 1100, 696, C
 VTableHandle = 0, 0, 0, 0, C
 CommonDialog = 132, 174, 1210, 841, C
@@ -10,7 +10,7 @@ SbrPanel = 0, 0, 0, 0, C
 SbrPanelProperties = 0, 0, 0, 0, C
 SbrPanels = 0, 0, 0, 0, C
 StatusBar = 176, 232, 1254, 899, C, 0, 0, 1078, 667, C
-ProgressBar = 0, 0, 0, 0, C, 44, 58, 1122, 725, C
+ProgressBar = 154, 203, 1227, 849, C, 44, 58, 1122, 725, C
 ListView = 198, 261, 1276, 928, C, 66, 87, 1144, 754, C
 LvwColumnHeader = 154, 203, 1227, 849, C
 LvwColumnHeaders = 0, 0, 0, 0, C

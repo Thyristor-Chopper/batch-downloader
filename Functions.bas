@@ -107,9 +107,21 @@ Declare Function SetViewportOrgEx Lib "gdi32" (ByVal hDC As Long, ByVal X As Lon
 Declare Function CreatePatternBrush Lib "gdi32" (ByVal hBitmap As Long) As Long
 Declare Function DeleteDC Lib "gdi32" (ByVal hDC As Long) As Long
 Private Declare Function CreateFile Lib "kernel32" Alias "CreateFileA" (ByVal lpFileName As String, ByVal dwDesiredAccess As Long, ByVal dwShareMode As Long, ByVal lpSecurityAttributes As Long, ByVal dwCreationDisposition As Long, ByVal dwFlagsAndAttributes As Long, ByVal hTemplateFile As Long) As Long
+Private Declare Function GetFileTime Lib "kernel32" (ByVal hFile As Long, lpCreationTime As Any, lpLastAccessTime As Any, lpLastWriteTime As Any) As Long
 Private Declare Function SetFileTime Lib "kernel32" (ByVal hFile As Long, lpCreationTime As Any, lpLastAccessTime As Any, lpLastWriteTime As Any) As Long
 Private Declare Function SystemTimeToFileTime Lib "kernel32" (lpSystemTime As SYSTEMTIME, lpFileTime As FILETIME) As Long
 Private Declare Function LocalFileTimeToFileTime Lib "kernel32" (lpLocalFileTime As FILETIME, lpFileTime As FILETIME) As Long
+Private Declare Function GetTimeZoneInformation Lib "kernel32" (lpTimeZoneInformation As TIME_ZONE_INFORMATION) As Long
+
+Private Type TIME_ZONE_INFORMATION
+    Bias As Long
+    StandardName(63) As Byte
+    StandardDate(7) As Integer
+    StandardBias As Long
+    DaylightName(63) As Byte
+    DaylightDate(7) As Integer
+    DaylightBias As Long
+End Type
 
 Public Const WM_NOTIFY = &H4E&
 Public Const WM_MOVE = &H3&
@@ -1384,7 +1396,7 @@ Function URLDecode(ByVal strIn As String) As String
     Dim sl As Long, tl As Long
     Dim Key As String, kl As Long
     Dim hh As String, Hi As String, hl As String
-    Dim a As Long
+    Dim A As Long
     
     Key = "%"
     kl = Len(Key)
@@ -1397,33 +1409,33 @@ Function URLDecode(ByVal strIn As String) As String
         
         Select Case UCase(Mid(strIn, sl + kl, 1))
             Case "U"
-                a = val("&H" & Mid(strIn, sl + kl + 1, 4))
-                URLDecode = URLDecode & ChrW(a)
+                A = val("&H" & Mid(strIn, sl + kl + 1, 4))
+                URLDecode = URLDecode & ChrW(A)
                 sl = sl + 6
             Case "E"
                 hh = Mid(strIn, sl + kl, 2)
-                a = val("&H" & hh)
-                If a < 128 Then
+                A = val("&H" & hh)
+                If A < 128 Then
                     sl = sl + 3
-                    URLDecode = URLDecode & Chr(a)
+                    URLDecode = URLDecode & Chr(A)
                 Else
                     Hi = Mid(strIn, sl + 3 + kl, 2)
                     hl = Mid(strIn, sl + 6 + kl, 2)
-                    a = ((val("&H" & hh) And &HF) * 2 ^ 12) Or ((val("&H" & Hi) And &H3F) * 2 ^ 6) Or (val("&H" & hl) And &H3F)
-                    URLDecode = URLDecode & ChrW(a)
+                    A = ((val("&H" & hh) And &HF) * 2 ^ 12) Or ((val("&H" & Hi) And &H3F) * 2 ^ 6) Or (val("&H" & hl) And &H3F)
+                    URLDecode = URLDecode & ChrW(A)
                     sl = sl + 9
                 End If
             Case Else
                 hh = Mid(strIn, sl + kl, 2)
-                a = val("&H" & hh)
-                If a < 128 Then
+                A = val("&H" & hh)
+                If A < 128 Then
                     sl = sl + 3
                 Else
                     Hi = Mid(strIn, sl + 3 + kl, 2)
-                    a = ((val("&H" & hh) - 194) * 64) + val("&H" & Hi)
+                    A = ((val("&H" & hh) - 194) * 64) + val("&H" & Hi)
                     sl = sl + 6
                 End If
-                URLDecode = URLDecode & ChrW(a)
+                URLDecode = URLDecode & ChrW(A)
         End Select
         
         tl = sl
@@ -1922,11 +1934,6 @@ Sub PlayWave(ByVal Path As String, Optional ByVal LoopWave As Boolean = False, O
     End If
 End Sub
 
-Sub CopyText(ByVal Content As String)
-    Clipboard.Clear
-    Clipboard.SetText Content
-End Sub
-
 Sub EnableFrameControls(ByRef fFrame As FrameW, ByRef Except As Control, Optional ByVal Enable As Boolean = True)
     Dim ctrl As Control
     For Each ctrl In fFrame.ContainedControls
@@ -1934,9 +1941,9 @@ Sub EnableFrameControls(ByRef fFrame As FrameW, ByRef Except As Control, Optiona
     Next ctrl
 End Sub
 
-Function Max(ByRef l, ByRef R)
-    If l > R Then
-        Max = l
+Function Max(ByRef L, ByRef R)
+    If L > R Then
+        Max = L
     Else
         Max = R
     End If
@@ -2045,15 +2052,25 @@ Sub ClearComboBox(cbComboBox As ComboBox)
 End Sub
 
 'https://www.vbforums.com/showthread.php?704979
-Function SetFileDate(ByVal sFilename As String, ByVal dFileDate As Date) As Boolean
+Sub SetFileDate(ByVal sFilename As String, ByVal dFileDate As Date)
     Dim lhwndFile As Long
     Dim tSystemTime As SYSTEMTIME
-    Dim tLocalTime As FILETIME, tFileTime As FILETIME
+    Dim tLocalTime As FILETIME, lpLastWriteTime As FILETIME, lpCreationTime As FILETIME
+    
+    Dim uInfo As TIME_ZONE_INFORMATION
+    Dim wMonth%, wDay%, wHour%
+    If GetTimeZoneInformation(uInfo) > 0& Then
+        wMonth = Month(dFileDate)
+        wDay = Day(dFileDate)
+        wHour = Hour(dFileDate)
+        If (wMonth > uInfo.DaylightDate(5) Or (wMonth = uInfo.DaylightDate(5) And (wDay > uInfo.DaylightDate(0) Or (wDay = uInfo.DaylightDate(5) And wHour > uInfo.DaylightDate(2))))) And (Not (wMonth > uInfo.StandardDate(5) Or (wMonth = uInfo.StandardDate(5) And (wDay > uInfo.StandardDate(0) Or (wDay = uInfo.StandardDate(5) And wHour > uInfo.StandardDate(2)))))) Then
+            dFileDate = DateAdd("n", -uInfo.DaylightBias, dFileDate)
+        End If
+    End If
     
     tSystemTime.Year = Year(dFileDate)
     tSystemTime.Month = Month(dFileDate)
     tSystemTime.Day = Day(dFileDate)
-    tSystemTime.DayOfWeek = Weekday(dFileDate) - 1
     tSystemTime.Hour = Hour(dFileDate)
     tSystemTime.Minute = Minute(dFileDate)
     tSystemTime.Second = Second(dFileDate)
@@ -2061,26 +2078,25 @@ Function SetFileDate(ByVal sFilename As String, ByVal dFileDate As Date) As Bool
     lhwndFile = CreateFile(sFilename, 256&, 1&, ByVal 0&, 3&, 0&, 0&)
     If lhwndFile Then
         SystemTimeToFileTime tSystemTime, tLocalTime
-        LocalFileTimeToFileTime tLocalTime, tFileTime
-        SetFileDate = (SetFileTime(lhwndFile, 0&, 0&, tFileTime) <> 0)
+        LocalFileTimeToFileTime tLocalTime, lpLastWriteTime
+        GetFileTime lhwndFile, lpCreationTime, 0&, 0&
+        SetFileTime lhwndFile, lpCreationTime, 0&, lpLastWriteTime
         CloseHandle lhwndFile
     End If
-End Function
+End Sub
 
 Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean = False)
     On Error Resume Next
-    If Not Reverse Then
-        If tsTabStrip.SelectedItem.Index = tsTabStrip.Tabs.Count Then
-            tsTabStrip.Tabs(1).Selected = True
-        Else
-            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index + 1).Selected = True
-        End If
+    Dim A%, B%, X%, Y%, Z%
+    A = tsTabStrip.Tabs.Count
+    B = tsTabStrip.SelectedItem.Index
+    X = IIf(Reverse, 1, A)
+    Y = IIf(Reverse, A, 1)
+    Z = IIf(Reverse, -1, 1)
+    If B = X Then
+        tsTabStrip.Tabs(Y).Selected = True
     Else
-        If tsTabStrip.SelectedItem.Index = 1 Then
-            tsTabStrip.Tabs(tsTabStrip.Tabs.Count).Selected = True
-        Else
-            tsTabStrip.Tabs(tsTabStrip.SelectedItem.Index - 1).Selected = True
-        End If
+        tsTabStrip.Tabs(B + Z).Selected = True
     End If
 End Sub
 

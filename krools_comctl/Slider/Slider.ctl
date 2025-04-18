@@ -87,8 +87,8 @@ PT As POINTAPI
 End Type
 Private Type NMHDR
 hWndFrom As LongPtr
-idFrom As LongPtr
-code As Long
+IDFrom As LongPtr
+Code As Long
 End Type
 Private Const CDDS_PREPAINT As Long = &H1
 Private Const CDDS_ITEM As Long = &H10000
@@ -498,7 +498,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal wMsg As Long, 
             Dim NM As NMHDR
             CopyMemory NM, ByVal lParam, LenB(NM)
             If NM.hWndFrom = SliderHandle Then
-                Select Case NM.code
+                Select Case NM.Code
                     Case NM_CUSTOMDRAW
                         Dim NMCD As NMCUSTOMDRAW
                         CopyMemory NMCD, ByVal lParam, LenB(NMCD)
@@ -528,7 +528,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal wMsg As Long, 
                         End Select
                 End Select
             ElseIf NM.hWndFrom = SliderToolTipHandle And SliderToolTipHandle <> NULL_PTR Then
-                Select Case NM.code
+                Select Case NM.Code
                     Case TTN_GETDISPINFO
                         Dim NMTTDI As NMTTDISPINFO
                         CopyMemory NMTTDI, ByVal lParam, LenB(NMTTDI)
@@ -1027,21 +1027,21 @@ Set Me.MouseIcon = Value
 End Property
 
 Public Property Set MouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
+'If Value Is Nothing Then
     Set PropMouseIcon = Nothing
-Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropMouseIcon = Value
-    Else
-        If SliderDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
-If SliderDesignMode = False Then Call RefreshMousePointer
+'Else
+'    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+'        Set PropMouseIcon = Value
+'    Else
+'        If SliderDesignMode = True Then
+'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
+'If SliderDesignMode = False Then Call RefreshMousePointer
 UserControl.PropertyChanged "MouseIcon"
 End Property
 
@@ -1232,61 +1232,56 @@ Orientation = PropOrientation
 End Property
 
 Public Property Let Orientation(ByVal Value As SldOrientationConstants)
-Dim Swap(0 To 1) As Long
-Select Case Value
-    Case SldOrientationHorizontal, SldOrientationVertical
-        If PropOrientation <> Value Then
-            Swap(0) = UserControl.ScaleHeight
-            Swap(1) = UserControl.ScaleWidth
-        Else
-            Swap(0) = -1
-            Swap(1) = -1
-        End If
-        PropOrientation = Value
-    Case Else
-        Err.Raise 380
-End Select
-If SliderHandle <> NULL_PTR Then
-    Dim dwStyle As Long
-    dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
-    If (dwStyle And TBS_HORZ) = TBS_HORZ Then dwStyle = dwStyle And Not TBS_HORZ
-    If (dwStyle And TBS_VERT) = TBS_VERT Then dwStyle = dwStyle And Not TBS_VERT
-    If (dwStyle And TBS_BOTTOM) = TBS_BOTTOM Then dwStyle = dwStyle And Not TBS_BOTTOM
-    If (dwStyle And TBS_RIGHT) = TBS_RIGHT Then dwStyle = dwStyle And Not TBS_RIGHT
-    If (dwStyle And TBS_TOP) = TBS_TOP Then dwStyle = dwStyle And Not TBS_TOP
-    If (dwStyle And TBS_LEFT) = TBS_LEFT Then dwStyle = dwStyle And Not TBS_LEFT
-    If (dwStyle And TBS_BOTH) = TBS_BOTH Then dwStyle = dwStyle And Not TBS_BOTH
-    If (dwStyle And TBS_NOTICKS) = TBS_NOTICKS Then dwStyle = dwStyle And Not TBS_NOTICKS
-    If PropOrientation = SldOrientationHorizontal Then
-        dwStyle = dwStyle Or TBS_HORZ
-    ElseIf PropOrientation = SldOrientationVertical Then
-        dwStyle = dwStyle Or TBS_VERT
-    End If
-    Select Case PropTickStyle
-        Case SldTickStyleBottomRight
-            If PropOrientation = SldOrientationHorizontal Then
-                dwStyle = dwStyle Or TBS_BOTTOM
-            ElseIf PropOrientation = SldOrientationVertical Then
-                dwStyle = dwStyle Or TBS_RIGHT
-            End If
-        Case SldTickStyleTopLeft
-            If PropOrientation = SldOrientationHorizontal Then
-                dwStyle = dwStyle Or TBS_TOP
-            ElseIf PropOrientation = SldOrientationVertical Then
-                dwStyle = dwStyle Or TBS_LEFT
-            End If
-        Case SldTickStyleBoth
-            dwStyle = dwStyle Or TBS_BOTH
-        Case SldTickStyleNone
-            dwStyle = dwStyle Or TBS_NOTICKS
-    End Select
-    SetWindowLong SliderHandle, GWL_STYLE, dwStyle
-    If Swap(0) > -1 And Swap(1) > -1 Then
-        With UserControl
-        .Extender.Move .Extender.Left, .Extender.Top, .ScaleX(Swap(0), vbPixels, vbContainerSize), .ScaleY(Swap(1), vbPixels, vbContainerSize)
-        End With
-    End If
-End If
+'Dim Swap(0 To 1) As Long
+'If PropOrientation <> Value Then
+'    Swap(0) = UserControl.ScaleHeight
+'    Swap(1) = UserControl.ScaleWidth
+'Else
+'    Swap(0) = -1
+'    Swap(1) = -1
+'End If
+'PropOrientation = Value
+'If SliderHandle <> NULL_PTR Then
+'    Dim dwStyle As Long
+'    dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
+'    If (dwStyle And TBS_HORZ) = TBS_HORZ Then dwStyle = dwStyle And Not TBS_HORZ
+'    If (dwStyle And TBS_VERT) = TBS_VERT Then dwStyle = dwStyle And Not TBS_VERT
+'    If (dwStyle And TBS_BOTTOM) = TBS_BOTTOM Then dwStyle = dwStyle And Not TBS_BOTTOM
+'    If (dwStyle And TBS_RIGHT) = TBS_RIGHT Then dwStyle = dwStyle And Not TBS_RIGHT
+'    If (dwStyle And TBS_TOP) = TBS_TOP Then dwStyle = dwStyle And Not TBS_TOP
+'    If (dwStyle And TBS_LEFT) = TBS_LEFT Then dwStyle = dwStyle And Not TBS_LEFT
+'    If (dwStyle And TBS_BOTH) = TBS_BOTH Then dwStyle = dwStyle And Not TBS_BOTH
+'    If (dwStyle And TBS_NOTICKS) = TBS_NOTICKS Then dwStyle = dwStyle And Not TBS_NOTICKS
+'    If PropOrientation = SldOrientationHorizontal Then
+'        dwStyle = dwStyle Or TBS_HORZ
+'    ElseIf PropOrientation = SldOrientationVertical Then
+'        dwStyle = dwStyle Or TBS_VERT
+'    End If
+'    Select Case PropTickStyle
+'        Case SldTickStyleBottomRight
+'            If PropOrientation = SldOrientationHorizontal Then
+'                dwStyle = dwStyle Or TBS_BOTTOM
+'            ElseIf PropOrientation = SldOrientationVertical Then
+'                dwStyle = dwStyle Or TBS_RIGHT
+'            End If
+'        Case SldTickStyleTopLeft
+'            If PropOrientation = SldOrientationHorizontal Then
+'                dwStyle = dwStyle Or TBS_TOP
+'            ElseIf PropOrientation = SldOrientationVertical Then
+'                dwStyle = dwStyle Or TBS_LEFT
+'            End If
+'        Case SldTickStyleBoth
+'            dwStyle = dwStyle Or TBS_BOTH
+'        Case SldTickStyleNone
+'            dwStyle = dwStyle Or TBS_NOTICKS
+'    End Select
+'    SetWindowLong SliderHandle, GWL_STYLE, dwStyle
+'    If Swap(0) > -1 And Swap(1) > -1 Then
+'        With UserControl
+'        .Extender.Move .Extender.Left, .Extender.Top, .ScaleX(Swap(0), vbPixels, vbContainerSize), .ScaleY(Swap(1), vbPixels, vbContainerSize)
+'        End With
+'    End If
+'End If
 UserControl.PropertyChanged "Orientation"
 End Property
 
@@ -1388,12 +1383,7 @@ TipSide = PropTipSide
 End Property
 
 Public Property Let TipSide(ByVal Value As SldTipSideConstants)
-Select Case Value
-    Case SldTipSideAboveLeft, SldTipSideBelowRight
-        PropTipSide = Value
-    Case Else
-        Err.Raise 380
-End Select
+PropTipSide = Value
 If SliderHandle <> NULL_PTR Then
     Dim SetVal As Long
     If PropOrientation = SldOrientationHorizontal Then
@@ -1420,106 +1410,106 @@ SelectRange = PropSelectRange
 End Property
 
 Public Property Let SelectRange(ByVal Value As Boolean)
-If Not PropSelectRange = Value Then
-    PropSelStart = Me.Value
-    PropSelLength = 0
-End If
-PropSelectRange = Value
-If SliderHandle <> NULL_PTR Then
-    Dim dwStyle As Long
-    dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
-    If PropSelectRange = True Then
-        If Not (dwStyle And TBS_ENABLESELRANGE) = TBS_ENABLESELRANGE Then
-            SetWindowLong SliderHandle, GWL_STYLE, dwStyle Or TBS_ENABLESELRANGE
-            SendMessage SliderHandle, TBM_SETSELSTART, 0, ByVal PropSelStart
-            SendMessage SliderHandle, TBM_SETSELEND, 1, ByVal (PropSelStart + PropSelLength)
-        End If
-    Else
-        If (dwStyle And TBS_ENABLESELRANGE) = TBS_ENABLESELRANGE Then
-            SetWindowLong SliderHandle, GWL_STYLE, dwStyle And Not TBS_ENABLESELRANGE
-            SendMessage SliderHandle, TBM_CLEARSEL, 1, ByVal 0&
-        End If
-    End If
-End If
+'If Not PropSelectRange = Value Then
+'    PropSelStart = Me.Value
+'    PropSelLength = 0
+'End If
+'PropSelectRange = Value
+'If SliderHandle <> NULL_PTR Then
+'    Dim dwStyle As Long
+'    dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
+'    If PropSelectRange = True Then
+'        If Not (dwStyle And TBS_ENABLESELRANGE) = TBS_ENABLESELRANGE Then
+'            SetWindowLong SliderHandle, GWL_STYLE, dwStyle Or TBS_ENABLESELRANGE
+'            SendMessage SliderHandle, TBM_SETSELSTART, 0, ByVal PropSelStart
+'            SendMessage SliderHandle, TBM_SETSELEND, 1, ByVal (PropSelStart + PropSelLength)
+'        End If
+'    Else
+'        If (dwStyle And TBS_ENABLESELRANGE) = TBS_ENABLESELRANGE Then
+'            SetWindowLong SliderHandle, GWL_STYLE, dwStyle And Not TBS_ENABLESELRANGE
+'            SendMessage SliderHandle, TBM_CLEARSEL, 1, ByVal 0&
+'        End If
+'    End If
+'End If
 UserControl.PropertyChanged "SelectRange"
 End Property
 
 Public Property Get SelStart() As Long
 Attribute SelStart.VB_Description = "Returns/sets the selection start."
-If PropSelectRange = True Then
-    If SliderHandle <> NULL_PTR Then
-        SelStart = CLng(SendMessage(SliderHandle, TBM_GETSELSTART, 0, ByVal 0&))
-    Else
-        SelStart = PropSelStart
-    End If
-Else
+'If PropSelectRange = True Then
+'    If SliderHandle <> NULL_PTR Then
+'        SelStart = CLng(SendMessage(SliderHandle, TBM_GETSELSTART, 0, ByVal 0&))
+'    Else
+'        SelStart = PropSelStart
+'    End If
+'Else
     SelStart = Me.Value
-End If
+'End If
 End Property
 
 Public Property Let SelStart(ByVal Value As Long)
-Select Case Value
-    Case Me.Min To Me.Max
-        PropSelStart = Value
-    Case Else
-        If SliderDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-End Select
-If SliderHandle <> NULL_PTR Then
-    If PropSelectRange = True Then
-        SendMessage SliderHandle, TBM_SETSELSTART, 0, ByVal PropSelStart
-        SendMessage SliderHandle, TBM_SETSELEND, 1, ByVal (PropSelStart + PropSelLength)
-        PropSelLength = CLng(SendMessage(SliderHandle, TBM_GETSELEND, 0, ByVal 0&)) - CLng(SendMessage(SliderHandle, TBM_GETSELSTART, 0, ByVal 0&))
-    Else
-        SendMessage SliderHandle, TBM_SETPOS, 1, ByVal PropSelStart
-    End If
-End If
+'Select Case Value
+'    Case Me.Min To Me.Max
+'        PropSelStart = Value
+'    Case Else
+'        If SliderDesignMode = True Then
+'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'End Select
+'If SliderHandle <> NULL_PTR Then
+'    If PropSelectRange = True Then
+'        SendMessage SliderHandle, TBM_SETSELSTART, 0, ByVal PropSelStart
+'        SendMessage SliderHandle, TBM_SETSELEND, 1, ByVal (PropSelStart + PropSelLength)
+'        PropSelLength = CLng(SendMessage(SliderHandle, TBM_GETSELEND, 0, ByVal 0&)) - CLng(SendMessage(SliderHandle, TBM_GETSELSTART, 0, ByVal 0&))
+'    Else
+'        SendMessage SliderHandle, TBM_SETPOS, 1, ByVal PropSelStart
+'    End If
+'End If
 UserControl.PropertyChanged "SelStart"
 End Property
 
 Public Property Get SelLength() As Long
 Attribute SelLength.VB_Description = "Returns/sets the selection length."
-If PropSelectRange = True Then
-    If SliderHandle <> NULL_PTR Then
-        SelLength = CLng(SendMessage(SliderHandle, TBM_GETSELEND, 0, ByVal 0&)) - CLng(SendMessage(SliderHandle, TBM_GETSELSTART, 0, ByVal 0&))
-    Else
-        SelLength = PropSelLength
-    End If
-Else
+'If PropSelectRange = True Then
+'    If SliderHandle <> NULL_PTR Then
+'        SelLength = CLng(SendMessage(SliderHandle, TBM_GETSELEND, 0, ByVal 0&)) - CLng(SendMessage(SliderHandle, TBM_GETSELSTART, 0, ByVal 0&))
+'    Else
+'        SelLength = PropSelLength
+'    End If
+'Else
     SelLength = 0
-End If
+'End If
 End Property
 
 Public Property Let SelLength(ByVal Value As Long)
-If PropSelectRange = True Then
-    If Value >= 0 And (PropSelStart + Value) <= Me.Max Then
-        PropSelLength = Value
-    Else
-        If SliderDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-    If SliderHandle <> NULL_PTR Then
-        SendMessage SliderHandle, TBM_SETSELSTART, 0, ByVal PropSelStart
-        SendMessage SliderHandle, TBM_SETSELEND, 1, ByVal (PropSelStart + PropSelLength)
-    End If
-Else
-    If Value <> 0 Then
-        If SliderDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
+'If PropSelectRange = True Then
+'    If Value >= 0 And (PropSelStart + Value) <= Me.Max Then
+'        PropSelLength = Value
+'    Else
+'        If SliderDesignMode = True Then
+'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'    If SliderHandle <> NULL_PTR Then
+'        SendMessage SliderHandle, TBM_SETSELSTART, 0, ByVal PropSelStart
+'        SendMessage SliderHandle, TBM_SETSELEND, 1, ByVal (PropSelStart + PropSelLength)
+'    End If
+'Else
+'    If Value <> 0 Then
+'        If SliderDesignMode = True Then
+'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
 UserControl.PropertyChanged "SelLength"
 End Property
 
@@ -1541,16 +1531,16 @@ End Property
 
 Public Property Let HideThumb(ByVal Value As Boolean)
 PropHideThumb = Value
-If SliderHandle <> NULL_PTR Then
-    Dim dwStyle As Long
-    dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
-    If PropHideThumb = True Then
-        If Not (dwStyle And TBS_NOTHUMB) = TBS_NOTHUMB Then dwStyle = dwStyle Or TBS_NOTHUMB
-    Else
-        If (dwStyle And TBS_NOTHUMB) = TBS_NOTHUMB Then dwStyle = dwStyle And Not TBS_NOTHUMB
-    End If
-    SetWindowLong SliderHandle, GWL_STYLE, dwStyle
-End If
+'If SliderHandle <> NULL_PTR Then
+'    Dim dwStyle As Long
+'    dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
+'    If PropHideThumb = True Then
+'        If Not (dwStyle And TBS_NOTHUMB) = TBS_NOTHUMB Then dwStyle = dwStyle Or TBS_NOTHUMB
+'    Else
+'        If (dwStyle And TBS_NOTHUMB) = TBS_NOTHUMB Then dwStyle = dwStyle And Not TBS_NOTHUMB
+'    End If
+'    SetWindowLong SliderHandle, GWL_STYLE, dwStyle
+'End If
 UserControl.PropertyChanged "HideThumb"
 End Property
 
@@ -1561,19 +1551,19 @@ End Property
 
 Public Property Let Reversed(ByVal Value As Boolean)
 PropReversed = Value
-If SliderHandle <> NULL_PTR Then
-    Dim dwStyle As Long
-    dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
-    ' TBS_REVERSED has no effect on the control; it is simply a flag that can be checked.
-    If PropReversed = True Then
-        If Not (dwStyle And TBS_REVERSED) = TBS_REVERSED Then dwStyle = dwStyle Or TBS_REVERSED
-        If Not (dwStyle And TBS_DOWNISLEFT) = TBS_DOWNISLEFT Then dwStyle = dwStyle Or TBS_DOWNISLEFT
-    Else
-        If (dwStyle And TBS_REVERSED) = TBS_REVERSED Then dwStyle = dwStyle And Not TBS_REVERSED
-        If (dwStyle And TBS_DOWNISLEFT) = TBS_DOWNISLEFT Then dwStyle = dwStyle And Not TBS_DOWNISLEFT
-    End If
-    SetWindowLong SliderHandle, GWL_STYLE, dwStyle
-End If
+'If SliderHandle <> NULL_PTR Then
+'    Dim dwStyle As Long
+'    dwStyle = GetWindowLong(SliderHandle, GWL_STYLE)
+'    ' TBS_REVERSED has no effect on the control; it is simply a flag that can be checked.
+'    If PropReversed = True Then
+'        If Not (dwStyle And TBS_REVERSED) = TBS_REVERSED Then dwStyle = dwStyle Or TBS_REVERSED
+'        If Not (dwStyle And TBS_DOWNISLEFT) = TBS_DOWNISLEFT Then dwStyle = dwStyle Or TBS_DOWNISLEFT
+'    Else
+'        If (dwStyle And TBS_REVERSED) = TBS_REVERSED Then dwStyle = dwStyle And Not TBS_REVERSED
+'        If (dwStyle And TBS_DOWNISLEFT) = TBS_DOWNISLEFT Then dwStyle = dwStyle And Not TBS_DOWNISLEFT
+'    End If
+'    SetWindowLong SliderHandle, GWL_STYLE, dwStyle
+'End If
 UserControl.PropertyChanged "Reversed"
 End Property
 
@@ -1716,20 +1706,20 @@ End Function
 
 Public Function GetTickPosition(ByVal Index As Long) As Single
 Attribute GetTickPosition.VB_Description = "Returns the current physical position of a tick mark."
-If Index < 1 Then Err.Raise 380
-If SliderHandle <> NULL_PTR Then
-    Dim RetVal As Long
-    RetVal = CLng(SendMessage(SliderHandle, TBM_GETTICPOS, Index - 1, ByVal 0&))
-    If RetVal > -1 Then
-        If PropOrientation = SldOrientationHorizontal Then
-            GetTickPosition = UserControl.ScaleX(RetVal, vbPixels, vbContainerPosition)
-        ElseIf PropOrientation = SldOrientationVertical Then
-            GetTickPosition = UserControl.ScaleY(RetVal, vbPixels, vbContainerPosition)
-        End If
-    Else
-        Err.Raise 380
-    End If
-End If
+'If Index < 1 Then Err.Raise 380
+'If SliderHandle <> NULL_PTR Then
+'    Dim RetVal As Long
+'    RetVal = CLng(SendMessage(SliderHandle, TBM_GETTICPOS, Index - 1, ByVal 0&))
+'    If RetVal > -1 Then
+'        If PropOrientation = SldOrientationHorizontal Then
+'            GetTickPosition = UserControl.ScaleX(RetVal, vbPixels, vbContainerPosition)
+'        ElseIf PropOrientation = SldOrientationVertical Then
+'            GetTickPosition = UserControl.ScaleY(RetVal, vbPixels, vbContainerPosition)
+'        End If
+'    Else
+'        Err.Raise 380
+'    End If
+'End If
 End Function
 
 Public Property Get ThumbLeft() As Single
@@ -1829,9 +1819,9 @@ End Sub
 Private Function PreTranslateMsg(ByVal lParam As LongPtr) As LongPtr
 PreTranslateMsg = 0
 If lParam <> NULL_PTR Then
-    Dim msg As TMSG, Handled As Boolean, RetVal As Long
-    CopyMemory msg, ByVal lParam, LenB(msg)
-    IOleInPlaceActiveObjectVB_TranslateAccelerator Handled, RetVal, msg.hWnd, msg.Message, msg.wParam, msg.lParam, GetShiftStateFromMsg()
+    Dim Msg As TMSG, Handled As Boolean, RetVal As Long
+    CopyMemory Msg, ByVal lParam, LenB(Msg)
+    IOleInPlaceActiveObjectVB_TranslateAccelerator Handled, RetVal, Msg.hWnd, Msg.Message, Msg.wParam, Msg.lParam, GetShiftStateFromMsg()
     If Handled = True Then PreTranslateMsg = 1
 End If
 End Function

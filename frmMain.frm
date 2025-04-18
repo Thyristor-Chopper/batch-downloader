@@ -377,6 +377,7 @@ Begin VB.Form frmMain
       _ExtentY        =   450
       Step            =   10
       MarqueeSpeed    =   35
+      ShowInTaskBar   =   -1  'True
    End
    Begin prjDownloadBooster.ImageList imgWrench 
       Left            =   9240
@@ -1790,7 +1791,7 @@ Sub OnData(Data As String)
                 pbTotalProgressMarquee.MarqueeAnimation = 0
                 pbTotalProgressMarquee.Visible = 0
                 pbTotalProgress.Value = 100
-                OnStop
+                OnExit 0&
             Case "UNABLETOCONTINUE"
                 ShowMessageBox t("이어받기가 불가능합니다. 처음부터 다시 다운로드합니다.", "Unable to resume. Starting over..."), App.Title, 48, False, 5000, MsgBoxMode:=1
             Case "RESUMEUNSUPPORTED"
@@ -2784,9 +2785,9 @@ Private Sub cmdOpenFolder_Click()
     pth = DownloadPath
     If DownloadPath = "" Then pth = txtFileName.Text
     If FolderExists(pth) Then
-        Shell "cmd /c start """" explorer.exe """ & pth & """"
+        Shell "explorer.exe """ & pth & """", vbNormalFocus
     Else
-        Shell "cmd /c start """" explorer.exe """ & GetParentFolderName(pth) & """"
+        Shell "explorer.exe """ & GetParentFolderName(pth) & """", vbNormalFocus
     End If
 End Sub
 
@@ -3521,7 +3522,6 @@ Private Sub Form_Load()
     Dim hSysMenu As Long
     Dim MenuCount As Long
     hSysMenu = GetSystemMenu(Me.hWnd, 0)
-    DeleteMenu hSysMenu, 0, MF_BYCOMMAND
     MenuCount = GetMenuItemCount(hSysMenu)
     Dim MII As MENUITEMINFO
     
@@ -3540,7 +3540,7 @@ Private Sub Form_Load()
         .fType = MFT_STRING
         .fState = MFS_ENABLED
         .wID = 1000
-        .dwTypeData = t("언제나 위(&A)", "&Always On Top")
+        .dwTypeData = t("항상 위에 표시(&A)", "&Always on top")
         .cch = Len(.dwTypeData)
     End With
     InsertMenuItem hSysMenu, 0, 1, MII
@@ -4313,9 +4313,9 @@ Private Sub mnuOpenFolder_Click()
     pth = lvBatchFiles.SelectedItem.ListSubItems(1).Text
     If pth = "" Then pth = txtFileName.Text
     If FolderExists(pth) Then
-        Shell "cmd /c start """" explorer.exe """ & pth & """"
+        Shell "explorer.exe """ & pth & """", vbNormalFocus
     Else
-        Shell "cmd /c start """" explorer.exe """ & GetParentFolderName(pth) & """"
+        Shell "explorer.exe """ & GetParentFolderName(pth) & """", vbNormalFocus
     End If
 End Sub
 
