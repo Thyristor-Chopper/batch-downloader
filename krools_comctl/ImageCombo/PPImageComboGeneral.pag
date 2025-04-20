@@ -392,7 +392,7 @@ End Sub
 
 Private Sub TextIndentation_Validate(Cancel As Boolean)
 If Not IsNumeric(TextIndentation.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextIndentation.Text = PropertyPage.SelectedControls(0).Indentation
     TextIndentation.SetFocus
     Cancel = True
@@ -406,7 +406,7 @@ Else
     If Cancel = False Then
         TextIndentation.Text = LngValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextIndentation.Text = PropertyPage.SelectedControls(0).Indentation
         TextIndentation.SetFocus
     End If
@@ -438,7 +438,7 @@ End Sub
 
 Private Sub TextMaxDropDownItems_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMaxDropDownItems.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextMaxDropDownItems.Text = PropertyPage.SelectedControls(0).MaxDropDownItems
     TextMaxDropDownItems.SetFocus
     Cancel = True
@@ -456,7 +456,7 @@ Else
     If Cancel = False Then
         TextMaxDropDownItems.Text = IntValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextMaxDropDownItems.Text = PropertyPage.SelectedControls(0).MaxDropDownItems
         TextMaxDropDownItems.SetFocus
     End If
@@ -488,7 +488,7 @@ End Sub
 
 Private Sub TextMaxLength_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMaxLength.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextMaxLength.Text = PropertyPage.SelectedControls(0).MaxLength
     TextMaxLength.SetFocus
     Cancel = True
@@ -502,7 +502,7 @@ Else
     If Cancel = False Then
         TextMaxLength.Text = LngValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextMaxLength.Text = PropertyPage.SelectedControls(0).MaxLength
         TextMaxLength.SetFocus
     End If

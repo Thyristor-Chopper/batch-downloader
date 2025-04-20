@@ -752,7 +752,7 @@ Public Property Set MouseIcon(ByVal Value As IPictureDisp)
 '        Set PropMouseIcon = Value
 '    Else
 '        If ProgressBarDesignMode = True Then
-'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -855,7 +855,7 @@ If Value < Me.Max Then
     If PropValue < PropRange.Min Then PropValue = PropRange.Min
 Else
     If ProgressBarDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -881,7 +881,7 @@ If Value > Me.Min Then
     If PropValue > PropRange.Max Then PropValue = PropRange.Max
 Else
     If ProgressBarDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -969,7 +969,7 @@ If Value > 0 Then
     PropMarqueeSpeed = Value
 Else
     If ProgressBarDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

@@ -24,6 +24,14 @@ Begin VB.Form frmMessageBox
    ScaleWidth      =   28440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
+   Begin VB.CommandButton cmdTryAgain 
+      Caption         =   "다시 시도(&T)"
+      Height          =   315
+      Left            =   15240
+      TabIndex        =   11
+      Top             =   840
+      Width           =   1455
+   End
    Begin VB.Timer timeout 
       Enabled         =   0   'False
       Left            =   360
@@ -57,7 +65,7 @@ Begin VB.Form frmMessageBox
    Begin prjDownloadBooster.OptionButtonW optNo 
       Height          =   255
       Left            =   1080
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   1320
       Width           =   1575
       _ExtentX        =   0
@@ -67,7 +75,7 @@ Begin VB.Form frmMessageBox
    Begin prjDownloadBooster.OptionButtonW optYes 
       Height          =   255
       Left            =   1080
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   960
       Width           =   1575
       _ExtentX        =   0
@@ -106,19 +114,19 @@ Begin VB.Form frmMessageBox
       Top             =   840
       Width           =   1455
    End
-   Begin VB.CommandButton cmdFail 
-      Caption         =   "실패(&F)"
+   Begin VB.CommandButton cmdContinue 
+      Caption         =   "계속(&C)"
       Height          =   315
       Left            =   13680
-      TabIndex        =   7
+      TabIndex        =   12
       Top             =   840
       Width           =   1455
    End
    Begin VB.CommandButton cmdHelp 
       Caption         =   "도움말"
       Height          =   315
-      Left            =   15240
-      TabIndex        =   8
+      Left            =   16800
+      TabIndex        =   7
       Top             =   840
       Width           =   1455
    End
@@ -160,7 +168,7 @@ Begin VB.Form frmMessageBox
       Caption         =   "내용"
       Height          =   495
       Left            =   960
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   360
       Width           =   27255
    End
@@ -217,7 +225,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim ButtonPressed As Boolean
 Public MsgBoxMode As Byte
 Public MsgBoxResult As VbMsgBoxResult
 Public ResultID As String
@@ -225,24 +232,26 @@ Public MessageBoxObject As frmMessageBox
 
 Private Sub cmdAbort_Click()
     MsgBoxResult = vbAbort
-    ButtonPressed = -1
+    Unload Me
+End Sub
+
+Private Sub cmdContinue_Click()
+    MsgBoxResult = vbContinue
     Unload Me
 End Sub
 
 Private Sub cmdIgnore_Click()
     MsgBoxResult = vbIgnore
-    ButtonPressed = -1
     Unload Me
 End Sub
 
 Private Sub cmdNo_Click()
     MsgBoxResult = vbNo
-    ButtonPressed = -1
     Unload Me
 End Sub
 
 Private Sub cmdOK_Click()
-    If optYes.Visible Then
+    If MsgBoxMode = vbYesNoEx Then
         If optYes.Value = True Then
             MsgBoxResult = vbYes
         Else
@@ -251,45 +260,48 @@ Private Sub cmdOK_Click()
     Else
         MsgBoxResult = vbOK
     End If
-    ButtonPressed = -1
     Unload Me
 End Sub
 
 Private Sub cmdRetry_Click()
     MsgBoxResult = vbRetry
-    ButtonPressed = -1
+    Unload Me
+End Sub
+
+Private Sub cmdTryAgain_Click()
+    MsgBoxResult = vbTryAgain
     Unload Me
 End Sub
 
 Private Sub cmdYes_Click()
     MsgBoxResult = vbYes
-    ButtonPressed = -1
     Unload Me
 End Sub
 
 Private Sub cmdCancel_Click()
     MsgBoxResult = vbCancel
-    ButtonPressed = -1
     Unload Me
 End Sub
 
 Private Sub Form_Activate()
     On Error Resume Next
     Select Case MsgBoxMode
-        Case 1
+        Case vbOKOnly
             cmdOK.SetFocus
-        Case 2
+        Case vbYesNo
             cmdYes.SetFocus
-        Case 3
+        Case vbYesNoEx
             optNo.SetFocus
-        Case 4
+        Case vbYesNoCancel
             cmdCancel.SetFocus
-        Case 5
+        Case vbAbortRetryIgnore
             cmdAbort.SetFocus
-        Case 6
+        Case vbRetryCancel
             cmdRetry.SetFocus
-        Case 7
+        Case vbOKCancel
             cmdOK.SetFocus
+        Case vbCancelTryContinue
+            cmdCancel.SetFocus
     End Select
 End Sub
 
@@ -316,32 +328,37 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
             If cmdAbort.Visible Then cmdAbort_Click
         Case 73 'I
             If cmdIgnore.Visible Then cmdIgnore_Click
+        Case 67 'C
+            If cmdContinue.Visible Then cmdContinue_Click
+        Case 84 'T
+            If cmdTryAgain.Visible Then cmdTryAgain_Click
     End Select
 End Sub
 
 Private Sub Form_Load()
     InitForm Me
-    ButtonPressed = 0
-    Init
 End Sub
 
 Sub Init()
-    If MsgBoxMode = 2 Or MsgBoxMode = 5 Then
-        Dim SystemMenu As Long
-        SystemMenu = GetSystemMenu(Me.hWnd, 0)
+    Dim SystemMenu As Long
+    SystemMenu = GetSystemMenu(Me.hWnd, 0&)
+    DeleteMenu SystemMenu, 0&, MF_BYCOMMAND
+    If MsgBoxMode = vbYesNo Or MsgBoxMode = vbAbortRetryIgnore Then
         DeleteMenu SystemMenu, SC_CLOSE, MF_BYCOMMAND
-        DeleteMenu SystemMenu, 0, MF_BYCOMMAND
     End If
 End Sub
 
-Private Sub Form_Unload(Cancel As Integer)
-    If cmdYes.Visible And cmdNo.Visible And (Not cmdCancel.Visible) And (Not ButtonPressed) Then
-        Cancel = 1
-        Exit Sub
+Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
+    If UnloadMode <> vbFormCode Then
+        If MsgBoxMode = vbYesNo Or MsgBoxMode = vbAbortRetryIgnore Then
+            Cancel = 1
+            Exit Sub
+        Else
+            MsgBoxResult = vbCancel
+        End If
     End If
-    If Not ButtonPressed Then MsgBoxResult = vbCancel
-    GetSystemMenu Me.hWnd, 1
-    If MsgBoxMode <> 1 Then
+    GetSystemMenu Me.hWnd, 1&
+    If MsgBoxMode <> vbOKOnly Then
         If Functions.MsgBoxResults Is Nothing Then Set Functions.MsgBoxResults = New Collection
         If Exists(Functions.MsgBoxResults, ResultID) Then Functions.MsgBoxResults.Remove ResultID
         Functions.MsgBoxResults.Add MsgBoxResult, ResultID

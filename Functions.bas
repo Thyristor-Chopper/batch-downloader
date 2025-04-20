@@ -55,8 +55,7 @@ Declare Function DestroyWindow Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function PrintWindow Lib "user32" (ByVal hWnd As Long, ByVal hdcBlt As Long, ByVal nFlags As Long) As Long
 Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
-Declare Function lstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal lpString1 As Any, ByVal lpString2 As Any) As Long
-Private Declare Function lstrlen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As Long) As Long
+Declare Function lstrlen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As Long) As Long
 Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As String
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
 Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
@@ -85,10 +84,10 @@ Private Declare Function GetDiskFreeSpaceEx Lib "kernel32" Alias "GetDiskFreeSpa
 Declare Function ChooseColor Lib "comdlg32.dll" Alias "ChooseColorA" (lpChooseColor As ChooseColorStruct) As Long
 Declare Function OleTranslateColor Lib "oleaut32.dll" (ByVal lOleColor As Long, ByVal lHPalette As Long, lColorRef As Long) As Long
 Private Declare Function ShellExecuteEx Lib "shell32" (ByRef s As SHELLEXECUTEINFO) As Long
-Private Declare Function GetKeyState Lib "user32" (ByVal vKey As Long) As Integer
+Declare Function GetKeyState Lib "user32" (ByVal vKey As Long) As Integer
 Private Declare Function GetDesktopWindow Lib "user32" () As Long
-Private Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
-Private Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
+Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
+Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowText Lib "user32" Alias "SetWindowTextA" (ByVal hWnd As Long, ByVal lpString As String) As Long
 Declare Function GetCurrentProcessId Lib "kernel32" () As Long
 Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessID As Long) As Long
@@ -112,6 +111,45 @@ Private Declare Function SetFileTime Lib "kernel32" (ByVal hFile As Long, lpCrea
 Private Declare Function SystemTimeToFileTime Lib "kernel32" (lpSystemTime As SYSTEMTIME, lpFileTime As FILETIME) As Long
 Private Declare Function LocalFileTimeToFileTime Lib "kernel32" (lpLocalFileTime As FILETIME, lpFileTime As FILETIME) As Long
 Private Declare Function GetTimeZoneInformation Lib "kernel32" (lpTimeZoneInformation As TIME_ZONE_INFORMATION) As Long
+
+Enum VbMsgBoxResult
+    vbAbort = 3
+    vbCancel = 2
+    vbIgnore = 5
+    vbNo = 7
+    vbOK = 1
+    vbRetry = 4
+    vbYes = 6
+    vbTryAgain = 10
+    vbContinue = 11
+End Enum
+
+Enum VbMsgBoxStyle
+    vbAbortRetryIgnore = 2
+    vbApplicationModal = 0
+    vbCritical = 16
+    vbDefaultButton1 = 0
+    vbDefaultButton2 = 256
+    vbDefaultButton3 = 512
+    vbDefaultButton4 = 768
+    vbExclamation = 48
+    vbInformation = 64
+    vbMsgBoxHelpButton = 16384
+    vbMsgBoxRight = 524288
+    vbMsgBoxRtlReading = 1048576
+    vbMsgBoxSetForeground = 65536
+    vbOKCancel = 1
+    vbOKOnly = 0
+    vbQuestion = 32
+    vbRetryCancel = 5
+    vbSystemModal = 4096
+    vbYesNo = 4
+    vbYesNoCancel = 3
+    vbCancelTryContinue = 6
+    vbYesNoEx = 7
+End Enum
+
+Public Const MAX_PATH As Long = 260
 
 Private Type TIME_ZONE_INFORMATION
     Bias As Long
@@ -972,22 +1010,22 @@ Function RandInt(StartNumber, EndNumber)
     RandInt = Int(Rnd * (EndNumber - StartNumber + 1)) + StartNumber
 End Function
 
-Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal MsgBoxMode As Byte = 1) As VbMsgBoxResult
+Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal MsgBoxMode As VbMsgBoxStyle = vbOKOnly) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 And MsgBoxMode <> 3 Then
+    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 And MsgBoxMode <> vbYesNoEx And MsgBoxMode <> vbCancelTryContinue Then
         Select Case MsgBoxMode
-            Case 1
-                ShowMessageBox = MsgBoxInternal(Content, Icon, Title)
-            Case 2
-                ShowMessageBox = MsgBoxInternal(Content, Icon + vbYesNo, Title)
-            Case 4
-                ShowMessageBox = MsgBoxInternal(Content, Icon + vbYesNoCancel, Title)
-            Case 5
-                ShowMessageBox = MsgBoxInternal(Content, Icon + vbAbortRetryIgnore, Title)
-            Case 6
-                ShowMessageBox = MsgBoxInternal(Content, Icon + vbRetryCancel, Title)
-            Case 7
-                ShowMessageBox = MsgBoxInternal(Content, Icon + vbOKCancel, Title)
+            Case vbOKOnly
+                ShowMessageBox = VBA.MsgBox(Content, Icon, Title)
+            Case vbYesNo
+                ShowMessageBox = VBA.MsgBox(Content, Icon + vbYesNo, Title)
+            Case vbYesNoCancel
+                ShowMessageBox = VBA.MsgBox(Content, Icon + vbYesNoCancel, Title)
+            Case vbAbortRetryIgnore
+                ShowMessageBox = VBA.MsgBox(Content, Icon + vbAbortRetryIgnore, Title)
+            Case vbRetryCancel
+                ShowMessageBox = VBA.MsgBox(Content, Icon + vbRetryCancel, Title)
+            Case vbOKCancel
+                ShowMessageBox = VBA.MsgBox(Content, Icon + vbOKCancel, Title)
         End Select
         Exit Function
     End If
@@ -1055,18 +1093,18 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     If LContent = 0 Then LContent = StrLen(Content)
     If LineCount > 1 Then MessageBox.lblContent.Top = 280
     
-    Dim MsgBoxMinWidth
+    Dim MsgBoxMinWidth As Integer
     Select Case MsgBoxMode
-        Case 1
+        Case vbOKOnly
             MsgBoxMinWidth = 1920
-        Case 2, 3, 6, 7
+        Case vbYesNo, vbRetryCancel, vbOKCancel, vbYesNoEx
             MsgBoxMinWidth = 3480
-        Case 4, 5
+        Case vbYesNoCancel, vbAbortRetryIgnore, vbCancelTryContinue
             MsgBoxMinWidth = 4920
     End Select
     
     MessageBox.lblContent.Height = 185 * LineCount + 60
-    MessageBox.Height = 1615 + LineCount * 180 - 300 + 190 - 60 + IIf(MsgBoxMode = 3, 735, 0)
+    MessageBox.Height = 1615 + LineCount * 180 - 300 + 190 - 60 + IIf(MsgBoxMode = vbYesNoEx, 735, 0)
     MessageBox.Caption = Title
     MessageBox.lblContent.Caption = Content
     MessageBox.Width = Max(2040 + LContent - 640 - 225, MsgBoxMinWidth)
@@ -1078,7 +1116,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     End If
     
     Select Case MsgBoxMode
-        Case 1
+        Case vbOKOnly
             MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 + 30
             MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350
             If LineCount < 2 Then
@@ -1088,7 +1126,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
             If NoIcon Then
                 MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
             End If
-        Case 2
+        Case vbYesNo
             MessageBox.cmdYes.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdYes.Width / 2
             MessageBox.cmdYes.Top = 840 + (LineCount * 185) - 350
             MessageBox.cmdNo.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdYes.Width / 2 - 120 + MessageBox.cmdYes.Width + 240 - 30
@@ -1102,7 +1140,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdYes.Top = MessageBox.cmdYes.Top - 210
                 MessageBox.cmdNo.Top = MessageBox.cmdNo.Top - 210
             End If
-        Case 3
+        Case vbYesNoEx
             MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2
             MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350 + 705
             MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2 - 120 + MessageBox.cmdOK.Width + 240 - 30
@@ -1135,7 +1173,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.optYes.Top = MessageBox.optYes.Top - 210
                 MessageBox.optNo.Top = MessageBox.optNo.Top - 210
             End If
-        Case 4
+        Case vbYesNoCancel
             MessageBox.cmdYes.Left = MessageBox.Width / 2 - 900 - MessageBox.cmdYes.Width
             MessageBox.cmdYes.Top = 840 + (LineCount * 185) - 350
             MessageBox.cmdNo.Left = MessageBox.Width / 2 - 810 + 15
@@ -1153,7 +1191,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdYes.Top = MessageBox.cmdYes.Top - 210
                 MessageBox.cmdNo.Top = MessageBox.cmdNo.Top - 210
             End If
-        Case 5
+        Case vbAbortRetryIgnore
             MessageBox.cmdAbort.Left = MessageBox.Width / 2 - 900 - MessageBox.cmdAbort.Width
             MessageBox.cmdAbort.Top = 840 + (LineCount * 185) - 350
             MessageBox.cmdRetry.Left = MessageBox.Width / 2 - 810 + 15
@@ -1171,7 +1209,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdAbort.Top = MessageBox.cmdAbort.Top - 210
                 MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
             End If
-        Case 6
+        Case vbRetryCancel
             MessageBox.cmdRetry.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdRetry.Width / 2
             MessageBox.cmdRetry.Top = 840 + (LineCount * 185) - 350
             MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdCancel.Width / 2 - 120 + MessageBox.cmdRetry.Width + 240 - 30
@@ -1185,7 +1223,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
                 MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
             End If
-        Case 7
+        Case vbOKCancel
             MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2
             MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350
             MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdCancel.Width / 2 - 120 + MessageBox.cmdOK.Width + 240 - 30
@@ -1198,6 +1236,24 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
             If NoIcon Then
                 MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
                 MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+            End If
+        Case vbCancelTryContinue
+            MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 900 - MessageBox.cmdCancel.Width
+            MessageBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
+            MessageBox.cmdTryAgain.Left = MessageBox.Width / 2 - 810 + 15
+            MessageBox.cmdTryAgain.Top = 840 + (LineCount * 185) - 350
+            MessageBox.cmdContinue.Left = MessageBox.Width / 2 - 900 + MessageBox.cmdCancel.Width + 190 + 30
+            MessageBox.cmdContinue.Top = 840 + (LineCount * 185) - 350
+            If LineCount < 2 Then
+                MessageBox.Height = MessageBox.Height + 180
+                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top + 180
+                MessageBox.cmdTryAgain.Top = MessageBox.cmdTryAgain.Top + 180
+                MessageBox.cmdContinue.Top = MessageBox.cmdContinue.Top + 180
+            End If
+            If NoIcon Then
+                MessageBox.cmdContinue.Top = MessageBox.cmdContinue.Top - 210
+                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+                MessageBox.cmdTryAgain.Top = MessageBox.cmdTryAgain.Top - 210
             End If
     End Select
     
@@ -1232,7 +1288,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     End Select
     If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
     
-    If MsgBoxMode = 1 And AlertTimeout >= 0 Then
+    If MsgBoxMode = vbOKOnly And AlertTimeout >= 0 Then
         MessageBox.timeout.Interval = AlertTimeout
         MessageBox.timeout.Enabled = -1
     End If
@@ -1246,30 +1302,34 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     MessageBox.cmdIgnore.Caption = t("무시(&I)", "&Ignore")
     MessageBox.optYes.Caption = t("예(&Y)", "&Yes")
     MessageBox.optNo.Caption = t("아니요(&N)", "&No")
+    MessageBox.cmdTryAgain.Caption = t("다시 시도(&T)", "&Try Again")
+    MessageBox.cmdContinue.Caption = t("계속(&C)", "&Continue")
     
-    MessageBox.cmdOK.Visible = (MsgBoxMode = 1 Or MsgBoxMode = 3 Or MsgBoxMode = 7)
-    MessageBox.cmdCancel.Visible = (MsgBoxMode = 3 Or MsgBoxMode = 4 Or MsgBoxMode = 6 Or MsgBoxMode = 7)
-    MessageBox.cmdYes.Visible = (MsgBoxMode = 2 Or MsgBoxMode = 4)
-    MessageBox.cmdNo.Visible = (MsgBoxMode = 2 Or MsgBoxMode = 4)
-    MessageBox.optYes.Visible = (MsgBoxMode = 3)
-    MessageBox.optNo.Visible = (MsgBoxMode = 3)
+    MessageBox.cmdOK.Visible = (MsgBoxMode = vbOKOnly Or MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbOKCancel)
+    MessageBox.cmdCancel.Visible = (MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbYesNoCancel Or MsgBoxMode = vbRetryCancel Or MsgBoxMode = vbOKCancel Or MsgBoxMode = vbCancelTryContinue)
+    MessageBox.cmdYes.Visible = (MsgBoxMode = vbYesNo Or MsgBoxMode = vbYesNoCancel)
+    MessageBox.cmdNo.Visible = (MsgBoxMode = vbYesNo Or MsgBoxMode = vbYesNoCancel)
+    MessageBox.optYes.Visible = (MsgBoxMode = vbYesNoEx)
+    MessageBox.optNo.Visible = (MsgBoxMode = vbYesNoEx)
     
-    MessageBox.cmdAbort.Visible = (MsgBoxMode = 5)
-    MessageBox.cmdRetry.Visible = (MsgBoxMode = 5 Or MsgBoxMode = 6)
-    MessageBox.cmdIgnore.Visible = (MsgBoxMode = 5)
-    MessageBox.cmdFail.Visible = False
+    MessageBox.cmdAbort.Visible = (MsgBoxMode = vbAbortRetryIgnore)
+    MessageBox.cmdRetry.Visible = (MsgBoxMode = vbAbortRetryIgnore Or MsgBoxMode = vbRetryCancel)
+    MessageBox.cmdIgnore.Visible = (MsgBoxMode = vbAbortRetryIgnore)
+    MessageBox.cmdContinue.Visible = (MsgBoxMode = vbCancelTryContinue)
+    MessageBox.cmdTryAgain.Visible = (MsgBoxMode = vbCancelTryContinue)
     MessageBox.cmdHelp.Visible = False
     
-    MessageBox.cmdCancel.Cancel = (MsgBoxMode = 3 Or MsgBoxMode = 4 Or MsgBoxMode = 6 Or MsgBoxMode = 7)
+    MessageBox.cmdCancel.Cancel = (MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbYesNoCancel Or MsgBoxMode = vbRetryCancel Or MsgBoxMode = vbOKCancel Or MsgBoxMode = vbCancelTryContinue)
     MessageBox.cmdCancel.Default = False
     MessageBox.cmdYes.Cancel = False
     MessageBox.cmdYes.Default = False
     MessageBox.cmdNo.Cancel = False
     MessageBox.cmdNo.Default = False
-    MessageBox.cmdOK.Cancel = (MsgBoxMode = 1)
-    MessageBox.cmdOK.Default = (MsgBoxMode = 1 Or MsgBoxMode = 3)
+    MessageBox.cmdOK.Cancel = (MsgBoxMode = vbOKOnly)
+    MessageBox.cmdOK.Default = (MsgBoxMode = vbOKOnly Or MsgBoxMode = vbYesNoEx)
     
-    If MsgBoxMode = 1 Then
+    MessageBox.Init
+    If MsgBoxMode = vbOKOnly Then
         If IsModal Then
             MessageBox.Show vbModal
             Unload MessageBox
@@ -1279,7 +1339,6 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
         End If
         ShowMessageBox = vbOK
     Else
-        MessageBox.Init
         MessageBox.Show vbModal
         ShowMessageBox = MsgBoxResults(MessageBox.ResultID)
         MsgBoxResults.Remove MessageBox.ResultID
@@ -1289,7 +1348,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
 End Function
 
 Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
-    ConfirmEx = ShowMessageBox(Content, Title, Icon, DefaultOption:=DefaultOption, MsgBoxMode:=3)
+    ConfirmEx = ShowMessageBox(Content, Title, Icon, DefaultOption:=DefaultOption, MsgBoxMode:=vbYesNoEx)
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
@@ -1451,32 +1510,30 @@ End Function
 
 Function GetWindowsVersion() As Single
     Dim osv As OSVERSIONINFO
-    Dim ver As Single
     osv.OSVSize = Len(osv)
 
     If GetVersionEx(osv) = 1 Then
         Select Case osv.PlatformID
-            Case VER_PLATFORM_WIN32s
-                GetWindowsVersion = 3.1
+'            Case VER_PLATFORM_WIN32s
+'                GetWindowsVersion = 3.1
             Case VER_PLATFORM_WIN32_NT
-                GetWindowsVersion = 3.1
-                ver = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
+                GetWindowsVersion = Round(osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1), 1&)
                 Build = osv.dwBuildNumber
-                If ver >= 6.2 Then ver = fWinVer()
-                GetWindowsVersion = ver
-        
-            Case VER_PLATFORM_WIN32_WINDOWS:
-                Select Case osv.dwVerMinor
-                    Case 0
-                        GetWindowsVersion = 4#
-                        Build = 950
-                    Case 90
-                        GetWindowsVersion = 4.9
-                        Build = 3000
-                    Case Else
-                        GetWindowsVersion = 4.1
-                        Build = 1998
-                End Select
+                'If GetWindowsVersion >= 6.2 Then GetWindowsVersion = fWinVer()
+'            Case VER_PLATFORM_WIN32_WINDOWS:
+'                Select Case osv.dwVerMinor
+'                    Case 0
+'                        GetWindowsVersion = 4#
+'                        Build = 950
+'                    Case 90
+'                        GetWindowsVersion = 4.9
+'                        Build = 3000
+'                    Case Else
+'                        GetWindowsVersion = 4.1
+'                        Build = 1998
+'                End Select
+            Case Else
+                GetWindowsVersion = 3.1
         End Select
     Else
         GetWindowsVersion = 5.1
@@ -1484,24 +1541,24 @@ Function GetWindowsVersion() As Single
     End If
 End Function
 
-Private Function fWinVer() As Single
-    Dim osv As OSVERSIONINFO
-    osv.OSVSize = Len(osv)
-    If GetVersionEx(osv) <> 1 Then
-        fWinVer = 5.1
-        Exit Function
-    End If
-
-    If osv.PlatformID = VER_PLATFORM_WIN32_NT Then
-        If RtlGetVersion(osv) <> 0 Then
-            fWinVer = 5.1
-            Exit Function
-        End If
-    End If
-
-    Build = osv.dwBuildNumber
-    fWinVer = osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1)
-End Function
+'Private Function fWinVer() As Single
+'    Dim osv As OSVERSIONINFO
+'    osv.OSVSize = Len(osv)
+'    If GetVersionEx(osv) <> 1 Then
+'        fWinVer = 5.1
+'        Exit Function
+'    End If
+'
+'    If osv.PlatformID = VER_PLATFORM_WIN32_NT Then
+'        If RtlGetVersion(osv) <> 0 Then
+'            fWinVer = 5.1
+'            Exit Function
+'        End If
+'    End If
+'
+'    Build = osv.dwBuildNumber
+'    fWinVer = Round(osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1), 1&)
+'End Function
 
 Function t(ByVal k, ByVal e) As Variant
     If LangID = 1042 Then
@@ -1951,38 +2008,26 @@ End Function
 
 Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional Title = "") As VbMsgBoxResult
     If Title = "" Then Title = App.Title
-    Select Case Buttons
-        Case vbOKOnly
-            ShowMessageBox Prompt, Title, 0, MsgBoxMode:=1
-            MsgBox = vbOK
-        Case vbYesNo
-            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=2)
-        Case vbYesNoCancel
-            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=4)
-        Case vbOKCancel
-            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=7)
-        Case vbAbortRetryIgnore
-            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=5)
-        Case vbRetryCancel
-            MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=6)
-        
-        Case vbCritical, vbQuestion, vbExclamation, vbInformation
-            ShowMessageBox Prompt, Title, Buttons, MsgBoxMode:=1
-            MsgBox = vbOK
-        Case vbCritical + vbYesNo, vbQuestion + vbYesNo, vbExclamation + vbYesNo, vbInformation + vbYesNo
-            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbYesNo, MsgBoxMode:=2)
-        Case vbCritical + vbYesNoCancel, vbQuestion + vbYesNoCancel, vbExclamation + vbYesNoCancel, vbInformation + vbYesNoCancel
-            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbYesNoCancel, MsgBoxMode:=4)
-        Case vbCritical + vbOKCancel, vbQuestion + vbOKCancel, vbExclamation + vbOKCancel, vbInformation + vbOKCancel
-            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbOKCancel, MsgBoxMode:=7)
-        Case vbCritical + vbAbortRetryIgnore, vbQuestion + vbAbortRetryIgnore, vbExclamation + vbAbortRetryIgnore, vbInformation + vbAbortRetryIgnore
-            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbAbortRetryIgnore, MsgBoxMode:=5)
-        Case vbCritical + vbRetryCancel, vbQuestion + vbRetryCancel, vbExclamation + vbRetryCancel, vbInformation + vbRetryCancel
-            MsgBox = ShowMessageBox(Prompt, Title, Buttons - vbRetryCancel, MsgBoxMode:=6)
-        
-        Case Else
-            MsgBox = MsgBoxInternal(Prompt, Buttons, Title)
-    End Select
+    
+    If Buttons > 70 Then
+        GoTo nativemsgbox
+    ElseIf Buttons < 16 Then
+        MsgBox = ShowMessageBox(Prompt, Title, 0, MsgBoxMode:=Buttons)
+    ElseIf (Buttons And vbInformation) = vbInformation Then
+        MsgBox = ShowMessageBox(Prompt, Title, vbInformation, MsgBoxMode:=(Buttons And (Not vbInformation)))
+    ElseIf (Buttons And vbExclamation) = vbExclamation Then
+        MsgBox = ShowMessageBox(Prompt, Title, vbExclamation, MsgBoxMode:=(Buttons And (Not vbExclamation)))
+    ElseIf (Buttons And vbQuestion) = vbQuestion Then
+        MsgBox = ShowMessageBox(Prompt, Title, vbQuestion, MsgBoxMode:=(Buttons And (Not vbQuestion)))
+    ElseIf (Buttons And vbCritical) = vbCritical Then
+        MsgBox = ShowMessageBox(Prompt, Title, vbCritical, MsgBoxMode:=(Buttons And (Not vbCritical)))
+    Else
+        GoTo nativemsgbox
+    End If
+    
+    Exit Function
+nativemsgbox:
+    MsgBox = VBA.MsgBox(Prompt, Buttons, Title)
 End Function
 
 Function Right(Str As String, Length As Long) As String
@@ -2090,9 +2135,9 @@ Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean 
     Dim A%, B%, X%, Y%, Z%
     A = tsTabStrip.Tabs.Count
     B = tsTabStrip.SelectedItem.Index
-    X = IIf(Reverse, 1, A)
-    Y = IIf(Reverse, A, 1)
-    Z = IIf(Reverse, -1, 1)
+    If Reverse Then X = 1 Else X = A
+    If Reverse Then Y = A Else Y = 1
+    If Reverse Then Z = -1 Else Z = 1
     If B = X Then
         tsTabStrip.Tabs(Y).Selected = True
     Else

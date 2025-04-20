@@ -649,7 +649,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If UpDownDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -817,7 +817,7 @@ If Not BuddyControl Is Nothing Then
     End If
     If Success = False Then
         If UpDownDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -830,7 +830,7 @@ Else
         PropBuddyProperty = Value
     Else
         If UpDownDesignMode = True Then
-            MsgBoxInternal "BuddyControl property must be set first", vbCritical + vbOKOnly
+            VBA.MsgBox "BuddyControl property must be set first", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise Number:=35754, Description:="BuddyControl property must be set first"
@@ -851,7 +851,7 @@ If Value = True Then
     Set BuddyControl = GetBuddyControl()
     If BuddyControl Is Nothing Then
         If UpDownDesignMode = True Then
-            MsgBoxInternal "BuddyControl property must be set first", vbCritical + vbOKOnly
+            VBA.MsgBox "BuddyControl property must be set first", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise Number:=35754, Description:="BuddyControl property must be set first"
@@ -864,7 +864,7 @@ If Value = True Then
         On Error GoTo 0
         If PropBuddyProperty = vbNullString Then
             If UpDownDesignMode = True Then
-                MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+                VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise 380
@@ -892,7 +892,7 @@ If Value <= Me.Max Then
     If Me.Value < PropMin Then Me.Value = PropMin
 Else
     If UpDownDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -918,7 +918,7 @@ If Value >= Me.Min Then
     If Me.Value > PropMax Then Me.Value = PropMax
 Else
     If UpDownDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

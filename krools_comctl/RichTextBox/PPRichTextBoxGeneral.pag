@@ -322,7 +322,7 @@ If Err.Number = 380 Then Exit Sub
 On Error GoTo 0
 If Not TextFileName.Text = vbNullString Then
     If FileExists(TextFileName.Text) = False Then
-        MsgBoxInternal "The specified file name cannot be accessed or is invalid.", vbExclamation + vbOKOnly
+        VBA.MsgBox "The specified file name cannot be accessed or is invalid.", vbExclamation + vbOKOnly
         TextFileName.SetFocus
         TextFileName.SelStart = 0
         TextFileName.SelLength = Len(TextFileName.Text)
@@ -479,7 +479,7 @@ End Sub
 
 Private Sub TextPasswordChar_Validate(Cancel As Boolean)
 If Not (TextPasswordChar.Text = vbNullString Or Len(TextPasswordChar.Text) = 0) And Not Len(TextPasswordChar.Text) = 1 Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextPasswordChar.Text = PropertyPage.SelectedControls(0).PasswordChar
     TextPasswordChar.SetFocus
     Cancel = True
@@ -511,7 +511,7 @@ End Sub
 
 Private Sub TextMaxLength_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMaxLength.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextMaxLength.Text = PropertyPage.SelectedControls(0).MaxLength
     TextMaxLength.SetFocus
     Cancel = True
@@ -525,7 +525,7 @@ Else
     If Cancel = False Then
         TextMaxLength.Text = LngValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextMaxLength.Text = PropertyPage.SelectedControls(0).MaxLength
         TextMaxLength.SetFocus
     End If
@@ -558,7 +558,7 @@ End Sub
 
 Private Sub TextBulletIndent_Validate(Cancel As Boolean)
 If Not IsNumeric(TextBulletIndent.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextBulletIndent.Text = PropertyPage.SelectedControls(0).BulletIndent
     TextBulletIndent.SetFocus
     Cancel = True
@@ -572,7 +572,7 @@ Else
     If Cancel = False Then
         TextBulletIndent.Text = SngValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextBulletIndent.Text = PropertyPage.SelectedControls(0).BulletIndent
         TextBulletIndent.SetFocus
     End If
@@ -609,7 +609,7 @@ End Sub
 
 Private Sub TextUndoLimit_Validate(Cancel As Boolean)
 If Not IsNumeric(TextUndoLimit.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextUndoLimit.Text = PropertyPage.SelectedControls(0).UndoLimit
     TextUndoLimit.SetFocus
     Cancel = True
@@ -623,7 +623,7 @@ Else
     If Cancel = False Then
         TextUndoLimit.Text = LngValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextUndoLimit.Text = PropertyPage.SelectedControls(0).UndoLimit
         TextUndoLimit.SetFocus
     End If

@@ -946,7 +946,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1105,7 +1105,7 @@ Select Case Value
     Case #1/1/1900# To #12/31/9999 11:59:59 PM#
         If Fix(Value) > Me.MaxDate Then
             If MonthViewDesignMode = True Then
-                MsgBoxInternal "A Value was specified for the MinDate property that is higher than the current Value of MaxDate", vbCritical + vbOKOnly
+                VBA.MsgBox "A Value was specified for the MinDate property that is higher than the current Value of MaxDate", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise 35775, Description:="A Value was specified for the MinDate property that is higher than the current Value of MaxDate"
@@ -1115,7 +1115,7 @@ Select Case Value
         End If
     Case Else
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1154,7 +1154,7 @@ Select Case Value
     Case #1/1/1900# To #12/31/9999 11:59:59 PM#
         If Fix(Value) < Me.MinDate Then
             If MonthViewDesignMode = True Then
-                MsgBoxInternal "A Value was specified for the MaxDate property that is lower than the current Value of MinDate", vbCritical + vbOKOnly
+                VBA.MsgBox "A Value was specified for the MaxDate property that is lower than the current Value of MinDate", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise 35774, Description:="A Value was specified for the MaxDate property that is lower than the current Value of MinDate"
@@ -1164,7 +1164,7 @@ Select Case Value
         End If
     Case Else
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1208,7 +1208,7 @@ If Fix(NewValue) >= Me.MinDate And Fix(NewValue) <= Me.MaxDate Then
     PropValue = Fix(NewValue)
 Else
     If MonthViewDesignMode = True Then
-        MsgBoxInternal "A date was specified that does not fall within the MinDate and MaxDate properties", vbCritical + vbOKOnly
+        VBA.MsgBox "A date was specified that does not fall within the MinDate and MaxDate properties", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 35773, Description:="A date was specified that does not fall within the MinDate and MaxDate properties"
@@ -1435,7 +1435,7 @@ End Property
 Public Property Let ScrollRate(ByVal Value As Long)
 If Value < 0 Then
     If MonthViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1512,7 +1512,7 @@ If Value > 0 Then
     PropMaxSelCount = Value
 Else
     If MonthViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1531,14 +1531,14 @@ Public Property Let MonthColumns(ByVal Value As Byte)
 If Value > 0 Then
     If Value > 12 Then
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "A Value was specified for MonthRows or MonthColumns that is not between 1 and 12", vbCritical + vbOKOnly
+            VBA.MsgBox "A Value was specified for MonthRows or MonthColumns that is not between 1 and 12", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise Number:=35776, Description:="A Value was specified for MonthRows or MonthColumns that is not between 1 and 12"
         End If
     ElseIf (Value * PropMonthRows) > 12 Then
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12", vbCritical + vbOKOnly
+            VBA.MsgBox "A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise Number:=35777, Description:="A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
@@ -1548,7 +1548,7 @@ If Value > 0 Then
     End If
 Else
     If MonthViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1570,14 +1570,14 @@ Public Property Let MonthRows(ByVal Value As Byte)
 If Value > 0 Then
     If Value > 12 Then
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "A Value was specified for MonthRows or MonthColumns that is not between 1 and 12", vbCritical + vbOKOnly
+            VBA.MsgBox "A Value was specified for MonthRows or MonthColumns that is not between 1 and 12", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise Number:=35776, Description:="A Value was specified for MonthRows or MonthColumns that is not between 1 and 12"
         End If
     ElseIf (Value * PropMonthColumns) > 12 Then
         If MonthViewDesignMode = True Then
-            MsgBoxInternal "A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12", vbCritical + vbOKOnly
+            VBA.MsgBox "A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise Number:=35777, Description:="A Value was specified for MonthRows or MonthColumns that would cause the total number of months (i.e. MonthRows * MonthColumns) to be greater than 12"
@@ -1587,7 +1587,7 @@ If Value > 0 Then
     End If
 Else
     If MonthViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

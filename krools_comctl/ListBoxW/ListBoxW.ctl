@@ -1167,7 +1167,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If ListBoxDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1262,7 +1262,7 @@ End Property
 Public Property Let MultiColumn(ByVal Value As Boolean)
 If PropDrawMode = LstDrawModeOwnerDrawVariable And Value = True Then
     If ListBoxDesignMode = True Then
-        MsgBoxInternal "MultiColumn must be False when DrawMode is 2 - OwnerDrawVariable", vbCritical + vbOKOnly
+        VBA.MsgBox "MultiColumn must be False when DrawMode is 2 - OwnerDrawVariable", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="MultiColumn must be False when DrawMode is 2 - OwnerDrawVariable"
@@ -1320,7 +1320,7 @@ Select Case Value
     Case vbMultiSelectNone, vbMultiSelectSimple, vbMultiSelectExtended
         If PropStyle <> LstStyleStandard And Value <> vbMultiSelectNone Then
             If ListBoxDesignMode = True Then
-                MsgBoxInternal "MultiSelect must be 0 - None when Style is not 0 - Standard", vbCritical + vbOKOnly
+                VBA.MsgBox "MultiSelect must be 0 - None when Style is not 0 - Standard", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise Number:=383, Description:="MultiSelect must be 0 - None when Style is not 0 - Standard"
@@ -1346,7 +1346,7 @@ End Property
 Public Property Let HorizontalExtent(ByVal Value As Single)
 If Value < 0 Then
     If ListBoxDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1380,7 +1380,7 @@ Else
     Select Case Value
         Case LstStyleStandard, LstStyleCheckbox, LstStyleOption
             If PropDrawMode <> LstDrawModeNormal And Value <> LstStyleStandard Then
-                MsgBoxInternal "Style must be 0 - Standard when DrawMode is not 0 - Normal", vbCritical + vbOKOnly
+                VBA.MsgBox "Style must be 0 - Standard when DrawMode is not 0 - Normal", vbCritical + vbOKOnly
                 Exit Property
             End If
             PropStyle = Value

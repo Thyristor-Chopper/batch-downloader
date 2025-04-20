@@ -124,7 +124,7 @@ forcegulim:
         End If
     End If
     
-    DefaultDisableDWMWindow = IIf(WinVer >= 6.2, 1, 0)
+    If WinVer >= 6.2 Then DefaultDisableDWMWindow = 1 Else DefaultDisableDWMWindow = 0
     
     If GetSetting("DownloadBooster", "UserData", "HeaderSettingsInitialized", "0") = "0" Then
         SaveSetting "DownloadBooster", "Options\Headers", "User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:102.0) Gecko/20100101 Firefox/102.0 PaleMoon/33.2"

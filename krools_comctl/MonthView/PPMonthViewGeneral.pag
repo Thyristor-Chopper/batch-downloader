@@ -393,7 +393,7 @@ End Sub
 
 Private Sub TextValue_Validate(Cancel As Boolean)
 If Not IsDate(TextValue.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextValue.Text = PropertyPage.SelectedControls(0).Value
     TextValue.SetFocus
     Cancel = True
@@ -421,7 +421,7 @@ End Sub
 
 Private Sub TextMinDate_Validate(Cancel As Boolean)
 If Not IsDate(TextMinDate.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextMinDate.Text = PropertyPage.SelectedControls(0).MinDate
     TextMinDate.SetFocus
     Cancel = True
@@ -449,7 +449,7 @@ End Sub
 
 Private Sub TextMaxDate_Validate(Cancel As Boolean)
 If Not IsDate(TextMaxDate.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextMaxDate.Text = PropertyPage.SelectedControls(0).MaxDate
     TextMaxDate.SetFocus
     Cancel = True
@@ -481,7 +481,7 @@ End Sub
 
 Private Sub TextScrollRate_Validate(Cancel As Boolean)
 If Not IsNumeric(TextScrollRate.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextScrollRate.Text = PropertyPage.SelectedControls(0).ScrollRate
     TextScrollRate.SetFocus
     Cancel = True
@@ -495,7 +495,7 @@ Else
     If Cancel = False Then
         TextScrollRate.Text = LngValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextScrollRate.Text = PropertyPage.SelectedControls(0).ScrollRate
         TextScrollRate.SetFocus
     End If
@@ -527,7 +527,7 @@ End Sub
 
 Private Sub TextMaxSelCount_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMaxSelCount.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextMaxSelCount.Text = PropertyPage.SelectedControls(0).MaxSelCount
     TextMaxSelCount.SetFocus
     Cancel = True
@@ -541,7 +541,7 @@ Else
     If Cancel = False Then
         TextMaxSelCount.Text = IntValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextMaxSelCount.Text = PropertyPage.SelectedControls(0).MaxSelCount
         TextMaxSelCount.SetFocus
     End If
@@ -573,7 +573,7 @@ End Sub
 
 Private Sub TextMonthColumns_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMonthColumns.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextMonthColumns.Text = PropertyPage.SelectedControls(0).MonthColumns
     TextMonthColumns.SetFocus
     Cancel = True
@@ -587,7 +587,7 @@ Else
     If Cancel = False Then
         TextMonthColumns.Text = ByteValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextMonthColumns.Text = PropertyPage.SelectedControls(0).MonthColumns
         TextMonthColumns.SetFocus
     End If
@@ -619,7 +619,7 @@ End Sub
 
 Private Sub TextMonthRows_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMonthRows.Text) Then
-    MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
     TextMonthRows.Text = PropertyPage.SelectedControls(0).MonthRows
     TextMonthRows.SetFocus
     Cancel = True
@@ -633,7 +633,7 @@ Else
     If Cancel = False Then
         TextMonthRows.Text = ByteValue
     Else
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         TextMonthRows.Text = PropertyPage.SelectedControls(0).MonthRows
         TextMonthRows.SetFocus
     End If

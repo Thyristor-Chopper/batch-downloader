@@ -1345,7 +1345,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If CoolBarDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1733,7 +1733,7 @@ Else
         Set UserControl.Picture = Nothing
     Else
         If CoolBarDesignMode = True Then
-            MsgBoxInternal "Invalid picture", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid picture", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 481

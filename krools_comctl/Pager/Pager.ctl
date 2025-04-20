@@ -713,7 +713,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If PagerDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -887,7 +887,7 @@ End Property
 Public Property Let BorderWidth(ByVal Value As Single)
 If Value < 0 Then
     If PagerDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -906,7 +906,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     End If
 Else
     If PagerDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -961,7 +961,7 @@ End Property
 Public Property Let ButtonSize(ByVal Value As Single)
 If Value < 0 And Not Value = -1 Then
     If PagerDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -983,7 +983,7 @@ ErrValue = Err.Number
 On Error GoTo 0
 If (LngValue < 0 And Not LngValue = -1) Or ErrValue <> 0 Then
     If PagerDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

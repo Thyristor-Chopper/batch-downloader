@@ -2091,9 +2091,9 @@ aftermaxtrdcheck:
     ElseIf optUserFore.Value Then
         SaveSetting "DownloadBooster", "Options", "ForeColor", CLng(pgFore.BackColor)
     End If
-    SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
-    SaveSetting "DownloadBooster", "Options", "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
     If ColorChanged Or VisualStyleChanged Or SkinChanged Then
+        SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
+        SaveSetting "DownloadBooster", "Options", "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
         SetFormBackgroundColor Me, True
         SetFormBackgroundColor frmMain, True
         frmMain.LoadLiveBadukSkin

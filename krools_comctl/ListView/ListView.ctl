@@ -2238,7 +2238,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If ListViewDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -2291,7 +2291,7 @@ Public Property Set HotMouseIcon(ByVal Value As IPictureDisp)
 '        Set PropHotMouseIcon = Value
 '    Else
 '        If ListViewDesignMode = True Then
-'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -2344,7 +2344,7 @@ Public Property Set HeaderMouseIcon(ByVal Value As IPictureDisp)
 '        Set PropHeaderMouseIcon = Value
 '    Else
 '        If ListViewDesignMode = True Then
-'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -2923,7 +2923,7 @@ Select Case Value
     Case LvwViewIcon, LvwViewSmallIcon, LvwViewList, LvwViewReport, LvwViewTile
         If PropVirtualMode = True And Value = LvwViewTile Then
             If ListViewDesignMode = True Then
-                MsgBoxInternal "View must not be 4 - Tile when VirtualMode is True", vbCritical + vbOKOnly
+                VBA.MsgBox "View must not be 4 - Tile when VirtualMode is True", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise Number:=383, Description:="View must not be 4 - Tile when VirtualMode is True"
@@ -2990,7 +2990,7 @@ Select Case Value
     Case LvwArrangeNone, LvwArrangeAutoLeft, LvwArrangeAutoTop, LvwArrangeLeft, LvwArrangeTop
         If PropVirtualMode = True And Value <> LvwArrangeNone Then
             If ListViewDesignMode = True Then
-                MsgBoxInternal "Arrange must be 0 - None when VirtualMode is True", vbCritical + vbOKOnly
+                VBA.MsgBox "Arrange must be 0 - None when VirtualMode is True", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise Number:=383, Description:="Arrange must be 0 - None when VirtualMode is True"
@@ -3378,7 +3378,7 @@ End Property
 Public Property Let HoverSelectionTime(ByVal Value As Long)
 If Value <= 0 And Not Value = -1 Then
     If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3707,7 +3707,7 @@ Select Case Value
         PropTileViewLines = Value
     Case Else
         If ListViewDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -3751,7 +3751,7 @@ End Property
 Public Property Let GroupView(ByVal Value As Boolean)
 If PropVirtualMode = True And Value = True Then
     If ListViewDesignMode = True Then
-        MsgBoxInternal "GroupView must be False when VirtualMode is True", vbCritical + vbOKOnly
+        VBA.MsgBox "GroupView must be False when VirtualMode is True", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="GroupView must be False when VirtualMode is True"
@@ -3779,7 +3779,7 @@ End Property
 Public Property Let GroupSubsetCount(ByVal Value As Long)
 If Value < 0 Then
     If ListViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

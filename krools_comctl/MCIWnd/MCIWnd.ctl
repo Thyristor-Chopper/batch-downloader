@@ -842,7 +842,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If MCIWndDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1045,7 +1045,7 @@ End Property
 Public Property Let TimerFreq(ByVal Value As Integer)
 If Value <= 0 Then
     If MCIWndDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1068,7 +1068,7 @@ End Property
 Public Property Let Zoom(ByVal Value As Long)
 If Value <= 0 Then
     If MCIWndDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

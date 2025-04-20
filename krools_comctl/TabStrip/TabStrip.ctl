@@ -1151,7 +1151,7 @@ Public Property Set MouseIcon(ByVal Value As IPictureDisp)
 '        Set PropMouseIcon = Value
 '    Else
 '        If TabStripDesignMode = True Then
-'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -1447,7 +1447,7 @@ End Property
 Public Property Let TabFixedWidth(ByVal Value As Single)
 If Value < 0 Then
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1465,7 +1465,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     End If
 Else
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1482,7 +1482,7 @@ End Property
 Public Property Let TabFixedHeight(ByVal Value As Single)
 If Value < 0 Then
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1500,7 +1500,7 @@ If IntValue >= 0 And ErrValue = 0 Then
     End If
 Else
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1521,7 +1521,7 @@ End Property
 Public Property Let TabMinWidth(ByVal Value As Single)
 If Value < 0 And Not Value = -1 Then
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1537,7 +1537,7 @@ If (IntValue >= 0 Or IntValue = -1) And ErrValue = 0 Then
     If TabStripHandle <> NULL_PTR Then SendMessage TabStripHandle, TCM_SETMINTABWIDTH, 0, ByVal CLng(PropTabMinWidth)
 Else
     If TabStripDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

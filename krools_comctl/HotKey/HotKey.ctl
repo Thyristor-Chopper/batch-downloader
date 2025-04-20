@@ -754,7 +754,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If HotKeyDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380

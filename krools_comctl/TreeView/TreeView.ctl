@@ -1347,7 +1347,7 @@ End Property
 Public Property Let OLEDragExpandTime(ByVal Value As Long)
 If Value < -1 Then
     If TreeViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1405,7 +1405,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If TreeViewDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1881,7 +1881,7 @@ End Property
 Public Property Let Indentation(ByVal Value As Single)
 If Value < 0 Then
     If TreeViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1894,7 +1894,7 @@ ErrValue = Err.Number
 On Error GoTo 0
 If LngValue < 0 Or ErrValue <> 0 Then
     If TreeViewDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

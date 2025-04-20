@@ -650,7 +650,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If WindowedLabelDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -805,7 +805,7 @@ End Property
 Public Property Let WordWrap(ByVal Value As Boolean)
 If PropSingleLine = True And Value = True Then
     If WindowedLabelDesignMode = True Then
-        MsgBoxInternal "WordWrap must be False when SingleLine is True", vbCritical + vbOKOnly
+        VBA.MsgBox "WordWrap must be False when SingleLine is True", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="WordWrap must be False when SingleLine is True"

@@ -1064,7 +1064,7 @@ Public Property Set MouseIcon(ByVal Value As IPictureDisp)
 '        Set PropMouseIcon = Value
 '    Else
 '        If StatusBarDesignMode = True Then
-'            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380

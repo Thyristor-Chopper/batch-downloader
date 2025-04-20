@@ -456,7 +456,7 @@ PropTransparent = False
 PropShowTips = False
 Call CreateLinkLabel
 If LinkLabelHandle = NULL_PTR And ComCtlsSupportLevel() = 0 And LinkLabelDesignMode = True Then
-    MsgBoxInternal "The LinkLabel control requires at least version 6.0 of comctl32.dll." & vbLf & _
+    VBA.MsgBox "The LinkLabel control requires at least version 6.0 of comctl32.dll." & vbLf & _
     "In order to use it, you have to define a manifest file for your application." & vbLf & _
     "For using the control in the VB6 IDE, define a manifest file for VB6.EXE.", vbCritical + vbOKOnly
 End If
@@ -920,7 +920,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If LinkLabelDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380

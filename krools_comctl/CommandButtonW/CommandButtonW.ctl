@@ -1324,7 +1324,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If CommandButtonDesignMode = True Then
-            MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1522,7 +1522,7 @@ End Property
 Public Property Let ImageListMargin(ByVal Value As Single)
 If Value < 0 Then
     If CommandButtonDesignMode = True Then
-        MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1877,7 +1877,7 @@ Select Case Value
     Case vbButtonStandard, vbButtonGraphical
         If PropDrawMode <> CmdDrawModeNormal And Value = vbButtonGraphical Then
             If CommandButtonDesignMode = True Then
-                MsgBoxInternal "Style must be 0 - Standard when DrawMode is not 0 - Normal", vbCritical + vbOKOnly
+                VBA.MsgBox "Style must be 0 - Standard when DrawMode is not 0 - Normal", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise Number:=383, Description:="Style must be 0 - Standard when DrawMode is not 0 - Normal"
