@@ -1064,7 +1064,7 @@ Public Property Set MouseIcon(ByVal Value As IPictureDisp)
 '        Set PropMouseIcon = Value
 '    Else
 '        If StatusBarDesignMode = True Then
-'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -1502,19 +1502,19 @@ Set Me.FPanelPicture(Index) = Value
 End Property
 
 Friend Property Set FPanelPicture(ByVal Index As Long, ByVal Value As IPictureDisp)
-If StatusBarHandle <> NULL_PTR Then
-    Set PropShadowPanels(Index).Picture = Value
-    PropShadowPanels(Index).PictureRenderFlag = 0
-    Call SetMinHeight
-    Dim RC As RECT
-    Call GetPanelRect(Index, RC)
-    InvalidateRect StatusBarHandle, ByVal VarPtr(RC), 1
-    UpdateWindow StatusBarHandle
-    If PropShadowPanels(Index).AutoSize = SbrPanelAutoSizeContent Then
-        Call SetParts
-        If PropShowTips = True Then Call UpdateToolTipRects
-    End If
-End If
+'If StatusBarHandle <> NULL_PTR Then
+'    Set PropShadowPanels(Index).Picture = Value
+'    PropShadowPanels(Index).PictureRenderFlag = 0
+'    Call SetMinHeight
+'    Dim RC As RECT
+'    Call GetPanelRect(Index, RC)
+'    InvalidateRect StatusBarHandle, ByVal VarPtr(RC), 1
+'    UpdateWindow StatusBarHandle
+'    If PropShadowPanels(Index).AutoSize = SbrPanelAutoSizeContent Then
+'        Call SetParts
+'        If PropShowTips = True Then Call UpdateToolTipRects
+'    End If
+'End If
 End Property
 
 Friend Property Get FPanelEnabled(ByVal Index As Long) As Boolean
@@ -2063,28 +2063,28 @@ End If
 End Sub
 
 Private Sub SetPanelToolTipText(ByVal Index As Long)
-If StatusBarHandle <> NULL_PTR And StatusBarToolTipHandle <> NULL_PTR Then
-    Dim TI As TOOLINFO
-    With TI
-    .cbSize = LenB(TI)
-    .hWnd = StatusBarHandle
-    .uId = PropShadowPanels(Index).ToolTipID
-    If SendMessage(StatusBarToolTipHandle, TTM_GETTOOLINFO, 0, ByVal VarPtr(TI)) <> 0 Then
-        .uFlags = TTF_SUBCLASS Or TTF_PARSELINKS
-        If PropRightToLeft = True And PropRightToLeftLayout = False Then .uFlags = .uFlags Or TTF_RTLREADING
-        .lpszText = StrPtr(PropShadowPanels(Index).ToolTipText)
-        Call GetPanelRect(Index, .RC)
-        SendMessage StatusBarToolTipHandle, TTM_SETTOOLINFO, 0, ByVal VarPtr(TI)
-        SendMessage StatusBarToolTipHandle, TTM_UPDATE, 0, ByVal 0&
-    Else
-        .uFlags = TTF_SUBCLASS Or TTF_PARSELINKS
-        If PropRightToLeft = True And PropRightToLeftLayout = False Then .uFlags = .uFlags Or TTF_RTLREADING
-        .lpszText = StrPtr(PropShadowPanels(Index).ToolTipText)
-        Call GetPanelRect(Index, .RC)
-        SendMessage StatusBarToolTipHandle, TTM_ADDTOOL, 0, ByVal VarPtr(TI)
-    End If
-    End With
-End If
+'If StatusBarHandle <> NULL_PTR And StatusBarToolTipHandle <> NULL_PTR Then
+'    Dim TI As TOOLINFO
+'    With TI
+'    .cbSize = LenB(TI)
+'    .hWnd = StatusBarHandle
+'    .uId = PropShadowPanels(Index).ToolTipID
+'    If SendMessage(StatusBarToolTipHandle, TTM_GETTOOLINFO, 0, ByVal VarPtr(TI)) <> 0 Then
+'        .uFlags = TTF_SUBCLASS Or TTF_PARSELINKS
+'        If PropRightToLeft = True And PropRightToLeftLayout = False Then .uFlags = .uFlags Or TTF_RTLREADING
+'        .lpszText = StrPtr(PropShadowPanels(Index).ToolTipText)
+'        Call GetPanelRect(Index, .RC)
+'        SendMessage StatusBarToolTipHandle, TTM_SETTOOLINFO, 0, ByVal VarPtr(TI)
+'        SendMessage StatusBarToolTipHandle, TTM_UPDATE, 0, ByVal 0&
+'    Else
+'        .uFlags = TTF_SUBCLASS Or TTF_PARSELINKS
+'        If PropRightToLeft = True And PropRightToLeftLayout = False Then .uFlags = .uFlags Or TTF_RTLREADING
+'        .lpszText = StrPtr(PropShadowPanels(Index).ToolTipText)
+'        Call GetPanelRect(Index, .RC)
+'        SendMessage StatusBarToolTipHandle, TTM_ADDTOOL, 0, ByVal VarPtr(TI)
+'    End If
+'    End With
+'End If
 End Sub
 
 Private Sub UpdateToolTipRects()

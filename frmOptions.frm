@@ -618,27 +618,21 @@ Begin VB.Form frmOptions
          _ExtentY        =   4207
          Caption         =   " 인터페이스 "
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.OptionButtonW optScreenPerScroll 
+         Begin VB.OptionButton optScreenPerScroll 
+            Caption         =   "한 화면씩(&R)"
             Height          =   255
             Left            =   4200
             TabIndex        =   32
             Top             =   2055
             Width           =   1500
-            _ExtentX        =   2646
-            _ExtentY        =   450
-            Caption         =   "한 화면씩(&R)"
-            Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.OptionButtonW optLinePerScroll 
+         Begin VB.OptionButton optLinePerScroll 
+            Caption         =   "한 줄씩(&N)"
             Height          =   255
             Left            =   2640
             TabIndex        =   31
             Top             =   2055
             Width           =   1395
-            _ExtentX        =   2461
-            _ExtentY        =   450
-            Caption         =   "한 줄씩(&N)"
-            Transparent     =   -1  'True
          End
          Begin prjDownloadBooster.CheckBoxW chkAllowDuplicates 
             Height          =   255
@@ -793,8 +787,6 @@ Begin VB.Form frmOptions
             Width           =   720
             _ExtentX        =   0
             _ExtentY        =   0
-            RightToLeft     =   -1  'True
-            RightToLeftMode =   0
             Min             =   2
             Max             =   655
             Value           =   25
@@ -1438,26 +1430,20 @@ Begin VB.Form frmOptions
             BorderStyle     =   0
             Caption         =   "FrameW10"
             Transparent     =   -1  'True
-            Begin prjDownloadBooster.OptionButtonW optSystemColor 
+            Begin VB.OptionButton optSystemColor 
+               Caption         =   "시스템(&S)"
                Height          =   255
                Left            =   120
                TabIndex        =   62
                Top             =   0
                Width           =   1215
-               _ExtentX        =   2143
-               _ExtentY        =   450
-               Caption         =   "시스템(&S)"
-               Transparent     =   -1  'True
             End
-            Begin prjDownloadBooster.OptionButtonW optUserColor 
+            Begin VB.OptionButton optUserColor 
                Height          =   255
                Left            =   120
                TabIndex        =   63
                Top             =   240
                Width           =   255
-               _ExtentX        =   450
-               _ExtentY        =   450
-               Transparent     =   -1  'True
             End
             Begin VB.Label lblSelectColor 
                BackStyle       =   0  '투명
@@ -1501,26 +1487,20 @@ Begin VB.Form frmOptions
             Caption         =   "메인 창만(&N)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.OptionButtonW optUserFore 
+         Begin VB.OptionButton optUserFore 
             Height          =   255
             Left            =   1680
             TabIndex        =   68
             Top             =   720
             Width           =   255
-            _ExtentX        =   450
-            _ExtentY        =   450
-            Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.OptionButtonW optSystemFore 
+         Begin VB.OptionButton optSystemFore 
+            Caption         =   "시스템(&Y)"
             Height          =   255
             Left            =   1680
             TabIndex        =   67
             Top             =   480
             Width           =   1215
-            _ExtentX        =   2143
-            _ExtentY        =   450
-            Caption         =   "시스템(&Y)"
-            Transparent     =   -1  'True
          End
          Begin VB.Label lblSelectFore 
             BackStyle       =   0  '투명

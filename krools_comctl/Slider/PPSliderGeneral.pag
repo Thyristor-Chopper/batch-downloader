@@ -212,7 +212,7 @@ End Sub
 
 Private Sub TextMin_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMin.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextMin.Text = PropertyPage.SelectedControls(0).Min
     TextMin.SetFocus
     Cancel = True
@@ -225,7 +225,7 @@ Else
     If Cancel = False Then
         TextMin.Text = LngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextMin.Text = PropertyPage.SelectedControls(0).Min
         TextMin.SetFocus
     End If
@@ -253,7 +253,7 @@ End Sub
 
 Private Sub TextMax_Validate(Cancel As Boolean)
 If Not IsNumeric(TextMax.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextMax.Text = PropertyPage.SelectedControls(0).Max
     TextMax.SetFocus
     Cancel = True
@@ -266,7 +266,7 @@ Else
     If Cancel = False Then
         TextMax.Text = LngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextMax.Text = PropertyPage.SelectedControls(0).Max
         TextMax.SetFocus
     End If
@@ -294,7 +294,7 @@ End Sub
 
 Private Sub TextSmallChange_Validate(Cancel As Boolean)
 If Not IsNumeric(TextSmallChange.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextSmallChange.Text = PropertyPage.SelectedControls(0).SmallChange
     TextSmallChange.SetFocus
     Cancel = True
@@ -307,7 +307,7 @@ Else
     If Cancel = False Then
         TextSmallChange.Text = LngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextSmallChange.Text = PropertyPage.SelectedControls(0).SmallChange
         TextSmallChange.SetFocus
     End If
@@ -335,7 +335,7 @@ End Sub
 
 Private Sub TextLargeChange_Validate(Cancel As Boolean)
 If Not IsNumeric(TextLargeChange.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextLargeChange.Text = PropertyPage.SelectedControls(0).LargeChange
     TextLargeChange.SetFocus
     Cancel = True
@@ -348,7 +348,7 @@ Else
     If Cancel = False Then
         TextLargeChange.Text = LngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextLargeChange.Text = PropertyPage.SelectedControls(0).LargeChange
         TextLargeChange.SetFocus
     End If
@@ -381,7 +381,7 @@ End Sub
 
 Private Sub TextSelStart_Validate(Cancel As Boolean)
 If Not IsNumeric(TextSelStart.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextSelStart.Text = PropertyPage.SelectedControls(0).SelStart
     TextSelStart.SetFocus
     Cancel = True
@@ -394,7 +394,7 @@ Else
     If Cancel = False Then
         TextSelStart.Text = LngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextSelStart.Text = PropertyPage.SelectedControls(0).SelStart
         TextSelStart.SetFocus
     End If
@@ -422,7 +422,7 @@ End Sub
 
 Private Sub TextSelLength_Validate(Cancel As Boolean)
 If Not IsNumeric(TextSelLength.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextSelLength.Text = PropertyPage.SelectedControls(0).SelLength
     TextSelLength.SetFocus
     Cancel = True
@@ -435,7 +435,7 @@ Else
     If Cancel = False Then
         TextSelLength.Text = LngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextSelLength.Text = PropertyPage.SelectedControls(0).SelLength
         TextSelLength.SetFocus
     End If

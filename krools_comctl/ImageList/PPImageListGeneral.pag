@@ -147,12 +147,12 @@ Height = CLng(TextImageHeight.Text)
 Width = CLng(TextImageWidth.Text)
 If .ListImages.Count > 0 Then
     If Height <> .ImageHeight Or Width <> .ImageWidth Then
-        VBA.MsgBox "Images sizes are read-only if image list contains images", vbExclamation + vbOKOnly
+        'MsgBoxInternal "Images sizes are read-only if image list contains images", vbExclamation + vbOKOnly
     End If
     TextImageHeight.Text = CStr(.ImageHeight)
     TextImageWidth.Text = CStr(.ImageWidth)
     If ComboColorDepth.ItemData(ComboColorDepth.ListIndex) <> .ColorDepth Then
-        VBA.MsgBox "Color depth is read-only if image list contains images", vbExclamation + vbOKOnly
+        'MsgBoxInternal "Color depth is read-only if image list contains images", vbExclamation + vbOKOnly
     End If
     Dim i As Long
     For i = 0 To ComboColorDepth.ListCount - 1
@@ -162,7 +162,7 @@ If .ListImages.Count > 0 Then
         End If
     Next i
     If CBool(CheckRightToLeftMirror.Value = vbChecked) <> .RightToLeftMirror Then
-        VBA.MsgBox "Right-to-left mirror is read-only if image list contains images", vbExclamation + vbOKOnly
+        'MsgBoxInternal "Right-to-left mirror is read-only if image list contains images", vbExclamation + vbOKOnly
     End If
     CheckRightToLeftMirror.Value = IIf(.RightToLeftMirror, vbChecked, vbUnchecked)
     .UseBackColor = CBool(CheckUseBackColor.Value = vbChecked)
@@ -291,7 +291,7 @@ End Sub
 
 Private Sub TextImageHeight_Validate(Cancel As Boolean)
 If Not IsNumeric(TextImageHeight.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextImageHeight.Text = PropertyPage.SelectedControls(0).ImageHeight
     TextImageHeight.SetFocus
     Cancel = True
@@ -305,7 +305,7 @@ Else
     If Cancel = False Then
         TextImageHeight.Text = LngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextImageHeight.Text = PropertyPage.SelectedControls(0).ImageHeight
         TextImageHeight.SetFocus
     End If
@@ -337,7 +337,7 @@ End Sub
 
 Private Sub TextImageWidth_Validate(Cancel As Boolean)
 If Not IsNumeric(TextImageWidth.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextImageWidth.Text = PropertyPage.SelectedControls(0).ImageWidth
     TextImageWidth.SetFocus
     Cancel = True
@@ -351,7 +351,7 @@ Else
     If Cancel = False Then
         TextImageWidth.Text = LngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextImageWidth.Text = PropertyPage.SelectedControls(0).ImageWidth
         TextImageWidth.SetFocus
     End If

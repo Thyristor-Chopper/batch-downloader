@@ -62,25 +62,21 @@ Begin VB.Form frmMessageBox
       Top             =   840
       Width           =   1455
    End
-   Begin prjDownloadBooster.OptionButtonW optNo 
+   Begin VB.OptionButton optNo 
+      Caption         =   "아니요(&N)"
       Height          =   255
       Left            =   1080
       TabIndex        =   9
       Top             =   1320
       Width           =   1575
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "아니요(&N)"
    End
-   Begin prjDownloadBooster.OptionButtonW optYes 
+   Begin VB.OptionButton optYes 
+      Caption         =   "예(&Y)"
       Height          =   255
       Left            =   1080
       TabIndex        =   8
       Top             =   960
       Width           =   1575
-      _ExtentX        =   0
-      _ExtentY        =   0
-      Caption         =   "예(&Y)"
    End
    Begin VB.CommandButton cmdOK 
       Caption         =   "확인"
@@ -226,7 +222,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Public MsgBoxMode As Byte
-Public MsgBoxResult As VbMsgBoxResult
+Public MsgBoxResult As VbMsgBoxResultEx
 Public ResultID As String
 Public MessageBoxObject As frmMessageBox
 

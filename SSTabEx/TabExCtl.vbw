@@ -1,0 +1,9 @@
+SSTabEx = 220, 290, 1298, 935, , 110, 145, 919, 687, C
+ptpSSTabExGeneral = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+ptpSSTabExTabs = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+cDlg = 0, 0, 0, 0, C
+ptpSSTabExHelp = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+mBSPropsDB = 0, 0, 0, 0, C
+mBSSubclass = 123, 296, 1201, 941, C
+IBSSubclass = 154, 203, 1227, 848, 
+frmSSTabExSelectControl = 0, 0, 0, 0, C, 0, 0, 0, 0, C

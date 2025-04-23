@@ -657,7 +657,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If AnimationDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+            ''MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380

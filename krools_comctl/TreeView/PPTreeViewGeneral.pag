@@ -583,7 +583,7 @@ End Sub
 
 Private Sub TextIndentation_Validate(Cancel As Boolean)
 If Not IsNumeric(TextIndentation.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextIndentation.Text = PropertyPage.SelectedControls(0).Indentation
     TextIndentation.SetFocus
     Cancel = True
@@ -597,7 +597,7 @@ Else
     If Cancel = False Then
         TextIndentation.Text = SngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextIndentation.Text = PropertyPage.SelectedControls(0).Indentation
         TextIndentation.SetFocus
     End If
@@ -649,7 +649,7 @@ End Sub
 
 Private Sub TextOLEDragExpandTime_Validate(Cancel As Boolean)
 If Not IsNumeric(TextOLEDragExpandTime.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextOLEDragExpandTime.Text = PropertyPage.SelectedControls(0).OLEDragExpandTime
     TextOLEDragExpandTime.SetFocus
     Cancel = True
@@ -663,7 +663,7 @@ Else
     If Cancel = False Then
         TextOLEDragExpandTime.Text = LngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         TextOLEDragExpandTime.Text = PropertyPage.SelectedControls(0).OLEDragExpandTime
         TextOLEDragExpandTime.SetFocus
     End If

@@ -757,25 +757,25 @@ MousePointer = PropMousePointer
 End Property
 
 Public Property Let MousePointer(ByVal Value As CCMousePointerConstants)
-Select Case Value
-    Case 0 To 16, 99
-        PropMousePointer = Value
-    Case Else
-        Err.Raise 380
-End Select
-If FrameDesignMode = False Then
-    Select Case PropMousePointer
-        Case vbIconPointer, 16, vbCustom
-            If PropMousePointer = vbCustom Then
-                Set UserControl.MouseIcon = PropMouseIcon
-            Else
-                Set UserControl.MouseIcon = PictureFromHandle(LoadCursor(NULL_PTR, MousePointerID(PropMousePointer)), vbPicTypeIcon)
-            End If
-            UserControl.MousePointer = vbCustom
-        Case Else
-            UserControl.MousePointer = PropMousePointer
-    End Select
-End If
+'Select Case Value
+'    Case 0 To 16, 99
+'        PropMousePointer = Value
+'    Case Else
+'        Err.Raise 380
+'End Select
+'If FrameDesignMode = False Then
+'    Select Case PropMousePointer
+'        Case vbIconPointer, 16, vbCustom
+'            If PropMousePointer = vbCustom Then
+'                Set UserControl.MouseIcon = PropMouseIcon
+'            Else
+'                Set UserControl.MouseIcon = PictureFromHandle(LoadCursor(NULL_PTR, MousePointerID(PropMousePointer)), vbPicTypeIcon)
+'            End If
+'            UserControl.MousePointer = vbCustom
+'        Case Else
+'            UserControl.MousePointer = PropMousePointer
+'    End Select
+'End If
 UserControl.PropertyChanged "MousePointer"
 End Property
 
@@ -789,21 +789,21 @@ Set Me.MouseIcon = Value
 End Property
 
 Public Property Set MouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
-    Set PropMouseIcon = Nothing
-Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropMouseIcon = Value
-    Else
-        If FrameDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
-Me.MousePointer = PropMousePointer
+'If Value Is Nothing Then
+'    Set PropMouseIcon = Nothing
+'Else
+'    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+'        Set PropMouseIcon = Value
+'    Else
+'        If FrameDesignMode = True Then
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
+'Me.MousePointer = PropMousePointer
 UserControl.PropertyChanged "MouseIcon"
 End Property
 
@@ -824,17 +824,17 @@ RightToLeft = PropRightToLeft
 End Property
 
 Public Property Let RightToLeft(ByVal Value As Boolean)
-PropRightToLeft = Value
-UserControl.RightToLeft = PropRightToLeft
-Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
-If PropRightToLeft = False Then
-    If PropAlignment = vbRightJustify Then PropAlignment = vbLeftJustify
-    If PropPictureAlignment = CCLeftRightAlignmentRight Then PropPictureAlignment = CCLeftRightAlignmentLeft
-Else
-    If PropAlignment = vbLeftJustify Then PropAlignment = vbRightJustify
-    If PropPictureAlignment = CCLeftRightAlignmentLeft Then PropPictureAlignment = CCLeftRightAlignmentRight
-End If
-Call DrawFrame
+'PropRightToLeft = Value
+'UserControl.RightToLeft = PropRightToLeft
+'Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
+'If PropRightToLeft = False Then
+'    If PropAlignment = vbRightJustify Then PropAlignment = vbLeftJustify
+'    If PropPictureAlignment = CCLeftRightAlignmentRight Then PropPictureAlignment = CCLeftRightAlignmentLeft
+'Else
+'    If PropAlignment = vbLeftJustify Then PropAlignment = vbRightJustify
+'    If PropPictureAlignment = CCLeftRightAlignmentLeft Then PropPictureAlignment = CCLeftRightAlignmentRight
+'End If
+'Call DrawFrame
 UserControl.PropertyChanged "RightToLeft"
 End Property
 
@@ -844,13 +844,13 @@ RightToLeftMode = PropRightToLeftMode
 End Property
 
 Public Property Let RightToLeftMode(ByVal Value As CCRightToLeftModeConstants)
-Select Case Value
-    Case CCRightToLeftModeNoControl, CCRightToLeftModeVBAME, CCRightToLeftModeSystemLocale, CCRightToLeftModeUserLocale, CCRightToLeftModeOSLanguage
-        PropRightToLeftMode = Value
-    Case Else
-        Err.Raise 380
-End Select
-Me.RightToLeft = PropRightToLeft
+'Select Case Value
+'    Case CCRightToLeftModeNoControl, CCRightToLeftModeVBAME, CCRightToLeftModeSystemLocale, CCRightToLeftModeUserLocale, CCRightToLeftModeOSLanguage
+'        PropRightToLeftMode = Value
+'    Case Else
+'        Err.Raise 380
+'End Select
+'Me.RightToLeft = PropRightToLeft
 UserControl.PropertyChanged "RightToLeftMode"
 End Property
 
@@ -891,13 +891,13 @@ UseMnemonic = PropUseMnemonic
 End Property
 
 Public Property Let UseMnemonic(ByVal Value As Boolean)
-PropUseMnemonic = Value
-If PropUseMnemonic = True Then
-    UserControl.AccessKeys = ChrW(AccelCharCode(PropCaption))
-Else
-    UserControl.AccessKeys = vbNullString
-End If
-Call DrawFrame
+'PropUseMnemonic = Value
+'If PropUseMnemonic = True Then
+'    UserControl.AccessKeys = ChrW(AccelCharCode(PropCaption))
+'Else
+'    UserControl.AccessKeys = vbNullString
+'End If
+'Call DrawFrame
 UserControl.PropertyChanged "UseMnemonic"
 End Property
 
@@ -907,13 +907,13 @@ Alignment = PropAlignment
 End Property
 
 Public Property Let Alignment(ByVal Value As VBRUN.AlignmentConstants)
-Select Case Value
-    Case vbLeftJustify, vbCenter, vbRightJustify
-        PropAlignment = Value
-    Case Else
-        Err.Raise 380
-End Select
-Call DrawFrame
+'Select Case Value
+'    Case vbLeftJustify, vbCenter, vbRightJustify
+'        PropAlignment = Value
+'    Case Else
+'        Err.Raise 380
+'End Select
+'Call DrawFrame
 UserControl.PropertyChanged "Alignment"
 End Property
 
@@ -938,15 +938,15 @@ Set Me.Picture = Value
 End Property
 
 Public Property Set Picture(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
-    Set PropPicture = Nothing
-Else
-    Set UserControl.Picture = Value
-    Set PropPicture = UserControl.Picture
-    Set UserControl.Picture = Nothing
-End If
-FramePictureRenderFlag = 0
-Call DrawFrame
+'If Value Is Nothing Then
+'    Set PropPicture = Nothing
+'Else
+'    Set UserControl.Picture = Value
+'    Set PropPicture = UserControl.Picture
+'    Set UserControl.Picture = Nothing
+'End If
+'FramePictureRenderFlag = 0
+'Call DrawFrame
 UserControl.PropertyChanged "Picture"
 End Property
 

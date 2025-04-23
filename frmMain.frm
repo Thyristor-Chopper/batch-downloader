@@ -30,26 +30,20 @@ Begin VB.Form frmMain
       _ExtentY        =   450
       BorderStyle     =   0
       Transparent     =   -1  'True
-      Begin prjDownloadBooster.OptionButtonW optTabDownload2 
+      Begin VB.OptionButton optTabDownload2 
          Height          =   195
          Left            =   0
          TabIndex        =   15
          Top             =   0
          Width           =   195
-         _ExtentX        =   344
-         _ExtentY        =   344
-         Transparent     =   -1  'True
       End
-      Begin prjDownloadBooster.OptionButtonW optTabThreads2 
+      Begin VB.OptionButton optTabThreads2 
          Height          =   195
          Left            =   840
          TabIndex        =   17
          Top             =   0
-         Width           =   195
-         _ExtentX        =   344
-         _ExtentY        =   344
          Value           =   -1  'True
-         Transparent     =   -1  'True
+         Width           =   195
       End
       Begin VB.Label fTabDownload 
          AutoSize        =   -1  'True
@@ -1970,7 +1964,7 @@ Sub NextBatchDownload()
             MsgBox t("하나 이상의 오류가 발생했습니다. 해당 항목을 두 번 누르면 오류 정보를 볼 수 있습니다.", _
                     "One or more errors have occurred. Double click the error item to see details."), 48
         ElseIf GetSetting("DownloadBooster", "Options", "PlaySound", 1) <> 0 And BatchErrorAllCount <= 0 Then
-            PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=Information
+            PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=vbInformation
         End If
         
         If lblState.Caption = t("완료됨", "Done") Then
@@ -2300,7 +2294,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         End If
         
         If PlayBeep And GetSetting("DownloadBooster", "Options", "PlaySound", 1) <> 0 Then
-            PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=Information
+            PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=vbInformation
             lblState.Caption = t("완료됨", "Done")
             sbStatusBar.Panels(1).Text = t("완료", "Done")
             sbStatusBar.Panels(2).Text = ""
@@ -3855,7 +3849,7 @@ Sub SetTextColors()
         sbStatusBar.Panels(i).ForeColor = StatusTextColor
     Next i
     
-    If optTabDownload2.VisualStyles Then
+    If cmdAdd.VisualStyles Then
         fTabDownload.ForeColor = FrameCaptionColor
         fTabThreads.ForeColor = FrameCaptionColor
     End If

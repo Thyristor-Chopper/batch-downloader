@@ -1175,7 +1175,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If TextBoxDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1389,7 +1389,7 @@ ElseIf Len(Value) = 1 Then
     PropPasswordChar = AscW(Value)
 Else
     If TextBoxDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1432,7 +1432,7 @@ End Property
 Public Property Let MaxLength(ByVal Value As Long)
 If Value < 0 Then
     If TextBoxDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

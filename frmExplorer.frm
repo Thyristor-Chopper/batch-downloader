@@ -807,7 +807,7 @@ Private Sub Form_Load()
     lvFiles.ColumnHeaders.Add , , t("종류", "Type"), 1800
     lvFiles.ColumnHeaders.Add , , t("수정한 날짜", "Modified"), 2250
     
-    lvFiles.ColumnHeaders(1).SortArrow = LvwColumnHeaderSortArrowUp
+    'lvFiles.ColumnHeaders(1).SortArrow = LvwColumnHeaderSortArrowUp
     
     selFileType.Clear
     Select Case Tags.BrowseTargetForm

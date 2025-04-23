@@ -1034,7 +1034,7 @@ Public Property Set MouseIcon(ByVal Value As IPictureDisp)
 '        Set PropMouseIcon = Value
 '    Else
 '        If SliderDesignMode = True Then
-'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -1121,7 +1121,7 @@ If Value < Me.Max Then
     End If
 Else
     If SliderDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1158,7 +1158,7 @@ If Value > Me.Min Then
     End If
 Else
     If SliderDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1216,7 +1216,7 @@ If Value > 0 Then
     PropTickFrequency = Value
 Else
     If SliderDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1453,7 +1453,7 @@ Public Property Let SelStart(ByVal Value As Long)
 '        PropSelStart = Value
 '    Case Else
 '        If SliderDesignMode = True Then
-'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -1490,7 +1490,7 @@ Public Property Let SelLength(ByVal Value As Long)
 '        PropSelLength = Value
 '    Else
 '        If SliderDesignMode = True Then
-'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -1503,7 +1503,7 @@ Public Property Let SelLength(ByVal Value As Long)
 'Else
 '    If Value <> 0 Then
 '        If SliderDesignMode = True Then
-'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380

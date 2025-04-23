@@ -391,7 +391,7 @@ End Sub
 
 Private Sub TextValue_Validate(Cancel As Boolean)
 If Not IsDate(TextValue.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextValue.Text = PropertyPage.SelectedControls(0).Value
     TextValue.SetFocus
     Cancel = True
@@ -419,7 +419,7 @@ End Sub
 
 Private Sub TextMinDate_Validate(Cancel As Boolean)
 If Not IsDate(TextMinDate.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextMinDate.Text = PropertyPage.SelectedControls(0).MinDate
     TextMinDate.SetFocus
     Cancel = True
@@ -447,7 +447,7 @@ End Sub
 
 Private Sub TextMaxDate_Validate(Cancel As Boolean)
 If Not IsDate(TextMaxDate.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     TextMaxDate.Text = PropertyPage.SelectedControls(0).MaxDate
     TextMaxDate.SetFocus
     Cancel = True

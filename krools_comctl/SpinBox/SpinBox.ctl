@@ -5,12 +5,12 @@ Begin VB.UserControl SpinBox
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   2400
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  '≈ı∏Ì
    ForeColor       =   &H80000008&
    HasDC           =   0   'False
    PropertyPages   =   "SpinBox.ctx":0000
    ScaleHeight     =   120
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  '«»ºø
    ScaleWidth      =   160
    ToolboxBitmap   =   "SpinBox.ctx":0048
 End
@@ -794,21 +794,21 @@ Set Me.MouseIcon = Value
 End Property
 
 Public Property Set MouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
-    Set PropMouseIcon = Nothing
-Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropMouseIcon = Value
-    Else
-        If SpinBoxDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
-If SpinBoxDesignMode = False Then Call RefreshMousePointer
+'If Value Is Nothing Then
+'    Set PropMouseIcon = Nothing
+'Else
+'    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+'        Set PropMouseIcon = Value
+'    Else
+'        If SpinBoxDesignMode = True Then
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
+'If SpinBoxDesignMode = False Then Call RefreshMousePointer
 UserControl.PropertyChanged "MouseIcon"
 End Property
 
@@ -829,21 +829,21 @@ RightToLeft = PropRightToLeft
 End Property
 
 Public Property Let RightToLeft(ByVal Value As Boolean)
-PropRightToLeft = Value
-UserControl.RightToLeft = PropRightToLeft
-Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
-Dim dwMask As Long
-If PropRightToLeft = True Then dwMask = WS_EX_RTLREADING
-If SpinBoxEditHandle <> NULL_PTR Then
-    Call ComCtlsSetRightToLeft(SpinBoxEditHandle, dwMask)
-    If PropRightToLeft = False Then
-        If PropAlignment = CCLeftRightAlignmentLeft Then Me.Alignment = CCLeftRightAlignmentRight
-        If PropTextAlignment = vbRightJustify Then Me.TextAlignment = vbLeftJustify
-    Else
-        If PropAlignment = CCLeftRightAlignmentRight Then Me.Alignment = CCLeftRightAlignmentLeft
-        If PropTextAlignment = vbLeftJustify Then Me.TextAlignment = vbRightJustify
-    End If
-End If
+'PropRightToLeft = Value
+'UserControl.RightToLeft = PropRightToLeft
+'Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
+'Dim dwMask As Long
+'If PropRightToLeft = True Then dwMask = WS_EX_RTLREADING
+'If SpinBoxEditHandle <> NULL_PTR Then
+'    Call ComCtlsSetRightToLeft(SpinBoxEditHandle, dwMask)
+'    If PropRightToLeft = False Then
+'        If PropAlignment = CCLeftRightAlignmentLeft Then Me.Alignment = CCLeftRightAlignmentRight
+'        If PropTextAlignment = vbRightJustify Then Me.TextAlignment = vbLeftJustify
+'    Else
+'        If PropAlignment = CCLeftRightAlignmentRight Then Me.Alignment = CCLeftRightAlignmentLeft
+'        If PropTextAlignment = vbLeftJustify Then Me.TextAlignment = vbRightJustify
+'    End If
+'End If
 UserControl.PropertyChanged "RightToLeft"
 End Property
 
@@ -853,13 +853,13 @@ RightToLeftMode = PropRightToLeftMode
 End Property
 
 Public Property Let RightToLeftMode(ByVal Value As CCRightToLeftModeConstants)
-Select Case Value
-    Case CCRightToLeftModeNoControl, CCRightToLeftModeVBAME, CCRightToLeftModeSystemLocale, CCRightToLeftModeUserLocale, CCRightToLeftModeOSLanguage
-        PropRightToLeftMode = Value
-    Case Else
-        Err.Raise 380
-End Select
-Me.RightToLeft = PropRightToLeft
+'Select Case Value
+'    Case CCRightToLeftModeNoControl, CCRightToLeftModeVBAME, CCRightToLeftModeSystemLocale, CCRightToLeftModeUserLocale, CCRightToLeftModeOSLanguage
+'        PropRightToLeftMode = Value
+'    Case Else
+'        Err.Raise 380
+'End Select
+'Me.RightToLeft = PropRightToLeft
 UserControl.PropertyChanged "RightToLeftMode"
 End Property
 
@@ -878,7 +878,7 @@ If Value <= Me.Max Then
     If Me.Value < PropMin Then Me.Value = PropMin
 Else
     If SpinBoxDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -904,7 +904,7 @@ If Value >= Me.Min Then
     If Me.Value > PropMax Then Me.Value = PropMax
 Else
     If SpinBoxDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1018,35 +1018,35 @@ End Property
 
 Public Property Get NumberStyle() As SpbNumberStyleConstants
 Attribute NumberStyle.VB_Description = "Returns/sets the number style."
-If SpinBoxUpDownHandle <> NULL_PTR Then
-    Select Case SendMessage(SpinBoxUpDownHandle, UDM_GETBASE, 0, ByVal 0&)
-        Case 10
-            NumberStyle = SpbNumberStyleDecimal
-        Case 16
-            NumberStyle = SpbNumberStyleHexadecimal
-        Case Else
-            NumberStyle = PropNumberStyle
-    End Select
-Else
+'If SpinBoxUpDownHandle <> NULL_PTR Then
+'    Select Case SendMessage(SpinBoxUpDownHandle, UDM_GETBASE, 0, ByVal 0&)
+'        Case 10
+'            NumberStyle = SpbNumberStyleDecimal
+'        Case 16
+'            NumberStyle = SpbNumberStyleHexadecimal
+'        Case Else
+'            NumberStyle = PropNumberStyle
+'    End Select
+'Else
     NumberStyle = PropNumberStyle
-End If
+'End If
 End Property
 
 Public Property Let NumberStyle(ByVal Value As SpbNumberStyleConstants)
-Select Case Value
-    Case SpbNumberStyleDecimal, SpbNumberStyleHexadecimal
-        PropNumberStyle = Value
-    Case Else
-        Err.Raise 380
-End Select
-If SpinBoxUpDownHandle <> NULL_PTR Then
-    Select Case PropNumberStyle
-        Case SpbNumberStyleDecimal
-            SendMessage SpinBoxUpDownHandle, UDM_SETBASE, 10, ByVal 0&
-        Case SpbNumberStyleHexadecimal
-            SendMessage SpinBoxUpDownHandle, UDM_SETBASE, 16, ByVal 0&
-    End Select
-End If
+'Select Case Value
+'    Case SpbNumberStyleDecimal, SpbNumberStyleHexadecimal
+'        PropNumberStyle = Value
+'    Case Else
+'        Err.Raise 380
+'End Select
+'If SpinBoxUpDownHandle <> NULL_PTR Then
+'    Select Case PropNumberStyle
+'        Case SpbNumberStyleDecimal
+'            SendMessage SpinBoxUpDownHandle, UDM_SETBASE, 10, ByVal 0&
+'        Case SpbNumberStyleHexadecimal
+'            SendMessage SpinBoxUpDownHandle, UDM_SETBASE, 16, ByVal 0&
+'    End Select
+'End If
 UserControl.PropertyChanged "NumberStyle"
 End Property
 
@@ -1257,64 +1257,64 @@ End Sub
 
 Public Sub SetAcceleration(ByVal Delays As Variant, ByVal Increments As Variant)
 Attribute SetAcceleration.VB_Description = "Method to set an acceleration. The delays array specify the amount of time to elapse (in seconds) before the position change increment specified in the increments array is used."
-If SpinBoxUpDownHandle <> NULL_PTR Then
-    If IsArray(Delays) And IsArray(Increments) Then
-        Dim Ptr(0 To 1) As LongPtr
-        CopyMemory Ptr(0), ByVal UnsignedAdd(VarPtr(Delays), 8), PTR_SIZE
-        CopyMemory Ptr(1), ByVal UnsignedAdd(VarPtr(Increments), 8), PTR_SIZE
-        If Ptr(0) <> NULL_PTR And Ptr(1) <> NULL_PTR Then
-            Dim DimensionCount(0 To 1) As Integer
-            CopyMemory DimensionCount(0), ByVal Ptr(0), 2
-            CopyMemory DimensionCount(1), ByVal Ptr(1), 2
-            If DimensionCount(0) = 1 And DimensionCount(1) = 1 Then
-                If LBound(Delays) = LBound(Increments) And UBound(Delays) = UBound(Increments) Then
-                    Dim AccelArr() As UDACCEL, Count As Long, i As Long
-                    For i = LBound(Delays) To UBound(Delays)
-                        Select Case VarType(Delays(i))
-                            Case vbLong, vbInteger, vbByte, vbDouble, vbSingle
-                                ReDim Preserve AccelArr(0 To Count) As UDACCEL
-                                AccelArr(Count).nSec = CLng(Delays(i))
-                                Select Case VarType(Increments(i))
-                                    Case vbLong, vbInteger, vbByte, vbDouble, vbSingle
-                                        AccelArr(Count).nInc = CLng(Increments(i))
-                                End Select
-                                Count = Count + 1
-                        End Select
-                    Next i
-                    If Count > 0 Then
-                        SendMessage SpinBoxUpDownHandle, UDM_SETACCEL, Count, ByVal VarPtr(AccelArr(0))
-                    Else
-                        Me.Increment = PropIncrement
-                    End If
-                Else
-                    Err.Raise Number:=5, Description:="Array boundaries are not equal"
-                End If
-            Else
-                Err.Raise Number:=5, Description:="Array must be single dimensioned"
-            End If
-        Else
-            Err.Raise Number:=91, Description:="Array is not allocated"
-        End If
-    ElseIf IsEmpty(Delays) Then
-        Me.Increment = PropIncrement
-    Else
-        Err.Raise 380
-    End If
-End If
+'If SpinBoxUpDownHandle <> NULL_PTR Then
+'    If IsArray(Delays) And IsArray(Increments) Then
+'        Dim Ptr(0 To 1) As LongPtr
+'        CopyMemory Ptr(0), ByVal UnsignedAdd(VarPtr(Delays), 8), PTR_SIZE
+'        CopyMemory Ptr(1), ByVal UnsignedAdd(VarPtr(Increments), 8), PTR_SIZE
+'        If Ptr(0) <> NULL_PTR And Ptr(1) <> NULL_PTR Then
+'            Dim DimensionCount(0 To 1) As Integer
+'            CopyMemory DimensionCount(0), ByVal Ptr(0), 2
+'            CopyMemory DimensionCount(1), ByVal Ptr(1), 2
+'            If DimensionCount(0) = 1 And DimensionCount(1) = 1 Then
+'                If LBound(Delays) = LBound(Increments) And UBound(Delays) = UBound(Increments) Then
+'                    Dim AccelArr() As UDACCEL, Count As Long, i As Long
+'                    For i = LBound(Delays) To UBound(Delays)
+'                        Select Case VarType(Delays(i))
+'                            Case vbLong, vbInteger, vbByte, vbDouble, vbSingle
+'                                ReDim Preserve AccelArr(0 To Count) As UDACCEL
+'                                AccelArr(Count).nSec = CLng(Delays(i))
+'                                Select Case VarType(Increments(i))
+'                                    Case vbLong, vbInteger, vbByte, vbDouble, vbSingle
+'                                        AccelArr(Count).nInc = CLng(Increments(i))
+'                                End Select
+'                                Count = Count + 1
+'                        End Select
+'                    Next i
+'                    If Count > 0 Then
+'                        SendMessage SpinBoxUpDownHandle, UDM_SETACCEL, Count, ByVal VarPtr(AccelArr(0))
+'                    Else
+'                        Me.Increment = PropIncrement
+'                    End If
+'                Else
+'                    Err.Raise Number:=5, Description:="Array boundaries are not equal"
+'                End If
+'            Else
+'                Err.Raise Number:=5, Description:="Array must be single dimensioned"
+'            End If
+'        Else
+'            Err.Raise Number:=91, Description:="Array is not allocated"
+'        End If
+'    ElseIf IsEmpty(Delays) Then
+'        Me.Increment = PropIncrement
+'    Else
+'        Err.Raise 380
+'    End If
+'End If
 End Sub
 
 Public Sub ValidateText()
 Attribute ValidateText.VB_Description = "Method that validates and updates the text displayed in the spin box."
-If SpinBoxUpDownHandle <> NULL_PTR Then
-    Dim Text As String, Value As Long
-    Text = String$(CLng(SendMessage(SpinBoxEditHandle, WM_GETTEXTLENGTH, 0, ByVal 0&)), vbNullChar)
-    SendMessage SpinBoxEditHandle, WM_GETTEXT, Len(Text) + 1, ByVal StrPtr(Text)
-    Value = CLng(SendMessage(SpinBoxUpDownHandle, UDM_GETPOS32, 0, ByVal 0&))
-    If Not Text = CStr(Value) Then
-        Text = CStr(Value)
-        SendMessage SpinBoxEditHandle, WM_SETTEXT, 0, ByVal StrPtr(Text)
-    End If
-End If
+'If SpinBoxUpDownHandle <> NULL_PTR Then
+'    Dim Text As String, Value As Long
+'    Text = String$(CLng(SendMessage(SpinBoxEditHandle, WM_GETTEXTLENGTH, 0, ByVal 0&)), vbNullChar)
+'    SendMessage SpinBoxEditHandle, WM_GETTEXT, Len(Text) + 1, ByVal StrPtr(Text)
+'    Value = CLng(SendMessage(SpinBoxUpDownHandle, UDM_GETPOS32, 0, ByVal 0&))
+'    If Not Text = CStr(Value) Then
+'        Text = CStr(Value)
+'        SendMessage SpinBoxEditHandle, WM_SETTEXT, 0, ByVal StrPtr(Text)
+'    End If
+'End If
 End Sub
 
 Public Property Get Text() As String

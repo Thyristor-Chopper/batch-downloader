@@ -42,15 +42,13 @@ Begin VB.Form frmLiveBadukSkinProperties
       _ExtentX        =   8916
       _ExtentY        =   2355
       Caption         =   " 프레임 배경 "
-      Begin prjDownloadBooster.OptionButtonW optBackgroundColor 
+      Begin VB.OptionButton optBackgroundColor 
+         Caption         =   "단색(&O):"
          Height          =   255
          Left            =   120
          TabIndex        =   15
          Top             =   600
          Width           =   1695
-         _ExtentX        =   2990
-         _ExtentY        =   450
-         Caption         =   "단색(&O):"
       End
       Begin prjDownloadBooster.CommandButtonW cmdSelectFrameTexture 
          Height          =   330
@@ -62,26 +60,22 @@ Begin VB.Form frmLiveBadukSkinProperties
          _ExtentY        =   582
          Caption         =   "선택(&L)..."
       End
-      Begin prjDownloadBooster.OptionButtonW optFrameTexture 
+      Begin VB.OptionButton optFrameTexture 
+         Caption         =   "텍스처(&U):"
          Height          =   255
          Left            =   120
          TabIndex        =   17
          Top             =   960
          Width           =   1335
-         _ExtentX        =   2355
-         _ExtentY        =   450
-         Caption         =   "텍스처(&U):"
       End
-      Begin prjDownloadBooster.OptionButtonW optFrameTransparent 
+      Begin VB.OptionButton optFrameTransparent 
+         Caption         =   "반투명(&R)"
          Height          =   255
          Left            =   120
          TabIndex        =   14
          Top             =   240
-         Width           =   2055
-         _ExtentX        =   3625
-         _ExtentY        =   450
          Value           =   -1  'True
-         Caption         =   "반투명(&R)"
+         Width           =   2055
       End
       Begin VB.Label lblFrameBackgroundColorSelect 
          BackStyle       =   0  '투명
@@ -254,36 +248,30 @@ Begin VB.Form frmLiveBadukSkinProperties
          _ExtentY        =   582
          Caption         =   "선택(&S)..."
       End
-      Begin prjDownloadBooster.OptionButtonW optTexture 
+      Begin VB.OptionButton optTexture 
+         Caption         =   "텍스처(&E):"
          Height          =   255
          Left            =   120
          TabIndex        =   11
          Top             =   960
          Width           =   1335
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   "텍스처(&E):"
       End
-      Begin prjDownloadBooster.OptionButtonW optColor 
+      Begin VB.OptionButton optColor 
+         Caption         =   "단색(&C):"
          Height          =   255
          Left            =   120
          TabIndex        =   9
          Top             =   600
          Width           =   1335
-         _ExtentX        =   0
-         _ExtentY        =   0
-         Caption         =   "단색(&C):"
       End
-      Begin prjDownloadBooster.OptionButtonW optTransparent 
+      Begin VB.OptionButton optTransparent 
+         Caption         =   "반투명(&T)"
          Height          =   255
          Left            =   120
          TabIndex        =   8
          Top             =   240
-         Width           =   2655
-         _ExtentX        =   0
-         _ExtentY        =   0
          Value           =   -1  'True
-         Caption         =   "반투명(&T)"
+         Width           =   2655
       End
       Begin VB.Label lblSelectFrameColor 
          BackStyle       =   0  '투명

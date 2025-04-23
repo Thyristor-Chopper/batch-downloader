@@ -1,12 +1,17 @@
 Attribute VB_Name = "Common"
 Option Explicit
-#If (VBA7 = 0) Then
-Private Enum LongPtr
-[_]
-End Enum
-#End If
 Private Const NULL_PTR As Long = 0
 Private Const PTR_SIZE As Long = 4
+Private Type RECT
+Left As Long
+Top As Long
+Right As Long
+Bottom As Long
+End Type
+Private Type POINTAPI
+X As Long
+Y As Long
+End Type
 Private Type BITMAP
 BMType As Long
 BMWidth As Long
@@ -14,7 +19,7 @@ BMHeight As Long
 BMWidthBytes As Long
 BMPlanes As Integer
 BMBitsPixel As Integer
-BMBits As LongPtr
+BMBits As Long
 End Type
 Private Type SAFEARRAYBOUND
 cElements As Long
@@ -25,17 +30,17 @@ cDims As Integer
 fFeatures As Integer
 cbElements As Long
 cLocks As Long
-pvData As LongPtr
+pvData As Long
 Bounds As SAFEARRAYBOUND
 End Type
 Private Type PICTDESC
 cbSizeOfStruct As Long
 PicType As Long
-hImage As LongPtr
+hImage As Long
 Data1 As Long
 Data2 As Long
 End Type
-Type CLSID
+Private Type CLSID
 Data1 As Long
 Data2 As Integer
 Data3 As Integer
@@ -59,17 +64,28 @@ LFPitchAndFamily As Byte
 LFFaceName(0 To ((LF_FACESIZE * 2) - 1)) As Byte
 End Type
 
+Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Destination As Any, ByRef Source As Any, ByVal Length As Long)
 Private Declare Function ArrPtr Lib "msvbvm60.dll" Alias "VarPtr" (ByRef Var() As Any) As Long
+Private Declare Function GetKeyState Lib "user32" (ByVal nVirtKey As Long) As Integer
 Private Declare Function GetCursorPos Lib "user32" (ByRef lpPoint As POINTAPI) As Long
 Private Declare Function WindowFromPoint Lib "user32" (ByVal XY As Currency) As Long
 Private Declare Function GetCapture Lib "user32" () As Long
 Private Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hWnd As Long, ByVal lpdwProcessId As Long) As Long
 Private Declare Function SendMessage Lib "user32" Alias "SendMessageW" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByRef lParam As Any) As Long
 Private Declare Function GetObjectAPI Lib "gdi32" Alias "GetObjectW" (ByVal hObject As Long, ByVal nCount As Long, ByRef lpObject As Any) As Long
+Private Declare Function SelectObject Lib "gdi32" (ByVal hDC As Long, ByVal hObject As Long) As Long
+Private Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long
+Private Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
+Private Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
+Private Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
+Private Declare Function DeleteDC Lib "gdi32" (ByVal hDC As Long) As Long
 Private Declare Function GdiAlphaBlend Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal nWidthSrc As Long, ByVal nHeightSrc As Long, ByVal BlendFunc As Long) As Long
 Private Declare Function DrawIconEx Lib "user32" (ByVal hDC As Long, ByVal XLeft As Long, ByVal YTop As Long, ByVal hIcon As Long, ByVal CXWidth As Long, ByVal CYWidth As Long, ByVal istepIfAniCur As Long, ByVal hbrFlickerFreeDraw As Long, ByVal diFlags As Long) As Long
 Private Declare Function FillRect Lib "user32" (ByVal hDC As Long, ByRef lpRect As RECT, ByVal hBrush As Long) As Long
 Private Declare Function CreateSolidBrush Lib "gdi32" (ByVal crColor As Long) As Long
+Private Declare Function CreateCompatibleDC Lib "gdi32" (ByVal hDC As Long) As Long
+Private Declare Function CreateCompatibleBitmap Lib "gdi32" (ByVal hDC As Long, ByVal nWidth As Long, ByVal nHeight As Long) As Long
+Private Declare Function MulDiv Lib "kernel32" (ByVal nNumber As Long, ByVal nNumerator As Long, ByVal nDenominator As Long) As Long
 Private Declare Function CreateFontIndirect Lib "gdi32" Alias "CreateFontIndirectW" (ByRef lpLogFont As LOGFONT) As Long
 Private Declare Function OleTranslateColor Lib "oleaut32" (ByVal Color As Long, ByVal hPal As Long, ByRef RGBResult As Long) As Long
 Private Declare Function OleCreatePictureIndirect Lib "oleaut32" (ByRef pPictDesc As PICTDESC, ByRef riid As Any, ByVal fPictureOwnsHandle As Long, ByRef pIPicture As IPicture) As Long
@@ -78,6 +94,183 @@ Private Declare Function OleCreatePictureIndirect Lib "oleaut32" (ByRef pPictDes
 Public Sub SendKeys(ByRef Text As String, Optional ByRef Wait As Boolean)
 CreateObject("WScript.Shell").SendKeys Text, Wait
 End Sub
+
+'' (VB-Overwrite)
+'Public Function GetAttr(ByVal PathName As String) As VbFileAttribute
+'Const INVALID_FILE_ATTRIBUTES As Long = (-1)
+'Const FILE_ATTRIBUTE_NORMAL As Long = &H80
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'Dim dwAttributes As Long
+'dwAttributes = GetFileAttributes(StrPtr("\\?\" & PathName))
+'If dwAttributes = INVALID_FILE_ATTRIBUTES Then
+'    Err.Raise 53
+'ElseIf dwAttributes = FILE_ATTRIBUTE_NORMAL Then
+'    GetAttr = vbNormal
+'Else
+'    GetAttr = dwAttributes
+'End If
+'End Function
+'
+'' (VB-Overwrite)
+'Public Sub SetAttr(ByVal PathName As String, ByVal Attributes As VbFileAttribute)
+'Const FILE_ATTRIBUTE_NORMAL As Long = &H80
+'Dim dwAttributes As Long
+'If Attributes = vbNormal Then
+'    dwAttributes = FILE_ATTRIBUTE_NORMAL
+'Else
+'    If (Attributes And (vbVolume Or vbDirectory Or vbAlias)) <> 0 Then Err.Raise 5
+'    dwAttributes = Attributes
+'End If
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If SetFileAttributes(StrPtr("\\?\" & PathName), dwAttributes) = 0 Then Err.Raise 53
+'End Sub
+'
+'' (VB-Overwrite)
+'Public Function Dir(Optional ByVal PathMask As String, Optional ByVal Attributes As VbFileAttribute = vbNormal) As String
+'#If VBA7 Then
+'Const INVALID_HANDLE_VALUE As LongPtr = (-1)
+'#Else
+'Const INVALID_HANDLE_VALUE As Long = (-1)
+'#End If
+'Const FILE_ATTRIBUTE_NORMAL As Long = &H80
+'Static hFindFile As LongPtr, AttributesCache As VbFileAttribute
+'If Attributes = vbVolume Then ' Exact match
+'    ' If any other attribute is specified, vbVolume is ignored.
+'    If hFindFile <> NULL_PTR Then
+'        FindClose hFindFile
+'        hFindFile = NULL_PTR
+'    End If
+'    Dim VolumePathBuffer As String, VolumeNameBuffer As String
+'    If Len(PathMask) = 0 Then
+'        VolumeNameBuffer = String$(MAX_PATH, vbNullChar)
+'        If GetVolumeInformation(NULL_PTR, StrPtr(VolumeNameBuffer), Len(VolumeNameBuffer), ByVal NULL_PTR, ByVal NULL_PTR, ByVal NULL_PTR, NULL_PTR, 0) <> 0 Then Dir = Left$(VolumeNameBuffer, InStr(VolumeNameBuffer, vbNullChar) - 1)
+'    Else
+'        VolumePathBuffer = String$(MAX_PATH, vbNullChar)
+'        If Left$(PathMask, 2) = "\\" Then PathMask = "UNC\" & Mid$(PathMask, 3)
+'        If GetVolumePathName(StrPtr("\\?\" & PathMask), StrPtr(VolumePathBuffer), Len(VolumePathBuffer)) <> 0 Then
+'            VolumePathBuffer = Left$(VolumePathBuffer, InStr(VolumePathBuffer, vbNullChar) - 1)
+'            VolumeNameBuffer = String$(MAX_PATH, vbNullChar)
+'            If GetVolumeInformation(StrPtr(VolumePathBuffer), StrPtr(VolumeNameBuffer), Len(VolumeNameBuffer), ByVal NULL_PTR, ByVal NULL_PTR, ByVal NULL_PTR, NULL_PTR, 0) <> 0 Then Dir = Left$(VolumeNameBuffer, InStr(VolumeNameBuffer, vbNullChar) - 1)
+'        End If
+'    End If
+'Else
+'    Dim FD As WIN32_FIND_DATA, dwMask As Long
+'    If Len(PathMask) = 0 Then
+'        If hFindFile <> NULL_PTR Then
+'            If FindNextFile(hFindFile, FD) = 0 Then
+'                FindClose hFindFile
+'                hFindFile = NULL_PTR
+'                Exit Function
+'            End If
+'        Else
+'            Err.Raise 5
+'            Exit Function
+'        End If
+'    Else
+'        If hFindFile <> NULL_PTR Then
+'            FindClose hFindFile
+'            hFindFile = NULL_PTR
+'        End If
+'        Select Case VBA.Right$(PathMask, 1)
+'            Case "\", ":", "/"
+'                PathMask = PathMask & "*.*"
+'        End Select
+'        AttributesCache = Attributes
+'        If Left$(PathMask, 2) = "\\" Then PathMask = "UNC\" & Mid$(PathMask, 3)
+'        hFindFile = FindFirstFile(StrPtr("\\?\" & PathMask), FD)
+'        If hFindFile = INVALID_HANDLE_VALUE Then
+'            hFindFile = NULL_PTR
+'            If Err.LastDllError > 12 Then Err.Raise 52
+'            Exit Function
+'        End If
+'    End If
+'    Do
+'        If FD.dwFileAttributes = FILE_ATTRIBUTE_NORMAL Then
+'            dwMask = 0 ' Found
+'        Else
+'            dwMask = FD.dwFileAttributes And (Not AttributesCache) And &H16
+'        End If
+'        If dwMask = 0 Then
+'            Dir = Left$(FD.lpszFileName(), InStr(FD.lpszFileName(), vbNullChar) - 1)
+'            If FD.dwFileAttributes And vbDirectory Then
+'                If Dir <> "." And Dir <> ".." Then Exit Do ' Exclude self and relative path aliases
+'            Else
+'                Exit Do
+'            End If
+'        End If
+'        If FindNextFile(hFindFile, FD) = 0 Then
+'            FindClose hFindFile
+'            hFindFile = NULL_PTR
+'            Exit Do
+'        End If
+'    Loop
+'End If
+'End Function
+'
+'' (VB-Overwrite)
+'Public Sub MkDir(ByVal PathName As String)
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If CreateDirectory(StrPtr("\\?\" & PathName), NULL_PTR) = 0 Then
+'    Const ERROR_PATH_NOT_FOUND As Long = 3
+'    If Err.LastDllError = ERROR_PATH_NOT_FOUND Then
+'        Err.Raise 76
+'    Else
+'        Err.Raise 75
+'    End If
+'End If
+'End Sub
+'
+'' (VB-Overwrite)
+'Public Sub RmDir(ByVal PathName As String)
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If RemoveDirectory(StrPtr("\\?\" & PathName)) = 0 Then
+'    Const ERROR_FILE_NOT_FOUND As Long = 2
+'    If Err.LastDllError = ERROR_FILE_NOT_FOUND Then
+'        Err.Raise 76
+'    Else
+'        Err.Raise 75
+'    End If
+'End If
+'End Sub
+'
+'' (VB-Overwrite)
+'Public Function FileLen(ByVal PathName As String) As Variant
+'Dim FAD As WIN32_FILE_ATTRIBUTE_DATA
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If GetFileAttributesEx(StrPtr("\\?\" & PathName), 0, VarPtr(FAD)) <> 0 Then
+'    Dim Int64 As Currency
+'    CopyMemory ByVal VarPtr(Int64), ByVal VarPtr(FAD.nFileSizeLow), 4
+'    CopyMemory ByVal UnsignedAdd(VarPtr(Int64), 4), ByVal VarPtr(FAD.nFileSizeHigh), 4
+'    FileLen = CDec(0)
+'    VarDecFromI8 Int64, FileLen
+'Else
+'    Err.Raise Number:=53, Description:="File not found: '" & PathName & "'"
+'End If
+'End Function
+'
+'' (VB-Overwrite)
+'Public Function FileDateTime(ByVal PathName As String) As Date
+'Dim FAD As WIN32_FILE_ATTRIBUTE_DATA
+'If Left$(PathName, 2) = "\\" Then PathName = "UNC\" & Mid$(PathName, 3)
+'If GetFileAttributesEx(StrPtr("\\?\" & PathName), 0, VarPtr(FAD)) <> 0 Then
+'    Dim FT As FILETIME, ST As SYSTEMTIME
+'    FileTimeToLocalFileTime VarPtr(FAD.FTLastWriteTime), VarPtr(FT)
+'    FileTimeToSystemTime VarPtr(FT), VarPtr(ST)
+'    FileDateTime = DateSerial(ST.wYear, ST.wMonth, ST.wDay) + TimeSerial(ST.wHour, ST.wMinute, ST.wSecond)
+'Else
+'    Err.Raise Number:=53, Description:="File not found: '" & PathName & "'"
+'End If
+'End Function
+'
+'' (VB-Overwrite)
+'Public Function Command$()
+'If InIDE() = False Then
+'    SysReAllocString VarPtr(Command$), PathGetArgs(GetCommandLine())
+'    Command$ = LTrim$(Command$)
+'Else
+'    Command$ = VBA.Command$()
+'End If
+'End Function
 
 Public Function FileExists(ByVal PathName As String) As Boolean
 On Error Resume Next
@@ -368,7 +561,7 @@ Public Sub RefreshMousePointer(Optional ByVal hWndFallback As LongPtr)
 Public Sub RefreshMousePointer(Optional ByVal hWndFallback As Long)
 #End If
 Const WM_SETCURSOR As Long = &H20, WM_NCHITTEST As Long = &H84, WM_MOUSEMOVE As Long = &H200
-Dim P As POINTAPI, hWndCursor As LongPtr
+Dim P As POINTAPI, hWndCursor As Long
 GetCursorPos P
 hWndCursor = GetCapture()
 If hWndCursor = NULL_PTR Then
@@ -970,7 +1163,7 @@ End Function
 
 Public Function DPI_X() As Long
 Const LOGPIXELSX As Long = 88
-Dim hDCScreen As LongPtr
+Dim hDCScreen As Long
 hDCScreen = GetDC(NULL_PTR)
 If hDCScreen <> NULL_PTR Then
     DPI_X = GetDeviceCaps(hDCScreen, LOGPIXELSX)
@@ -980,7 +1173,7 @@ End Function
 
 Public Function DPI_Y() As Long
 Const LOGPIXELSY As Long = 90
-Dim hDCScreen As LongPtr
+Dim hDCScreen As Long
 hDCScreen = GetDC(NULL_PTR)
 If hDCScreen <> NULL_PTR Then
     DPI_Y = GetDeviceCaps(hDCScreen, LOGPIXELSY)
@@ -1121,8 +1314,8 @@ Public Function BitmapHandleFromPicture(ByVal Picture As IPictureDisp, Optional 
 If Picture Is Nothing Then Exit Function
 With Picture
 If .Handle <> NULL_PTR Then
-    Dim hDCScreen As LongPtr, hDC As LongPtr, hBmp As LongPtr, hBmpOld As LongPtr
-    Dim CX As Long, CY As Long, Brush As LongPtr
+    Dim hDCScreen As Long, hDC As Long, hBmp As Long, hBmpOld As Long
+    Dim CX As Long, CY As Long, Brush As Long
     CX = CHimetricToPixel_X(.Width)
     CY = CHimetricToPixel_Y(.Height)
     Brush = CreateSolidBrush(WinColor(BackColor))
@@ -1238,7 +1431,7 @@ If .Handle <> NULL_PTR Then
             .Render hDC Or 0&, X Or 0&, Y Or 0&, CX Or 0&, CY Or 0&, 0&, .Height, .Width, -.Height, ByVal 0&
             #End If
         Else
-            Dim hDCBmp As LongPtr, hBmpOld As LongPtr
+            Dim hDCBmp As Long, hBmpOld As Long
             hDCBmp = CreateCompatibleDC(NULL_PTR)
             If hDCBmp <> NULL_PTR Then
                 hBmpOld = SelectObject(hDCBmp, .Handle)

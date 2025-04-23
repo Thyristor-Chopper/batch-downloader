@@ -1103,7 +1103,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If VirtualComboDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1287,7 +1287,7 @@ Select Case Value
         VirtualComboDropDownHeightState = False
     Case Else
         If VirtualComboDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1320,7 +1320,7 @@ End Property
 Public Property Let MaxLength(ByVal Value As Long)
 If Value < 0 Then
     If VirtualComboDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1391,7 +1391,7 @@ End Property
 Public Property Let HorizontalExtent(ByVal Value As Single)
 If Value < 0 Then
     If VirtualComboDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380

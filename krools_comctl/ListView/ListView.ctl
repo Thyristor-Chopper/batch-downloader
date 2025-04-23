@@ -2238,7 +2238,7 @@ Else
         Set PropMouseIcon = Value
     Else
         If ListViewDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -2291,7 +2291,7 @@ Public Property Set HotMouseIcon(ByVal Value As IPictureDisp)
 '        Set PropHotMouseIcon = Value
 '    Else
 '        If ListViewDesignMode = True Then
-'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -2344,7 +2344,7 @@ Public Property Set HeaderMouseIcon(ByVal Value As IPictureDisp)
 '        Set PropHeaderMouseIcon = Value
 '    Else
 '        If ListViewDesignMode = True Then
-'            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
 '            Exit Property
 '        Else
 '            Err.Raise 380
@@ -2923,7 +2923,7 @@ Select Case Value
     Case LvwViewIcon, LvwViewSmallIcon, LvwViewList, LvwViewReport, LvwViewTile
         If PropVirtualMode = True And Value = LvwViewTile Then
             If ListViewDesignMode = True Then
-                VBA.MsgBox "View must not be 4 - Tile when VirtualMode is True", vbCritical + vbOKOnly
+                'MsgBoxInternal "View must not be 4 - Tile when VirtualMode is True", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise Number:=383, Description:="View must not be 4 - Tile when VirtualMode is True"
@@ -2990,7 +2990,7 @@ Select Case Value
     Case LvwArrangeNone, LvwArrangeAutoLeft, LvwArrangeAutoTop, LvwArrangeLeft, LvwArrangeTop
         If PropVirtualMode = True And Value <> LvwArrangeNone Then
             If ListViewDesignMode = True Then
-                VBA.MsgBox "Arrange must be 0 - None when VirtualMode is True", vbCritical + vbOKOnly
+                'MsgBoxInternal "Arrange must be 0 - None when VirtualMode is True", vbCritical + vbOKOnly
                 Exit Property
             Else
                 Err.Raise Number:=383, Description:="Arrange must be 0 - None when VirtualMode is True"
@@ -3378,7 +3378,7 @@ End Property
 Public Property Let HoverSelectionTime(ByVal Value As Long)
 If Value <= 0 And Not Value = -1 Then
     If ListViewDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3707,7 +3707,7 @@ Select Case Value
         PropTileViewLines = Value
     Case Else
         If ListViewDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -3751,7 +3751,7 @@ End Property
 Public Property Let GroupView(ByVal Value As Boolean)
 If PropVirtualMode = True And Value = True Then
     If ListViewDesignMode = True Then
-        VBA.MsgBox "GroupView must be False when VirtualMode is True", vbCritical + vbOKOnly
+        'MsgBoxInternal "GroupView must be False when VirtualMode is True", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise Number:=383, Description:="GroupView must be False when VirtualMode is True"
@@ -3779,7 +3779,7 @@ End Property
 Public Property Let GroupSubsetCount(ByVal Value As Long)
 If Value < 0 Then
     If ListViewDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -3796,22 +3796,22 @@ UseColumnChevron = PropUseColumnChevron
 End Property
 
 Public Property Let UseColumnChevron(ByVal Value As Boolean)
-PropUseColumnChevron = Value
-If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then
-    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim dwStyle As Long
-        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
-        If Not PropUseColumnChevron = CBool((dwStyle And HDS_OVERFLOW) = HDS_OVERFLOW) Then
-            If PropUseColumnChevron = True Then
-                If Not (dwStyle And HDS_OVERFLOW) = HDS_OVERFLOW Then dwStyle = dwStyle Or HDS_OVERFLOW
-            Else
-                If (dwStyle And HDS_OVERFLOW) = HDS_OVERFLOW Then dwStyle = dwStyle And Not HDS_OVERFLOW
-            End If
-            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
-        End If
-    End If
-End If
+'PropUseColumnChevron = Value
+'If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then
+'    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'    If ListViewHeaderHandle <> NULL_PTR Then
+'        Dim dwStyle As Long
+'        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
+'        If Not PropUseColumnChevron = CBool((dwStyle And HDS_OVERFLOW) = HDS_OVERFLOW) Then
+'            If PropUseColumnChevron = True Then
+'                If Not (dwStyle And HDS_OVERFLOW) = HDS_OVERFLOW Then dwStyle = dwStyle Or HDS_OVERFLOW
+'            Else
+'                If (dwStyle And HDS_OVERFLOW) = HDS_OVERFLOW Then dwStyle = dwStyle And Not HDS_OVERFLOW
+'            End If
+'            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
+'        End If
+'    End If
+'End If
 UserControl.PropertyChanged "UseColumnChevron"
 End Property
 
@@ -5901,227 +5901,227 @@ End Sub
 
 Public Function HitTest(ByVal X As Single, ByVal Y As Single, Optional ByRef SubItemIndex As Variant) As LvwListItem
 Attribute HitTest.VB_Description = "Returns a reference to the list item object located at the coordinates of X and Y."
-If ListViewHandle <> NULL_PTR Then
-    Dim LVHTI As LVHITTESTINFO
-    With LVHTI
-    .PT.X = UserControl.ScaleX(X, vbContainerPosition, vbPixels)
-    .PT.Y = UserControl.ScaleY(Y, vbContainerPosition, vbPixels)
-    If IsMissing(SubItemIndex) = True Then
-        If SendMessage(ListViewHandle, LVM_HITTEST, 0, ByVal VarPtr(LVHTI)) > -1 Then
-            If (.Flags And LVHT_ONITEM) <> 0 Then
-                If PropVirtualMode = False Then
-                    Set HitTest = Me.ListItems(.iItem + 1)
-                Else
-                    Set HitTest = New LvwListItem
-                    HitTest.FInit ObjPtr(Me), .iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                End If
-            End If
-        End If
-    Else
-        If SendMessage(ListViewHandle, LVM_SUBITEMHITTEST, 0, ByVal VarPtr(LVHTI)) > -1 Then
-            If (.Flags And LVHT_ONITEM) <> 0 Then
-                If PropVirtualMode = False Then
-                    Set HitTest = Me.ListItems(.iItem + 1)
-                Else
-                    Set HitTest = New LvwListItem
-                    HitTest.FInit ObjPtr(Me), .iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                End If
-                SubItemIndex = .iSubItem
-            End If
-        End If
-    End If
-    End With
-End If
+'If ListViewHandle <> NULL_PTR Then
+'    Dim LVHTI As LVHITTESTINFO
+'    With LVHTI
+'    .PT.X = UserControl.ScaleX(X, vbContainerPosition, vbPixels)
+'    .PT.Y = UserControl.ScaleY(Y, vbContainerPosition, vbPixels)
+'    If IsMissing(SubItemIndex) = True Then
+'        If SendMessage(ListViewHandle, LVM_HITTEST, 0, ByVal VarPtr(LVHTI)) > -1 Then
+'            If (.Flags And LVHT_ONITEM) <> 0 Then
+'                If PropVirtualMode = False Then
+'                    Set HitTest = Me.ListItems(.iItem + 1)
+'                Else
+'                    Set HitTest = New LvwListItem
+'                    HitTest.FInit ObjPtr(Me), .iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                End If
+'            End If
+'        End If
+'    Else
+'        If SendMessage(ListViewHandle, LVM_SUBITEMHITTEST, 0, ByVal VarPtr(LVHTI)) > -1 Then
+'            If (.Flags And LVHT_ONITEM) <> 0 Then
+'                If PropVirtualMode = False Then
+'                    Set HitTest = Me.ListItems(.iItem + 1)
+'                Else
+'                    Set HitTest = New LvwListItem
+'                    HitTest.FInit ObjPtr(Me), .iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                End If
+'                SubItemIndex = .iSubItem
+'            End If
+'        End If
+'    End If
+'    End With
+'End If
 End Function
 
 Public Function HitTestInsertMark(ByVal X As Single, ByVal Y As Single, Optional ByRef After As Boolean) As LvwListItem
 Attribute HitTestInsertMark.VB_Description = "Returns a reference to the list item object located at the coordinates of X and Y and retrieves a Value that determines where the insertion point should appear. Requires comctl32.dll version 6.1 or higher."
-If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then
-    Dim P As POINTAPI, LVIM As LVINSERTMARK
-    P.X = CLng(UserControl.ScaleX(X, vbContainerPosition, vbPixels))
-    P.Y = CLng(UserControl.ScaleY(Y, vbContainerPosition, vbPixels))
-    With LVIM
-    .cbSize = LenB(LVIM)
-    SendMessage ListViewHandle, LVM_INSERTMARKHITTEST, VarPtr(P), ByVal VarPtr(LVIM)
-    If .iItem > -1 Then
-        If PropVirtualMode = False Then
-            Set HitTestInsertMark = Me.ListItems(.iItem + 1)
-        Else
-            Set HitTestInsertMark = New LvwListItem
-            HitTestInsertMark.FInit ObjPtr(Me), .iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-        End If
-    End If
-    After = CBool((.dwFlags And LVIM_AFTER) <> 0)
-    End With
-End If
+'If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then
+'    Dim P As POINTAPI, LVIM As LVINSERTMARK
+'    P.X = CLng(UserControl.ScaleX(X, vbContainerPosition, vbPixels))
+'    P.Y = CLng(UserControl.ScaleY(Y, vbContainerPosition, vbPixels))
+'    With LVIM
+'    .cbSize = LenB(LVIM)
+'    SendMessage ListViewHandle, LVM_INSERTMARKHITTEST, VarPtr(P), ByVal VarPtr(LVIM)
+'    If .iItem > -1 Then
+'        If PropVirtualMode = False Then
+'            Set HitTestInsertMark = Me.ListItems(.iItem + 1)
+'        Else
+'            Set HitTestInsertMark = New LvwListItem
+'            HitTestInsertMark.FInit ObjPtr(Me), .iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'        End If
+'    End If
+'    After = CBool((.dwFlags And LVIM_AFTER) <> 0)
+'    End With
+'End If
 End Function
 
 Public Function FindItem(ByVal Text As String, Optional ByVal Index As Long, Optional ByVal Partial As Boolean, Optional ByVal Wrap As Boolean) As LvwListItem
 Attribute FindItem.VB_Description = "Finds an item in the list and returns a reference to that item."
-If ListViewHandle <> NULL_PTR Then
-    If Index >= 0 Then
-        Dim Count As Long
-        Count = CLng(SendMessage(ListViewHandle, LVM_GETITEMCOUNT, 0, ByVal 0&))
-        If Count > 0 Then
-            If Index <= Count Then
-                If Index > 0 Then Index = Index - 1
-                Dim LVFI As LVFINDINFO
-                With LVFI
-                .psz = StrPtr(Text)
-                .Flags = LVFI_STRING
-                If Partial = True Then .Flags = .Flags Or LVFI_PARTIAL
-                If Wrap = True Then .Flags = .Flags Or LVFI_WRAP
-                End With
-                Index = CLng(SendMessage(ListViewHandle, LVM_FINDITEM, Index - 1, ByVal VarPtr(LVFI)))
-                If Index > -1 Then
-                    If PropVirtualMode = False Then
-                        Set FindItem = Me.ListItems(Index + 1)
-                    Else
-                        Set FindItem = New LvwListItem
-                        FindItem.FInit ObjPtr(Me), Index + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                    End If
-                End If
-            Else
-                Err.Raise 380
-            End If
-        End If
-    Else
-        Err.Raise 380
-    End If
-End If
+'If ListViewHandle <> NULL_PTR Then
+'    If Index >= 0 Then
+'        Dim Count As Long
+'        Count = CLng(SendMessage(ListViewHandle, LVM_GETITEMCOUNT, 0, ByVal 0&))
+'        If Count > 0 Then
+'            If Index <= Count Then
+'                If Index > 0 Then Index = Index - 1
+'                Dim LVFI As LVFINDINFO
+'                With LVFI
+'                .psz = StrPtr(Text)
+'                .Flags = LVFI_STRING
+'                If Partial = True Then .Flags = .Flags Or LVFI_PARTIAL
+'                If Wrap = True Then .Flags = .Flags Or LVFI_WRAP
+'                End With
+'                Index = CLng(SendMessage(ListViewHandle, LVM_FINDITEM, Index - 1, ByVal VarPtr(LVFI)))
+'                If Index > -1 Then
+'                    If PropVirtualMode = False Then
+'                        Set FindItem = Me.ListItems(Index + 1)
+'                    Else
+'                        Set FindItem = New LvwListItem
+'                        FindItem.FInit ObjPtr(Me), Index + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                    End If
+'                End If
+'            Else
+'                Err.Raise 380
+'            End If
+'        End If
+'    Else
+'        Err.Raise 380
+'    End If
+'End If
 End Function
 
 Public Function FindNearestItem(ByVal X As Single, ByVal Y As Single, Optional ByVal Direction As LvwFindDirectionConstants) As LvwListItem
 Attribute FindNearestItem.VB_Description = "Finds an item nearest to the position specified and returns a reference to that item."
-Select Case Direction
-    Case LvwFindDirectionUndefined, LvwFindDirectionPrior, LvwFindDirectionNext, LvwFindDirectionEnd, LvwFindDirectionHome, LvwFindDirectionLeft, LvwFindDirectionUp, LvwFindDirectionRight, LvwFindDirectionDown
-    Case Else
-        Err.Raise 380
-End Select
-If ListViewHandle <> NULL_PTR Then
-    Dim LVFI As LVFINDINFO, Index As Long
-    With LVFI
-    .PT.X = UserControl.ScaleX(X, vbContainerPosition, vbPixels)
-    .PT.Y = UserControl.ScaleY(Y, vbContainerPosition, vbPixels)
-    .VKDirection = Direction
-    .Flags = LVFI_NEARESTXY
-    End With
-    Index = CLng(SendMessage(ListViewHandle, LVM_FINDITEM, -1, ByVal VarPtr(LVFI)))
-    If Index > -1 Then
-        If PropVirtualMode = False Then
-            Set FindNearestItem = Me.ListItems(Index + 1)
-        Else
-            Set FindNearestItem = New LvwListItem
-            FindNearestItem.FInit ObjPtr(Me), Index + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-        End If
-    End If
-End If
+'Select Case Direction
+'    Case LvwFindDirectionUndefined, LvwFindDirectionPrior, LvwFindDirectionNext, LvwFindDirectionEnd, LvwFindDirectionHome, LvwFindDirectionLeft, LvwFindDirectionUp, LvwFindDirectionRight, LvwFindDirectionDown
+'    Case Else
+'        Err.Raise 380
+'End Select
+'If ListViewHandle <> NULL_PTR Then
+'    Dim LVFI As LVFINDINFO, Index As Long
+'    With LVFI
+'    .PT.X = UserControl.ScaleX(X, vbContainerPosition, vbPixels)
+'    .PT.Y = UserControl.ScaleY(Y, vbContainerPosition, vbPixels)
+'    .VKDirection = Direction
+'    .Flags = LVFI_NEARESTXY
+'    End With
+'    Index = CLng(SendMessage(ListViewHandle, LVM_FINDITEM, -1, ByVal VarPtr(LVFI)))
+'    If Index > -1 Then
+'        If PropVirtualMode = False Then
+'            Set FindNearestItem = Me.ListItems(Index + 1)
+'        Else
+'            Set FindNearestItem = New LvwListItem
+'            FindNearestItem.FInit ObjPtr(Me), Index + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'        End If
+'    End If
+'End If
 End Function
 
 Public Function FindSubItem(ByVal Text As String, Optional ByVal Index As Long, Optional ByRef SubItemIndex As Long, Optional ByVal Partial As Boolean, Optional ByVal Wrap As Boolean) As LvwListItem
 Attribute FindSubItem.VB_Description = "Finds a sub item in the list and returns a reference to that item."
-If PropVirtualMode = True Then Err.Raise Number:=5, Description:="This functionality is disabled when virtual mode is on."
-If ListViewHandle <> NULL_PTR Then
-    If Index >= 0 And SubItemIndex >= 0 Then
-        Dim Count As Long, SubItemCount As Long
-        Count = CLng(SendMessage(ListViewHandle, LVM_GETITEMCOUNT, 0, ByVal 0&))
-        SubItemCount = Me.ColumnHeaders.Count - 1 ' Deduct 1 for SubItem 0
-        If Count > 0 And SubItemCount > 0 Then
-            If Index <= Count And SubItemIndex <= SubItemCount Then
-                If Index = 0 Then Index = 1
-                Dim i As Long
-                If SubItemIndex > 0 Then
-                    If Partial = False Then
-                        For i = Index To Count
-                            If StrComp(Me.FListItemText(i, SubItemIndex), Text, vbTextCompare) = 0 Then
-                                Set FindSubItem = Me.ListItems(i)
-                                Exit For
-                            End If
-                        Next i
-                    Else
-                        For i = Index To Count
-                            If InStr(1, Me.FListItemText(i, SubItemIndex), Text, vbTextCompare) > 0 Then
-                                Set FindSubItem = Me.ListItems(i)
-                                Exit For
-                            End If
-                        Next i
-                    End If
-                    If FindSubItem Is Nothing And Wrap = True Then
-                        If Partial = False Then
-                            For i = 1 To (Index - 1)
-                                If StrComp(Me.FListItemText(i, SubItemIndex), Text, vbTextCompare) = 0 Then
-                                    Set FindSubItem = Me.ListItems(i)
-                                    Exit For
-                                End If
-                            Next i
-                        Else
-                            For i = 1 To (Index - 1)
-                                If InStr(1, Me.FListItemText(i, SubItemIndex), Text, vbTextCompare) > 0 Then
-                                    Set FindSubItem = Me.ListItems(i)
-                                    Exit For
-                                End If
-                            Next i
-                        End If
-                    End If
-                Else
-                    Dim j As Long
-                    If Partial = False Then
-                        For i = Index To Count
-                            For j = 1 To SubItemCount
-                                If StrComp(Me.FListItemText(i, j), Text, vbTextCompare) = 0 Then
-                                    Set FindSubItem = Me.ListItems(i)
-                                    SubItemIndex = j
-                                    Exit For
-                                End If
-                            Next j
-                            If SubItemIndex > 0 Then Exit For
-                        Next i
-                    Else
-                        For i = Index To Count
-                            For j = 1 To SubItemCount
-                                If InStr(1, Me.FListItemText(i, j), Text, vbTextCompare) > 0 Then
-                                    Set FindSubItem = Me.ListItems(i)
-                                    SubItemIndex = j
-                                    Exit For
-                                End If
-                            Next j
-                            If SubItemIndex > 0 Then Exit For
-                        Next i
-                    End If
-                    If FindSubItem Is Nothing And Wrap = True Then
-                        If Partial = False Then
-                            For i = 1 To (Index - 1)
-                                For j = 1 To SubItemCount
-                                    If StrComp(Me.FListItemText(i, j), Text, vbTextCompare) = 0 Then
-                                        Set FindSubItem = Me.ListItems(i)
-                                        SubItemIndex = j
-                                        Exit For
-                                    End If
-                                Next j
-                                If SubItemIndex > 0 Then Exit For
-                            Next i
-                        Else
-                            For i = 1 To (Index - 1)
-                                For j = 1 To SubItemCount
-                                    If InStr(1, Me.FListItemText(i, j), Text, vbTextCompare) > 0 Then
-                                        Set FindSubItem = Me.ListItems(i)
-                                        SubItemIndex = j
-                                        Exit For
-                                    End If
-                                Next j
-                                If SubItemIndex > 0 Then Exit For
-                            Next i
-                        End If
-                    End If
-                End If
-            Else
-                Err.Raise 380
-            End If
-        End If
-    Else
-        Err.Raise 380
-    End If
-End If
+'If PropVirtualMode = True Then Err.Raise Number:=5, Description:="This functionality is disabled when virtual mode is on."
+'If ListViewHandle <> NULL_PTR Then
+'    If Index >= 0 And SubItemIndex >= 0 Then
+'        Dim Count As Long, SubItemCount As Long
+'        Count = CLng(SendMessage(ListViewHandle, LVM_GETITEMCOUNT, 0, ByVal 0&))
+'        SubItemCount = Me.ColumnHeaders.Count - 1 ' Deduct 1 for SubItem 0
+'        If Count > 0 And SubItemCount > 0 Then
+'            If Index <= Count And SubItemIndex <= SubItemCount Then
+'                If Index = 0 Then Index = 1
+'                Dim i As Long
+'                If SubItemIndex > 0 Then
+'                    If Partial = False Then
+'                        For i = Index To Count
+'                            If StrComp(Me.FListItemText(i, SubItemIndex), Text, vbTextCompare) = 0 Then
+'                                Set FindSubItem = Me.ListItems(i)
+'                                Exit For
+'                            End If
+'                        Next i
+'                    Else
+'                        For i = Index To Count
+'                            If InStr(1, Me.FListItemText(i, SubItemIndex), Text, vbTextCompare) > 0 Then
+'                                Set FindSubItem = Me.ListItems(i)
+'                                Exit For
+'                            End If
+'                        Next i
+'                    End If
+'                    If FindSubItem Is Nothing And Wrap = True Then
+'                        If Partial = False Then
+'                            For i = 1 To (Index - 1)
+'                                If StrComp(Me.FListItemText(i, SubItemIndex), Text, vbTextCompare) = 0 Then
+'                                    Set FindSubItem = Me.ListItems(i)
+'                                    Exit For
+'                                End If
+'                            Next i
+'                        Else
+'                            For i = 1 To (Index - 1)
+'                                If InStr(1, Me.FListItemText(i, SubItemIndex), Text, vbTextCompare) > 0 Then
+'                                    Set FindSubItem = Me.ListItems(i)
+'                                    Exit For
+'                                End If
+'                            Next i
+'                        End If
+'                    End If
+'                Else
+'                    Dim j As Long
+'                    If Partial = False Then
+'                        For i = Index To Count
+'                            For j = 1 To SubItemCount
+'                                If StrComp(Me.FListItemText(i, j), Text, vbTextCompare) = 0 Then
+'                                    Set FindSubItem = Me.ListItems(i)
+'                                    SubItemIndex = j
+'                                    Exit For
+'                                End If
+'                            Next j
+'                            If SubItemIndex > 0 Then Exit For
+'                        Next i
+'                    Else
+'                        For i = Index To Count
+'                            For j = 1 To SubItemCount
+'                                If InStr(1, Me.FListItemText(i, j), Text, vbTextCompare) > 0 Then
+'                                    Set FindSubItem = Me.ListItems(i)
+'                                    SubItemIndex = j
+'                                    Exit For
+'                                End If
+'                            Next j
+'                            If SubItemIndex > 0 Then Exit For
+'                        Next i
+'                    End If
+'                    If FindSubItem Is Nothing And Wrap = True Then
+'                        If Partial = False Then
+'                            For i = 1 To (Index - 1)
+'                                For j = 1 To SubItemCount
+'                                    If StrComp(Me.FListItemText(i, j), Text, vbTextCompare) = 0 Then
+'                                        Set FindSubItem = Me.ListItems(i)
+'                                        SubItemIndex = j
+'                                        Exit For
+'                                    End If
+'                                Next j
+'                                If SubItemIndex > 0 Then Exit For
+'                            Next i
+'                        Else
+'                            For i = 1 To (Index - 1)
+'                                For j = 1 To SubItemCount
+'                                    If InStr(1, Me.FListItemText(i, j), Text, vbTextCompare) > 0 Then
+'                                        Set FindSubItem = Me.ListItems(i)
+'                                        SubItemIndex = j
+'                                        Exit For
+'                                    End If
+'                                Next j
+'                                If SubItemIndex > 0 Then Exit For
+'                            Next i
+'                        End If
+'                    End If
+'                End If
+'            Else
+'                Err.Raise 380
+'            End If
+'        End If
+'    Else
+'        Err.Raise 380
+'    End If
+'End If
 End Function
 
 Public Function GetVisibleCount() As Long
@@ -6136,163 +6136,163 @@ End Function
 
 Public Function GetHeaderHeight() As Single
 Attribute GetHeaderHeight.VB_Description = "Retrieves the height of the header control in 'report' view."
-If ListViewHandle <> NULL_PTR Then
-    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim RC As RECT
-        GetWindowRect ListViewHeaderHandle, RC
-        GetHeaderHeight = UserControl.ScaleY((RC.Bottom - RC.Top), vbPixels, vbContainerSize)
-    End If
-End If
+'If ListViewHandle <> NULL_PTR Then
+'    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'    If ListViewHeaderHandle <> NULL_PTR Then
+'        Dim RC As RECT
+'        GetWindowRect ListViewHeaderHandle, RC
+'        GetHeaderHeight = UserControl.ScaleY((RC.Bottom - RC.Top), vbPixels, vbContainerSize)
+'    End If
+'End If
 End Function
 
 Public Property Get TopItem() As LvwListItem
 Attribute TopItem.VB_Description = "Returns a reference to the topmost visible list item."
 Attribute TopItem.VB_MemberFlags = "400"
-If ListViewHandle <> NULL_PTR Then
-    If SendMessage(ListViewHandle, LVM_GETITEMCOUNT, 0, ByVal 0&) > 0 Then
-        Dim RC As RECT, iItem As Long
-        Select Case PropView
-            Case LvwViewReport
-                If PropGroupView = False Or ComCtlsSupportLevel() = 0 Then
-                    If PropVirtualMode = False Then
-                        Set TopItem = PtrToObj(Me.FListItemPtr(CLng(SendMessage(ListViewHandle, LVM_GETTOPINDEX, 0, ByVal 0&)) + 1))
-                    Else
-                        Set TopItem = New LvwListItem
-                        TopItem.FInit ObjPtr(Me), CLng(SendMessage(ListViewHandle, LVM_GETTOPINDEX, 0, ByVal 0&)) + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                    End If
-                ElseIf ComCtlsSupportLevel() >= 2 Then
-                    ' Not supported if ComCtlsSupportLevel() = 1 and group view property is set to true.
-                    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-                    If ListViewHeaderHandle <> NULL_PTR Then
-                        Dim WndRect As RECT, LVI_V60 As LVITEM_V60, SubsetCount As Long, LastGroupID As Long
-                        GetWindowRect ListViewHeaderHandle, WndRect
-                        iItem = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, -1, ByVal LVNI_ALL Or LVNI_VISIBLEORDER))
-                        Do While iItem > -1
-                            If PropGroupSubsetCount > 0 Then
-                                With LVI_V60
-                                .LVI.Mask = LVIF_GROUPID
-                                .LVI.iItem = iItem
-                                SendMessage ListViewHandle, LVM_GETITEM, 0, ByVal VarPtr(LVI_V60)
-                                If .iGroupId <> I_GROUPIDNONE Then
-                                    If .iGroupId <> LastGroupID Then SubsetCount = 0
-                                    If Me.FGroupSubseted(.iGroupId) = True Then
-                                        SubsetCount = SubsetCount + 1
-                                    Else
-                                        SubsetCount = 0
-                                    End If
-                                Else
-                                    SubsetCount = 0
-                                End If
-                                LastGroupID = .iGroupId
-                                End With
-                            Else
-                                SubsetCount = 0
-                            End If
-                            If SubsetCount <= PropGroupSubsetCount Then
-                                SetRect RC, LVIR_BOUNDS, 0, 0, 0
-                                SendMessage ListViewHandle, LVM_GETITEMRECT, iItem, ByVal VarPtr(RC)
-                                If RC.Top >= (WndRect.Bottom - WndRect.Top) Then
-                                    If PropVirtualMode = False Then
-                                        Set TopItem = PtrToObj(Me.FListItemPtr(iItem + 1))
-                                    Else
-                                        Set TopItem = New LvwListItem
-                                        TopItem.FInit ObjPtr(Me), iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                                    End If
-                                    Exit Do
-                                End If
-                            End If
-                            iItem = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItem, ByVal LVNI_ALL Or LVNI_VISIBLEORDER))
-                        Loop
-                    End If
-                End If
-            Case LvwViewList
-                ' LVM_GETTOPINDEX works here in all scenarios.
-                If PropVirtualMode = False Then
-                    Set TopItem = PtrToObj(Me.FListItemPtr(CLng(SendMessage(ListViewHandle, LVM_GETTOPINDEX, 0, ByVal 0&)) + 1))
-                Else
-                    Set TopItem = New LvwListItem
-                    TopItem.FInit ObjPtr(Me), CLng(SendMessage(ListViewHandle, LVM_GETTOPINDEX, 0, ByVal 0&)) + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                End If
-            Case Else
-                If PropGroupView = False Or ComCtlsSupportLevel() = 0 Then
-                    ' Not supported if ComCtlsSupportLevel() >= 1 and group view property is set to true.
-                    Dim LVRC As RECT, iItemResult As Long, Flags As Long
-                    SendMessage ListViewHandle, LVM_GETVIEWRECT, 0, ByVal VarPtr(LVRC)
-                    SetRect LVRC, 0, 0, (LVRC.Right - LVRC.Left), (LVRC.Bottom - LVRC.Top)
-                    iItem = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, -1, ByVal LVNI_ALL))
-                    iItemResult = -1
-                    If ComCtlsSupportLevel() >= 2 Then Flags = LVNI_ALL Or LVNI_VISIBLEONLY Else Flags = LVNI_ALL
-                    Do While iItem > -1
-                        SetRect RC, LVIR_BOUNDS, 0, 0, 0
-                        SendMessage ListViewHandle, LVM_GETITEMRECT, iItem, ByVal VarPtr(RC)
-                        If RC.Right > LVRC.Left Then
-                            If RC.Left < LVRC.Right Then
-                                If RC.Bottom > LVRC.Top Then
-                                    If RC.Top < LVRC.Bottom Then
-                                        iItemResult = iItem
-                                        Exit Do
-                                    End If
-                                End If
-                            End If
-                        End If
-                        iItem = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItem, ByVal Flags))
-                    Loop
-                    If iItemResult > -1 Then
-                        ' Now try to move top-left to get the topmost visible list item.
-                        Dim iItemTemp As Long
-                        iItemTemp = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItemResult, ByVal LVNI_ALL Or LVNI_ABOVE))
-                        If iItemTemp > -1 Then
-                            SetRect RC, LVIR_BOUNDS, 0, 0, 0
-                            SendMessage ListViewHandle, LVM_GETITEMRECT, iItemTemp, ByVal VarPtr(RC)
-                            If RC.Right <= LVRC.Left Or RC.Left >= LVRC.Right Or RC.Bottom <= LVRC.Top Or RC.Top >= LVRC.Bottom Then iItemTemp = -1
-                        End If
-                        If iItemTemp = -1 Then
-                            iItemTemp = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItemResult, ByVal LVNI_ALL Or LVNI_TOLEFT))
-                            SetRect RC, LVIR_BOUNDS, 0, 0, 0
-                            SendMessage ListViewHandle, LVM_GETITEMRECT, iItemTemp, ByVal VarPtr(RC)
-                            If RC.Right <= LVRC.Left Or RC.Left >= LVRC.Right Or RC.Bottom <= LVRC.Top Or RC.Top >= LVRC.Bottom Then iItemTemp = -1
-                        End If
-                        iItem = iItemTemp
-                        Do While iItem > -1
-                            SetRect RC, LVIR_BOUNDS, 0, 0, 0
-                            SendMessage ListViewHandle, LVM_GETITEMRECT, iItem, ByVal VarPtr(RC)
-                            If RC.Right > LVRC.Left Then
-                                If RC.Left < LVRC.Right Then
-                                    If RC.Bottom > LVRC.Top Then
-                                        If RC.Top < LVRC.Bottom Then
-                                            iItemResult = iItem
-                                        End If
-                                    End If
-                                End If
-                            End If
-                            iItemTemp = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItem, ByVal LVNI_ALL Or LVNI_ABOVE))
-                            If iItemTemp > -1 Then
-                                SetRect RC, LVIR_BOUNDS, 0, 0, 0
-                                SendMessage ListViewHandle, LVM_GETITEMRECT, iItemTemp, ByVal VarPtr(RC)
-                                If RC.Right <= LVRC.Left Or RC.Left >= LVRC.Right Or RC.Bottom <= LVRC.Top Or RC.Top >= LVRC.Bottom Then iItemTemp = -1
-                            End If
-                            If iItemTemp = -1 Then
-                                iItemTemp = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItem, ByVal LVNI_ALL Or LVNI_TOLEFT))
-                                If iItemTemp > -1 Then
-                                    SetRect RC, LVIR_BOUNDS, 0, 0, 0
-                                    SendMessage ListViewHandle, LVM_GETITEMRECT, iItemTemp, ByVal VarPtr(RC)
-                                    If RC.Right <= LVRC.Left Or RC.Left >= LVRC.Right Or RC.Bottom <= LVRC.Top Or RC.Top >= LVRC.Bottom Then iItemTemp = -1
-                                End If
-                            End If
-                            iItem = iItemTemp
-                        Loop
-                        If PropVirtualMode = False Then
-                            Set TopItem = PtrToObj(Me.FListItemPtr(iItemResult + 1))
-                        Else
-                            Set TopItem = New LvwListItem
-                            TopItem.FInit ObjPtr(Me), iItemResult + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                        End If
-                    End If
-                End If
-        End Select
-    End If
-End If
+'If ListViewHandle <> NULL_PTR Then
+'    If SendMessage(ListViewHandle, LVM_GETITEMCOUNT, 0, ByVal 0&) > 0 Then
+'        Dim RC As RECT, iItem As Long
+'        Select Case PropView
+'            Case LvwViewReport
+'                If PropGroupView = False Or ComCtlsSupportLevel() = 0 Then
+'                    If PropVirtualMode = False Then
+'                        Set TopItem = PtrToObj(Me.FListItemPtr(CLng(SendMessage(ListViewHandle, LVM_GETTOPINDEX, 0, ByVal 0&)) + 1))
+'                    Else
+'                        Set TopItem = New LvwListItem
+'                        TopItem.FInit ObjPtr(Me), CLng(SendMessage(ListViewHandle, LVM_GETTOPINDEX, 0, ByVal 0&)) + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                    End If
+'                ElseIf ComCtlsSupportLevel() >= 2 Then
+'                    ' Not supported if ComCtlsSupportLevel() = 1 and group view property is set to true.
+'                    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'                    If ListViewHeaderHandle <> NULL_PTR Then
+'                        Dim WndRect As RECT, LVI_V60 As LVITEM_V60, SubsetCount As Long, LastGroupID As Long
+'                        GetWindowRect ListViewHeaderHandle, WndRect
+'                        iItem = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, -1, ByVal LVNI_ALL Or LVNI_VISIBLEORDER))
+'                        Do While iItem > -1
+'                            If PropGroupSubsetCount > 0 Then
+'                                With LVI_V60
+'                                .LVI.Mask = LVIF_GROUPID
+'                                .LVI.iItem = iItem
+'                                SendMessage ListViewHandle, LVM_GETITEM, 0, ByVal VarPtr(LVI_V60)
+'                                If .iGroupId <> I_GROUPIDNONE Then
+'                                    If .iGroupId <> LastGroupID Then SubsetCount = 0
+'                                    If Me.FGroupSubseted(.iGroupId) = True Then
+'                                        SubsetCount = SubsetCount + 1
+'                                    Else
+'                                        SubsetCount = 0
+'                                    End If
+'                                Else
+'                                    SubsetCount = 0
+'                                End If
+'                                LastGroupID = .iGroupId
+'                                End With
+'                            Else
+'                                SubsetCount = 0
+'                            End If
+'                            If SubsetCount <= PropGroupSubsetCount Then
+'                                SetRect RC, LVIR_BOUNDS, 0, 0, 0
+'                                SendMessage ListViewHandle, LVM_GETITEMRECT, iItem, ByVal VarPtr(RC)
+'                                If RC.Top >= (WndRect.Bottom - WndRect.Top) Then
+'                                    If PropVirtualMode = False Then
+'                                        Set TopItem = PtrToObj(Me.FListItemPtr(iItem + 1))
+'                                    Else
+'                                        Set TopItem = New LvwListItem
+'                                        TopItem.FInit ObjPtr(Me), iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                                    End If
+'                                    Exit Do
+'                                End If
+'                            End If
+'                            iItem = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItem, ByVal LVNI_ALL Or LVNI_VISIBLEORDER))
+'                        Loop
+'                    End If
+'                End If
+'            Case LvwViewList
+'                ' LVM_GETTOPINDEX works here in all scenarios.
+'                If PropVirtualMode = False Then
+'                    Set TopItem = PtrToObj(Me.FListItemPtr(CLng(SendMessage(ListViewHandle, LVM_GETTOPINDEX, 0, ByVal 0&)) + 1))
+'                Else
+'                    Set TopItem = New LvwListItem
+'                    TopItem.FInit ObjPtr(Me), CLng(SendMessage(ListViewHandle, LVM_GETTOPINDEX, 0, ByVal 0&)) + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                End If
+'            Case Else
+'                If PropGroupView = False Or ComCtlsSupportLevel() = 0 Then
+'                    ' Not supported if ComCtlsSupportLevel() >= 1 and group view property is set to true.
+'                    Dim LVRC As RECT, iItemResult As Long, Flags As Long
+'                    SendMessage ListViewHandle, LVM_GETVIEWRECT, 0, ByVal VarPtr(LVRC)
+'                    SetRect LVRC, 0, 0, (LVRC.Right - LVRC.Left), (LVRC.Bottom - LVRC.Top)
+'                    iItem = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, -1, ByVal LVNI_ALL))
+'                    iItemResult = -1
+'                    If ComCtlsSupportLevel() >= 2 Then Flags = LVNI_ALL Or LVNI_VISIBLEONLY Else Flags = LVNI_ALL
+'                    Do While iItem > -1
+'                        SetRect RC, LVIR_BOUNDS, 0, 0, 0
+'                        SendMessage ListViewHandle, LVM_GETITEMRECT, iItem, ByVal VarPtr(RC)
+'                        If RC.Right > LVRC.Left Then
+'                            If RC.Left < LVRC.Right Then
+'                                If RC.Bottom > LVRC.Top Then
+'                                    If RC.Top < LVRC.Bottom Then
+'                                        iItemResult = iItem
+'                                        Exit Do
+'                                    End If
+'                                End If
+'                            End If
+'                        End If
+'                        iItem = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItem, ByVal Flags))
+'                    Loop
+'                    If iItemResult > -1 Then
+'                        ' Now try to move top-left to get the topmost visible list item.
+'                        Dim iItemTemp As Long
+'                        iItemTemp = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItemResult, ByVal LVNI_ALL Or LVNI_ABOVE))
+'                        If iItemTemp > -1 Then
+'                            SetRect RC, LVIR_BOUNDS, 0, 0, 0
+'                            SendMessage ListViewHandle, LVM_GETITEMRECT, iItemTemp, ByVal VarPtr(RC)
+'                            If RC.Right <= LVRC.Left Or RC.Left >= LVRC.Right Or RC.Bottom <= LVRC.Top Or RC.Top >= LVRC.Bottom Then iItemTemp = -1
+'                        End If
+'                        If iItemTemp = -1 Then
+'                            iItemTemp = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItemResult, ByVal LVNI_ALL Or LVNI_TOLEFT))
+'                            SetRect RC, LVIR_BOUNDS, 0, 0, 0
+'                            SendMessage ListViewHandle, LVM_GETITEMRECT, iItemTemp, ByVal VarPtr(RC)
+'                            If RC.Right <= LVRC.Left Or RC.Left >= LVRC.Right Or RC.Bottom <= LVRC.Top Or RC.Top >= LVRC.Bottom Then iItemTemp = -1
+'                        End If
+'                        iItem = iItemTemp
+'                        Do While iItem > -1
+'                            SetRect RC, LVIR_BOUNDS, 0, 0, 0
+'                            SendMessage ListViewHandle, LVM_GETITEMRECT, iItem, ByVal VarPtr(RC)
+'                            If RC.Right > LVRC.Left Then
+'                                If RC.Left < LVRC.Right Then
+'                                    If RC.Bottom > LVRC.Top Then
+'                                        If RC.Top < LVRC.Bottom Then
+'                                            iItemResult = iItem
+'                                        End If
+'                                    End If
+'                                End If
+'                            End If
+'                            iItemTemp = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItem, ByVal LVNI_ALL Or LVNI_ABOVE))
+'                            If iItemTemp > -1 Then
+'                                SetRect RC, LVIR_BOUNDS, 0, 0, 0
+'                                SendMessage ListViewHandle, LVM_GETITEMRECT, iItemTemp, ByVal VarPtr(RC)
+'                                If RC.Right <= LVRC.Left Or RC.Left >= LVRC.Right Or RC.Bottom <= LVRC.Top Or RC.Top >= LVRC.Bottom Then iItemTemp = -1
+'                            End If
+'                            If iItemTemp = -1 Then
+'                                iItemTemp = CLng(SendMessage(ListViewHandle, LVM_GETNEXTITEM, iItem, ByVal LVNI_ALL Or LVNI_TOLEFT))
+'                                If iItemTemp > -1 Then
+'                                    SetRect RC, LVIR_BOUNDS, 0, 0, 0
+'                                    SendMessage ListViewHandle, LVM_GETITEMRECT, iItemTemp, ByVal VarPtr(RC)
+'                                    If RC.Right <= LVRC.Left Or RC.Left >= LVRC.Right Or RC.Bottom <= LVRC.Top Or RC.Top >= LVRC.Bottom Then iItemTemp = -1
+'                                End If
+'                            End If
+'                            iItem = iItemTemp
+'                        Loop
+'                        If PropVirtualMode = False Then
+'                            Set TopItem = PtrToObj(Me.FListItemPtr(iItemResult + 1))
+'                        Else
+'                            Set TopItem = New LvwListItem
+'                            TopItem.FInit ObjPtr(Me), iItemResult + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                        End If
+'                    End If
+'                End If
+'        End Select
+'    End If
+'End If
 End Property
 
 Public Property Get SelectedItem() As LvwListItem
@@ -6790,44 +6790,44 @@ End If
 End Property
 
 Public Property Let ColumnOrder(ByVal ArgList As Variant)
-If ListViewHandle <> NULL_PTR Then
-    If IsArray(ArgList) Then
-        Dim Ptr As LongPtr
-        CopyMemory Ptr, ByVal UnsignedAdd(VarPtr(ArgList), 8), PTR_SIZE
-        If Ptr <> NULL_PTR Then
-            Dim DimensionCount As Integer
-            CopyMemory DimensionCount, ByVal Ptr, 2
-            If DimensionCount = 1 Then
-                Dim Arr() As Long, Count As Long, i As Long
-                For i = LBound(ArgList) To UBound(ArgList)
-                    Select Case VarType(ArgList(i))
-                        Case vbLong, vbInteger, vbByte
-                            If ArgList(i) >= 0 Then
-                                ReDim Preserve Arr(0 To Count) As Long
-                                Arr(Count) = ArgList(i)
-                                Count = Count + 1
-                            End If
-                        Case vbDouble, vbSingle
-                            If CLng(ArgList(i)) >= 0 Then
-                                ReDim Preserve Arr(0 To Count) As Long
-                                Arr(Count) = CLng(ArgList(i))
-                                Count = Count + 1
-                            End If
-                    End Select
-                Next i
-                If Count > 0 Then
-                    If SendMessage(ListViewHandle, LVM_SETCOLUMNORDERARRAY, Count, ByVal VarPtr(Arr(0))) = 0 Then Err.Raise 5
-                End If
-            Else
-                Err.Raise Number:=5, Description:="Array must be single dimensioned"
-            End If
-        Else
-            Err.Raise Number:=91, Description:="Array is not allocated"
-        End If
-    Else
-        If Not IsEmpty(ArgList) Then Err.Raise 380
-    End If
-End If
+'If ListViewHandle <> NULL_PTR Then
+'    If IsArray(ArgList) Then
+'        Dim Ptr As LongPtr
+'        CopyMemory Ptr, ByVal UnsignedAdd(VarPtr(ArgList), 8), PTR_SIZE
+'        If Ptr <> NULL_PTR Then
+'            Dim DimensionCount As Integer
+'            CopyMemory DimensionCount, ByVal Ptr, 2
+'            If DimensionCount = 1 Then
+'                Dim Arr() As Long, Count As Long, i As Long
+'                For i = LBound(ArgList) To UBound(ArgList)
+'                    Select Case VarType(ArgList(i))
+'                        Case vbLong, vbInteger, vbByte
+'                            If ArgList(i) >= 0 Then
+'                                ReDim Preserve Arr(0 To Count) As Long
+'                                Arr(Count) = ArgList(i)
+'                                Count = Count + 1
+'                            End If
+'                        Case vbDouble, vbSingle
+'                            If CLng(ArgList(i)) >= 0 Then
+'                                ReDim Preserve Arr(0 To Count) As Long
+'                                Arr(Count) = CLng(ArgList(i))
+'                                Count = Count + 1
+'                            End If
+'                    End Select
+'                Next i
+'                If Count > 0 Then
+'                    If SendMessage(ListViewHandle, LVM_SETCOLUMNORDERARRAY, Count, ByVal VarPtr(Arr(0))) = 0 Then Err.Raise 5
+'                End If
+'            Else
+'                Err.Raise Number:=5, Description:="Array must be single dimensioned"
+'            End If
+'        Else
+'            Err.Raise Number:=91, Description:="Array is not allocated"
+'        End If
+'    Else
+'        If Not IsEmpty(ArgList) Then Err.Raise 380
+'    End If
+'End If
 End Property
 
 Public Property Get ColumnFilterChangedTimeout() As Long
@@ -7130,28 +7130,28 @@ End If
 End Sub
 
 Private Function GetFilterEditIndex(ByVal hWndFilterEdit As LongPtr) As Long
-If ListViewHandle = NULL_PTR Or hWndFilterEdit = NULL_PTR Then Exit Function
-' If comctl32.dll version is 6.1 or higher then HDN_BEGINFILTEREDIT and HDN_ENDFILTEREDIT will be sent.
-' Thus we return zero in order to not raise the events 'BeforeFilterEdit' and 'AfterFilterEdit' twice.
-If ComCtlsSupportLevel() >= 2 Then Exit Function
-If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-If ListViewHeaderHandle <> NULL_PTR Then
-    Dim Count As Long
-    Count = Me.ColumnHeaders.Count
-    If Count > 0 Then
-        Dim RC As RECT
-        GetClientRect hWndFilterEdit, RC
-        MapWindowPoints hWndFilterEdit, ListViewHeaderHandle, RC, 2
-        Dim LVC As LVCOLUMN, i As Long, CX As Long
-        LVC.Mask = LVCF_WIDTH
-        For i = 1 To Count
-            SendMessage ListViewHandle, LVM_GETCOLUMN, i - 1, ByVal VarPtr(LVC)
-            CX = CX + LVC.CX
-            If CX >= RC.Left Then Exit For
-        Next i
-        GetFilterEditIndex = i
-    End If
-End If
+'If ListViewHandle = NULL_PTR Or hWndFilterEdit = NULL_PTR Then Exit Function
+'' If comctl32.dll version is 6.1 or higher then HDN_BEGINFILTEREDIT and HDN_ENDFILTEREDIT will be sent.
+'' Thus we return zero in order to not raise the events 'BeforeFilterEdit' and 'AfterFilterEdit' twice.
+'If ComCtlsSupportLevel() >= 2 Then Exit Function
+'If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'If ListViewHeaderHandle <> NULL_PTR Then
+'    Dim Count As Long
+'    Count = Me.ColumnHeaders.Count
+'    If Count > 0 Then
+'        Dim RC As RECT
+'        GetClientRect hWndFilterEdit, RC
+'        MapWindowPoints hWndFilterEdit, ListViewHeaderHandle, RC, 2
+'        Dim LVC As LVCOLUMN, i As Long, CX As Long
+'        LVC.Mask = LVCF_WIDTH
+'        For i = 1 To Count
+'            SendMessage ListViewHandle, LVM_GETCOLUMN, i - 1, ByVal VarPtr(LVC)
+'            CX = CX + LVC.CX
+'            If CX >= RC.Left Then Exit For
+'        Next i
+'        GetFilterEditIndex = i
+'    End If
+'End If
 End Function
 
 Private Function IndexToStateImageMask(ByVal ImgIndex As Long) As Long
@@ -7809,24 +7809,24 @@ Select Case wMsg
     Case WM_COMMAND
         Const EN_SETFOCUS As Long = &H100, EN_KILLFOCUS As Long = &H200
         Select Case HiWord(CLng(wParam))
-            Case EN_SETFOCUS
-                ListViewFilterEditHandle = lParam
-                ListViewFilterEditIndex = GetFilterEditIndex(lParam)
-                If lParam <> 0 Then
-                    If PropRightToLeft = True And PropRightToLeftLayout = False Then Call ComCtlsSetRightToLeft(lParam, WS_EX_RTLREADING)
-                    Call ComCtlsSetSubclass(lParam, Me, 3)
-                    Call ActivateIPAO(Me)
-                End If
-                If ListViewFilterEditIndex > 0 Then RaiseEvent BeforeFilterEdit(Me.ColumnHeaders(ListViewFilterEditIndex), ListViewFilterEditHandle)
-            Case EN_KILLFOCUS
-                ' When the user types ESC or RETURN the filter edit window sends EN_KILLFOCUS.
-                ' In all other cases the filter edit window sends WM_KILLFOCUS.
-                ' Thus it is necessary to handle both EN_KILLFOCUS and WM_KILLFOCUS.
-                ' UM_ENDFILTEREDIT will be posted as the filter edit window is not yet destroyed.
-                PostMessage hWnd, UM_ENDFILTEREDIT, ListViewFilterEditIndex, ByVal 0&
-                ListViewFilterEditHandle = NULL_PTR
-                ListViewFilterEditIndex = 0
-                If lParam <> 0 Then Call ComCtlsRemoveSubclass(lParam)
+'            Case EN_SETFOCUS
+'                ListViewFilterEditHandle = lParam
+'                ListViewFilterEditIndex = GetFilterEditIndex(lParam)
+'                If lParam <> 0 Then
+'                    If PropRightToLeft = True And PropRightToLeftLayout = False Then Call ComCtlsSetRightToLeft(lParam, WS_EX_RTLREADING)
+'                    Call ComCtlsSetSubclass(lParam, Me, 3)
+'                    Call ActivateIPAO(Me)
+'                End If
+'                If ListViewFilterEditIndex > 0 Then RaiseEvent BeforeFilterEdit(Me.ColumnHeaders(ListViewFilterEditIndex), ListViewFilterEditHandle)
+'            Case EN_KILLFOCUS
+'                ' When the user types ESC or RETURN the filter edit window sends EN_KILLFOCUS.
+'                ' In all other cases the filter edit window sends WM_KILLFOCUS.
+'                ' Thus it is necessary to handle both EN_KILLFOCUS and WM_KILLFOCUS.
+'                ' UM_ENDFILTEREDIT will be posted as the filter edit window is not yet destroyed.
+'                PostMessage hWnd, UM_ENDFILTEREDIT, ListViewFilterEditIndex, ByVal 0&
+'                ListViewFilterEditHandle = NULL_PTR
+'                ListViewFilterEditIndex = 0
+'                If lParam <> 0 Then Call ComCtlsRemoveSubclass(lParam)
         End Select
     Case UM_ENDFILTEREDIT
         If wParam > 0 Then RaiseEvent AfterFilterEdit(Me.ColumnHeaders(wParam))

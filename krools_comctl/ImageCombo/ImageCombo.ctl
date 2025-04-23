@@ -6,12 +6,12 @@ Begin VB.UserControl ImageCombo
    ClientTop       =   0
    ClientWidth     =   2400
    DataBindingBehavior=   1  'vbSimpleBound
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  '≈ı∏Ì
    ForeColor       =   &H80000008&
    HasDC           =   0   'False
    PropertyPages   =   "ImageCombo.ctx":0000
    ScaleHeight     =   120
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  '«»ºø
    ScaleWidth      =   160
    ToolboxBitmap   =   "ImageCombo.ctx":003B
    Begin VB.Timer TimerImageList 
@@ -1067,21 +1067,21 @@ Set Me.MouseIcon = Value
 End Property
 
 Public Property Set MouseIcon(ByVal Value As IPictureDisp)
-If Value Is Nothing Then
-    Set PropMouseIcon = Nothing
-Else
-    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
-        Set PropMouseIcon = Value
-    Else
-        If ImageComboDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
-            Exit Property
-        Else
-            Err.Raise 380
-        End If
-    End If
-End If
-If ImageComboDesignMode = False Then Call RefreshMousePointer
+'If Value Is Nothing Then
+'    Set PropMouseIcon = Nothing
+'Else
+'    If Value.Type = vbPicTypeIcon Or Value.Handle = NULL_PTR Then
+'        Set PropMouseIcon = Value
+'    Else
+'        If ImageComboDesignMode = True Then
+'            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
+'            Exit Property
+'        Else
+'            Err.Raise 380
+'        End If
+'    End If
+'End If
+'If ImageComboDesignMode = False Then Call RefreshMousePointer
 UserControl.PropertyChanged "MouseIcon"
 End Property
 
@@ -1102,30 +1102,30 @@ RightToLeft = PropRightToLeft
 End Property
 
 Public Property Let RightToLeft(ByVal Value As Boolean)
-PropRightToLeft = Value
-UserControl.RightToLeft = PropRightToLeft
-Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
-Dim dwMask As Long
-If ImageComboDesignMode = False Then
-    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
-    dwMask = 0
-End If
-If PropRightToLeft = True Then
-    If PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = WS_EX_RTLREADING Or WS_EX_RIGHT Or WS_EX_LEFTSCROLLBAR
-End If
-If ImageComboHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboHandle, dwMask)
-If ImageComboComboHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboComboHandle, dwMask)
-If ImageComboEditHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboEditHandle, dwMask)
-If (PropRightToLeft = False Or PropRightToLeftLayout = False) And ImageComboEditHandle <> NULL_PTR <> 0 Then
-    Const ES_RIGHT As Long = &H2
-    Dim dwStyle As Long
-    dwStyle = GetWindowLong(ImageComboEditHandle, GWL_STYLE)
-    If (dwStyle And ES_RIGHT) = ES_RIGHT Then dwStyle = dwStyle And Not ES_RIGHT
-    SetWindowLong ImageComboEditHandle, GWL_STYLE, dwStyle
-End If
-If ImageComboListHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboListHandle, dwMask)
-If ImageComboHandle <> NULL_PTR Then SetWindowPos ImageComboHandle, NULL_PTR, 0, 0, 0, 0, SWP_NOSIZE Or SWP_NOMOVE Or SWP_NOZORDER Or SWP_NOACTIVATE Or SWP_NOOWNERZORDER
+'PropRightToLeft = Value
+'UserControl.RightToLeft = PropRightToLeft
+'Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
+'Dim dwMask As Long
+'If ImageComboDesignMode = False Then
+'    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
+'    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'    dwMask = 0
+'End If
+'If PropRightToLeft = True Then
+'    If PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = WS_EX_RTLREADING Or WS_EX_RIGHT Or WS_EX_LEFTSCROLLBAR
+'End If
+'If ImageComboHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboHandle, dwMask)
+'If ImageComboComboHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboComboHandle, dwMask)
+'If ImageComboEditHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboEditHandle, dwMask)
+'If (PropRightToLeft = False Or PropRightToLeftLayout = False) And ImageComboEditHandle <> NULL_PTR <> 0 Then
+'    Const ES_RIGHT As Long = &H2
+'    Dim dwStyle As Long
+'    dwStyle = GetWindowLong(ImageComboEditHandle, GWL_STYLE)
+'    If (dwStyle And ES_RIGHT) = ES_RIGHT Then dwStyle = dwStyle And Not ES_RIGHT
+'    SetWindowLong ImageComboEditHandle, GWL_STYLE, dwStyle
+'End If
+'If ImageComboListHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboListHandle, dwMask)
+'If ImageComboHandle <> NULL_PTR Then SetWindowPos ImageComboHandle, NULL_PTR, 0, 0, 0, 0, SWP_NOSIZE Or SWP_NOMOVE Or SWP_NOZORDER Or SWP_NOACTIVATE Or SWP_NOOWNERZORDER
 UserControl.PropertyChanged "RightToLeft"
 End Property
 
@@ -1146,13 +1146,13 @@ RightToLeftMode = PropRightToLeftMode
 End Property
 
 Public Property Let RightToLeftMode(ByVal Value As CCRightToLeftModeConstants)
-Select Case Value
-    Case CCRightToLeftModeNoControl, CCRightToLeftModeVBAME, CCRightToLeftModeSystemLocale, CCRightToLeftModeUserLocale, CCRightToLeftModeOSLanguage
-        PropRightToLeftMode = Value
-    Case Else
-        Err.Raise 380
-End Select
-Me.RightToLeft = PropRightToLeft
+'Select Case Value
+'    Case CCRightToLeftModeNoControl, CCRightToLeftModeVBAME, CCRightToLeftModeSystemLocale, CCRightToLeftModeUserLocale, CCRightToLeftModeOSLanguage
+'        PropRightToLeftMode = Value
+'    Case Else
+'        Err.Raise 380
+'End Select
+'Me.RightToLeft = PropRightToLeft
 UserControl.PropertyChanged "RightToLeftMode"
 End Property
 
@@ -1353,13 +1353,13 @@ Select Case PropStyle
         If ImageComboHandle <> NULL_PTR And ImageComboEditHandle <> NULL_PTR Then SendMessage ImageComboEditHandle, WM_SETTEXT, 0, ByVal StrPtr(PropText)
     Case ImcStyleDropDownList
         If ImageComboDesignMode = False Then
-            Dim Item As ImcComboItem
-            Set Item = Me.FindItem(Value)
-            If Not Item Is Nothing Then
-                Me.SelectedItem = Item
-            Else
-                Err.Raise Number:=383, Description:="Property is read-only"
-            End If
+'            Dim Item As ImcComboItem
+'            Set Item = Me.FindItem(Value)
+'            If Not Item Is Nothing Then
+'                Me.SelectedItem = Item
+'            Else
+'                Err.Raise Number:=383, Description:="Property is read-only"
+'            End If
         Else
             Exit Property
         End If
@@ -1385,7 +1385,7 @@ End Property
 Public Property Let Indentation(ByVal Value As Long)
 If Value < 0 Then
     If ImageComboDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -1421,7 +1421,7 @@ Select Case Value
         PropMaxDropDownItems = Value
     Case Else
         If ImageComboDesignMode = True Then
-            VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+            'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
             Exit Property
         Else
             Err.Raise 380
@@ -1457,7 +1457,7 @@ End Property
 Public Property Let MaxLength(ByVal Value As Long)
 If Value < 0 Then
     If ImageComboDesignMode = True Then
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         Exit Property
     Else
         Err.Raise 380
@@ -2012,60 +2012,60 @@ End Property
 
 Public Function FindItem(ByVal Text As String, Optional ByVal Index As Long, Optional ByVal Partial As Boolean, Optional ByVal Wrap As Boolean) As ImcComboItem
 Attribute FindItem.VB_Description = "Finds an item in the list and returns a reference to that item."
-If ImageComboComboHandle <> NULL_PTR Then
-    If Index >= 0 Then
-        Dim Count As Long
-        Count = CLng(SendMessage(ImageComboComboHandle, CB_GETCOUNT, 0, ByVal 0&))
-        If Count > 0 Then
-            If Index <= Count Then
-                If Index > 0 Then Index = Index - 1
-                Dim Result As Long, Buffer As String, i As Long
-                Result = CB_ERR
-                For i = Index To (Count - 1)
-                    Buffer = String(CLng(SendMessage(ImageComboComboHandle, CB_GETLBTEXTLEN, i, ByVal 0&)), vbNullChar)
-                    SendMessage ImageComboComboHandle, CB_GETLBTEXT, i, ByVal StrPtr(Buffer)
-                    If Len(Buffer) > 0 Then
-                        If Partial = True Then
-                            If InStr(1, Buffer, Text, vbTextCompare) <> 0 Then
-                                Result = i
-                                Exit For
-                            End If
-                        Else
-                            If StrComp(Buffer, Text, vbTextCompare) = 0 Then
-                                Result = i
-                                Exit For
-                            End If
-                        End If
-                    End If
-                Next i
-                If Wrap = True And Result = CB_ERR And Index > 0 Then
-                    For i = 0 To (Index - 1)
-                        Buffer = String(CLng(SendMessage(ImageComboComboHandle, CB_GETLBTEXTLEN, i, ByVal 0&)), vbNullChar)
-                        SendMessage ImageComboComboHandle, CB_GETLBTEXT, i, ByVal StrPtr(Buffer)
-                        If Len(Buffer) > 0 Then
-                            If Partial = True Then
-                                If InStr(1, Buffer, Text, vbTextCompare) <> 0 Then
-                                    Result = i
-                                    Exit For
-                                End If
-                            Else
-                                If StrComp(Buffer, Text, vbTextCompare) = 0 Then
-                                    Result = i
-                                    Exit For
-                                End If
-                            End If
-                        End If
-                    Next i
-                End If
-                If Not Result = CB_ERR Then Set FindItem = Me.ComboItems(Result + 1)
-            Else
-                Err.Raise 380
-            End If
-        End If
-    Else
-        Err.Raise 380
-    End If
-End If
+'If ImageComboComboHandle <> NULL_PTR Then
+'    If Index >= 0 Then
+'        Dim Count As Long
+'        Count = CLng(SendMessage(ImageComboComboHandle, CB_GETCOUNT, 0, ByVal 0&))
+'        If Count > 0 Then
+'            If Index <= Count Then
+'                If Index > 0 Then Index = Index - 1
+'                Dim Result As Long, Buffer As String, i As Long
+'                Result = CB_ERR
+'                For i = Index To (Count - 1)
+'                    Buffer = String(CLng(SendMessage(ImageComboComboHandle, CB_GETLBTEXTLEN, i, ByVal 0&)), vbNullChar)
+'                    SendMessage ImageComboComboHandle, CB_GETLBTEXT, i, ByVal StrPtr(Buffer)
+'                    If Len(Buffer) > 0 Then
+'                        If Partial = True Then
+'                            If InStr(1, Buffer, Text, vbTextCompare) <> 0 Then
+'                                Result = i
+'                                Exit For
+'                            End If
+'                        Else
+'                            If StrComp(Buffer, Text, vbTextCompare) = 0 Then
+'                                Result = i
+'                                Exit For
+'                            End If
+'                        End If
+'                    End If
+'                Next i
+'                If Wrap = True And Result = CB_ERR And Index > 0 Then
+'                    For i = 0 To (Index - 1)
+'                        Buffer = String(CLng(SendMessage(ImageComboComboHandle, CB_GETLBTEXTLEN, i, ByVal 0&)), vbNullChar)
+'                        SendMessage ImageComboComboHandle, CB_GETLBTEXT, i, ByVal StrPtr(Buffer)
+'                        If Len(Buffer) > 0 Then
+'                            If Partial = True Then
+'                                If InStr(1, Buffer, Text, vbTextCompare) <> 0 Then
+'                                    Result = i
+'                                    Exit For
+'                                End If
+'                            Else
+'                                If StrComp(Buffer, Text, vbTextCompare) = 0 Then
+'                                    Result = i
+'                                    Exit For
+'                                End If
+'                            End If
+'                        End If
+'                    Next i
+'                End If
+'                If Not Result = CB_ERR Then Set FindItem = Me.ComboItems(Result + 1)
+'            Else
+'                Err.Raise 380
+'            End If
+'        End If
+'    Else
+'        Err.Raise 380
+'    End If
+'End If
 End Function
 
 Public Property Get OLEDraggedItem() As ImcComboItem

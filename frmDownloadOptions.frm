@@ -156,28 +156,22 @@ Begin VB.Form frmDownloadOptions
          Caption         =   "youtube-dl 사용 여부 자동 결정(&T)"
          Transparent     =   -1  'True
       End
-      Begin prjDownloadBooster.OptionButtonW optDisableYtdl 
+      Begin VB.OptionButton optDisableYtdl 
+         Caption         =   "youtube-dl 사용 안 함(&D)"
          Height          =   255
          Left            =   360
          TabIndex        =   4
          Top             =   480
-         Width           =   4335
-         _ExtentX        =   7646
-         _ExtentY        =   450
          Value           =   -1  'True
-         Caption         =   "youtube-dl 사용 안 함(&D)"
-         Transparent     =   -1  'True
+         Width           =   4335
       End
-      Begin prjDownloadBooster.OptionButtonW optUseYtdl 
+      Begin VB.OptionButton optUseYtdl 
+         Caption         =   "youtube-dl 사용(&U)"
          Height          =   255
          Left            =   360
          TabIndex        =   5
          Top             =   840
          Width           =   1935
-         _ExtentX        =   3413
-         _ExtentY        =   450
-         Caption         =   "youtube-dl 사용(&U)"
-         Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.FrameW fYtdl 
          Height          =   2175
@@ -204,16 +198,13 @@ Begin VB.Form frmDownloadOptions
             Top             =   1800
             Width           =   1215
          End
-         Begin prjDownloadBooster.OptionButtonW optCBR 
+         Begin VB.OptionButton optCBR 
+            Caption         =   "&CBR:"
             Height          =   255
             Left            =   840
             TabIndex        =   14
             Top             =   1800
             Width           =   735
-            _ExtentX        =   1296
-            _ExtentY        =   450
-            Caption         =   "&CBR:"
-            Transparent     =   -1  'True
          End
          Begin VB.ComboBox cbAudioFormat 
             Height          =   300
@@ -231,17 +222,14 @@ Begin VB.Form frmDownloadOptions
             Top             =   1440
             Width           =   1215
          End
-         Begin prjDownloadBooster.OptionButtonW optVBR 
+         Begin VB.OptionButton optVBR 
+            Caption         =   "&VBR:"
             Height          =   255
             Left            =   840
             TabIndex        =   12
             Top             =   1440
-            Width           =   735
-            _ExtentX        =   1296
-            _ExtentY        =   450
             Value           =   -1  'True
-            Caption         =   "&VBR:"
-            Transparent     =   -1  'True
+            Width           =   735
          End
          Begin prjDownloadBooster.CheckBoxW chkExtractAudio 
             Height          =   255

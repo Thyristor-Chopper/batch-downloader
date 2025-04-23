@@ -636,7 +636,7 @@ If CurrIndex > 0 Then
     If Not TextKey.Text = vbNullString Then
         If .Bands.Exists(TextKey.Text) = True Then
             .Bands(CurrIndex).Key = PropShadowBands(CurrIndex).Key
-            VBA.MsgBox "This key is already associated with an element of this collection.", vbCritical + vbOKOnly
+            'MsgBoxInternal "This key is already associated with an element of this collection.", vbCritical + vbOKOnly
             FreezeChanged = True
             TextKey.Text = PropShadowBands(CurrIndex).Key
             FreezeChanged = False
@@ -1016,7 +1016,7 @@ Else
     If Cancel = False Then TextImage.Text = CStr(LngValue)
 End If
 If Cancel = True Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextImage.Text = PropertyPage.SelectedControls(0).Bands(CurrIndex).Image
     Else
@@ -1048,7 +1048,7 @@ End Sub
 Private Sub TextCX_Validate(Cancel As Boolean)
 If TextCX.Text = vbNullString Then Exit Sub
 If Not IsNumeric(TextCX.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextCX.Text = PropertyPage.SelectedControls(0).Bands(CurrIndex).Width
     Else
@@ -1066,7 +1066,7 @@ Else
     If Cancel = False Then
         TextCX.Text = SngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         If CurrIndex > 0 Then
             TextCX.Text = PropertyPage.SelectedControls(0).Bands(CurrIndex).Width
         Else
@@ -1099,7 +1099,7 @@ End Sub
 Private Sub TextMinWidth_Validate(Cancel As Boolean)
 If TextMinWidth.Text = vbNullString Then Exit Sub
 If Not IsNumeric(TextMinWidth.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextMinWidth.Text = PropertyPage.SelectedControls(0).Bands(CurrIndex).MinWidth
     Else
@@ -1117,7 +1117,7 @@ Else
     If Cancel = False Then
         TextMinWidth.Text = SngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         If CurrIndex > 0 Then
             TextMinWidth.Text = PropertyPage.SelectedControls(0).Bands(CurrIndex).MinWidth
         Else
@@ -1150,7 +1150,7 @@ End Sub
 Private Sub TextMinHeight_Validate(Cancel As Boolean)
 If TextMinHeight.Text = vbNullString Then Exit Sub
 If Not IsNumeric(TextMinHeight.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextMinHeight.Text = PropertyPage.SelectedControls(0).Bands(CurrIndex).MinHeight
     Else
@@ -1168,7 +1168,7 @@ Else
     If Cancel = False Then
         TextMinHeight.Text = SngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         If CurrIndex > 0 Then
             TextMinHeight.Text = PropertyPage.SelectedControls(0).Bands(CurrIndex).MinHeight
         Else
@@ -1201,7 +1201,7 @@ End Sub
 Private Sub TextIdealWidth_Validate(Cancel As Boolean)
 If TextIdealWidth.Text = vbNullString Then Exit Sub
 If Not IsNumeric(TextIdealWidth.Text) Then
-    VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+    'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
     If CurrIndex > 0 Then
         TextIdealWidth.Text = PropertyPage.SelectedControls(0).Bands(CurrIndex).IdealWidth
     Else
@@ -1219,7 +1219,7 @@ Else
     If Cancel = False Then
         TextIdealWidth.Text = SngValue
     Else
-        VBA.MsgBox "Invalid property Value", vbCritical + vbOKOnly
+        'MsgBoxInternal "Invalid property Value", vbCritical + vbOKOnly
         If CurrIndex > 0 Then
             TextIdealWidth.Text = PropertyPage.SelectedControls(0).Bands(CurrIndex).IdealWidth
         Else
@@ -1290,7 +1290,7 @@ If CurrIndex > 0 Then
                     LabelPictureType.Caption = "(Bitmap)"
                 Else
                     Set CurrPicture = Nothing
-                    VBA.MsgBox "Invalid picture", vbCritical + vbOKOnly
+                    'MsgBoxInternal "Invalid picture", vbCritical + vbOKOnly
                     Exit Sub
                 End If
             End If

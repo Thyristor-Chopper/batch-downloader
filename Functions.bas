@@ -111,40 +111,41 @@ Private Declare Function SetFileTime Lib "kernel32" (ByVal hFile As Long, lpCrea
 Private Declare Function SystemTimeToFileTime Lib "kernel32" (lpSystemTime As SYSTEMTIME, lpFileTime As FILETIME) As Long
 Private Declare Function LocalFileTimeToFileTime Lib "kernel32" (lpLocalFileTime As FILETIME, lpFileTime As FILETIME) As Long
 Private Declare Function GetTimeZoneInformation Lib "kernel32" (lpTimeZoneInformation As TIME_ZONE_INFORMATION) As Long
+Declare Function CreateSolidBrush Lib "gdi32" (ByVal crColor As Long) As Long
 
-Enum VbMsgBoxResult
-    vbAbort = 3
-    vbCancel = 2
-    vbIgnore = 5
-    vbNo = 7
-    vbOK = 1
-    vbRetry = 4
-    vbYes = 6
+Enum VbMsgBoxResultEx
+'    vbAbort = 3
+'    vbCancel = 2
+'    vbIgnore = 5
+'    vbNo = 7
+'    vbOK = 1
+'    vbRetry = 4
+'    vbYes = 6
     vbTryAgain = 10
     vbContinue = 11
 End Enum
 
-Enum VbMsgBoxStyle
-    vbAbortRetryIgnore = 2
-    vbApplicationModal = 0
-    vbCritical = 16
-    vbDefaultButton1 = 0
-    vbDefaultButton2 = 256
-    vbDefaultButton3 = 512
-    vbDefaultButton4 = 768
-    vbExclamation = 48
-    vbInformation = 64
-    vbMsgBoxHelpButton = 16384
-    vbMsgBoxRight = 524288
-    vbMsgBoxRtlReading = 1048576
-    vbMsgBoxSetForeground = 65536
-    vbOKCancel = 1
-    vbOKOnly = 0
-    vbQuestion = 32
-    vbRetryCancel = 5
-    vbSystemModal = 4096
-    vbYesNo = 4
-    vbYesNoCancel = 3
+Enum VbMsgBoxStyleEx
+'    vbAbortRetryIgnore = 2
+'    vbApplicationModal = 0
+'    vbCritical = 16
+'    vbDefaultButton1 = 0
+'    vbDefaultButton2 = 256
+'    vbDefaultButton3 = 512
+'    vbDefaultButton4 = 768
+'    vbExclamation = 48
+'    vbInformation = 64
+'    vbMsgBoxHelpButton = 16384
+'    vbMsgBoxRight = 524288
+'    vbMsgBoxRtlReading = 1048576
+'    vbMsgBoxSetForeground = 65536
+'    vbOKCancel = 1
+'    vbOKOnly = 0
+'    vbQuestion = 32
+'    vbRetryCancel = 5
+'    vbSystemModal = 4096
+'    vbYesNo = 4
+'    vbYesNoCancel = 3
     vbCancelTryContinue = 6
     vbYesNoEx = 7
 End Enum
@@ -250,6 +251,13 @@ Type POINTAPI
    Y As Long
 End Type
 
+Type RECT
+    Left As Long
+    Top As Long
+    Right As Long
+    Bottom As Long
+End Type
+
 Type MINMAXINFO
     ptReserved As POINTAPI
     ptMaxSize As POINTAPI
@@ -296,13 +304,6 @@ Enum AudioBitrateType
     VBR = 0
     CBR = 1
 End Enum
-
-Type RECT
-    Left As Long
-    Top As Long
-    Right As Long
-    Bottom As Long
-End Type
 
 Type CWPSTRUCT
     lParam As Long
@@ -516,13 +517,13 @@ Const CC_SOLIDCOLOR = &H80&
 Const CC_ANYCOLOR = &H100&
 Const CLR_INVALID = &HFFFF
 
-Enum MsgBoxExIcon
-    Critical = 16
-    Question = 32
-    Exclamation = 48
-    Information = 64
-    Doraemon = 128
-End Enum
+'Enum MsgBoxExIcon
+'    Critical = 16
+'    Question = 32
+'    Exclamation = 48
+'    Information = 64
+'    Doraemon = 128
+'End Enum
 
 Private Const VK_SHIFT As Long = &H10
 Private Const VK_CONTROL As Long = &H11
@@ -544,14 +545,14 @@ End Enum
 Function IsKeyPressed(ByVal lKey As GetKeyStateKeyboardCodes) As Boolean
     Dim iResult As Integer
     iResult = GetKeyState(lKey)
-    
+
     Select Case lKey
         Case gksKeyboardCapsLock, gksKeyboardNumLock, gksKeyboardScrollLock
             iResult = iResult And 1
         Case Else
             iResult = iResult And &H8000
     End Select
-    
+
     IsKeyPressed = (iResult <> 0)
 End Function
 
@@ -595,9 +596,9 @@ Sub ExtendDWMFrame(ByRef frmForm As Form, Top As Long, Right As Long, Bottom As 
     DwmExtendFrameIntoClientArea frmForm.hWnd, Margin
 End Sub
 
+#If NOTHEME Then
+#Else
 Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
-    'SetupVisualStylesFixes frmForm
-
     Dim clrBackColor As Long
     Dim clrForeColor As Long
     Dim DisableVisualStyle As Boolean
@@ -629,7 +630,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     Else
         frmForm.ForeColor = clrForeColor
     End If
-    
+
     On Error Resume Next
     Dim ctrl As Control
     Dim CtrlTypeName$
@@ -694,7 +695,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
         End If
 nextfor:
     Next ctrl
-    
+
     SetClassicTheme frmForm, DisableClassicTheme
 End Sub
 
@@ -710,13 +711,13 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
     Dim CC As ChooseColorStruct
     Static aColorRef(15) As Long
     Dim lInitColor As Long
-  
+
     If InitColor <> 0 Then
         If OleTranslateColor(InitColor, 0, lInitColor) Then
             lInitColor = CLR_INVALID
         End If
     End If
-    
+
     If Not aColorRef(0) Then
         aColorRef(0) = RGB(233, 245, 236)
         aColorRef(1) = RGB(233, 237, 243)
@@ -726,7 +727,7 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
         aColorRef(5) = RGB(244, 232, 232)
         aColorRef(6) = RGB(248, 228, 244)
         aColorRef(7) = RGB(223, 233, 244)
-        
+
         aColorRef(8) = RGB(249, 242, 230)
         aColorRef(9) = RGB(222, 235, 248)
         aColorRef(10) = RGB(227, 244, 232)
@@ -736,14 +737,14 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
         aColorRef(14) = 16777215
         aColorRef(15) = 0&
     End If
-    
+
     Dim SolidColor As Long
     If SolidOnly Then
         SolidColor = CC_SOLIDCOLOR
     Else
         SolidColor = 0&
     End If
-    
+
     With CC
         .lStructSize = Len(CC)
         .hWndOwner = hParent
@@ -751,13 +752,14 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
         .RGBResult = lInitColor
         .Flags = SolidColor Or CC_ANYCOLOR Or CC_RGBINIT Or IIf(bFullOpen, CC_FULLOPEN, 0)
     End With
-    
+
     If ChooseColor(CC) Then
         ShowColorDialog = CC.RGBResult
     Else
         ShowColorDialog = -1
     End If
 End Function
+#End If
 
 Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKeyRef As String, Optional ByVal Default As Variant = "") As Variant
     Dim i As Long                                           ' 루프 카운터
@@ -772,20 +774,20 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     ' Open RegKey Under KeyRoot {HKEY_LOCAL_MACHINE...}
     '------------------------------------------------------------
     RC = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey) ' 레지스트리 키를 엽니다.
-    
+
     If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다...
-    
+
     tmpVal = String$(1024, 0)                             ' 변수의 크기를 할당합니다.
     KeyValSize = 1024                                       ' 변수 크기를 표시합니다.
-    
+
     '------------------------------------------------------------
     ' 레지스트리 키 값을 읽어옵니다...
     '------------------------------------------------------------
     RC = RegQueryValueEx(hKey, SubKeyRef, 0, _
                          KeyValType, tmpVal, KeyValSize)    ' 키 값을 가져오고 작성합니다.
-                        
+
     If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다.
-    
+
     If (Asc(Mid(tmpVal, KeyValSize, 1)) = 0) Then           ' Win95는 Null 종료 문자열을 추가합니다...
         tmpVal = Left(tmpVal, KeyValSize - 1)               ' Null을 찾았습니다. 문자열에서 추출합니다.
     Else                                                    ' WinNT는 Null 종료 문자열 추가하지 않습니다...
@@ -803,11 +805,11 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     Case Else                                               ' 문자열 레지스트리 키 데이터 형식
         KeyVal = tmpVal                                     ' 문자열 값을 복사합니다.
     End Select
-    
+
     GetKeyValue = KeyVal
     RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
     Exit Function                                           ' 종료합니다.
-    
+
 GetKeyError:      ' 오류가 발생하면 지웁니다...
     GetKeyValue = Default
     RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
@@ -817,7 +819,7 @@ End Function
 Function GetSubkeys(ByVal KeyRoot As Long, ByVal KeyName As String) As String()
     Dim KeysRev() As String, Keys() As String
     Dim hKey&, i&, j&, nBufferLen&, sBuffer$
-    
+
     If RegOpenKeyEx(KeyRoot, KeyName, 0&, KEY_READ, hKey) <> ERROR_SUCCESS Then GoTo keyerr
     If RegQueryInfoKey(hKey, lpcSubKeys:=i, lpcMaxSubKeyLen:=nBufferLen) <> ERROR_SUCCESS Then GoTo keyerr
     SysReAllocStringLen VarPtr(sBuffer), Length:=nBufferLen
@@ -840,12 +842,12 @@ Function GetSubkeys(ByVal KeyRoot As Long, ByVal KeyName As String) As String()
         RegCloseKey hKey
         Exit Function
     End If
-    
+
 keyerr:
     RegCloseKey hKey
     GetSubkeys = Keys
 End Function
-
+'
 'https://stackoverflow.com/questions/40651/check-if-a-record-exists-in-a-vb6-collection
 Function Exists(ByVal oCol As Collection, ByVal vKey As String) As Boolean
     On Error Resume Next
@@ -885,11 +887,9 @@ Function TextWidth(ByVal s As String, Optional ByVal FontName As String = "", Op
             End If
         End If
     End If
-    Load frmDummyForm
     frmDummyForm.Font.Name = FontName
     frmDummyForm.Font.Size = FontSize
     TextWidth = frmDummyForm.TextWidth(s)
-    Unload frmDummyForm
 End Function
 
 Function TextHeight(ByVal s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
@@ -923,11 +923,9 @@ Function TextHeight(ByVal s As String, Optional ByVal FontName As String = "", O
             End If
         End If
     End If
-    Load frmDummyForm
     frmDummyForm.Font.Name = FontName
     frmDummyForm.Font.Size = FontSize
     TextHeight = frmDummyForm.TextHeight(s)
-    Unload frmDummyForm
 End Function
 
 Function StrLen(ByVal s As String) As Integer
@@ -945,7 +943,7 @@ Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String
     Dim ForceX As Long
     Dim Lines() As String
     Dim LineX As Long
-    
+
     Paragraphs = Split(Text, vbNewLine)
     For ParagraphX = 0 To UBound(Paragraphs)
         Words = Split(Paragraphs(ParagraphX), " ")
@@ -983,22 +981,22 @@ End Function
 
 Function InputBoxEx(ByVal Prompt As String, Optional ByVal Title As String, Optional ByVal Default As String)
     If Title = "" Then Title = App.Title
-    
+
     Dim InpBox As frmInputBox
     Set InpBox = New frmInputBox
     Randomize
     InpBox.ResultID = CStr(Rnd * 1E+15)
     Set InpBox.InputBoxObject = InpBox
-    
+
     On Error Resume Next
-    
+
     InpBox.cmdOK.Caption = t("확인", "OK")
     InpBox.cmdCancel.Caption = t("취소", "Cancel")
-    
+
     InpBox.lblCaption = Prompt
     InpBox.txtInput.Text = Default
     InpBox.Caption = Title
-    
+
     InpBox.Show vbModal
     InputBoxEx = InputBoxResults(InpBox.ResultID)
     InputBoxResults.Remove InpBox.ResultID
@@ -1010,7 +1008,7 @@ Function RandInt(StartNumber, EndNumber)
     RandInt = Int(Rnd * (EndNumber - StartNumber + 1)) + StartNumber
 End Function
 
-Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As MsgBoxExIcon = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo, Optional ByVal MsgBoxMode As VbMsgBoxStyle = vbOKOnly) As VbMsgBoxResult
+Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As VbMsgBoxStyleEx = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResultEx = vbNo, Optional ByVal MsgBoxMode As VbMsgBoxStyleEx = vbOKOnly) As VbMsgBoxResultEx
     If Title = "" Then Title = App.Title
     If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 And MsgBoxMode <> vbYesNoEx And MsgBoxMode <> vbCancelTryContinue Then
         Select Case MsgBoxMode
@@ -1029,18 +1027,18 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
         End Select
         Exit Function
     End If
-    
+
     Dim MessageBox As frmMessageBox
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = MsgBoxMode
     Randomize
     MessageBox.ResultID = CStr(Rnd * 1E+15)
     Set MessageBox.MessageBoxObject = MessageBox
-    
+
     On Error Resume Next
     Dim NoIcon As Boolean
     NoIcon = False
-    
+
     Dim IconRandomIdx As Integer
     Select Case RandInt(1, 1000)
         Case 290
@@ -1069,10 +1067,10 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
             NoIcon = True
             MessageBox.imgTrain(IconRandomIdx).Visible = False
     End Select
-    
+
     Content = Replace(Content, "&", "&&")
     Content = Replace(Content, vbCrLf & vbCrLf, vbCrLf & " " & vbCrLf)
-    
+
     Dim i%
     Dim LineCount As Integer
     Dim LContent As Integer
@@ -1089,10 +1087,10 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
         LineContent = Split(Content, vbCrLf)(s)
         If TextWidth(LineContent) > LContent Then LContent = TextWidth(LineContent)
     Next s
-    
+
     If LContent = 0 Then LContent = StrLen(Content)
     If LineCount > 1 Then MessageBox.lblContent.Top = 280
-    
+
     Dim MsgBoxMinWidth As Integer
     Select Case MsgBoxMode
         Case vbOKOnly
@@ -1102,7 +1100,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
         Case vbYesNoCancel, vbAbortRetryIgnore, vbCancelTryContinue
             MsgBoxMinWidth = 4920
     End Select
-    
+
     MessageBox.lblContent.Height = 185 * LineCount + 60
     MessageBox.Height = 1615 + LineCount * 180 - 300 + 190 - 60 + IIf(MsgBoxMode = vbYesNoEx, 735, 0)
     MessageBox.Caption = Title
@@ -1114,7 +1112,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
         MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
         MessageBox.Height = MessageBox.Height - 240
     End If
-    
+
     Select Case MsgBoxMode
         Case vbOKOnly
             MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 + 30
@@ -1256,7 +1254,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdTryAgain.Top = MessageBox.cmdTryAgain.Top - 210
             End If
     End Select
-    
+
     Dim MessageSoundPath$
     Select Case Icon
         Case 48
@@ -1287,12 +1285,12 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
             MessageSoundPath = ""
     End Select
     If MessageSoundPath <> "-" Then PlayWave MessageSoundPath, FallbackSound:=Icon
-    
+
     If MsgBoxMode = vbOKOnly And AlertTimeout >= 0 Then
         MessageBox.timeout.Interval = AlertTimeout
         MessageBox.timeout.Enabled = -1
     End If
-    
+
     MessageBox.cmdOK.Caption = t("확인", "OK")
     MessageBox.cmdCancel.Caption = t("취소", "Cancel")
     MessageBox.cmdYes.Caption = t("예(&Y)", "&Yes")
@@ -1304,21 +1302,21 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     MessageBox.optNo.Caption = t("아니요(&N)", "&No")
     MessageBox.cmdTryAgain.Caption = t("다시 시도(&T)", "&Try Again")
     MessageBox.cmdContinue.Caption = t("계속(&C)", "&Continue")
-    
+
     MessageBox.cmdOK.Visible = (MsgBoxMode = vbOKOnly Or MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbOKCancel)
     MessageBox.cmdCancel.Visible = (MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbYesNoCancel Or MsgBoxMode = vbRetryCancel Or MsgBoxMode = vbOKCancel Or MsgBoxMode = vbCancelTryContinue)
     MessageBox.cmdYes.Visible = (MsgBoxMode = vbYesNo Or MsgBoxMode = vbYesNoCancel)
     MessageBox.cmdNo.Visible = (MsgBoxMode = vbYesNo Or MsgBoxMode = vbYesNoCancel)
     MessageBox.optYes.Visible = (MsgBoxMode = vbYesNoEx)
     MessageBox.optNo.Visible = (MsgBoxMode = vbYesNoEx)
-    
+
     MessageBox.cmdAbort.Visible = (MsgBoxMode = vbAbortRetryIgnore)
     MessageBox.cmdRetry.Visible = (MsgBoxMode = vbAbortRetryIgnore Or MsgBoxMode = vbRetryCancel)
     MessageBox.cmdIgnore.Visible = (MsgBoxMode = vbAbortRetryIgnore)
     MessageBox.cmdContinue.Visible = (MsgBoxMode = vbCancelTryContinue)
     MessageBox.cmdTryAgain.Visible = (MsgBoxMode = vbCancelTryContinue)
     MessageBox.cmdHelp.Visible = False
-    
+
     MessageBox.cmdCancel.Cancel = (MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbYesNoCancel Or MsgBoxMode = vbRetryCancel Or MsgBoxMode = vbOKCancel Or MsgBoxMode = vbCancelTryContinue)
     MessageBox.cmdCancel.Default = False
     MessageBox.cmdYes.Cancel = False
@@ -1327,7 +1325,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     MessageBox.cmdNo.Default = False
     MessageBox.cmdOK.Cancel = (MsgBoxMode = vbOKOnly)
     MessageBox.cmdOK.Default = (MsgBoxMode = vbOKOnly Or MsgBoxMode = vbYesNoEx)
-    
+
     MessageBox.Init
     If MsgBoxMode = vbOKOnly Then
         If IsModal Then
@@ -1347,17 +1345,17 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     End If
 End Function
 
-Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional ByVal Icon As MsgBoxExIcon = 32, Optional ByVal DefaultOption As VbMsgBoxResult = vbNo) As VbMsgBoxResult
+Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Optional ByVal Icon As VbMsgBoxStyleEx = 32, Optional ByVal DefaultOption As VbMsgBoxResultEx = vbNo) As VbMsgBoxResultEx
     ConfirmEx = ShowMessageBox(Content, Title, Icon, DefaultOption:=DefaultOption, MsgBoxMode:=vbYesNoEx)
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
-Function FontExists(ByVal Name As String) As Boolean
+Function FontExists(ByVal FontName As String) As Boolean
     On Error GoTo noexist
-    If Name = "" Then GoTo noexist
+    If FontName = "" Then GoTo noexist
     With New StdFont
-        .Name = Name
-        FontExists = (StrComp(.Name, Name, vbTextCompare) = 0)
+        .Name = FontName
+        FontExists = (StrComp(.Name, FontName, vbTextCompare) = 0)
     End With
     Exit Function
 noexist:
@@ -1417,7 +1415,7 @@ Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = F
     Else
         ParseSize = CStr(Size) & " " & t("바이트", "Bytes")
     End If
-    
+
     If Size >= (1024@) And ShowBytes Then
         ParseSize = ParseSize & " (" & Size & " " & t("바이트", "Bytes") & Suffix & ")"
     End If
@@ -1451,12 +1449,12 @@ End Function
 'https://gist.github.com/jvarn/5e11b1fd741b5f79d8a516c9c2368f17
 Function URLDecode(ByVal strIn As String) As String
     On Error GoTo ErrorHandler
-    
+
     Dim sl As Long, tl As Long
     Dim Key As String, kl As Long
     Dim hh As String, Hi As String, hl As String
     Dim A As Long
-    
+
     Key = "%"
     kl = Len(Key)
     sl = 1: tl = 1
@@ -1465,7 +1463,7 @@ Function URLDecode(ByVal strIn As String) As String
         If (tl = 1 And sl <> 1) Or tl < sl Then
             URLDecode = URLDecode & Mid(strIn, tl, sl - tl)
         End If
-        
+
         Select Case UCase(Mid(strIn, sl + kl, 1))
             Case "U"
                 A = val("&H" & Mid(strIn, sl + kl + 1, 4))
@@ -1496,14 +1494,14 @@ Function URLDecode(ByVal strIn As String) As String
                 End If
                 URLDecode = URLDecode & ChrW(A)
         End Select
-        
+
         tl = sl
         sl = InStr(sl, strIn, Key, vbTextCompare)
     Loop
-    
+
     URLDecode = URLDecode & Mid(strIn, tl)
     Exit Function
-    
+
 ErrorHandler:
     URLDecode = strIn
 End Function
@@ -1597,45 +1595,54 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
             ctrl.FontName = FontName
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
+#If NOTHEME Then
+#Else
             If ctrl.Name <> "lblLBCaption" And ctrl.Name <> "lblLBCaptionShadow" And ctrl.Name <> "lblLBCaption2" And ctrl.Name <> "lblLBCaptionShadow2" Then
+#End If
                 ctrl.FontBold = False
                 ctrl.Font.Bold = False
+#If NOTHEME Then
+#Else
             End If
+#End If
             ctrl.FontItalic = False
             ctrl.Font.Italic = False
         End If
     Next ctrl
 setlbfont:
+#If NOTHEME Then
+#Else
     If frm Is frmMain Then
         If LBEnabled Then
-            frmMain.lblURL.Font.Size = 10
-            frmMain.lblFilePath.Font.Size = 10
-            frmMain.lblThreadCountLabel.Font.Size = 10
-            frmMain.lblURLShadow.Font.Size = 10
-            frmMain.lblFilePathShadow.Font.Size = 10
-            frmMain.lblThreadCountLabelShadow.Font.Size = 10
-            frmMain.lblURL.Font.Bold = True
-            frmMain.lblFilePath.Font.Bold = True
-            frmMain.lblThreadCountLabel.Font.Bold = True
-            frmMain.lblURLShadow.Font.Bold = True
-            frmMain.lblFilePathShadow.Font.Bold = True
-            frmMain.lblThreadCountLabelShadow.Font.Bold = True
+            frm.lblURL.Font.Size = 10
+            frm.lblFilePath.Font.Size = 10
+            frm.lblThreadCountLabel.Font.Size = 10
+            frm.lblURLShadow.Font.Size = 10
+            frm.lblFilePathShadow.Font.Size = 10
+            frm.lblThreadCountLabelShadow.Font.Size = 10
+            frm.lblURL.Font.Bold = True
+            frm.lblFilePath.Font.Bold = True
+            frm.lblThreadCountLabel.Font.Bold = True
+            frm.lblURLShadow.Font.Bold = True
+            frm.lblFilePathShadow.Font.Bold = True
+            frm.lblThreadCountLabelShadow.Font.Bold = True
         Else
-            frmMain.lblURL.Font.Bold = False
-            frmMain.lblFilePath.Font.Bold = False
-            frmMain.lblThreadCountLabel.Font.Bold = False
-            frmMain.lblURLShadow.Font.Bold = False
-            frmMain.lblFilePathShadow.Font.Bold = False
-            frmMain.lblThreadCountLabelShadow.Font.Bold = False
-            FontSize = IIf(LCase(frmMain.lblURL.Font.Name) = "tahoma", 8, 9)
-            frmMain.lblURL.Font.Size = FontSize
-            frmMain.lblFilePath.Font.Size = FontSize
-            frmMain.lblThreadCountLabel.Font.Size = FontSize
-            frmMain.lblURLShadow.Font.Size = FontSize
-            frmMain.lblFilePathShadow.Font.Size = FontSize
-            frmMain.lblThreadCountLabelShadow.Font.Size = FontSize
+            frm.lblURL.Font.Bold = False
+            frm.lblFilePath.Font.Bold = False
+            frm.lblThreadCountLabel.Font.Bold = False
+            frm.lblURLShadow.Font.Bold = False
+            frm.lblFilePathShadow.Font.Bold = False
+            frm.lblThreadCountLabelShadow.Font.Bold = False
+            FontSize = IIf(LCase(frm.lblURL.Font.Name) = "tahoma", 8, 9)
+            frm.lblURL.Font.Size = FontSize
+            frm.lblFilePath.Font.Size = FontSize
+            frm.lblThreadCountLabel.Font.Size = FontSize
+            frm.lblURLShadow.Font.Size = FontSize
+            frm.lblFilePathShadow.Font.Size = FontSize
+            frm.lblThreadCountLabelShadow.Font.Size = FontSize
         End If
     End If
+#End If
 End Sub
 
 Function FormatTime(Sec) As String
@@ -1646,7 +1653,7 @@ Function FormatTime(Sec) As String
     Else
         ret = ""
     End If
-    
+
     If Sec >= 60 Then
         ret = ret & Floor((Sec Mod 3600) / 60) & t("분 ", " minutes and ")
     End If
@@ -1702,7 +1709,7 @@ Function DecodeHeaderCache(ByVal HeaderCache As String) As Collection
         HeaderKeys.Add Left$(HeaderLine, ColonPos - 1)
 continue:
     Next i
-    
+
     DecodeHeaderCache.Add HeaderKeys, "keys"
     DecodeHeaderCache.Add Headers, "Values"
 End Function
@@ -1728,20 +1735,20 @@ Sub GetDiskSpace(sDrive As String, ByRef dblTotal As Double, ByRef dblFree As Do
     Dim liFree As LARGE_INTEGER
     If Right(sDrive, 1) <> "" Then sDrive = sDrive & ""
     lresult = GetDiskFreeSpaceEx(sDrive, liAvailable, liTotal, liFree)
-    
+
     dblTotal = CLargeInt(liTotal.lowpart, liTotal.highpart)
     dblFree = CLargeInt(liFree.lowpart, liFree.highpart)
 End Sub
- 
+
 Private Function CLargeInt(Lo As Long, Hi As Long) As Double
     Dim dblLo As Double, dblHi As Double
-    
+
     If Lo < 0 Then
         dblLo = 2 ^ 32 + Lo
     Else
         dblLo = Lo
     End If
-    
+
     If Hi < 0 Then
         dblHi = 2 ^ 32 + Hi
     Else
@@ -1768,7 +1775,7 @@ Function GetShortcutTarget(sPath As String) As String
     Dim shl As Shell, file As FolderItem, fld As shell32.Folder
     Dim lnk As ShellLinkObject, i As Long, folderPath As String
     Dim Shortcutname As String
-    
+
     On Error GoTo ErrRtn
     folderPath = GetParentFolderName(sPath)
     Set shl = New Shell
@@ -1801,7 +1808,7 @@ Function atob(sText As String) As Byte()
     Dim lSize           As Long
     Dim dwDummy         As Long
     Dim baOutput()      As Byte
-    
+
     lSize = Len(sText) + 1
     ReDim baOutput(0 To lSize - 1) As Byte
     CryptStringToBinary StrPtr(sText), Len(sText), CRYPT_STRING_BASE64, VarPtr(baOutput(0)), lSize, 0, dwDummy
@@ -1870,7 +1877,7 @@ stringproc:
         Includes = False
         Exit Function
     End If
-    
+
     Dim i%
     For i = LBound(Target) To UBound(Target)
         If Target(i) = toFind Then
@@ -1942,7 +1949,7 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
         IsYtdlSupported = True
         Exit Function
     End If
-    
+
     Dim HostName$
     If Includes(URL, "://") Then
         HostName = Mid$(URL, InStr(URL, "://") + 3)
@@ -1954,7 +1961,7 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
         HostName = Left$(HostName, InStrRev(HostName, ":") - 1)
     End If
     HostName = LCase(HostName)
-    
+
     IsYtdlSupported = Includes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
 End Function
 
@@ -1967,23 +1974,23 @@ Function GetThemeColor(ByVal hWnd As Long, ByVal ClassList As String, Optional B
     On Error GoTo returndefault
     Dim hTheme As Long
     Dim clr As Long
-    
+
     If IsAppThemed() = 0 Or IsThemeActive() = 0 Then GoTo returndefault
     hTheme = OpenThemeData(hWnd, StrPtr(ClassList))
     If hTheme = 0& Then GoTo returndefault
     If X_GetThemeColor(hTheme, Part, State, Prop, clr) <> 0 Then GoTo returndefault
     CloseThemeData hTheme
-    
+
     GetThemeColor = clr
     Exit Function
-    
+
 returndefault:
     If hTheme <> 0& Then CloseThemeData hTheme
     GetThemeColor = DefaultColor
     Exit Function
 End Function
 
-Sub PlayWave(ByVal Path As String, Optional ByVal LoopWave As Boolean = False, Optional ByVal StopPreviousWave As Boolean = True, Optional ByVal FallbackSound As MsgBoxExIcon = -1)
+Sub PlayWave(ByVal Path As String, Optional ByVal LoopWave As Boolean = False, Optional ByVal StopPreviousWave As Boolean = True, Optional ByVal FallbackSound As Long = -1)
     If FileExists(Path) Then
         PlaySound Path, 0&, SND_FILENAME Or SND_ASYNC Or IIf(LoopWave, SND_LOOP, 0&) Or IIf(StopPreviousWave, 0&, SND_NOSTOP)
     ElseIf FallbackSound >= 0 Then
@@ -1991,11 +1998,11 @@ Sub PlayWave(ByVal Path As String, Optional ByVal LoopWave As Boolean = False, O
     End If
 End Sub
 
-Sub EnableFrameControls(ByRef fFrame As FrameW, ByRef Except As Control, Optional ByVal Enable As Boolean = True)
-    Dim ctrl As Control
-    For Each ctrl In fFrame.ContainedControls
-        If ctrl.Name <> Except.Name Then ctrl.Enabled = Enable
-    Next ctrl
+Sub EnableFrameControls(ByRef fFrame As Control, ByRef Except As Control, Optional ByVal Enable As Boolean = True)
+'    Dim ctrl As Control
+'    For Each ctrl In fFrame.ContainedControls
+'        If ctrl.Name <> Except.Name Then ctrl.Enabled = Enable
+'    Next ctrl
 End Sub
 
 Function Max(ByRef L, ByRef R)
@@ -2006,9 +2013,9 @@ Function Max(ByRef L, ByRef R)
     End If
 End Function
 
-Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional Title = "") As VbMsgBoxResult
+Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyleEx = vbOKOnly, Optional Title = "") As VbMsgBoxResultEx
     If Title = "" Then Title = App.Title
-    
+
     If Buttons > 70 Then
         GoTo nativemsgbox
     ElseIf Buttons < 16 Then
@@ -2024,7 +2031,7 @@ Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional T
     Else
         GoTo nativemsgbox
     End If
-    
+
     Exit Function
 nativemsgbox:
     MsgBox = VBA.MsgBox(Prompt, Buttons, Title)
@@ -2042,7 +2049,7 @@ End Function
 Function GetDPI() As Long
     Dim hWndDesktop As Long
     Dim hDCDesktop As Long
-    
+
     hWndDesktop = GetDesktopWindow()
     hDCDesktop = GetDC(hWndDesktop)
     GetDPI = GetDeviceCaps(hDCDesktop, 88)
@@ -2064,11 +2071,11 @@ Function Ceil(val)
 End Function
 
 Function GetPictureWidth(pic As StdPicture) As Long
-    GetPictureWidth = Round(frmMain.ScaleX(pic.Width, vbHimetric, vbTwips))
+    GetPictureWidth = Round(frmDummyForm.ScaleX(pic.Width, vbHimetric, vbTwips))
 End Function
 
 Function GetPictureHeight(pic As StdPicture) As Long
-    GetPictureHeight = Round(frmMain.ScaleY(pic.Height, vbHimetric, vbTwips))
+    GetPictureHeight = Round(frmDummyForm.ScaleY(pic.Height, vbHimetric, vbTwips))
 End Function
 
 Sub ExtractResource(ResourceID, ByVal ResourceType As ResourceType, ByVal FileName As String)
@@ -2077,7 +2084,7 @@ Sub ExtractResource(ResourceID, ByVal ResourceType As ResourceType, ByVal FileNa
     On Error Resume Next
     MkDir CachePath
     On Error GoTo 0
-    
+
     If Not FileExists(CachePath & FileName) Then
         B = LoadResData(ResourceID, ResourceType)
         ff = FreeFile()
@@ -2101,7 +2108,7 @@ Sub SetFileDate(ByVal sFilename As String, ByVal dFileDate As Date)
     Dim lhwndFile As Long
     Dim tSystemTime As SYSTEMTIME
     Dim tLocalTime As FILETIME, lpLastWriteTime As FILETIME, lpCreationTime As FILETIME
-    
+
     Dim uInfo As TIME_ZONE_INFORMATION
     Dim wMonth%, wDay%, wHour%
     If GetTimeZoneInformation(uInfo) > 0& Then
@@ -2112,7 +2119,7 @@ Sub SetFileDate(ByVal sFilename As String, ByVal dFileDate As Date)
             dFileDate = DateAdd("n", -uInfo.DaylightBias, dFileDate)
         End If
     End If
-    
+
     tSystemTime.Year = Year(dFileDate)
     tSystemTime.Month = Month(dFileDate)
     tSystemTime.Day = Day(dFileDate)
@@ -2146,8 +2153,11 @@ Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean 
 End Sub
 
 Sub InitForm(ByRef frmForm As Form)
+#If NOTHEME Then
+#Else
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow frmForm.hWnd
     SetFormBackgroundColor frmForm
+#End If
     SetFont frmForm
     SetWindowPos frmForm.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
 End Sub
