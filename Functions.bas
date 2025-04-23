@@ -1054,6 +1054,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     MessageBox.imgTrain(IconRandomIdx).Left = 225
     MessageBox.imgTrain(IconRandomIdx).ZOrder 1
     MessageBox.imgTrain(IconRandomIdx).Visible = True
+    Set MessageBox.imgTrain(IconRandomIdx).Picture = frmDummyForm.imgTrain(IconRandomIdx).Picture
     Select Case Icon
         Case 48
             MessageBox.imgExclamation.Visible = True

@@ -1120,7 +1120,7 @@ Begin VB.Form frmOptions
             Style           =   2  '드롭다운 목록
             TabIndex        =   56
             Top             =   570
-            Width           =   1695
+            Width           =   1665
          End
          Begin VB.ComboBox cbFrameSkin 
             Height          =   300
@@ -1185,7 +1185,7 @@ Begin VB.Form frmOptions
             Style           =   2  '드롭다운 목록
             TabIndex        =   76
             Top             =   570
-            Width           =   1455
+            Width           =   1515
          End
          Begin VB.ComboBox lvPatterns 
             Height          =   300
@@ -1193,7 +1193,7 @@ Begin VB.Form frmOptions
             Style           =   2  '드롭다운 목록
             TabIndex        =   73
             Top             =   240
-            Width           =   1455
+            Width           =   1515
          End
          Begin VB.FileListBox lvBackgroundFiles 
             Height          =   450
@@ -1206,13 +1206,13 @@ Begin VB.Form frmOptions
             Width           =   615
          End
          Begin prjDownloadBooster.CommandButtonW cmdChooseBackground 
-            Height          =   330
+            Height          =   300
             Left            =   2520
             TabIndex        =   77
-            Top             =   555
+            Top             =   570
             Width           =   495
             _ExtentX        =   873
-            _ExtentY        =   582
+            _ExtentY        =   529
             ImageList       =   "imgBrowse"
             ImageListAlignment=   4
          End
@@ -2841,34 +2841,34 @@ Private Sub Form_Load()
     imgDesktop.Top = 0
     imgDesktop.Left = 0
     
-    Dim WallpaperPath$, ActiveDesktopWallpaperPath$
-    WallpaperPath = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop", "Wallpaper")
-    If WinVer < 6# Then
-        ActiveDesktopWallpaperPath = GetKeyValue(HKEY_CURRENT_USER, "Software\Microsoft\Internet Explorer\Desktop\General", "Wallpaper", WallpaperPath)
-    Else
-        ActiveDesktopWallpaperPath = WallpaperPath
-    End If
-    
-    If Left$(WallpaperPath, 1) = """" And Right$(WallpaperPath, 1) = """" Then WallpaperPath = Mid$(WallpaperPath, 2, Len(WallpaperPath) - 2)
-    If Left$(ActiveDesktopWallpaperPath, 1) = """" And Right$(ActiveDesktopWallpaperPath, 1) = """" Then ActiveDesktopWallpaperPath = Mid$(ActiveDesktopWallpaperPath, 2, Len(ActiveDesktopWallpaperPath) - 2)
-    
-    On Error GoTo activefail
-    If Right$(LCase(ActiveDesktopWallpaperPath), 4) = ".png" Then
-        Set imgDesktop.Picture = LoadPngIntoPictureWithAlpha(ActiveDesktopWallpaperPath)
-    Else
-        imgDesktop.Picture = LoadPicture(ActiveDesktopWallpaperPath)
-    End If
-    GoTo nextcode
-    
-activefail:
-    On Error GoTo nextcode
-    If Right$(LCase(WallpaperPath), 4) = ".png" Then
-        Set imgDesktop.Picture = LoadPngIntoPictureWithAlpha(WallpaperPath)
-    Else
-        imgDesktop.Picture = LoadPicture(WallpaperPath)
-    End If
-    
-nextcode:
+'    Dim WallpaperPath$, ActiveDesktopWallpaperPath$
+'    WallpaperPath = GetKeyValue(HKEY_CURRENT_USER, "Control Panel\Desktop", "Wallpaper")
+'    If WinVer < 6# Then
+'        ActiveDesktopWallpaperPath = GetKeyValue(HKEY_CURRENT_USER, "Software\Microsoft\Internet Explorer\Desktop\General", "Wallpaper", WallpaperPath)
+'    Else
+'        ActiveDesktopWallpaperPath = WallpaperPath
+'    End If
+'
+'    If Left$(WallpaperPath, 1) = """" And Right$(WallpaperPath, 1) = """" Then WallpaperPath = Mid$(WallpaperPath, 2, Len(WallpaperPath) - 2)
+'    If Left$(ActiveDesktopWallpaperPath, 1) = """" And Right$(ActiveDesktopWallpaperPath, 1) = """" Then ActiveDesktopWallpaperPath = Mid$(ActiveDesktopWallpaperPath, 2, Len(ActiveDesktopWallpaperPath) - 2)
+'
+'    On Error GoTo activefail
+'    If Right$(LCase(ActiveDesktopWallpaperPath), 4) = ".png" Then
+'        Set imgDesktop.Picture = LoadPngIntoPictureWithAlpha(ActiveDesktopWallpaperPath)
+'    Else
+'        imgDesktop.Picture = LoadPicture(ActiveDesktopWallpaperPath)
+'    End If
+'    GoTo nextcode
+'
+'activefail:
+'    On Error GoTo nextcode
+'    If Right$(LCase(WallpaperPath), 4) = ".png" Then
+'        Set imgDesktop.Picture = LoadPngIntoPictureWithAlpha(WallpaperPath)
+'    Else
+'        imgDesktop.Picture = LoadPicture(WallpaperPath)
+'    End If
+'
+'nextcode:
     cmdSample.ImageList = frmMain.imgDownload
     
 #If HIDEYTDL Then

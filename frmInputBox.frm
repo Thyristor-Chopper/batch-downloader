@@ -64,7 +64,6 @@ Begin VB.Form frmInputBox
    Begin VB.Image imgIcon 
       Height          =   480
       Left            =   240
-      Picture         =   "frmInputBox.frx":00C3
       Top             =   240
       Width           =   480
    End
@@ -108,6 +107,7 @@ End Sub
 
 Private Sub Form_Load()
     InitForm Me
+    Set imgIcon.Picture = frmDummyForm.imgTrain(2).Picture
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

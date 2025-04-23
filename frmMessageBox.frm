@@ -172,7 +172,6 @@ Begin VB.Form frmMessageBox
       Height          =   480
       Index           =   4
       Left            =   4440
-      Picture         =   "frmMessageBox.frx":0351
       Top             =   0
       Visible         =   0   'False
       Width           =   480
@@ -181,7 +180,6 @@ Begin VB.Form frmMessageBox
       Height          =   480
       Index           =   3
       Left            =   3840
-      Picture         =   "frmMessageBox.frx":0615
       Top             =   0
       Visible         =   0   'False
       Width           =   480
@@ -190,7 +188,6 @@ Begin VB.Form frmMessageBox
       Height          =   480
       Index           =   2
       Left            =   3240
-      Picture         =   "frmMessageBox.frx":08D4
       Top             =   0
       Visible         =   0   'False
       Width           =   480
@@ -199,7 +196,6 @@ Begin VB.Form frmMessageBox
       Height          =   480
       Index           =   1
       Left            =   2640
-      Picture         =   "frmMessageBox.frx":0C91
       Top             =   0
       Visible         =   0   'False
       Width           =   480
@@ -208,7 +204,6 @@ Begin VB.Form frmMessageBox
       Height          =   480
       Index           =   0
       Left            =   2040
-      Picture         =   "frmMessageBox.frx":0F82
       Top             =   0
       Visible         =   0   'False
       Width           =   480
