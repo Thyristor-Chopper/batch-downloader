@@ -1845,18 +1845,10 @@ errfso:
 End Function
 
 Function Includes(Target, toFind) As Boolean
-    Dim TargetType As VbVarType
-    TargetType = VarType(Target)
-    If TargetType = vbString Then
-stringproc:
-        Includes = (InStr(CStr(Target), CStr(toFind)) <> 0)
-        Exit Function
-    ElseIf TargetType < vbArray Then
-        If (TargetType >= vbInteger And TargetType <= vbDouble) Or TargetType = vbByte Or TargetType = vbDecimal Then GoTo stringproc
-        Includes = False
-        Exit Function
-    End If
+    Includes = (InStr(CStr(Target), CStr(toFind)) <> 0)
+End Function
 
+Function ArrayIncludes(Target, toFind) As Boolean
     Dim i%
     For i = LBound(Target) To UBound(Target)
         If Target(i) = toFind Then
@@ -1941,7 +1933,7 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
     End If
     HostName = LCase(HostName)
 
-    IsYtdlSupported = Includes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
+    IsYtdlSupported = ArrayIncludes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
 End Function
 
 Sub tr(ByRef ctrl As Control, ByVal EnglishCaption As String)
@@ -1970,7 +1962,11 @@ End Function
 
 Sub PlayWave(ByVal Path As String, Optional ByVal LoopWave As Boolean = False, Optional ByVal StopPreviousWave As Boolean = True, Optional ByVal FallbackSound As Long = -1&)
     If FileExists(Path) Then
-        PlaySound Path, 0&, SND_FILENAME Or SND_ASYNC Or IIf(LoopWave, SND_LOOP, 0&) Or IIf(StopPreviousWave, 0&, SND_NOSTOP)
+        Dim Flags As Long
+        Flags = SND_FILENAME Or SND_ASYNC
+        If LoopWave Then Flags = Flags Or SND_LOOP
+        If Not StopPreviousWave Then Flags = Flags Or SND_NOSTOP
+        PlaySound Path, 0&, Flags
     ElseIf FallbackSound >= 0& Then
         MessageBeep FallbackSound
     End If
@@ -2134,5 +2130,7 @@ Sub InitForm(ByRef frmForm As Form)
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow frmForm.hWnd
     SetFormBackgroundColor frmForm
     SetFont frmForm
-    SetWindowPos frmForm.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
+    Dim InsertAfter As Long
+    If MainFormOnTop Then InsertAfter = hWnd_TOPMOST Else InsertAfter = hWnd_NOTOPMOST
+    SetWindowPos frmForm.hWnd, InsertAfter, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
 End Sub

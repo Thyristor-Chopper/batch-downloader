@@ -1639,7 +1639,7 @@ Private Sub OnFontChange()
             FontName = DefaultFont
         End If
     End If
-    FontSize = IIf(LCase(FontName) = "tahoma" Or Left$(FontName, 7) = "Tahoma ", 8, 9)
+    If LCase(FontName) = "tahoma" Or Left$(FontName, 7) = "Tahoma " Then FontSize = 8 Else FontSize = 9
     
     Dim i%
     For i = LBound(PreviewControls) To UBound(PreviewControls)
@@ -1767,7 +1767,7 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", Section, "FormFillStyle", 0))
     
     ChangedBackgroundPath = GetSetting("DownloadBooster", Section, "BackgroundImagePath", "")
-    LoadBackgroundList IIf(ThemeName = "", True, False)
+    LoadBackgroundList (ThemeName = "")
     
     pgPatternColor.BackColor = CLng(GetSetting("DownloadBooster", Section, "FormFillColor", 0))
     pgPatternPreview.FillColor = pgPatternColor.BackColor
@@ -1994,7 +1994,9 @@ Private Sub cmdApply_Click()
         frmMain.pbProgressContainer.Top = 0
         frmMain.vsProgressScroll.Value = 0
         frmMain.pbProgressContainer.Refresh
-        frmMain.vsProgressScroll.LargeChange = IIf(optScreenPerScroll.Value, 1, 10)
+        Dim LargeChange As Byte
+        If optScreenPerScroll.Value Then LargeChange = 1 Else LargeChange = 10
+        frmMain.vsProgressScroll.LargeChange = LargeChange
     End If
     If trRequestInterval.Value < 8 Then
         SaveSetting "DownloadBooster", "Options", "ThreadRequestInterval", CInt(IntervalValues(trRequestInterval.Value) * 1000)
@@ -2164,12 +2166,15 @@ aftermaxtrdcheck:
     Dim MII As MENUITEMINFO
     hSysMenu = GetSystemMenu(frmMain.hWnd, 0)
     MainFormOnTop = (chkAlwaysOnTop.Value = 1)
-    SetWindowPos frmMain.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
-    SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    Dim InsertAfter As Long
+    If MainFormOnTop Then InsertAfter = hWnd_TOPMOST Else InsertAfter = hWnd_NOTOPMOST
+    SetWindowPos frmMain.hWnd, InsertAfter, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    SetWindowPos Me.hWnd, InsertAfter, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     With MII
         .cbSize = Len(MII)
         .fMask = MIIM_STATE
-        .fState = MFS_ENABLED Or IIf(MainFormOnTop, MFS_CHECKED, 0)
+        .fState = MFS_ENABLED
+        If MainFormOnTop Then .fState = .fState Or MFS_CHECKED
     End With
     SetMenuItemInfo hSysMenu, 1000, 0, MII
     SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(MainFormOnTop)
@@ -2192,7 +2197,9 @@ aftermaxtrdcheck:
         FrameW5.ForeColor = pgFore.BackColor
     End If
     
-    SaveSetting "DownloadBooster", "Options", "Theme", IIf(cbTheme.ListIndex = 0, "", cbTheme.List(cbTheme.ListIndex))
+    Dim SaveThemeName As String
+    If cbTheme.ListIndex = 0 Then SaveThemeName = "" Else SaveThemeName = cbTheme.List(cbTheme.ListIndex)
+    SaveSetting "DownloadBooster", "Options", "Theme", SaveThemeName
     
     RedrawPreview
     ColorChanged = False
@@ -2294,8 +2301,9 @@ exitsub:
 End Sub
 
 Private Sub cmdSaveTheme_Click()
-    Dim ThemeName$
-    ThemeName = InputBoxEx(t("테마 이름을 입력하십시오.", "Choose your theme name."), t("테마 저장", "Save theme"), IIf(cbTheme.ListIndex = 0, "", cbTheme.List(cbTheme.ListIndex)))
+    Dim ThemeName$, DefThemeName$
+    If cbTheme.ListIndex = 0 Then DefThemeName = "" Else DefThemeName = cbTheme.List(cbTheme.ListIndex)
+    ThemeName = InputBoxEx(t("테마 이름을 입력하십시오.", "Choose your theme name."), t("테마 저장", "Save theme"), DefThemeName)
     If ThemeName = "" Then
         Exit Sub
     ElseIf Includes(ThemeName, "\") Then
@@ -2321,7 +2329,7 @@ Private Sub cmdSaveTheme_Click()
     If WinVer >= 6# And cbFrameSkin.ListCount >= 3 Then
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", Abs(cbFrameSkin.ListIndex = 1)
     End If
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", IIf((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1), 1, 0)
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", Abs((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
     
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "CompleteSoundPath", Trim$(txtCompleteSoundPath.Text)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackColorMainOnly", chkBackColorMainOnly.Value
@@ -2354,7 +2362,7 @@ Private Sub cmdSaveTheme_Click()
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ImagePosition", cbImagePosition.ListIndex
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", IIf(lvBackgrounds.ListIndex <> 0, 1, 0)
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", Abs(lvBackgrounds.ListIndex <> 0)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImagePath", ChangedBackgroundPath
     
     If lvBackgrounds.ListIndex <> 0 And GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "") = "" Then

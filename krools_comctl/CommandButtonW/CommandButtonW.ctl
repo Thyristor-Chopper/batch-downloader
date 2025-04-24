@@ -19,9 +19,9 @@ Begin VB.UserControl CommandButtonW
       Top             =   0
       Visible         =   0   'False
       Width           =   975
-      _extentx        =   1720
-      _extenty        =   661
-      fontsize        =   0
+      _ExtentX        =   1720
+      _ExtentY        =   661
+      FontSize        =   0
    End
    Begin VB.Timer TimerImageList 
       Enabled         =   0   'False
@@ -692,7 +692,7 @@ If Not PropFont Is Nothing Then
     tygButton.FontSize = PropFont.Size
 End If
 If CommandButtonHandle <> NULL_PTR Then
-    MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, UserControl.ScaleWidth + 5, 0), IIf(PropIsTygemButton, UserControl.ScaleHeight + 5, 0), UserControl.ScaleWidth, UserControl.ScaleHeight, IIf(PropTransparent, 0, 1)
+    MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, Abs(Not PropTransparent)
 End If
 End With
 Call CreateCommandButton
@@ -903,7 +903,7 @@ With UserControl
 If DPICorrectionFactor() <> 1 Then Call SyncObjectRectsToContainer(Me)
 If CommandButtonHandle <> NULL_PTR Then
     If PropTransparent = True Then
-        MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, .ScaleWidth + 5, 0), IIf(PropIsTygemButton, .ScaleHeight + 5, 0), .ScaleWidth, .ScaleHeight, 0
+        MoveWindow CommandButtonHandle, -((.ScaleWidth + 5) * PropIsTygemButton), -((.ScaleHeight + 5) * PropIsTygemButton), .ScaleWidth, .ScaleHeight, 0
         If PropIsTygemButton Then GoTo exitif
         If CommandButtonTransparentBrush <> NULL_PTR Then
             DeleteObject CommandButtonTransparentBrush
@@ -912,7 +912,7 @@ If CommandButtonHandle <> NULL_PTR Then
         RedrawWindow CommandButtonHandle, NULL_PTR, NULL_PTR, RDW_UPDATENOW Or RDW_INVALIDATE Or RDW_ERASE
 exitif:
     Else
-        MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, .ScaleWidth + 5, 0), IIf(PropIsTygemButton, .ScaleHeight + 5, 0), .ScaleWidth, .ScaleHeight, 1
+        MoveWindow CommandButtonHandle, -((.ScaleWidth + 5) * PropIsTygemButton), -((.ScaleHeight + 5) * PropIsTygemButton), .ScaleWidth, .ScaleHeight, 1
     End If
 End If
 End With
@@ -1247,7 +1247,7 @@ End Property
 
 Public Property Let Enabled(ByVal Value As Boolean)
 UserControl.Enabled = Value
-If CommandButtonHandle <> NULL_PTR Then EnableWindow CommandButtonHandle, IIf(Value = True, 1, 0)
+If CommandButtonHandle <> NULL_PTR Then EnableWindow CommandButtonHandle, Abs(Value)
 UserControl.PropertyChanged "Enabled"
 tygButton.Enabled = Value
 End Property
@@ -1260,7 +1260,7 @@ Public Property Let IsTygemButton(ByVal Value As Boolean)
 tygButton.Visible = Value
 PropIsTygemButton = Value
 If CommandButtonHandle <> NULL_PTR Then
-    MoveWindow CommandButtonHandle, IIf(PropIsTygemButton, UserControl.ScaleWidth + 5, 0), IIf(PropIsTygemButton, UserControl.ScaleHeight + 5, 0), UserControl.ScaleWidth, UserControl.ScaleHeight, IIf(PropTransparent, 0, 1)
+    MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, Abs(Not PropTransparent)
 End If
 UserControl.PropertyChanged "IsTygemButton"
 Refresh
@@ -2010,7 +2010,7 @@ If (dwStyle And BS_OWNERDRAW) = BS_OWNERDRAW Then
     ' The BS_OWNERDRAW style cannot be combined with any other button style.
     dwStyle = WS_CHILD Or WS_VISIBLE Or BS_OWNERDRAW
 End If
-CommandButtonHandle = CreateWindowEx(dwExStyle, StrPtr("Button"), NULL_PTR, dwStyle, IIf(PropIsTygemButton, UserControl.ScaleWidth + 5, 0), IIf(PropIsTygemButton, UserControl.ScaleHeight + 5, 0), UserControl.ScaleWidth, UserControl.ScaleHeight, UserControl.hWnd, NULL_PTR, App.hInstance, ByVal NULL_PTR)
+CommandButtonHandle = CreateWindowEx(dwExStyle, StrPtr("Button"), NULL_PTR, dwStyle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, UserControl.hWnd, NULL_PTR, App.hInstance, ByVal NULL_PTR)
 If CommandButtonHandle <> NULL_PTR Then
     Call ComCtlsShowAllUIStates(CommandButtonHandle)
     If ComCtlsSupportLevel() >= 2 Then
@@ -2149,7 +2149,7 @@ If CommandButtonHandle <> NULL_PTR Then Pushed = CBool((SendMessage(CommandButto
 End Property
 
 Public Property Let Pushed(ByVal Value As Boolean)
-If CommandButtonHandle <> NULL_PTR Then SendMessage CommandButtonHandle, BM_SETSTATE, IIf(Value = True, 1, 0), ByVal 0&
+If CommandButtonHandle <> NULL_PTR Then SendMessage CommandButtonHandle, BM_SETSTATE, Abs(Value), ByVal 0&
 End Property
 
 Public Property Get Hot() As Boolean
@@ -2169,7 +2169,7 @@ If CommandButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then DroppedDo
 End Property
 
 Public Property Let DroppedDown(ByVal Value As Boolean)
-If CommandButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then SendMessage CommandButtonHandle, BCM_SETDROPDOWNSTATE, IIf(Value = True, 1, 0), ByVal 0&
+If CommandButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then SendMessage CommandButtonHandle, BCM_SETDROPDOWNSTATE, Abs(Value), ByVal 0&
 End Property
 
 Public Sub GetIdealSize(ByRef Width As Single, ByRef Height As Single)

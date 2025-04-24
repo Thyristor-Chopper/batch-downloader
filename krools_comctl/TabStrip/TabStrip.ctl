@@ -1099,7 +1099,7 @@ End Property
 
 Public Property Let Enabled(ByVal Value As Boolean)
 UserControl.Enabled = Value
-If TabStripHandle <> NULL_PTR Then EnableWindow TabStripHandle, IIf(Value = True, 1, 0)
+If TabStripHandle <> NULL_PTR Then EnableWindow TabStripHandle, Abs(Value)
 UserControl.PropertyChanged "Enabled"
 End Property
 
