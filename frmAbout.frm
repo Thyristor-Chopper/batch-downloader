@@ -296,7 +296,11 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+
 Dim LineNum As Integer
+
+Const Mit1 As String = "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ""Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:" & vbCrLf & vbCrLf & "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
+Const Mit2 As String = "THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 
 Private Sub cmdOK_Click()
     Unload Me
@@ -347,16 +351,11 @@ Private Sub Form_Load()
     'lvItems.ListItems.Add , , t("기타 출처", "Other references"), 1 + EasterEggMultiplier
     lvItems.ListItems(1).Selected = True
     
-    Dim Mit1$, Mit2$
-    Mit1 = "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ""Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:" & vbCrLf & vbCrLf & "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-    Mit2 = "THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-    
     txtIconv.Text = txtIconv.Text & "Copyright (c) 2011 Alexander Shtuchkin" & vbCrLf & vbCrLf
     txtIconv.Text = txtIconv.Text & Mit1 & vbCrLf & vbCrLf
     txtIconv.Text = txtIconv.Text & Mit2
     
     txtCC.Text = "https://github.com/Kr00l/VBCCR/tree/master/Standard%20EXE%20Version" & vbCrLf & vbCrLf
-    txtCC.Text = txtCC.Text & "MIT License" & vbCrLf & vbCrLf
     txtCC.Text = txtCC.Text & "Copyright (c) 2012-present Krool" & vbCrLf & vbCrLf
     txtCC.Text = txtCC.Text & Mit1 & vbCrLf & vbCrLf
     txtCC.Text = txtCC.Text & Mit2
