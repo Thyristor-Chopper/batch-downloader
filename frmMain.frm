@@ -3855,49 +3855,28 @@ Sub SetTextColors()
     End If
 End Sub
 
-Sub SetupSplitButtons()
-    cmdOpenBatch.GetTygemButton().SplitLeft = True
-    cmdOpenDropdown.GetTygemButton().SplitRight = True
-    cmdOpenBatch.SetRgn
-    cmdOpenDropdown.SetRgn
-    
-    cmdDelete.GetTygemButton().SplitLeft = True
-    cmdDeleteDropdown.GetTygemButton().SplitRight = True
-    cmdDelete.SetRgn
-    cmdDeleteDropdown.SetRgn
-    
-    cmdOpen.GetTygemButton().SplitLeft = True
-    cmdOpenFileDropdown.GetTygemButton().SplitRight = True
-    cmdOpen.SetRgn
-    cmdOpenFileDropdown.SetRgn
-
-    If WinVer >= 6.1 Then
+Private Sub SetupSplitButton(ByRef LeftButton As CommandButtonW, ByRef RightButton As CommandButtonW)
+    LeftButton.GetTygemButton().SplitLeft = True
+    RightButton.GetTygemButton().SplitRight = True
+    LeftButton.SetRgn
+    RightButton.SetRgn
+    If ComCtlsSupportLevel() >= 2 Then
         If GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0) = 0 Then
-            cmdOpenBatch.SplitButton = True
-            cmdOpenBatch.Width = 1935
-            cmdOpenDropdown.Visible = False
-            
-            cmdDelete.SplitButton = True
-            cmdDelete.Width = 1575
-            cmdDeleteDropdown.Visible = False
-            
-            cmdOpen.SplitButton = True
-            cmdOpen.Width = 1935
-            cmdOpenFileDropdown.Visible = False
+            If Not LeftButton.SplitButton Then LeftButton.Width = LeftButton.Width + 255
+            LeftButton.SplitButton = True
+            RightButton.Visible = False
         Else
-            cmdOpenBatch.SplitButton = False
-            cmdOpenBatch.Width = 1575
-            cmdOpenDropdown.Visible = True
-            
-            cmdDelete.SplitButton = False
-            cmdDelete.Width = 1335
-            cmdDeleteDropdown.Visible = True
-            
-            cmdOpen.SplitButton = False
-            cmdOpen.Width = 1695
-            cmdOpenFileDropdown.Visible = True
+            If LeftButton.SplitButton Then LeftButton.Width = LeftButton.Width - 255
+            LeftButton.SplitButton = False
+            RightButton.Visible = True
         End If
     End If
+End Sub
+
+Sub SetupSplitButtons()
+    SetupSplitButton cmdOpenBatch, cmdOpenDropdown
+    SetupSplitButton cmdDelete, cmdDeleteDropdown
+    SetupSplitButton cmdOpen, cmdOpenFileDropdown
 End Sub
 
 Private Sub Form_Resize()

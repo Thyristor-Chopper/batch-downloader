@@ -369,8 +369,8 @@ End Enum
 
 
 Private Type LARGE_INTEGER
-    lowpart As Long
-    highpart As Long
+    LowPart As Long
+    HighPart As Long
 End Type
 
 
@@ -596,8 +596,6 @@ Sub ExtendDWMFrame(ByRef frmForm As Form, Top As Long, Right As Long, Bottom As 
     DwmExtendFrameIntoClientArea frmForm.hWnd, Margin
 End Sub
 
-#If NOTHEME Then
-#Else
 Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
     Dim clrBackColor As Long
     Dim clrForeColor As Long
@@ -759,7 +757,6 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
         ShowColorDialog = -1
     End If
 End Function
-#End If
 
 Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKeyRef As String, Optional ByVal Default As Variant = "") As Variant
     Dim i As Long                                           ' 루프 카운터
@@ -1010,23 +1007,10 @@ End Function
 
 Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String, Optional Icon As VbMsgBoxStyleEx = 64, Optional IsModal As Boolean = True, Optional AlertTimeout As Integer = -1, Optional ByVal DefaultOption As VbMsgBoxResultEx = vbNo, Optional ByVal MsgBoxMode As VbMsgBoxStyleEx = vbOKOnly) As VbMsgBoxResultEx
     If Title = "" Then Title = App.Title
-    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 And MsgBoxMode <> vbYesNoEx And MsgBoxMode <> vbCancelTryContinue Then
-        Select Case MsgBoxMode
-            Case vbOKOnly
-                ShowMessageBox = VBA.MsgBox(Content, Icon, Title)
-            Case vbYesNo
-                ShowMessageBox = VBA.MsgBox(Content, Icon + vbYesNo, Title)
-            Case vbYesNoCancel
-                ShowMessageBox = VBA.MsgBox(Content, Icon + vbYesNoCancel, Title)
-            Case vbAbortRetryIgnore
-                ShowMessageBox = VBA.MsgBox(Content, Icon + vbAbortRetryIgnore, Title)
-            Case vbRetryCancel
-                ShowMessageBox = VBA.MsgBox(Content, Icon + vbRetryCancel, Title)
-            Case vbOKCancel
-                ShowMessageBox = VBA.MsgBox(Content, Icon + vbOKCancel, Title)
-        End Select
-        Exit Function
-    End If
+'    If GetSetting("DownloadBooster", "Options", "ForceNativeMessageBox", 0) <> 0 And MsgBoxMode <> vbYesNoEx And MsgBoxMode <> vbCancelTryContinue Then
+'        ShowMessageBox = VBA.MsgBox(Content, Icon + MsgBoxMode, Title)
+'        Exit Function
+'    End If
 
     Dim MessageBox As frmMessageBox
     Set MessageBox = New frmMessageBox
@@ -1036,10 +1020,10 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     Set MessageBox.MessageBoxObject = MessageBox
 
     On Error Resume Next
-    Dim NoIcon As Boolean
-    NoIcon = False
+    'Dim NoIcon As Boolean
+    'NoIcon = False
 
-    Dim IconRandomIdx As Integer
+    Dim IconRandomIdx As Byte
     Select Case RandInt(1, 1000)
         Case 290
             IconRandomIdx = 3
@@ -1064,9 +1048,9 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
             MessageBox.imgInformation.Visible = True
         Case 32
             MessageBox.imgQuestion.Visible = True
-        Case Else
-            NoIcon = True
-            MessageBox.imgTrain(IconRandomIdx).Visible = False
+        'Case Else
+            'NoIcon = True
+            'MessageBox.imgTrain(IconRandomIdx).Visible = False
     End Select
 
     Content = Replace(Content, "&", "&&")
@@ -1107,12 +1091,12 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     MessageBox.Caption = Title
     MessageBox.lblContent.Caption = Content
     MessageBox.Width = Max(2040 + LContent - 640 - 225, MsgBoxMinWidth)
-    If NoIcon Then
-        MessageBox.Width = Max(MessageBox.Width - 720, MsgBoxMinWidth)
-        MessageBox.lblContent.Top = MessageBox.lblContent.Top - 180
-        MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
-        MessageBox.Height = MessageBox.Height - 240
-    End If
+'    If NoIcon Then
+'        MessageBox.Width = Max(MessageBox.Width - 720, MsgBoxMinWidth)
+'        MessageBox.lblContent.Top = MessageBox.lblContent.Top - 180
+'        MessageBox.lblContent.Left = MessageBox.lblContent.Left - 720
+'        MessageBox.Height = MessageBox.Height - 240
+'    End If
 
     Select Case MsgBoxMode
         Case vbOKOnly
@@ -1122,9 +1106,9 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.Height = MessageBox.Height + 180
                 MessageBox.cmdOK.Top = MessageBox.cmdOK.Top + 180
             End If
-            If NoIcon Then
-                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
-            End If
+'            If NoIcon Then
+'                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
+'            End If
         Case vbYesNo
             MessageBox.cmdYes.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdYes.Width / 2
             MessageBox.cmdYes.Top = 840 + (LineCount * 185) - 350
@@ -1135,10 +1119,10 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdYes.Top = MessageBox.cmdYes.Top + 180
                 MessageBox.cmdNo.Top = MessageBox.cmdNo.Top + 180
             End If
-            If NoIcon Then
-                MessageBox.cmdYes.Top = MessageBox.cmdYes.Top - 210
-                MessageBox.cmdNo.Top = MessageBox.cmdNo.Top - 210
-            End If
+'            If NoIcon Then
+'                MessageBox.cmdYes.Top = MessageBox.cmdYes.Top - 210
+'                MessageBox.cmdNo.Top = MessageBox.cmdNo.Top - 210
+'            End If
         Case vbYesNoEx
             MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2
             MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350 + 705
@@ -1166,12 +1150,12 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdOK.Top = MessageBox.cmdOK.Top + 180
                 MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top + 180
             End If
-            If NoIcon Then
-                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
-                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
-                MessageBox.optYes.Top = MessageBox.optYes.Top - 210
-                MessageBox.optNo.Top = MessageBox.optNo.Top - 210
-            End If
+'            If NoIcon Then
+'                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
+'                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+'                MessageBox.optYes.Top = MessageBox.optYes.Top - 210
+'                MessageBox.optNo.Top = MessageBox.optNo.Top - 210
+'            End If
         Case vbYesNoCancel
             MessageBox.cmdYes.Left = MessageBox.Width / 2 - 900 - MessageBox.cmdYes.Width
             MessageBox.cmdYes.Top = 840 + (LineCount * 185) - 350
@@ -1185,11 +1169,11 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdNo.Top = MessageBox.cmdNo.Top + 180
                 MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top + 180
             End If
-            If NoIcon Then
-                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
-                MessageBox.cmdYes.Top = MessageBox.cmdYes.Top - 210
-                MessageBox.cmdNo.Top = MessageBox.cmdNo.Top - 210
-            End If
+'            If NoIcon Then
+'                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+'                MessageBox.cmdYes.Top = MessageBox.cmdYes.Top - 210
+'                MessageBox.cmdNo.Top = MessageBox.cmdNo.Top - 210
+'            End If
         Case vbAbortRetryIgnore
             MessageBox.cmdAbort.Left = MessageBox.Width / 2 - 900 - MessageBox.cmdAbort.Width
             MessageBox.cmdAbort.Top = 840 + (LineCount * 185) - 350
@@ -1203,11 +1187,11 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top + 180
                 MessageBox.cmdIgnore.Top = MessageBox.cmdIgnore.Top + 180
             End If
-            If NoIcon Then
-                MessageBox.cmdIgnore.Top = MessageBox.cmdIgnore.Top - 210
-                MessageBox.cmdAbort.Top = MessageBox.cmdAbort.Top - 210
-                MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
-            End If
+'            If NoIcon Then
+'                MessageBox.cmdIgnore.Top = MessageBox.cmdIgnore.Top - 210
+'                MessageBox.cmdAbort.Top = MessageBox.cmdAbort.Top - 210
+'                MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
+'            End If
         Case vbRetryCancel
             MessageBox.cmdRetry.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdRetry.Width / 2
             MessageBox.cmdRetry.Top = 840 + (LineCount * 185) - 350
@@ -1218,10 +1202,10 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top + 180
                 MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top + 180
             End If
-            If NoIcon Then
-                MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
-                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
-            End If
+'            If NoIcon Then
+'                MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
+'                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+'            End If
         Case vbOKCancel
             MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2
             MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350
@@ -1232,10 +1216,10 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdOK.Top = MessageBox.cmdOK.Top + 180
                 MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top + 180
             End If
-            If NoIcon Then
-                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
-                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
-            End If
+'            If NoIcon Then
+'                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
+'                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+'            End If
         Case vbCancelTryContinue
             MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 900 - MessageBox.cmdCancel.Width
             MessageBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
@@ -1249,11 +1233,11 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
                 MessageBox.cmdTryAgain.Top = MessageBox.cmdTryAgain.Top + 180
                 MessageBox.cmdContinue.Top = MessageBox.cmdContinue.Top + 180
             End If
-            If NoIcon Then
-                MessageBox.cmdContinue.Top = MessageBox.cmdContinue.Top - 210
-                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
-                MessageBox.cmdTryAgain.Top = MessageBox.cmdTryAgain.Top - 210
-            End If
+'            If NoIcon Then
+'                MessageBox.cmdContinue.Top = MessageBox.cmdContinue.Top - 210
+'                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+'                MessageBox.cmdTryAgain.Top = MessageBox.cmdTryAgain.Top - 210
+'            End If
     End Select
 
     Dim MessageSoundPath$
@@ -1596,23 +1580,15 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
             ctrl.FontName = FontName
             If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
-#If NOTHEME Then
-#Else
             If ctrl.Name <> "lblLBCaption" And ctrl.Name <> "lblLBCaptionShadow" And ctrl.Name <> "lblLBCaption2" And ctrl.Name <> "lblLBCaptionShadow2" Then
-#End If
                 ctrl.FontBold = False
                 ctrl.Font.Bold = False
-#If NOTHEME Then
-#Else
             End If
-#End If
             ctrl.FontItalic = False
             ctrl.Font.Italic = False
         End If
     Next ctrl
 setlbfont:
-#If NOTHEME Then
-#Else
     If frm Is frmMain Then
         If LBEnabled Then
             frm.lblURL.Font.Size = 10
@@ -1643,7 +1619,6 @@ setlbfont:
             frm.lblThreadCountLabelShadow.Font.Size = FontSize
         End If
     End If
-#End If
 End Sub
 
 Function FormatTime(Sec) As String
@@ -1695,6 +1670,7 @@ Function DecodeHeaderCache(ByVal HeaderCache As String) As Collection
     Dim HeaderKeys As Collection
     Set Headers = New Collection
     Set HeaderKeys = New Collection
+    If HeaderCache = "" Then GoTo returncollection
     Dim RawHeaders$
     RawHeaders = StrConv(atob(HeaderCache), vbUnicode)
     Dim HeaderSplit() As String
@@ -1710,7 +1686,7 @@ Function DecodeHeaderCache(ByVal HeaderCache As String) As Collection
         HeaderKeys.Add Left$(HeaderLine, ColonPos - 1)
 continue:
     Next i
-
+returncollection:
     DecodeHeaderCache.Add HeaderKeys, "keys"
     DecodeHeaderCache.Add Headers, "Values"
 End Function
@@ -1736,9 +1712,8 @@ Sub GetDiskSpace(sDrive As String, ByRef dblTotal As Double, ByRef dblFree As Do
     Dim liFree As LARGE_INTEGER
     If Right(sDrive, 1) <> "" Then sDrive = sDrive & ""
     lresult = GetDiskFreeSpaceEx(sDrive, liAvailable, liTotal, liFree)
-
-    dblTotal = CLargeInt(liTotal.lowpart, liTotal.highpart)
-    dblFree = CLargeInt(liFree.lowpart, liFree.highpart)
+    dblTotal = CLargeInt(liTotal.LowPart, liTotal.HighPart)
+    dblFree = CLargeInt(liFree.LowPart, liFree.HighPart)
 End Sub
 
 Private Function CLargeInt(Lo As Long, Hi As Long) As Double
@@ -1755,6 +1730,7 @@ Private Function CLargeInt(Lo As Long, Hi As Long) As Double
     Else
         dblHi = Hi
     End If
+    
     CLargeInt = dblLo + dblHi * 2 ^ 32
 End Function
 
@@ -1976,7 +1952,7 @@ Function GetThemeColor(ByVal hWnd As Long, ByVal ClassList As String, Optional B
     Dim hTheme As Long
     Dim clr As Long
 
-    If IsAppThemed() = 0 Or IsThemeActive() = 0 Then GoTo returndefault
+    If IsAppThemed() = 0& Or IsThemeActive() = 0& Then GoTo returndefault
     hTheme = OpenThemeData(hWnd, StrPtr(ClassList))
     If hTheme = 0& Then GoTo returndefault
     If X_GetThemeColor(hTheme, Part, State, Prop, clr) <> 0 Then GoTo returndefault
@@ -1988,22 +1964,21 @@ Function GetThemeColor(ByVal hWnd As Long, ByVal ClassList As String, Optional B
 returndefault:
     If hTheme <> 0& Then CloseThemeData hTheme
     GetThemeColor = DefaultColor
-    Exit Function
 End Function
 
-Sub PlayWave(ByVal Path As String, Optional ByVal LoopWave As Boolean = False, Optional ByVal StopPreviousWave As Boolean = True, Optional ByVal FallbackSound As Long = -1)
+Sub PlayWave(ByVal Path As String, Optional ByVal LoopWave As Boolean = False, Optional ByVal StopPreviousWave As Boolean = True, Optional ByVal FallbackSound As Long = -1&)
     If FileExists(Path) Then
         PlaySound Path, 0&, SND_FILENAME Or SND_ASYNC Or IIf(LoopWave, SND_LOOP, 0&) Or IIf(StopPreviousWave, 0&, SND_NOSTOP)
-    ElseIf FallbackSound >= 0 Then
+    ElseIf FallbackSound >= 0& Then
         MessageBeep FallbackSound
     End If
 End Sub
 
 Sub EnableFrameControls(ByRef fFrame As Control, ByRef Except As Control, Optional ByVal Enable As Boolean = True)
-'    Dim ctrl As Control
-'    For Each ctrl In fFrame.ContainedControls
-'        If ctrl.Name <> Except.Name Then ctrl.Enabled = Enable
-'    Next ctrl
+    Dim ctrl As Control
+    For Each ctrl In fFrame.ContainedControls
+        If ctrl.Name <> Except.Name Then ctrl.Enabled = Enable
+    Next ctrl
 End Sub
 
 Function Max(ByRef L, ByRef R)
@@ -2053,7 +2028,7 @@ Function GetDPI() As Long
 
     hWndDesktop = GetDesktopWindow()
     hDCDesktop = GetDC(hWndDesktop)
-    GetDPI = GetDeviceCaps(hDCDesktop, 88)
+    GetDPI = GetDeviceCaps(hDCDesktop, 88&)
     ReleaseDC hWndDesktop, hDCDesktop
 End Function
 
@@ -2154,11 +2129,8 @@ Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean 
 End Sub
 
 Sub InitForm(ByRef frmForm As Form)
-#If NOTHEME Then
-#Else
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow frmForm.hWnd
     SetFormBackgroundColor frmForm
-#End If
     SetFont frmForm
     SetWindowPos frmForm.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
 End Sub

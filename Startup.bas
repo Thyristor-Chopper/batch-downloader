@@ -112,18 +112,20 @@ Sub Main()
     If (WinVer >= 6.2 And Build > 8102) Or DPI <> 96 Then
         If FontExists("¸¼Àº °íµñ") Then
             DefaultFont = "¸¼Àº °íµñ"
-'        ElseIf FontExists("Malgun Gothic") Then
-'            DefaultFont = "Malgun Gothic"
+        ElseIf FontExists("Malgun Gothic") Then
+            DefaultFont = "Malgun Gothic"
         Else
             GoTo forcegulim
         End If
     Else
 forcegulim:
-'        If FontExists("±¼¸²") Then
+        If FontExists("±¼¸²") Then
             DefaultFont = "±¼¸²"
-'        Else
-'            DefaultFont = "Gulim"
-'        End If
+        ElseIf FontExists("Gulim") Then
+            DefaultFont = "Gulim"
+        Else
+            DefaultFont = "Tahoma"
+        End If
     End If
 
     If WinVer >= 6.2 Then DefaultDisableDWMWindow = 1 Else DefaultDisableDWMWindow = 0

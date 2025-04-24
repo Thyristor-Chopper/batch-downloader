@@ -1987,8 +1987,8 @@ Select Case dwRefData
         CCISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
     Case 2
         CCISubclass_Message = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
-    Case 3
-        CCISubclass_Message = WindowProcUserControlDesignMode(hWnd, wMsg, wParam, lParam)
+'    Case 3
+'        CCISubclass_Message = WindowProcUserControlDesignMode(hWnd, wMsg, wParam, lParam)
 End Select
 End Function
 
@@ -2460,15 +2460,15 @@ WindowProcUserControl = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
 'If wMsg = WM_SETFOCUS And UCNoSetFocusFwd = False Then SetFocusAPI CheckBoxHandle
 End Function
 
-Private Function WindowProcUserControlDesignMode(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
-Select Case wMsg
-    Case WM_CTLCOLORBTN, WM_DRAWITEM
-        WindowProcUserControlDesignMode = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
-        Exit Function
-End Select
-WindowProcUserControlDesignMode = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-Select Case wMsg
-    Case WM_DESTROY, WM_NCDESTROY
-        Call ComCtlsRemoveSubclass(hWnd)
-End Select
-End Function
+'Private Function WindowProcUserControlDesignMode(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
+'Select Case wMsg
+'    Case WM_CTLCOLORBTN, WM_DRAWITEM
+'        WindowProcUserControlDesignMode = WindowProcUserControl(hWnd, wMsg, wParam, lParam)
+'        Exit Function
+'End Select
+'WindowProcUserControlDesignMode = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
+'Select Case wMsg
+'    Case WM_DESTROY, WM_NCDESTROY
+'        Call ComCtlsRemoveSubclass(hWnd)
+'End Select
+'End Function

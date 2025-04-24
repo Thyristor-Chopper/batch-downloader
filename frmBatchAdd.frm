@@ -106,14 +106,16 @@ Attribute VB_Exposed = False
 'https://blog.naver.com/wnwlsrb3/220729779017
 Dim PrevKeyCode As Integer
 Dim Initialized As Boolean
-Public HeaderCache$
+Public HeaderCache As String
 
 Implements IBSSubclass
 
 Private Sub cmdAdvanced_Click()
     Tags.DownloadOptionsTargetForm = 1
-    Set frmDownloadOptions.HeaderKeys = New Collection
-    Set frmDownloadOptions.Headers = New Collection
+    Dim DecodedHeaders As Collection
+    Set DecodedHeaders = DecodeHeaderCache(HeaderCache)
+    Set frmDownloadOptions.HeaderKeys = DecodedHeaders("keys")
+    Set frmDownloadOptions.Headers = DecodedHeaders("Values")
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
