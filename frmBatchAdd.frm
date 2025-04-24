@@ -150,7 +150,7 @@ Private Sub cmdOK_Click()
     Dim ErrURLs$
     ErrURLs = ""
     For i = 0 To UBound(URLs)
-        If Replace(URLs(i), " ", "") <> "" Then
+        If LenB(Replace(URLs(i), " ", "")) Then
             If frmMain.AddBatchURLs(URLs(i), txtSavePath.Text, HeaderCache) = False Then
                 ErrURLs = ErrURLs & URLs(i) & vbCrLf
             End If

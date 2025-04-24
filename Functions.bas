@@ -758,7 +758,7 @@ Function ShowColorDialog(Optional ByVal hParent As Long, Optional ByVal bFullOpe
     End If
 End Function
 
-Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKeyRef As String, Optional ByVal Default As Variant = "") As Variant
+Function GetKeyValue(ByVal KeyRoot As Long, KeyName As String, SubKeyRef As String, Optional Default As String = "") As Variant
     Dim i As Long                                           ' 루프 카운터
     Dim RC As Long                                          ' 반환 코드
     Dim hKey As Long                                        ' 열려 있는 레지스트리 키 처리
@@ -785,7 +785,7 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
 
     If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다.
 
-    If (Asc(Mid(tmpVal, KeyValSize, 1)) = 0) Then           ' Win95는 Null 종료 문자열을 추가합니다...
+    If (Asc(Mid$(tmpVal, KeyValSize, 1)) = 0) Then           ' Win95는 Null 종료 문자열을 추가합니다...
         tmpVal = Left(tmpVal, KeyValSize - 1)               ' Null을 찾았습니다. 문자열에서 추출합니다.
     Else                                                    ' WinNT는 Null 종료 문자열 추가하지 않습니다...
         tmpVal = Left(tmpVal, KeyValSize)                   ' Null을 찾지 못했습니다. 문자열에서만 추출합니다.
@@ -796,7 +796,7 @@ Function GetKeyValue(ByVal KeyRoot As Long, ByVal KeyName As String, ByVal SubKe
     Select Case KeyValType                                  ' 데이터 형식을 검색합니다.
     Case REG_DWORD                                          ' 이진 단어 레지스트리 키 데이터 형식
         For i = Len(tmpVal) To 1 Step -1                    ' 각각 비트를 변환합니다.
-            KeyVal = KeyVal + Hex(Asc(Mid(tmpVal, i, 1)))   ' 값 문자를 문자별로 작성합니다.
+            KeyVal = KeyVal + Hex(Asc(Mid$(tmpVal, i, 1)))   ' 값 문자를 문자별로 작성합니다.
         Next
         KeyVal = Format$("&h" + KeyVal)                     ' 이진 단어를 문자열로 변환합니다.
     Case Else                                               ' 문자열 레지스트리 키 데이터 형식
@@ -813,7 +813,7 @@ GetKeyError:      ' 오류가 발생하면 지웁니다...
 End Function
 
 'https://www.vbforums.com/showthread.php?796771-RESOLVED-Help!-cannot-delete-registry-x64-subkeys&p=4894805
-Function GetSubkeys(ByVal KeyRoot As Long, ByVal KeyName As String) As String()
+Function GetSubkeys(ByVal KeyRoot As Long, KeyName As String) As String()
     Dim KeysRev() As String, Keys() As String
     Dim hKey&, i&, j&, nBufferLen&, sBuffer$
 
@@ -846,14 +846,14 @@ keyerr:
 End Function
 '
 'https://stackoverflow.com/questions/40651/check-if-a-record-exists-in-a-vb6-collection
-Function Exists(ByVal oCol As Collection, ByVal vKey As String) As Boolean
+Function Exists(oCol As Collection, vKey As String) As Boolean
     On Error Resume Next
     oCol.Item CStr(vKey)
     Exists = (Err.Number = 0)
     Err.Clear
 End Function
 
-Function TextWidth(ByVal s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
+Function TextWidth(s As String, Optional FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
     If FontSize = 0 Then
         TextWidth = 0
         Exit Function
@@ -889,7 +889,7 @@ Function TextWidth(ByVal s As String, Optional ByVal FontName As String = "", Op
     TextWidth = frmDummyForm.TextWidth(s)
 End Function
 
-Function TextHeight(ByVal s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
+Function TextHeight(s As String, Optional FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
     If FontSize = 0 Then
         TextHeight = 0
         Exit Function
@@ -925,11 +925,11 @@ Function TextHeight(ByVal s As String, Optional ByVal FontName As String = "", O
     TextHeight = frmDummyForm.TextHeight(s)
 End Function
 
-Function StrLen(ByVal s As String) As Integer
+Function StrLen(s As String) As Integer
     StrLen = LenB(StrConv(s, vbFromUnicode))
 End Function
 
-Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String()
+Private Function CutLines(Text As String, ByVal Width As Single) As String()
     Dim Paragraphs() As String
     Dim ParagraphX As Long
     Dim Words() As String
@@ -976,7 +976,7 @@ Private Function CutLines(ByVal Text As String, ByVal Width As Single) As String
     CutLines = Lines
 End Function
 
-Function InputBoxEx(ByVal Prompt As String, Optional ByVal Title As String, Optional ByVal Default As String)
+Function InputBoxEx(Prompt As String, Optional Title As String, Optional Default As String)
     If Title = "" Then Title = App.Title
 
     Dim InpBox As frmInputBox
@@ -1337,7 +1337,7 @@ Function ConfirmEx(ByVal Content As String, Optional ByVal Title As String, Opti
 End Function
 
 'https://www.vbforums.com/showthread.php?894947-How-to-test-if-a-font-is-available
-Function FontExists(ByVal FontName As String) As Boolean
+Function FontExists(FontName As String) As Boolean
     On Error GoTo noexist
     If FontName = "" Then GoTo noexist
     With New StdFont
@@ -1349,7 +1349,7 @@ noexist:
     FontExists = False
 End Function
 
-Function FolderExists(ByVal sFullPath As String) As Boolean
+Function FolderExists(sFullPath As String) As Boolean
     On Error GoTo nonexist
     FolderExists = ((GetAttr(sFullPath) And (vbDirectory Or vbVolume)) <> 0)
     Exit Function
@@ -1371,7 +1371,7 @@ Function Floor(ByVal floatval As Double, Optional ByVal decimalPlaces As Long = 
     Floor = intval
 End Function
 
-Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = False, Optional ByVal Suffix As String = "") As String
+Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = False, Optional Suffix As String = "") As String
     If Size < 0 Then
         ParseSize = "-"
         Exit Function
@@ -1411,17 +1411,17 @@ ErrLn4:
     ParseSize = "0 " & t("바이트", "Bytes")
 End Function
 
-Function FilterFilename(ByVal FileName As String, Optional ByVal PreserveBackslash As Boolean = False) As String
+Function FilterFilename(FileName As String, Optional ByVal PreserveBackslash As Boolean = False) As String
     Dim Str As String
     Dim ret As String
     ret = ""
     Str = StrConv(FileName, vbProperCase)
     Dim i%
     For i = 1 To Len(Str)
-        If Mid(Str, i, 1) = "?" Then
+        If Mid$(Str, i, 1) = "?" Then
             ret = ret & "_"
         Else
-            ret = ret & Mid(FileName, i, 1)
+            ret = ret & Mid$(FileName, i, 1)
         End If
     Next i
     ret = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(ret, "?", "_"), "*", "_"), "|", "_"), """", "_"), ":", "_"), "<", "_"), ">", "_"), "/", "_")
@@ -1448,34 +1448,34 @@ Function URLDecode(ByVal strIn As String) As String
     sl = InStr(sl, strIn, Key, vbTextCompare)
     Do While sl > 0
         If (tl = 1 And sl <> 1) Or tl < sl Then
-            URLDecode = URLDecode & Mid(strIn, tl, sl - tl)
+            URLDecode = URLDecode & Mid$(strIn, tl, sl - tl)
         End If
 
-        Select Case UCase(Mid(strIn, sl + kl, 1))
+        Select Case UCase(Mid$(strIn, sl + kl, 1))
             Case "U"
-                A = val("&H" & Mid(strIn, sl + kl + 1, 4))
+                A = val("&H" & Mid$(strIn, sl + kl + 1, 4))
                 URLDecode = URLDecode & ChrW(A)
                 sl = sl + 6
             Case "E"
-                hh = Mid(strIn, sl + kl, 2)
+                hh = Mid$(strIn, sl + kl, 2)
                 A = val("&H" & hh)
                 If A < 128 Then
                     sl = sl + 3
                     URLDecode = URLDecode & Chr(A)
                 Else
-                    Hi = Mid(strIn, sl + 3 + kl, 2)
-                    hl = Mid(strIn, sl + 6 + kl, 2)
+                    Hi = Mid$(strIn, sl + 3 + kl, 2)
+                    hl = Mid$(strIn, sl + 6 + kl, 2)
                     A = ((val("&H" & hh) And &HF) * 2 ^ 12) Or ((val("&H" & Hi) And &H3F) * 2 ^ 6) Or (val("&H" & hl) And &H3F)
                     URLDecode = URLDecode & ChrW(A)
                     sl = sl + 9
                 End If
             Case Else
-                hh = Mid(strIn, sl + kl, 2)
+                hh = Mid$(strIn, sl + kl, 2)
                 A = val("&H" & hh)
                 If A < 128 Then
                     sl = sl + 3
                 Else
-                    Hi = Mid(strIn, sl + 3 + kl, 2)
+                    Hi = Mid$(strIn, sl + 3 + kl, 2)
                     A = ((val("&H" & hh) - 194) * 64) + val("&H" & Hi)
                     sl = sl + 6
                 End If
@@ -1486,7 +1486,7 @@ Function URLDecode(ByVal strIn As String) As String
         sl = InStr(sl, strIn, Key, vbTextCompare)
     Loop
 
-    URLDecode = URLDecode & Mid(strIn, tl)
+    URLDecode = URLDecode & Mid$(strIn, tl)
     Exit Function
 
 ErrorHandler:
@@ -1545,7 +1545,7 @@ End Function
 '    fWinVer = Round(osv.dwVerMajor + (CSng(osv.dwVerMinor) * 0.1), 1&)
 'End Function
 
-Function t(ByVal k, ByVal e) As Variant
+Function t(k As String, e As String) As String
     If LangID = 1042 Then
         t = k
     Else
@@ -1666,13 +1666,13 @@ Sub BuildHeaderCache()
 dontbuild:
 End Sub
 
-Function DecodeHeaderCache(ByVal HeaderCache As String) As Collection
+Function DecodeHeaderCache(HeaderCache As String) As Collection
     Set DecodeHeaderCache = New Collection
     Dim Headers As Collection
     Dim HeaderKeys As Collection
     Set Headers = New Collection
     Set HeaderKeys = New Collection
-    If HeaderCache = "" Then GoTo returncollection
+    If LenB(HeaderCache) = 0 Then GoTo returncollection
     Dim RawHeaders$
     RawHeaders = StrConv(atob(HeaderCache), vbUnicode)
     Dim HeaderSplit() As String
@@ -1712,7 +1712,7 @@ Sub GetDiskSpace(sDrive As String, ByRef dblTotal As Double, ByRef dblFree As Do
     Dim liAvailable As LARGE_INTEGER
     Dim liTotal As LARGE_INTEGER
     Dim liFree As LARGE_INTEGER
-    If Right(sDrive, 1) <> "" Then sDrive = sDrive & ""
+    If LenB(Right(sDrive, 1)) Then sDrive = sDrive & ""
     lresult = GetDiskFreeSpaceEx(sDrive, liAvailable, liTotal, liFree)
     dblTotal = CLargeInt(liTotal.LowPart, liTotal.HighPart)
     dblFree = CLargeInt(liFree.LowPart, liFree.HighPart)
@@ -1736,7 +1736,7 @@ Private Function CLargeInt(Lo As Long, Hi As Long) As Double
     CLargeInt = dblLo + dblHi * 2 ^ 32
 End Function
 
-Sub DisplayFileProperties(ByVal sFullFileAndPathName As String)
+Sub DisplayFileProperties(sFullFileAndPathName As String)
     Dim shInfo As SHELLEXECUTEINFO
 
     With shInfo
@@ -1844,19 +1844,19 @@ errfso:
     GetExtensionName = ""
 End Function
 
-Function Includes(Target, toFind) As Boolean
-    Includes = (InStr(CStr(Target), CStr(toFind)) <> 0)
+Function Includes(Target As String, toFind As String) As Boolean
+    Includes = (InStr(Target, toFind) <> 0)
 End Function
 
 Function ArrayIncludes(Target, toFind) As Boolean
     Dim i%
     For i = LBound(Target) To UBound(Target)
         If Target(i) = toFind Then
-            Includes = True
+            ArrayIncludes = True
             Exit Function
         End If
     Next i
-    Includes = False
+    ArrayIncludes = False
 End Function
 
 Function GetStrFromPtr(ByVal Ptr As Long) As String
@@ -1870,7 +1870,7 @@ Sub UpdateBorderWidth()
     Startup.CaptionHeight = GetSystemMetrics(31&)
 End Sub
 
-Function ExpandEnvironmentStrings(ByVal strInput As String) As String
+Function ExpandEnvironmentStrings(strInput As String) As String
     Dim ret As Long
     Dim strOutput As String
     ret = ExpandEnvironmentStringsA(strInput, strOutput, ret)
@@ -1883,15 +1883,15 @@ Function ExpandEnvironmentStrings(ByVal strInput As String) As String
     ExpandEnvironmentStrings = strOutput
 End Function
 
-Function StartsWith(ByVal Str As String, ByVal s As String) As Boolean
+Function StartsWith(Str As String, s As String) As Boolean
     StartsWith = (Left$(Str, Len(s)) = s)
 End Function
 
-Function EndsWith(ByVal Str As String, ByVal s As String) As Boolean
+Function EndsWith(Str As String, s As String) As Boolean
     EndsWith = (Right$(Str, Len(s)) = s)
 End Function
 
-Function ExcludeParameters(ByVal URL As String) As String
+Function ExcludeParameters(URL As String) As String
     If Includes(URL, "?") Then
         ExcludeParameters = Left$(URL, InStr(URL, "?") - 1)
     Else
@@ -1915,7 +1915,7 @@ Function Col(Expression, ByRef IfFalse)
     End If
 End Function
 
-Function IsYtdlSupported(ByVal URL As String) As Boolean
+Function IsYtdlSupported(URL As String) As Boolean
     If EndsWith(LCase(ExcludeParameters(URL)), ".m3u8") Then
         IsYtdlSupported = True
         Exit Function
@@ -1936,12 +1936,12 @@ Function IsYtdlSupported(ByVal URL As String) As Boolean
     IsYtdlSupported = ArrayIncludes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
 End Function
 
-Sub tr(ByRef ctrl As Control, ByVal EnglishCaption As String)
+Sub tr(ByRef ctrl As Control, EnglishCaption As String)
     On Error Resume Next
     ctrl.Caption = t(ctrl.Caption, EnglishCaption)
 End Sub
 
-Function GetThemeColor(ByVal hWnd As Long, ByVal ClassList As String, Optional ByVal Part As Long = 0&, Optional ByVal State As Long = 0&, Optional ByVal Prop As Long = TMT_TEXTCOLOR, Optional ByVal DefaultColor As Long = 0&) As Long
+Function GetThemeColor(ByVal hWnd As Long, ClassList As String, Optional ByVal Part As Long = 0&, Optional ByVal State As Long = 0&, Optional ByVal Prop As Long = TMT_TEXTCOLOR, Optional ByVal DefaultColor As Long = 0&) As Long
     On Error GoTo returndefault
     Dim hTheme As Long
     Dim clr As Long

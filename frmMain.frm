@@ -2258,7 +2258,7 @@ End Sub
 
 Private Sub cmdAdd_Click()
     On Error Resume Next
-    If Replace(txtURL.Text, " ", "") <> "" Then
+    If LenB(Replace(txtURL.Text, " ", "")) Then
         frmBatchAdd.txtURLs.Text = Trim$(txtURL.Text) & vbCrLf
         frmBatchAdd.txtURLs.SelStart = 0
         frmBatchAdd.txtURLs.SelLength = Len(Trim$(txtURL.Text)) + 2
@@ -2462,7 +2462,7 @@ Sub StartDownload(ByVal URL As String, ByVal FileName As String)
             cmdDelete.Enabled = 0
             cmdDeleteDropdown.Enabled = 0
             cmdEdit.Enabled = 0
-        ElseIf lvBatchFiles.SelectedItem.Text <> "" And lvBatchFiles.SelectedItem.Selected Then
+        ElseIf LenB(lvBatchFiles.SelectedItem.Text) And lvBatchFiles.SelectedItem.Selected Then
             cmdDelete.Enabled = -1
             cmdDeleteDropdown.Enabled = -1
             cmdEdit.Enabled = -1
@@ -2489,7 +2489,7 @@ L2:
     SplittedPath = Split(Trim$(FileName), "\")
     Dim i%
     For i = LBound(SplittedPath) To UBound(SplittedPath)
-        If Trim$(SplittedPath(i)) <> "" And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
+        If LenB(Trim$(SplittedPath(i))) And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
             MsgBox t("저장 경로가 유효하지 않습니다.", "Invalid save path."), 16
             OnExit 999
             Exit Sub
@@ -2632,7 +2632,7 @@ Private Sub cmdGo_Click()
     SplittedPath = Split(txtFileName.Text, "\")
     Dim i%
     For i = LBound(SplittedPath) To UBound(SplittedPath)
-        If Trim$(SplittedPath(i)) <> "" And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
+        If LenB(Trim$(SplittedPath(i))) And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
             MsgBox t("저장 경로가 유효하지 않습니다.", "Invalid save path."), 16
             Exit Sub
         End If
@@ -2941,7 +2941,7 @@ End Sub
 Sub SetBackgroundImage()
     On Error Resume Next
     Dim i%
-    If GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 And Trim$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")) <> "" Then
+    If GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 And LenB(Trim$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))) Then
         If LCase(Right$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""), 4)) = ".png" Then
             Set imgBackground.Picture = LoadPngIntoPictureWithAlpha(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))
         Else

@@ -351,7 +351,7 @@ Private Sub OKButton_Click()
         UCase(txtFileName.Text) = "LPT2" Or _
         UCase(txtFileName.Text) = "LPT3" Or _
         UCase(txtFileName.Text) = "LPT4" Or _
-        (txtFileName.Text <> "" And Replace(txtFileName.Text, ".", "") = "") Or _
+        (LenB(txtFileName.Text) And Replace(txtFileName.Text, ".", "") = "") Or _
         Right$(txtFileName.Text, 1) = "." _
     Then
         MsgBox t("파일 이름이 올바르지 않습니다.", "Invalid file name."), 48

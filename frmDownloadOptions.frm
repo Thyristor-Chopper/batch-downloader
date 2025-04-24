@@ -350,7 +350,7 @@ Private Sub OKButton_Click()
         Dim RawHeaders$
         RawHeaders = ""
         For i = 1 To lvHeaders.ListItems.Count
-            If Trim$(lvHeaders.ListItems(i).Text) <> "" And (Not Exists(Headers, CStr(Trim$(lvHeaders.ListItems(i).Text)))) Then
+            If LenB(Trim$(lvHeaders.ListItems(i).Text)) And (Not Exists(Headers, CStr(Trim$(lvHeaders.ListItems(i).Text)))) Then
                 Headers.Add CStr(lvHeaders.ListItems(i).ListSubItems(1).Text), CStr(Trim$(lvHeaders.ListItems(i).Text))
                 HeaderKeys.Add CStr(Trim$(lvHeaders.ListItems(i).Text))
                 RawHeaders = RawHeaders & LCase(Trim$(lvHeaders.ListItems(i).Text)) & ": " & lvHeaders.ListItems(i).ListSubItems(1).Text & vbLf

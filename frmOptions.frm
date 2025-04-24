@@ -2109,7 +2109,7 @@ aftermaxtrdcheck:
         frmMain.SetBackgroundPosition True
     End If
     
-    If Trim$(txtNodePath.Text) <> "" Then
+    If LenB(Trim$(txtNodePath.Text)) Then
         If FileExists(Trim$(txtNodePath.Text)) Then
             SaveSetting "DownloadBooster", "Options", "NodePath", Trim$(txtNodePath.Text)
         Else
@@ -2119,7 +2119,7 @@ aftermaxtrdcheck:
     Else
         SaveSetting "DownloadBooster", "Options", "NodePath", ""
     End If
-    If Trim$(txtScriptPath.Text) <> "" Then
+    If LenB(Trim$(txtScriptPath.Text)) Then
         If FileExists(Trim$(txtScriptPath.Text)) Then
             SaveSetting "DownloadBooster", "Options", "ScriptPath", Trim$(txtScriptPath.Text)
         Else
@@ -2129,7 +2129,7 @@ aftermaxtrdcheck:
     Else
         SaveSetting "DownloadBooster", "Options", "ScriptPath", ""
     End If
-    If Trim$(txtYtdlPath.Text) <> "" Then
+    If LenB(Trim$(txtYtdlPath.Text)) Then
         If FileExists(Trim$(txtYtdlPath.Text)) Then
             SaveSetting "DownloadBooster", "Options", "YtdlPath", Trim$(txtYtdlPath.Text)
         Else
@@ -2142,7 +2142,7 @@ aftermaxtrdcheck:
     
     If FontChanged Then
         cbFont.Text = Trim$(cbFont.Text)
-        If cbFont.Text <> "" And cbFont.Text <> ("(" & t("기본값", "default") & ")") And (Not FontExists(cbFont.Text)) Then
+        If LenB(cbFont.Text) And cbFont.Text <> ("(" & t("기본값", "default") & ")") And (Not FontExists(cbFont.Text)) Then
             MsgBox t("지정한 글꼴이 존재하지 않습니다.", "The specified font does not exist."), vbCritical
             NoDisable = True
         Else
@@ -2184,7 +2184,7 @@ aftermaxtrdcheck:
     DeleteSetting "DownloadBooster", "Options\Headers"
     If lvHeaders.ListItems.Count > 0 Then
         For i = 1 To lvHeaders.ListItems.Count
-            If Trim$(lvHeaders.ListItems(i).Text) <> "" Then _
+            If LenB(Trim$(lvHeaders.ListItems(i).Text)) Then _
                 SaveSetting "DownloadBooster", "Options\Headers", Trim$(lvHeaders.ListItems(i).Text), lvHeaders.ListItems(i).ListSubItems(1).Text
         Next i
     End If

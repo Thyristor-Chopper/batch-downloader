@@ -118,5 +118,5 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub txtInput_Change()
-    cmdOK.Enabled = (Trim$(txtInput.Text) <> "")
+    cmdOK.Enabled = LenB(Trim$(txtInput.Text))
 End Sub

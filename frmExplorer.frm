@@ -530,7 +530,7 @@ Private Sub chkHidden_Click()
 End Sub
 
 Private Sub ListFiles()
-    If ListedOn <> "" And ListedOn = lvDir.Path Then Exit Sub
+    If LenB(ListedOn) And ListedOn = lvDir.Path Then Exit Sub
     ListedOn = lvDir.Path
     LoadFinished = False
 
@@ -606,7 +606,7 @@ Private Sub ListFiles()
     Name = Dir(Path, vbDirectory)
 '    Dim UpLoopCount%
 '    UpLoopCount = 0
-    Do While Name <> ""
+    Do While LenB(Name)
         If Name <> "." And Name <> ".." Then
             If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
                 Shown = True
@@ -645,7 +645,7 @@ Private Sub ListFiles()
     Dim cnt As Double
     cnt = 0
     Dim ext$
-    Do While Name <> ""
+    Do While LenB(Name)
         If (GetAttr(Path & Name) And vbDirectory) <> vbDirectory Then
             PatternMatched = False
             For i = LBound(PatternsSplit) To UBound(PatternsSplit)
@@ -700,7 +700,7 @@ Private Sub ListFiles()
                 li.ListSubItems.Add , , ExtName
                 li.ListSubItems.Add , , FormatModified(FileDateTime(Path & Name))
                 
-                If Name <> "" And (Not FirstListed) Then
+                If LenB(Name) And (Not FirstListed) Then
                     If Tags.BrowseTargetForm = 3 Then
                         If LCase(Name) = LCase(GetFilename(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))) Then
                             li.Selected = True
@@ -1237,7 +1237,7 @@ Private Sub lvDir_Change()
     If Right$(Path, 1) <> "\" Then Path = Path & "\"
     Name = Dir(Path, vbDirectory)
     On Error Resume Next
-    Do While Name <> ""
+    Do While LenB(Name)
         If Name <> "." And Name <> ".." Then
             If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
                 Set Item = cbFolderList.ComboItems.Add(, , Name, 1, , 1)
@@ -1806,7 +1806,7 @@ Private Sub OKButton_Click()
         If FolderExists(Path & txtFileName.Text) Then
             If Not LoadFinished Then Exit Sub
             lvDir.Path = Path & txtFileName.Text
-            If txtFileName.Text <> "" Then
+            If LenB(txtFileName.Text) Then
                 txtFileName.Text = ""
                 Exit Sub
             End If
@@ -1895,7 +1895,7 @@ imgerr:
         UCase(txtFileName.Text) = "LPT2" Or _
         UCase(txtFileName.Text) = "LPT3" Or _
         UCase(txtFileName.Text) = "LPT4" Or _
-        (txtFileName.Text <> "" And Replace(txtFileName.Text, ".", "") = "") Or _
+        (LenB(txtFileName.Text) And Replace(txtFileName.Text, ".", "") = "") Or _
         Right$(txtFileName.Text, 1) = "." _
     Then
         If Tags.BrowseTargetForm = 2 Then
