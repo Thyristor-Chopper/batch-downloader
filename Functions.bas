@@ -1086,7 +1086,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
             MsgBoxMinWidth = 4920
     End Select
 
-    MessageBox.lblContent.Height = 185 * LineCount + 60
+    'MessageBox.lblContent.Height = 185 * LineCount + 60
     MessageBox.Height = 1615 + LineCount * 180 - 300 + 190 - 60 + IIf(MsgBoxMode = vbYesNoEx, 735, 0)
     MessageBox.Caption = Title
     MessageBox.lblContent.Caption = Content
@@ -1239,6 +1239,8 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
 '                MessageBox.cmdTryAgain.Top = MessageBox.cmdTryAgain.Top - 210
 '            End If
     End Select
+    
+    MessageBox.lblContent.Height = MessageBox.Height
 
     Dim MessageSoundPath$
     Select Case Icon
