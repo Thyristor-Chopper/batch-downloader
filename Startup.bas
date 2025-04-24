@@ -63,8 +63,8 @@ Sub Main()
 
     Dim CachePathSuffix$
     CachePathSuffix = "\BOOSTER_JS_CACHE\"
-    If Trim$(Environ$("TEMP")) = "" Then
-        If Environ$("SystemDrive") = "" Then
+    If LenB(Trim$(Environ$("TEMP"))) = 0 Then
+        If LenB(Environ$("SystemDrive")) = 0 Then
             CachePath = "C:" & CachePathSuffix
         Else
             CachePath = Environ$("SystemDrive") & CachePathSuffix

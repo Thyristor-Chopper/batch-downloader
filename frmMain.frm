@@ -2281,7 +2281,7 @@ Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Opt
     
     If Headers = "-" Then Headers = SessionHeaderCache
     
-    If Trim$(SavePath) = "" Then SavePath = txtFileName.Text
+    If LenB(Trim$(SavePath)) = 0 Then SavePath = txtFileName.Text
     SavePath = Trim$(SavePath)
     Do While Replace(SavePath, "\\", "\") <> SavePath
         SavePath = Replace(SavePath, "\\", "\")
@@ -2294,11 +2294,11 @@ Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Opt
     If FolderExists(FileName) Then
         If Not (Right$(FileName, 1) = "\") Then FileName = FileName & "\"
         ServerName = FilterFilename(ExcludeParameters(URLDecode(Split(URL, "/")(UBound(Split(URL, "/"))))))
-        If Replace(ServerName, " ", "") = "" Then ServerName = "download_" & CStr(Rnd * 1E+15)
+        If LenB(Replace(ServerName, " ", "")) = 0 Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
     Else
         ServerName = FilterFilename(ExcludeParameters(URLDecode(Split(URL, "/")(UBound(Split(URL, "/"))))))
-        If Replace(ServerName, " ", "") = "" Then
+        If LenB(Replace(ServerName, " ", "")) = 0 Then
             ServerName = "download_" & CStr(Rnd * 1E+15)
         Else
             ServerName = CStr(Rnd * 1E+15) & "_" & ServerName
@@ -2332,7 +2332,7 @@ Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Opt
 End Function
 
 Private Sub cmdAddToQueue_Click()
-    If Replace(txtURL.Text, " ", "") = "" Then
+    If LenB(Replace(txtURL.Text, " ", "")) = 0 Then
         MsgBox t("파일 주소를 입력하십시오.", "Specify the file URL."), 64
         Exit Sub
     End If
@@ -2489,7 +2489,7 @@ L2:
     SplittedPath = Split(Trim$(FileName), "\")
     Dim i%
     For i = LBound(SplittedPath) To UBound(SplittedPath)
-        If LenB(Trim$(SplittedPath(i))) And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
+        If LenB(Trim$(SplittedPath(i))) And LenB(Replace(Trim$(SplittedPath(i)), ".", "")) = 0 Then
             MsgBox t("저장 경로가 유효하지 않습니다.", "Invalid save path."), 16
             OnExit 999
             Exit Sub
@@ -2502,7 +2502,7 @@ L2:
         Exit Sub
     End If
     
-    If Replace(FileName, " ", "") = "" Then
+    If LenB(Replace(FileName, " ", "")) = 0 Then
         FileName = Replace(CurDir() & "\", "\\", "\")
     End If
     Dim ServerName$
@@ -2511,7 +2511,7 @@ L2:
     If FolderExists(FileName) Then
         If Not (Right$(FileName, 1) = "\") Then FileName = FileName & "\"
         ServerName = FilterFilename(ExcludeParameters((Split(URL, "/")(UBound(Split(URL, "/"))))))
-        If Replace(ServerName, " ", "") = "" Then ServerName = "download_" & CStr(Rnd * 1E+15)
+        If LenB(Replace(ServerName, " ", "")) = 0 Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
         AutoName = True
     End If
@@ -2613,7 +2613,7 @@ Private Sub cmdGo_Click()
     Dim SPResult As SP_RESULTS
     Dim TextLine As String
     
-    If Replace(txtURL.Text, " ", "") = "" Then
+    If LenB(Replace(txtURL.Text, " ", "")) = 0 Then
         MsgBox t("파일 주소를 입력하십시오.", "Specify the file URL."), 64
         Exit Sub
     End If
@@ -2632,7 +2632,7 @@ Private Sub cmdGo_Click()
     SplittedPath = Split(txtFileName.Text, "\")
     Dim i%
     For i = LBound(SplittedPath) To UBound(SplittedPath)
-        If LenB(Trim$(SplittedPath(i))) And Replace(Trim$(SplittedPath(i)), ".", "") = "" Then
+        If LenB(Trim$(SplittedPath(i))) And LenB(Replace(Trim$(SplittedPath(i)), ".", "")) = 0 Then
             MsgBox t("저장 경로가 유효하지 않습니다.", "Invalid save path."), 16
             Exit Sub
         End If

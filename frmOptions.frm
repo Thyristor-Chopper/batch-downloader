@@ -2156,7 +2156,7 @@ aftermaxtrdcheck:
         End If
     End If
     
-    If lvBackgrounds.ListIndex <> 0 And GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "") = "" Then
+    If lvBackgrounds.ListIndex <> 0 And LenB(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")) = 0 Then
         MsgBox t("배경 그림이 선택되지 않았습니다.", "Background image is not selected."), 48
         SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", "0"
         NoDisable = True
@@ -2365,7 +2365,7 @@ Private Sub cmdSaveTheme_Click()
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", Abs(lvBackgrounds.ListIndex <> 0)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImagePath", ChangedBackgroundPath
     
-    If lvBackgrounds.ListIndex <> 0 And GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "") = "" Then
+    If lvBackgrounds.ListIndex <> 0 And LenB(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")) = 0 Then
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", "0"
     End If
     

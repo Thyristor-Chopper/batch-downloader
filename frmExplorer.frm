@@ -1320,7 +1320,7 @@ Private Sub lvFiles_AfterLabelEdit(Cancel As Boolean, NewString As String)
         UCase(NewString) = "LPT2" Or _
         UCase(NewString) = "LPT3" Or _
         UCase(NewString) = "LPT4" Or _
-        Replace(NewString, ".", "") = "" Or _
+        LenB(Replace(NewString, ".", "")) = 0 Or _
         Right$(NewString, 1) = "." _
     Then
         MsgBox t("파일 이름이 올바르지 않습니다.", "Invalid file name."), 16
@@ -1895,7 +1895,7 @@ imgerr:
         UCase(txtFileName.Text) = "LPT2" Or _
         UCase(txtFileName.Text) = "LPT3" Or _
         UCase(txtFileName.Text) = "LPT4" Or _
-        (LenB(txtFileName.Text) And Replace(txtFileName.Text, ".", "") = "") Or _
+        (LenB(txtFileName.Text) And LenB(Replace(txtFileName.Text, ".", "")) = 0) Or _
         Right$(txtFileName.Text, 1) = "." _
     Then
         If Tags.BrowseTargetForm = 2 Then

@@ -351,7 +351,7 @@ Private Sub OKButton_Click()
         UCase(txtFileName.Text) = "LPT2" Or _
         UCase(txtFileName.Text) = "LPT3" Or _
         UCase(txtFileName.Text) = "LPT4" Or _
-        (LenB(txtFileName.Text) And Replace(txtFileName.Text, ".", "") = "") Or _
+        (LenB(txtFileName.Text) And LenB(Replace(txtFileName.Text, ".", "")) = 0) Or _
         Right$(txtFileName.Text, 1) = "." _
     Then
         MsgBox t("파일 이름이 올바르지 않습니다.", "Invalid file name."), 48
@@ -422,7 +422,7 @@ Private Sub timDelayer_Timer()
 End Sub
 
 Private Sub txtFileName_Change()
-    If Replace(txtFileName.Text, " ", "") = "" Then Exit Sub
+    If LenB(Replace(txtFileName.Text, " ", "")) = 0 Then Exit Sub
     timDelayer.Enabled = -1
     
     On Error Resume Next
