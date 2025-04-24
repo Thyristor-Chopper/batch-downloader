@@ -19,30 +19,6 @@ Public MainFormOnTop As Boolean
 Public ScriptFileName As String
 Public NodeFileName As String
 
-Sub LoadPNG()
-    '라이브바둑 쪽지스킨
-    ExtractResource 101, RCData, "bottom.png"
-    ExtractResource 102, RCData, "bottomleft.png"
-    ExtractResource 103, RCData, "bottomright.png"
-    ExtractResource 104, RCData, "left.png"
-    ExtractResource 105, RCData, "right.png"
-    ExtractResource 106, RCData, "top.png"
-    ExtractResource 107, RCData, "topleft.png"
-    ExtractResource 108, RCData, "topright.png"
-    ExtractResource 109, RCData, "center.png"
-End Sub
-
-Sub LoadJS()
-    '다운로드 스크립트
-    ExtractResource 1, RCData, ScriptFileName
-
-    'Node.js 실행화일
-    ExtractResource 2, RCData, NodeFileName
-
-    'iconv-lite 모듈
-    ExtractResource 3, RCData, "iconv.js"
-End Sub
-
 Sub Main()
     OSLangID = GetUserDefaultUILanguage()
     LangID = GetSetting("DownloadBooster", "Options", "Language", 0)
@@ -98,7 +74,10 @@ Sub Main()
     End If
     ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
     NodeFileName = "node_v0_11_11.exe"
-    LoadJS
+    
+    ExtractResource 1, RCData, ScriptFileName
+    ExtractResource 2, RCData, NodeFileName
+    ExtractResource 3, RCData, "iconv.js"
 
     Set SessionHeaders = New Collection
     Set SessionHeaderKeys = New Collection
@@ -139,5 +118,5 @@ forcegulim:
     Randomize
     InitVisualStylesFixes
     Load frmDummyForm
-    frmMain.Show
+    Load frmMain
 End Sub

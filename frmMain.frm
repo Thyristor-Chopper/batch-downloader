@@ -4,7 +4,7 @@ Begin VB.Form frmMain
    ClientHeight    =   7740
    ClientLeft      =   165
    ClientTop       =   555
-   ClientWidth     =   11715
+   ClientWidth     =   13425
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -18,7 +18,7 @@ Begin VB.Form frmMain
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
    ScaleHeight     =   7740
-   ScaleWidth      =   11715
+   ScaleWidth      =   13425
    StartUpPosition =   3  'Windows 기본값
    Begin prjDownloadBooster.FrameW fTabs 
       Height          =   255
@@ -398,8 +398,8 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   0
       Top             =   7410
-      Width           =   11715
-      _ExtentX        =   20664
+      Width           =   13425
+      _ExtentX        =   23680
       _ExtentY        =   582
       InitPanels      =   "frmMain.frx":28A5
    End
@@ -1131,12 +1131,12 @@ Begin VB.Form frmMain
       Transparent     =   -1  'True
    End
    Begin VB.Image imgLBContentBackground 
-      Height          =   375
-      Left            =   10920
+      Height          =   4215
+      Left            =   270
       Stretch         =   -1  'True
-      Top             =   1440
+      Top             =   1635
       Visible         =   0   'False
-      Width           =   495
+      Width           =   6195
    End
    Begin VB.Image imgBorderBottomRight 
       Height          =   135
@@ -1254,93 +1254,11 @@ Begin VB.Form frmMain
       Visible         =   0   'False
       Width           =   1215
    End
-   Begin VB.Line lnTygemFrameBottom 
-      Visible         =   0   'False
-      X1              =   210
-      X2              =   6495
-      Y1              =   6030
-      Y2              =   6030
-   End
-   Begin VB.Line lnTygemFrameRight 
-      Visible         =   0   'False
-      X1              =   6585
-      X2              =   6585
-      Y1              =   1575
-      Y2              =   5940
-   End
    Begin prjDownloadBooster.ShellPipe spYtdl 
       Left            =   9240
       Top             =   3360
       _ExtentX        =   635
       _ExtentY        =   635
-   End
-   Begin VB.Image imgTopLeft 
-      Height          =   435
-      Left            =   120
-      Top             =   1200
-      Visible         =   0   'False
-      Width           =   1725
-   End
-   Begin VB.Image imgTop 
-      Height          =   435
-      Left            =   1845
-      Stretch         =   -1  'True
-      Top             =   1200
-      Visible         =   0   'False
-      Width           =   3585
-   End
-   Begin VB.Image imgTopRight 
-      Height          =   435
-      Left            =   5430
-      Top             =   1200
-      Visible         =   0   'False
-      Width           =   150
-   End
-   Begin VB.Image imgLeft 
-      Height          =   2310
-      Left            =   120
-      Stretch         =   -1  'True
-      Top             =   1635
-      Visible         =   0   'False
-      Width           =   1725
-   End
-   Begin VB.Image imgBottomLeft 
-      Height          =   180
-      Left            =   120
-      Top             =   3945
-      Visible         =   0   'False
-      Width           =   1725
-   End
-   Begin VB.Image imgBottom 
-      Height          =   180
-      Left            =   1845
-      Stretch         =   -1  'True
-      Top             =   3945
-      Visible         =   0   'False
-      Width           =   3585
-   End
-   Begin VB.Image imgBottomRight 
-      Height          =   180
-      Left            =   5430
-      Top             =   3945
-      Visible         =   0   'False
-      Width           =   150
-   End
-   Begin VB.Image imgRight 
-      Height          =   2310
-      Left            =   5415
-      Stretch         =   -1  'True
-      Top             =   1635
-      Visible         =   0   'False
-      Width           =   165
-   End
-   Begin VB.Image imgCenter 
-      Height          =   2310
-      Left            =   1845
-      Stretch         =   -1  'True
-      Top             =   1635
-      Visible         =   0   'False
-      Width           =   3570
    End
    Begin VB.Label lblThreadCount 
       BackStyle       =   0  '투명
@@ -1673,7 +1591,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                     Dim ctrl As Control
                     For Each ctrl In frmMain.Controls
                         Select Case TypeName(ctrl)
-                            Case "FrameW", "CheckBoxW", "OptionButtonW", "CommandButtonW", "Slider"
+                            Case "FrameW", "CheckBoxW", "CommandButtonW", "Slider"
                                 ctrl.Refresh
                         End Select
                     Next ctrl
@@ -2994,7 +2912,7 @@ dorefresh:
             chkOpenFolder.Refresh
             chkContinueDownload.Refresh
             chkAutoRetry.Refresh
-            If Not imgLeft.Visible Then
+            If Not fTygemFrameTransparent.Visible Then
                 Frame4.Refresh
                 fTotal.Refresh
             End If
@@ -3013,6 +2931,7 @@ dorefresh:
             fThreadInfo.Refresh
             pbProgressOuterContainer.Refresh
             pbProgressContainer.Refresh
+            If fTygemFrameTransparent.Visible And fTygemFrameTransparent.Transparent Then fTygemFrameTransparent.Refresh
         End If
     Else
         GoTo dorefresh
@@ -3048,85 +2967,13 @@ Sub SetPattern()
     pgPattern.FillColor = CLng(GetSetting("DownloadBooster", "Options", "FormFillColor", 0))
 End Sub
 
-Sub LoadLiveBadukSkin()
-    On Error Resume Next
-    Dim i%
-    Dim LBEnabled As Boolean
-    LBEnabled = (CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96)
-    If LBEnabled Then
-        Dim SolidFrameVisible As Boolean
-        SolidFrameVisible = False
-        
-        LoadPNG
-        imgLeft.Visible = -1
-        imgCenter.Visible = -1
-        imgTopRight.Left = 6495 - imgTopRight.Width - 30 + 120
-        imgBottomRight.Left = imgTopRight.Left
-        imgBottomLeft.Top = 4620 - imgBottomLeft.Height - 30 + imgTop.Top + 240
-        imgBottomRight.Top = imgBottomLeft.Top
-        imgBottomRight.Left = imgTopRight.Left
-
-        imgRight.Left = imgBottomRight.Left - 15
-        imgBottom.Top = imgBottomLeft.Top
-        imgLeft.Height = 4620 - imgBottomLeft.Height - imgTopLeft.Height - 30 + 240
-        imgCenter.Width = imgRight.Left - (imgLeft.Left + imgLeft.Width)
-        imgCenter.Height = imgBottom.Top - (imgTop.Top + imgTop.Height)
-        
-        Dim FrameType$
-        FrameType = LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "transparent"))
-        Select Case FrameType
-            Case "solidcolor", "texture"
-                imgTopLeft.Visible = 0
-                imgTopRight.Visible = 0
-                imgTop.Visible = 0
-                imgRight.Visible = 0
-                imgBottom.Visible = 0
-                imgBottomLeft.Visible = 0
-                imgBottomRight.Visible = 0
-                fTygemFrameTransparent.Visible = -1
-                SolidFrameVisible = True
-                If imgLeft.Picture.Width = 0 Then imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
-                If imgCenter.Picture.Width = 0 Then imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
-                imgLeft.Height = imgLeft.Height + 30
-                imgLeft.Top = 1620
-                imgCenter.Top = 1620
-                imgCenter.Height = imgCenter.Height + 30
-                imgCenter.Width = imgCenter.Width + 45
-                fTygemFrameTransparent.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
-                lnTygemFrameRight.Visible = False
-                lnTygemFrameBottom.Visible = False
-            Case Else
-                If imgTopLeft.Picture.Width = 0 Then imgTopLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topleft.png")
-                If imgTopRight.Picture.Width = 0 Then imgTopRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "topright.png")
-                If imgTop.Picture.Width = 0 Then imgTop.Picture = LoadPngIntoPictureWithAlpha(CachePath & "top.png")
-                If imgLeft.Picture.Width = 0 Then imgLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "left.png")
-                If imgRight.Picture.Width = 0 Then imgRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "right.png")
-                If imgBottom.Picture.Width = 0 Then imgBottom.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottom.png")
-                If imgBottomLeft.Picture.Width = 0 Then imgBottomLeft.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomleft.png")
-                If imgBottomRight.Picture.Width = 0 Then imgBottomRight.Picture = LoadPngIntoPictureWithAlpha(CachePath & "bottomright.png")
-                If imgCenter.Picture.Width = 0 Then imgCenter.Picture = LoadPngIntoPictureWithAlpha(CachePath & "center.png")
-                
-                imgLeft.Top = 1635
-                imgCenter.Top = 1635
-        
-                imgTop.Width = 6495 - imgTopLeft.Width - imgTopRight.Width - 30
-                imgBottom.Width = imgTop.Width
-                imgRight.Height = imgLeft.Height
-        
-                imgTopLeft.Visible = -1
-                imgTopRight.Visible = -1
-                imgTop.Visible = -1
-                imgRight.Visible = -1
-                imgBottom.Visible = -1
-                imgBottomLeft.Visible = -1
-                imgBottomRight.Visible = -1
-                fTygemFrameTransparent.Visible = 0
-                
-                lnTygemFrameRight.Visible = True
-                lnTygemFrameBottom.Visible = True
-        End Select
-        
-        If FrameType = "texture" Then
+Private Sub SetFrameTexture()
+    Dim FrameType$
+    FrameType = LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "transparent"))
+    
+    Select Case FrameType
+        Case "texture"
+            fTygemFrameTransparent.Transparent = False
             Dim TexturePath$
             TexturePath = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", "")
             If FileExists(TexturePath) Then
@@ -3137,9 +2984,29 @@ Sub LoadLiveBadukSkin()
                 End If
             End If
             imgFrameTexture.Visible = True
-        Else
+        Case "solidcolor"
+            fTygemFrameTransparent.Transparent = False
             imgFrameTexture.Visible = False
-        End If
+        Case Else
+            fTygemFrameTransparent.Transparent = True
+            imgFrameTexture.Visible = True
+            Set imgFrameTexture.Picture = LoadPngIntoPictureWithAlpha(CachePath & "darktransparent.png")
+    End Select
+End Sub
+
+Sub LoadLiveBadukSkin()
+    On Error Resume Next
+    Dim i%
+    Dim LBEnabled As Boolean
+    LBEnabled = (CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96)
+    If LBEnabled Then
+        ExtractResource 101, RCData, "darktransparent.png"
+        ExtractResource 102, RCData, "lighttransparent.png"
+
+        fTygemFrameTransparent.Visible = -1
+        fTygemFrameTransparent.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
+        
+        SetFrameTexture
 
         fTotal.Visible = 0
         Frame4.Visible = 0
@@ -3174,7 +3041,9 @@ Sub LoadLiveBadukSkin()
         lblFilePath.Font.Bold = True
         lblThreadCountLabel.Font.Bold = True
         
-        If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", 1) <> 0 Then
+        Dim EnableShadow As Boolean
+        EnableShadow = (GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", 1) <> 0)
+        If EnableShadow Then
             Dim ShadowColor As Long
             ShadowColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", 16777215))
             If ShadowColor < 0& Then ShadowColor = 16777215
@@ -3183,83 +3052,56 @@ Sub LoadLiveBadukSkin()
             lblURLShadow.ForeColor = ShadowColor
             lblFilePathShadow.ForeColor = ShadowColor
             lblThreadCountLabelShadow.ForeColor = ShadowColor
-            lblLBCaptionShadow.Visible = True
-            lblLBCaptionShadow2.Visible = True
-            lblURLShadow.Visible = True
-            lblFilePathShadow.Visible = True
-            lblThreadCountLabelShadow.Visible = True
-        Else
-            lblLBCaptionShadow.Visible = False
-            lblLBCaptionShadow2.Visible = False
-            lblURLShadow.Visible = False
-            lblFilePathShadow.Visible = False
-            lblThreadCountLabelShadow.Visible = False
         End If
+        lblLBCaptionShadow.Visible = EnableShadow
+        lblLBCaptionShadow2.Visible = EnableShadow
+        lblURLShadow.Visible = EnableShadow
+        lblFilePathShadow.Visible = EnableShadow
+        lblThreadCountLabelShadow.Visible = EnableShadow
         
         cbWhenExist.Width = 1305
         
-        If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", 1) <> 0 Then
-            imgBorderTopLeft.Visible = True
-            imgBorderTopRight.Visible = True
-            imgBorderBottomLeft.Visible = True
-            imgBorderBottomRight.Visible = True
-            pgBorderLeft.Visible = True
-            pgBorderTop.Visible = True
-            pgBorderRight.Visible = True
-            pgBorderBottom.Visible = True
-        Else
-            imgBorderTopLeft.Visible = False
-            imgBorderTopRight.Visible = False
-            imgBorderBottomLeft.Visible = False
-            imgBorderBottomRight.Visible = False
-            pgBorderLeft.Visible = False
-            pgBorderTop.Visible = False
-            pgBorderRight.Visible = False
-            pgBorderBottom.Visible = False
-        End If
+        Dim ShowBorder As Boolean
+        ShowBorder = (GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", 1) <> 0)
+        imgBorderTopLeft.Visible = ShowBorder
+        imgBorderTopRight.Visible = ShowBorder
+        imgBorderBottomLeft.Visible = ShowBorder
+        imgBorderBottomRight.Visible = ShowBorder
+        pgBorderLeft.Visible = ShowBorder
+        pgBorderTop.Visible = ShowBorder
+        pgBorderRight.Visible = ShowBorder
+        pgBorderBottom.Visible = ShowBorder
         
         Dim FrameBackgroundType$
         FrameBackgroundType = LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent"))
-        Select Case FrameBackgroundType
-            Case "texture", "solidcolor"
-                imgLBContentBackground.Visible = True
-                If FrameBackgroundType = "texture" Then
-                    Dim FrameBackgroundPath$
-                    FrameBackgroundPath = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
-                    If FileExists(FrameBackgroundPath) Then
-                        If LCase(Right$(FrameBackgroundPath, 4)) = ".png" Then
-                            Set imgLBContentBackground.Picture = LoadPngIntoPictureWithAlpha(FrameBackgroundPath)
-                        Else
-                            imgLBContentBackground.Picture = LoadPicture(FrameBackgroundPath)
-                        End If
-                    Else
-                        GoTo framecolorbackground
-                    End If
+        imgLBContentBackground.Visible = True
+        If FrameBackgroundType = "texture" Then
+            Dim FrameBackgroundPath$
+            FrameBackgroundPath = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
+            If FileExists(FrameBackgroundPath) Then
+                If LCase(Right$(FrameBackgroundPath, 4)) = ".png" Then
+                    Set imgLBContentBackground.Picture = LoadPngIntoPictureWithAlpha(FrameBackgroundPath)
                 Else
-framecolorbackground:
-                    Set imgLBContentBackground.Picture = GenerateSolidColor(CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", 16777215)))
+                    imgLBContentBackground.Picture = LoadPicture(FrameBackgroundPath)
                 End If
-                imgLBContentBackground.Top = imgTopLeft.Top + imgTopLeft.Height + IIf(fTygemFrameTransparent.Visible, 0, 15)
-                imgLBContentBackground.Left = imgLeft.Left + 150
-                imgLBContentBackground.Width = 6195 - IIf(SolidFrameVisible, 0, 45)
-                imgLBContentBackground.Height = 4215 - IIf(SolidFrameVisible, 0, 30)
-            Case Else
-                imgLBContentBackground.Visible = False
-        End Select
+            Else
+                GoTo framecolorbackground
+            End If
+        ElseIf FrameBackgroundType = "solidcolor" Then
+framecolorbackground:
+            Set imgLBContentBackground.Picture = GenerateSolidColor(CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", 16777215)))
+        Else
+            Set imgLBContentBackground.Picture = LoadPngIntoPictureWithAlpha(CachePath & "lighttransparent.png")
+        End If
+'        imgLBContentBackground.Top = 1635
+'        imgLBContentBackground.Left = 270
+'        imgLBContentBackground.Width = 6195
+'        imgLBContentBackground.Height = 4215
         
         fTabThreads.Visible = False
         fTabDownload.Visible = False
     Else
         fTygemFrameTransparent.Visible = 0
-        imgTopLeft.Visible = 0
-        imgTopRight.Visible = 0
-        imgTop.Visible = 0
-        imgLeft.Visible = 0
-        imgRight.Visible = 0
-        imgBottom.Visible = 0
-        imgBottomLeft.Visible = 0
-        imgBottomRight.Visible = 0
-        imgCenter.Visible = 0
 
         lblLBCaption.Visible = 0
         fTotal.Visible = -1
@@ -3276,9 +3118,6 @@ framecolorbackground:
         optTabThreads2.Width = 195
         optTabDownload2.Caption = ""
         optTabThreads2.Caption = ""
-        
-        lnTygemFrameRight.Visible = False
-        lnTygemFrameBottom.Visible = False
         
         pbTotalProgressMarquee.Left = 1200
         pbTotalProgressMarquee.Width = 5175
@@ -3361,7 +3200,7 @@ framecolorbackground:
 
     Dim ctrl As Control
     For Each ctrl In Me.Controls
-        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "OptionButtonW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then
+        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then
             ctrl.Refresh
         End If
     Next ctrl
@@ -3792,8 +3631,8 @@ Private Sub Form_Load()
     DeleteObject Rgn1
     SetWindowRgn fTygemFrameTransparent.hWnd, Rgn, True
     DeleteObject Rgn
-    fTygemFrameTransparent.Top = imgTopLeft.Top
-    fTygemFrameTransparent.Left = imgTopLeft.Left
+    fTygemFrameTransparent.Top = 1200
+    fTygemFrameTransparent.Left = 120
     imgFrameTexture.Top = 0
     imgFrameTexture.Left = 0
     imgFrameTexture.Width = fTygemFrameTransparent.Width
@@ -3829,6 +3668,9 @@ Private Sub Form_Load()
     AttachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
     
     vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
+    
+    Me.Show vbModeless
+    SetFrameTexture
 End Sub
 
 Sub SetTextColors()
