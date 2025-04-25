@@ -853,7 +853,7 @@ Function Exists(oCol As Collection, vKey As String) As Boolean
     Err.Clear
 End Function
 
-Function TextWidth(s As String, Optional FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
+Function TextWidth(s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
     If FontSize = 0 Then
         TextWidth = 0
         Exit Function
@@ -889,7 +889,7 @@ Function TextWidth(s As String, Optional FontName As String = "", Optional ByVal
     TextWidth = frmDummyForm.TextWidth(s)
 End Function
 
-Function TextHeight(s As String, Optional FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
+Function TextHeight(s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
     If FontSize = 0 Then
         TextHeight = 0
         Exit Function
