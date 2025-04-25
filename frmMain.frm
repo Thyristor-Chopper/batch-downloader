@@ -3980,8 +3980,6 @@ Private Sub lvBatchFiles_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 46 Then
         If lvBatchFiles.SelectedItem.Selected Then cmdDelete_Click
     End If
-    Exit Sub
-    
 ErrLn2:
 End Sub
 
@@ -4040,7 +4038,6 @@ Private Sub mnuEdit_Click()
     frmEditBatch.OriginalPath = lvBatchFiles.SelectedItem.ListSubItems(1).Text
     frmEditBatch.Show vbModal, Me
 exitsub22:
-    Exit Sub
 End Sub
 
 Private Sub mnuMoveDown_Click()
@@ -4076,7 +4073,6 @@ Private Sub mnuMoveDown_Click()
     lvBatchFiles.ListItems.Remove DownIdx
     
 exitsub:
-    Exit Sub
 End Sub
 
 Private Sub mnuMoveUp_Click()
@@ -4111,7 +4107,6 @@ Private Sub mnuMoveUp_Click()
     lvBatchFiles.ListItems.Remove UpIdx
     
 exitsub:
-    Exit Sub
 End Sub
 
 Private Sub mnuOpenBatch_Click()
@@ -4201,16 +4196,12 @@ Sub trThreadCount_Scroll()
     Else
         lblThreadCount.Caption = "(" & trThreadCount.Value & t("개 스레드", " threads") & ")"
     End If
-    Dim i%
-    For i = 1 To trThreadCount.Value
-        lblDownloader(i).Visible = -1
-        pbProgress(i).Visible = -1
-        lblPercentage(i).Visible = -1
-    Next i
-    For i = trThreadCount.Value + 1 To lblDownloader.UBound
-        lblDownloader(i).Visible = 0
-        pbProgress(i).Visible = 0
-        lblPercentage(i).Visible = 0
+    Dim i%, bRowVisible As Boolean
+    For i = 1 To lblDownloader.UBound
+        bRowVisible = (i <= trThreadCount.Value)
+        lblDownloader(i).Visible = bRowVisible
+        pbProgress(i).Visible = bRowVisible
+        lblPercentage(i).Visible = bRowVisible
     Next i
     
     If trThreadCount.Value - 10 > 0 Then
@@ -4219,11 +4210,11 @@ Sub trThreadCount_Scroll()
         Else
             vsProgressScroll.Max = trThreadCount.Value - 10
         End If
-        vsProgressScroll.Enabled = -1
+        'vsProgressScroll.Enabled = -1
         vsProgressScroll.Visible = fThreadInfo.Visible
     Else
         If vsProgressScroll.Max <> 0 Then vsProgressScroll.Max = 0
-        If vsProgressScroll.Enabled Then vsProgressScroll.Enabled = 0
+        'If vsProgressScroll.Enabled Then vsProgressScroll.Enabled = 0
         
         vsProgressScroll.Visible = False
         pbProgressContainer.Top = 0
@@ -4239,16 +4230,8 @@ Sub trThreadCount_Scroll()
 '        optTabThreads2.Value = True
 '    End If
     
-    If trThreadCount.Value = trThreadCount.Min Then
-        cmdDecreaseThreads.Enabled = 0
-    Else
-        cmdDecreaseThreads.Enabled = -1
-    End If
-    If trThreadCount.Value = trThreadCount.Max Then
-        cmdIncreaseThreads.Enabled = 0
-    Else
-        cmdIncreaseThreads.Enabled = -1
-    End If
+    cmdDecreaseThreads.Enabled = (trThreadCount.Value <> trThreadCount.Min)
+    cmdIncreaseThreads.Enabled = (trThreadCount.Value <> trThreadCount.Max)
     
     pbProgressContainer.Refresh
 End Sub
@@ -4263,7 +4246,5 @@ Private Sub vsProgressScroll_Scroll()
     Else
         pbProgressContainer.Top = CDbl(vsProgressScroll.Value) * 255# * -1# - (105# * CDbl(vsProgressScroll.Value))
     End If
-    If LBFrameEnabled Or imgBackground.Visible Then
-        pbProgressContainer.Refresh
-    End If
+    If LBFrameEnabled Or imgBackground.Visible Then pbProgressContainer.Refresh
 End Sub
