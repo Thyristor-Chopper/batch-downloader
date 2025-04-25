@@ -3652,6 +3652,8 @@ Private Sub Form_Load()
     imgOpenFile.ListImages.Add 1, Picture:=imlPicture
     imgOpenFile.ListImages.Add 5, Picture:=imlPicture
     
+    Set imlPicture = Nothing
+    
     AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     AttachMessage Me, Me.hWnd, WM_INITMENU
     AttachMessage Me, Me.hWnd, WM_SYSCOMMAND
