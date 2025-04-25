@@ -3002,7 +3002,10 @@ Sub LoadLiveBadukSkin()
     If LBEnabled Then
         ExtractResource 101, RCData, "darktransparent.png"
         ExtractResource 102, RCData, "lighttransparent.png"
-
+        
+        fTygemFrameTransparent.Top = 1200
+        fTygemFrameTransparent.Left = 120
+        SetTygemFrameRgn
         fTygemFrameTransparent.Visible = -1
         fTygemFrameTransparent.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
         
@@ -3237,6 +3240,7 @@ End Sub
 Private Sub Form_Load()
     On Error Resume Next
     
+    '오류 코드 정보
     Set ErrorCodeDescription = New Collection
     ErrorCodeDescription.Add t("서버와의 접속이 끊겼습니다. 다운로드 중 네트워크 오류가 발생했거나 주소가 유효하지 않거나 서버가 응답하지 않습니다.", "Network error"), "1"
     ErrorCodeDescription.Add t("주소나 파일 이름을 지정하지 않았습니다.", "Address or file name unspecified"), "102"
@@ -3246,20 +3250,26 @@ Private Sub Form_Load()
     ErrorCodeDescription.Add t("파일의 크기를 알 수 없어서 다운로드를 부스트할 수 없습니다. 강도를 1로 변경해 보십시오.", "Unable to boost download because the file size is not provided. Try changing the thread count to 1."), "107"
     ErrorCodeDescription.Add t("서버가 요청을 거부했습니다. 서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다.", "Server has denied your request. The file may not exist or have insufficient permissions to access it."), "108"
     
+    '최대 쓰레드 개수
     MAX_THREAD_COUNT = CInt(GetSetting("DownloadBooster", "Options", "MaxThreadCount", 25))
     
     ResumeUnsupported = False
     LBFrameEnabled = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")
+    
+    '창 제목 설정
     FormCaption = App.Title & " " & App.Major & "." & App.Minor
     If App.Revision > 0 Then FormCaption = FormCaption & "." & App.Revision
     SetTitle
+    
+    '스크롤 막대 설정
     ScrollOneScreen = GetSetting("DownloadBooster", "Options", "ScrollOneScreen", 0) <> 0
     vsProgressScroll.LargeChange = IIf(ScrollOneScreen, 1, 10)
     
     MaxLoadedTileBackgroundImage = 0
     ImagePosition = GetSetting("DownloadBooster", "Options", "ImagePosition", 1)
     
+    '창 위치 불러오기
     Dim Lft%
     Dim Top%
     Top = GetSetting("DownloadBooster", "UserData", "FormTop", "")
@@ -3269,6 +3279,7 @@ Private Sub Form_Load()
         Me.Left = Lft
     End If
     
+    '쓰레드 정보 창 UI 초기 구성
     Dim i%, ThreadInfoLabelTop#, ThreadInfoProgressTop#, ThreadInfoDownloaderCaption$
     ThreadInfoDownloaderCaption = t("스레드", "Thread") & " "
     For i = 1 To MAX_THREAD_COUNT
@@ -3286,6 +3297,8 @@ Private Sub Form_Load()
         pbProgressMarquee(i).ZOrder 0
         lblDownloader(i).Caption = ThreadInfoDownloaderCaption & i & ":"
     Next i
+    
+    '슬라이더 눈금 수 설정
     If MAX_THREAD_COUNT >= 250 Then
         trThreadCount.TickFrequency = 16
     ElseIf MAX_THREAD_COUNT >= 100 Then
@@ -3296,27 +3309,28 @@ Private Sub Form_Load()
         trThreadCount.TickFrequency = 1
     End If
     trThreadCount.Max = MAX_THREAD_COUNT
+    
     pbProgressContainer.Height = 360# * CDbl(MAX_THREAD_COUNT)
-    fDownloadInfo.Top = fThreadInfo.Top '+ 60
-    'fDownloadInfo.Left = fThreadInfo.Left
-    'fDownloadInfo.Width = fThreadInfo.Width '5925
-    'fDownloadInfo.Height = fThreadInfo.Height '- 60
+    fDownloadInfo.Top = fThreadInfo.Top
     
     LoadLiveBadukSkin
     
+    '창 너비 구성
     Me.Width = MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2 * (DPI / 96)
     cmdStop.Left = Me.Width + 1200
-    
     cmdStopBatch.Left = Me.Width + 1200
     
+    '선택된 탭 기억
     If GetSetting("DownloadBooster", "UserData", "LastTab", 1) = 1 Then
         fTabDownload_Click
     Else
         fTabThreads_Click
     End If
     
+    '쓰레드 수 기억
     trThreadCount.Value = GetSetting("DownloadBooster", "UserData", "ThreadCount", GetSetting("DownloadBooster", "Options", "ThreadCount", 1))
     
+    '일괄 다운로드 열 구성
     lvBatchFiles.ColumnHeaders.Add , , t("파일 이름", "File Name"), 2895
     lvBatchFiles.ColumnHeaders.Add , , t("전체 경로", "Full Path"), 0
     lvBatchFiles.ColumnHeaders.Add , , t("파일 주소", "File URL"), 4495
@@ -3333,15 +3347,23 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: CBR", 0
     lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: VBR", 0
 #End If
-
-    Me.Height = 6930
     
     BatchStarted = False
     
+    '화일 이름 및 경로 기억
     txtFileName.Text = GetSetting("DownloadBooster", "UserData", "SavePath", CurDir())
     
     Me.Height = 6930 + PaddedBorderWidth * 15 * 2
     
+    '항상 위에 표시
+    If GetSetting("DownloadBooster", "Options", "AlwaysOnTop", 0) = 1 Then
+        MainFormOnTop = True
+        SetWindowPos hWnd, hWnd_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+    Else
+        MainFormOnTop = False
+    End If
+    
+    '조절 메뉴 항목 추가
     Dim hSysMenu As Long
     Dim MenuCount As Long
     hSysMenu = GetSystemMenu(Me.hWnd, 0)
@@ -3349,13 +3371,6 @@ Private Sub Form_Load()
     Dim MII As MENUITEMINFO
     
     MII.cbSize = Len(MII)
-    
-    If GetSetting("DownloadBooster", "Options", "AlwaysOnTop", 0) = 1 Then
-        MainFormOnTop = True
-        SetWindowPos hWnd, hWnd_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
-    Else
-        MainFormOnTop = False
-    End If
     
     '항상 위에 표시
     With MII
@@ -3388,6 +3403,7 @@ Private Sub Form_Load()
     End With
     InsertMenuItem hSysMenu, 2, 1, MII
     
+    '일괄 처리 창 표시 여부 기억
     If GetSetting("DownloadBooster", "UserData", "BatchExpanded", 1) <> 0 Then
         cmdBatch_Click
     Else
@@ -3396,24 +3412,26 @@ Private Sub Form_Load()
         FormMaxHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
     End If
     
+    '사용자 설정 불러오기
+    AddItemToComboBox cbWhenExist, t("건너뛰기", "Skip")
+    AddItemToComboBox cbWhenExist, t("덮어쓰기", "Overwrite")
+    AddItemToComboBox cbWhenExist, t("이름 변경", "Rename")
+    cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
     chkOpenAfterComplete.Value = GetSetting("DownloadBooster", "Options", "OpenWhenComplete", 0)
     chkOpenFolder.Value = GetSetting("DownloadBooster", "Options", "OpenFolderWhenComplete", 0)
+    chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 0)
+    chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
+    
     If GetSetting("DownloadBooster", "Options", "RememberURL", 0) <> 0 Then
         txtURL.Text = GetSetting("DownloadBooster", "UserData", "FileURL", "")
         txtURL.SelStart = 0
         txtURL.SelLength = Len(txtURL.Text)
     End If
-    chkContinueDownload.Value = GetSetting("DownloadBooster", "Options", "ContinueDownload", 0)
-    chkAutoRetry.Value = GetSetting("DownloadBooster", "Options", "AutoRetry", 0)
     
-    AddItemToComboBox cbWhenExist, t("건너뛰기", "Skip")
-    AddItemToComboBox cbWhenExist, t("덮어쓰기", "Overwrite")
-    AddItemToComboBox cbWhenExist, t("이름 변경", "Rename")
-    cbWhenExist.ListIndex = GetSetting("DownloadBooster", "Options", "WhenFileExists", 0)
-    
+    '쪼개진 단추 구성
     SetupSplitButtons
 
-    '언어설정
+    '로컬라이징 시작
     lblURL.Caption = t(lblURL.Caption, "File &address:")
     lblFilePath.Caption = t(lblFilePath.Caption, "Save &file to:")
     lblThreadCountLabel.Caption = t(lblThreadCountLabel.Caption, "&Threads:")
@@ -3488,11 +3506,12 @@ Private Sub Form_Load()
     optTabThreads2.Caption = fTabThreads.Caption
     lblLBCaptionShadow2.Caption = lblLBCaption.Caption
     lblLBCaption2.Caption = lblLBCaption.Caption
-    '언어설정끝
+    '로컬라이징 끝
     
     lbOptionsHeader.X1 = Label11.Width + 60
     lbOptionsHeader3D.X1 = Label11.Width + 75
     
+    '창 화면배색 설정 불러오기
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetPattern
     SetBackgroundImage
@@ -3500,7 +3519,49 @@ Private Sub Form_Load()
     SetTextColors
     SetFont Me
     
-    'rgnset
+    '이미지 리스트 로드
+    Dim imlPicture As IPictureDisp
+    
+    Set imlPicture = imgDropdown.ListImages(1).ExtractIcon()
+    imgDropdown.ListImages.Add 1, Picture:=imlPicture
+    imgDropdown.ListImages.Add 1, Picture:=imlPicture
+    imgDropdown.ListImages.Add 5, Picture:=imlPicture
+    
+    Set imlPicture = imgPlay.ListImages(1).ExtractIcon()
+    imgPlay.ListImages.Add 1, Picture:=imlPicture
+    imgPlay.ListImages.Add 1, Picture:=imlPicture
+    imgPlay.ListImages.Add 5, Picture:=imlPicture
+    
+    Set imlPicture = imgMinus.ListImages(1).ExtractIcon()
+    imgMinus.ListImages.Add 1, Picture:=imlPicture
+    imgMinus.ListImages.Add 1, Picture:=imlPicture
+    imgMinus.ListImages.Add 5, Picture:=imlPicture
+    
+    Set imlPicture = imgOpenFile.ListImages(1).ExtractIcon()
+    imgOpenFile.ListImages.Add 1, Picture:=imlPicture
+    imgOpenFile.ListImages.Add 1, Picture:=imlPicture
+    imgOpenFile.ListImages.Add 5, Picture:=imlPicture
+    
+    Set imlPicture = Nothing
+    
+    '서브클래스
+    AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    AttachMessage Me, Me.hWnd, WM_INITMENU
+    AttachMessage Me, Me.hWnd, WM_SYSCOMMAND
+    'AttachMessage Me, Me.hWnd, WM_DWMCOMPOSITIONCHANGED
+    AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    AttachMessage Me, Me.hWnd, WM_THEMECHANGED
+    AttachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
+    
+    '스크롤 표시 유무
+    vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
+    
+    '폼 표시
+    Me.Show vbModeless
+    SetFrameTexture
+End Sub
+
+Private Sub SetTygemFrameRgn()
     Dim RC As RECT
     GetWindowRect fTygemFrameTransparent.hWnd, RC
     Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&, Rgn9&
@@ -3621,51 +3682,6 @@ Private Sub Form_Load()
     DeleteObject Rgn1
     SetWindowRgn fTygemFrameTransparent.hWnd, Rgn, True
     DeleteObject Rgn
-    
-    fTygemFrameTransparent.Top = 1200
-    fTygemFrameTransparent.Left = 120
-'    imgFrameTexture.Top = 0
-'    imgFrameTexture.Left = 0
-'    imgFrameTexture.Width = fTygemFrameTransparent.Width
-'    imgFrameTexture.Height = fTygemFrameTransparent.Height
-    
-    '이미지 리스트 로드
-    Dim imlPicture As IPictureDisp
-    
-    Set imlPicture = imgDropdown.ListImages(1).ExtractIcon()
-    imgDropdown.ListImages.Add 1, Picture:=imlPicture
-    imgDropdown.ListImages.Add 1, Picture:=imlPicture
-    imgDropdown.ListImages.Add 5, Picture:=imlPicture
-    
-    Set imlPicture = imgPlay.ListImages(1).ExtractIcon()
-    imgPlay.ListImages.Add 1, Picture:=imlPicture
-    imgPlay.ListImages.Add 1, Picture:=imlPicture
-    imgPlay.ListImages.Add 5, Picture:=imlPicture
-    
-    Set imlPicture = imgMinus.ListImages(1).ExtractIcon()
-    imgMinus.ListImages.Add 1, Picture:=imlPicture
-    imgMinus.ListImages.Add 1, Picture:=imlPicture
-    imgMinus.ListImages.Add 5, Picture:=imlPicture
-    
-    Set imlPicture = imgOpenFile.ListImages(1).ExtractIcon()
-    imgOpenFile.ListImages.Add 1, Picture:=imlPicture
-    imgOpenFile.ListImages.Add 1, Picture:=imlPicture
-    imgOpenFile.ListImages.Add 5, Picture:=imlPicture
-    
-    Set imlPicture = Nothing
-    
-    AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
-    AttachMessage Me, Me.hWnd, WM_INITMENU
-    AttachMessage Me, Me.hWnd, WM_SYSCOMMAND
-    'AttachMessage Me, Me.hWnd, WM_DWMCOMPOSITIONCHANGED
-    AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
-    AttachMessage Me, Me.hWnd, WM_THEMECHANGED
-    AttachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
-    
-    vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
-    
-    Me.Show vbModeless
-    SetFrameTexture
 End Sub
 
 Sub SetTextColors()
@@ -3819,27 +3835,24 @@ Private Sub Form_Unload(Cancel As Integer)
     
     On Error Resume Next
     Me.Hide
-    For i = 1 To MAX_THREAD_COUNT
-        Unload lblDownloader(i)
-        Unload lblPercentage(i)
-        Unload pbProgress(i)
-        Unload pbProgressMarquee(i)
-    Next i
+'    For i = 1 To MAX_THREAD_COUNT
+'        Unload lblDownloader(i)
+'        Unload lblPercentage(i)
+'        Unload pbProgress(i)
+'        Unload pbProgressMarquee(i)
+'    Next i
     Unload frmBatchAdd
     Unload frmBrowse
     Unload frmOptions
     Unload frmExplorer
     Unload frmDummyForm
     Unload frmEditBatch
-    
     IBSSubclass_UnsubclassIt
-    
     GetSystemMenu Me.hWnd, 1&
     Unload frmMessageBox
     Unload frmInputBox
     Unload frmAbout
     Unload frmDownloadOptions
-    Unload frmMain
     If Not InIDE Then ExitProcess 0&
 End Sub
 
@@ -3879,11 +3892,9 @@ Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
                 Me.PopupMenu mnuListContext, , , , mnuEdit
             End If
         End If
-    Else
-        GoTo ErrLn
+        Exit Sub
     End If
     
-    Exit Sub
 ErrLn:
     mnuClearBatch2.Enabled = (lvBatchFiles.ListItems.Count > 0)
     Me.PopupMenu mnuListContext2
@@ -3929,9 +3940,7 @@ Private Sub lvBatchFiles_ItemCheck(ByVal Item As LvwListItem, ByVal Checked As B
             Exit For
         End If
     Next i
-    If Not Enable Then
-        cmdStartBatch.Enabled = 0
-    End If
+    cmdStartBatch.Enabled = Enable
 End Sub
 
 Private Sub lvBatchFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Integer)
@@ -3948,29 +3957,20 @@ End Sub
 
 Private Sub lvBatchFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
     If Selected Then
-        If BatchStarted And Item.Index = CurrentBatchIdx Then
-            cmdDelete.Enabled = 0
-            cmdDeleteDropdown.Enabled = 0
-            cmdEdit.Enabled = 0
-        Else
-            cmdDelete.Enabled = -1
-            cmdDeleteDropdown.Enabled = -1
-            cmdEdit.Enabled = -1
-        End If
+        Dim bBool As Boolean
+        bBool = (Not (BatchStarted And Item.Index = CurrentBatchIdx))
+        cmdDelete.Enabled = bBool
+        cmdDeleteDropdown.Enabled = bBool
+        cmdEdit.Enabled = bBool
         
-        If Item.ListSubItems(3).Text = t("완료", "Done") Then
-            cmdOpenBatch.Enabled = -1
-            cmdOpenDropdown.Enabled = -1
-        Else
-            cmdOpenBatch.Enabled = 0
-            cmdOpenDropdown.Enabled = 0
-        End If
+        bBool = (Item.ListSubItems(3).Text = t("완료", "Done"))
+        cmdOpenBatch.Enabled = bBool
+        cmdOpenDropdown.Enabled = bBool
     Else
         cmdDelete.Enabled = 0
         cmdDeleteDropdown.Enabled = 0
         cmdOpenBatch.Enabled = 0
         cmdOpenDropdown.Enabled = 0
-        
         cmdEdit.Enabled = 0
     End If
 End Sub
