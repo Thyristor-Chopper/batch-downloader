@@ -3302,6 +3302,7 @@ Private Sub Form_Load()
     
     '쓰레드 수 기억
     trThreadCount.Value = GetSetting("DownloadBooster", "UserData", "ThreadCount", GetSetting("DownloadBooster", "Options", "ThreadCount", 1))
+    trThreadCount_Scroll
     
     '일괄 다운로드 열 구성
     lvBatchFiles.ColumnHeaders.Add , , t("파일 이름", "File Name"), 2895
