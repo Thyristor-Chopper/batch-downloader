@@ -2014,7 +2014,6 @@ End Sub
 Private Sub CreateNewFolder()
     If Not tbToolBar.Buttons(3).Enabled Then Exit Sub
 
-    Randomize
     Dim DirName$
     Dim FullPath$
     Do

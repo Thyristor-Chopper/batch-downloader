@@ -4,7 +4,7 @@ Begin VB.Form frmMain
    ClientHeight    =   7740
    ClientLeft      =   165
    ClientTop       =   555
-   ClientWidth     =   13425
+   ClientWidth     =   12630
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -18,7 +18,7 @@ Begin VB.Form frmMain
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
    ScaleHeight     =   7740
-   ScaleWidth      =   13425
+   ScaleWidth      =   12630
    StartUpPosition =   3  'Windows 기본값
    Begin prjDownloadBooster.FrameW fTabs 
       Height          =   255
@@ -227,12 +227,12 @@ Begin VB.Form frmMain
          Width           =   1725
       End
       Begin VB.Image imgFrameTexture 
-         Height          =   735
-         Left            =   360
+         Height          =   4845
+         Left            =   0
          Stretch         =   -1  'True
-         Top             =   600
+         Top             =   0
          Visible         =   0   'False
-         Width           =   975
+         Width           =   6495
       End
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpen 
@@ -398,8 +398,8 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   0
       Top             =   7410
-      Width           =   13425
-      _ExtentX        =   23680
+      Width           =   12630
+      _ExtentX        =   22278
       _ExtentY        =   582
       InitPanels      =   "frmMain.frx":28A5
    End
@@ -490,7 +490,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2EA9
+      InitListImages  =   "frmMain.frx":2D59
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -513,7 +513,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":31A9
+      InitListImages  =   "frmMain.frx":3059
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
@@ -549,7 +549,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3591
+      InitListImages  =   "frmMain.frx":3441
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -559,7 +559,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3979
+      InitListImages  =   "frmMain.frx":3829
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -569,7 +569,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":40E9
+      InitListImages  =   "frmMain.frx":3F99
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -579,7 +579,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":44D1
+      InitListImages  =   "frmMain.frx":4381
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -589,7 +589,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":4C41
+      InitListImages  =   "frmMain.frx":4AF1
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -599,7 +599,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":53B1
+      InitListImages  =   "frmMain.frx":5261
    End
    Begin prjDownloadBooster.FrameW fDownloadInfo 
       Height          =   3255
@@ -812,11 +812,11 @@ Begin VB.Form frmMain
             Begin prjDownloadBooster.ProgressBar pbProgressMarquee 
                Height          =   255
                Index           =   1
-               Left            =   900
+               Left            =   960
                Top             =   0
                Visible         =   0   'False
-               Width           =   4035
-               _ExtentX        =   7117
+               Width           =   3975
+               _ExtentX        =   7011
                _ExtentY        =   450
                Step            =   10
                MarqueeSpeed    =   35
@@ -825,11 +825,11 @@ Begin VB.Form frmMain
             Begin prjDownloadBooster.ProgressBar pbProgress 
                Height          =   255
                Index           =   1
-               Left            =   900
+               Left            =   960
                Top             =   0
                Visible         =   0   'False
-               Width           =   4035
-               _ExtentX        =   7117
+               Width           =   3975
+               _ExtentX        =   7011
                _ExtentY        =   450
                Step            =   10
                MarqueeSpeed    =   35
@@ -1141,7 +1141,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderBottomRight 
       Height          =   135
       Left            =   11040
-      Picture         =   "frmMain.frx":5799
+      Picture         =   "frmMain.frx":5649
       Top             =   600
       Visible         =   0   'False
       Width           =   135
@@ -1149,7 +1149,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderBottomLeft 
       Height          =   135
       Left            =   10680
-      Picture         =   "frmMain.frx":57E7
+      Picture         =   "frmMain.frx":5697
       Top             =   600
       Visible         =   0   'False
       Width           =   135
@@ -1157,7 +1157,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderTopRight 
       Height          =   135
       Left            =   11040
-      Picture         =   "frmMain.frx":5833
+      Picture         =   "frmMain.frx":56E3
       Top             =   240
       Visible         =   0   'False
       Width           =   135
@@ -1165,7 +1165,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderTopLeft 
       Height          =   135
       Left            =   10680
-      Picture         =   "frmMain.frx":587F
+      Picture         =   "frmMain.frx":572F
       Top             =   240
       Visible         =   0   'False
       Width           =   135
@@ -3251,7 +3251,8 @@ Private Sub Form_Load()
     ResumeUnsupported = False
     LBFrameEnabled = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")
-    FormCaption = App.Title & IIf(InIDE, "*", "") & " " & App.Major & "." & App.Minor & IIf(App.Revision > 0, "." & App.Revision, "")
+    FormCaption = App.Title & " " & App.Major & "." & App.Minor
+    If App.Revision > 0 Then FormCaption = FormCaption & "." & App.Revision
     SetTitle
     ScrollOneScreen = GetSetting("DownloadBooster", "Options", "ScrollOneScreen", 0) <> 0
     vsProgressScroll.LargeChange = IIf(ScrollOneScreen, 1, 10)
@@ -3261,55 +3262,45 @@ Private Sub Form_Load()
     
     Dim Lft%
     Dim Top%
-    Top = GetSetting("DownloadBooster", "UserData", "FormTop", -1)
-    Lft = GetSetting("DownloadBooster", "UserData", "FormLeft", -1)
-    If Top >= 0 And Lft >= 0 Then
+    Top = GetSetting("DownloadBooster", "UserData", "FormTop", "")
+    Lft = GetSetting("DownloadBooster", "UserData", "FormLeft", "")
+    If LenB(Top) And LenB(Lft) Then
         Me.Top = Top
         Me.Left = Lft
     End If
     
-    Dim i%
+    Dim i%, ThreadInfoLabelTop#, ThreadInfoProgressTop#, ThreadInfoDownloaderCaption$
+    ThreadInfoDownloaderCaption = t("스레드", "Thread") & " "
     For i = 1 To MAX_THREAD_COUNT
         Load lblDownloader(i)
         Load lblPercentage(i)
         Load pbProgress(i)
         Load pbProgressMarquee(i)
-        lblDownloader(i).Top = 360# * CDbl(i - 1) + 45#
-        lblPercentage(i).Top = 360# * CDbl(i - 1) + 45#
-        pbProgress(i).Top = 360# * CDbl(i - 1)
+        ThreadInfoProgressTop = 360# * CDbl(i - 1)
+        ThreadInfoLabelTop = ThreadInfoProgressTop + 45#
+        lblDownloader(i).Top = ThreadInfoLabelTop
+        lblPercentage(i).Top = ThreadInfoLabelTop
+        pbProgress(i).Top = ThreadInfoProgressTop
         pbProgress(i).ZOrder 1
-        pbProgressMarquee(i).Top = 360# * CDbl(i - 1)
+        pbProgressMarquee(i).Top = ThreadInfoProgressTop
         pbProgressMarquee(i).ZOrder 0
-        If MAX_THREAD_COUNT >= 100 Then
-            pbProgress(i).Width = pbProgress(i).Width - 60
-            pbProgress(i).Left = pbProgress(i).Left + 60
-            pbProgressMarquee(i).Width = pbProgressMarquee(i).Width - 60
-            pbProgressMarquee(i).Left = pbProgressMarquee(i).Left + 60
-        End If
-        lblDownloader(i).Caption = t("스레드", "Thread") & " " & i & ":"
+        lblDownloader(i).Caption = ThreadInfoDownloaderCaption & i & ":"
     Next i
-    If MAX_THREAD_COUNT >= 100 Then
-        pbProgress(1).Width = pbProgress(1).Width - 60
-        pbProgress(1).Left = pbProgress(1).Left + 60
-        pbProgressMarquee(1).Width = pbProgressMarquee(1).Width - 60
-        pbProgressMarquee(1).Left = pbProgressMarquee(1).Left + 60
-        If MAX_THREAD_COUNT >= 250 Then
-            trThreadCount.TickFrequency = 16
-        Else
-            trThreadCount.TickFrequency = 8
-        End If
+    If MAX_THREAD_COUNT >= 250 Then
+        trThreadCount.TickFrequency = 16
+    ElseIf MAX_THREAD_COUNT >= 100 Then
+        trThreadCount.TickFrequency = 8
     ElseIf MAX_THREAD_COUNT >= 50 Then
         trThreadCount.TickFrequency = 4
-    End If
-    trThreadCount.Max = MAX_THREAD_COUNT
-    If MAX_THREAD_COUNT <= 14 Then
+    ElseIf MAX_THREAD_COUNT <= 15 Then
         trThreadCount.TickFrequency = 1
     End If
+    trThreadCount.Max = MAX_THREAD_COUNT
     pbProgressContainer.Height = 360# * CDbl(MAX_THREAD_COUNT)
     fDownloadInfo.Top = fThreadInfo.Top '+ 60
-    fDownloadInfo.Left = fThreadInfo.Left
-    fDownloadInfo.Width = fThreadInfo.Width '5925
-    fDownloadInfo.Height = fThreadInfo.Height '- 60
+    'fDownloadInfo.Left = fThreadInfo.Left
+    'fDownloadInfo.Width = fThreadInfo.Width '5925
+    'fDownloadInfo.Height = fThreadInfo.Height '- 60
     
     LoadLiveBadukSkin
     
@@ -3325,23 +3316,22 @@ Private Sub Form_Load()
     End If
     
     trThreadCount.Value = GetSetting("DownloadBooster", "UserData", "ThreadCount", GetSetting("DownloadBooster", "Options", "ThreadCount", 1))
-    trThreadCount_Scroll
     
-    lvBatchFiles.ColumnHeaders.Add , "filename", t("파일 이름", "File Name"), 2895
-    lvBatchFiles.ColumnHeaders.Add , "fullpath", t("전체 경로", "Full Path"), 0
-    lvBatchFiles.ColumnHeaders.Add , "url", t("파일 주소", "File URL"), 4495
-    lvBatchFiles.ColumnHeaders.Add , "status", t("상태", "Status"), 1105, LvwColumnHeaderAlignmentCenter
-    lvBatchFiles.ColumnHeaders.Add , "autoname", t("파일 이름 자동 감지", "Autodetect File Name"), 0
-    lvBatchFiles.ColumnHeaders.Add , "headers", t("인코딩된 헤더", "Encoded Headers"), 0
+    lvBatchFiles.ColumnHeaders.Add , , t("파일 이름", "File Name"), 2895
+    lvBatchFiles.ColumnHeaders.Add , , t("전체 경로", "Full Path"), 0
+    lvBatchFiles.ColumnHeaders.Add , , t("파일 주소", "File URL"), 4495
+    lvBatchFiles.ColumnHeaders.Add , , t("상태", "Status"), 1105, LvwColumnHeaderAlignmentCenter
+    lvBatchFiles.ColumnHeaders.Add , , t("파일 이름 자동 감지", "Autodetect File Name"), 0
+    lvBatchFiles.ColumnHeaders.Add , , t("인코딩된 헤더", "Encoded Headers"), 0
 #If HIDEYTDL Then
 #Else
-    lvBatchFiles.ColumnHeaders.Add , "useytdl", "youtube-dl " & t("사용", "used"), 0
-    lvBatchFiles.ColumnHeaders.Add , "ytdlformat", "youtube-dl: " & t("포맷", "format"), 0
-    lvBatchFiles.ColumnHeaders.Add , "ytdletractaudio", "youtube-dl: " & t("오디오 추출", "extract audio"), 0
-    lvBatchFiles.ColumnHeaders.Add , "ytdlaudioformat", "youtube-dl: " & t("오디오 포맷", "audio format"), 0
-    lvBatchFiles.ColumnHeaders.Add , "ytdlaudioqualitytype", "youtube-dl: " & t("오디오 음질 형식", "audio quality type"), 0
-    lvBatchFiles.ColumnHeaders.Add , "ytdlcbr", "youtube-dl: CBR", 0
-    lvBatchFiles.ColumnHeaders.Add , "ytdlvbr", "youtube-dl: VBR", 0
+    lvBatchFiles.ColumnHeaders.Add , , "youtube-dl " & t("사용", "used"), 0
+    lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: " & t("포맷", "format"), 0
+    lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: " & t("오디오 추출", "extract audio"), 0
+    lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: " & t("오디오 포맷", "audio format"), 0
+    lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: " & t("오디오 음질 형식", "audio quality type"), 0
+    lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: CBR", 0
+    lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: VBR", 0
 #End If
 
     Me.Height = 6930
@@ -3631,33 +3621,36 @@ Private Sub Form_Load()
     DeleteObject Rgn1
     SetWindowRgn fTygemFrameTransparent.hWnd, Rgn, True
     DeleteObject Rgn
+    
     fTygemFrameTransparent.Top = 1200
     fTygemFrameTransparent.Left = 120
-    imgFrameTexture.Top = 0
-    imgFrameTexture.Left = 0
-    imgFrameTexture.Width = fTygemFrameTransparent.Width
-    imgFrameTexture.Height = fTygemFrameTransparent.Height
+'    imgFrameTexture.Top = 0
+'    imgFrameTexture.Left = 0
+'    imgFrameTexture.Width = fTygemFrameTransparent.Width
+'    imgFrameTexture.Height = fTygemFrameTransparent.Height
     
     '이미지 리스트 로드
-    imgDropdownReverse.ListImages.Add 1, Picture:=imgDropdownReverse.ListImages(1).ExtractIcon()
-    imgDropdownReverse.ListImages.Add 1, Picture:=imgDropdownReverse.ListImages(1).ExtractIcon()
-    imgDropdownReverse.ListImages.Add 5, Picture:=imgDropdownReverse.ListImages(1).ExtractIcon()
+    Dim imlPicture As IPictureDisp
     
-    imgDropdown.ListImages.Add 1, Picture:=imgDropdown.ListImages(1).ExtractIcon()
-    imgDropdown.ListImages.Add 1, Picture:=imgDropdown.ListImages(1).ExtractIcon()
-    imgDropdown.ListImages.Add 5, Picture:=imgDropdown.ListImages(1).ExtractIcon()
+    Set imlPicture = imgDropdown.ListImages(1).ExtractIcon()
+    imgDropdown.ListImages.Add 1, Picture:=imlPicture
+    imgDropdown.ListImages.Add 1, Picture:=imlPicture
+    imgDropdown.ListImages.Add 5, Picture:=imlPicture
     
-    imgPlay.ListImages.Add 1, Picture:=imgPlay.ListImages(1).ExtractIcon()
-    imgPlay.ListImages.Add 1, Picture:=imgPlay.ListImages(1).ExtractIcon()
-    imgPlay.ListImages.Add 5, Picture:=imgPlay.ListImages(1).ExtractIcon()
+    Set imlPicture = imgPlay.ListImages(1).ExtractIcon()
+    imgPlay.ListImages.Add 1, Picture:=imlPicture
+    imgPlay.ListImages.Add 1, Picture:=imlPicture
+    imgPlay.ListImages.Add 5, Picture:=imlPicture
     
-    imgMinus.ListImages.Add 1, Picture:=imgMinus.ListImages(1).ExtractIcon()
-    imgMinus.ListImages.Add 1, Picture:=imgMinus.ListImages(1).ExtractIcon()
-    imgMinus.ListImages.Add 5, Picture:=imgMinus.ListImages(1).ExtractIcon()
+    Set imlPicture = imgMinus.ListImages(1).ExtractIcon()
+    imgMinus.ListImages.Add 1, Picture:=imlPicture
+    imgMinus.ListImages.Add 1, Picture:=imlPicture
+    imgMinus.ListImages.Add 5, Picture:=imlPicture
     
-    imgOpenFile.ListImages.Add 1, Picture:=imgOpenFile.ListImages(1).ExtractIcon()
-    imgOpenFile.ListImages.Add 1, Picture:=imgOpenFile.ListImages(1).ExtractIcon()
-    imgOpenFile.ListImages.Add 5, Picture:=imgOpenFile.ListImages(1).ExtractIcon()
+    Set imlPicture = imgOpenFile.ListImages(1).ExtractIcon()
+    imgOpenFile.ListImages.Add 1, Picture:=imlPicture
+    imgOpenFile.ListImages.Add 1, Picture:=imlPicture
+    imgOpenFile.ListImages.Add 5, Picture:=imlPicture
     
     AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     AttachMessage Me, Me.hWnd, WM_INITMENU

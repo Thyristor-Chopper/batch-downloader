@@ -981,7 +981,6 @@ Function InputBoxEx(Prompt As String, Optional Title As String, Optional Default
 
     Dim InpBox As frmInputBox
     Set InpBox = New frmInputBox
-    Randomize
     InpBox.ResultID = CStr(Rnd * 1E+15)
     Set InpBox.InputBoxObject = InpBox
 
@@ -1015,7 +1014,6 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     Dim MessageBox As frmMessageBox
     Set MessageBox = New frmMessageBox
     MessageBox.MsgBoxMode = MsgBoxMode
-    Randomize
     MessageBox.ResultID = CStr(Rnd * 1E+15)
     Set MessageBox.MessageBoxObject = MessageBox
 

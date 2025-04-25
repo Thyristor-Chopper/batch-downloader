@@ -75,7 +75,7 @@ IconForm="frmBatchAdd"
 Startup="Sub Main"
 HelpFile=""
 Title="다운로드 부스터"
-ExeName32="booster_v1.104.2.exe"
+ExeName32="booster_v1.104.2_f.exe"
 Path32="..\bin"
 Command32=""
 Name="prjDownloadBooster"
@@ -95,7 +95,7 @@ VersionLegalTrademarks="ㅎ"
 VersionProductName="다운로드 부스터"
 CondComp="HIDEYTDL = 1"
 CompilationType=0
-OptimizationType=1
+OptimizationType=0
 FavorPentiumPro(tm)=-1
 CodeViewDebugInfo=0
 NoAliasing=-1
