@@ -1913,6 +1913,8 @@ Function Col(Expression, ByRef IfFalse)
     End If
 End Function
 
+#If HIDEYTDL Then
+#Else
 Function IsYtdlSupported(URL As String) As Boolean
     If EndsWith(LCase(ExcludeParameters(URL)), ".m3u8") Then
         IsYtdlSupported = True
@@ -1933,6 +1935,7 @@ Function IsYtdlSupported(URL As String) As Boolean
 
     IsYtdlSupported = ArrayIncludes(Array("youtube.com", "soundcloud.com", "ok.ru", "bilibili.tv", "dailymotion.com"), HostName)
 End Function
+#End If
 
 Sub tr(ByRef ctrl As Control, EnglishCaption As String)
     On Error Resume Next
@@ -1941,15 +1944,13 @@ End Sub
 
 Function GetThemeColor(ByVal hWnd As Long, ClassList As String, Optional ByVal Part As Long = 0&, Optional ByVal State As Long = 0&, Optional ByVal Prop As Long = TMT_TEXTCOLOR, Optional ByVal DefaultColor As Long = 0&) As Long
     On Error GoTo returndefault
-    Dim hTheme As Long
-    Dim clr As Long
+    Dim hTheme&, clr&
 
     If IsAppThemed() = 0& Or IsThemeActive() = 0& Then GoTo returndefault
     hTheme = OpenThemeData(hWnd, StrPtr(ClassList))
     If hTheme = 0& Then GoTo returndefault
     If X_GetThemeColor(hTheme, Part, State, Prop, clr) <> 0 Then GoTo returndefault
     CloseThemeData hTheme
-
     GetThemeColor = clr
     Exit Function
 
@@ -1973,11 +1974,11 @@ End Sub
 Sub EnableFrameControls(ByRef fFrame As Control, ByRef Except As Control, Optional ByVal Enable As Boolean = True)
     Dim ctrl As Control
     For Each ctrl In fFrame.ContainedControls
-        If ctrl.Name <> Except.Name Then ctrl.Enabled = Enable
+        If Not ctrl Is Except Then ctrl.Enabled = Enable
     Next ctrl
 End Sub
 
-Function Max(ByRef L, ByRef R)
+Function Max(ByVal L As Double, ByVal R As Double) As Double
     If L > R Then
         Max = L
     Else
@@ -2050,7 +2051,7 @@ Function GetPictureHeight(pic As StdPicture) As Long
     GetPictureHeight = Round(frmDummyForm.ScaleY(pic.Height, vbHimetric, vbTwips))
 End Function
 
-Sub ExtractResource(ResourceID, ByVal ResourceType As ResourceType, ByVal FileName As String)
+Sub ExtractResource(ResourceID As Integer, ByVal ResourceType As ResourceType, FileName As String)
     Dim ff As Integer
     Dim B() As Byte
     On Error Resume Next
