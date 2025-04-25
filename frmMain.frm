@@ -2131,28 +2131,21 @@ End Sub
 
 Sub OnStop(Optional PlayBeep As Boolean = True)
     IsDownloading = False
-    If Not BatchStarted Then
-        cmdGo.Enabled = -1
-    End If
+    cmdGo.Enabled = Not BatchStarted
     cmdStop.Enabled = 0
     cmdStop.Left = Me.Width + 1200
     cmdGo.Visible = -1
-    
     lblURL.Enabled = -1
     lblFilePath.Enabled = -1
     lblThreadCountLabel.Enabled = -1
-    
     txtURL.Enabled = -1
     txtFileName.Enabled = -1
     cmdBrowse.Enabled = -1
     cmdClear.Enabled = -1
-    
     trThreadCount.Enabled = -1
-    If trThreadCount.Value > trThreadCount.Min Then cmdDecreaseThreads.Enabled = -1
-    If trThreadCount.Value < trThreadCount.Max Then cmdIncreaseThreads.Enabled = -1
-    
+    cmdDecreaseThreads.Enabled = (trThreadCount.Value > trThreadCount.Min)
+    cmdIncreaseThreads.Enabled = (trThreadCount.Value < trThreadCount.Max)
     cmdDownloadOptions.Enabled = -1
-    
     lblThreadCount.Enabled = -1
     
     SP.FinishChild 0, 0
@@ -2168,9 +2161,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         pbTotalProgressMarquee.Visible = 0
     End If
     
-    If pbTotalProgress.Value < 100 Then
-        pbTotalProgress.Value = 0
-    End If
+    If pbTotalProgress.Value < 100 Then pbTotalProgress.Value = 0
     
     If pbTotalProgress.Value < 100 Then
         lblState.Caption = t("중지됨", "Stopped")
@@ -2220,12 +2211,8 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     End If
     
     If lblTotalBytes.Caption = t("대기 중...", "Pending...") Then lblTotalBytes.Caption = "-"
-    If lblDownloadedBytes.Caption = t("대기 중...", "Pending...") Then
-        lblDownloadedBytes.Caption = "-"
-    End If
-    If PlayBeep And lblDownloadedBytes.Caption <> "-" Then
-        lblTotalBytes.Caption = lblDownloadedBytes.Caption
-    End If
+    If lblDownloadedBytes.Caption = t("대기 중...", "Pending...") Then lblDownloadedBytes.Caption = "-"
+    If PlayBeep And lblDownloadedBytes.Caption <> "-" Then lblTotalBytes.Caption = lblDownloadedBytes.Caption
     If lblTotalSizeThread.Caption = t("대기 중...", "Pending...") Then lblTotalSizeThread.Caption = "-"
     lblRemaining.Caption = "-"
     
@@ -2389,9 +2376,9 @@ Private Sub cmdBrowse_Click()
     Tags.BrowseTargetForm = 0
     If GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", "0") = "1" Then
         frmBrowse.Show vbModal, Me
-        Exit Sub
+    Else
+        frmExplorer.Show vbModal, Me
     End If
-    frmExplorer.Show vbModal, Me
 End Sub
 
 Private Sub cmdClear_Click()
@@ -2400,19 +2387,12 @@ End Sub
 
 Private Sub cmdDecreaseThreads_Click()
     If trThreadCount.Value > trThreadCount.Min Then trThreadCount.Value = trThreadCount.Value - 1
-    If trThreadCount.Value = trThreadCount.Min Then
-        cmdDecreaseThreads.Enabled = 0
-    Else
-        cmdDecreaseThreads.Enabled = -1
-    End If
 End Sub
 
 Private Sub cmdDelete_Click()
     If BatchStarted And CurrentBatchIdx = lvBatchFiles.SelectedItem.Index Then Exit Sub
 
-    If BatchStarted And CurrentBatchIdx > lvBatchFiles.SelectedItem.Index Then
-        CurrentBatchIdx = CurrentBatchIdx - 1
-    End If
+    If BatchStarted And CurrentBatchIdx > lvBatchFiles.SelectedItem.Index Then CurrentBatchIdx = CurrentBatchIdx - 1
     lvBatchFiles.ListItems.Remove lvBatchFiles.SelectedItem.Index
     If lvBatchFiles.ListItems.Count < 1 Or cmdStop.Enabled Or BatchStarted Then
         cmdStartBatch.Enabled = 0
@@ -2652,11 +2632,6 @@ End Sub
 
 Private Sub cmdIncreaseThreads_Click()
     If trThreadCount.Value < trThreadCount.Max Then trThreadCount.Value = trThreadCount.Value + 1
-    If trThreadCount.Value = trThreadCount.Max Then
-        cmdIncreaseThreads.Enabled = 0
-    Else
-        cmdIncreaseThreads.Enabled = -1
-    End If
 End Sub
 
 Private Sub cmdOpen_Click()
@@ -3096,10 +3071,6 @@ framecolorbackground:
         Else
             Set imgLBContentBackground.Picture = LoadPngIntoPictureWithAlpha(CachePath & "lighttransparent.png")
         End If
-'        imgLBContentBackground.Top = 1635
-'        imgLBContentBackground.Left = 270
-'        imgLBContentBackground.Width = 6195
-'        imgLBContentBackground.Height = 4215
         
         fTabThreads.Visible = False
         fTabDownload.Visible = False
@@ -3201,9 +3172,11 @@ framecolorbackground:
         End If
     End If
 
+    Dim CtrlTypeName$
     Dim ctrl As Control
     For Each ctrl In Me.Controls
-        If TypeName(ctrl) = "FrameW" Or TypeName(ctrl) = "CheckBoxW" Or TypeName(ctrl) = "CommandButtonW" Or TypeName(ctrl) = "Slider" Then
+        CtrlTypeName = TypeName(ctrl)
+        If CtrlTypeName = "FrameW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "CommandButtonW" Or CtrlTypeName = "Slider" Then
             ctrl.Refresh
         End If
     Next ctrl
