@@ -3492,21 +3492,21 @@ End Property
 
 Public Property Let ClickableColumnHeaders(ByVal Value As Boolean)
 PropClickableColumnHeaders = Value
-If ListViewHandle <> NULL_PTR Then
-    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim dwStyle As Long
-        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
-        If Not PropClickableColumnHeaders = CBool((dwStyle And HDS_BUTTONS) = HDS_BUTTONS) Then
-            If PropClickableColumnHeaders = True Then
-                If Not (dwStyle And HDS_BUTTONS) = HDS_BUTTONS Then dwStyle = dwStyle Or HDS_BUTTONS
-            Else
-                If (dwStyle And HDS_BUTTONS) = HDS_BUTTONS Then dwStyle = dwStyle And Not HDS_BUTTONS
-            End If
-            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
-        End If
-    End If
-End If
+'If ListViewHandle <> NULL_PTR Then
+'    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'    If ListViewHeaderHandle <> NULL_PTR Then
+'        Dim dwStyle As Long
+'        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
+'        If Not PropClickableColumnHeaders = CBool((dwStyle And HDS_BUTTONS) = HDS_BUTTONS) Then
+'            If PropClickableColumnHeaders = True Then
+'                If Not (dwStyle And HDS_BUTTONS) = HDS_BUTTONS Then dwStyle = dwStyle Or HDS_BUTTONS
+'            Else
+'                If (dwStyle And HDS_BUTTONS) = HDS_BUTTONS Then dwStyle = dwStyle And Not HDS_BUTTONS
+'            End If
+'            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
+'        End If
+'    End If
+'End If
 UserControl.PropertyChanged "ClickableColumnHeaders"
 End Property
 
@@ -3517,21 +3517,21 @@ End Property
 
 Public Property Let HighlightColumnHeaders(ByVal Value As Boolean)
 PropHighlightColumnHeaders = Value
-If ListViewHandle <> NULL_PTR Then
-    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim dwStyle As Long
-        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
-        If Not PropHighlightColumnHeaders = CBool((dwStyle And HDS_HOTTRACK) = HDS_HOTTRACK) Then
-            If PropHighlightColumnHeaders = True Then
-                If Not (dwStyle And HDS_HOTTRACK) = HDS_HOTTRACK Then dwStyle = dwStyle Or HDS_HOTTRACK
-            Else
-                If (dwStyle And HDS_HOTTRACK) = HDS_HOTTRACK Then dwStyle = dwStyle And Not HDS_HOTTRACK
-            End If
-            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
-        End If
-    End If
-End If
+'If ListViewHandle <> NULL_PTR Then
+'    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'    If ListViewHeaderHandle <> NULL_PTR Then
+'        Dim dwStyle As Long
+'        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
+'        If Not PropHighlightColumnHeaders = CBool((dwStyle And HDS_HOTTRACK) = HDS_HOTTRACK) Then
+'            If PropHighlightColumnHeaders = True Then
+'                If Not (dwStyle And HDS_HOTTRACK) = HDS_HOTTRACK Then dwStyle = dwStyle Or HDS_HOTTRACK
+'            Else
+'                If (dwStyle And HDS_HOTTRACK) = HDS_HOTTRACK Then dwStyle = dwStyle And Not HDS_HOTTRACK
+'            End If
+'            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
+'        End If
+'    End If
+'End If
 UserControl.PropertyChanged "HighlightColumnHeaders"
 End Property
 
@@ -3542,21 +3542,21 @@ End Property
 
 Public Property Let TrackSizeColumnHeaders(ByVal Value As Boolean)
 PropTrackSizeColumnHeaders = Value
-If ListViewHandle <> NULL_PTR Then
-    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim dwStyle As Long
-        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
-        If Not PropTrackSizeColumnHeaders = CBool((dwStyle And HDS_FULLDRAG) = HDS_FULLDRAG) Then
-            If PropTrackSizeColumnHeaders = True Then
-                If Not (dwStyle And HDS_FULLDRAG) = HDS_FULLDRAG Then dwStyle = dwStyle Or HDS_FULLDRAG
-            Else
-                If (dwStyle And HDS_FULLDRAG) = HDS_FULLDRAG Then dwStyle = dwStyle And Not HDS_FULLDRAG
-            End If
-            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
-        End If
-    End If
-End If
+'If ListViewHandle <> NULL_PTR Then
+'    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'    If ListViewHeaderHandle <> NULL_PTR Then
+'        Dim dwStyle As Long
+'        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
+'        If Not PropTrackSizeColumnHeaders = CBool((dwStyle And HDS_FULLDRAG) = HDS_FULLDRAG) Then
+'            If PropTrackSizeColumnHeaders = True Then
+'                If Not (dwStyle And HDS_FULLDRAG) = HDS_FULLDRAG Then dwStyle = dwStyle Or HDS_FULLDRAG
+'            Else
+'                If (dwStyle And HDS_FULLDRAG) = HDS_FULLDRAG Then dwStyle = dwStyle And Not HDS_FULLDRAG
+'            End If
+'            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
+'        End If
+'    End If
+'End If
 UserControl.PropertyChanged "TrackSizeColumnHeaders"
 End Property
 
@@ -3567,21 +3567,21 @@ End Property
 
 Public Property Let ResizableColumnHeaders(ByVal Value As Boolean)
 PropResizableColumnHeaders = Value
-If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then
-    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
-    If ListViewHeaderHandle <> NULL_PTR Then
-        Dim dwStyle As Long
-        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
-        If Not PropResizableColumnHeaders = Not CBool((dwStyle And HDS_NOSIZING) = HDS_NOSIZING) Then
-            If PropResizableColumnHeaders = True Then
-                If (dwStyle And HDS_NOSIZING) = HDS_NOSIZING Then dwStyle = dwStyle And Not HDS_NOSIZING
-            Else
-                If Not (dwStyle And HDS_NOSIZING) = HDS_NOSIZING Then dwStyle = dwStyle Or HDS_NOSIZING
-            End If
-            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
-        End If
-    End If
-End If
+'If ListViewHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then
+'    If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
+'    If ListViewHeaderHandle <> NULL_PTR Then
+'        Dim dwStyle As Long
+'        dwStyle = GetWindowLong(ListViewHeaderHandle, GWL_STYLE)
+'        If Not PropResizableColumnHeaders = Not CBool((dwStyle And HDS_NOSIZING) = HDS_NOSIZING) Then
+'            If PropResizableColumnHeaders = True Then
+'                If (dwStyle And HDS_NOSIZING) = HDS_NOSIZING Then dwStyle = dwStyle And Not HDS_NOSIZING
+'            Else
+'                If Not (dwStyle And HDS_NOSIZING) = HDS_NOSIZING Then dwStyle = dwStyle Or HDS_NOSIZING
+'            End If
+'            SetWindowLong ListViewHeaderHandle, GWL_STYLE, dwStyle
+'        End If
+'    End If
+'End If
 UserControl.PropertyChanged "ResizableColumnHeaders"
 End Property
 
@@ -7209,8 +7209,8 @@ Select Case dwRefData
         CCISubclass_Message = WindowProcControl(hWnd, wMsg, wParam, lParam)
     Case 2
         CCISubclass_Message = WindowProcLabelEdit(hWnd, wMsg, wParam, lParam)
-    Case 3
-        CCISubclass_Message = WindowProcFilterEdit(hWnd, wMsg, wParam, lParam)
+'    Case 3
+'        CCISubclass_Message = WindowProcFilterEdit(hWnd, wMsg, wParam, lParam)
     Case 4
         CCISubclass_Message = WindowProcHeader(hWnd, wMsg, wParam, lParam)
     Case 5
@@ -7254,39 +7254,39 @@ Select Case wMsg
     Case WM_RBUTTONDOWN
         If GetFocus() <> hWnd Then UCNoSetFocusFwd = True: SetFocusAPI UserControl.hWnd: UCNoSetFocusFwd = False
         PostMessage hWnd, UM_BUTTONDOWN, MakeDWord(vbRightButton, GetShiftStateFromParam(wParam)), ByVal lParam
-    Case WM_SETCURSOR
-        If LoWord(CLng(lParam)) = HTCLIENT Then
-            If MousePointerID(PropMousePointer) <> 0 Then
-                SetCursor LoadCursor(NULL_PTR, MousePointerID(PropMousePointer))
-                WindowProcControl = 1
-                Exit Function
-            ElseIf PropMousePointer = 99 Then
-                If Not PropMouseIcon Is Nothing Then
-                    SetCursor PropMouseIcon.Handle
-                    WindowProcControl = 1
-                    Exit Function
-                End If
-            End If
-        End If
-    Case WM_DROPFILES
-        If wParam <> NULL_PTR Then
-            Dim FileCount As Long
-            FileCount = DragQueryFile(wParam, -1, NULL_PTR, 0)
-            If FileCount > 0 Then
-                Dim FileList() As String, iFile As Long, FileBuffer As String, P As POINTAPI
-                ReDim FileList(0 To (FileCount - 1)) As String
-                For iFile = 0 To (FileCount - 1)
-                    FileBuffer = String(DragQueryFile(wParam, iFile, NULL_PTR, 0), vbNullChar)
-                    DragQueryFile wParam, iFile, StrPtr(FileBuffer), Len(FileBuffer) + 1
-                    FileList(iFile) = FileBuffer
-                Next iFile
-                DragQueryPoint wParam, P
-                RaiseEvent DropFiles(FileList(), UserControl.ScaleX(P.X, vbPixels, vbContainerPosition), UserControl.ScaleY(P.Y, vbPixels, vbContainerPosition))
-            End If
-            DragFinish wParam
-        End If
-        WindowProcControl = 0
-        Exit Function
+'    Case WM_SETCURSOR
+'        If LoWord(CLng(lParam)) = HTCLIENT Then
+'            If MousePointerID(PropMousePointer) <> 0 Then
+'                SetCursor LoadCursor(NULL_PTR, MousePointerID(PropMousePointer))
+'                WindowProcControl = 1
+'                Exit Function
+'            ElseIf PropMousePointer = 99 Then
+'                If Not PropMouseIcon Is Nothing Then
+'                    SetCursor PropMouseIcon.Handle
+'                    WindowProcControl = 1
+'                    Exit Function
+'                End If
+'            End If
+'        End If
+'    Case WM_DROPFILES
+'        If wParam <> NULL_PTR Then
+'            Dim FileCount As Long
+'            FileCount = DragQueryFile(wParam, -1, NULL_PTR, 0)
+'            If FileCount > 0 Then
+'                Dim FileList() As String, iFile As Long, FileBuffer As String, P As POINTAPI
+'                ReDim FileList(0 To (FileCount - 1)) As String
+'                For iFile = 0 To (FileCount - 1)
+'                    FileBuffer = String(DragQueryFile(wParam, iFile, NULL_PTR, 0), vbNullChar)
+'                    DragQueryFile wParam, iFile, StrPtr(FileBuffer), Len(FileBuffer) + 1
+'                    FileList(iFile) = FileBuffer
+'                Next iFile
+'                DragQueryPoint wParam, P
+'                RaiseEvent DropFiles(FileList(), UserControl.ScaleX(P.X, vbPixels, vbContainerPosition), UserControl.ScaleY(P.Y, vbPixels, vbContainerPosition))
+'            End If
+'            DragFinish wParam
+'        End If
+'        WindowProcControl = 0
+'        Exit Function
     Case WM_KEYDOWN, WM_KEYUP, WM_SYSKEYDOWN, WM_SYSKEYUP
         Dim KeyCode As Integer
         KeyCode = CLng(wParam) And &HFF&
@@ -7350,211 +7350,211 @@ Select Case wMsg
     Case WM_IME_CHAR
         SendMessage hWnd, WM_CHAR, wParam, ByVal lParam
         Exit Function
-    Case WM_NOTIFY
-        Dim NM As NMHDR
-        CopyMemory NM, ByVal lParam, LenB(NM)
-        If NM.hWndFrom = ListViewHeaderHandle And ListViewHeaderHandle <> NULL_PTR Then
-            Dim Cancel As Boolean
-            Dim NMHDR As NMHEADER, HDI As HDITEM
-            Select Case NM.Code
-                Case HDN_ITEMDBLCLICK
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    If NMHDR.iItem > -1 Then RaiseEvent ColumnDblClick(Me.ColumnHeaders(NMHDR.iItem + 1))
-                Case HDN_DIVIDERDBLCLICK
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    If NMHDR.iItem > -1 Then
-                        If PropResizableColumnHeaders = True Then
-                            If Me.ColumnHeaders(NMHDR.iItem + 1).Resizable = True Then
-                                RaiseEvent ColumnDividerDblClick(Me.ColumnHeaders(NMHDR.iItem + 1), Cancel)
-                            Else
-                                Cancel = True
-                            End If
-                        Else
-                            Cancel = True
-                        End If
-                        If Cancel = True Then Exit Function
-                    End If
-                Case HDN_BEGINTRACK
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    If NMHDR.iItem > -1 Then
-                        If PropResizableColumnHeaders = True Then
-                            If Me.ColumnHeaders(NMHDR.iItem + 1).Resizable = True Then
-                                RaiseEvent ColumnBeforeResize(Me.ColumnHeaders(NMHDR.iItem + 1), Cancel)
-                            Else
-                                Cancel = True
-                            End If
-                        Else
-                            Cancel = True
-                        End If
-                        If Cancel = True Then
-                            WindowProcControl = 1
-                            Exit Function
-                        End If
-                    End If
-                Case HDN_ENDTRACK
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    If NMHDR.iItem > -1 Then
-                        If NMHDR.lPtrHDItem <> NULL_PTR Then
-                            CopyMemory HDI.Mask, ByVal NMHDR.lPtrHDItem, 4
-                            If (HDI.Mask And HDI_WIDTH) = HDI_WIDTH Then
-                                Dim NewWidth As Single, CX As Long
-                                CopyMemory HDI.CXY, ByVal UnsignedAdd(NMHDR.lPtrHDItem, 4), 4
-                                NewWidth = UserControl.ScaleX(HDI.CXY, vbPixels, vbContainerSize)
-                                RaiseEvent ColumnAfterResize(Me.ColumnHeaders(NMHDR.iItem + 1), NewWidth)
-                                If NewWidth > 0 Then CX = UserControl.ScaleX(NewWidth, vbContainerSize, vbPixels)
-                                If HDI.CXY <> CX Then CopyMemory ByVal UnsignedAdd(NMHDR.lPtrHDItem, 4), CX, 4
-                            End If
-                        End If
-                    End If
-                Case HDN_BEGINDRAG
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    If NMHDR.iItem > -1 Then RaiseEvent ColumnBeforeDrag(Me.ColumnHeaders(NMHDR.iItem + 1))
-                Case HDN_ENDDRAG
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    If NMHDR.iItem > -1 Then
-                        If NMHDR.lPtrHDItem <> NULL_PTR Then
-                            CopyMemory ByVal VarPtr(HDI), ByVal NMHDR.lPtrHDItem, LenB(HDI)
-                            If (HDI.Mask And HDI_ORDER) = HDI_ORDER Then
-                                RaiseEvent ColumnAfterDrag(Me.ColumnHeaders(NMHDR.iItem + 1), HDI.iOrder + 1, Cancel)
-                                If Cancel = True Then
-                                    WindowProcControl = 1
-                                    Exit Function
-                                End If
-                            End If
-                        End If
-                    End If
-                Case HDN_DROPDOWN
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    If NMHDR.iItem > -1 Then
-                        RaiseEvent ColumnDropDown(Me.ColumnHeaders(NMHDR.iItem + 1))
-                        ' Remove any left mouse button down or double-click messages so that we can get a toggle effect on the split button.
-                        Dim Msg As TMSG
-                        Const PM_REMOVE As Long = &H1
-                        While PeekMessage(Msg, ListViewHeaderHandle, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE) <> 0 Or PeekMessage(Msg, ListViewHeaderHandle, WM_LBUTTONDBLCLK, WM_LBUTTONDBLCLK, PM_REMOVE) <> 0: Wend
-                    End If
-                Case HDN_ITEMSTATEICONCLICK
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    If NMHDR.iItem > -1 Then
-                        With Me.ColumnHeaders(NMHDR.iItem + 1)
-                        .Checked = Not .Checked
-                        End With
-                        Exit Function
-                    End If
-                Case HDN_FILTERCHANGE
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    If NMHDR.iItem > -1 Then RaiseEvent ColumnFilterChanged(Me.ColumnHeaders(NMHDR.iItem + 1))
-                Case HDN_FILTERBTNCLICK
-                    Dim NMHDFBC As NMHDFILTERBTNCLICK
-                    CopyMemory NMHDFBC, ByVal lParam, LenB(NMHDFBC)
-                    If NMHDFBC.iItem > -1 Then
-                        Dim RaiseFilterChanged As Boolean
-                        With NMHDFBC
-                        RaiseEvent ColumnFilterButtonClick(Me.ColumnHeaders(.iItem + 1), RaiseFilterChanged, .RC.Left, .RC.Top, .RC.Right, .RC.Bottom)
-                        End With
-                        If RaiseFilterChanged = True Then WindowProcControl = 1: Exit Function
-                    End If
-                Case HDN_BEGINFILTEREDIT
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    ' It is necessary to overwrite iItem by HDM_GETFOCUSEDITEM as otherwise it would be always -1.
-                    NMHDR.iItem = CLng(SendMessage(NMHDR.hdr.hWndFrom, HDM_GETFOCUSEDITEM, 0, ByVal 0&))
-                    If NMHDR.iItem > -1 Then RaiseEvent BeforeFilterEdit(Me.ColumnHeaders(NMHDR.iItem + 1), ListViewFilterEditHandle)
-                Case HDN_ENDFILTEREDIT
-                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
-                    ' It is necessary to overwrite iItem by HDM_GETFOCUSEDITEM as otherwise it would be always -1.
-                    NMHDR.iItem = CLng(SendMessage(NMHDR.hdr.hWndFrom, HDM_GETFOCUSEDITEM, 0, ByVal 0&))
-                    If NMHDR.iItem > -1 Then RaiseEvent AfterFilterEdit(Me.ColumnHeaders(NMHDR.iItem + 1))
-                Case NM_CUSTOMDRAW
-                    Dim FontHandle As LongPtr
-                    Dim NMCD As NMCUSTOMDRAW
-                    CopyMemory NMCD, ByVal lParam, LenB(NMCD)
-                    Select Case NMCD.dwDrawStage
-                        Case CDDS_PREPAINT
-                            WindowProcControl = CDRF_NOTIFYITEMDRAW
-                            Exit Function
-                        Case CDDS_ITEMPREPAINT
-                            FontHandle = ListViewFontHandle
-                            If NMCD.dwItemSpec > -1 Then
-                                With Me.ColumnHeaders(NMCD.dwItemSpec + 1)
-                                SetTextColor NMCD.hDC, WinColor(.ForeColor)
-                                If .Bold = True Then FontHandle = ListViewBoldFontHandle
-                                End With
-                            End If
-                            SelectObject NMCD.hDC, FontHandle
-                            WindowProcControl = CDRF_NEWFONT
-                            Exit Function
-                    End Select
-            End Select
-        ElseIf NM.hWndFrom = ListViewToolTipHandle And ListViewToolTipHandle <> NULL_PTR Then
-            Static ShowSubInfoTip As Boolean
-            Select Case NM.Code
-                Case TTN_GETDISPINFO
-                    Dim NMTTDI As NMTTDISPINFO
-                    CopyMemory NMTTDI, ByVal lParam, LenB(NMTTDI)
-                    If PropRightToLeft = True And PropRightToLeftLayout = False Then
-                        If Not (NMTTDI.uFlags And TTF_RTLREADING) = TTF_RTLREADING Then
-                            NMTTDI.uFlags = NMTTDI.uFlags Or TTF_RTLREADING
-                            CopyMemory ByVal lParam, NMTTDI, LenB(NMTTDI)
-                        End If
-                    End If
-                    ShowSubInfoTip = False
-                    If PropView = LvwViewReport Then
-                        Dim LVHTI As LVHITTESTINFO, Pos As Long
-                        With LVHTI
-                        Pos = GetMessagePos()
-                        .PT.X = Get_X_lParam(Pos)
-                        .PT.Y = Get_Y_lParam(Pos)
-                        ScreenToClient hWnd, .PT
-                        If SendMessage(hWnd, LVM_SUBITEMHITTEST, 0, ByVal VarPtr(LVHTI)) > -1 Then
-                            If (.Flags And LVHT_ONITEM) <> 0 And .iSubItem > 0 Then
-                                Dim Text As String, Length As Long
-                                If (SendMessage(hWnd, LVM_GETEXTENDEDLISTVIEWSTYLE, 0, ByVal 0&) And LVS_EX_LABELTIP) = LVS_EX_LABELTIP Then
-                                    WindowProcControl = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-                                    CopyMemory NMTTDI, ByVal lParam, LenB(NMTTDI)
-                                    If NMTTDI.lpszText <> NULL_PTR Then Length = lstrlen(NMTTDI.lpszText)
-                                    If Length > 0 Then
-                                        Text = String(Length, vbNullChar)
-                                        CopyMemory ByVal StrPtr(Text), ByVal NMTTDI.lpszText, Length * 2
-                                    Else
-                                        Text = Left$(NMTTDI.szText(), InStr(NMTTDI.szText(), vbNullChar) - 1)
-                                    End If
-                                End If
-                                If Text = vbNullString Then
-                                    If (SendMessage(hWnd, LVM_GETEXTENDEDLISTVIEWSTYLE, 0, ByVal 0&) And LVS_EX_INFOTIP) = LVS_EX_INFOTIP Then
-                                        If PropVirtualMode = False Then
-                                            Text = Me.ListItems(.iItem + 1).ListSubItems(.iSubItem).ToolTipText
-                                        Else
-                                            If (PropVirtualDisabledInfos And LvwVirtualPropertyToolTipText) = 0 Then
-                                                RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyToolTipText, Text)
-                                            End If
-                                        End If
-                                        If Not Text = vbNullString Then
-                                            If Len(Text) <= 80 Then
-                                                Text = Left$(Text & vbNullChar, 80)
-                                                CopyMemory NMTTDI.szText(0), ByVal StrPtr(Text), LenB(Text)
-                                            Else
-                                                Erase NMTTDI.szText()
-                                            End If
-                                            NMTTDI.lpszText = StrPtr(Text) ' Apparently the string address must be always set.
-                                            NMTTDI.hInst = NULL_PTR
-                                            CopyMemory ByVal lParam, NMTTDI, LenB(NMTTDI)
-                                            ShowSubInfoTip = True
-                                        End If
-                                    End If
-                                End If
-                                Exit Function
-                            End If
-                        End If
-                        End With
-                    End If
-                Case TTN_SHOW
-                    If (PropView <> LvwViewIcon And (SendMessage(hWnd, LVM_GETEXTENDEDLISTVIEWSTYLE, 0, ByVal 0&) And LVS_EX_LABELTIP) = 0) _
-                    Or ShowSubInfoTip = True Then
-                        ' To display the ToolTip in its default location, return zero.
-                        WindowProcControl = 0
-                        Exit Function
-                    End If
-            End Select
-        End If
+'    Case WM_NOTIFY
+'        Dim NM As NMHDR
+'        CopyMemory NM, ByVal lParam, LenB(NM)
+'        If NM.hWndFrom = ListViewHeaderHandle And ListViewHeaderHandle <> NULL_PTR Then
+'            Dim Cancel As Boolean
+'            Dim NMHDR As NMHEADER, HDI As HDITEM
+'            Select Case NM.Code
+'                Case HDN_ITEMDBLCLICK
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    If NMHDR.iItem > -1 Then RaiseEvent ColumnDblClick(Me.ColumnHeaders(NMHDR.iItem + 1))
+'                Case HDN_DIVIDERDBLCLICK
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    If NMHDR.iItem > -1 Then
+'                        If PropResizableColumnHeaders = True Then
+'                            If Me.ColumnHeaders(NMHDR.iItem + 1).Resizable = True Then
+'                                RaiseEvent ColumnDividerDblClick(Me.ColumnHeaders(NMHDR.iItem + 1), Cancel)
+'                            Else
+'                                Cancel = True
+'                            End If
+'                        Else
+'                            Cancel = True
+'                        End If
+'                        If Cancel = True Then Exit Function
+'                    End If
+'                Case HDN_BEGINTRACK
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    If NMHDR.iItem > -1 Then
+'                        If PropResizableColumnHeaders = True Then
+'                            If Me.ColumnHeaders(NMHDR.iItem + 1).Resizable = True Then
+'                                RaiseEvent ColumnBeforeResize(Me.ColumnHeaders(NMHDR.iItem + 1), Cancel)
+'                            Else
+'                                Cancel = True
+'                            End If
+'                        Else
+'                            Cancel = True
+'                        End If
+'                        If Cancel = True Then
+'                            WindowProcControl = 1
+'                            Exit Function
+'                        End If
+'                    End If
+'                Case HDN_ENDTRACK
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    If NMHDR.iItem > -1 Then
+'                        If NMHDR.lPtrHDItem <> NULL_PTR Then
+'                            CopyMemory HDI.Mask, ByVal NMHDR.lPtrHDItem, 4
+'                            If (HDI.Mask And HDI_WIDTH) = HDI_WIDTH Then
+'                                Dim NewWidth As Single, CX As Long
+'                                CopyMemory HDI.CXY, ByVal UnsignedAdd(NMHDR.lPtrHDItem, 4), 4
+'                                NewWidth = UserControl.ScaleX(HDI.CXY, vbPixels, vbContainerSize)
+'                                RaiseEvent ColumnAfterResize(Me.ColumnHeaders(NMHDR.iItem + 1), NewWidth)
+'                                If NewWidth > 0 Then CX = UserControl.ScaleX(NewWidth, vbContainerSize, vbPixels)
+'                                If HDI.CXY <> CX Then CopyMemory ByVal UnsignedAdd(NMHDR.lPtrHDItem, 4), CX, 4
+'                            End If
+'                        End If
+'                    End If
+'                Case HDN_BEGINDRAG
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    If NMHDR.iItem > -1 Then RaiseEvent ColumnBeforeDrag(Me.ColumnHeaders(NMHDR.iItem + 1))
+'                Case HDN_ENDDRAG
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    If NMHDR.iItem > -1 Then
+'                        If NMHDR.lPtrHDItem <> NULL_PTR Then
+'                            CopyMemory ByVal VarPtr(HDI), ByVal NMHDR.lPtrHDItem, LenB(HDI)
+'                            If (HDI.Mask And HDI_ORDER) = HDI_ORDER Then
+'                                RaiseEvent ColumnAfterDrag(Me.ColumnHeaders(NMHDR.iItem + 1), HDI.iOrder + 1, Cancel)
+'                                If Cancel = True Then
+'                                    WindowProcControl = 1
+'                                    Exit Function
+'                                End If
+'                            End If
+'                        End If
+'                    End If
+'                Case HDN_DROPDOWN
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    If NMHDR.iItem > -1 Then
+'                        RaiseEvent ColumnDropDown(Me.ColumnHeaders(NMHDR.iItem + 1))
+'                        ' Remove any left mouse button down or double-click messages so that we can get a toggle effect on the split button.
+'                        Dim Msg As TMSG
+'                        Const PM_REMOVE As Long = &H1
+'                        While PeekMessage(Msg, ListViewHeaderHandle, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE) <> 0 Or PeekMessage(Msg, ListViewHeaderHandle, WM_LBUTTONDBLCLK, WM_LBUTTONDBLCLK, PM_REMOVE) <> 0: Wend
+'                    End If
+'                Case HDN_ITEMSTATEICONCLICK
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    If NMHDR.iItem > -1 Then
+'                        With Me.ColumnHeaders(NMHDR.iItem + 1)
+'                        .Checked = Not .Checked
+'                        End With
+'                        Exit Function
+'                    End If
+'                Case HDN_FILTERCHANGE
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    If NMHDR.iItem > -1 Then RaiseEvent ColumnFilterChanged(Me.ColumnHeaders(NMHDR.iItem + 1))
+'                Case HDN_FILTERBTNCLICK
+'                    Dim NMHDFBC As NMHDFILTERBTNCLICK
+'                    CopyMemory NMHDFBC, ByVal lParam, LenB(NMHDFBC)
+'                    If NMHDFBC.iItem > -1 Then
+'                        Dim RaiseFilterChanged As Boolean
+'                        With NMHDFBC
+'                        RaiseEvent ColumnFilterButtonClick(Me.ColumnHeaders(.iItem + 1), RaiseFilterChanged, .RC.Left, .RC.Top, .RC.Right, .RC.Bottom)
+'                        End With
+'                        If RaiseFilterChanged = True Then WindowProcControl = 1: Exit Function
+'                    End If
+'                Case HDN_BEGINFILTEREDIT
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    ' It is necessary to overwrite iItem by HDM_GETFOCUSEDITEM as otherwise it would be always -1.
+'                    NMHDR.iItem = CLng(SendMessage(NMHDR.hdr.hWndFrom, HDM_GETFOCUSEDITEM, 0, ByVal 0&))
+'                    If NMHDR.iItem > -1 Then RaiseEvent BeforeFilterEdit(Me.ColumnHeaders(NMHDR.iItem + 1), ListViewFilterEditHandle)
+'                Case HDN_ENDFILTEREDIT
+'                    CopyMemory NMHDR, ByVal lParam, LenB(NMHDR)
+'                    ' It is necessary to overwrite iItem by HDM_GETFOCUSEDITEM as otherwise it would be always -1.
+'                    NMHDR.iItem = CLng(SendMessage(NMHDR.hdr.hWndFrom, HDM_GETFOCUSEDITEM, 0, ByVal 0&))
+'                    If NMHDR.iItem > -1 Then RaiseEvent AfterFilterEdit(Me.ColumnHeaders(NMHDR.iItem + 1))
+'                Case NM_CUSTOMDRAW
+'                    Dim FontHandle As LongPtr
+'                    Dim NMCD As NMCUSTOMDRAW
+'                    CopyMemory NMCD, ByVal lParam, LenB(NMCD)
+'                    Select Case NMCD.dwDrawStage
+'                        Case CDDS_PREPAINT
+'                            WindowProcControl = CDRF_NOTIFYITEMDRAW
+'                            Exit Function
+'                        Case CDDS_ITEMPREPAINT
+'                            FontHandle = ListViewFontHandle
+'                            If NMCD.dwItemSpec > -1 Then
+'                                With Me.ColumnHeaders(NMCD.dwItemSpec + 1)
+'                                SetTextColor NMCD.hDC, WinColor(.ForeColor)
+'                                If .Bold = True Then FontHandle = ListViewBoldFontHandle
+'                                End With
+'                            End If
+'                            SelectObject NMCD.hDC, FontHandle
+'                            WindowProcControl = CDRF_NEWFONT
+'                            Exit Function
+'                    End Select
+'            End Select
+'        ElseIf NM.hWndFrom = ListViewToolTipHandle And ListViewToolTipHandle <> NULL_PTR Then
+'            Static ShowSubInfoTip As Boolean
+'            Select Case NM.Code
+'                Case TTN_GETDISPINFO
+'                    Dim NMTTDI As NMTTDISPINFO
+'                    CopyMemory NMTTDI, ByVal lParam, LenB(NMTTDI)
+'                    If PropRightToLeft = True And PropRightToLeftLayout = False Then
+'                        If Not (NMTTDI.uFlags And TTF_RTLREADING) = TTF_RTLREADING Then
+'                            NMTTDI.uFlags = NMTTDI.uFlags Or TTF_RTLREADING
+'                            CopyMemory ByVal lParam, NMTTDI, LenB(NMTTDI)
+'                        End If
+'                    End If
+'                    ShowSubInfoTip = False
+'                    If PropView = LvwViewReport Then
+'                        Dim LVHTI As LVHITTESTINFO, Pos As Long
+'                        With LVHTI
+'                        Pos = GetMessagePos()
+'                        .PT.X = Get_X_lParam(Pos)
+'                        .PT.Y = Get_Y_lParam(Pos)
+'                        ScreenToClient hWnd, .PT
+'                        If SendMessage(hWnd, LVM_SUBITEMHITTEST, 0, ByVal VarPtr(LVHTI)) > -1 Then
+'                            If (.Flags And LVHT_ONITEM) <> 0 And .iSubItem > 0 Then
+'                                Dim Text As String, Length As Long
+'                                If (SendMessage(hWnd, LVM_GETEXTENDEDLISTVIEWSTYLE, 0, ByVal 0&) And LVS_EX_LABELTIP) = LVS_EX_LABELTIP Then
+'                                    WindowProcControl = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
+'                                    CopyMemory NMTTDI, ByVal lParam, LenB(NMTTDI)
+'                                    If NMTTDI.lpszText <> NULL_PTR Then Length = lstrlen(NMTTDI.lpszText)
+'                                    If Length > 0 Then
+'                                        Text = String(Length, vbNullChar)
+'                                        CopyMemory ByVal StrPtr(Text), ByVal NMTTDI.lpszText, Length * 2
+'                                    Else
+'                                        Text = Left$(NMTTDI.szText(), InStr(NMTTDI.szText(), vbNullChar) - 1)
+'                                    End If
+'                                End If
+'                                If Text = vbNullString Then
+'                                    If (SendMessage(hWnd, LVM_GETEXTENDEDLISTVIEWSTYLE, 0, ByVal 0&) And LVS_EX_INFOTIP) = LVS_EX_INFOTIP Then
+'                                        If PropVirtualMode = False Then
+'                                            Text = Me.ListItems(.iItem + 1).ListSubItems(.iSubItem).ToolTipText
+'                                        Else
+'                                            If (PropVirtualDisabledInfos And LvwVirtualPropertyToolTipText) = 0 Then
+'                                                RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyToolTipText, Text)
+'                                            End If
+'                                        End If
+'                                        If Not Text = vbNullString Then
+'                                            If Len(Text) <= 80 Then
+'                                                Text = Left$(Text & vbNullChar, 80)
+'                                                CopyMemory NMTTDI.szText(0), ByVal StrPtr(Text), LenB(Text)
+'                                            Else
+'                                                Erase NMTTDI.szText()
+'                                            End If
+'                                            NMTTDI.lpszText = StrPtr(Text) ' Apparently the string address must be always set.
+'                                            NMTTDI.hInst = NULL_PTR
+'                                            CopyMemory ByVal lParam, NMTTDI, LenB(NMTTDI)
+'                                            ShowSubInfoTip = True
+'                                        End If
+'                                    End If
+'                                End If
+'                                Exit Function
+'                            End If
+'                        End If
+'                        End With
+'                    End If
+'                Case TTN_SHOW
+'                    If (PropView <> LvwViewIcon And (SendMessage(hWnd, LVM_GETEXTENDEDLISTVIEWSTYLE, 0, ByVal 0&) And LVS_EX_LABELTIP) = 0) _
+'                    Or ShowSubInfoTip = True Then
+'                        ' To display the ToolTip in its default location, return zero.
+'                        WindowProcControl = 0
+'                        Exit Function
+'                    End If
+'            End Select
+'        End If
     Case UM_BUTTONDOWN
         ' The control enters a modal message loop (DragDetect) on WM_LBUTTONDOWN and WM_RBUTTONDOWN.
         ' This workaround is necessary to raise 'MouseDown' before the button was released or the mouse was moved.
@@ -7686,18 +7686,18 @@ End Select
 WindowProcLabelEdit = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
 End Function
 
-Private Function WindowProcFilterEdit(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
-If wMsg = WM_KILLFOCUS Then
-    ' The filter edit window will be destroyed when it receives WM_KILLFOCUS.
-    Call ComCtlsRemoveSubclass(hWnd)
-End If
-WindowProcFilterEdit = WindowProcLabelEdit(hWnd, wMsg, wParam, lParam)
-If wMsg = WM_KILLFOCUS Then
-    If ListViewFilterEditIndex > 0 Then RaiseEvent AfterFilterEdit(Me.ColumnHeaders(ListViewFilterEditIndex))
-    ListViewFilterEditHandle = NULL_PTR
-    ListViewFilterEditIndex = 0
-End If
-End Function
+'Private Function WindowProcFilterEdit(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
+'If wMsg = WM_KILLFOCUS Then
+'    ' The filter edit window will be destroyed when it receives WM_KILLFOCUS.
+'    Call ComCtlsRemoveSubclass(hWnd)
+'End If
+'WindowProcFilterEdit = WindowProcLabelEdit(hWnd, wMsg, wParam, lParam)
+'If wMsg = WM_KILLFOCUS Then
+'    If ListViewFilterEditIndex > 0 Then RaiseEvent AfterFilterEdit(Me.ColumnHeaders(ListViewFilterEditIndex))
+'    ListViewFilterEditHandle = NULL_PTR
+'    ListViewFilterEditIndex = 0
+'End If
+'End Function
 
 Private Function WindowProcHeader(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
 Select Case wMsg
@@ -7740,72 +7740,72 @@ Select Case wMsg
             End If
         End If
         End With
-    Case WM_SETCURSOR
-        If LoWord(CLng(lParam)) = HTCLIENT Then
-            Dim hCursor As LongPtr
-            If MousePointerID(PropHeaderMousePointer) <> 0 Then
-                hCursor = LoadCursor(NULL_PTR, MousePointerID(PropHeaderMousePointer))
-            ElseIf PropHeaderMousePointer = 99 Then
-                If Not PropHeaderMouseIcon Is Nothing Then hCursor = PropHeaderMouseIcon.Handle
-            End If
-            Dim HDHTI2 As HDHITTESTINFO, Pos As Long
-            With HDHTI2
-            Pos = GetMessagePos()
-            .PT.X = Get_X_lParam(Pos)
-            .PT.Y = Get_Y_lParam(Pos)
-            ScreenToClient hWnd, .PT
-            If SendMessage(hWnd, HDM_HITTEST, 0, ByVal VarPtr(HDHTI2)) > -1 Then
-                If (.Flags And HHT_ONDIVIDER) <> 0 Or (.Flags And HHT_ONDIVOPEN) <> 0 Then
-                    If PropResizableColumnHeaders = False Then
-                        If hCursor = NULL_PTR Then hCursor = LoadCursor(NULL_PTR, MousePointerID(vbArrow))
-                    ElseIf Me.ColumnHeaders(.iItem + 1).Resizable = False Then
-                        If hCursor = NULL_PTR Then hCursor = LoadCursor(NULL_PTR, MousePointerID(vbArrow))
-                    Else
-                        hCursor = NULL_PTR
-                    End If
-                End If
-            End If
-            End With
-            If hCursor <> NULL_PTR Then
-                SetCursor hCursor
-                WindowProcHeader = 1
-                Exit Function
-            End If
-        End If
-    Case WM_SIZE
-        If PropShowColumnTips = True Then Call UpdateHeaderToolTipRect(hWnd)
-    Case WM_MOUSEMOVE
-        If PropShowColumnTips = True Then Call CheckHeaderToolTipItem(hWnd, Get_X_lParam(lParam), Get_Y_lParam(lParam))
-    Case WM_NOTIFY
-        Dim NM As NMHDR
-        CopyMemory NM, ByVal lParam, LenB(NM)
-        If NM.hWndFrom = ListViewHeaderToolTipHandle And ListViewHeaderToolTipHandle <> NULL_PTR Then
-            Select Case NM.Code
-                Case TTN_GETDISPINFO
-                    Dim NMTTDI As NMTTDISPINFO
-                    CopyMemory NMTTDI, ByVal lParam, LenB(NMTTDI)
-                    With NMTTDI
-                    If PropRightToLeft = True And PropRightToLeftLayout = False Then
-                        If Not (.uFlags And TTF_RTLREADING) = TTF_RTLREADING Then
-                            .uFlags = .uFlags Or TTF_RTLREADING
-                            CopyMemory ByVal lParam, NMTTDI, LenB(NMTTDI)
-                        End If
-                    End If
-                    Dim Text As String
-                    Text = GetColumnToolTipText(hWnd, GetMessagePos())
-                    If Not Text = vbNullString Then
-                        If Len(Text) <= 80 Then
-                            Text = Left$(Text & vbNullChar, 80)
-                            CopyMemory .szText(0), ByVal StrPtr(Text), LenB(Text)
-                        Else
-                            .lpszText = StrPtr(Text)
-                        End If
-                        .hInst = NULL_PTR
-                        CopyMemory ByVal lParam, NMTTDI, LenB(NMTTDI)
-                    End If
-                    End With
-            End Select
-        End If
+'    Case WM_SETCURSOR
+'        If LoWord(CLng(lParam)) = HTCLIENT Then
+'            Dim hCursor As LongPtr
+'            If MousePointerID(PropHeaderMousePointer) <> 0 Then
+'                hCursor = LoadCursor(NULL_PTR, MousePointerID(PropHeaderMousePointer))
+'            ElseIf PropHeaderMousePointer = 99 Then
+'                If Not PropHeaderMouseIcon Is Nothing Then hCursor = PropHeaderMouseIcon.Handle
+'            End If
+'            Dim HDHTI2 As HDHITTESTINFO, Pos As Long
+'            With HDHTI2
+'            Pos = GetMessagePos()
+'            .PT.X = Get_X_lParam(Pos)
+'            .PT.Y = Get_Y_lParam(Pos)
+'            ScreenToClient hWnd, .PT
+'            If SendMessage(hWnd, HDM_HITTEST, 0, ByVal VarPtr(HDHTI2)) > -1 Then
+'                If (.Flags And HHT_ONDIVIDER) <> 0 Or (.Flags And HHT_ONDIVOPEN) <> 0 Then
+'                    If PropResizableColumnHeaders = False Then
+'                        If hCursor = NULL_PTR Then hCursor = LoadCursor(NULL_PTR, MousePointerID(vbArrow))
+'                    ElseIf Me.ColumnHeaders(.iItem + 1).Resizable = False Then
+'                        If hCursor = NULL_PTR Then hCursor = LoadCursor(NULL_PTR, MousePointerID(vbArrow))
+'                    Else
+'                        hCursor = NULL_PTR
+'                    End If
+'                End If
+'            End If
+'            End With
+'            If hCursor <> NULL_PTR Then
+'                SetCursor hCursor
+'                WindowProcHeader = 1
+'                Exit Function
+'            End If
+'        End If
+'    Case WM_SIZE
+'        If PropShowColumnTips = True Then Call UpdateHeaderToolTipRect(hWnd)
+'    Case WM_MOUSEMOVE
+'        If PropShowColumnTips = True Then Call CheckHeaderToolTipItem(hWnd, Get_X_lParam(lParam), Get_Y_lParam(lParam))
+'    Case WM_NOTIFY
+'        Dim NM As NMHDR
+'        CopyMemory NM, ByVal lParam, LenB(NM)
+'        If NM.hWndFrom = ListViewHeaderToolTipHandle And ListViewHeaderToolTipHandle <> NULL_PTR Then
+'            Select Case NM.Code
+'                Case TTN_GETDISPINFO
+'                    Dim NMTTDI As NMTTDISPINFO
+'                    CopyMemory NMTTDI, ByVal lParam, LenB(NMTTDI)
+'                    With NMTTDI
+'                    If PropRightToLeft = True And PropRightToLeftLayout = False Then
+'                        If Not (.uFlags And TTF_RTLREADING) = TTF_RTLREADING Then
+'                            .uFlags = .uFlags Or TTF_RTLREADING
+'                            CopyMemory ByVal lParam, NMTTDI, LenB(NMTTDI)
+'                        End If
+'                    End If
+'                    Dim Text As String
+'                    Text = GetColumnToolTipText(hWnd, GetMessagePos())
+'                    If Not Text = vbNullString Then
+'                        If Len(Text) <= 80 Then
+'                            Text = Left$(Text & vbNullChar, 80)
+'                            CopyMemory .szText(0), ByVal StrPtr(Text), LenB(Text)
+'                        Else
+'                            .lpszText = StrPtr(Text)
+'                        End If
+'                        .hInst = NULL_PTR
+'                        CopyMemory ByVal lParam, NMTTDI, LenB(NMTTDI)
+'                    End If
+'                    End With
+'            End Select
+'        End If
     Case WM_COMMAND
         Const EN_SETFOCUS As Long = &H100, EN_KILLFOCUS As Long = &H200
         Select Case HiWord(CLng(wParam))
@@ -7985,40 +7985,40 @@ Select Case wMsg
                             ListViewLabelInEdit = False
                     End Select
                     Exit Function
-                Case LVN_BEGINDRAG, LVN_BEGINRDRAG
-                    CopyMemory NMLV, ByVal lParam, LenB(NMLV)
-                    If NMLV.iItem > -1 Then
-                        If PropVirtualMode = False Then
-                            Set ListItem = Me.ListItems(NMLV.iItem + 1)
-                        Else
-                            Set ListItem = New LvwListItem
-                            ListItem.FInit ObjPtr(Me), NMLV.iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                        End If
-                        ListViewDragIndexBuffer = NMLV.iItem + 1
-                        If NM.Code = LVN_BEGINDRAG Then
-                            RaiseEvent ItemDrag(ListItem, vbLeftButton)
-                            If PropOLEDragMode = vbOLEDragAutomatic Then Me.OLEDrag
-                        ElseIf NM.Code = LVN_BEGINRDRAG Then
-                            RaiseEvent ItemDrag(ListItem, vbRightButton)
-                        End If
-                        ListViewDragIndexBuffer = 0
-                    End If
-                Case LVN_COLUMNCLICK
-                    CopyMemory NMLV, ByVal lParam, LenB(NMLV)
-                    RaiseEvent ColumnClick(Me.ColumnHeaders(NMLV.iSubItem + 1))
-                Case LVN_ITEMACTIVATE
-                    CopyMemory NMIA, ByVal lParam, LenB(NMIA)
-                    Dim Shift As Integer
-                    If (NMIA.uKeyFlags And LVKF_SHIFT) = LVKF_SHIFT Then Shift = vbShiftMask
-                    If (NMIA.uKeyFlags And LVKF_CONTROL) = LVKF_CONTROL Then Shift = Shift Or vbCtrlMask
-                    If (NMIA.uKeyFlags And LVKF_ALT) = LVKF_ALT Then Shift = Shift Or vbAltMask
-                    If PropVirtualMode = False Then
-                        Set ListItem = Me.ListItems(NMIA.iItem + 1)
-                    Else
-                        Set ListItem = New LvwListItem
-                        ListItem.FInit ObjPtr(Me), NMIA.iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                    End If
-                    RaiseEvent ItemActivate(ListItem, NMIA.iSubItem, Shift)
+'                Case LVN_BEGINDRAG, LVN_BEGINRDRAG
+'                    CopyMemory NMLV, ByVal lParam, LenB(NMLV)
+'                    If NMLV.iItem > -1 Then
+'                        If PropVirtualMode = False Then
+'                            Set ListItem = Me.ListItems(NMLV.iItem + 1)
+'                        Else
+'                            Set ListItem = New LvwListItem
+'                            ListItem.FInit ObjPtr(Me), NMLV.iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                        End If
+'                        ListViewDragIndexBuffer = NMLV.iItem + 1
+'                        If NM.Code = LVN_BEGINDRAG Then
+'                            RaiseEvent ItemDrag(ListItem, vbLeftButton)
+'                            If PropOLEDragMode = vbOLEDragAutomatic Then Me.OLEDrag
+'                        ElseIf NM.Code = LVN_BEGINRDRAG Then
+'                            RaiseEvent ItemDrag(ListItem, vbRightButton)
+'                        End If
+'                        ListViewDragIndexBuffer = 0
+'                    End If
+'                Case LVN_COLUMNCLICK
+'                    CopyMemory NMLV, ByVal lParam, LenB(NMLV)
+'                    RaiseEvent ColumnClick(Me.ColumnHeaders(NMLV.iSubItem + 1))
+'                Case LVN_ITEMACTIVATE
+'                    CopyMemory NMIA, ByVal lParam, LenB(NMIA)
+'                    Dim Shift As Integer
+'                    If (NMIA.uKeyFlags And LVKF_SHIFT) = LVKF_SHIFT Then Shift = vbShiftMask
+'                    If (NMIA.uKeyFlags And LVKF_CONTROL) = LVKF_CONTROL Then Shift = Shift Or vbCtrlMask
+'                    If (NMIA.uKeyFlags And LVKF_ALT) = LVKF_ALT Then Shift = Shift Or vbAltMask
+'                    If PropVirtualMode = False Then
+'                        Set ListItem = Me.ListItems(NMIA.iItem + 1)
+'                    Else
+'                        Set ListItem = New LvwListItem
+'                        ListItem.FInit ObjPtr(Me), NMIA.iItem + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                    End If
+'                    RaiseEvent ItemActivate(ListItem, NMIA.iSubItem, Shift)
                 Case NM_CLICK, NM_RCLICK
                     CopyMemory NMIA, ByVal lParam, LenB(NMIA)
                     If NMIA.iItem > -1 Then
@@ -8162,56 +8162,57 @@ Select Case wMsg
                             Exit Function
                         Case (CDDS_ITEMPREPAINT Or CDDS_SUBITEM)
                             FontHandle = ListViewFontHandle
-                            If PropVirtualMode = True Then
-                                If NMLVCD.NMCD.dwItemSpec > -1 And NMLVCD.NMCD.dwItemSpec <= PropVirtualItemCount Then
-                                    Dim SubItemCount As Long
-                                    SubItemCount = Me.ColumnHeaders.Count - 1 ' Deduct 1 for SubItem 0
-                                    If NMLVCD.iSubItem >= 0 And NMLVCD.iSubItem <= SubItemCount Then
-                                        If (NMLVCD.NMCD.uItemState And CDIS_HOT) = 0 Or PropHotTracking = False Then
-                                            If (PropVirtualDisabledInfos And LvwVirtualPropertyBold) = 0 Then
-                                                RaiseEvent GetVirtualItem(CLng(NMLVCD.NMCD.dwItemSpec) + 1, NMLVCD.iSubItem, LvwVirtualPropertyBold, Bold)
-                                            End If
-                                            If Bold = True Then FontHandle = ListViewBoldFontHandle
-                                            ForeColor = PropForeColor
-                                            If (PropVirtualDisabledInfos And LvwVirtualPropertyForeColor) = 0 Then
-                                                RaiseEvent GetVirtualItem(CLng(NMLVCD.NMCD.dwItemSpec) + 1, NMLVCD.iSubItem, LvwVirtualPropertyForeColor, ForeColor)
-                                            End If
-                                            NMLVCD.ClrText = WinColor(ForeColor)
-                                        Else
-                                            If (PropVirtualDisabledInfos And LvwVirtualPropertyBold) = 0 Then
-                                                RaiseEvent GetVirtualItem(CLng(NMLVCD.NMCD.dwItemSpec) + 1, NMLVCD.iSubItem, LvwVirtualPropertyBold, Bold)
-                                            End If
-                                            If PropUnderlineHot = True And PropView = LvwViewReport Then
-                                                If Bold = True Then
-                                                    FontHandle = ListViewBoldUnderlineFontHandle
-                                                Else
-                                                    FontHandle = ListViewUnderlineFontHandle
-                                                End If
-                                            Else
-                                                If Bold = True Then FontHandle = ListViewBoldFontHandle
-                                            End If
-                                            If PropHighlightHot = True And PropView = LvwViewReport Then
-                                                If ListViewHotLightColor = CLR_DEFAULT Then
-                                                    NMLVCD.ClrText = GetSysColor(COLOR_HOTLIGHT)
-                                                Else
-                                                    NMLVCD.ClrText = ListViewHotLightColor
-                                                End If
-                                            Else
-                                                ForeColor = PropForeColor
-                                                If (PropVirtualDisabledInfos And LvwVirtualPropertyForeColor) = 0 Then
-                                                    RaiseEvent GetVirtualItem(CLng(NMLVCD.NMCD.dwItemSpec) + 1, NMLVCD.iSubItem, LvwVirtualPropertyForeColor, ForeColor)
-                                                End If
-                                                NMLVCD.ClrText = WinColor(ForeColor)
-                                            End If
-                                        End If
-                                    End If
-                                    If NMLVCD.iSubItem = 0 Then
-                                        Set ListItem = New LvwListItem
-                                        ListItem.FInit ObjPtr(Me), CLng(NMLVCD.NMCD.dwItemSpec) + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
-                                        RaiseEvent ItemBkColor(ListItem, NMLVCD.ClrTextBk)
-                                    End If
-                                End If
-                            ElseIf NMLVCD.NMCD.lItemlParam <> 0 Then
+'                            If PropVirtualMode = True Then
+'                                If NMLVCD.NMCD.dwItemSpec > -1 And NMLVCD.NMCD.dwItemSpec <= PropVirtualItemCount Then
+'                                    Dim SubItemCount As Long
+'                                    SubItemCount = Me.ColumnHeaders.Count - 1 ' Deduct 1 for SubItem 0
+'                                    If NMLVCD.iSubItem >= 0 And NMLVCD.iSubItem <= SubItemCount Then
+'                                        If (NMLVCD.NMCD.uItemState And CDIS_HOT) = 0 Or PropHotTracking = False Then
+'                                            If (PropVirtualDisabledInfos And LvwVirtualPropertyBold) = 0 Then
+'                                                RaiseEvent GetVirtualItem(CLng(NMLVCD.NMCD.dwItemSpec) + 1, NMLVCD.iSubItem, LvwVirtualPropertyBold, Bold)
+'                                            End If
+'                                            If Bold = True Then FontHandle = ListViewBoldFontHandle
+'                                            ForeColor = PropForeColor
+'                                            If (PropVirtualDisabledInfos And LvwVirtualPropertyForeColor) = 0 Then
+'                                                RaiseEvent GetVirtualItem(CLng(NMLVCD.NMCD.dwItemSpec) + 1, NMLVCD.iSubItem, LvwVirtualPropertyForeColor, ForeColor)
+'                                            End If
+'                                            NMLVCD.ClrText = WinColor(ForeColor)
+'                                        Else
+'                                            If (PropVirtualDisabledInfos And LvwVirtualPropertyBold) = 0 Then
+'                                                RaiseEvent GetVirtualItem(CLng(NMLVCD.NMCD.dwItemSpec) + 1, NMLVCD.iSubItem, LvwVirtualPropertyBold, Bold)
+'                                            End If
+'                                            If PropUnderlineHot = True And PropView = LvwViewReport Then
+'                                                If Bold = True Then
+'                                                    FontHandle = ListViewBoldUnderlineFontHandle
+'                                                Else
+'                                                    FontHandle = ListViewUnderlineFontHandle
+'                                                End If
+'                                            Else
+'                                                If Bold = True Then FontHandle = ListViewBoldFontHandle
+'                                            End If
+'                                            If PropHighlightHot = True And PropView = LvwViewReport Then
+'                                                If ListViewHotLightColor = CLR_DEFAULT Then
+'                                                    NMLVCD.ClrText = GetSysColor(COLOR_HOTLIGHT)
+'                                                Else
+'                                                    NMLVCD.ClrText = ListViewHotLightColor
+'                                                End If
+'                                            Else
+'                                                ForeColor = PropForeColor
+'                                                If (PropVirtualDisabledInfos And LvwVirtualPropertyForeColor) = 0 Then
+'                                                    RaiseEvent GetVirtualItem(CLng(NMLVCD.NMCD.dwItemSpec) + 1, NMLVCD.iSubItem, LvwVirtualPropertyForeColor, ForeColor)
+'                                                End If
+'                                                NMLVCD.ClrText = WinColor(ForeColor)
+'                                            End If
+'                                        End If
+'                                    End If
+'                                    If NMLVCD.iSubItem = 0 Then
+'                                        Set ListItem = New LvwListItem
+'                                        ListItem.FInit ObjPtr(Me), CLng(NMLVCD.NMCD.dwItemSpec) + 1, vbNullString, NULL_PTR, vbNullString, 0, 0, 0, 0
+'                                        RaiseEvent ItemBkColor(ListItem, NMLVCD.ClrTextBk)
+'                                    End If
+'                                End If
+'                            Else
+                            If NMLVCD.NMCD.lItemlParam <> 0 Then
                                 Set ListItem = PtrToObj(NMLVCD.NMCD.lItemlParam)
                                 With ListItem
                                 If NMLVCD.iSubItem > 0 Then
@@ -8283,89 +8284,90 @@ Select Case wMsg
                             WindowProcUserControl = CDRF_NEWFONT
                             Exit Function
                     End Select
-                Case LVN_GETINFOTIP
-                    Dim NMLVGIT As NMLVGETINFOTIP
-                    CopyMemory NMLVGIT, ByVal lParam, LenB(NMLVGIT)
-                    With NMLVGIT
-                    If .iItem > -1 And .pszText <> NULL_PTR Then
-                        If .iSubItem = 0 Then
-                            Dim ToolTipText As String
-                            If .dwFlags = LVGIT_UNFOLDED Or (PropView <> LvwViewIcon And (SendMessage(ListViewHandle, LVM_GETEXTENDEDLISTVIEWSTYLE, 0, ByVal 0&) And LVS_EX_LABELTIP) = 0) Then
-                                If PropVirtualMode = False Then
-                                    ToolTipText = Me.ListItems(.iItem + 1).ToolTipText
-                                Else
-                                    If (PropVirtualDisabledInfos And LvwVirtualPropertyToolTipText) = 0 Then
-                                        RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyToolTipText, ToolTipText)
-                                    End If
-                                End If
-                                If Not ToolTipText = vbNullString Then
-                                    ToolTipText = Left$(ToolTipText, .cchTextMax - 1) & vbNullChar
-                                    CopyMemory ByVal .pszText, ByVal StrPtr(ToolTipText), LenB(ToolTipText)
-                                Else
-                                    CopyMemory ByVal .pszText, 0&, 4
-                                End If
-                            End If
-                        Else
-                            ' Not supported.
-                        End If
-                    End If
-                    End With
+'                Case LVN_GETINFOTIP
+'                    Dim NMLVGIT As NMLVGETINFOTIP
+'                    CopyMemory NMLVGIT, ByVal lParam, LenB(NMLVGIT)
+'                    With NMLVGIT
+'                    If .iItem > -1 And .pszText <> NULL_PTR Then
+'                        If .iSubItem = 0 Then
+'                            Dim ToolTipText As String
+'                            If .dwFlags = LVGIT_UNFOLDED Or (PropView <> LvwViewIcon And (SendMessage(ListViewHandle, LVM_GETEXTENDEDLISTVIEWSTYLE, 0, ByVal 0&) And LVS_EX_LABELTIP) = 0) Then
+'                                If PropVirtualMode = False Then
+'                                    ToolTipText = Me.ListItems(.iItem + 1).ToolTipText
+'                                Else
+'                                    If (PropVirtualDisabledInfos And LvwVirtualPropertyToolTipText) = 0 Then
+'                                        RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyToolTipText, ToolTipText)
+'                                    End If
+'                                End If
+'                                If Not ToolTipText = vbNullString Then
+'                                    ToolTipText = Left$(ToolTipText, .cchTextMax - 1) & vbNullChar
+'                                    CopyMemory ByVal .pszText, ByVal StrPtr(ToolTipText), LenB(ToolTipText)
+'                                Else
+'                                    CopyMemory ByVal .pszText, 0&, 4
+'                                End If
+'                            End If
+'                        Else
+'                            ' Not supported.
+'                        End If
+'                    End If
+'                    End With
                 Case LVN_GETDISPINFO
                     CopyMemory NMLVDI, ByVal lParam, LenB(NMLVDI)
                     With NMLVDI.Item
                     If .iItem > -1 Then
                         Dim CallbackText As String
-                        If PropVirtualMode = True Then
-                            If (.Mask And LVIF_TEXT) = LVIF_TEXT Then
-                                If (PropVirtualDisabledInfos And LvwVirtualPropertyText) = 0 Then
-                                    RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyText, CallbackText)
-                                End If
-                                If Not CallbackText = vbNullString Then
-                                    CallbackText = Left$(CallbackText, .cchTextMax - 1) & vbNullChar
-                                    CopyMemory ByVal .pszText, ByVal StrPtr(CallbackText), LenB(CallbackText)
-                                Else
-                                    CopyMemory ByVal .pszText, 0&, 4
-                                End If
-                            End If
-                            If (.Mask And LVIF_IMAGE) = LVIF_IMAGE Then
-                                Dim Icon As Variant
-                                If (PropVirtualDisabledInfos And LvwVirtualPropertyIcon) = 0 Then
-                                    RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyIcon, Icon)
-                                End If
-                                If IsEmpty(Icon) Then
-                                    .iImage = -1
-                                Else
-                                    Dim IconIndex As Long
-                                    If PropView = LvwViewIcon Then
-                                        Call ComCtlsImlListImageIndex(Me, Me.Icons, Icon, IconIndex)
-                                    Else
-                                        Call ComCtlsImlListImageIndex(Me, Me.SmallIcons, Icon, IconIndex)
-                                    End If
-                                    .iImage = IconIndex - 1
-                                End If
-                            End If
-                            If (.Mask And LVIF_INDENT) = LVIF_INDENT Then
-                                Dim Indentation As Long
-                                If (PropVirtualDisabledInfos And LvwVirtualPropertyIndentation) = 0 Then
-                                    RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyIndentation, Indentation)
-                                End If
-                                .iIndent = Indentation
-                            End If
-                            If (.Mask And LVIF_STATE) = LVIF_STATE Then
-                                If (.StateMask And LVIS_STATEIMAGEMASK) = LVIS_STATEIMAGEMASK And .iSubItem = 0 Then
-                                    Dim Checked As Boolean
-                                    If (PropVirtualDisabledInfos And LvwVirtualPropertyChecked) = 0 Then
-                                        RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyChecked, Checked)
-                                    End If
-                                    If Checked = True Then
-                                        .State = .State Or IndexToStateImageMask(IIL_CHECKED)
-                                    Else
-                                        .State = .State Or IndexToStateImageMask(IIL_UNCHECKED)
-                                    End If
-                                End If
-                            End If
-                            CopyMemory ByVal lParam, NMLVDI, LenB(NMLVDI)
-                        ElseIf .lParam <> 0 Then
+'                        If PropVirtualMode = True Then
+'                            If (.Mask And LVIF_TEXT) = LVIF_TEXT Then
+'                                If (PropVirtualDisabledInfos And LvwVirtualPropertyText) = 0 Then
+'                                    RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyText, CallbackText)
+'                                End If
+'                                If Not CallbackText = vbNullString Then
+'                                    CallbackText = Left$(CallbackText, .cchTextMax - 1) & vbNullChar
+'                                    CopyMemory ByVal .pszText, ByVal StrPtr(CallbackText), LenB(CallbackText)
+'                                Else
+'                                    CopyMemory ByVal .pszText, 0&, 4
+'                                End If
+'                            End If
+'                            If (.Mask And LVIF_IMAGE) = LVIF_IMAGE Then
+'                                Dim Icon As Variant
+'                                If (PropVirtualDisabledInfos And LvwVirtualPropertyIcon) = 0 Then
+'                                    RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyIcon, Icon)
+'                                End If
+'                                If IsEmpty(Icon) Then
+'                                    .iImage = -1
+'                                Else
+'                                    Dim IconIndex As Long
+'                                    If PropView = LvwViewIcon Then
+'                                        Call ComCtlsImlListImageIndex(Me, Me.Icons, Icon, IconIndex)
+'                                    Else
+'                                        Call ComCtlsImlListImageIndex(Me, Me.SmallIcons, Icon, IconIndex)
+'                                    End If
+'                                    .iImage = IconIndex - 1
+'                                End If
+'                            End If
+'                            If (.Mask And LVIF_INDENT) = LVIF_INDENT Then
+'                                Dim Indentation As Long
+'                                If (PropVirtualDisabledInfos And LvwVirtualPropertyIndentation) = 0 Then
+'                                    RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyIndentation, Indentation)
+'                                End If
+'                                .iIndent = Indentation
+'                            End If
+'                            If (.Mask And LVIF_STATE) = LVIF_STATE Then
+'                                If (.StateMask And LVIS_STATEIMAGEMASK) = LVIS_STATEIMAGEMASK And .iSubItem = 0 Then
+'                                    Dim Checked As Boolean
+'                                    If (PropVirtualDisabledInfos And LvwVirtualPropertyChecked) = 0 Then
+'                                        RaiseEvent GetVirtualItem(.iItem + 1, .iSubItem, LvwVirtualPropertyChecked, Checked)
+'                                    End If
+'                                    If Checked = True Then
+'                                        .State = .State Or IndexToStateImageMask(IIL_CHECKED)
+'                                    Else
+'                                        .State = .State Or IndexToStateImageMask(IIL_UNCHECKED)
+'                                    End If
+'                                End If
+'                            End If
+'                            CopyMemory ByVal lParam, NMLVDI, LenB(NMLVDI)
+'                        Else
+                        If .lParam <> 0 Then
                             Set ListItem = PtrToObj(.lParam)
                             If .iSubItem = 0 Then
                                 If (.Mask And LVIF_TEXT) = LVIF_TEXT Then
@@ -8407,9 +8409,10 @@ Select Case wMsg
                     CopyMemory NMLVDI, ByVal lParam, LenB(NMLVDI)
                     With NMLVDI.Item
                     If .iItem > -1 Then
-                        If PropVirtualMode = True Then
+                        'If PropVirtualMode = True Then
                             ' Ignore as LVN_ENDLABELEDIT is sufficient to update the text property in a virtual list view.
-                        ElseIf .lParam <> 0 Then
+                        'Else
+                        If .lParam <> 0 Then
                             Set ListItem = PtrToObj(.lParam)
                             If .iSubItem = 0 Then
                                 If (.Mask And LVIF_TEXT) = LVIF_TEXT Then
@@ -8423,34 +8426,34 @@ Select Case wMsg
                                     .FInit ObjPtr(Me), .Index, .Key, NMLVDI.Item.lParam, SetText, .Icon, .IconIndex, .SmallIcon, .SmallIconIndex
                                     End With
                                 End If
-                            Else
+                            'Else
                                 ' Not supported.
                             End If
                         End If
                     End If
                     End With
-                Case LVN_ODFINDITEM
-                    Dim NMLVFI As NMLVFINDITEM
-                    CopyMemory NMLVFI, ByVal lParam, LenB(NMLVFI)
-                    If (NMLVFI.LVFI.Flags And LVFI_STRING) = LVFI_STRING Then
-                        Dim SearchText As String, FoundIndex As Long
-                        If NMLVFI.LVFI.psz <> NULL_PTR Then Length = lstrlen(NMLVFI.LVFI.psz)
-                        If Length > 0 Then
-                            SearchText = String(Length, vbNullChar)
-                            CopyMemory ByVal StrPtr(SearchText), ByVal NMLVFI.LVFI.psz, Length * 2
-                        End If
-                        RaiseEvent FindVirtualItem(NMLVFI.iStart + 1, SearchText, CBool((NMLVFI.LVFI.Flags And LVFI_PARTIAL) = LVFI_PARTIAL), CBool((NMLVFI.LVFI.Flags And LVFI_WRAP) = LVFI_WRAP), FoundIndex)
-                        If FoundIndex >= 0 Then
-                            WindowProcUserControl = FoundIndex - 1
-                        Else
-                            WindowProcUserControl = -1
-                        End If
-                        Exit Function
-                    End If
-                Case LVN_ODCACHEHINT
-                    Dim NMLVCH As NMLVCACHEHINT
-                    CopyMemory NMLVCH, ByVal lParam, LenB(NMLVCH)
-                    RaiseEvent CacheVirtualItems(NMLVCH.iFrom + 1, NMLVCH.iTo + 1)
+'                Case LVN_ODFINDITEM
+'                    Dim NMLVFI As NMLVFINDITEM
+'                    CopyMemory NMLVFI, ByVal lParam, LenB(NMLVFI)
+'                    If (NMLVFI.LVFI.Flags And LVFI_STRING) = LVFI_STRING Then
+'                        Dim SearchText As String, FoundIndex As Long
+'                        If NMLVFI.LVFI.psz <> NULL_PTR Then Length = lstrlen(NMLVFI.LVFI.psz)
+'                        If Length > 0 Then
+'                            SearchText = String(Length, vbNullChar)
+'                            CopyMemory ByVal StrPtr(SearchText), ByVal NMLVFI.LVFI.psz, Length * 2
+'                        End If
+'                        RaiseEvent FindVirtualItem(NMLVFI.iStart + 1, SearchText, CBool((NMLVFI.LVFI.Flags And LVFI_PARTIAL) = LVFI_PARTIAL), CBool((NMLVFI.LVFI.Flags And LVFI_WRAP) = LVFI_WRAP), FoundIndex)
+'                        If FoundIndex >= 0 Then
+'                            WindowProcUserControl = FoundIndex - 1
+'                        Else
+'                            WindowProcUserControl = -1
+'                        End If
+'                        Exit Function
+'                    End If
+'                Case LVN_ODCACHEHINT
+'                    Dim NMLVCH As NMLVCACHEHINT
+'                    CopyMemory NMLVCH, ByVal lParam, LenB(NMLVCH)
+'                    RaiseEvent CacheVirtualItems(NMLVCH.iFrom + 1, NMLVCH.iTo + 1)
                 Case LVN_ODSTATECHANGED
                     Dim NMLVSC As NMLVODSTATECHANGE, iItem As Long
                     CopyMemory NMLVSC, ByVal lParam, LenB(NMLVSC)
@@ -8464,73 +8467,73 @@ Select Case wMsg
                     End If
                     End With
                 Case LVN_HOTTRACK
-                    If PropHotTracking = True And PropView = LvwViewReport Then
-                        ' Solve redrawing issue when the cursor moves horizontally. (e.g. from one subitem to another)
-                        CopyMemory NMLV, ByVal lParam, LenB(NMLV)
-                        With NMLV
-                        If .iItem > -1 Then
-                            If .iItem = ListViewHotTrackItem And .iSubItem <> ListViewHotTrackSubItem Then SendMessage ListViewHandle, LVM_UPDATE, .iItem, ByVal 0&
-                        End If
-                        ListViewHotTrackItem = .iItem
-                        ListViewHotTrackSubItem = .iSubItem
-                        End With
-                    End If
+'                    If PropHotTracking = True And PropView = LvwViewReport Then
+'                        ' Solve redrawing issue when the cursor moves horizontally. (e.g. from one subitem to another)
+'                        CopyMemory NMLV, ByVal lParam, LenB(NMLV)
+'                        With NMLV
+'                        If .iItem > -1 Then
+'                            If .iItem = ListViewHotTrackItem And .iSubItem <> ListViewHotTrackSubItem Then SendMessage ListViewHandle, LVM_UPDATE, .iItem, ByVal 0&
+'                        End If
+'                        ListViewHotTrackItem = .iItem
+'                        ListViewHotTrackSubItem = .iSubItem
+'                        End With
+'                    End If
                     WindowProcUserControl = 0
                     Exit Function
-                Case LVN_GETEMPTYMARKUP
-                    Dim Text As String, Center As Boolean
-                    RaiseEvent GetEmptyMarkup(Text, Center)
-                    If Not Text = vbNullString Then
-                        Dim NMLVEMU As NMLVEMPTYMARKUP
-                        CopyMemory NMLVEMU, ByVal lParam, LenB(NMLVEMU)
-                        If PropRightToLeft = True And PropRightToLeftLayout = False Then Text = ChrW(&H202B) & Text ' Right-to-left Embedding (RLE)
-                        Text = Left$(Text & vbNullChar, L_MAX_URL_LENGTH)
-                        CopyMemory NMLVEMU.szMarkup(0), ByVal StrPtr(Text), LenB(Text)
-                        If Center = True Then NMLVEMU.dwFlags = EMF_CENTERED Else NMLVEMU.dwFlags = 0
-                        CopyMemory ByVal lParam, NMLVEMU, LenB(NMLVEMU)
-                        WindowProcUserControl = 1
-                    Else
-                        WindowProcUserControl = 0
-                    End If
-                    Exit Function
-                Case LVN_MARQUEEBEGIN
-                    RaiseEvent BeginMarqueeSelection(Cancel)
-                    If Cancel = True Then
-                        WindowProcUserControl = 1
-                    Else
-                        WindowProcUserControl = 0
-                    End If
-                    Exit Function
-                Case LVN_COLUMNOVERFLOWCLICK
-                    CopyMemory NMLV, ByVal lParam, LenB(NMLV)
-                    RaiseEvent ColumnChevronPushed(Me.ColumnHeaders(NMLV.iSubItem + 1))
-                Case LVN_BEGINSCROLL, LVN_ENDSCROLL
-                    Dim NMLVS As NMLVSCROLL
-                    CopyMemory NMLVS, ByVal lParam, LenB(NMLVS)
-                    If NM.Code = LVN_BEGINSCROLL Then
-                        RaiseEvent BeforeScroll(UserControl.ScaleX(NMLVS.DX, vbPixels, vbContainerPosition), UserControl.ScaleY(NMLVS.DY, vbPixels, vbContainerPosition))
-                    ElseIf NM.Code = LVN_ENDSCROLL Then
-                        RaiseEvent AfterScroll(UserControl.ScaleX(NMLVS.DX, vbPixels, vbContainerPosition), UserControl.ScaleY(NMLVS.DY, vbPixels, vbContainerPosition))
-                    End If
-                Case LVN_LINKCLICK
-                    Dim NMLVL As NMLVLINK
-                    CopyMemory NMLVL, ByVal lParam, LenB(NMLVL)
-                    With NMLVL
-                    If .iGroupId > 0 Then RaiseEvent GroupLinkClick(GetGroupFromID(.iGroupId))
-                    End With
-                Case LVN_GROUPCHANGED
-                    Dim NMLVG As NMLVGROUP
-                    CopyMemory NMLVG, ByVal lParam, LenB(NMLVG)
-                    With NMLVG
-                    If .iGroupId > 0 Then
-                        If CBool((.uNewState And LVGS_COLLAPSED) = LVGS_COLLAPSED) Xor CBool((.uOldState And LVGS_COLLAPSED) = LVGS_COLLAPSED) Then
-                            RaiseEvent GroupCollapsedChanged(GetGroupFromID(.iGroupId))
-                        End If
-                        If CBool((.uNewState And (LVGS_SELECTED Or LVGS_FOCUSED)) = (LVGS_SELECTED Or LVGS_FOCUSED)) Xor CBool((.uOldState And (LVGS_SELECTED Or LVGS_FOCUSED)) = (LVGS_SELECTED Or LVGS_FOCUSED)) Then
-                            RaiseEvent GroupSelectedChanged(GetGroupFromID(.iGroupId))
-                        End If
-                    End If
-                    End With
+'                Case LVN_GETEMPTYMARKUP
+'                    Dim Text As String, Center As Boolean
+'                    RaiseEvent GetEmptyMarkup(Text, Center)
+'                    If Not Text = vbNullString Then
+'                        Dim NMLVEMU As NMLVEMPTYMARKUP
+'                        CopyMemory NMLVEMU, ByVal lParam, LenB(NMLVEMU)
+'                        If PropRightToLeft = True And PropRightToLeftLayout = False Then Text = ChrW(&H202B) & Text ' Right-to-left Embedding (RLE)
+'                        Text = Left$(Text & vbNullChar, L_MAX_URL_LENGTH)
+'                        CopyMemory NMLVEMU.szMarkup(0), ByVal StrPtr(Text), LenB(Text)
+'                        If Center = True Then NMLVEMU.dwFlags = EMF_CENTERED Else NMLVEMU.dwFlags = 0
+'                        CopyMemory ByVal lParam, NMLVEMU, LenB(NMLVEMU)
+'                        WindowProcUserControl = 1
+'                    Else
+'                        WindowProcUserControl = 0
+'                    End If
+'                    Exit Function
+'                Case LVN_MARQUEEBEGIN
+'                    RaiseEvent BeginMarqueeSelection(Cancel)
+'                    If Cancel = True Then
+'                        WindowProcUserControl = 1
+'                    Else
+'                        WindowProcUserControl = 0
+'                    End If
+'                    Exit Function
+'                Case LVN_COLUMNOVERFLOWCLICK
+'                    CopyMemory NMLV, ByVal lParam, LenB(NMLV)
+'                    RaiseEvent ColumnChevronPushed(Me.ColumnHeaders(NMLV.iSubItem + 1))
+'                Case LVN_BEGINSCROLL, LVN_ENDSCROLL
+'                    Dim NMLVS As NMLVSCROLL
+'                    CopyMemory NMLVS, ByVal lParam, LenB(NMLVS)
+'                    If NM.Code = LVN_BEGINSCROLL Then
+'                        RaiseEvent BeforeScroll(UserControl.ScaleX(NMLVS.DX, vbPixels, vbContainerPosition), UserControl.ScaleY(NMLVS.DY, vbPixels, vbContainerPosition))
+'                    ElseIf NM.Code = LVN_ENDSCROLL Then
+'                        RaiseEvent AfterScroll(UserControl.ScaleX(NMLVS.DX, vbPixels, vbContainerPosition), UserControl.ScaleY(NMLVS.DY, vbPixels, vbContainerPosition))
+'                    End If
+'                Case LVN_LINKCLICK
+'                    Dim NMLVL As NMLVLINK
+'                    CopyMemory NMLVL, ByVal lParam, LenB(NMLVL)
+'                    With NMLVL
+'                    If .iGroupId > 0 Then RaiseEvent GroupLinkClick(GetGroupFromID(.iGroupId))
+'                    End With
+'                Case LVN_GROUPCHANGED
+'                    Dim NMLVG As NMLVGROUP
+'                    CopyMemory NMLVG, ByVal lParam, LenB(NMLVG)
+'                    With NMLVG
+'                    If .iGroupId > 0 Then
+'                        If CBool((.uNewState And LVGS_COLLAPSED) = LVGS_COLLAPSED) Xor CBool((.uOldState And LVGS_COLLAPSED) = LVGS_COLLAPSED) Then
+'                            RaiseEvent GroupCollapsedChanged(GetGroupFromID(.iGroupId))
+'                        End If
+'                        If CBool((.uNewState And (LVGS_SELECTED Or LVGS_FOCUSED)) = (LVGS_SELECTED Or LVGS_FOCUSED)) Xor CBool((.uOldState And (LVGS_SELECTED Or LVGS_FOCUSED)) = (LVGS_SELECTED Or LVGS_FOCUSED)) Then
+'                            RaiseEvent GroupSelectedChanged(GetGroupFromID(.iGroupId))
+'                        End If
+'                    End If
+'                    End With
             End Select
         End If
     Case WM_CONTEXTMENU

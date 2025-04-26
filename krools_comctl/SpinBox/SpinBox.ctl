@@ -1446,60 +1446,60 @@ Select Case wMsg
         Exit Function
 End Select
 WindowProcControl = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-Select Case wMsg
-    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
-        Dim P1 As POINTAPI
-        P1.X = Get_X_lParam(lParam)
-        P1.Y = Get_Y_lParam(lParam)
-        MapWindowPoints hWnd, UserControl.hWnd, P1, 1
-        Dim X As Single
-        Dim Y As Single
-        X = UserControl.ScaleX(P1.X, vbPixels, vbTwips)
-        Y = UserControl.ScaleY(P1.Y, vbPixels, vbTwips)
-        Select Case wMsg
-            Case WM_LBUTTONDOWN
-                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_MBUTTONDOWN
-                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_RBUTTONDOWN
-                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_MOUSEMOVE
-                If (SpinBoxMouseOver(0) = False And PropMouseTrack = True) Or (SpinBoxMouseOver(2) = False And PropMouseTrack = True) Then
-                    If SpinBoxMouseOver(0) = False And PropMouseTrack = True Then SpinBoxMouseOver(0) = True
-                    If SpinBoxMouseOver(2) = False And PropMouseTrack = True Then
-                        SpinBoxMouseOver(2) = True
-                        RaiseEvent MouseEnter
-                    End If
-                    Call ComCtlsRequestMouseLeave(hWnd)
-                End If
-                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
-            Case WM_LBUTTONUP
-                RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_MBUTTONUP
-                RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_RBUTTONUP
-                RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-        End Select
-    Case WM_MOUSELEAVE
-        SpinBoxMouseOver(0) = False
-        If SpinBoxMouseOver(2) = True Then
-            Dim Pos As Long, P2 As POINTAPI, XY As Currency
-            Pos = GetMessagePos()
-            P2.X = Get_X_lParam(Pos)
-            P2.Y = Get_Y_lParam(Pos)
-            CopyMemory ByVal VarPtr(XY), ByVal VarPtr(P2), 8
-            If WindowFromPoint(XY) <> SpinBoxEditHandle Or SpinBoxEditHandle = NULL_PTR Then
-                SpinBoxMouseOver(2) = False
-                RaiseEvent MouseLeave
-            End If
-        End If
-    Case WM_CAPTURECHANGED
-        If SpinBoxDeltaCache < 0 Then
-            RaiseEvent DownClick
-        ElseIf SpinBoxDeltaCache > 0 Then
-            RaiseEvent UpClick
-        End If
-End Select
+'Select Case wMsg
+'    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
+'        Dim P1 As POINTAPI
+'        P1.X = Get_X_lParam(lParam)
+'        P1.Y = Get_Y_lParam(lParam)
+'        MapWindowPoints hWnd, UserControl.hWnd, P1, 1
+'        Dim X As Single
+'        Dim Y As Single
+'        X = UserControl.ScaleX(P1.X, vbPixels, vbTwips)
+'        Y = UserControl.ScaleY(P1.Y, vbPixels, vbTwips)
+'        Select Case wMsg
+'            Case WM_LBUTTONDOWN
+'                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_MBUTTONDOWN
+'                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_RBUTTONDOWN
+'                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_MOUSEMOVE
+'                If (SpinBoxMouseOver(0) = False And PropMouseTrack = True) Or (SpinBoxMouseOver(2) = False And PropMouseTrack = True) Then
+'                    If SpinBoxMouseOver(0) = False And PropMouseTrack = True Then SpinBoxMouseOver(0) = True
+'                    If SpinBoxMouseOver(2) = False And PropMouseTrack = True Then
+'                        SpinBoxMouseOver(2) = True
+'                        RaiseEvent MouseEnter
+'                    End If
+'                    Call ComCtlsRequestMouseLeave(hWnd)
+'                End If
+'                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_LBUTTONUP
+'                RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_MBUTTONUP
+'                RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_RBUTTONUP
+'                RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'        End Select
+'    Case WM_MOUSELEAVE
+'        SpinBoxMouseOver(0) = False
+'        If SpinBoxMouseOver(2) = True Then
+'            Dim Pos As Long, P2 As POINTAPI, XY As Currency
+'            Pos = GetMessagePos()
+'            P2.X = Get_X_lParam(Pos)
+'            P2.Y = Get_Y_lParam(Pos)
+'            CopyMemory ByVal VarPtr(XY), ByVal VarPtr(P2), 8
+'            If WindowFromPoint(XY) <> SpinBoxEditHandle Or SpinBoxEditHandle = NULL_PTR Then
+'                SpinBoxMouseOver(2) = False
+'                RaiseEvent MouseLeave
+'            End If
+'        End If
+'    Case WM_CAPTURECHANGED
+'        If SpinBoxDeltaCache < 0 Then
+'            RaiseEvent DownClick
+'        ElseIf SpinBoxDeltaCache > 0 Then
+'            RaiseEvent UpClick
+'        End If
+'End Select
 End Function
 
 Private Function WindowProcEdit(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
@@ -1596,20 +1596,20 @@ Select Case wMsg
     Case WM_IME_CHAR
         SendMessage hWnd, WM_CHAR, wParam, ByVal lParam
         Exit Function
-    Case WM_CONTEXTMENU
-        If wParam = hWnd Then
-            Dim P1 As POINTAPI, Handled As Boolean
-            P1.X = Get_X_lParam(lParam)
-            P1.Y = Get_Y_lParam(lParam)
-            If P1.X = -1 And P1.Y = -1 Then
-                ' If the user types SHIFT + F10 then the X and Y coordinates are -1.
-                RaiseEvent ContextMenu(Handled, -1, -1)
-            Else
-                ScreenToClient UserControl.hWnd, P1
-                RaiseEvent ContextMenu(Handled, UserControl.ScaleX(P1.X, vbPixels, vbContainerPosition), UserControl.ScaleY(P1.Y, vbPixels, vbContainerPosition))
-            End If
-            If Handled = True Then Exit Function
-        End If
+'    Case WM_CONTEXTMENU
+'        If wParam = hWnd Then
+'            Dim P1 As POINTAPI, Handled As Boolean
+'            P1.X = Get_X_lParam(lParam)
+'            P1.Y = Get_Y_lParam(lParam)
+'            If P1.X = -1 And P1.Y = -1 Then
+'                ' If the user types SHIFT + F10 then the X and Y coordinates are -1.
+'                RaiseEvent ContextMenu(Handled, -1, -1)
+'            Else
+'                ScreenToClient UserControl.hWnd, P1
+'                RaiseEvent ContextMenu(Handled, UserControl.ScaleX(P1.X, vbPixels, vbContainerPosition), UserControl.ScaleY(P1.Y, vbPixels, vbContainerPosition))
+'            End If
+'            If Handled = True Then Exit Function
+'        End If
     
     #If ImplementPreTranslateMsg = True Then
     
@@ -1621,75 +1621,75 @@ Select Case wMsg
     
 End Select
 WindowProcEdit = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-Select Case wMsg
-    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
-        Dim P2 As POINTAPI
-        P2.X = Get_X_lParam(lParam)
-        P2.Y = Get_Y_lParam(lParam)
-        MapWindowPoints hWnd, UserControl.hWnd, P2, 1
-        Dim X As Single
-        Dim Y As Single
-        X = UserControl.ScaleX(P2.X, vbPixels, vbTwips)
-        Y = UserControl.ScaleY(P2.Y, vbPixels, vbTwips)
-        Select Case wMsg
-            Case WM_LBUTTONDOWN
-                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_MBUTTONDOWN
-                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_RBUTTONDOWN
-                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_MOUSEMOVE
-                If (SpinBoxMouseOver(1) = False And PropMouseTrack = True) Or (SpinBoxMouseOver(2) = False And PropMouseTrack = True) Then
-                    If SpinBoxMouseOver(1) = False And PropMouseTrack = True Then SpinBoxMouseOver(1) = True
-                    If SpinBoxMouseOver(2) = False And PropMouseTrack = True Then
-                        SpinBoxMouseOver(2) = True
-                        RaiseEvent MouseEnter
-                    End If
-                    Call ComCtlsRequestMouseLeave(hWnd)
-                End If
-                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
-            Case WM_LBUTTONUP
-                RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_MBUTTONUP
-                RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_RBUTTONUP
-                RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-        End Select
-    Case WM_NCMOUSEMOVE, WM_MOUSELEAVE
-        If wMsg = WM_NCMOUSEMOVE Then
-            If (SpinBoxMouseOver(1) = False And PropMouseTrack = True) Or (SpinBoxMouseOver(2) = False And PropMouseTrack = True) Then
-                If SpinBoxMouseOver(1) = False And PropMouseTrack = True Then SpinBoxMouseOver(1) = True
-                If SpinBoxMouseOver(2) = False And PropMouseTrack = True Then
-                    SpinBoxMouseOver(2) = True
-                    RaiseEvent MouseEnter
-                End If
-            Else
-                Exit Function
-            End If
-        End If
-        Dim TME As TRACKMOUSEEVENTSTRUCT
-        With TME
-        .cbSize = LenB(TME)
-        .hWndTrack = hWnd
-        .dwFlags = TME_LEAVE Or TME_NONCLIENT
-        End With
-        TrackMouseEvent TME
-    Case WM_NCMOUSELEAVE
-        SpinBoxMouseOver(1) = False
-        If SpinBoxMouseOver(2) = True Then
-            Dim Pos As Long, P3 As POINTAPI, XY As Currency
-            Pos = GetMessagePos()
-            P3.X = Get_X_lParam(Pos)
-            P3.Y = Get_Y_lParam(Pos)
-            CopyMemory ByVal VarPtr(XY), ByVal VarPtr(P3), 8
-            Dim hWndPoint As LongPtr
-            hWndPoint = WindowFromPoint(XY)
-            If hWndPoint <> hWnd And (hWndPoint <> SpinBoxUpDownHandle Or SpinBoxUpDownHandle = NULL_PTR) Then
-                SpinBoxMouseOver(2) = False
-                RaiseEvent MouseLeave
-            End If
-        End If
-End Select
+'Select Case wMsg
+'    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
+'        Dim P2 As POINTAPI
+'        P2.X = Get_X_lParam(lParam)
+'        P2.Y = Get_Y_lParam(lParam)
+'        MapWindowPoints hWnd, UserControl.hWnd, P2, 1
+'        Dim X As Single
+'        Dim Y As Single
+'        X = UserControl.ScaleX(P2.X, vbPixels, vbTwips)
+'        Y = UserControl.ScaleY(P2.Y, vbPixels, vbTwips)
+'        Select Case wMsg
+'            Case WM_LBUTTONDOWN
+'                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_MBUTTONDOWN
+'                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_RBUTTONDOWN
+'                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_MOUSEMOVE
+'                If (SpinBoxMouseOver(1) = False And PropMouseTrack = True) Or (SpinBoxMouseOver(2) = False And PropMouseTrack = True) Then
+'                    If SpinBoxMouseOver(1) = False And PropMouseTrack = True Then SpinBoxMouseOver(1) = True
+'                    If SpinBoxMouseOver(2) = False And PropMouseTrack = True Then
+'                        SpinBoxMouseOver(2) = True
+'                        RaiseEvent MouseEnter
+'                    End If
+'                    Call ComCtlsRequestMouseLeave(hWnd)
+'                End If
+'                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_LBUTTONUP
+'                RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_MBUTTONUP
+'                RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_RBUTTONUP
+'                RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'        End Select
+'    Case WM_NCMOUSEMOVE, WM_MOUSELEAVE
+'        If wMsg = WM_NCMOUSEMOVE Then
+'            If (SpinBoxMouseOver(1) = False And PropMouseTrack = True) Or (SpinBoxMouseOver(2) = False And PropMouseTrack = True) Then
+'                If SpinBoxMouseOver(1) = False And PropMouseTrack = True Then SpinBoxMouseOver(1) = True
+'                If SpinBoxMouseOver(2) = False And PropMouseTrack = True Then
+'                    SpinBoxMouseOver(2) = True
+'                    RaiseEvent MouseEnter
+'                End If
+'            Else
+'                Exit Function
+'            End If
+'        End If
+'        Dim TME As TRACKMOUSEEVENTSTRUCT
+'        With TME
+'        .cbSize = LenB(TME)
+'        .hWndTrack = hWnd
+'        .dwFlags = TME_LEAVE Or TME_NONCLIENT
+'        End With
+'        TrackMouseEvent TME
+'    Case WM_NCMOUSELEAVE
+'        SpinBoxMouseOver(1) = False
+'        If SpinBoxMouseOver(2) = True Then
+'            Dim Pos As Long, P3 As POINTAPI, XY As Currency
+'            Pos = GetMessagePos()
+'            P3.X = Get_X_lParam(Pos)
+'            P3.Y = Get_Y_lParam(Pos)
+'            CopyMemory ByVal VarPtr(XY), ByVal VarPtr(P3), 8
+'            Dim hWndPoint As LongPtr
+'            hWndPoint = WindowFromPoint(XY)
+'            If hWndPoint <> hWnd And (hWndPoint <> SpinBoxUpDownHandle Or SpinBoxUpDownHandle = NULL_PTR) Then
+'                SpinBoxMouseOver(2) = False
+'                RaiseEvent MouseLeave
+'            End If
+'        End If
+'End Select
 End Function
 
 Private Function WindowProcUserControl(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr

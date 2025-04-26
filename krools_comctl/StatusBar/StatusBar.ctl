@@ -2153,20 +2153,20 @@ End Function
 
 Private Function WindowProcControl(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
 Select Case wMsg
-    Case WM_SETCURSOR
-        If LoWord(CLng(lParam)) = HTCLIENT Then
-            If MousePointerID(PropMousePointer) <> 0 Then
-                SetCursor LoadCursor(NULL_PTR, MousePointerID(PropMousePointer))
-                WindowProcControl = 1
-                Exit Function
-            ElseIf PropMousePointer = 99 Then
-                If Not PropMouseIcon Is Nothing Then
-                    SetCursor PropMouseIcon.Handle
-                    WindowProcControl = 1
-                    Exit Function
-                End If
-            End If
-        End If
+'    Case WM_SETCURSOR
+'        If LoWord(CLng(lParam)) = HTCLIENT Then
+'            If MousePointerID(PropMousePointer) <> 0 Then
+'                SetCursor LoadCursor(NULL_PTR, MousePointerID(PropMousePointer))
+'                WindowProcControl = 1
+'                Exit Function
+'            ElseIf PropMousePointer = 99 Then
+'                If Not PropMouseIcon Is Nothing Then
+'                    SetCursor PropMouseIcon.Handle
+'                    WindowProcControl = 1
+'                    Exit Function
+'                End If
+'            End If
+'        End If
     Case WM_ERASEBKGND
         If PropDoubleBuffer = True And (StatusBarDoubleBufferEraseBkgDC <> wParam Or StatusBarDoubleBufferEraseBkgDC = NULL_PTR) And WindowFromDC(wParam) = hWnd Then
             WindowProcControl = 0
@@ -2210,51 +2210,51 @@ Select Case wMsg
         End If
 End Select
 WindowProcControl = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-Select Case wMsg
-    Case WM_LBUTTONDBLCLK, WM_MBUTTONDBLCLK, WM_RBUTTONDBLCLK
-        RaiseEvent DblClick
-    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
-        Dim X As Single
-        Dim Y As Single
-        X = UserControl.ScaleX(Get_X_lParam(lParam), vbPixels, vbTwips)
-        Y = UserControl.ScaleY(Get_Y_lParam(lParam), vbPixels, vbTwips)
-        Select Case wMsg
-            Case WM_LBUTTONDOWN
-                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-                StatusBarIsClick = True
-            Case WM_MBUTTONDOWN
-                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-                StatusBarIsClick = True
-            Case WM_RBUTTONDOWN
-                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-                StatusBarIsClick = True
-            Case WM_MOUSEMOVE
-                If StatusBarMouseOver = False And PropMouseTrack = True Then
-                    StatusBarMouseOver = True
-                    RaiseEvent MouseEnter
-                    Call ComCtlsRequestMouseLeave(hWnd)
-                End If
-                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
-            Case WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
-                Select Case wMsg
-                    Case WM_LBUTTONUP
-                        RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-                    Case WM_MBUTTONUP
-                        RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-                    Case WM_RBUTTONUP
-                        RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-                End Select
-                If StatusBarIsClick = True Then
-                    StatusBarIsClick = False
-                    If (X >= 0 And X <= UserControl.Width) And (Y >= 0 And Y <= UserControl.Height) Then RaiseEvent Click
-                End If
-        End Select
-    Case WM_MOUSELEAVE
-        If StatusBarMouseOver = True Then
-            StatusBarMouseOver = False
-            RaiseEvent MouseLeave
-        End If
-End Select
+'Select Case wMsg
+'    Case WM_LBUTTONDBLCLK, WM_MBUTTONDBLCLK, WM_RBUTTONDBLCLK
+'        RaiseEvent DblClick
+'    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
+'        Dim X As Single
+'        Dim Y As Single
+'        X = UserControl.ScaleX(Get_X_lParam(lParam), vbPixels, vbTwips)
+'        Y = UserControl.ScaleY(Get_Y_lParam(lParam), vbPixels, vbTwips)
+'        Select Case wMsg
+'            Case WM_LBUTTONDOWN
+'                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'                StatusBarIsClick = True
+'            Case WM_MBUTTONDOWN
+'                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'                StatusBarIsClick = True
+'            Case WM_RBUTTONDOWN
+'                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'                StatusBarIsClick = True
+'            Case WM_MOUSEMOVE
+'                If StatusBarMouseOver = False And PropMouseTrack = True Then
+'                    StatusBarMouseOver = True
+'                    RaiseEvent MouseEnter
+'                    Call ComCtlsRequestMouseLeave(hWnd)
+'                End If
+'                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
+'                Select Case wMsg
+'                    Case WM_LBUTTONUP
+'                        RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'                    Case WM_MBUTTONUP
+'                        RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'                    Case WM_RBUTTONUP
+'                        RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'                End Select
+'                If StatusBarIsClick = True Then
+'                    StatusBarIsClick = False
+'                    If (X >= 0 And X <= UserControl.Width) And (Y >= 0 And Y <= UserControl.Height) Then RaiseEvent Click
+'                End If
+'        End Select
+'    Case WM_MOUSELEAVE
+'        If StatusBarMouseOver = True Then
+'            StatusBarMouseOver = False
+'            RaiseEvent MouseLeave
+'        End If
+'End Select
 End Function
 
 Private Function WindowProcUserControl(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
@@ -2293,35 +2293,35 @@ Select Case wMsg
             WindowProcUserControl = 1
             Exit Function
         End If
-    Case WM_NOTIFY
-        Dim NM As NMHDR, NMM As NMMOUSE
-        CopyMemory NM, ByVal lParam, LenB(NM)
-        If NM.hWndFrom = StatusBarHandle Then
-            Select Case NM.Code
-                Case SBN_SIMPLEMODECHANGE
-                    RaiseEvent StyleChange
-                Case NM_CLICK, NM_RCLICK
-                    If StatusBarIsClick = True Then
-                        CopyMemory NMM, ByVal lParam, LenB(NMM)
-                        If NMM.dwItemSpec >= 0 Then
-                            If NM.Code = NM_CLICK Then
-                                RaiseEvent PanelClick(Me.Panels(NMM.dwItemSpec + 1), vbLeftButton)
-                            ElseIf NM.Code = NM_RCLICK Then
-                                RaiseEvent PanelClick(Me.Panels(NMM.dwItemSpec + 1), vbRightButton)
-                            End If
-                        End If
-                    End If
-                Case NM_DBLCLK, NM_RDBLCLK
-                    CopyMemory NMM, ByVal lParam, LenB(NMM)
-                    If NMM.dwItemSpec >= 0 Then
-                        If NM.Code = NM_DBLCLK Then
-                            RaiseEvent PanelDblClick(Me.Panels(NMM.dwItemSpec + 1), vbLeftButton)
-                        ElseIf NM.Code = NM_RDBLCLK Then
-                            RaiseEvent PanelDblClick(Me.Panels(NMM.dwItemSpec + 1), vbRightButton)
-                        End If
-                    End If
-            End Select
-        End If
+'    Case WM_NOTIFY
+'        Dim NM As NMHDR, NMM As NMMOUSE
+'        CopyMemory NM, ByVal lParam, LenB(NM)
+'        If NM.hWndFrom = StatusBarHandle Then
+'            Select Case NM.Code
+'                Case SBN_SIMPLEMODECHANGE
+'                    RaiseEvent StyleChange
+'                Case NM_CLICK, NM_RCLICK
+'                    If StatusBarIsClick = True Then
+'                        CopyMemory NMM, ByVal lParam, LenB(NMM)
+'                        If NMM.dwItemSpec >= 0 Then
+'                            If NM.Code = NM_CLICK Then
+'                                RaiseEvent PanelClick(Me.Panels(NMM.dwItemSpec + 1), vbLeftButton)
+'                            ElseIf NM.Code = NM_RCLICK Then
+'                                RaiseEvent PanelClick(Me.Panels(NMM.dwItemSpec + 1), vbRightButton)
+'                            End If
+'                        End If
+'                    End If
+'                Case NM_DBLCLK, NM_RDBLCLK
+'                    CopyMemory NMM, ByVal lParam, LenB(NMM)
+'                    If NMM.dwItemSpec >= 0 Then
+'                        If NM.Code = NM_DBLCLK Then
+'                            RaiseEvent PanelDblClick(Me.Panels(NMM.dwItemSpec + 1), vbLeftButton)
+'                        ElseIf NM.Code = NM_RDBLCLK Then
+'                            RaiseEvent PanelDblClick(Me.Panels(NMM.dwItemSpec + 1), vbRightButton)
+'                        End If
+'                    End If
+'            End Select
+'        End If
     Case WM_NOTIFYFORMAT
         Const NF_QUERY As Long = 3
         If lParam = NF_QUERY Then

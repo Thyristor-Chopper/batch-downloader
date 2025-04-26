@@ -1618,7 +1618,8 @@ Private Sub mnuErrorInfo_Click()
     StatusString = Mid(StatusString, InStr(StatusString, "(") + 1)
     StatusString = Left$(StatusString, Len(StatusString) - 1)
     If Not IsNumeric(StatusString) Then
-        MsgBox t("오류 정보를 표시할 수 없습니다.", "Unable to show the error information."), 16
+        'MsgBox t("오류 정보를 표시할 수 없습니다.", "Unable to show the error information."), 16
+        MsgBox t("다운로드가 중지되었습니다.", "Download was aborted."), 64
         Exit Sub
     End If
     MsgBox t("오류 코드", "Error code") & ": " & StatusString & vbCrLf & t("설명", "Description") & ": " & IIf(Exists(ErrorCodeDescription, StatusString), ErrorCodeDescription(StatusString), t("설명이 없습니다.", "Description is unavailable")), 64, t("오류 정보", "Error information")

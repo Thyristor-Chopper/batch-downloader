@@ -4420,111 +4420,111 @@ Select Case wMsg
         End If
 End Select
 WindowProcControl = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-Select Case wMsg
-    Case WM_LBUTTONDBLCLK, WM_MBUTTONDBLCLK, WM_RBUTTONDBLCLK
-        ' Necessary to process here as NM_DBLCLK will not be fired. (Bug?)
-        ' Though NM_RDBLCLK will be fired.
-        RaiseEvent DblClick
-    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
-        Dim X As Single
-        Dim Y As Single
-        X = UserControl.ScaleX(Get_X_lParam(lParam), vbPixels, vbTwips)
-        Y = UserControl.ScaleY(Get_Y_lParam(lParam), vbPixels, vbTwips)
-        Select Case wMsg
-            Case WM_LBUTTONDOWN
-                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-                ToolBarIsClick = True
-            Case WM_MBUTTONDOWN
-                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-                ToolBarIsClick = True
-            Case WM_RBUTTONDOWN
-                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-                ToolBarIsClick = True
-            Case WM_MOUSEMOVE
-                Dim P As POINTAPI, Index As Long
-                If PropHotTracking = True And PropStyle = TbrStyleStandard Then
-                    P.X = Get_X_lParam(lParam)
-                    P.Y = Get_Y_lParam(lParam)
-                    Index = CLng(SendMessage(ToolBarHandle, TB_HITTEST, 0, ByVal VarPtr(P))) + 1
-                    If SendMessage(ToolBarHandle, TB_GETANCHORHIGHLIGHT, 0, ByVal 0&) = 0 Then
-                        SendMessage ToolBarHandle, TB_SETHOTITEM, Index - 1, ByVal 0&
-                    Else
-                        If Index > 0 Then SendMessage ToolBarHandle, TB_SETHOTITEM, Index - 1, ByVal 0&
-                    End If
-                End If
-                If ToolBarMouseOver = False And PropMouseTrack = True Then
-                    ToolBarMouseOver = True
-                    RaiseEvent MouseEnter
-                    P.X = Get_X_lParam(lParam)
-                    P.Y = Get_Y_lParam(lParam)
-                    ToolBarMouseOverIndex = CLng(SendMessage(ToolBarHandle, TB_HITTEST, 0, ByVal VarPtr(P))) + 1
-                    If ToolBarMouseOverIndex > 0 Then
-                        Dim ID1 As Long
-                        ID1 = GetButtonID(ToolBarMouseOverIndex)
-                        If IsButtonAvailable(ID1) = True Then
-                            Dim Ptr1 As LongPtr
-                            Ptr1 = GetButtonPtr(ID1)
-                            If Ptr1 <> NULL_PTR Then RaiseEvent ButtonMouseEnter(PtrToObj(Ptr1))
-                        End If
-                    End If
-                    Call ComCtlsRequestMouseLeave(hWnd)
-                End If
-                If ToolBarMouseOver = True And PropMouseTrack = True Then
-                    P.X = Get_X_lParam(lParam)
-                    P.Y = Get_Y_lParam(lParam)
-                    Index = CLng(SendMessage(ToolBarHandle, TB_HITTEST, 0, ByVal VarPtr(P))) + 1
-                    If ToolBarMouseOverIndex <> Index Then
-                        If ToolBarMouseOverIndex > 0 Then
-                            Dim ID2 As Long
-                            ID2 = GetButtonID(ToolBarMouseOverIndex)
-                            If IsButtonAvailable(ID2) = True Then
-                                Dim Ptr2 As LongPtr
-                                Ptr2 = GetButtonPtr(ID2)
-                                If Ptr2 <> NULL_PTR Then RaiseEvent ButtonMouseLeave(PtrToObj(Ptr2))
-                            End If
-                        End If
-                        ToolBarMouseOverIndex = Index
-                        If ToolBarMouseOverIndex > 0 Then
-                            Dim ID3 As Long
-                            ID3 = GetButtonID(ToolBarMouseOverIndex)
-                            If IsButtonAvailable(ID3) = True Then
-                                Dim Ptr3 As LongPtr
-                                Ptr3 = GetButtonPtr(ID3)
-                                If Ptr3 <> NULL_PTR Then RaiseEvent ButtonMouseEnter(PtrToObj(Ptr3))
-                            End If
-                        End If
-                    End If
-                End If
-                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
-            Case WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
-                Select Case wMsg
-                    Case WM_LBUTTONUP
-                        RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-                    Case WM_MBUTTONUP
-                        RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-                    Case WM_RBUTTONUP
-                        RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-                End Select
-                If ToolBarIsClick = True Then
-                    ToolBarIsClick = False
-                    If (X >= 0 And X <= UserControl.Width) And (Y >= 0 And Y <= UserControl.Height) Then RaiseEvent Click
-                End If
-        End Select
-    Case WM_MOUSELEAVE
-        If ToolBarMouseOver = True Then
-            ToolBarMouseOver = False
-            If ToolBarMouseOverIndex > 0 Then
-                Dim ID4 As Long
-                ID4 = GetButtonID(ToolBarMouseOverIndex)
-                If IsButtonAvailable(ID4) = True Then
-                    Dim Ptr4 As LongPtr
-                    Ptr4 = GetButtonPtr(ID4)
-                    If Ptr4 <> NULL_PTR Then RaiseEvent ButtonMouseLeave(PtrToObj(Ptr4))
-                End If
-            End If
-            RaiseEvent MouseLeave
-        End If
-End Select
+'Select Case wMsg
+'    Case WM_LBUTTONDBLCLK, WM_MBUTTONDBLCLK, WM_RBUTTONDBLCLK
+'        ' Necessary to process here as NM_DBLCLK will not be fired. (Bug?)
+'        ' Though NM_RDBLCLK will be fired.
+'        RaiseEvent DblClick
+'    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
+'        Dim X As Single
+'        Dim Y As Single
+'        X = UserControl.ScaleX(Get_X_lParam(lParam), vbPixels, vbTwips)
+'        Y = UserControl.ScaleY(Get_Y_lParam(lParam), vbPixels, vbTwips)
+'        Select Case wMsg
+'            Case WM_LBUTTONDOWN
+'                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'                ToolBarIsClick = True
+'            Case WM_MBUTTONDOWN
+'                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'                ToolBarIsClick = True
+'            Case WM_RBUTTONDOWN
+'                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'                ToolBarIsClick = True
+'            Case WM_MOUSEMOVE
+'                Dim P As POINTAPI, Index As Long
+'                If PropHotTracking = True And PropStyle = TbrStyleStandard Then
+'                    P.X = Get_X_lParam(lParam)
+'                    P.Y = Get_Y_lParam(lParam)
+'                    Index = CLng(SendMessage(ToolBarHandle, TB_HITTEST, 0, ByVal VarPtr(P))) + 1
+'                    If SendMessage(ToolBarHandle, TB_GETANCHORHIGHLIGHT, 0, ByVal 0&) = 0 Then
+'                        SendMessage ToolBarHandle, TB_SETHOTITEM, Index - 1, ByVal 0&
+'                    Else
+'                        If Index > 0 Then SendMessage ToolBarHandle, TB_SETHOTITEM, Index - 1, ByVal 0&
+'                    End If
+'                End If
+'                If ToolBarMouseOver = False And PropMouseTrack = True Then
+'                    ToolBarMouseOver = True
+'                    RaiseEvent MouseEnter
+'                    P.X = Get_X_lParam(lParam)
+'                    P.Y = Get_Y_lParam(lParam)
+'                    ToolBarMouseOverIndex = CLng(SendMessage(ToolBarHandle, TB_HITTEST, 0, ByVal VarPtr(P))) + 1
+'                    If ToolBarMouseOverIndex > 0 Then
+'                        Dim ID1 As Long
+'                        ID1 = GetButtonID(ToolBarMouseOverIndex)
+'                        If IsButtonAvailable(ID1) = True Then
+'                            Dim Ptr1 As LongPtr
+'                            Ptr1 = GetButtonPtr(ID1)
+'                            If Ptr1 <> NULL_PTR Then RaiseEvent ButtonMouseEnter(PtrToObj(Ptr1))
+'                        End If
+'                    End If
+'                    Call ComCtlsRequestMouseLeave(hWnd)
+'                End If
+'                If ToolBarMouseOver = True And PropMouseTrack = True Then
+'                    P.X = Get_X_lParam(lParam)
+'                    P.Y = Get_Y_lParam(lParam)
+'                    Index = CLng(SendMessage(ToolBarHandle, TB_HITTEST, 0, ByVal VarPtr(P))) + 1
+'                    If ToolBarMouseOverIndex <> Index Then
+'                        If ToolBarMouseOverIndex > 0 Then
+'                            Dim ID2 As Long
+'                            ID2 = GetButtonID(ToolBarMouseOverIndex)
+'                            If IsButtonAvailable(ID2) = True Then
+'                                Dim Ptr2 As LongPtr
+'                                Ptr2 = GetButtonPtr(ID2)
+'                                If Ptr2 <> NULL_PTR Then RaiseEvent ButtonMouseLeave(PtrToObj(Ptr2))
+'                            End If
+'                        End If
+'                        ToolBarMouseOverIndex = Index
+'                        If ToolBarMouseOverIndex > 0 Then
+'                            Dim ID3 As Long
+'                            ID3 = GetButtonID(ToolBarMouseOverIndex)
+'                            If IsButtonAvailable(ID3) = True Then
+'                                Dim Ptr3 As LongPtr
+'                                Ptr3 = GetButtonPtr(ID3)
+'                                If Ptr3 <> NULL_PTR Then RaiseEvent ButtonMouseEnter(PtrToObj(Ptr3))
+'                            End If
+'                        End If
+'                    End If
+'                End If
+'                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
+'                Select Case wMsg
+'                    Case WM_LBUTTONUP
+'                        RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'                    Case WM_MBUTTONUP
+'                        RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'                    Case WM_RBUTTONUP
+'                        RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'                End Select
+'                If ToolBarIsClick = True Then
+'                    ToolBarIsClick = False
+'                    If (X >= 0 And X <= UserControl.Width) And (Y >= 0 And Y <= UserControl.Height) Then RaiseEvent Click
+'                End If
+'        End Select
+'    Case WM_MOUSELEAVE
+'        If ToolBarMouseOver = True Then
+'            ToolBarMouseOver = False
+'            If ToolBarMouseOverIndex > 0 Then
+'                Dim ID4 As Long
+'                ID4 = GetButtonID(ToolBarMouseOverIndex)
+'                If IsButtonAvailable(ID4) = True Then
+'                    Dim Ptr4 As LongPtr
+'                    Ptr4 = GetButtonPtr(ID4)
+'                    If Ptr4 <> NULL_PTR Then RaiseEvent ButtonMouseLeave(PtrToObj(Ptr4))
+'                End If
+'            End If
+'            RaiseEvent MouseLeave
+'        End If
+'End Select
 End Function
 
 Private Function WindowProcUserControl(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
@@ -4707,14 +4707,14 @@ Select Case wMsg
                         WindowProcUserControl = 0
                     End If
                     Exit Function
-                Case NM_TOOLTIPSCREATED
-                    Dim NMTTC As NMTOOLTIPSCREATED
-                    CopyMemory NMTTC, ByVal lParam, LenB(NMTTC)
-                    If NMTTC.hdr.hWndFrom = ToolBarHandle Then
-                        ToolBarToolTipHandle = NMTTC.hWndToolTips
-                        If ToolBarToolTipHandle <> NULL_PTR Then Call ComCtlsInitToolTip(ToolBarToolTipHandle)
-                        Call SetVisualStylesToolTip
-                    End If
+'                Case NM_TOOLTIPSCREATED
+'                    Dim NMTTC As NMTOOLTIPSCREATED
+'                    CopyMemory NMTTC, ByVal lParam, LenB(NMTTC)
+'                    If NMTTC.hdr.hWndFrom = ToolBarHandle Then
+'                        ToolBarToolTipHandle = NMTTC.hWndToolTips
+'                        If ToolBarToolTipHandle <> NULL_PTR Then Call ComCtlsInitToolTip(ToolBarToolTipHandle)
+'                        Call SetVisualStylesToolTip
+'                    End If
             End Select
         End If
 End Select

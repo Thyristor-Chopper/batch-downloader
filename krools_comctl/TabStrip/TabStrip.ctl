@@ -2434,25 +2434,25 @@ Select Case wMsg
             WindowProcControl = 0
             Exit Function
         End If
-    Case WM_MOUSEWHEEL
-        If PropTabScrollWheel = True Then
-            Static WheelDelta As Long, LastWheelDelta As Long
-            If Sgn(HiWord(CLng(wParam))) <> Sgn(LastWheelDelta) Then WheelDelta = 0
-            WheelDelta = WheelDelta + HiWord(CLng(wParam))
-            If Abs(WheelDelta) >= 120 Then
-                Dim CurrIndex As Long
-                CurrIndex = CLng(SendMessage(TabStripHandle, TCM_GETCURSEL, 0, ByVal 0&)) + 1
-                If Sgn(WheelDelta) = -1 Then
-                    If CurrIndex < Me.Tabs.Count Then Me.Tabs(CurrIndex + 1).Selected = True
-                Else
-                    If CurrIndex > 1 Then Me.Tabs(CurrIndex - 1).Selected = True
-                End If
-                WheelDelta = 0
-            End If
-            LastWheelDelta = HiWord(CLng(wParam))
-            WindowProcControl = 0
-            Exit Function
-        End If
+'    Case WM_MOUSEWHEEL
+'        If PropTabScrollWheel = True Then
+'            Static WheelDelta As Long, LastWheelDelta As Long
+'            If Sgn(HiWord(CLng(wParam))) <> Sgn(LastWheelDelta) Then WheelDelta = 0
+'            WheelDelta = WheelDelta + HiWord(CLng(wParam))
+'            If Abs(WheelDelta) >= 120 Then
+'                Dim CurrIndex As Long
+'                CurrIndex = CLng(SendMessage(TabStripHandle, TCM_GETCURSEL, 0, ByVal 0&)) + 1
+'                If Sgn(WheelDelta) = -1 Then
+'                    If CurrIndex < Me.Tabs.Count Then Me.Tabs(CurrIndex + 1).Selected = True
+'                Else
+'                    If CurrIndex > 1 Then Me.Tabs(CurrIndex - 1).Selected = True
+'                End If
+'                WheelDelta = 0
+'            End If
+'            LastWheelDelta = HiWord(CLng(wParam))
+'            WindowProcControl = 0
+'            Exit Function
+'        End If
     Case WM_KEYDOWN, WM_KEYUP, WM_SYSKEYDOWN, WM_SYSKEYUP
         Dim KeyCode As Integer
         KeyCode = CLng(wParam) And &HFF&
@@ -2518,39 +2518,39 @@ Select Case wMsg
     
 End Select
 WindowProcControl = ComCtlsDefaultProc(hWnd, wMsg, wParam, lParam)
-Select Case wMsg
-    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
-        Dim X As Single
-        Dim Y As Single
-        X = UserControl.ScaleX(Get_X_lParam(lParam), vbPixels, vbTwips)
-        Y = UserControl.ScaleY(Get_Y_lParam(lParam), vbPixels, vbTwips)
-        Select Case wMsg
-            Case WM_LBUTTONDOWN
-                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_MBUTTONDOWN
-                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_RBUTTONDOWN
-                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_MOUSEMOVE
-                If TabStripMouseOver = False And PropMouseTrack = True Then
-                    TabStripMouseOver = True
-                    RaiseEvent MouseEnter
-                    Call ComCtlsRequestMouseLeave(hWnd)
-                End If
-                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
-            Case WM_LBUTTONUP
-                RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_MBUTTONUP
-                RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
-            Case WM_RBUTTONUP
-                RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
-        End Select
-    Case WM_MOUSELEAVE
-        If TabStripMouseOver = True Then
-            TabStripMouseOver = False
-            RaiseEvent MouseLeave
-        End If
-End Select
+'Select Case wMsg
+'    Case WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, WM_MOUSEMOVE, WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP
+'        Dim X As Single
+'        Dim Y As Single
+'        X = UserControl.ScaleX(Get_X_lParam(lParam), vbPixels, vbTwips)
+'        Y = UserControl.ScaleY(Get_Y_lParam(lParam), vbPixels, vbTwips)
+'        Select Case wMsg
+'            Case WM_LBUTTONDOWN
+'                RaiseEvent MouseDown(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_MBUTTONDOWN
+'                RaiseEvent MouseDown(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_RBUTTONDOWN
+'                RaiseEvent MouseDown(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_MOUSEMOVE
+'                If TabStripMouseOver = False And PropMouseTrack = True Then
+'                    TabStripMouseOver = True
+'                    RaiseEvent MouseEnter
+'                    Call ComCtlsRequestMouseLeave(hWnd)
+'                End If
+'                RaiseEvent MouseMove(GetMouseStateFromParam(wParam), GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_LBUTTONUP
+'                RaiseEvent MouseUp(vbLeftButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_MBUTTONUP
+'                RaiseEvent MouseUp(vbMiddleButton, GetShiftStateFromParam(wParam), X, Y)
+'            Case WM_RBUTTONUP
+'                RaiseEvent MouseUp(vbRightButton, GetShiftStateFromParam(wParam), X, Y)
+'        End Select
+'    Case WM_MOUSELEAVE
+'        If TabStripMouseOver = True Then
+'            TabStripMouseOver = False
+'            RaiseEvent MouseLeave
+'        End If
+'End Select
 End Function
 
 Private Function WindowProcUserControl(ByVal hWnd As LongPtr, ByVal wMsg As Long, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As LongPtr
