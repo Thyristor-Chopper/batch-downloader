@@ -78,17 +78,6 @@ Begin VB.Form frmAbout
          Width           =   4815
       End
    End
-   Begin prjDownloadBooster.ImageList imgFiles 
-      Left            =   360
-      Top             =   3600
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      ImageWidth      =   16
-      ImageHeight     =   16
-      ColorDepth      =   4
-      MaskColor       =   16711935
-      InitListImages  =   "frmAbout.frx":000C
-   End
    Begin VB.PictureBox pbLicenses 
       BorderStyle     =   0  '없음
       Height          =   3255
@@ -206,7 +195,7 @@ Begin VB.Form frmAbout
       ImageWidth      =   32
       ImageHeight     =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmAbout.frx":01B4
+      InitListImages  =   "frmAbout.frx":000C
    End
    Begin prjDownloadBooster.FrameW FrameW1 
       Height          =   3255
@@ -316,10 +305,10 @@ End Sub
 Private Sub Form_Load()
     InitForm Me
     
-    imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(0).Picture
     imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(1).Picture
+    imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(2).Picture
     imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(4).Picture
-    imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(3).Picture
+    imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(5).Picture
     
     LineNum = 1
     Me.Caption = t(App.Title & " 정보", "About " & App.Title)
@@ -339,7 +328,7 @@ Private Sub Form_Load()
     timLicenseLoader.Enabled = True
     
     Dim EasterEggMultiplier As Byte
-    EasterEggMultiplier = Abs(RandInt(1, 10000) = 2094) * 2
+    EasterEggMultiplier = -(RandInt(1, 10000) = 2094) * 2
     
     lvItems.ListItems.Add , , "Krool's Comctl", 1 + EasterEggMultiplier
     lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2 + EasterEggMultiplier

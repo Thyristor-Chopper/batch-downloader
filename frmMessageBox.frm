@@ -170,42 +170,8 @@ Begin VB.Form frmMessageBox
    End
    Begin VB.Image imgTrain 
       Height          =   480
-      Index           =   4
-      Left            =   4440
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   3
-      Left            =   3840
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   2
-      Left            =   3240
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   1
-      Left            =   2640
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   0
-      Left            =   2040
-      Top             =   0
-      Visible         =   0   'False
+      Left            =   255
+      Top             =   240
       Width           =   480
    End
 End

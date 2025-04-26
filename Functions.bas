@@ -1024,19 +1024,15 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     Dim IconRandomIdx As Byte
     Select Case RandInt(1, 1000)
         Case 290
-            IconRandomIdx = 3
+            IconRandomIdx = 5
         Case 345
             IconRandomIdx = 4
         Case 419
-            IconRandomIdx = 2
+            IconRandomIdx = 3
         Case Else
-            IconRandomIdx = RandInt(0, 1)
+            IconRandomIdx = RandInt(1, 2)
     End Select
-    MessageBox.imgTrain(IconRandomIdx).Top = 240
-    MessageBox.imgTrain(IconRandomIdx).Left = 225
-    MessageBox.imgTrain(IconRandomIdx).ZOrder 1
-    MessageBox.imgTrain(IconRandomIdx).Visible = True
-    Set MessageBox.imgTrain(IconRandomIdx).Picture = frmDummyForm.imgTrain(IconRandomIdx).Picture
+    Set MessageBox.imgTrain.Picture = frmDummyForm.imgTrain(IconRandomIdx).Picture
     Select Case Icon
         Case 48
             MessageBox.imgExclamation.Visible = True
@@ -1048,7 +1044,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
             MessageBox.imgQuestion.Visible = True
         'Case Else
             'NoIcon = True
-            'MessageBox.imgTrain(IconRandomIdx).Visible = False
+            'MessageBox.imgTrain.Visible = False
     End Select
 
     Content = Replace(Content, "&", "&&")

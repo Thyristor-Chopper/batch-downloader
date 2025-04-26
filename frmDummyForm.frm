@@ -18,49 +18,55 @@ Begin VB.Form frmDummyForm
    ScaleHeight     =   3090
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows ±âº»°ª
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   0
+   Begin prjDownloadBooster.ImageList imgFiles 
       Left            =   0
-      Picture         =   "frmDummyForm.frx":0000
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   480
+      Top             =   720
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      ColorDepth      =   4
+      MaskColor       =   16711935
+      InitListImages  =   "frmDummyForm.frx":0000
    End
    Begin VB.Image imgTrain 
       Height          =   480
-      Index           =   1
-      Left            =   600
-      Picture         =   "frmDummyForm.frx":02E8
+      Index           =   5
+      Left            =   2400
+      Picture         =   "frmDummyForm.frx":01A8
       Top             =   0
-      Visible         =   0   'False
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   2
-      Left            =   1200
-      Picture         =   "frmDummyForm.frx":05D9
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   3
-      Left            =   1800
-      Picture         =   "frmDummyForm.frx":0996
-      Top             =   0
-      Visible         =   0   'False
       Width           =   480
    End
    Begin VB.Image imgTrain 
       Height          =   480
       Index           =   4
-      Left            =   2400
-      Picture         =   "frmDummyForm.frx":0C55
+      Left            =   1800
+      Picture         =   "frmDummyForm.frx":0467
       Top             =   0
-      Visible         =   0   'False
+      Width           =   480
+   End
+   Begin VB.Image imgTrain 
+      Height          =   480
+      Index           =   3
+      Left            =   1200
+      Picture         =   "frmDummyForm.frx":072B
+      Top             =   0
+      Width           =   480
+   End
+   Begin VB.Image imgTrain 
+      Height          =   480
+      Index           =   2
+      Left            =   600
+      Picture         =   "frmDummyForm.frx":0AE8
+      Top             =   0
+      Width           =   480
+   End
+   Begin VB.Image imgTrain 
+      Height          =   480
+      Index           =   1
+      Left            =   0
+      Picture         =   "frmDummyForm.frx":0DD9
+      Top             =   0
       Width           =   480
    End
 End

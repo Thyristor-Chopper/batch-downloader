@@ -692,7 +692,7 @@ If Not PropFont Is Nothing Then
     tygButton.FontSize = PropFont.Size
 End If
 If CommandButtonHandle <> NULL_PTR Then
-    MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, Abs(Not PropTransparent)
+    MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, -(Not PropTransparent)
 End If
 End With
 Call CreateCommandButton
@@ -1247,7 +1247,7 @@ End Property
 
 Public Property Let Enabled(ByVal Value As Boolean)
 UserControl.Enabled = Value
-If CommandButtonHandle <> NULL_PTR Then EnableWindow CommandButtonHandle, Abs(Value)
+If CommandButtonHandle <> NULL_PTR Then EnableWindow CommandButtonHandle, -Value
 UserControl.PropertyChanged "Enabled"
 tygButton.Enabled = Value
 End Property
@@ -1260,7 +1260,7 @@ Public Property Let IsTygemButton(ByVal Value As Boolean)
 tygButton.Visible = Value
 PropIsTygemButton = Value
 If CommandButtonHandle <> NULL_PTR Then
-    MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, Abs(Not PropTransparent)
+    MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, -(Not PropTransparent)
 End If
 UserControl.PropertyChanged "IsTygemButton"
 Refresh
@@ -2149,7 +2149,7 @@ If CommandButtonHandle <> NULL_PTR Then Pushed = CBool((SendMessage(CommandButto
 End Property
 
 Public Property Let Pushed(ByVal Value As Boolean)
-If CommandButtonHandle <> NULL_PTR Then SendMessage CommandButtonHandle, BM_SETSTATE, Abs(Value), ByVal 0&
+If CommandButtonHandle <> NULL_PTR Then SendMessage CommandButtonHandle, BM_SETSTATE, -Value, ByVal 0&
 End Property
 
 Public Property Get Hot() As Boolean
@@ -2169,7 +2169,7 @@ If CommandButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then DroppedDo
 End Property
 
 Public Property Let DroppedDown(ByVal Value As Boolean)
-If CommandButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then SendMessage CommandButtonHandle, BCM_SETDROPDOWNSTATE, Abs(Value), ByVal 0&
+If CommandButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 2 Then SendMessage CommandButtonHandle, BCM_SETDROPDOWNSTATE, -Value, ByVal 0&
 End Property
 
 Public Sub GetIdealSize(ByRef Width As Single, ByRef Height As Single)

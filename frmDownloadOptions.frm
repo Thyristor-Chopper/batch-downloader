@@ -47,9 +47,9 @@ Begin VB.Form frmDownloadOptions
       End
       Begin VB.TextBox txtEdit 
          Height          =   255
-         Left            =   2760
+         Left            =   3360
          TabIndex        =   22
-         Top             =   960
+         Top             =   1080
          Visible         =   0   'False
          Width           =   2535
       End
@@ -97,8 +97,6 @@ Begin VB.Form frmDownloadOptions
          _ExtentX        =   9128
          _ExtentY        =   4683
          VisualTheme     =   1
-         Icons           =   "imgFiles"
-         SmallIcons      =   "imgFiles"
          View            =   3
          FullRowSelect   =   -1  'True
          GridLines       =   -1  'True
@@ -107,20 +105,9 @@ Begin VB.Form frmDownloadOptions
          HighlightColumnHeaders=   -1  'True
          AutoSelectFirstItem=   0   'False
       End
-      Begin prjDownloadBooster.ImageList imgFiles 
-         Left            =   120
-         Top             =   2160
-         _ExtentX        =   1005
-         _ExtentY        =   1005
-         ImageWidth      =   16
-         ImageHeight     =   16
-         ColorDepth      =   4
-         MaskColor       =   16711935
-         InitListImages  =   "frmDownloadOptions.frx":000C
-      End
       Begin VB.Label lblDescription 
          BackStyle       =   0  '투명
-         Caption         =   $"frmDownloadOptions.frx":01B4
+         Caption         =   $"frmDownloadOptions.frx":000C
          Height          =   735
          Left            =   840
          TabIndex        =   16
@@ -130,7 +117,7 @@ Begin VB.Form frmDownloadOptions
       Begin VB.Image imgIcon1 
          Height          =   480
          Left            =   120
-         Picture         =   "frmDownloadOptions.frx":0253
+         Picture         =   "frmDownloadOptions.frx":00AB
          Top             =   120
          Width           =   480
       End
@@ -270,7 +257,7 @@ Begin VB.Form frmDownloadOptions
       Width           =   2400
       _ExtentX        =   4233
       _ExtentY        =   688
-      InitTabs        =   "frmDownloadOptions.frx":0695
+      InitTabs        =   "frmDownloadOptions.frx":04ED
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -465,6 +452,8 @@ Private Sub Form_Load()
     Next i
     
     On Error Resume Next
+    
+    Set lvHeaders.SmallIcons = frmDummyForm.imgFiles
 
 #If HIDEYTDL Then
 #Else
@@ -547,7 +536,6 @@ Private Sub Form_Load()
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
-    lvHeaders.SmallIcons = imgFiles
     
     LoadSettings
     
@@ -591,7 +579,7 @@ Private Sub LoadSettings()
     optUseYtdl.Value = frmMain.ytdlEnabled
     txtFormat.Text = Replace(frmMain.ytdlFormat, " ", "")
     If txtFormat.Text = "" Then txtFormat.ListIndex = 0
-    chkExtractAudio.Value = Abs(frmMain.ytdlExtractAudio)
+    chkExtractAudio.Value = -(frmMain.ytdlExtractAudio)
     cbAudioFormat.ListIndex = frmMain.ytdlAudioFormat
     IIf(frmMain.ytdlAudioBitrateType = CBR, optCBR, optVBR).Value = True
     cbVBR.ListIndex = frmMain.ytdlAudioVBR

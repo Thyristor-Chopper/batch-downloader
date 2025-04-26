@@ -24,16 +24,6 @@ Begin VB.Form frmOptions
    ScaleWidth      =   14775
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
-   Begin prjDownloadBooster.ImageList imgWrench 
-      Left            =   13440
-      Top             =   0
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      ImageWidth      =   16
-      ImageHeight     =   16
-      ColorDepth      =   4
-      InitListImages  =   "frmOptions.frx":000C
-   End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
       Height          =   4425
@@ -119,7 +109,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image1 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":04F4
+            Picture         =   "frmOptions.frx":000C
             Top             =   120
             Width           =   480
          End
@@ -385,7 +375,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image8 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":093E
+            Picture         =   "frmOptions.frx":0456
             Top             =   240
             Width           =   480
          End
@@ -400,7 +390,7 @@ Begin VB.Form frmOptions
       ImageHeight     =   16
       ColorDepth      =   8
       MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":0D80
+      InitListImages  =   "frmOptions.frx":0898
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
@@ -492,7 +482,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image4 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":1168
+            Picture         =   "frmOptions.frx":0C80
             Top             =   240
             Width           =   480
          End
@@ -582,7 +572,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image5 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":15AA
+            Picture         =   "frmOptions.frx":10C2
             Top             =   240
             Width           =   480
          End
@@ -743,7 +733,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image3 
             Height          =   405
             Left            =   120
-            Picture         =   "frmOptions.frx":19EC
+            Picture         =   "frmOptions.frx":1504
             Top             =   240
             Width           =   435
          End
@@ -870,7 +860,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image2 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":1C1E
+            Picture         =   "frmOptions.frx":1736
             Top             =   240
             Width           =   480
          End
@@ -941,7 +931,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image6 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":2060
+            Picture         =   "frmOptions.frx":1B78
             Top             =   240
             Width           =   480
          End
@@ -980,7 +970,7 @@ Begin VB.Form frmOptions
          Begin VB.Image imgIcon2 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":24A2
+            Picture         =   "frmOptions.frx":1FBA
             Top             =   240
             Width           =   480
          End
@@ -1110,7 +1100,6 @@ Begin VB.Form frmOptions
             Width           =   495
             _ExtentX        =   873
             _ExtentY        =   529
-            ImageList       =   "imgWrench"
             ImageListAlignment=   4
             Transparent     =   -1  'True
          End
@@ -1563,7 +1552,7 @@ Begin VB.Form frmOptions
       TabFixedWidth   =   53
       TabScrollWheel  =   0   'False
       Transparent     =   -1  'True
-      InitTabs        =   "frmOptions.frx":28E4
+      InitTabs        =   "frmOptions.frx":23FC
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -1586,17 +1575,6 @@ Begin VB.Form frmOptions
       _ExtentX        =   0
       _ExtentY        =   0
       Caption         =   "확인"
-   End
-   Begin prjDownloadBooster.ImageList imgFiles 
-      Left            =   12240
-      Top             =   0
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      ImageWidth      =   16
-      ImageHeight     =   16
-      ColorDepth      =   4
-      MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":2A88
    End
 End
 Attribute VB_Name = "frmOptions"
@@ -1752,9 +1730,9 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     
     chkBeepWhenComplete.Value = GetSetting("DownloadBooster", Section, "PlaySound", 1)
     
-    If Abs(GetSetting("DownloadBooster", Section, "EnableLiveBadukMemoSkin", 0)) Then
+    If GetSetting("DownloadBooster", Section, "EnableLiveBadukMemoSkin", 0) Then
         cbSkin.ListIndex = 2
-    ElseIf Abs(GetSetting("DownloadBooster", Section, "DisableVisualStyle", 0)) Then
+    ElseIf GetSetting("DownloadBooster", Section, "DisableVisualStyle", 0) Then
         cbSkin.ListIndex = 1
         cmdSample.RoundButton = (GetSetting("DownloadBooster", Section, "RoundClassicButtons", 0) <> 0)
     Else
@@ -1762,7 +1740,7 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     End If
     
     cmdSample.VisualStyles = (Not CBool(GetSetting("DownloadBooster", Section, "DisableVisualStyle", 0)))
-    cmdSample.IsTygemButton = Abs(GetSetting("DownloadBooster", Section, "EnableLiveBadukMemoSkin", 0)) * (-1)
+    cmdSample.IsTygemButton = GetSetting("DownloadBooster", Section, "EnableLiveBadukMemoSkin", 0)
     
     lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", Section, "FormFillStyle", 0))
     
@@ -1966,9 +1944,9 @@ End Sub
 
 Private Sub cmdApply_Click()
     If WinVer >= 6# And cbFrameSkin.ListCount >= 3 Then
-        SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", Abs(cbFrameSkin.ListIndex = 1)
+        SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", -(cbFrameSkin.ListIndex = 1)
     End If
-    SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", Abs((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
+    SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", -((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
     
     Dim i%
     
@@ -1984,7 +1962,7 @@ Private Sub cmdApply_Click()
     SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.Value
     SaveSetting "DownloadBooster", "Options", "CompleteSoundPath", Trim$(txtCompleteSoundPath.Text)
     SaveSetting "DownloadBooster", "Options", "AllowDuplicatesInQueue", chkAllowDuplicates.Value
-    SaveSetting "DownloadBooster", "Options", "ScrollOneScreen", Abs(optScreenPerScroll.Value)
+    SaveSetting "DownloadBooster", "Options", "ScrollOneScreen", -optScreenPerScroll.Value
     SaveSetting "DownloadBooster", "Options", "BackColorMainOnly", chkBackColorMainOnly.Value
     SaveSetting "DownloadBooster", "Options", "ForeColorMainOnly", chkForeColorMainOnly.Value
     SaveSetting "DownloadBooster", "Options", "UseServerModifiedDate", chkUseServerModified.Value
@@ -2103,7 +2081,7 @@ aftermaxtrdcheck:
     SaveSetting "DownloadBooster", "Options", "ImagePosition", cbImagePosition.ListIndex
     frmMain.ImagePosition = cbImagePosition.ListIndex
     If ImageChanged Then
-        SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", Abs(lvBackgrounds.ListIndex <> 0)
+        SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", -(lvBackgrounds.ListIndex <> 0)
         SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", ChangedBackgroundPath
         frmMain.SetBackgroundImage
         frmMain.SetBackgroundPosition True
@@ -2177,7 +2155,7 @@ aftermaxtrdcheck:
         If MainFormOnTop Then .fState = .fState Or MFS_CHECKED
     End With
     SetMenuItemInfo hSysMenu, 1000, 0, MII
-    SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", Abs(MainFormOnTop)
+    SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", -MainFormOnTop
     
     On Error Resume Next
     SaveSetting "DownloadBooster", "Options\Headers", "_Dummy_", "x" '오류 방지
@@ -2327,9 +2305,9 @@ Private Sub cmdSaveTheme_Click()
     End If
     
     If WinVer >= 6# And cbFrameSkin.ListCount >= 3 Then
-        SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", Abs(cbFrameSkin.ListIndex = 1)
+        SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", -(cbFrameSkin.ListIndex = 1)
     End If
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", Abs((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", -((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
     
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "CompleteSoundPath", Trim$(txtCompleteSoundPath.Text)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackColorMainOnly", chkBackColorMainOnly.Value
@@ -2362,7 +2340,7 @@ Private Sub cmdSaveTheme_Click()
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ImagePosition", cbImagePosition.ListIndex
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", Abs(lvBackgrounds.ListIndex <> 0)
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", -(lvBackgrounds.ListIndex <> 0)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImagePath", ChangedBackgroundPath
     
     If lvBackgrounds.ListIndex <> 0 And LenB(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")) = 0 Then
@@ -2643,7 +2621,8 @@ Private Sub Form_Load()
     IntervalValues(6) = 3#
     IntervalValues(7) = 5#
     
-    lvHeaders.SmallIcons = imgFiles
+    Set cmdAdvancedSkin.ImageList = frmMain.imgWrench
+    Set lvHeaders.SmallIcons = frmDummyForm.imgFiles
     
     RemoveVisualStyles txtSampleClassic.hWnd
     
@@ -2909,7 +2888,7 @@ Private Sub LoadSettings()
     chkNoRedirectCheck.Value = GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0)
     chkForceGet.Value = GetSetting("DownloadBooster", "Options", "ForceGet", 1)
     chkIgnore300.Value = GetSetting("DownloadBooster", "Options", "Ignore300", 0)
-    chkAlwaysOnTop.Value = Abs(MainFormOnTop)
+    chkAlwaysOnTop.Value = -(MainFormOnTop)
     chkLazyElapsed.Value = GetSetting("DownloadBooster", "Options", "LazyElapsed", 0)
     chkExcludeMergeFromElapsed.Value = GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", 0)
     chkForceOldDialog.Value = GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", 0)
