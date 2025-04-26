@@ -2970,7 +2970,7 @@ Private Sub LoadSettings()
     Next i
     
     tsTabStrip.Tabs(1).Selected = True
-    'cmdApply.Enabled = False
+    cmdApply.Enabled = False
 End Sub
 
 Sub LoadBackgroundList(Optional ByVal OnLoad As Boolean = False)

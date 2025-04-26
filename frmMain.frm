@@ -1493,6 +1493,12 @@ Dim FormWidth As Long
 Dim FormMinHeight As Long
 Dim FormMaxHeight As Long
 
+Private Enum DownloadStopMode
+    NormalStop = 1
+    BatchStop = 2
+    ExitApplication = 3
+End Enum
+
 #If HIDEYTDL Then
 #Else
 Sub StartYtdlDownload()
@@ -2710,101 +2716,11 @@ Private Sub cmdStartBatch_Click()
 End Sub
 
 Private Sub cmdStop_Click()
-    Dim IsMarquee As Boolean
-    IsMarquee = pbTotalProgressMarquee.Visible
-    Dim ConfirmResult As VbMsgBoxResult
-    If IsMarquee Or ResumeUnsupported Then
-        ConfirmResult = ConfirmEx(t("다운로드를 중지하시겠습니까? 현재 파일은 이어받기가 지원되지 않으므로 처음부터 다시 다운로드받아야 합니다.", "Cancel download? Resuming is not supported for this file."), t("다운로드 취소", "Cancel download"), 48)
-    Else
-        ConfirmResult = MsgBox(t("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later."), vbQuestion + vbYesNo, t("다운로드 취소", "Cancel download"))
-    End If
-    If ConfirmResult = vbYes Then
-        Dim CurrentProgress As Integer
-        CurrentProgress = pbTotalProgress.Value
-        
-        OnStop False
-        cmdOpen.Enabled = 0
-        cmdOpenFileDropdown.Enabled = 0
-        
-        If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
-            Dim KillTemp As Boolean
-            KillTemp = False
-            If IsMarquee Or ResumeUnsupported Then
-                KillTemp = True
-            Else
-                KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbQuestion + vbYesNo) <> vbYes
-            End If
-            If KillTemp Then
-                On Error Resume Next
-                If trThreadCount.Value <= 1 Then
-                    Kill DownloadPath & ".part.tmp"
-                Else
-                    Dim i%
-                    For i = 1 To trThreadCount.Value
-                        Kill DownloadPath & ".part_" & i & ".tmp"
-                    Next i
-                End If
-            End If
-        End If
-    End If
+    StopDownload NormalStop
 End Sub
 
 Private Sub cmdStopBatch_Click()
-    Dim IsMarquee As Boolean
-    IsMarquee = pbTotalProgressMarquee.Visible
-    Dim ConfirmResult As VbMsgBoxResult
-    If IsMarquee Or ResumeUnsupported Then
-        ConfirmResult = ConfirmEx(t("다운로드를 중지하시겠습니까? 현재 파일은 이어받기가 지원되지 않으므로 처음부터 다시 다운로드받아야 합니다.", "Cancel download? Resuming is not supported for this file."), t("다운로드 취소", "Cancel download"), 48)
-    Else
-        ConfirmResult = MsgBox(t("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later."), vbQuestion + vbYesNo, t("다운로드 취소", "Cancel download"))
-    End If
-    If ConfirmResult = vbYes Then
-        Dim CurrentProgress As Integer
-        CurrentProgress = pbTotalProgress.Value
-        
-        lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("중지", "Stopped")
-        lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = 255
-        lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = 255
-        lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2).ForeColor = 255
-        lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).ForeColor = 255
-        BatchStarted = False
-        CurrentBatchIdx = 1
-        cmdStartBatch.Enabled = -1
-        cmdStopBatch.Enabled = 0
-        cmdStopBatch.Left = Me.Width + 1200
-        OnStop False
-        cmdGo.Enabled = 0
-        timElapsed.Enabled = 0
-        sbStatusBar.Panels(3).Text = ""
-        sbStatusBar.Panels(4).Text = ""
-        chkOpenAfterComplete.Enabled = -1
-        cmdGo.Enabled = -1
-        
-        If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
-            Dim KillTemp As Boolean
-            KillTemp = False
-            If IsMarquee Or ResumeUnsupported Then
-                KillTemp = True
-            Else
-                KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbQuestion + vbYesNo) <> vbYes
-            End If
-            If KillTemp Then
-                On Error Resume Next
-                If trThreadCount.Value <= 1 Then
-                    Kill DownloadPath & ".part.tmp"
-                Else
-                    Dim i%
-                    For i = 1 To trThreadCount.Value
-                        Kill DownloadPath & ".part_" & i & ".tmp"
-                    Next i
-                End If
-            End If
-        End If
-        
-        If BatchErrorCount Then _
-            MsgBox t("하나 이상의 오류가 발생했습니다. 해당 항목을 두 번 누르면 오류 정보를 볼 수 있습니다.", _
-                    "One or more errors have occurred. Double click the error item to see details."), 48
-    End If
+    StopDownload BatchStop
 End Sub
 
 Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
@@ -3750,47 +3666,81 @@ Private Sub Form_Resize()
     If imgBackground.Visible Or imgBackgroundTile(0).Visible Then SetBackgroundPosition
 End Sub
 
-Private Sub Form_Unload(Cancel As Integer)
-    Dim i%
-    If cmdStop.Enabled = -1 Or BatchStarted Then
-        Dim IsMarquee As Boolean
-        IsMarquee = pbTotalProgressMarquee.Visible
-        Dim ConfirmResult As VbMsgBoxResult
-        If IsMarquee Or ResumeUnsupported Then
-            ConfirmResult = ConfirmEx(t("다운로드를 중지하시겠습니까? 현재 파일은 이어받기가 지원되지 않으므로 처음부터 다시 다운로드받아야 합니다.", "Cancel download? Resuming is not supported for this file."), t("다운로드 취소", "Cancel download"), 48)
-        Else
-            ConfirmResult = MsgBox(t("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later."), vbQuestion + vbYesNo, t("다운로드 취소", "Cancel download"))
-        End If
-        If ConfirmResult <> vbYes Then
-            Cancel = 1
-            Exit Sub
-        Else
-            Dim CurrentProgress As Integer
-            CurrentProgress = pbTotalProgress.Value
-            
-            BatchStarted = False
-            SP.FinishChild 0, 0
-            
-            If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
-                Dim KillTemp As Boolean
-                KillTemp = False
-                If IsMarquee Or ResumeUnsupported Then
-                    KillTemp = True
+Private Sub StopDownload(Optional ByVal StopMode As DownloadStopMode = NormalStop, Optional ByRef Cancel As Integer)
+    Dim IsMarquee As Boolean
+    IsMarquee = pbTotalProgressMarquee.Visible
+    Dim ConfirmResult As VbMsgBoxResult
+    If IsMarquee Or ResumeUnsupported Then
+        ConfirmResult = ConfirmEx(t("다운로드를 중지하시겠습니까? 현재 파일은 이어받기가 지원되지 않으므로 처음부터 다시 다운로드받아야 합니다.", "Cancel download? Resuming is not supported for this file."), t("다운로드 취소", "Cancel download"), 48)
+    Else
+        ConfirmResult = MsgBox(t("다운로드를 중지하시겠습니까? 이어받기 기능을 통해 중단한 곳부터 계속 다운로드받을 수 있습니다.", "Cancel download? You can resume later."), vbQuestion + vbYesNo, t("다운로드 취소", "Cancel download"))
+    End If
+    If ConfirmResult = vbYes Then
+        Dim CurrentProgress As Long
+        CurrentProgress = pbTotalProgress.Value
+        
+        Select Case StopMode
+            Case BatchStop
+                lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("중지", "Stopped")
+                lvBatchFiles.ListItems(CurrentBatchIdx).ForeColor = 255
+                lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(1).ForeColor = 255
+                lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(2).ForeColor = 255
+                lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).ForeColor = 255
+                BatchStarted = False
+                CurrentBatchIdx = 1
+                cmdStartBatch.Enabled = -1
+                cmdStopBatch.Enabled = 0
+                cmdStopBatch.Left = Me.Width + 1200
+                OnStop False
+                cmdGo.Enabled = 0
+                timElapsed.Enabled = 0
+                sbStatusBar.Panels(3).Text = ""
+                sbStatusBar.Panels(4).Text = ""
+                chkOpenAfterComplete.Enabled = -1
+                cmdGo.Enabled = -1
+            Case ExitApplication
+                BatchStarted = False
+                SP.FinishChild 0, 0
+            Case NormalStop
+                OnStop False
+                cmdOpen.Enabled = 0
+                cmdOpenFileDropdown.Enabled = 0
+        End Select
+        
+        If IsMarquee Or (CurrentProgress > 0 And CurrentProgress < 100) Then
+            Dim KillTemp As Boolean
+            KillTemp = False
+            If IsMarquee Or ResumeUnsupported Then
+                KillTemp = True
+            Else
+                KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbQuestion + vbYesNo) <> vbYes
+            End If
+            If KillTemp Then
+                On Error Resume Next
+                If trThreadCount.Value <= 1 Then
+                    Kill DownloadPath & ".part.tmp"
                 Else
-                    KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbQuestion + vbYesNo) <> vbYes
-                End If
-                If KillTemp Then
-                    On Error Resume Next
-                    If trThreadCount.Value <= 1 Then
-                        Kill DownloadPath & ".part.tmp"
-                    Else
-                        For i = 1 To trThreadCount.Value
-                            Kill DownloadPath & ".part_" & i & ".tmp"
-                        Next i
-                    End If
+                    Dim i%
+                    For i = 1 To trThreadCount.Value
+                        Kill DownloadPath & ".part_" & i & ".tmp"
+                    Next i
                 End If
             End If
         End If
+        
+        If StopMode = BatchStop And BatchErrorCount Then
+            MsgBox t("하나 이상의 오류가 발생했습니다. 해당 항목을 두 번 누르면 오류 정보를 볼 수 있습니다.", "One or more errors have occurred. Double click the error item to see details."), 48
+        End If
+    ElseIf StopMode = ExitApplication Then
+        Cancel = 1
+        Exit Sub
+    End If
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    If cmdStop.Enabled Or BatchStarted Then
+        StopDownload ExitApplication, Cancel
+        If Cancel Then Exit Sub
     Else
         BatchStarted = False
         SP.FinishChild 0, 0
@@ -3809,12 +3759,6 @@ Private Sub Form_Unload(Cancel As Integer)
     
     On Error Resume Next
     Me.Hide
-'    For i = 1 To MAX_THREAD_COUNT
-'        Unload lblDownloader(i)
-'        Unload lblPercentage(i)
-'        Unload pbProgress(i)
-'        Unload pbProgressMarquee(i)
-'    Next i
     Unload frmBatchAdd
     Unload frmBrowse
     Unload frmOptions

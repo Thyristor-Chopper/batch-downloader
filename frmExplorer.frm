@@ -1330,8 +1330,6 @@ Private Sub lvFiles_AfterLabelEdit(Cancel As Boolean, NewString As String)
     End If
     
     Dim FullPath$
-    Path = lvDir.Path
-    If Right$(Path, 1) <> "\" Then Path = Path & "\"
     FullPath = Path & lvFiles.SelectedItem.Text
     On Error GoTo renamefail
     Name FullPath As (Path & NewString)
