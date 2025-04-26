@@ -78,7 +78,7 @@ Private Sub Form_Load()
     
     chkRoundClassicButtons.Value = GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0)
     
-    Me.Caption = t(Me.Caption, "Skin Settings")
+    tr Me, "Skin Settings"
     tr chkRoundClassicButtons, "&Use rounded buttons"
     tr cmdOK, "OK"
     tr cmdCancel, "Cancel"

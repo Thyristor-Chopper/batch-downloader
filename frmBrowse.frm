@@ -280,14 +280,14 @@ Private Sub Form_Load()
     lvDir.Path = Path
     lvDir_Change
     
-    Label1.Caption = t(Label1.Caption, "&File name:")
-    Label4.Caption = t(Label4.Caption, "File &type:")
-    Label3.Caption = t(Label3.Caption, "Dri&ve:")
-    Label2.Caption = t(Label2.Caption, "&Directory:")
-    chkHidden.Caption = t(chkHidden.Caption, "Show &hidden")
-    OKButton.Caption = t(OKButton.Caption, "OK")
-    CancelButton.Caption = t(CancelButton.Caption, "Cancel")
-    Me.Caption = t(Me.Caption, "Select download path")
+    tr Label1, "&File name:"
+    tr Label4, "File &type:"
+    tr Label3, "Dri&ve:"
+    tr Label2, "&Directory:"
+    tr chkHidden, "Show &hidden"
+    tr OKButton, "OK"
+    tr CancelButton, "Cancel"
+    tr Me, "Select download path"
     
     txtFileName.Visible = (Tags.BrowseTargetForm <> 2)
 End Sub

@@ -937,7 +937,7 @@ Begin VB.Form frmMain
       Width           =   6255
       _ExtentX        =   11033
       _ExtentY        =   1085
-      Caption         =   " 전체 다운로드 진행률 "
+      Caption         =   " 전체 다운로드 현황 "
       Transparent     =   -1  'True
       Begin VB.Label lblState 
          BackStyle       =   0  '투명
@@ -3406,67 +3406,67 @@ Private Sub Form_Load()
     SetupSplitButtons
 
     '로컬라이징 시작
-    lblURL.Caption = t(lblURL.Caption, "File &address:")
-    lblFilePath.Caption = t(lblFilePath.Caption, "Save &file to:")
-    lblThreadCountLabel.Caption = t(lblThreadCountLabel.Caption, "&Threads:")
-    cmdClear.Caption = t(cmdClear.Caption, "Clear(&Y)")
-    cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
-    fTotal.Caption = t(fTotal.Caption, " Total Progress ")
-    fTabDownload.Caption = t(fTabDownload.Caption, " Total ")
-    fTabThreads.Caption = t(fTabThreads.Caption, " Threads ")
-    cmdOptions.Caption = t(cmdOptions.Caption, "More opt&ions...")
-    cmdOpen.Caption = t(cmdOpen.Caption, "&Open")
-    cmdOpenFolder.Caption = t(cmdOpenFolder.Caption, "Op&en folder")
-    cmdGo.Caption = t(cmdGo.Caption, "&Download")
-    cmdStop.Caption = t(cmdStop.Caption, "Sto&p")
-    cmdAddToQueue.Caption = t(cmdAddToQueue.Caption, "Add to &queue")
-    cmdBatch.Caption = t(cmdBatch.Caption, "Batc&h download")
-    lblState.Caption = t(lblState.Caption, "Stopped")
-    cmdOpenBatch.Caption = t(cmdOpenBatch.Caption, "Open(&W)")
-    cmdAdd.Caption = t(cmdAdd.Caption, "Add U&RL...")
-    cmdDelete.Caption = t(cmdDelete.Caption, "Remo&ve")
-    cmdStartBatch.Caption = t(cmdStartBatch.Caption, "&Start")
-    cmdStopBatch.Caption = t(cmdStopBatch.Caption, "Stop(&Z)")
-    Label8.Caption = t(Label8.Caption, "File name:")
-    Label2.Caption = t(Label2.Caption, "Total:")
-    Label3.Caption = t(Label3.Caption, "Recieved:")
-    Label4.Caption = t(Label4.Caption, "Elapsed:")
-    Label5.Caption = t(Label5.Caption, "Speed:")
-    Label6.Caption = t(Label6.Caption, "Threads:")
-    Label7.Caption = t(Label7.Caption, "Size per thread:")
-    fOptions.Caption = t(fOptions.Caption, " Settings ")
+    tr lblURL, "File &address:"
+    tr lblFilePath, "Save &file to:"
+    tr lblThreadCountLabel, "&Threads:"
+    tr cmdClear, "Clear(&Y)"
+    tr cmdBrowse, "&Browse..."
+    tr fTotal, " Total Progress "
+    tr fTabDownload, " Total "
+    tr fTabThreads, " Threads "
+    tr cmdOptions, "More opt&ions..."
+    tr cmdOpen, "&Open"
+    tr cmdOpenFolder, "Op&en folder"
+    tr cmdGo, "&Download"
+    tr cmdStop, "Sto&p"
+    tr cmdAddToQueue, "Add to &queue"
+    tr cmdBatch, "Batc&h download"
+    tr lblState, "Stopped"
+    tr cmdOpenBatch, "Open(&W)"
+    tr cmdAdd, "Add U&RL..."
+    tr cmdDelete, "Remo&ve"
+    tr cmdStartBatch, "&Start"
+    tr cmdStopBatch, "Stop(&Z)"
+    tr Label8, "File name:"
+    tr Label2, "Total:"
+    tr Label3, "Recieved:"
+    tr Label4, "Elapsed:"
+    tr Label5, "Speed:"
+    tr Label6, "Threads:"
+    tr Label7, "Size per thread:"
+    tr fOptions, " Settings "
     
-    chkOpenAfterComplete.Caption = t(chkOpenAfterComplete.Caption, "Open when &complete")
-    chkOpenFolder.Caption = t(chkOpenFolder.Caption, "Open fo&lder when done")
-    chkContinueDownload.Caption = t(chkContinueDownload.Caption, "Always resume(&J)")
-    chkAutoRetry.Caption = t(chkAutoRetry.Caption, "Auto retry on error(&G)")
+    tr chkOpenAfterComplete, "Open when &complete"
+    tr chkOpenFolder, "Open fo&lder when done"
+    tr chkContinueDownload, "Always resume(&J)"
+    tr chkAutoRetry, "Auto retry on error(&G)"
     
-    Label1.Caption = t(Label1.Caption, "Exists(&K):")
-    mnuAddItem.Caption = t(mnuAddItem.Caption, "&Add URL...")
-    mnuClearBatch.Caption = t(mnuClearBatch.Caption, "&Clear list")
-    mnuClearBatch2.Caption = t(mnuClearBatch.Caption, "&Clear list")
-    mnuClearBatch3.Caption = t(mnuClearBatch.Caption, "&Clear list")
-    mnuDeleteItem.Caption = t(mnuDeleteItem.Caption, "&Remove")
-    mnuOpenFolder.Caption = t(mnuOpenFolder.Caption, "Open &folder")
-    cmdAbout.Caption = t(cmdAbout.Caption, "Abo&ut application...")
-    Label10.Caption = t(Label10.Caption, "Remaining:")
-    lblLBCaption.Caption = t(lblLBCaption.Caption, "Progress")
+    tr Label1, "Exists(&K):"
+    tr mnuAddItem, "&Add URL..."
+    tr mnuClearBatch, "&Clear list"
+    tr mnuClearBatch2, "&Clear list"
+    tr mnuClearBatch3, "&Clear list"
+    tr mnuDeleteItem, "&Remove"
+    tr mnuOpenFolder, "Open &folder"
+    tr cmdAbout, "Abo&ut application..."
+    tr Label10, "Remaining:"
+    tr lblLBCaption, "Progress"
     
-    mnuEdit.Caption = t(mnuEdit.Caption, "&Edit...")
-    mnuMoveUp.Caption = t(mnuMoveUp.Caption, "Move &up")
-    mnuMoveDown.Caption = t(mnuMoveDown.Caption, "Move &down")
-    mnuAddItem2.Caption = t(mnuAddItem2.Caption, "&Add URL...")
-    mnuOpenBatch.Caption = t(mnuOpenBatch.Caption, "&Open")
-    mnuOpenFolder2.Caption = t(mnuOpenFolder2.Caption, "Open &folder")
+    tr mnuEdit, "&Edit..."
+    tr mnuMoveUp, "Move &up"
+    tr mnuMoveDown, "Move &down"
+    tr mnuAddItem2, "&Add URL..."
+    tr mnuOpenBatch, "&Open"
+    tr mnuOpenFolder2, "Open &folder"
     
-    cmdEdit.Caption = t(cmdEdit.Caption, "Edit(&N)...")
+    tr cmdEdit, "Edit(&N)..."
     
-    Label9.Caption = t(Label9.Caption, "Merge status:")
+    tr Label9, "Merge status:"
     
-    mnuProperties.Caption = t(mnuProperties.Caption, "View p&roperties")
-    mnuPropertiesBatch.Caption = t(mnuPropertiesBatch.Caption, "View p&roperties")
+    tr mnuProperties, "View p&roperties"
+    tr mnuPropertiesBatch, "View p&roperties"
     
-    cmdDownloadOptions.Caption = t(cmdDownloadOptions.Caption, "Download &settings...")
+    tr cmdDownloadOptions, "Download &settings..."
     
     Label11.Caption = fOptions.Caption
     

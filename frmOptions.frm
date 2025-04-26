@@ -2731,70 +2731,62 @@ Private Sub Form_Load()
     
     LoadSettings
     
-    tsTabStrip.Tabs(1).Caption = t(tsTabStrip.Tabs(1).Caption, " General ")
-    tsTabStrip.Tabs(2).Caption = t(tsTabStrip.Tabs(2).Caption, " Network ")
-    tsTabStrip.Tabs(3).Caption = t(tsTabStrip.Tabs(3).Caption, " Appearance ")
-    tsTabStrip.Tabs(4).Caption = t(tsTabStrip.Tabs(4).Caption, " Sound ")
-    tsTabStrip.Tabs(5).Caption = t(tsTabStrip.Tabs(5).Caption, " Advanced ")
-    Frame1.Caption = t(Frame1.Caption, " Colors ")
-    Frame4.Caption = t(Frame4.Caption, " Wallpaper ")
-    Label10.Caption = t(Label10.Caption, "&Window:")
-    Frame2.Caption = t(Frame2.Caption, " Download options ")
-    Frame5.Caption = t(Frame5.Caption, " Interface ")
-    chkNoCleanup.Caption = t(chkNoCleanup.Caption, "Preserve segme&nts")
-    chkRememberURL.Caption = t(chkRememberURL.Caption, "Re&member URL")
-    optSystemColor.Caption = t(optSystemColor.Caption, "&System")
-    optSystemFore.Caption = t(optSystemFore.Caption, "S&ystem")
-    Label1.Caption = t(Label1.Caption, "&Language:")
-    OKButton.Caption = t(OKButton.Caption, "OK")
-    CancelButton.Caption = t(CancelButton.Caption, "Cancel")
-    cmdApply.Caption = t(cmdApply.Caption, "&Apply")
-    Me.Caption = t(Me.Caption, "Options")
-    Frame6.Caption = t(Frame6.Caption, " Skin ")
-    chkOpenWhenComplete.Caption = t(chkOpenWhenComplete.Caption, "&Open file when complete")
-    chkOpenDirWhenComplete.Caption = t(chkOpenDirWhenComplete.Caption, "O&pen folder when complete")
-    chkBeepWhenComplete.Caption = t(chkBeepWhenComplete.Caption, "Download &complete")
-    chkAlwaysResume.Caption = t(chkAlwaysResume.Caption, "&Always resume")
-    chkAutoRetry.Caption = t(chkAutoRetry.Caption, "A&uto retry on error")
-    Label3.Caption = t(Label3.Caption, "If filename alrea&dy exists:")
-    Label6.Caption = t(Label6.Caption, "Leave the field blank to use defaults. This option is for advanced users and there is no need to change for normal use.")
-    FrameW2.Caption = t(FrameW2.Caption, " Directory settings ")
-    Label5.Caption = t(Label5.Caption, "&Download script:")
-    cmdSample.Caption = t(cmdSample.Caption, "Download")
-    Label2.Caption = t(Label2.Caption, "Po&sition:")
-    Label8.Caption = t(Label8.Caption, "Butt&on:")
-    fHeaders.Caption = t(fHeaders.Caption, " Header settings ")
-    chkNoRedirectCheck.Caption = t(chkNoRedirectCheck.Caption, "Don't check fo&r redirects")
-    chkForceGet.Caption = t(chkForceGet.Caption, "Force GET re&quest on file check")
-    chkIgnore300.Caption = t(chkIgnore300.Caption, "&Ignore 3XX reponse code")
-    chkAlwaysOnTop.Caption = t(chkAlwaysOnTop.Caption, "Al&ways on top")
-    chkAeroWindow.Caption = t(chkAeroWindow.Caption, "Use Aero &glass window")
-    cmdAddHeader.Caption = t(cmdAddHeader.Caption, "&Add")
-    cmdDeleteHeader.Caption = t(cmdDeleteHeader.Caption, "&Delete")
-    cmdEditHeaderName.Caption = t(cmdEditHeaderName.Caption, "&Rename")
-    cmdEditHeaderValue.Caption = t(cmdEditHeaderValue.Caption, "&Edit")
-    chkLazyElapsed.Caption = t(chkLazyElapsed.Caption, "Elapsed time sin&ce first data receive")
-    chkExcludeMergeFromElapsed.Caption = t(chkExcludeMergeFromElapsed.Caption, "Exclude merging time from elapsed time")
-    FrameW3.Caption = t(FrameW3.Caption, " Connection settings ")
-    FrameW4.Caption = t(FrameW4.Caption, " Advanced download options ")
-    chkForceOldDialog.Caption = t(chkForceOldDialog.Caption, "U&se Windows 3.1 dialogs")
-    chkDontLoadIcons.Caption = t(chkDontLoadIcons.Caption, "Use sa&me icons for all files in the open dialog")
-    chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
-    Label11.Caption = t(Label11.Caption, "File URL:")
-    FrameW5.Caption = t(FrameW5.Caption, " Download status ")
-    CheckBoxW1.Caption = t(CheckBoxW1.Caption, "Open when done")
+    tr tsTabStrip.Tabs(1), " General "
+    tr tsTabStrip.Tabs(2), " Network "
+    tr tsTabStrip.Tabs(3), " Appearance "
+    tr tsTabStrip.Tabs(4), " Sound "
+    tr tsTabStrip.Tabs(5), " Advanced "
+    tr Frame1, " Colors "
+    tr Frame4, " Wallpaper "
+    tr Label10, "&Window:"
+    tr Frame2, " Download options "
+    tr Frame5, " Interface "
+    tr chkNoCleanup, "Preserve segme&nts"
+    tr chkRememberURL, "Re&member URL"
+    tr optSystemColor, "&System"
+    tr optSystemFore, "S&ystem"
+    tr Label1, "&Language:"
+    tr OKButton, "OK"
+    tr CancelButton, "Cancel"
+    tr cmdApply, "&Apply"
+    tr Me, "Options"
+    tr Frame6, " Skin "
+    tr chkOpenWhenComplete, "&Open file when complete"
+    tr chkOpenDirWhenComplete, "O&pen folder when complete"
+    tr chkBeepWhenComplete, "Download &complete"
+    tr chkAlwaysResume, "&Always resume"
+    tr chkAutoRetry, "A&uto retry on error"
+    tr Label3, "If filename alrea&dy exists:"
+    tr Label6, "Leave the field blank to use defaults. This option is for advanced users and there is no need to change for normal use."
+    tr FrameW2, " Directory settings "
+    tr Label5, "&Download script:"
+    tr cmdSample, "Download"
+    tr Label2, "Po&sition:"
+    tr Label8, "Butt&on:"
+    tr fHeaders, " Header settings "
+    tr chkNoRedirectCheck, "Don't check fo&r redirects"
+    tr chkForceGet, "Force GET re&quest on file check"
+    tr chkIgnore300, "&Ignore 3XX reponse code"
+    tr chkAlwaysOnTop, "Al&ways on top"
+    tr chkAeroWindow, "Use Aero &glass window"
+    tr cmdAddHeader, "&Add"
+    tr cmdDeleteHeader, "&Delete"
+    tr cmdEditHeaderName, "&Rename"
+    tr cmdEditHeaderValue, "&Edit"
+    tr chkLazyElapsed, "Elapsed time sin&ce first data receive"
+    tr chkExcludeMergeFromElapsed, "Exclude merging time from elapsed time"
+    tr FrameW3, " Connection settings "
+    tr FrameW4, " Advanced download options "
+    tr chkForceOldDialog, "U&se Windows 3.1 dialogs"
+    tr chkDontLoadIcons, "Use sa&me icons for all files in the open dialog"
+    tr chkAutoYtdl, "Automatically use &youtube-dl for supported links"
+    tr Label11, "File URL:"
+    tr FrameW5, " Download status "
+    tr CheckBoxW1, "Open when done"
     tr chkAsterisk, "&Asterisk"
     tr chkExclamation, "&Exclamation"
     tr chkError, "E&rror"
     tr chkQuestion, "&Question"
-    chkAsterisk.Value = GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1)
-    chkExclamation.Value = GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1)
-    chkError.Value = GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1)
-    chkQuestion.Value = GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1)
-    txtAsterisk.Text = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
-    txtExclamation.Text = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
-    txtError.Text = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
-    txtQuestion.Text = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
     tr chkAllowDuplicates, "Allow dupl&icates in queue"
     tr Label13, "&Font:"
     tr Label14, "Ma&x. number of threads:"
@@ -2961,6 +2953,15 @@ Private Sub LoadSettings()
     txtNodePath.Text = GetSetting("DownloadBooster", "Options", "NodePath", "")
     txtScriptPath.Text = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
     txtYtdlPath.Text = GetSetting("DownloadBooster", "Options", "YtdlPath", "")
+    
+    chkAsterisk.Value = GetSetting("DownloadBooster", "Options", "EnableAsteriskSound", 1)
+    chkExclamation.Value = GetSetting("DownloadBooster", "Options", "EnableExclamationSound", 1)
+    chkError.Value = GetSetting("DownloadBooster", "Options", "EnableErrorSound", 1)
+    chkQuestion.Value = GetSetting("DownloadBooster", "Options", "EnableQuestionSound", 1)
+    txtAsterisk.Text = GetSetting("DownloadBooster", "Options", "AsteriskSound", "")
+    txtExclamation.Text = GetSetting("DownloadBooster", "Options", "ExclamationSound", "")
+    txtError.Text = GetSetting("DownloadBooster", "Options", "ErrorSound", "")
+    txtQuestion.Text = GetSetting("DownloadBooster", "Options", "QuestionSound", "")
     
     Dim Headers() As String
     Headers = GetAllSettings("DownloadBooster", "Options\Headers")

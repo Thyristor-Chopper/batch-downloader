@@ -251,15 +251,15 @@ End Sub
 Private Sub Form_Load()
     InitForm Me
     
-    cmdOK.Caption = t("확인", "OK")
-    cmdCancel.Caption = t("취소", "Cancel")
-    cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
-    fInfo.Caption = t(fInfo.Caption, " File download information ")
-    Label1.Caption = t(Label1.Caption, "File &address:")
-    Label2.Caption = t(Label2.Caption, "&Save to:")
-    Me.Caption = t(Me.Caption, "Edit")
-    Label3.Caption = t(Label3.Caption, "A&dditional settings:")
-    cmdHeaders.Caption = t(cmdHeaders.Caption, "&Headers...")
+    tr cmdOK, "OK"
+    tr cmdCancel, "Cancel"
+    tr cmdBrowse, "&Browse..."
+    tr fInfo, " File download information "
+    tr Label1, "File &address:"
+    tr Label2, "&Save to:"
+    tr Me, "Edit"
+    tr Label3, "A&dditional settings:"
+    tr cmdHeaders, "&Headers..."
     
     EncodedHeaders = frmMain.lvBatchFiles.SelectedItem.ListSubItems(5).Text
     InitialFileName = frmMain.lvBatchFiles.SelectedItem.Text

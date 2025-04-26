@@ -1272,17 +1272,17 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
         MessageBox.timeout.Enabled = -1
     End If
 
-    MessageBox.cmdOK.Caption = t("확인", "OK")
-    MessageBox.cmdCancel.Caption = t("취소", "Cancel")
-    MessageBox.cmdYes.Caption = t("예(&Y)", "&Yes")
-    MessageBox.cmdNo.Caption = t("아니요(&N)", "&No")
-    MessageBox.cmdAbort.Caption = t("중단(&A)", "&Abort")
-    MessageBox.cmdRetry.Caption = t("다시 시도(&R)", "&Retry")
-    MessageBox.cmdIgnore.Caption = t("무시(&I)", "&Ignore")
-    MessageBox.optYes.Caption = t("예(&Y)", "&Yes")
-    MessageBox.optNo.Caption = t("아니요(&N)", "&No")
-    MessageBox.cmdTryAgain.Caption = t("다시 시도(&T)", "&Try Again")
-    MessageBox.cmdContinue.Caption = t("계속(&C)", "&Continue")
+    tr MessageBox.cmdOK, "OK"
+    tr MessageBox.cmdCancel, "Cancel"
+    tr MessageBox.cmdYes, "&Yes"
+    tr MessageBox.cmdNo, "&No"
+    tr MessageBox.cmdAbort, "&Abort"
+    tr MessageBox.cmdRetry, "&Retry"
+    tr MessageBox.cmdIgnore, "&Ignore"
+    tr MessageBox.optYes, "&Yes"
+    tr MessageBox.optNo, "&No"
+    tr MessageBox.cmdTryAgain, "&Try Again"
+    tr MessageBox.cmdContinue, "&Continue"
 
     MessageBox.cmdOK.Visible = (MsgBoxMode = vbOKOnly Or MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbOKCancel)
     MessageBox.cmdCancel.Visible = (MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbYesNoCancel Or MsgBoxMode = vbRetryCancel Or MsgBoxMode = vbOKCancel Or MsgBoxMode = vbCancelTryContinue)
@@ -1933,9 +1933,9 @@ Function IsYtdlSupported(URL As String) As Boolean
 End Function
 #End If
 
-Sub tr(ByRef ctrl As Control, EnglishCaption As String)
-    On Error Resume Next
-    ctrl.Caption = t(ctrl.Caption, EnglishCaption)
+Sub tr(ByRef ctrl As Object, EnglishCaption As String)
+    'On Error Resume Next
+    If LangID <> 1042 Then ctrl.Caption = EnglishCaption
 End Sub
 
 Function GetThemeColor(ByVal hWnd As Long, ClassList As String, Optional ByVal Part As Long = 0&, Optional ByVal State As Long = 0&, Optional ByVal Prop As Long = TMT_TEXTCOLOR, Optional ByVal DefaultColor As Long = 0&) As Long

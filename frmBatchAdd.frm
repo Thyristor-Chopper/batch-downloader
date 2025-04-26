@@ -179,12 +179,12 @@ Private Sub Form_Load()
     InitForm Me
     Initialized = False
     
-    Me.Caption = t(Me.Caption, "Batch download")
-    cmdOK.Caption = t(cmdOK.Caption, "OK")
-    cmdCancel.Caption = t(cmdCancel.Caption, "Cancel")
-    Label1.Caption = t(Label1.Caption, "Enter one UR&L per line:")
-    Label2.Caption = t(Label2.Caption, "&Save to:")
-    cmdBrowse.Caption = t(cmdBrowse.Caption, "&Browse...")
+    tr Me, "Batch download"
+    tr cmdOK, "OK"
+    tr cmdCancel, "Cancel"
+    tr Label1, "Enter one UR&L per line:"
+    tr Label2, "&Save to:"
+    tr cmdBrowse, "&Browse..."
     tr cmdAdvanced, "Ad&vanced..."
     
     HeaderCache = ""

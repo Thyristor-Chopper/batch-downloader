@@ -515,24 +515,24 @@ Private Sub Form_Load()
     
     chkAutoYtdl.Value = GetSetting("DownloadBooster", "Options", "AutoDetectYtdlURL", 1)
 
-    chkAutoYtdl.Caption = t(chkAutoYtdl.Caption, "Automatically use &youtube-dl for supported links")
-    optDisableYtdl.Caption = t(optDisableYtdl.Caption, "Never use youtube-&dl for all links")
-    optUseYtdl.Caption = t(optUseYtdl.Caption, "Always &use youtube-dl for all links")
+    tr chkAutoYtdl, "Automatically use &youtube-dl for supported links"
+    tr optDisableYtdl, "Never use youtube-&dl for all links"
+    tr optUseYtdl, "Always &use youtube-dl for all links"
     optUseYtdl.Width = t(optUseYtdl.Width, 2775)
-    chkExtractAudio.Caption = t(chkExtractAudio.Caption, "&Extract audio")
-    Label4.Caption = t(Label4.Caption, "&Audio format:")
-    Label3.Caption = t(Label3.Caption, "&Format:")
+    tr chkExtractAudio, "&Extract audio"
+    tr Label4, "&Audio format:"
+    tr Label3, "&Format:"
 #End If
     
-    tsTabStrip.Tabs(2).Caption = t("  헤더  ", " Headers ")
+    tr tsTabStrip.Tabs(2), " Headers "
     
-    OKButton.Caption = t(OKButton.Caption, "OK")
-    CancelButton.Caption = t(CancelButton.Caption, "Cancel")
+    tr OKButton, "OK"
+    tr CancelButton, "Cancel"
     
-    cmdAddHeader.Caption = t(cmdAddHeader.Caption, "&Add")
-    cmdDeleteHeader.Caption = t(cmdDeleteHeader.Caption, "&Delete")
-    cmdEditHeaderName.Caption = t(cmdEditHeaderName.Caption, "&Rename")
-    cmdEditHeaderValue.Caption = t(cmdEditHeaderValue.Caption, "&Edit")
+    tr cmdAddHeader, "&Add"
+    tr cmdDeleteHeader, "&Delete"
+    tr cmdEditHeaderName, "&Rename"
+    tr cmdEditHeaderValue, "&Edit"
     
     lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775

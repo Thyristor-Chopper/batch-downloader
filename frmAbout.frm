@@ -323,7 +323,7 @@ Private Sub Form_Load()
     pbLicenseLoadProgress.Width = txtLicense.Width
     pbLicenseLoadProgress.Top = txtLicense.Top + txtLicense.Height + 30
     pbLicenseLoadProgress.Left = txtLicense.Left
-    cmdOK.Caption = t(cmdOK.Caption, "OK")
+    tr cmdOK, "OK"
     
     timLicenseLoader.Enabled = True
     

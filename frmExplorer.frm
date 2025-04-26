@@ -876,8 +876,8 @@ setpreview:
         End If
     Next i
     
-    Label1.Caption = t(Label1.Caption, "&File name:")
-    OKButton.Caption = t(OKButton.Caption, "OK")
+    tr Label1, "&File name:"
+    tr OKButton, "OK"
     Select Case Tags.BrowseTargetForm
         Case 2
             Label1.Caption = t("폴더 이름(&F):", "&Folder name:")
@@ -896,20 +896,20 @@ setpreview:
         Case 3, 4
             OKButton.Caption = t("열기(&O)", "&Open")
     End Select
-    Label4.Caption = t(Label4.Caption, "File &type:")
+    tr Label4, "File &type:"
     Label4.Visible = Tags.BrowseTargetForm <> 2
     selFileType.Visible = Tags.BrowseTargetForm <> 2
-    Label2.Caption = t(Label2.Caption, "F&ind in:")
-    chkHidden.Caption = t(chkHidden.Caption, "Show &hidden files")
-    chkUnixHidden.Caption = t(chkUnixHidden.Caption, "Show &Unix hidden")
-    CancelButton.Caption = t(CancelButton.Caption, "Cancel")
-    Me.Caption = t(Me.Caption, "Select download path")
+    tr Label2, "F&ind in:"
+    tr chkHidden, "Show &hidden files"
+    tr chkUnixHidden, "Show &Unix hidden"
+    tr CancelButton, "Cancel"
+    tr Me, "Select download path"
     If Tags.BrowseTargetForm = 3 Then Me.Caption = t("배경 사진 선택", "Choose background image")
     If Tags.BrowseTargetForm = 4 Then Me.Caption = t("효과음 선택", "Choose sound")
     If Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then Me.Caption = t("텍스처 선택", "Choose texture")
     chkShowFiles.Visible = (Tags.BrowseTargetForm = 2)
-    chkShowFiles.Caption = t(chkShowFiles.Caption, "&Show files")
-    Label5.Caption = t(Label5.Caption, "Preview:")
+    tr chkShowFiles, "&Show files"
+    tr Label5, "Preview:"
     tr cmdPreview, "&Preview"
     
     tbPlaces.Buttons(1).Caption = t("내 최근 문서", "Recent")
@@ -924,22 +924,22 @@ setpreview:
     tbToolBar.Buttons(3).ToolTipText = t("새 폴더 만들기", "New folder")
     tbToolBar.Buttons(4).ToolTipText = t("보기", "Icon size")
     
-    mnuNewFolder.Caption = t(mnuNewFolder.Caption, "&New folder")
-    mnuCmd.Caption = t(mnuCmd.Caption, "Open Co&mmand Prompt")
-    mnuView.Caption = t(mnuView.Caption, "&View")
-    mnuLargeIcons.Caption = t(mnuLargeIcons.Caption, "&Large icons")
-    mnuSmallIcons.Caption = t(mnuSmallIcons.Caption, "&Small icons")
-    mnuList.Caption = t(mnuList.Caption, "L&ist")
-    mnuDetails.Caption = t(mnuDetails.Caption, "&Details")
-    mnuTiles.Caption = t(mnuTiles.Caption, "&Tiles")
-    mnuRefresh.Caption = t(mnuRefresh.Caption, "&Refresh")
-    mnuFolderProperties.Caption = t(mnuFolderProperties.Caption, "P&roperties")
-    mnuSelect.Caption = t(mnuSelect.Caption, "Se&lect")
-    mnuOpen.Caption = t(mnuOpen.Caption, "&Open")
-    mnuExplore.Caption = t(mnuExplore.Caption, "E&xplore")
-    mnuDelete.Caption = t(mnuDelete.Caption, "&Delete")
-    mnuRename.Caption = t(mnuRename.Caption, "Rena&me")
-    mnuProperties.Caption = t(mnuProperties.Caption, "P&roperties")
+    tr mnuNewFolder, "&New folder"
+    tr mnuCmd, "Open Co&mmand Prompt"
+    tr mnuView, "&View"
+    tr mnuLargeIcons, "&Large icons"
+    tr mnuSmallIcons, "&Small icons"
+    tr mnuList, "L&ist"
+    tr mnuDetails, "&Details"
+    tr mnuTiles, "&Tiles"
+    tr mnuRefresh, "&Refresh"
+    tr mnuFolderProperties, "P&roperties"
+    tr mnuSelect, "Se&lect"
+    tr mnuOpen, "&Open"
+    tr mnuExplore, "E&xplore"
+    tr mnuDelete, "&Delete"
+    tr mnuRename, "Rena&me"
+    tr mnuProperties, "P&roperties"
     
     lvDir.Path = Path
     selFileType_Click

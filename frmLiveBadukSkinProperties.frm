@@ -401,7 +401,7 @@ Private Sub Form_Load()
     tr cmdSelectTexture, "&Select..."
     tr cmdOK, "OK"
     tr cmdCancel, "Cancel"
-    Me.Caption = t(Me.Caption, "Skin Settings")
+    tr Me, "Skin Settings"
     tr fFrameBackground, " Frame Background "
     tr optFrameTransparent, "Semi-t&ransparent"
     tr optFrameTexture, "Text&ure:"
