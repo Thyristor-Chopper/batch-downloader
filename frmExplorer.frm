@@ -794,9 +794,6 @@ End Sub
 
 Private Sub Form_Load()
     InitForm Me
-    Loaded = False
-    FirstListed = False
-    IsMyComputer = False
     LoadFinished = True
     
     Set ExtToIcon = New Collection

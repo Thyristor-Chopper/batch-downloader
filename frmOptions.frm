@@ -2604,7 +2604,6 @@ End Sub
 
 Private Sub Form_Load()
     InitForm Me
-    Loaded = False
     
     Set PreviewControls(0) = Label11
     Set PreviewControls(1) = TextBoxW1
@@ -2848,7 +2847,7 @@ Private Sub Form_Load()
 '    End If
 '
 'nextcode:
-    cmdSample.ImageList = frmMain.imgDownload
+    Set cmdSample.ImageList = frmMain.imgDownload
     
 #If HIDEYTDL Then
     txtYtdlPath.Visible = False
@@ -2971,14 +2970,7 @@ Private Sub LoadSettings()
     Next i
     
     tsTabStrip.Tabs(1).Selected = True
-    
-    VisualStyleChanged = False
-    ImageChanged = False
-    ColorChanged = False
-    SkinChanged = False
-    ScrollChanged = False
-    FontChanged = False
-    cmdApply.Enabled = False
+    'cmdApply.Enabled = False
 End Sub
 
 Sub LoadBackgroundList(Optional ByVal OnLoad As Boolean = False)

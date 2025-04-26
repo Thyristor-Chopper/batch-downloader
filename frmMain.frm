@@ -1471,6 +1471,8 @@ Dim ErrorCodeDescription As Collection
 
 Const MAIN_FORM_WIDTH As Long = 9450
 
+#If HIDEYTDL Then
+#Else
 'youtube-dl 관련 변수
 Dim ytdlTotalFormatCount As Integer
 Dim ytdlFileName As String
@@ -1481,6 +1483,7 @@ Public ytdlAudioFormat As AudioFormat
 Public ytdlAudioBitrateType As AudioBitrateType
 Public ytdlAudioCBR As Integer
 Public ytdlAudioVBR As Byte
+#End If
 
 Dim MAX_THREAD_COUNT As Integer
 
@@ -3227,8 +3230,6 @@ Private Sub Form_Load()
     '최대 쓰레드 개수
     MAX_THREAD_COUNT = CInt(GetSetting("DownloadBooster", "Options", "MaxThreadCount", 25))
     
-    ResumeUnsupported = False
-    LBFrameEnabled = False
     sbStatusBar.Panels(1).Text = t("준비", "Ready")
     
     '창 제목 설정
@@ -3322,8 +3323,6 @@ Private Sub Form_Load()
     lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: CBR", 0
     lvBatchFiles.ColumnHeaders.Add , , "youtube-dl: VBR", 0
 #End If
-    
-    BatchStarted = False
     
     '화일 이름 및 경로 기억
     txtFileName.Text = GetSetting("DownloadBooster", "UserData", "SavePath", CurDir())

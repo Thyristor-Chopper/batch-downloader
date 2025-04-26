@@ -105,7 +105,6 @@ Attribute VB_Exposed = False
 '참고자료
 'https://blog.naver.com/wnwlsrb3/220729779017
 Dim PrevKeyCode As Integer
-Dim Initialized As Boolean
 Public HeaderCache As String
 
 Implements IBSSubclass
@@ -169,15 +168,11 @@ Private Sub cmdOK_Click()
 End Sub
 
 Private Sub Form_Activate()
-    If Initialized Then Exit Sub
-    Initialized = True
-    
     txtURLs.SetFocus
 End Sub
 
 Private Sub Form_Load()
     InitForm Me
-    Initialized = False
     
     tr Me, "Batch download"
     tr cmdOK, "OK"
