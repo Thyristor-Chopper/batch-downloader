@@ -3771,7 +3771,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmInputBox
     Unload frmAbout
     Unload frmDownloadOptions
-    If Not InIDE Then ExitProcess 0&
+    'If Not InIDE Then ExitProcess 0&
 End Sub
 
 Private Sub fTabDownload_Click()
