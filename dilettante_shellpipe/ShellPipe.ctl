@@ -12,16 +12,26 @@ Begin VB.UserControl ShellPipe
    HitBehavior     =   0  '없음
    InvisibleAtRuntime=   -1  'True
    PaletteMode     =   4  '없음
-   Picture         =   "ShellPipe.ctx":0000
    ScaleHeight     =   360
    ScaleWidth      =   360
-   ToolboxBitmap   =   "ShellPipe.ctx":01A2
+   ToolboxBitmap   =   "ShellPipe.ctx":0000
    Windowless      =   -1  'True
    Begin VB.Timer tmrCheck 
       Enabled         =   0   'False
       Interval        =   250
       Left            =   -240
       Top             =   0
+   End
+   Begin VB.Shape Shape1 
+      BackColor       =   &H0000FFFF&
+      BackStyle       =   1  '투명하지 않음
+      FillColor       =   &H0000C0C0&
+      FillStyle       =   4  '상향 대각선
+      Height          =   360
+      Left            =   0
+      Shape           =   5  '둥근 정사각형
+      Top             =   0
+      Width           =   360
    End
 End
 Attribute VB_Name = "ShellPipe"

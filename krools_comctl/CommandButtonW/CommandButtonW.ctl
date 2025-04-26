@@ -12,6 +12,12 @@ Begin VB.UserControl CommandButtonW
    ScaleMode       =   3  'ÇÈ¼¿
    ScaleWidth      =   160
    ToolboxBitmap   =   "CommandButtonW.ctx":0035
+   Begin VB.Timer TimerImageList 
+      Enabled         =   0   'False
+      Interval        =   1
+      Left            =   1920
+      Top             =   0
+   End
    Begin prjDownloadBooster.TygemButton tygButton 
       Height          =   375
       Left            =   0
@@ -22,12 +28,6 @@ Begin VB.UserControl CommandButtonW
       _ExtentX        =   1720
       _ExtentY        =   661
       FontSize        =   0
-   End
-   Begin VB.Timer TimerImageList 
-      Enabled         =   0   'False
-      Interval        =   1
-      Left            =   1920
-      Top             =   0
    End
 End
 Attribute VB_Name = "CommandButtonW"
@@ -568,13 +568,13 @@ Private Sub tygButton_Click()
     RaiseEvent Click
 End Sub
 
-Private Sub tygButton_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+'Private Sub tygButton_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     'RaiseEvent MouseDown(Button, Shift, X, Y)
-End Sub
+'End Sub
 
 Private Sub UserControl_Initialize()
-Call ComCtlsLoadShellMod
-Call ComCtlsInitCC(ICC_STANDARD_CLASSES)
+'Call ComCtlsLoadShellMod
+'Call ComCtlsInitCC(ICC_STANDARD_CLASSES)
 
 #If ImplementPreTranslateMsg = True Then
 
@@ -589,6 +589,8 @@ Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 Call SetVTableHandling(Me, VTableInterfaceControl)
 Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 ReDim ImageListArray(0) As String
+
+tygButton.CommandButtonControlHandle = UserControl.hWnd
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -938,6 +940,7 @@ Call DestroyCommandButton
 Call ComCtlsReleaseShellMod
 
 SetWindowRgn UserControl.hWnd, 0&, True
+tygButton.CommandButtonControlHandle = 0&
 End Sub
 
 Private Sub TimerImageList_Timer()
@@ -1223,7 +1226,7 @@ End Property
 Public Property Let BackColor(ByVal Value As OLE_COLOR)
 UserControl.BackColor = Value
 Me.Refresh
-tygButton.BackColor = Value
+'tygButton.BackColor = Value
 UserControl.PropertyChanged "BackColor"
 End Property
 
