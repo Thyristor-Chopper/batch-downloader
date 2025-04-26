@@ -2560,8 +2560,8 @@ L2:
         (-AutoName) & " " & _
         GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100) & " " & _
         GetSetting("DownloadBooster", "Options", "UseServerModifiedDate", 1) & " " & _
-        Col(Functions.HeaderCache, "-") & " " & _
-        Col(CurrentHeaderCache, "-"))
+        Replace(Col(Functions.HeaderCache, "-"), vbCrLf, "") & " " & _
+        Replace(Col(CurrentHeaderCache, "-"), vbCrLf, ""))
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
@@ -2573,9 +2573,7 @@ L2:
             MsgBox t("다운로드 시작에 실패했습니다. 다운로더 프로세스를 생성할 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to create the downloader process. Check if the directory settings are valid."), 16
     End Select
     
-    If Not BatchStarted Then
-        cmdGo.Enabled = -1
-    End If
+    If Not BatchStarted Then cmdGo.Enabled = -1
     cmdStop.Enabled = 0
     cmdStop.Left = Me.Width + 1200
     cmdGo.Enabled = -1
