@@ -26,6 +26,50 @@ Begin VB.Form frmAbout
    Begin VB.PictureBox pbLicenses 
       BorderStyle     =   0  '없음
       Height          =   3255
+      Index           =   2
+      Left            =   2640
+      ScaleHeight     =   3255
+      ScaleWidth      =   4815
+      TabIndex        =   12
+      TabStop         =   0   'False
+      Top             =   1440
+      Width           =   4815
+      Begin VB.TextBox txtLicensePlaceholder 
+         Enabled         =   0   'False
+         Height          =   2955
+         Left            =   0
+         Locked          =   -1  'True
+         ScrollBars      =   2  '수직
+         TabIndex        =   7
+         Top             =   0
+         Width           =   4815
+      End
+      Begin prjDownloadBooster.ProgressBar pbLicenseLoadProgress 
+         Height          =   255
+         Left            =   0
+         Top             =   3000
+         Width           =   4815
+         _ExtentX        =   8493
+         _ExtentY        =   450
+         Max             =   812
+         Step            =   10
+      End
+      Begin VB.TextBox txtLicense 
+         Enabled         =   0   'False
+         Height          =   3255
+         Left            =   0
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   3  '양방향
+         TabIndex        =   8
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   4815
+      End
+   End
+   Begin VB.PictureBox pbLicenses 
+      BorderStyle     =   0  '없음
+      Height          =   3255
       Index           =   6
       Left            =   2640
       ScaleHeight     =   3255
@@ -74,49 +118,6 @@ Begin VB.Form frmAbout
          MultiLine       =   -1  'True
          ScrollBars      =   3  '양방향
          TabIndex        =   4
-         Top             =   0
-         Width           =   4815
-      End
-   End
-   Begin VB.PictureBox pbLicenses 
-      BorderStyle     =   0  '없음
-      Height          =   3255
-      Index           =   2
-      Left            =   2640
-      ScaleHeight     =   3255
-      ScaleWidth      =   4815
-      TabIndex        =   12
-      TabStop         =   0   'False
-      Top             =   1440
-      Width           =   4815
-      Begin VB.TextBox txtLicensePlaceholder 
-         Enabled         =   0   'False
-         Height          =   270
-         Left            =   0
-         Locked          =   -1  'True
-         ScrollBars      =   2  '수직
-         TabIndex        =   7
-         Top             =   0
-         Width           =   1215
-      End
-      Begin prjDownloadBooster.ProgressBar pbLicenseLoadProgress 
-         Height          =   255
-         Left            =   0
-         Top             =   3000
-         Width           =   2655
-         _ExtentX        =   4683
-         _ExtentY        =   450
-         Max             =   812
-         Step            =   10
-      End
-      Begin VB.TextBox txtLicense 
-         Enabled         =   0   'False
-         Height          =   2970
-         Left            =   0
-         Locked          =   -1  'True
-         MultiLine       =   -1  'True
-         ScrollBars      =   3  '양방향
-         TabIndex        =   8
          Top             =   0
          Width           =   4815
       End
@@ -310,19 +311,12 @@ Private Sub Form_Load()
     imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(4).Picture
     imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(5).Picture
     
-    LineNum = 1
     Me.Caption = t(App.Title & " 정보", "About " & App.Title)
     Set picIcon.Picture = frmMain.Icon
-    lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor & IIf(App.Revision > 0, "." & App.Revision, "")
+    lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor
+    If App.Revision > 0 Then lblVersion.Caption = lblVersion.Caption & "." & App.Revision
     lblTitle.Caption = App.Title
     lblDescription.Caption = "This product includes software developed by vbAccelerator. " & t("이 프로그램에는 외부 라이브러리가 사용됐으며 라이선스는 아래와 같습니다.", "This program includes external libraries. Check out the license of them below.")
-    txtLicensePlaceholder.Width = txtLicense.Width
-    txtLicensePlaceholder.Height = txtLicense.Height
-    txtLicensePlaceholder.Top = txtLicense.Top
-    txtLicensePlaceholder.Left = txtLicense.Left
-    pbLicenseLoadProgress.Width = txtLicense.Width
-    pbLicenseLoadProgress.Top = txtLicense.Top + txtLicense.Height + 30
-    pbLicenseLoadProgress.Left = txtLicense.Left
     tr cmdOK, "OK"
     
     timLicenseLoader.Enabled = True
@@ -339,42 +333,16 @@ Private Sub Form_Load()
     'lvItems.ListItems.Add , , t("기타 출처", "Other references"), 1 + EasterEggMultiplier
     lvItems.ListItems(1).Selected = True
     
-    txtIconv.Text = txtIconv.Text & "Copyright (c) 2011 Alexander Shtuchkin" & vbCrLf & vbCrLf
-    txtIconv.Text = txtIconv.Text & Mit1 & vbCrLf & vbCrLf
-    txtIconv.Text = txtIconv.Text & Mit2
+    txtIconv.Text = "Copyright (c) 2011 Alexander Shtuchkin" & vbCrLf & vbCrLf & Mit1 & vbCrLf & vbCrLf & Mit2
     
-    txtCC.Text = "https://github.com/Kr00l/VBCCR/tree/master/Standard%20EXE%20Version" & vbCrLf & vbCrLf
-    txtCC.Text = txtCC.Text & "Copyright (c) 2012-present Krool" & vbCrLf & vbCrLf
-    txtCC.Text = txtCC.Text & Mit1 & vbCrLf & vbCrLf
-    txtCC.Text = txtCC.Text & Mit2
+    txtCC.Text = "https://github.com/Kr00l/VBCCR" & vbCrLf & vbCrLf & "Copyright (c) 2012-present Krool" & vbCrLf & vbCrLf & Mit1 & vbCrLf & vbCrLf & Mit2
     
-    txtPNG.Text = "https://www.vbforums.com/showthread.php?896878" & vbCrLf & vbCrLf
-    txtPNG.Text = txtPNG.Text & "Elroy, LaVolpe, Dilettante, Wqweto, Schmidt, & The Trick" & vbCrLf & vbCrLf
-    txtPNG.Text = txtPNG.Text & "Any software I (Elroy) post in these forums (VBForums) written by me is provided ""AS IS"" without warranty of any kind, expressed or implied, and permission is hereby granted, free of charge and without restriction, to any person obtaining a copy. To all, peace and happiness." & vbCrLf & vbCrLf
+    txtPNG.Text = "https://www.vbforums.com/showthread.php?896878" & vbCrLf & vbCrLf & "Elroy, LaVolpe, Dilettante, Wqweto, Schmidt, & The Trick" & vbCrLf & vbCrLf & "Any software I (Elroy) post in these forums (VBForums) written by me is provided ""AS IS"" without warranty of any kind, expressed or implied, and permission is hereby granted, free of charge and without restriction, to any person obtaining a copy. To all, peace and happiness." & vbCrLf & vbCrLf
     
-    txtShellPipe.Text = txtShellPipe.Text & "https://www.vbforums.com/showthread.php?660014 (dilettante)" & vbCrLf
-    txtShellPipe.Text = txtShellPipe.Text & "" & vbCrLf
-    txtShellPipe.Text = txtShellPipe.Text & "No License"
+    txtShellPipe.Text = "https://www.vbforums.com/showthread.php?660014 (dilettante)" & vbCrLf & vbCrLf & "No License"
     
-    txtVbal.Text = txtVbal.Text & "vbAccelerator Software License" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "Version 1.0" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "Copyright (c) 2002 vbAccelerator.com" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "    Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution." & vbCrLf
-    txtVbal.Text = txtVbal.Text & "    The end-user documentation included with the redistribution, if any, must include the following acknowledgment:" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "    ""This product includes software developed by vbAccelerator (/index.html).""" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "" & vbCrLf
-    txtVbal.Text = txtVbal.Text & "    Alternately, this acknowledgment may appear in the software itself, if and wherever such third-party acknowledgments normally appear." & vbCrLf
-    txtVbal.Text = txtVbal.Text & "    The names ""vbAccelerator"" and ""vbAccelerator.com"" must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact vbAccelerator through steve@vbaccelerator.com." & vbCrLf
-    txtVbal.Text = txtVbal.Text & "    Products derived from this software may not be called ""vbAccelerator"", nor may ""vbAccelerator"" appear in their name, without prior written permission of vbAccelerator." & vbCrLf
-    txtVbal.Text = txtVbal.Text & "" & vbCrLf
-    txtVbal.Text = txtVbal.Text & Mit2
+    txtVbal.Text = "vbAccelerator Software License" & vbCrLf & vbCrLf & "Version 1.0" & vbCrLf & vbCrLf & "Copyright (c) 2002 vbAccelerator.com" & vbCrLf & vbCrLf & "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:" & vbCrLf & vbCrLf & "    Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer" & vbCrLf & "    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution." & vbCrLf & "    The end-user documentation included with the redistribution, if any, must include the following acknowledgment:" & vbCrLf & vbCrLf & "    ""This product includes software developed by vbAccelerator (/index.html).""" & vbCrLf & vbCrLf & _
+                   "    Alternately, this acknowledgment may appear in the software itself, if and wherever such third-party acknowledgments normally appear." & vbCrLf & "    The names ""vbAccelerator"" and ""vbAccelerator.com"" must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact vbAccelerator through steve@vbaccelerator.com." & vbCrLf & "    Products derived from this software may not be called ""vbAccelerator"", nor may ""vbAccelerator"" appear in their name, without prior written permission of vbAccelerator." & vbCrLf & vbCrLf & Mit2
     
 '    lvMisc.ColumnHeaders.Add , , t("주소", "URL"), 3135
 '    lvMisc.ColumnHeaders.Add(, , t("작성자", "Author"), 1215).Alignment = LvwColumnHeaderAlignmentCenter
@@ -394,14 +362,14 @@ Private Sub Form_Load()
 '    lvMisc.ListItems.Add(, , "https://stackoverflow.com/questions/1230333", , 1).ListSubItems.Add , , "Robert Harvey"
 '    lvMisc.ListItems.Add(, , "https://www.vbforums.com/showthread.php?704979", , 1).ListSubItems.Add , , "Max187Boucher"
     
-    FrameW1.Caption = t(FrameW1.Caption, "&License")
+    tr FrameW1, "&License"
 End Sub
 
 Private Sub lvItems_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
     On Error Resume Next
-    If Selected = False Then Exit Sub
+    If Not Selected Then If Item Is lvItems.SelectedItem Then Item.Selected = True: Exit Sub
     
-    Dim i%
+    Static i%
     For i = pbLicenses.LBound To pbLicenses.UBound
         pbLicenses(i).Visible = (i = Item.Index)
     Next i
@@ -412,20 +380,21 @@ End Sub
 'End Sub
 
 Private Sub timLicenseLoader_Timer()
-    If LineNum > 812 Then
-        timLicenseLoader.Enabled = 0
-        pbLicenseLoadProgress.Visible = 0
-        txtLicense.Height = txtLicense.Height + pbLicenseLoadProgress.Height + 30
-        txtLicense.Enabled = -1
-        txtLicensePlaceholder.Visible = 0
-        Exit Sub
-    End If
-    
     'On Error GoTo LicenseFail
+    On Error GoTo endlicense
+    LineNum = LineNum + 1
     txtLicense.Text = txtLicense.Text & LoadResString(LineNum) & vbCrLf
     pbLicenseLoadProgress.Value = LineNum
     txtLicensePlaceholder.Text = t("라이선스를 불러오는 중... (", "Loading the license text... (") & Floor(LineNum / 812 * 100) & "%)"
-    LineNum = LineNum + 1
+    Exit Sub
+    
+endlicense:
+    timLicenseLoader.Enabled = 0
+    pbLicenseLoadProgress.Visible = 0
+    txtLicense.Visible = True
+    txtLicense.Enabled = -1
+    txtLicensePlaceholder.Visible = 0
+    
 '    Exit Sub
 '
 'LicenseFail:

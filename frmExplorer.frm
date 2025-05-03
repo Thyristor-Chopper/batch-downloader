@@ -603,7 +603,7 @@ Private Sub ListFiles()
         End If
     End If
     
-    Name = Dir(Path, vbDirectory)
+    Name = Dir$(Path, vbDirectory)
 '    Dim UpLoopCount%
 '    UpLoopCount = 0
     Do While LenB(Name)
@@ -628,7 +628,7 @@ Private Sub ListFiles()
 '            UpLoopCount = UpLoopCount + 1
 '            If UpLoopCount > 1 Then Exit Do
         End If
-        Name = Dir
+        Name = Dir$
     Loop
     
     Dim PatternMatched As Boolean
@@ -641,7 +641,7 @@ Private Sub ListFiles()
     Dim ShowHidden As VbFileAttribute
     ShowHidden = 0
     If chkHidden.Value = 1 Then ShowHidden = vbHidden
-    Name = Dir(Path, vbNormal Or vbReadOnly Or vbArchive Or ShowHidden)
+    Name = Dir$(Path, vbNormal Or vbReadOnly Or vbArchive Or ShowHidden)
     Dim cnt As Double
     cnt = 0
     Dim ext$
@@ -717,7 +717,7 @@ Private Sub ListFiles()
                 TotalCntProc totalcnt
             End If
         End If
-        Name = Dir
+        Name = Dir$
     Loop
     
     If IsDesktop Then ShowDesktopItems

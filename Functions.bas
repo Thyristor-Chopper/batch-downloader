@@ -1860,6 +1860,7 @@ Sub UpdateBorderWidth()
     Startup.SizingBorderWidth = GetSystemMetrics(33&)
     Startup.PaddedBorderWidth = SizingBorderWidth - DialogBorderWidth
     Startup.CaptionHeight = GetSystemMetrics(31&)
+    Startup.ScrollBarWidth = GetSystemMetrics(2&)
 End Sub
 
 Function ExpandEnvironmentStrings(strInput As String) As String
@@ -1977,6 +1978,14 @@ Function Max(ByVal L As Double, ByVal R As Double) As Double
         Max = L
     Else
         Max = R
+    End If
+End Function
+
+Function Min(ByVal L As Double, ByVal R As Double) As Double
+    If L < R Then
+        Min = L
+    Else
+        Min = R
     End If
 End Function
 

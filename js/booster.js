@@ -5,23 +5,21 @@ var URL = require('url');
 if(!Array.prototype.includes) Array.prototype.includes = function includes(find) {
 	var length = this.length;
 	for(var i=0; i<length; i++)
-		if(this[i] == find) return true;
+		if(this[i] === find) return true;
 	return false;
 };
-if(!Object.assign)
-	Object.assign = function assign(target, varArgs) {
-		if(!target) throw new TypeError('Cannot convert undefined or null to object');
-		var to = Object(target);
-		for(var index=1; index<arguments.length; index++) {
-			var nextSource = arguments[index];
-			if(nextSource != null) {
-				for(var nextKey in nextSource)
-					if(Object.prototype.hasOwnProperty.call(nextSource, nextKey))
-						to[nextKey] = nextSource[nextKey];
-			}
-		}
-		return to;
-	};
+if(!Object.assign) Object.assign = function assign(target, varArgs) {
+	var to = Object(target);
+	var length = arguments.length;
+	for(var idx=1; idx<length; idx++) {
+		var nextSource = arguments[idx];
+		if(nextSource != null)
+			for(var nextKey in nextSource)
+				if(Object.prototype.hasOwnProperty.call(nextSource, nextKey))
+					to[nextKey] = nextSource[nextKey];
+	}
+	return to;
+};
 function print() {
 	return console.log.apply(this, Array.prototype.slice.call(arguments).concat(['\r']));
 }
@@ -68,7 +66,7 @@ function checkRedirect(url) {
 			res.connection.end();
 			res.connection.destroy();
 		} catch(e) {}
-		if(res.headers.location && [301, 302, 303, 307, 308].includes(res.statusCode || 0)) {
+		if(res.headers.location && [301, 302, 303, 307, 308].includes(Number(res.statusCode) || 0)) {
 			return checkRedirect(res.headers.location.trim().replace(/^["]/, '').replace(/["]$/, ''));
 		}
 		print('REALADDR', url);
@@ -88,7 +86,6 @@ function startDownload(url) {
 			print('STATUSCODE', res.statusCode + '');
 			return process.exit(108);
 		}
-		
 		var lastModified = new Date(res.headers['last-modified']);
 		var parsed = {
 			dir: intpath.dirname(fn),
@@ -96,10 +93,7 @@ function startDownload(url) {
 		};
 		var sf = safeFilename(parsed.base);
 		var fnupd = false;
-		if(sf != parsed.base) {
-			parsed.base = sf;
-			fnupd = true;
-		}
+		if(sf != parsed.base) parsed.base = sf, fnupd = true;
 		if(fnupd) {
 			fn = parsed.dir.replace(/\\$/, '') + '\\' + sf;
 			print('MODIFIEDFILENAME', iconv.encode(fn, 'cp949').toString('base64'));
@@ -110,14 +104,14 @@ function startDownload(url) {
 			/* https://stackoverflow.com/questions/40939380/how-to-get-file-name-from-content-disposition */
 			var utf8FilenameRegex = /filename\*=UTF-8''([\w%\-\.]+)(?:; ?|$)/i;
 			var asciiFilenameRegex = /^filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
-			if (utf8FilenameRegex.test(disposition)) {
+			if(utf8FilenameRegex.test(disposition)) {
 				filename = decodeURIComponent(utf8FilenameRegex.exec(disposition)[1]);
 			} else {
 				var filenameStart = disposition.toLowerCase().indexOf('filename=');
-				if (filenameStart >= 0) {
+				if(filenameStart >= 0) {
 					var partialDisposition = disposition.slice(filenameStart);
 					var matches = asciiFilenameRegex.exec(partialDisposition);
-					if (matches != null && matches[2])
+					if(matches && matches[2])
 						filename = matches[2];
 				}
 			}
@@ -320,7 +314,6 @@ function startDownload(url) {
 		}, 100);
 	}).end();
 }
-
 function setLastModified(lastModified) {
 	if(process.argv[13] == 0) return;
 	if(lastModified == 'Invalid Date') return;
@@ -332,5 +325,4 @@ function setLastModified(lastModified) {
 	dateStr += lastModified.getSeconds();
 	print('SETMODIFIEDDATE', dateStr);
 }
-
 setInterval(function() {}, 987654321);

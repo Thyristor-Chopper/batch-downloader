@@ -38,8 +38,8 @@ Begin VB.Form frmDownloadOptions
          Left            =   3480
          TabIndex        =   20
          Top             =   3660
-         Width           =   1215
-         _ExtentX        =   2143
+         Width           =   1230
+         _ExtentX        =   2170
          _ExtentY        =   582
          Enabled         =   0   'False
          Caption         =   "이름 변경(&R)"
@@ -58,8 +58,8 @@ Begin VB.Form frmDownloadOptions
          Left            =   2160
          TabIndex        =   19
          Top             =   3660
-         Width           =   1215
-         _ExtentX        =   2143
+         Width           =   1230
+         _ExtentX        =   2170
          _ExtentY        =   582
          Enabled         =   0   'False
          Caption         =   "삭제(&D)"
@@ -70,8 +70,8 @@ Begin VB.Form frmDownloadOptions
          Left            =   4800
          TabIndex        =   21
          Top             =   3660
-         Width           =   1215
-         _ExtentX        =   2143
+         Width           =   1230
+         _ExtentX        =   2170
          _ExtentY        =   582
          Enabled         =   0   'False
          Caption         =   "편집(&E)"
@@ -82,8 +82,8 @@ Begin VB.Form frmDownloadOptions
          Left            =   840
          TabIndex        =   18
          Top             =   3660
-         Width           =   1215
-         _ExtentX        =   2143
+         Width           =   1230
+         _ExtentX        =   2170
          _ExtentY        =   582
          Caption         =   "추가(&A)"
          Transparent     =   -1  'True
@@ -93,8 +93,8 @@ Begin VB.Form frmDownloadOptions
          Left            =   840
          TabIndex        =   17
          Top             =   960
-         Width           =   5175
-         _ExtentX        =   9128
+         Width           =   5190
+         _ExtentX        =   9155
          _ExtentY        =   4683
          VisualTheme     =   1
          View            =   3
@@ -291,7 +291,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim SelectedListItem As LvwListItem
-Dim MouseY As Integer
 Public Headers As Collection
 Public HeaderKeys As Collection
 
@@ -430,10 +429,6 @@ Private Sub Form_Load()
         If MaxWidth < pbPanel(i).Width Then MaxWidth = pbPanel(i).Width
         If MaxHeight < pbPanel(i).Height Then MaxHeight = pbPanel(i).Height
     Next i
-    For i = 1 To pbPanel.Count
-        pbPanel(i).Width = MaxWidth
-        pbPanel(i).Height = MaxHeight
-    Next i
     tsTabStrip.Width = MaxWidth + 120
     tsTabStrip.Height = MaxHeight + 410
     tsTabStrip.Top = 120
@@ -446,8 +441,9 @@ Private Sub Form_Load()
     Me.Width = tsTabStrip.Width + 240 + 60
     pbPanel(1).Visible = -1
     pbPanel(1).Enabled = -1
-    
     For i = 1 To pbPanel.Count
+        pbPanel(i).Width = MaxWidth
+        pbPanel(i).Height = MaxHeight
         tsTabStrip.DrawBackground pbPanel(i).hWnd, pbPanel(i).hDC
     Next i
     
@@ -634,20 +630,24 @@ End Sub
 
 Private Sub cmdEditHeaderValue_Click()
     On Error GoTo exitsub
-    If Not lvHeaders.SelectedItem Is Nothing Then
-        Set SelectedListItem = lvHeaders.SelectedItem
-        With txtEdit
-            .Top = (lvHeaders.Top + MouseY) - Fix((txtEdit.Height) / 2)
-            .Left = lvHeaders.Left + lvHeaders.ColumnHeaders(1).Width + 30
-            .Width = lvHeaders.ColumnHeaders(2).Width
-            .Text = SelectedListItem.ListSubItems(1).Text
-            .Visible = True
-            .SetFocus
-            .SelStart = 0
-            .SelLength = Len(.Text)
-        End With
-        OKButton.Enabled = 0
-    End If
+    If lvHeaders.SelectedItem Is Nothing Then GoTo exitsub
+    Set SelectedListItem = lvHeaders.SelectedItem
+    Dim SubItemLeft As Integer
+    SubItemLeft = SelectedListItem.ListSubItems(1).Left
+    'Dim SecondColumnWidth As Integer
+    'SecondColumnWidth = lvHeaders.ColumnHeaders(2).Width
+    With txtEdit
+        .Top = lvHeaders.Top + SelectedListItem.Top + 15
+        .Left = lvHeaders.Left + Max(SubItemLeft, 0) + 30
+        .Width = Min(Min(lvHeaders.ColumnHeaders(2).Width, lvHeaders.Width - SubItemLeft - 60), lvHeaders.Width - 60) - (-CBool(GetWindowLong(lvHeaders.hWnd, GWL_STYLE) And WS_VSCROLL)) * ScrollBarWidth * 15 'Max((ScrollBarWidth * 15 - Max(lvHeaders.Width - (SecondColumnWidth + SubItemLeft), 0)), 0)
+        .Text = SelectedListItem.ListSubItems(1).Text
+        .Visible = True
+        .SelStart = 0
+        .SelLength = Len(.Text)
+        .SetFocus
+    End With
+    OKButton.Enabled = 0
+    CancelButton.Enabled = 0
 exitsub:
 End Sub
 
@@ -657,17 +657,23 @@ Private Sub txtEdit_LostFocus()
     txtEdit.Visible = False
     Set SelectedListItem = Nothing
     OKButton.Enabled = -1
+    CancelButton.Enabled = -1
 End Sub
  
 Private Sub txtEdit_KeyPress(KeyAscii As Integer)
     On Error Resume Next
-    If KeyAscii = 13 Or KeyAscii = 10 Then
-        SelectedListItem.ListSubItems(1).Text = txtEdit.Text
-        txtEdit.Visible = False
-        Set SelectedListItem = Nothing
-        OKButton.Enabled = -1
-        lvHeaders.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 10, 13
+            SelectedListItem.ListSubItems(1).Text = txtEdit.Text
+endedit:
+            txtEdit.Visible = False
+            Set SelectedListItem = Nothing
+            OKButton.Enabled = -1
+            CancelButton.Enabled = -1
+            lvHeaders.SetFocus
+        Case 27
+            GoTo endedit
+    End Select
 End Sub
 
 Private Sub lvHeaders_AfterLabelEdit(Cancel As Boolean, NewString As String)
@@ -715,9 +721,5 @@ justdisable:
     cmdDeleteHeader.Enabled = 0
     cmdEditHeaderName.Enabled = 0
     cmdEditHeaderValue.Enabled = 0
-End Sub
-
-Private Sub lvHeaders_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    MouseY = Y
 End Sub
 

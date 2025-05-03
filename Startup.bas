@@ -7,6 +7,7 @@ Public Build As Long
 Public PaddedBorderWidth As Integer
 Public DialogBorderWidth As Integer
 Public SizingBorderWidth As Integer
+Public ScrollBarWidth As Integer
 Public CaptionHeight As Integer
 Public Const DefaultBackColor As Long = 15529449 '-1&
 Public DefaultDisableDWMWindow As Integer

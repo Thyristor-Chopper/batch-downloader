@@ -510,7 +510,7 @@ Begin VB.Form frmOptions
             Transparent     =   -1  'True
          End
          Begin VB.TextBox txtEdit 
-            Height          =   255
+            Height          =   270
             Left            =   3720
             TabIndex        =   46
             Top             =   840
@@ -1592,7 +1592,7 @@ Public VisualStyleChanged As Boolean
 Dim SkinChanged As Boolean
 Dim FontChanged As Boolean
 Dim PatternChanged As Boolean
-Dim MouseY As Integer, SelectedListItem As LvwListItem
+Dim SelectedListItem As LvwListItem
 Dim ScrollChanged As Boolean
 Dim IntervalValues(7) As Single
 Public ChangedBackgroundPath$
@@ -2261,20 +2261,24 @@ End Sub
 
 Private Sub cmdEditHeaderValue_Click()
     On Error GoTo exitsub
-    If Not lvHeaders.SelectedItem Is Nothing Then
-        Set SelectedListItem = lvHeaders.SelectedItem
-        With txtEdit
-            .Top = (lvHeaders.Top + MouseY) - Fix((txtEdit.Height) / 2)
-            .Left = lvHeaders.Left + lvHeaders.ColumnHeaders(1).Width + 30
-            .Width = lvHeaders.ColumnHeaders(2).Width
-            .Text = SelectedListItem.ListSubItems(1).Text
-            .Visible = True
-            .SetFocus
-            .SelStart = 0
-            .SelLength = Len(.Text)
-        End With
-        OKButton.Enabled = 0
-    End If
+    If lvHeaders.SelectedItem Is Nothing Then GoTo exitsub
+    Set SelectedListItem = lvHeaders.SelectedItem
+    Dim SubItemLeft As Integer
+    SubItemLeft = SelectedListItem.ListSubItems(1).Left
+    'Dim SecondColumnWidth As Integer
+    'SecondColumnWidth = lvHeaders.ColumnHeaders(2).Width
+    With txtEdit
+        .Top = lvHeaders.Top + SelectedListItem.Top + 15
+        .Left = lvHeaders.Left + Max(SubItemLeft, 0) + 30
+        .Width = Min(Min(lvHeaders.ColumnHeaders(2).Width, lvHeaders.Width - SubItemLeft - 60), lvHeaders.Width - 60) - (-CBool(GetWindowLong(lvHeaders.hWnd, GWL_STYLE) And WS_VSCROLL)) * ScrollBarWidth * 15 'Max((ScrollBarWidth * 15 - Max(lvHeaders.Width - (SecondColumnWidth + SubItemLeft), 0)), 0)
+        .Text = SelectedListItem.ListSubItems(1).Text
+        .Visible = True
+        .SelStart = 0
+        .SelLength = Len(.Text)
+        .SetFocus
+    End With
+    OKButton.Enabled = 0
+    CancelButton.Enabled = 0
 exitsub:
 End Sub
 
@@ -2583,23 +2587,25 @@ Private Sub txtEdit_LostFocus()
     txtEdit.Visible = False
     Set SelectedListItem = Nothing
     OKButton.Enabled = -1
-    If Loaded Then
-        cmdApply.Enabled = -1
-    End If
+    CancelButton.Enabled = -1
+    If Loaded Then cmdApply.Enabled = -1
 End Sub
  
 Private Sub txtEdit_KeyPress(KeyAscii As Integer)
     On Error Resume Next
-    If KeyAscii = 13 Or KeyAscii = 10 Then
-        SelectedListItem.ListSubItems(1).Text = txtEdit.Text
-        txtEdit.Visible = False
-        Set SelectedListItem = Nothing
-        OKButton.Enabled = -1
-        If Loaded Then
-            cmdApply.Enabled = -1
-        End If
-        lvHeaders.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 10, 13
+            SelectedListItem.ListSubItems(1).Text = txtEdit.Text
+            If Loaded Then cmdApply.Enabled = -1
+endedit:
+            txtEdit.Visible = False
+            Set SelectedListItem = Nothing
+            OKButton.Enabled = -1
+            CancelButton.Enabled = -1
+            lvHeaders.SetFocus
+        Case 27
+            GoTo endedit
+    End Select
 End Sub
 
 Private Sub Form_Load()
@@ -3055,10 +3061,6 @@ Private Sub lblSelectFore_Click()
     FrameW5.VisualStyles = False
     CheckBoxW1.ForeColor = pgFore.BackColor
     FrameW5.ForeColor = pgFore.BackColor
-End Sub
-
-Private Sub lvHeaders_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    MouseY = Y
 End Sub
 
 Private Sub OKButton_Click()
