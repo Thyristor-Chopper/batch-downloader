@@ -834,7 +834,7 @@ Private Sub Form_Load()
         fmpth = GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")
 setpreview:
         If LCase(Right$(fmpth, 4)) = ".png" Then
-            Set imgPreview.Picture = LoadPngIntoPictureWithAlpha(fmpth)
+            Set imgPreview.Picture = LoadPngFromFile(fmpth)
         Else
             imgPreview.Picture = LoadPicture(fmpth)
         End If
@@ -1461,7 +1461,7 @@ Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
         Path = lvDir.Path
         If Right$(Path, 1) <> "\" Then Path = Path & "\"
         If LCase(Right$(Item.Text, 4)) = ".png" Then
-            Set imgPreview.Picture = LoadPngIntoPictureWithAlpha(Path & Item.Text)
+            Set imgPreview.Picture = LoadPngFromFile(Path & Item.Text)
         Else
             imgPreview.Picture = LoadPicture(Path & Item.Text)
         End If
@@ -1824,7 +1824,7 @@ Private Sub OKButton_Click()
     If Tags.BrowseTargetForm = 3 Then
         On Error GoTo imgerr
         If LCase(Right$(txtFileName.Text, 4)) = ".png" Then
-            LoadPngIntoPictureWithAlpha Path & txtFileName.Text
+            LoadPngFromFile Path & txtFileName.Text
         Else
             LoadPicture Path & txtFileName.Text
         End If
@@ -1838,7 +1838,7 @@ imgerr:
     ElseIf Tags.BrowseTargetForm = 5 Then
         On Error GoTo imgerr
         If LCase(Right$(txtFileName.Text, 4)) = ".png" Then
-            LoadPngIntoPictureWithAlpha Path & txtFileName.Text
+            LoadPngFromFile Path & txtFileName.Text
         Else
             LoadPicture Path & txtFileName.Text
         End If
@@ -1849,7 +1849,7 @@ imgerr:
     ElseIf Tags.BrowseTargetForm = 6 Then
         On Error GoTo imgerr
         If LCase(Right$(txtFileName.Text, 4)) = ".png" Then
-            LoadPngIntoPictureWithAlpha Path & txtFileName.Text
+            LoadPngFromFile Path & txtFileName.Text
         Else
             LoadPicture Path & txtFileName.Text
         End If

@@ -17,6 +17,9 @@ Public DPI As Long
 Public DefaultFont$
 Public MainFormOnTop As Boolean
 
+Public DarkTransparent As IPicture
+Public LightTransparent As IPicture
+
 Public ScriptFileName As String
 Public NodeFileName As String
 

@@ -2477,7 +2477,7 @@ Private Sub lvBackgrounds_Click()
 nopicture:
         Set imgPreview.Picture = Nothing
     ElseIf LCase(Right(BackgroundPath, 4)) = ".png" Then
-        Set imgPreview.Picture = LoadPngIntoPictureWithAlpha(BackgroundPath)
+        Set imgPreview.Picture = LoadPngFromFile(BackgroundPath)
     Else
         imgPreview.Picture = LoadPicture(BackgroundPath)
     End If
@@ -2840,7 +2840,7 @@ Private Sub Form_Load()
 '
 '    On Error GoTo activefail
 '    If Right$(LCase(ActiveDesktopWallpaperPath), 4) = ".png" Then
-'        Set imgDesktop.Picture = LoadPngIntoPictureWithAlpha(ActiveDesktopWallpaperPath)
+'        Set imgDesktop.Picture = LoadPngFromFile(ActiveDesktopWallpaperPath)
 '    Else
 '        imgDesktop.Picture = LoadPicture(ActiveDesktopWallpaperPath)
 '    End If
@@ -2849,7 +2849,7 @@ Private Sub Form_Load()
 'activefail:
 '    On Error GoTo nextcode
 '    If Right$(LCase(WallpaperPath), 4) = ".png" Then
-'        Set imgDesktop.Picture = LoadPngIntoPictureWithAlpha(WallpaperPath)
+'        Set imgDesktop.Picture = LoadPngFromFile(WallpaperPath)
 '    Else
 '        imgDesktop.Picture = LoadPicture(WallpaperPath)
 '    End If
