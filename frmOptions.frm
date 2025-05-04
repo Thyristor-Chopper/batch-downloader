@@ -2180,6 +2180,11 @@ aftermaxtrdcheck:
     SaveSetting "DownloadBooster", "Options", "Theme", SaveThemeName
     
     RedrawPreview
+    ResetChanged
+    If Not NoDisable Then cmdApply.Enabled = 0
+End Sub
+
+Private Sub ResetChanged()
     ColorChanged = False
     ImageChanged = False
     VisualStyleChanged = False
@@ -2187,9 +2192,6 @@ aftermaxtrdcheck:
     ScrollChanged = False
     FontChanged = False
     PatternChanged = False
-    If Not NoDisable Then
-        cmdApply.Enabled = 0
-    End If
 End Sub
 
 Private Sub cmdBrowseAsterisk_Click()
@@ -2277,8 +2279,8 @@ Private Sub cmdEditHeaderValue_Click()
         .SelLength = Len(.Text)
         .SetFocus
     End With
-    OKButton.Enabled = 0
-    CancelButton.Enabled = 0
+    OKButton.Default = 0
+    CancelButton.Cancel = 0
 exitsub:
 End Sub
 
@@ -2586,8 +2588,8 @@ Private Sub txtEdit_LostFocus()
     SelectedListItem.ListSubItems(1).Text = txtEdit.Text
     txtEdit.Visible = False
     Set SelectedListItem = Nothing
-    OKButton.Enabled = -1
-    CancelButton.Enabled = -1
+    OKButton.Default = -1
+    CancelButton.Cancel = -1
     If Loaded Then cmdApply.Enabled = -1
 End Sub
  
@@ -2600,8 +2602,8 @@ Private Sub txtEdit_KeyPress(KeyAscii As Integer)
 endedit:
             txtEdit.Visible = False
             Set SelectedListItem = Nothing
-            OKButton.Enabled = -1
-            CancelButton.Enabled = -1
+            OKButton.Default = -1
+            CancelButton.Cancel = -1
             lvHeaders.SetFocus
         Case 27
             GoTo endedit
@@ -2976,6 +2978,7 @@ Private Sub LoadSettings()
     Next i
     
     tsTabStrip.Tabs(1).Selected = True
+    ResetChanged
     cmdApply.Enabled = False
 End Sub
 

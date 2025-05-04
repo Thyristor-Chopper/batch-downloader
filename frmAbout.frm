@@ -319,6 +319,7 @@ Private Sub Form_Load()
     lblDescription.Caption = "This product includes software developed by vbAccelerator. " & t("이 프로그램에는 외부 라이브러리가 사용됐으며 라이선스는 아래와 같습니다.", "This program includes external libraries. Check out the license of them below.")
     tr cmdOK, "OK"
     
+    LineNum = 1
     timLicenseLoader.Enabled = True
     
     Dim EasterEggMultiplier As Byte
@@ -382,10 +383,10 @@ End Sub
 Private Sub timLicenseLoader_Timer()
     'On Error GoTo LicenseFail
     On Error GoTo endlicense
-    LineNum = LineNum + 1
     txtLicense.Text = txtLicense.Text & LoadResString(LineNum) & vbCrLf
     pbLicenseLoadProgress.Value = LineNum
     txtLicensePlaceholder.Text = t("라이선스를 불러오는 중... (", "Loading the license text... (") & Floor(LineNum / 812 * 100) & "%)"
+    LineNum = LineNum + 1
     Exit Sub
     
 endlicense:
