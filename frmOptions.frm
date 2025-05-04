@@ -2635,12 +2635,12 @@ Private Sub Form_Load()
     
     Dim i%
     Dim MaxWidth%, MaxHeight%
-    MaxWidth = 15
-    MaxHeight = 15
+    Dim TabHeight%
+    TabHeight = tsTabStrip.Tabs(1).Height
     For i = 1 To pbPanel.Count
         pbPanel(i).Visible = 0
         pbPanel(i).Enabled = 0
-        pbPanel(i).Top = 465
+        pbPanel(i).Top = 180 + TabHeight
         pbPanel(i).Left = 180
         pbPanel(i).BorderStyle = 0
         pbPanel(i).AutoRedraw = True
@@ -2652,7 +2652,7 @@ Private Sub Form_Load()
         pbPanel(i).Height = MaxHeight
     Next i
     tsTabStrip.Width = MaxWidth + 120
-    tsTabStrip.Height = MaxHeight + 410
+    tsTabStrip.Height = MaxHeight + TabHeight + 120
     tsTabStrip.Top = 120
     tsTabStrip.Left = 120
     cmdApply.Top = tsTabStrip.Top + tsTabStrip.Height + 60
