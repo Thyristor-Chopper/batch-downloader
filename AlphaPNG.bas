@@ -3,7 +3,6 @@ Attribute VB_Name = "AlphaPNG"
 
 Option Explicit
 
-Private mlGdipToken             As Long
 Private Type GdiplusStartupInput
     GdiplusVersion              As Long
     DebugEventCallback          As Long
@@ -23,7 +22,6 @@ End Type
 Private Const ImageLockModeRead As Long = &H1&
 Private Const PixelFormat32bppPARGB As Long = &HE200B
 Private Declare Function GdipBitmapLockBits Lib "gdiplus" (ByVal hBitmap As Long, lpRect As Any, ByVal lFlags As Long, ByVal lPixelFormat As Long, uLockedBitmapData As BitmapData) As Long
-Private Declare Function CreateCompatibleDC Lib "gdi32" (ByVal hDC As Long) As Long
 Private Type BITMAPINFOHEADER
     biSize              As Long
     biWidth             As Long
@@ -41,17 +39,6 @@ Private Const DIB_RGB_COLORS As Long = 0&
 Private Declare Function CreateDIBSection Lib "gdi32" (ByVal hDC As Long, lpBitsInfo As BITMAPINFOHEADER, ByVal wUsage As Long, lpBitsOut As Long, ByVal hSection As Long, ByVal offset As Long) As Long
 Private Declare Function GdipBitmapUnlockBits Lib "gdiplus" (ByVal hBitmap As Long, uLockedBitmapData As BitmapData) As Long
 Private Declare Function GdipDisposeImage Lib "gdiplus" (ByVal Image As Long) As Long
-Private Type SIZEL
-    CX As Long
-    CY As Long
-End Type
-Private Declare Sub AtlPixelToHiMetric Lib "atl" (lpSizeInPix As SIZEL, lpSizeInHiMetric As SIZEL)
-Private Type RECT
-    Left    As Long
-    Top     As Long
-    Right   As Long
-    Bottom  As Long
-End Type
 Private Declare Function CreateEnhMetaFileW Lib "gdi32" (ByVal hdcRef As Long, ByVal lpFileName As Long, lpRect As Any, ByVal lpDescription As Long) As Long
 Private Type BLENDFUNCTION
     BlendOp             As Byte
@@ -70,35 +57,6 @@ Private Type PICTDESC
     hPalOrXYExt     As Long
     Reserved        As Long
 End Type
-Private Type RECTL
-    Left    As Long
-    Top     As Long
-    Right   As Long
-    Bottom  As Long
-End Type
-Private Type ENHMETAHEADER
-    iType As Long
-    nSize As Long
-    rclBounds As RECTL
-    rclFrame As RECTL
-    dSignature As Long
-    nVersion As Long
-    nBytes As Long
-    nRecords As Long
-    nHandles As Integer
-    sReserved As Integer
-    nDescription As Long
-    offDescription As Long
-    nPalEntries As Long
-    szlDevice As SIZEL
-    szlMillimeters As SIZEL
-    cbPixelFormat As Long
-    offPixelFormat As Long
-    bOpenGL As Long
-    szlMicrometers As SIZEL
-End Type
-Private Declare Function GetEnhMetaFileHeader Lib "gdi32" (ByVal hEmf As Long, ByVal cbBuffer As Long, ByRef lpemh As ENHMETAHEADER) As Long
-Private Declare Function DeleteEnhMetaFile Lib "gdi32" (ByVal hEmf As Long) As Long
 Private Declare Function OleCreatePictureIndirect Lib "oleaut32" (lpPictDesc As PICTDESC, riid As IID, ByVal fOwn As Boolean, lplpvObj As Object) As Long
 Private Type IID
     Data1       As Long
@@ -119,22 +77,13 @@ Private Declare Function GdipLoadImageFromStream Lib "gdiplus" (ByVal Stream As 
 'https://www.vbforums.com/showthread.php?805563-RESOLVED-GDI-Load-image-from-a-byte-array-into-PictureBox
 Private Function IStreamFromArray(ByVal ArrayPtr As Long, ByVal Length As Long) As stdole.IUnknown
     On Error GoTo exitfunction
-    Dim o_hMem As Long
-    Dim o_lpMem As Long
-    If ArrayPtr = 0& Then
-        CreateStreamOnHGlobal 0&, 1&, IStreamFromArray
-    ElseIf Length Then
-        o_hMem = GlobalAlloc(&H2&, Length)
-        If o_hMem Then
-            o_lpMem = GlobalLock(o_hMem)
-            If o_lpMem Then
-                CopyMemory ByVal o_lpMem, ByVal ArrayPtr, Length
-                GlobalUnlock o_hMem
-                CreateStreamOnHGlobal o_hMem, 1&, IStreamFromArray
-            End If
-            If IStreamFromArray Is Nothing Then GlobalFree o_hMem
-        End If
-    End If
+    Dim o_hMem&, o_lpMem&
+    o_hMem = GlobalAlloc(&H2&, Length)
+    o_lpMem = GlobalLock(o_hMem)
+    CopyMemory ByVal o_lpMem, ByVal ArrayPtr, Length
+    GlobalUnlock o_hMem
+    CreateStreamOnHGlobal o_hMem, 1&, IStreamFromArray
+    If IStreamFromArray Is Nothing Then GlobalFree o_hMem
 exitfunction:
 End Function
 
@@ -151,6 +100,7 @@ Function LoadPngFromFile(Path As String) As IPicture
 End Function
 
 Private Function LoadPngIntoPictureWithAlpha(Optional PathPtr As Long, Optional StreamPtr As Long) As IPicture
+    Dim mlGdipToken As Long
     Dim StartupInput As GdiplusStartupInput
     StartupInput.GdiplusVersion = 1&
     GdiplusStartup mlGdipToken, StartupInput, 0&

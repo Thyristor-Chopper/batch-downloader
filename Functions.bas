@@ -29,7 +29,7 @@ Private Declare Function RegQueryValueEx Lib "advapi32" Alias "RegQueryValueExA"
 Private Declare Function RegCloseKey Lib "advapi32" (ByVal hKey As Long) As Long
 Private Declare Function RegEnumKeyEx Lib "advapi32" Alias "RegEnumKeyExW" (ByVal hKey As Long, ByVal dwIndex As Long, ByVal lpName As Long, ByRef lpcName As Long, Optional ByVal lpReserved As Long, Optional ByVal lpClass As Long, Optional ByRef lpcClass As Long, Optional ByVal lpftLastWriteTime As Long) As Long
 Private Declare Function RegQueryInfoKey Lib "advapi32" Alias "RegQueryInfoKeyW" (ByVal hKey As Long, Optional ByVal lpClass As Long, Optional ByRef lpcClass As Long, Optional ByVal lpReserved As Long, Optional ByRef lpcSubKeys As Long, Optional ByRef lpcMaxSubKeyLen As Long, Optional ByRef lpcMaxClassLen As Long, Optional ByRef lpcValues As Long, Optional ByRef lpcMaxValueNameLen As Long, Optional ByRef lpcMaxValueLen As Long, Optional ByRef lpcbSecurityDescriptor As Long, Optional ByVal lpftLastWriteTime As Long) As Long
-Private Declare Function SysReAllocStringLen Lib "oleaut32" (ByVal pBSTR As Long, Optional ByVal pszStrPtr As Long, Optional ByVal length As Long) As Long
+Private Declare Function SysReAllocStringLen Lib "oleaut32" (ByVal pBSTR As Long, Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As Long
 Declare Function GetUserDefaultUILanguage Lib "kernel32" () As Integer
 Declare Function GetSystemMenu Lib "user32" (ByVal hWnd As Long, ByVal bRevert As Long) As Long
 Declare Function DeleteMenu Lib "user32" (ByVal hMenu As Long, ByVal nPosition As Long, ByVal wFlags As Long) As Long
@@ -41,7 +41,7 @@ Declare Function InsertMenuItem Lib "user32" Alias "InsertMenuItemA" (ByVal hMen
 'Declare Function GetMenuItemID Lib "user32" (ByVal hMenu As Long, ByVal nPos As Long) As Long
 Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As Long
 Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
-Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
+Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
 'Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1&
@@ -55,9 +55,9 @@ Private Declare Function ExpandEnvironmentStringsA Lib "kernel32" (ByVal lpSrc A
 'Declare Function DestroyWindow Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
 'Declare Function PrintWindow Lib "user32" (ByVal hWnd As Long, ByVal hdcBlt As Long, ByVal nFlags As Long) As Long
-Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal length As Long)
+Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
 Declare Function lstrlen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As Long) As Long
-Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVal pszStrPtr As Long, Optional ByVal length As Long) As String
+Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As String
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
 Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
@@ -98,7 +98,7 @@ Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Long) As L
 Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long
 'Declare Function RedrawWindow Lib "user32" (ByVal hWnd As Long, ByVal lprcUpdate As Long, ByVal hrgnUpdate As Long, ByVal fuRedraw As Long) As Long
 'Declare Function SetBkMode Lib "gdi32" (ByVal hDC As Long, ByVal nBkMode As Long) As Long
-'Declare Function CreateCompatibleDC Lib "gdi32" (ByVal hDC As Long) As Long
+Declare Function CreateCompatibleDC Lib "gdi32" (ByVal hDC As Long) As Long
 'Declare Function CreateCompatibleBitmap Lib "gdi32" (ByVal hDC As Long, ByVal nWidth As Long, ByVal nHeight As Long) As Long
 'Declare Function SetLayout Lib "gdi32" (ByVal hDC As Long, ByVal dwLayout As Long) As Long
 Declare Function SelectObject Lib "gdi32" (ByVal hDC As Long, ByVal hObject As Long) As Long
@@ -246,7 +246,7 @@ Enum ResourceType
 End Enum
 
 Type POINTAPI
-   x As Long
+   X As Long
    Y As Long
 End Type
 
@@ -817,7 +817,7 @@ Function GetSubkeys(ByVal KeyRoot As Long, KeyName As String) As String()
 
     If RegOpenKeyEx(KeyRoot, KeyName, 0&, KEY_READ, hKey) <> ERROR_SUCCESS Then GoTo keyerr
     If RegQueryInfoKey(hKey, lpcSubKeys:=i, lpcMaxSubKeyLen:=nBufferLen) <> ERROR_SUCCESS Then GoTo keyerr
-    SysReAllocStringLen VarPtr(sBuffer), length:=nBufferLen
+    SysReAllocStringLen VarPtr(sBuffer), Length:=nBufferLen
     ReDim KeysRev(0 To i - 1) As String
     j = 0&
     For i = i - 1& To 0& Step -1&
@@ -2013,9 +2013,9 @@ nativemsgbox:
     MsgBox = VBA.MsgBox(Prompt, Buttons, Title)
 End Function
 
-Function Right(Str As String, length As Long) As String
+Function Right(Str As String, Length As Long) As String
     On Error GoTo errproc
-    Right = VBA.Right$(Str, length)
+    Right = VBA.Right$(Str, Length)
     Exit Function
 errproc:
     Right = ""
@@ -2116,13 +2116,13 @@ End Sub
 
 Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean = False)
     On Error Resume Next
-    Dim A%, B%, x%, Y%, Z%
+    Dim A%, B%, X%, Y%, Z%
     A = tsTabStrip.Tabs.Count
     B = tsTabStrip.SelectedItem.Index
-    If Reverse Then x = 1 Else x = A
+    If Reverse Then X = 1 Else X = A
     If Reverse Then Y = A Else Y = 1
     If Reverse Then Z = -1 Else Z = 1
-    If B = x Then
+    If B = X Then
         tsTabStrip.Tabs(Y).Selected = True
     Else
         tsTabStrip.Tabs(B + Z).Selected = True
@@ -2137,3 +2137,13 @@ Sub InitForm(ByRef frmForm As Form)
     If MainFormOnTop Then InsertAfter = hWnd_TOPMOST Else InsertAfter = hWnd_NOTOPMOST
     SetWindowPos frmForm.hWnd, InsertAfter, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
 End Sub
+
+Function LoadPictureEx(FileName As String) As IPicture
+    On Error GoTo loaderror
+    If LCase(Right$(FileName, 4)) = ".png" Then
+        Set LoadPictureEx = LoadPngFromFile(FileName)
+    Else
+        Set LoadPictureEx = LoadPicture(FileName)
+    End If
+loaderror:
+End Function

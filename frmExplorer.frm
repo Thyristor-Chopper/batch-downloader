@@ -833,11 +833,7 @@ Private Sub Form_Load()
     If Tags.BrowseTargetForm = 3 Then
         fmpth = GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")
 setpreview:
-        If LCase(Right$(fmpth, 4)) = ".png" Then
-            Set imgPreview.Picture = LoadPngFromFile(fmpth)
-        Else
-            imgPreview.Picture = LoadPicture(fmpth)
-        End If
+        Set imgPreview.Picture = LoadPictureEx(fmpth)
     ElseIf Tags.BrowseTargetForm = 5 Then
         fmpth = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", "")
         GoTo setpreview
@@ -1460,11 +1456,7 @@ Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
         Dim Path$
         Path = lvDir.Path
         If Right$(Path, 1) <> "\" Then Path = Path & "\"
-        If LCase(Right$(Item.Text, 4)) = ".png" Then
-            Set imgPreview.Picture = LoadPngFromFile(Path & Item.Text)
-        Else
-            imgPreview.Picture = LoadPicture(Path & Item.Text)
-        End If
+        Set imgPreview.Picture = LoadPictureEx(Path & Item.Text)
     End If
 End Sub
 
@@ -1822,12 +1814,7 @@ Private Sub OKButton_Click()
     End If
     
     If Tags.BrowseTargetForm = 3 Then
-        On Error GoTo imgerr
-        If LCase(Right$(txtFileName.Text, 4)) = ".png" Then
-            LoadPngFromFile Path & txtFileName.Text
-        Else
-            LoadPicture Path & txtFileName.Text
-        End If
+        If LoadPictureEx(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
         frmOptions.ChangedBackgroundPath = Path & txtFileName.Text
         frmOptions.LoadBackgroundList
         Unload Me
@@ -1836,23 +1823,13 @@ imgerr:
         MsgBox t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), 16
         Exit Sub
     ElseIf Tags.BrowseTargetForm = 5 Then
-        On Error GoTo imgerr
-        If LCase(Right$(txtFileName.Text, 4)) = ".png" Then
-            LoadPngFromFile Path & txtFileName.Text
-        Else
-            LoadPicture Path & txtFileName.Text
-        End If
+        If LoadPictureEx(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", Path & txtFileName.Text
         frmLiveBadukSkinProperties.optTexture.Value = True
         Unload Me
         Exit Sub
     ElseIf Tags.BrowseTargetForm = 6 Then
-        On Error GoTo imgerr
-        If LCase(Right$(txtFileName.Text, 4)) = ".png" Then
-            LoadPngFromFile Path & txtFileName.Text
-        Else
-            LoadPicture Path & txtFileName.Text
-        End If
+        If LoadPictureEx(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", Path & txtFileName.Text
         frmLiveBadukSkinProperties.optFrameTexture.Value = True
         Unload Me

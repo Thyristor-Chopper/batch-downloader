@@ -65,11 +65,11 @@ Begin VB.Form frmOptions
                TabIndex        =   84
                Top             =   330
                Width           =   495
-               _extentx        =   873
-               _extenty        =   529
-               imagelist       =   "imgBrowse"
-               imagelistalignment=   4
-               transparent     =   -1  'True
+               _ExtentX        =   873
+               _ExtentY        =   529
+               ImageList       =   "imgBrowse"
+               ImageListAlignment=   4
+               Transparent     =   -1  'True
             End
             Begin VB.TextBox txtCompleteSoundPath 
                Height          =   300
@@ -95,17 +95,25 @@ Begin VB.Form frmOptions
                TabIndex        =   85
                Top             =   330
                Width           =   375
-               _extentx        =   661
-               _extenty        =   529
-               font            =   "frmOptions.frx":000C
-               caption         =   "▶"
-               transparent     =   -1  'True
+               _ExtentX        =   661
+               _ExtentY        =   529
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "굴림"
+                  Size            =   8.25
+                  Charset         =   129
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Caption         =   "▶"
+               Transparent     =   -1  'True
             End
          End
          Begin VB.Image Image1 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":0030
+            Picture         =   "frmOptions.frx":000C
             Top             =   120
             Width           =   480
          End
@@ -137,11 +145,11 @@ Begin VB.Form frmOptions
                TabIndex        =   89
                Top             =   330
                Width           =   495
-               _extentx        =   873
-               _extenty        =   529
-               imagelist       =   "imgBrowse"
-               imagelistalignment=   4
-               transparent     =   -1  'True
+               _ExtentX        =   873
+               _ExtentY        =   529
+               ImageList       =   "imgBrowse"
+               ImageListAlignment=   4
+               Transparent     =   -1  'True
             End
             Begin VB.TextBox txtAsterisk 
                Height          =   300
@@ -167,11 +175,19 @@ Begin VB.Form frmOptions
                TabIndex        =   90
                Top             =   330
                Width           =   375
-               _extentx        =   661
-               _extenty        =   529
-               font            =   "frmOptions.frx":047A
-               caption         =   "▶"
-               transparent     =   -1  'True
+               _ExtentX        =   661
+               _ExtentY        =   529
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "굴림"
+                  Size            =   8.25
+                  Charset         =   129
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Caption         =   "▶"
+               Transparent     =   -1  'True
             End
          End
          Begin prjDownloadBooster.FrameW fExclamation 
@@ -191,11 +207,11 @@ Begin VB.Form frmOptions
                TabIndex        =   94
                Top             =   330
                Width           =   495
-               _extentx        =   873
-               _extenty        =   529
-               imagelist       =   "imgBrowse"
-               imagelistalignment=   4
-               transparent     =   -1  'True
+               _ExtentX        =   873
+               _ExtentY        =   529
+               ImageList       =   "imgBrowse"
+               ImageListAlignment=   4
+               Transparent     =   -1  'True
             End
             Begin VB.TextBox txtExclamation 
                Height          =   300
@@ -221,11 +237,19 @@ Begin VB.Form frmOptions
                TabIndex        =   95
                Top             =   330
                Width           =   375
-               _extentx        =   661
-               _extenty        =   529
-               font            =   "frmOptions.frx":049E
-               caption         =   "▶"
-               transparent     =   -1  'True
+               _ExtentX        =   661
+               _ExtentY        =   529
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "굴림"
+                  Size            =   8.25
+                  Charset         =   129
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Caption         =   "▶"
+               Transparent     =   -1  'True
             End
          End
          Begin prjDownloadBooster.FrameW fError 
@@ -245,11 +269,11 @@ Begin VB.Form frmOptions
                TabIndex        =   99
                Top             =   330
                Width           =   495
-               _extentx        =   873
-               _extenty        =   529
-               imagelist       =   "imgBrowse"
-               imagelistalignment=   4
-               transparent     =   -1  'True
+               _ExtentX        =   873
+               _ExtentY        =   529
+               ImageList       =   "imgBrowse"
+               ImageListAlignment=   4
+               Transparent     =   -1  'True
             End
             Begin VB.TextBox txtError 
                Height          =   300
@@ -275,11 +299,19 @@ Begin VB.Form frmOptions
                TabIndex        =   100
                Top             =   330
                Width           =   375
-               _extentx        =   661
-               _extenty        =   529
-               font            =   "frmOptions.frx":04C2
-               caption         =   "▶"
-               transparent     =   -1  'True
+               _ExtentX        =   661
+               _ExtentY        =   529
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "굴림"
+                  Size            =   8.25
+                  Charset         =   129
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Caption         =   "▶"
+               Transparent     =   -1  'True
             End
          End
          Begin prjDownloadBooster.FrameW fQuestion 
@@ -299,11 +331,11 @@ Begin VB.Form frmOptions
                TabIndex        =   104
                Top             =   330
                Width           =   495
-               _extentx        =   873
-               _extenty        =   529
-               imagelist       =   "imgBrowse"
-               imagelistalignment=   4
-               transparent     =   -1  'True
+               _ExtentX        =   873
+               _ExtentY        =   529
+               ImageList       =   "imgBrowse"
+               ImageListAlignment=   4
+               Transparent     =   -1  'True
             End
             Begin VB.TextBox txtQuestion 
                Height          =   300
@@ -329,17 +361,25 @@ Begin VB.Form frmOptions
                TabIndex        =   105
                Top             =   330
                Width           =   375
-               _extentx        =   661
-               _extenty        =   529
-               font            =   "frmOptions.frx":04E6
-               caption         =   "▶"
-               transparent     =   -1  'True
+               _ExtentX        =   661
+               _ExtentY        =   529
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "굴림"
+                  Size            =   8.25
+                  Charset         =   129
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Caption         =   "▶"
+               Transparent     =   -1  'True
             End
          End
          Begin VB.Image Image8 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":050A
+            Picture         =   "frmOptions.frx":0456
             Top             =   240
             Width           =   480
          End
@@ -354,7 +394,7 @@ Begin VB.Form frmOptions
       ImageHeight     =   16
       ColorDepth      =   8
       MaskColor       =   16711935
-      InitListImages  =   "frmOptions.frx":094C
+      InitListImages  =   "frmOptions.frx":0898
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
@@ -449,7 +489,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image4 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":0D34
+            Picture         =   "frmOptions.frx":0C80
             Top             =   240
             Width           =   480
          End
@@ -470,11 +510,11 @@ Begin VB.Form frmOptions
             TabIndex        =   44
             Top             =   3270
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   582
-            enabled         =   0   'False
-            caption         =   "이름 변경(&R)"
-            transparent     =   -1  'True
+            _ExtentX        =   2355
+            _ExtentY        =   582
+            Enabled         =   0   'False
+            Caption         =   "이름 변경(&R)"
+            Transparent     =   -1  'True
          End
          Begin VB.TextBox txtEdit 
             Height          =   270
@@ -490,11 +530,11 @@ Begin VB.Form frmOptions
             TabIndex        =   43
             Top             =   3270
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   582
-            enabled         =   0   'False
-            caption         =   "삭제(&D)"
-            transparent     =   -1  'True
+            _ExtentX        =   2355
+            _ExtentY        =   582
+            Enabled         =   0   'False
+            Caption         =   "삭제(&D)"
+            Transparent     =   -1  'True
          End
          Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
             Height          =   330
@@ -502,11 +542,11 @@ Begin VB.Form frmOptions
             TabIndex        =   45
             Top             =   3270
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   582
-            enabled         =   0   'False
-            caption         =   "편집(&E)"
-            transparent     =   -1  'True
+            _ExtentX        =   2355
+            _ExtentY        =   582
+            Enabled         =   0   'False
+            Caption         =   "편집(&E)"
+            Transparent     =   -1  'True
          End
          Begin prjDownloadBooster.CommandButtonW cmdAddHeader 
             Height          =   330
@@ -514,10 +554,10 @@ Begin VB.Form frmOptions
             TabIndex        =   42
             Top             =   3270
             Width           =   1335
-            _extentx        =   2355
-            _extenty        =   582
-            caption         =   "추가(&A)"
-            transparent     =   -1  'True
+            _ExtentX        =   2355
+            _ExtentY        =   582
+            Caption         =   "추가(&A)"
+            Transparent     =   -1  'True
          End
          Begin prjDownloadBooster.ListView lvHeaders 
             Height          =   2505
@@ -539,7 +579,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image5 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":1176
+            Picture         =   "frmOptions.frx":10C2
             Top             =   240
             Width           =   480
          End
@@ -701,7 +741,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image3 
             Height          =   405
             Left            =   120
-            Picture         =   "frmOptions.frx":15B8
+            Picture         =   "frmOptions.frx":1504
             Top             =   240
             Width           =   435
          End
@@ -828,7 +868,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image2 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":17EA
+            Picture         =   "frmOptions.frx":1736
             Top             =   240
             Width           =   480
          End
@@ -902,7 +942,7 @@ Begin VB.Form frmOptions
          Begin VB.Image Image6 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":1C2C
+            Picture         =   "frmOptions.frx":1B78
             Top             =   240
             Width           =   480
          End
@@ -941,7 +981,7 @@ Begin VB.Form frmOptions
          Begin VB.Image imgIcon2 
             Height          =   480
             Left            =   120
-            Picture         =   "frmOptions.frx":206E
+            Picture         =   "frmOptions.frx":1FBA
             Top             =   240
             Width           =   480
          End
@@ -1013,10 +1053,10 @@ Begin VB.Form frmOptions
             TabIndex        =   51
             Top             =   885
             Width           =   1575
-            _extentx        =   2778
-            _extenty        =   529
-            caption         =   "삭제(&D)"
-            transparent     =   -1  'True
+            _ExtentX        =   2778
+            _ExtentY        =   529
+            Caption         =   "삭제(&D)"
+            Transparent     =   -1  'True
          End
          Begin prjDownloadBooster.CommandButtonW cmdSaveTheme 
             Height          =   300
@@ -1024,10 +1064,10 @@ Begin VB.Form frmOptions
             TabIndex        =   50
             Top             =   570
             Width           =   1575
-            _extentx        =   2778
-            _extenty        =   529
-            caption         =   "저장(&A)..."
-            transparent     =   -1  'True
+            _ExtentX        =   2778
+            _ExtentY        =   529
+            Caption         =   "저장(&A)..."
+            Transparent     =   -1  'True
          End
          Begin VB.ComboBox cbTheme 
             Height          =   300
@@ -1071,10 +1111,10 @@ Begin VB.Form frmOptions
             TabIndex        =   57
             Top             =   570
             Width           =   495
-            _extentx        =   873
-            _extenty        =   529
-            imagelistalignment=   4
-            transparent     =   -1  'True
+            _ExtentX        =   873
+            _ExtentY        =   529
+            ImageListAlignment=   4
+            Transparent     =   -1  'True
          End
          Begin VB.ComboBox cbSkin 
             Height          =   300
@@ -1173,10 +1213,10 @@ Begin VB.Form frmOptions
             TabIndex        =   77
             Top             =   570
             Width           =   495
-            _extentx        =   873
-            _extenty        =   529
-            imagelist       =   "imgBrowse"
-            imagelistalignment=   4
+            _ExtentX        =   873
+            _ExtentY        =   529
+            ImageList       =   "imgBrowse"
+            ImageListAlignment=   4
          End
          Begin VB.Label Label22 
             BackStyle       =   0  '투명
@@ -1317,10 +1357,10 @@ Begin VB.Form frmOptions
                Tag             =   "notygchange"
                Top             =   990
                Width           =   1575
-               _extentx        =   2778
-               _extenty        =   503
-               caption         =   "다운로드"
-               transparent     =   -1  'True
+               _ExtentX        =   2778
+               _ExtentY        =   503
+               Caption         =   "다운로드"
+               Transparent     =   -1  'True
             End
             Begin VB.Label Label11 
                BackStyle       =   0  '투명
@@ -1508,10 +1548,10 @@ Begin VB.Form frmOptions
       TabIndex        =   118
       Top             =   120
       Width           =   1320
-      _extentx        =   0
-      _extenty        =   0
-      enabled         =   0   'False
-      caption         =   "적용(&A)"
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Enabled         =   0   'False
+      Caption         =   "적용(&A)"
    End
    Begin prjDownloadBooster.TabStrip tsTabStrip 
       Height          =   375
@@ -1525,7 +1565,7 @@ Begin VB.Form frmOptions
       TabFixedWidth   =   53
       TabScrollWheel  =   0   'False
       Transparent     =   -1  'True
-      InitTabs        =   "frmOptions.frx":24B0
+      InitTabs        =   "frmOptions.frx":23FC
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -1534,9 +1574,9 @@ Begin VB.Form frmOptions
       TabIndex        =   117
       Top             =   120
       Width           =   1320
-      _extentx        =   0
-      _extenty        =   0
-      caption         =   "취소"
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW OKButton 
       Default         =   -1  'True
@@ -1545,9 +1585,9 @@ Begin VB.Form frmOptions
       TabIndex        =   116
       Top             =   120
       Width           =   1320
-      _extentx        =   0
-      _extenty        =   0
-      caption         =   "확인"
+      _ExtentX        =   0
+      _ExtentY        =   0
+      Caption         =   "확인"
    End
 End
 Attribute VB_Name = "frmOptions"
@@ -2450,10 +2490,8 @@ Private Sub lvBackgrounds_Click()
     If lvBackgrounds.ListIndex = 0 Then
 nopicture:
         Set imgPreview.Picture = Nothing
-    ElseIf LCase(Right(BackgroundPath, 4)) = ".png" Then
-        Set imgPreview.Picture = LoadPngFromFile(BackgroundPath)
     Else
-        imgPreview.Picture = LoadPicture(BackgroundPath)
+        Set imgPreview.Picture = LoadPictureEx(BackgroundPath)
     End If
     frmOptions.cmdSample.Refresh
     ChangedBackgroundPath = BackgroundPath
