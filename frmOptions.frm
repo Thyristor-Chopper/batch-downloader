@@ -1200,7 +1200,7 @@ Begin VB.Form frmOptions
          Begin VB.FileListBox lvBackgroundFiles 
             Height          =   450
             Left            =   -480
-            Pattern         =   "*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.BMP;*.DIB;*.PNG;*.WMF;*.EMF;*.ICO;*.CUR;*.TIF;*.TIFF"
+            Pattern         =   "*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.BMP;*.DIB;*.PNG;*.WMF;*.EMF;*.ICO;*.CUR;*.TIF;*.TIFF;*.RLE"
             TabIndex        =   131
             TabStop         =   0   'False
             Top             =   240

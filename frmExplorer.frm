@@ -809,13 +809,13 @@ Private Sub Form_Load()
     
     Select Case Tags.BrowseTargetForm
         Case 3, 5, 6
-            AddItemToComboBox selFileType, t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; *.PNG; *.TIF; *.TIFF; *.WMF; *.EMF; *.ICO; *.CUR)"
+            AddItemToComboBox selFileType, t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; *.RLE; *.PNG; *.TIF; *.TIFF; *.WMF; *.EMF; *.ICO; *.CUR)"
             AddItemToComboBox selFileType, "JPEG (*.JPG; *.JPEG; *.JPE; *.JFIF)"
             AddItemToComboBox selFileType, "GIF (*.GIF)"
-            AddItemToComboBox selFileType, t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
+            AddItemToComboBox selFileType, t("비트맵", "Bitmap") & " (*.BMP; *.DIB; *.RLE)"
             AddItemToComboBox selFileType, "PNG (*.PNG)"
             AddItemToComboBox selFileType, "TIFF (*.TIF; *.TIFF)"
-            AddItemToComboBox selFileType, t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
+            AddItemToComboBox selFileType, t("메타파일", "Metafile") & " (*.WMF; *.EMF)"
             AddItemToComboBox selFileType, t("아이콘", "Icon") & " (*.ICO)"
             AddItemToComboBox selFileType, t("커서", "Cursor") & " (*.CUR)"
         Case 4
