@@ -1200,7 +1200,7 @@ Begin VB.Form frmOptions
          Begin VB.FileListBox lvBackgroundFiles 
             Height          =   450
             Left            =   -480
-            Pattern         =   "*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.BMP;*.DIB;*.PNG;*.WMF;*.EMF;*.ICO;*.CUR"
+            Pattern         =   "*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.BMP;*.DIB;*.PNG;*.WMF;*.EMF;*.ICO;*.CUR;*.TIF;*.TIFF"
             TabIndex        =   131
             TabStop         =   0   'False
             Top             =   240
@@ -2675,8 +2675,6 @@ Private Sub Form_Load()
     RemoveVisualStyles txtSampleClassic.hWnd
     
     InitTabDimension
-    pbPanel(1).Visible = -1
-    pbPanel(1).Enabled = -1
     
     lvHeaders.ColumnHeaders.Add , , t("ÀÌ¸§", "Name"), 2055
     lvHeaders.ColumnHeaders.Add , , t("°ª", "Value"), 3000

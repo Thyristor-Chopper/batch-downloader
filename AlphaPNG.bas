@@ -104,7 +104,13 @@ Function LoadPictureFromBuffer(Buffer() As Byte) As IPicture
 End Function
 
 Function LoadPictureFromFile(Path As String) As IPicture
-    Set LoadPictureFromFile = LoadPngIntoPictureWithAlpha(PathPtr:=StrPtr(Path))
+    On Error Resume Next
+    Select Case LCase(GetExtensionName(Path))
+        Case "cur", "wmf", "emf"
+            Set LoadPictureFromFile = LoadPicture(Path)
+        Case Else
+            Set LoadPictureFromFile = LoadPngIntoPictureWithAlpha(StrPtr(Path))
+    End Select
 End Function
 
 Private Function LoadPngIntoPictureWithAlpha(Optional PathPtr As Long, Optional StreamPtr As Long) As IPicture

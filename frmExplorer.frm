@@ -793,6 +793,7 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
+    On Error Resume Next
     InitForm Me
     LoadFinished = True
     
@@ -806,14 +807,14 @@ Private Sub Form_Load()
     
     'lvFiles.ColumnHeaders(1).SortArrow = LvwColumnHeaderSortArrowUp
     
-    selFileType.Clear
     Select Case Tags.BrowseTargetForm
-        Case 3
-            AddItemToComboBox selFileType, t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; *.PNG; *.WMF; *.EMF; *.ICO; *.CUR)"
+        Case 3, 5, 6
+            AddItemToComboBox selFileType, t("모든 그림", "All pictures") & " (*.JPG; *.JPEG; *.JPE; *.JFIF; *.GIF; *.BMP; *.DIB; *.PNG; *.TIF; *.TIFF; *.WMF; *.EMF; *.ICO; *.CUR)"
             AddItemToComboBox selFileType, "JPEG (*.JPG; *.JPEG; *.JPE; *.JFIF)"
             AddItemToComboBox selFileType, "GIF (*.GIF)"
             AddItemToComboBox selFileType, t("비트맵", "Bitmap") & " (*.BMP; *.DIB)"
             AddItemToComboBox selFileType, "PNG (*.PNG)"
+            AddItemToComboBox selFileType, "TIFF (*.TIF; *.TIFF)"
             AddItemToComboBox selFileType, t("그래픽", "Graphics") & " (*.WMF; *.EMF)"
             AddItemToComboBox selFileType, t("아이콘", "Icon") & " (*.ICO)"
             AddItemToComboBox selFileType, t("커서", "Cursor") & " (*.CUR)"
@@ -823,8 +824,6 @@ Private Sub Form_Load()
             AddItemToComboBox selFileType, t("모든 파일", "All files") & " (*.*)"
     End Select
     selFileType.ListIndex = 0
-    
-    On Error Resume Next
     
     Dim Path$
     Path = lvDir.Path

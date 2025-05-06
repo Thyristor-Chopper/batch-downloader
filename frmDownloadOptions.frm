@@ -1,11 +1,12 @@
 VERSION 5.00
 Begin VB.Form frmDownloadOptions 
+   BackColor       =   &H00FFFFFF&
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "다운로드 설정"
    ClientHeight    =   4815
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   12585
+   ClientWidth     =   12840
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -21,25 +22,29 @@ Begin VB.Form frmDownloadOptions
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   4815
-   ScaleWidth      =   12585
+   ScaleWidth      =   12840
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 
+      AutoRedraw      =   -1  'True
+      BorderStyle     =   0  '없음
+      Enabled         =   0   'False
       Height          =   4095
       Index           =   2
-      Left            =   6360
-      ScaleHeight     =   4035
-      ScaleWidth      =   6075
+      Left            =   6240
+      ScaleHeight     =   4095
+      ScaleWidth      =   6495
       TabIndex        =   2
       Top             =   600
-      Width           =   6135
+      Visible         =   0   'False
+      Width           =   6495
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
          Height          =   330
-         Left            =   3480
+         Left            =   3600
          TabIndex        =   20
          Top             =   3660
-         Width           =   1230
-         _ExtentX        =   2170
+         Width           =   1335
+         _ExtentX        =   2355
          _ExtentY        =   582
          Enabled         =   0   'False
          Caption         =   "이름 변경(&R)"
@@ -55,11 +60,11 @@ Begin VB.Form frmDownloadOptions
       End
       Begin prjDownloadBooster.CommandButtonW cmdDeleteHeader 
          Height          =   330
-         Left            =   2160
+         Left            =   2220
          TabIndex        =   19
          Top             =   3660
-         Width           =   1230
-         _ExtentX        =   2170
+         Width           =   1335
+         _ExtentX        =   2355
          _ExtentY        =   582
          Enabled         =   0   'False
          Caption         =   "삭제(&D)"
@@ -67,11 +72,11 @@ Begin VB.Form frmDownloadOptions
       End
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
          Height          =   330
-         Left            =   4800
+         Left            =   4980
          TabIndex        =   21
          Top             =   3660
-         Width           =   1230
-         _ExtentX        =   2170
+         Width           =   1335
+         _ExtentX        =   2355
          _ExtentY        =   582
          Enabled         =   0   'False
          Caption         =   "편집(&E)"
@@ -82,8 +87,8 @@ Begin VB.Form frmDownloadOptions
          Left            =   840
          TabIndex        =   18
          Top             =   3660
-         Width           =   1230
-         _ExtentX        =   2170
+         Width           =   1335
+         _ExtentX        =   2355
          _ExtentY        =   582
          Caption         =   "추가(&A)"
          Transparent     =   -1  'True
@@ -93,8 +98,8 @@ Begin VB.Form frmDownloadOptions
          Left            =   840
          TabIndex        =   17
          Top             =   960
-         Width           =   5190
-         _ExtentX        =   9155
+         Width           =   5475
+         _ExtentX        =   9657
          _ExtentY        =   4683
          VisualTheme     =   1
          View            =   3
@@ -124,11 +129,12 @@ Begin VB.Form frmDownloadOptions
    End
    Begin VB.PictureBox pbPanel 
       AutoRedraw      =   -1  'True
+      BorderStyle     =   0  '없음
       Height          =   3135
       Index           =   1
       Left            =   120
-      ScaleHeight     =   3075
-      ScaleWidth      =   5955
+      ScaleHeight     =   3135
+      ScaleWidth      =   6015
       TabIndex        =   1
       Top             =   600
       Width           =   6015
@@ -420,12 +426,8 @@ Private Sub Form_Load()
     Dim TabHeight%
     TabHeight = tsTabStrip.Tabs(1).Height
     For i = 1 To pbPanel.Count
-        pbPanel(i).Visible = 0
-        pbPanel(i).Enabled = 0
         pbPanel(i).Top = 180 + TabHeight
         pbPanel(i).Left = 180
-        pbPanel(i).BorderStyle = 0
-        pbPanel(i).AutoRedraw = True
         If MaxWidth < pbPanel(i).Width Then MaxWidth = pbPanel(i).Width
         If MaxHeight < pbPanel(i).Height Then MaxHeight = pbPanel(i).Height
     Next i
@@ -439,8 +441,6 @@ Private Sub Form_Load()
     OKButton.Left = CancelButton.Left - 120 - OKButton.Width
     Me.Height = CancelButton.Top + CancelButton.Height + 540
     Me.Width = tsTabStrip.Width + 240 + 60
-    pbPanel(1).Visible = -1
-    pbPanel(1).Enabled = -1
     For i = 1 To pbPanel.Count
         pbPanel(i).Width = MaxWidth
         pbPanel(i).Height = MaxHeight
