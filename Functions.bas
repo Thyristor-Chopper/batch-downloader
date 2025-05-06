@@ -2071,6 +2071,10 @@ Sub ExtractResource(ByVal ResourceID As Integer, ByVal ResourceType As ResourceT
     End If
 End Sub
 
+Function LoadResText(ByVal ResourceID As Integer, ByVal ResourceType As ResourceType) As String
+    LoadResText = StrConv(LoadResData(ResourceID, ResourceType), vbUnicode)
+End Function
+
 'https://stackoverflow.com/questions/1230333
 Sub AddItemToComboBox(cbComboBox As ComboBox, ByVal Text As String)
     SendMessage cbComboBox.hWnd, CB_ADDSTRING, 0&, ByVal Text
@@ -2137,3 +2141,14 @@ Sub InitForm(ByRef frmForm As Form)
     If MainFormOnTop Then InsertAfter = hWnd_TOPMOST Else InsertAfter = hWnd_NOTOPMOST
     SetWindowPos frmForm.hWnd, InsertAfter, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
 End Sub
+
+Function GenerateSolidColor(ByVal Color As Long) As IPictureDisp
+    frmDummyForm.pbDummy.Cls
+    frmDummyForm.pbDummy.DrawWidth = 5
+    frmDummyForm.pbDummy.Width = 15
+    frmDummyForm.pbDummy.Height = 15
+    frmDummyForm.pbDummy.Line (0, 0)-(15, 15), Color
+    frmDummyForm.pbDummy.Refresh
+    Set GenerateSolidColor = frmDummyForm.pbDummy.Image
+    frmDummyForm.pbDummy.Cls
+End Function

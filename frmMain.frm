@@ -75,20 +75,10 @@ Begin VB.Form frmMain
       Top             =   2280
       Width           =   255
    End
-   Begin VB.PictureBox pbDummy 
-      AutoRedraw      =   -1  'True
-      Height          =   135
-      Left            =   10680
-      ScaleHeight     =   75
-      ScaleWidth      =   75
-      TabIndex        =   74
-      Top             =   1920
-      Width           =   135
-   End
    Begin prjDownloadBooster.FrameW fTygemFrameTransparent 
       Height          =   4845
       Left            =   10560
-      TabIndex        =   75
+      TabIndex        =   74
       Tag             =   "nobackcolorchange"
       Top             =   2280
       Visible         =   0   'False
@@ -114,7 +104,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   375
          Left            =   120
-         TabIndex        =   76
+         TabIndex        =   75
          Tag             =   "nosizechange"
          Top             =   120
          Width           =   1215
@@ -135,7 +125,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   135
-         TabIndex        =   77
+         TabIndex        =   76
          Tag             =   "nocolorsizechange"
          Top             =   135
          Width           =   1215
@@ -241,12 +231,12 @@ Begin VB.Form frmMain
       TabIndex        =   29
       Top             =   4065
       Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   582
-      Enabled         =   0   'False
-      ImageList       =   "imgOpenFile"
-      Caption         =   "열기(&O) "
-      Transparent     =   -1  'True
+      _extentx        =   2990
+      _extenty        =   582
+      enabled         =   0
+      imagelist       =   "imgOpenFile"
+      caption         =   "열기(&O) "
+      transparent     =   -1
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenBatch 
       Height          =   375
@@ -254,12 +244,12 @@ Begin VB.Form frmMain
       TabIndex        =   39
       Top             =   6960
       Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgOpenFile"
-      Caption         =   "열기(&W) "
-      Transparent     =   -1  'True
+      _extentx        =   2778
+      _extenty        =   661
+      enabled         =   0
+      imagelist       =   "imgOpenFile"
+      caption         =   "열기(&W) "
+      transparent     =   -1
    End
    Begin prjDownloadBooster.CommandButtonW cmdDelete 
       Height          =   375
@@ -267,12 +257,12 @@ Begin VB.Form frmMain
       TabIndex        =   42
       Top             =   6960
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgMinus"
-      Caption         =   "제거(&V) "
-      Transparent     =   -1  'True
+      _extentx        =   2355
+      _extenty        =   661
+      enabled         =   0
+      imagelist       =   "imgMinus"
+      caption         =   "제거(&V) "
+      transparent     =   -1
    End
    Begin VB.TextBox txtURL 
       Height          =   300
@@ -287,10 +277,10 @@ Begin VB.Form frmMain
       TabIndex        =   28
       Top             =   3690
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   582
-      Caption         =   "다운로드 설정(&S)..."
-      Transparent     =   -1  'True
+      _extentx        =   3413
+      _extenty        =   582
+      caption         =   "다운로드 설정(&S)..."
+      transparent     =   -1
    End
    Begin prjDownloadBooster.ListView lvLogTest 
       Height          =   1335
@@ -310,9 +300,9 @@ Begin VB.Form frmMain
       Top             =   5520
       Visible         =   0   'False
       Width           =   615
-      _ExtentX        =   1085
-      _ExtentY        =   661
-      Caption         =   "ㅇ"
+      _extentx        =   1085
+      _extenty        =   661
+      caption         =   "ㅇ"
    End
    Begin prjDownloadBooster.CommandButtonW cmdEdit 
       Height          =   375
@@ -320,12 +310,12 @@ Begin VB.Form frmMain
       TabIndex        =   44
       Top             =   6960
       Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgEdit"
-      Caption         =   "편집(&N)..."
-      Transparent     =   -1  'True
+      _extentx        =   2778
+      _extenty        =   661
+      enabled         =   0
+      imagelist       =   "imgEdit"
+      caption         =   "편집(&N)..."
+      transparent     =   -1
    End
    Begin prjDownloadBooster.ImageList imgEdit 
       Left            =   9240
@@ -343,12 +333,12 @@ Begin VB.Form frmMain
       TabIndex        =   46
       Top             =   6960
       Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgStopRed"
-      Caption         =   "중지(&Z) "
-      Transparent     =   -1  'True
+      _extentx        =   2778
+      _extenty        =   661
+      enabled         =   0
+      imagelist       =   "imgStopRed"
+      caption         =   "중지(&Z) "
+      transparent     =   -1
    End
    Begin prjDownloadBooster.ProgressBar pbTotalProgressMarquee 
       Height          =   255
@@ -429,10 +419,10 @@ Begin VB.Form frmMain
       TabIndex        =   27
       Top             =   3195
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   529
-      Caption         =   "프로그램 정보(&U)..."
-      Transparent     =   -1  'True
+      _extentx        =   3413
+      _extenty        =   529
+      caption         =   "프로그램 정보(&U)..."
+      transparent     =   -1
    End
    Begin prjDownloadBooster.CommandButtonW cmdOptions 
       Height          =   300
@@ -440,11 +430,11 @@ Begin VB.Form frmMain
       TabIndex        =   26
       Top             =   2865
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   529
-      ImageList       =   "imgWrench"
-      Caption         =   "추가 옵션(&I)..."
-      Transparent     =   -1  'True
+      _extentx        =   3413
+      _extenty        =   529
+      imagelist       =   "imgWrench"
+      caption         =   "추가 옵션(&I)..."
+      transparent     =   -1
    End
    Begin prjDownloadBooster.CommandButtonW cmdStop 
       Height          =   330
@@ -452,12 +442,12 @@ Begin VB.Form frmMain
       TabIndex        =   33
       Top             =   4815
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   582
-      Enabled         =   0   'False
-      ImageList       =   "imgStopRed"
-      Caption         =   "중지(&P) "
-      Transparent     =   -1  'True
+      _extentx        =   3413
+      _extenty        =   582
+      enabled         =   0
+      imagelist       =   "imgStopRed"
+      caption         =   "중지(&P) "
+      transparent     =   -1
    End
    Begin prjDownloadBooster.ImageList imgDropdownReverse 
       Left            =   9840
@@ -475,12 +465,12 @@ Begin VB.Form frmMain
       TabIndex        =   40
       Top             =   6960
       Width           =   255
-      _ExtentX        =   450
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgDropdown"
-      ImageListAlignment=   4
-      Transparent     =   -1  'True
+      _extentx        =   450
+      _extenty        =   661
+      enabled         =   0
+      imagelist       =   "imgDropdown"
+      imagelistalignment=   4
+      transparent     =   -1
    End
    Begin prjDownloadBooster.ImageList imgDropdown 
       Left            =   9840
@@ -498,12 +488,12 @@ Begin VB.Form frmMain
       TabIndex        =   43
       Top             =   6960
       Width           =   255
-      _ExtentX        =   450
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgDropdown"
-      ImageListAlignment=   4
-      Transparent     =   -1  'True
+      _extentx        =   450
+      _extenty        =   661
+      enabled         =   0
+      imagelist       =   "imgDropdown"
+      imagelistalignment=   4
+      transparent     =   -1
    End
    Begin prjDownloadBooster.ImageList imgPlusYellow 
       Left            =   9840
@@ -522,11 +512,11 @@ Begin VB.Form frmMain
       Top             =   5190
       Visible         =   0   'False
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   582
-      ImageList       =   "imgPlusYellow"
-      Caption         =   "목록에 추가(&Q)"
-      Transparent     =   -1  'True
+      _extentx        =   3413
+      _extenty        =   582
+      imagelist       =   "imgPlusYellow"
+      caption         =   "목록에 추가(&Q)"
+      transparent     =   -1
    End
    Begin prjDownloadBooster.CommandButtonW cmdStartBatch 
       Height          =   375
@@ -534,12 +524,12 @@ Begin VB.Form frmMain
       TabIndex        =   45
       Top             =   6960
       Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      Enabled         =   0   'False
-      ImageList       =   "imgPlay"
-      Caption         =   "시작(&S) "
-      Transparent     =   -1  'True
+      _extentx        =   2778
+      _extenty        =   661
+      enabled         =   0
+      imagelist       =   "imgPlay"
+      caption         =   "시작(&S) "
+      transparent     =   -1
    End
    Begin prjDownloadBooster.ImageList imgStopRed 
       Left            =   9840
@@ -865,11 +855,11 @@ Begin VB.Form frmMain
       TabStop         =   0   'False
       Top             =   795
       Width           =   375
-      _ExtentX        =   661
-      _ExtentY        =   582
-      ImageListAlignment=   4
-      Caption         =   ">"
-      Transparent     =   -1  'True
+      _extentx        =   661
+      _extenty        =   582
+      imagelistalignment=   4
+      caption         =   ">"
+      transparent     =   -1
    End
    Begin prjDownloadBooster.CommandButtonW cmdDecreaseThreads 
       Height          =   330
@@ -878,11 +868,11 @@ Begin VB.Form frmMain
       TabStop         =   0   'False
       Top             =   795
       Width           =   375
-      _ExtentX        =   661
-      _ExtentY        =   582
-      ImageListAlignment=   4
-      Caption         =   "<"
-      Transparent     =   -1  'True
+      _extentx        =   661
+      _extenty        =   582
+      imagelistalignment=   4
+      caption         =   "<"
+      transparent     =   -1
    End
    Begin VB.ComboBox cbWhenExist 
       Height          =   300
@@ -898,11 +888,11 @@ Begin VB.Form frmMain
       TabIndex        =   2
       Top             =   90
       Width           =   1785
-      _ExtentX        =   3149
-      _ExtentY        =   582
-      ImageList       =   "imgErase"
-      Caption         =   "초기화(&Y) "
-      Transparent     =   -1  'True
+      _extentx        =   3149
+      _extenty        =   582
+      imagelist       =   "imgErase"
+      caption         =   "초기화(&Y) "
+      transparent     =   -1
    End
    Begin prjDownloadBooster.CommandButtonW cmdAdd 
       Height          =   375
@@ -910,11 +900,11 @@ Begin VB.Form frmMain
       TabIndex        =   41
       Top             =   6960
       Width           =   1575
-      _ExtentX        =   2778
-      _ExtentY        =   661
-      ImageList       =   "imgPlusYellow"
-      Caption         =   " 추가(&R)..."
-      Transparent     =   -1  'True
+      _extentx        =   2778
+      _extenty        =   661
+      imagelist       =   "imgPlusYellow"
+      caption         =   " 추가(&R)..."
+      transparent     =   -1
    End
    Begin prjDownloadBooster.CommandButtonW cmdBatch 
       Height          =   330
@@ -922,12 +912,12 @@ Begin VB.Form frmMain
       TabIndex        =   35
       Top             =   5565
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   582
-      ImageList       =   "imgDropdown"
-      ImageListAlignment=   1
-      Caption         =   "  일괄 처리(&H)"
-      Transparent     =   -1  'True
+      _extentx        =   3413
+      _extenty        =   582
+      imagelist       =   "imgDropdown"
+      imagelistalignment=   1
+      caption         =   "  일괄 처리(&H)"
+      transparent     =   -1
    End
    Begin prjDownloadBooster.FrameW fTotal 
       Height          =   615
@@ -1047,11 +1037,11 @@ Begin VB.Form frmMain
       TabIndex        =   31
       Top             =   4440
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   582
-      ImageList       =   "imgOpenFolder"
-      Caption         =   "폴더 열기(&E) "
-      Transparent     =   -1  'True
+      _extentx        =   3413
+      _extenty        =   582
+      imagelist       =   "imgOpenFolder"
+      caption         =   "폴더 열기(&E) "
+      transparent     =   -1
    End
    Begin VB.Timer timElapsed 
       Enabled         =   0   'False
@@ -1081,11 +1071,11 @@ Begin VB.Form frmMain
       TabIndex        =   5
       Top             =   435
       Width           =   1785
-      _ExtentX        =   3149
-      _ExtentY        =   582
-      ImageList       =   "imgOpenFolder"
-      Caption         =   " 찾아보기(&B)..."
-      Transparent     =   -1  'True
+      _extentx        =   3149
+      _extenty        =   582
+      imagelist       =   "imgOpenFolder"
+      caption         =   " 찾아보기(&B)..."
+      transparent     =   -1
    End
    Begin VB.TextBox txtFileName 
       Height          =   300
@@ -1100,11 +1090,11 @@ Begin VB.Form frmMain
       TabIndex        =   32
       Top             =   4815
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   582
-      ImageList       =   "imgDownload"
-      Caption         =   "다운로드(&D) "
-      Transparent     =   -1  'True
+      _extentx        =   3413
+      _extenty        =   582
+      imagelist       =   "imgDownload"
+      caption         =   "다운로드(&D) "
+      transparent     =   -1
    End
    Begin prjDownloadBooster.FrameW Frame4 
       Height          =   3885
@@ -1123,12 +1113,12 @@ Begin VB.Form frmMain
       TabIndex        =   30
       Top             =   4065
       Width           =   255
-      _ExtentX        =   450
-      _ExtentY        =   582
-      Enabled         =   0   'False
-      ImageList       =   "imgDropdown"
-      ImageListAlignment=   4
-      Transparent     =   -1  'True
+      _extentx        =   450
+      _extenty        =   582
+      enabled         =   0
+      imagelist       =   "imgDropdown"
+      imagelistalignment=   4
+      transparent     =   -1
    End
    Begin VB.Image imgLBContentBackground 
       Height          =   4215
@@ -1248,7 +1238,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   375
       Left            =   255
-      TabIndex        =   78
+      TabIndex        =   77
       Tag             =   "nocolorsizechange"
       Top             =   1335
       Visible         =   0   'False
@@ -1312,7 +1302,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   180
       Left            =   255
-      TabIndex        =   79
+      TabIndex        =   78
       Tag             =   "nocolorchange"
       Top             =   165
       Visible         =   0   'False
@@ -1325,7 +1315,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   180
       Left            =   255
-      TabIndex        =   80
+      TabIndex        =   79
       Tag             =   "nocolorchange"
       Top             =   510
       Visible         =   0   'False
@@ -1338,7 +1328,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   180
       Left            =   255
-      TabIndex        =   81
+      TabIndex        =   80
       Tag             =   "nocolorchange"
       Top             =   885
       Visible         =   0   'False
@@ -3084,17 +3074,6 @@ Private Sub cmdYtdlTest_Click()
     StartYtdlDownload
 End Sub
 #End If
-
-Function GenerateSolidColor(ByVal Color As Long) As IPictureDisp
-    pbDummy.Cls
-    pbDummy.DrawWidth = 5
-    pbDummy.Width = 15
-    pbDummy.Height = 15
-    pbDummy.Line (0, 0)-(15, 15), Color
-    pbDummy.Refresh
-    Set GenerateSolidColor = pbDummy.Image
-    pbDummy.Cls
-End Function
 
 Sub SetTitle(Optional ByVal Title As String = "")
     If Title = "" Then

@@ -18,9 +18,19 @@ Begin VB.Form frmDummyForm
    ScaleHeight     =   3090
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows ±âº»°ª
+   Begin VB.PictureBox pbDummy 
+      AutoRedraw      =   -1  'True
+      Height          =   135
+      Left            =   720
+      ScaleHeight     =   75
+      ScaleWidth      =   75
+      TabIndex        =   0
+      Top             =   600
+      Width           =   135
+   End
    Begin prjDownloadBooster.ImageList imgFiles 
       Left            =   0
-      Top             =   720
+      Top             =   600
       _ExtentX        =   1005
       _ExtentY        =   1005
       ImageWidth      =   16

@@ -1,4 +1,4 @@
-frmMain = 45, 101, 1117, 762, C, 112, 45, 1099, 746, C
+frmMain = 31, 276, 1103, 937, C, 112, 45, 1099, 746, C
 ShellPipe = 0, 0, 0, 0, C, 198, 261, 1268, 920, C
 SPBuffer = 0, 0, 0, 0, C
 Slider = 74, 135, 1217, 802, C, 220, 290, 1290, 949, C
@@ -56,7 +56,7 @@ TbrButtonProperties = 0, 0, 0, 0, C
 TbrButtons = 44, 58, 1187, 725, C
 GetAssocIconMod = 132, 174, 1210, 841, C
 frmDownloadOptions = 45, 68, 1118, 713, C, 24, 150, 1102, 817, C
-frmDummyForm = 110, 145, 1183, 791, C, 95, 597, 1173, 1264, C
+frmDummyForm = 110, 145, 1183, 791, C, 82, 172, 1160, 839, C
 frmMessageBox = 86, 290, 1164, 935, C, 198, 261, 1276, 928, C
 TygemButton = 46, 249, 1124, 916, C, 220, 290, 1297, 957, C
 frmLiveBadukSkinProperties = 179, 47, 1257, 714, C, 13, 149, 1091, 816, C
