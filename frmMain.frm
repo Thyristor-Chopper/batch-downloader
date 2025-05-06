@@ -2837,7 +2837,7 @@ Sub SetBackgroundImage()
     Dim BackgroundImagePath$
     BackgroundImagePath = Trim$(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))
     If GetSetting("DownloadBooster", "Options", "UseBackgroundImage", 0) = 1 And LenB(BackgroundImagePath) Then
-        Set imgBackground.Picture = LoadPictureEx(BackgroundImagePath)
+        Set imgBackground.Picture = LoadPictureFromFile(BackgroundImagePath)
         imgBackground.Visible = -1
         SetBackgroundPosition True
     Else
@@ -2864,7 +2864,7 @@ Private Sub SetFrameTexture()
     Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "transparent"))
         Case "texture"
             fTygemFrameTransparent.Transparent = False
-            Set imgFrameTexture.Picture = LoadPictureEx(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", ""))
+            Set imgFrameTexture.Picture = LoadPictureFromFile(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", ""))
             imgFrameTexture.Visible = True
         Case "solidcolor"
             fTygemFrameTransparent.Transparent = False
@@ -2872,7 +2872,7 @@ Private Sub SetFrameTexture()
         Case Else
             fTygemFrameTransparent.Transparent = True
             imgFrameTexture.Visible = True
-            If DarkTransparent Is Nothing Then Set DarkTransparent = LoadPngFromResource(101, RCData)
+            If DarkTransparent Is Nothing Then Set DarkTransparent = LoadPictureFromResource(101, RCData)
             Set imgFrameTexture.Picture = DarkTransparent
     End Select
 End Sub
@@ -2958,11 +2958,11 @@ Sub LoadLiveBadukSkin()
         imgLBContentBackground.Visible = True
         Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent"))
             Case "texture"
-                Set imgLBContentBackground.Picture = LoadPictureEx(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", ""))
+                Set imgLBContentBackground.Picture = LoadPictureFromFile(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", ""))
             Case "solidcolor"
                 Set imgLBContentBackground.Picture = GenerateSolidColor(CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", 16777215)))
             Case Else
-                If LightTransparent Is Nothing Then Set LightTransparent = LoadPngFromResource(102, RCData)
+                If LightTransparent Is Nothing Then Set LightTransparent = LoadPictureFromResource(102, RCData)
                 Set imgLBContentBackground.Picture = LightTransparent
         End Select
         

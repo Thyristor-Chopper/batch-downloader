@@ -2491,7 +2491,7 @@ Private Sub lvBackgrounds_Click()
 nopicture:
         Set imgPreview.Picture = Nothing
     Else
-        Set imgPreview.Picture = LoadPictureEx(BackgroundPath)
+        Set imgPreview.Picture = LoadPictureFromFile(BackgroundPath)
     End If
     frmOptions.cmdSample.Refresh
     ChangedBackgroundPath = BackgroundPath

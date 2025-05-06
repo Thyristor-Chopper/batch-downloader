@@ -46,7 +46,6 @@ Private Type BLENDFUNCTION
     SourceConstantAlpha As Byte
     AlphaFormat         As Byte
 End Type
-Private Const AC_SRC_ALPHA As Byte = 1
 Private Declare Function GetMem4 Lib "msvbvm60" (ByRef Source As Any, ByRef Dest As Any) As Long ' Always ignore the returned Value, it's useless.
 Private Declare Function GdiAlphaBlend Lib "gdi32" (ByVal hdcDest As Long, ByVal xoriginDest As Long, ByVal yoriginDest As Long, ByVal wDest As Long, ByVal hDest As Long, ByVal hdcSrc As Long, ByVal xoriginSrc As Long, ByVal yoriginSrc As Long, ByVal wSrc As Long, ByVal hSrc As Long, ByVal ftn As Long) As Long
 Private Declare Function CloseEnhMetaFile Lib "gdi32" (ByVal hDC As Long) As Long
@@ -74,41 +73,51 @@ Private Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
 Private Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
 Private Declare Function GdipLoadImageFromStream Lib "gdiplus" (ByVal Stream As Long, hImage As Long) As Long
 
+Const HORZSIZE   As Long = 4&
+Const VERTSIZE   As Long = 6&
+Const HORZRES    As Long = 8&
+Const VERTRES    As Long = 10&
+Const LOGPIXELSX As Long = 88&
+Const LOGPIXELSY As Long = 90&
+Const AC_SRC_OVER  As Byte = 0
+Const AC_SRC_ALPHA As Byte = 1
+
 'https://www.vbforums.com/showthread.php?805563-RESOLVED-GDI-Load-image-from-a-byte-array-into-PictureBox
-Private Function IStreamFromArray(ByVal ArrayPtr As Long, ByVal Length As Long) As stdole.IUnknown
-    On Error GoTo exitfunction
+Private Function IStreamFromArray(ArrayPtr As Long, Length As Long, ByRef Address As Long) As stdole.IUnknown
     Dim o_hMem&, o_lpMem&
     o_hMem = GlobalAlloc(&H2&, Length)
     o_lpMem = GlobalLock(o_hMem)
     CopyMemory ByVal o_lpMem, ByVal ArrayPtr, Length
     GlobalUnlock o_hMem
     CreateStreamOnHGlobal o_hMem, 1&, IStreamFromArray
-    If IStreamFromArray Is Nothing Then GlobalFree o_hMem
-exitfunction:
+    Address = o_hMem
 End Function
 
-Function LoadPngFromResource(ByVal ResourceID As Integer, ByVal ResourceType As ResourceType) As IPicture
-    Set LoadPngFromResource = LoadPngFromByte(LoadResData(ResourceID, ResourceType))
+Function LoadPictureFromResource(ByVal ResourceID As Integer, ByVal ResourceType As ResourceType) As IPicture
+    Set LoadPictureFromResource = LoadPictureFromBuffer(LoadResData(ResourceID, ResourceType))
 End Function
 
-Function LoadPngFromByte(Bytes() As Byte) As IPicture
-    Set LoadPngFromByte = LoadPngIntoPictureWithAlpha(StreamPtr:=ObjPtr(IStreamFromArray(VarPtr(Bytes(0)), UBound(Bytes))))
+Function LoadPictureFromBuffer(Buffer() As Byte) As IPicture
+    Dim Address As Long
+    Set LoadPictureFromBuffer = LoadPngIntoPictureWithAlpha(StreamPtr:=ObjPtr(IStreamFromArray(VarPtr(Buffer(0)), UBound(Buffer), Address)))
+    GlobalFree Address
 End Function
 
-Function LoadPngFromFile(Path As String) As IPicture
-    Set LoadPngFromFile = LoadPngIntoPictureWithAlpha(PathPtr:=StrPtr(Path))
+Function LoadPictureFromFile(Path As String) As IPicture
+    Set LoadPictureFromFile = LoadPngIntoPictureWithAlpha(PathPtr:=StrPtr(Path))
 End Function
 
 Private Function LoadPngIntoPictureWithAlpha(Optional PathPtr As Long, Optional StreamPtr As Long) As IPicture
+    On Error GoTo loaderror
     Dim mlGdipToken As Long
     Dim StartupInput As GdiplusStartupInput
     StartupInput.GdiplusVersion = 1&
     GdiplusStartup mlGdipToken, StartupInput, 0&
     Dim hGdipImage As Long
     If PathPtr Then
-        GdipLoadImageFromFile PathPtr, hGdipImage
+        If GdipLoadImageFromFile(PathPtr, hGdipImage) Then GoTo loaderror
     Else
-        GdipLoadImageFromStream StreamPtr, hGdipImage
+        If GdipLoadImageFromStream(StreamPtr, hGdipImage) Then GoTo loaderror
     End If
     Dim uData As BitmapData
     GdipBitmapLockBits hGdipImage, ByVal 0&, ImageLockModeRead, PixelFormat32bppPARGB, uData
@@ -131,13 +140,9 @@ Private Function LoadPngIntoPictureWithAlpha(Optional PathPtr As Long, Optional 
     hPrevDib = SelectObject(hMemDC, hDib)
     Dim hEmfDC As Long
     hEmfDC = CreateEnhMetaFileW(0&, 0&, ByVal 0&, 0&)
-    Const HORZSIZE   As Long = 4&:  Const VERTSIZE   As Long = 6&
-    Const HORZRES    As Long = 8&:  Const VERTRES    As Long = 10&
-    Const LOGPIXELSX As Long = 88&: Const LOGPIXELSY As Long = 90&
     Dim Xscale As Double, Yscale As Double
     Xscale = CDbl(GetDeviceCaps(hEmfDC, HORZRES)) / CDbl(GetDeviceCaps(hEmfDC, HORZSIZE)) * 25.4 / CDbl(GetDeviceCaps(hEmfDC, LOGPIXELSX))
     Yscale = CDbl(GetDeviceCaps(hEmfDC, VERTRES)) / CDbl(GetDeviceCaps(hEmfDC, VERTSIZE)) * 25.4 / CDbl(GetDeviceCaps(hEmfDC, LOGPIXELSY))
-    Const AC_SRC_OVER  As Byte = 0: Const AC_SRC_ALPHA As Byte = 1
     Dim bf As BLENDFUNCTION
     bf.BlendOp = AC_SRC_OVER
     bf.AlphaFormat = AC_SRC_ALPHA
@@ -148,7 +153,7 @@ Private Function LoadPngIntoPictureWithAlpha(Optional PathPtr As Long, Optional 
     SelectObject hMemDC, hPrevDib
     DeleteDC hMemDC
     DeleteObject hDib
-    Dim hEmf            As Long
+    Dim hEmf As Long
     hEmf = CloseEnhMetaFile(hEmfDC)
     Dim uDesc As PICTDESC
     uDesc.cbSize = Len(uDesc)
@@ -158,4 +163,5 @@ Private Function LoadPngIntoPictureWithAlpha(Optional PathPtr As Long, Optional 
     IIDFromString StrPtr("{7BF80980-BF32-101A-8BBB-00AA00300CAB}"), IPictureIID
     OleCreatePictureIndirect uDesc, IPictureIID, 1&, LoadPngIntoPictureWithAlpha
     GdiplusShutdown mlGdipToken
+loaderror:
 End Function

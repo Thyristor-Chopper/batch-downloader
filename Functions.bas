@@ -2137,13 +2137,3 @@ Sub InitForm(ByRef frmForm As Form)
     If MainFormOnTop Then InsertAfter = hWnd_TOPMOST Else InsertAfter = hWnd_NOTOPMOST
     SetWindowPos frmForm.hWnd, InsertAfter, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
 End Sub
-
-Function LoadPictureEx(FileName As String) As IPicture
-    On Error GoTo loaderror
-    If LCase(Right$(FileName, 4)) = ".png" Then
-        Set LoadPictureEx = LoadPngFromFile(FileName)
-    Else
-        Set LoadPictureEx = LoadPicture(FileName)
-    End If
-loaderror:
-End Function

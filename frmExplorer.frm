@@ -833,7 +833,7 @@ Private Sub Form_Load()
     If Tags.BrowseTargetForm = 3 Then
         fmpth = GetSetting("DownloadBooster", "Options", "BackgroundImagePath", "")
 setpreview:
-        Set imgPreview.Picture = LoadPictureEx(fmpth)
+        Set imgPreview.Picture = LoadPictureFromFile(fmpth)
     ElseIf Tags.BrowseTargetForm = 5 Then
         fmpth = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", "")
         GoTo setpreview
@@ -1456,7 +1456,7 @@ Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Bool
         Dim Path$
         Path = lvDir.Path
         If Right$(Path, 1) <> "\" Then Path = Path & "\"
-        Set imgPreview.Picture = LoadPictureEx(Path & Item.Text)
+        Set imgPreview.Picture = LoadPictureFromFile(Path & Item.Text)
     End If
 End Sub
 
@@ -1814,7 +1814,7 @@ Private Sub OKButton_Click()
     End If
     
     If Tags.BrowseTargetForm = 3 Then
-        If LoadPictureEx(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
+        If LoadPictureFromFile(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
         frmOptions.ChangedBackgroundPath = Path & txtFileName.Text
         frmOptions.LoadBackgroundList
         Unload Me
@@ -1823,13 +1823,13 @@ imgerr:
         MsgBox t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), 16
         Exit Sub
     ElseIf Tags.BrowseTargetForm = 5 Then
-        If LoadPictureEx(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
+        If LoadPictureFromFile(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", Path & txtFileName.Text
         frmLiveBadukSkinProperties.optTexture.Value = True
         Unload Me
         Exit Sub
     ElseIf Tags.BrowseTargetForm = 6 Then
-        If LoadPictureEx(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
+        If LoadPictureFromFile(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", Path & txtFileName.Text
         frmLiveBadukSkinProperties.optFrameTexture.Value = True
         Unload Me

@@ -269,7 +269,7 @@ If GetComCtlVersion() >= 6 Then
     If IsThemeActive() <> 0 Then
         If IsAppThemed() <> 0 Then
             EnabledVisualStyles = True
-        ElseIf (GetThemeAppProperties() And STAP_ALLOW_CONTROLS) <> 0 Then
+        ElseIf GetThemeAppProperties() And STAP_ALLOW_CONTROLS Then
             EnabledVisualStyles = True
         End If
     End If
