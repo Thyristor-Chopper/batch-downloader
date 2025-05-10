@@ -82,18 +82,18 @@ End Property
 
 Public Property Get Key() As String
 Attribute Key.VB_Description = "Returns/sets the key used in the collection."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 Key = PropKey
 End Property
 
 Public Property Let Key(ByVal Value As String)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 ShadowListView.ListItems.FChangeKey PropPtr, PropKey, Value
 End Property
 
 Public Property Get Tag() As Variant
 Attribute Tag.VB_Description = "Stores any extra data needed for your program."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If IsEmpty(PropTag) Then
     Tag = vbNullString
 ElseIf IsObject(PropTag) Then
@@ -104,12 +104,12 @@ End If
 End Property
 
 Public Property Let Tag(ByVal Value As Variant)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 PropTag = Value
 End Property
 
 Public Property Set Tag(ByVal Value As Variant)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If Value Is ShadowListView Then
     Err.Raise Number:=35700, Description:="Circular object referencing is not allowed"
 Else
@@ -128,14 +128,14 @@ End If
 End Property
 
 Public Property Let Text(ByVal Value As String)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 PropText = Value
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemText(PropIndex, 0) = Value
 End Property
 
 Public Property Get Icon() As Variant
 Attribute Icon.VB_Description = "Returns/sets the index or key of an icon in an associated image list control."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If IsEmpty(PropIcon) Then
     Icon = 0
 Else
@@ -144,7 +144,7 @@ End If
 End Property
 
 Public Property Let Icon(ByVal Value As Variant)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 Call ComCtlsImlListImageIndex(ShadowListView, ShadowListView.Icons, Value, PropIconIndex)
 PropIcon = Value
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemRedraw PropIndex
@@ -152,13 +152,13 @@ End Property
 
 Public Property Get IconIndex() As Long
 Attribute IconIndex.VB_Description = "Returns the index of an icon in an associated image list control."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 IconIndex = PropIconIndex
 End Property
 
 Public Property Get SmallIcon() As Variant
 Attribute SmallIcon.VB_Description = "Returns/sets the index or key of an small icon in an associated image list control."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If IsEmpty(PropSmallIcon) Then
     SmallIcon = 0
 Else
@@ -167,7 +167,7 @@ End If
 End Property
 
 Public Property Let SmallIcon(ByVal Value As Variant)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 Call ComCtlsImlListImageIndex(ShadowListView, ShadowListView.SmallIcons, Value, PropSmallIconIndex)
 PropSmallIcon = Value
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemRedraw PropIndex
@@ -175,7 +175,7 @@ End Property
 
 Public Property Get SmallIconIndex() As Long
 Attribute SmallIconIndex.VB_Description = "Returns the index of an small icon in an associated image list control."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 SmallIconIndex = PropSmallIconIndex
 End Property
 
@@ -185,7 +185,7 @@ If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then Indentation = 
 End Property
 
 Public Property Let Indentation(ByVal Value As Long)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemIndentation(PropIndex) = Value
 End Property
 
@@ -204,18 +204,18 @@ If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then Checked = Shad
 End Property
 
 Public Property Let Checked(ByVal Value As Boolean)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemChecked(PropIndex) = Value
 End Property
 
 Public Property Get Ghosted() As Boolean
 Attribute Ghosted.VB_Description = "Returns/sets the ghosted state of the list item."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then Ghosted = ShadowListView.FListItemGhosted(PropIndex)
 End Property
 
 Public Property Let Ghosted(ByVal Value As Boolean)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemGhosted(PropIndex) = Value
 End Property
 
@@ -230,19 +230,19 @@ End Property
 
 Public Property Get Bold() As Boolean
 Attribute Bold.VB_Description = "Returns/sets a Value that determines whether the text is displayed with a bold font or not."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 Bold = PropBold
 End Property
 
 Public Property Let Bold(ByVal Value As Boolean)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 PropBold = Value
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemRedraw PropIndex
 End Property
 
 Public Property Get ForeColor() As OLE_COLOR
 Attribute ForeColor.VB_Description = "Returns/sets the foreground color used to display text and graphics in an object."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If PropForeColor = -1 Then
     ForeColor = ShadowListView.ForeColor
 Else
@@ -251,19 +251,19 @@ End If
 End Property
 
 Public Property Let ForeColor(ByVal Value As OLE_COLOR)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 PropForeColor = Value
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemRedraw PropIndex
 End Property
 
 Public Property Get ToolTipText() As String
 Attribute ToolTipText.VB_Description = "Returns/sets the tool tip text of the list item. Requires that the show info tips property is set to true."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 ToolTipText = PropToolTipText
 End Property
 
 Public Property Let ToolTipText(ByVal Value As String)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 PropToolTipText = Value
 End Property
 
@@ -315,12 +315,12 @@ End Sub
 
 Public Property Get TileViewIndices() As Variant
 Attribute TileViewIndices.VB_Description = "Returns/sets an array of column header indices specifying the list sub items that are displayed for this list item in 'tile' view. Requires comctl32.dll version 6.0 or higher."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then TileViewIndices = ShadowListView.FListItemTileViewIndices(PropIndex)
 End Property
 
 Public Property Let TileViewIndices(ByVal ArgList As Variant)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemTileViewIndices(PropIndex) = ArgList
 End Property
 
@@ -336,29 +336,29 @@ End Function
 
 Public Property Get Group() As LvwGroup
 Attribute Group.VB_Description = "Returns/sets the identifier of the group that the item belongs to. Requires comctl32.dll version 6.0 or higher."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then Set Group = ShadowListView.FListItemGroup(PropIndex)
 End Property
 
 Public Property Let Group(ByVal Value As LvwGroup)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then ShadowListView.FListItemGroup(PropIndex) = Value
 End Property
 
 Public Property Set Group(ByVal Value As LvwGroup)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then Set ShadowListView.FListItemGroup(PropIndex) = Value
 End Property
 
 Public Property Get WorkArea() As LvwWorkArea
 Attribute WorkArea.VB_Description = "Returns the work area to which the item belongs to in 'icon', 'small icon' and 'tile' view."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then Set WorkArea = ShadowListView.FListItemWorkArea(PropIndex)
 End Property
 
 Public Property Get ListSubItems() As LvwListSubItems
 Attribute ListSubItems.VB_Description = "Returns/sets a collection of list sub items belonging to the list item."
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 Set ListSubItems = New LvwListSubItems
 ListSubItems.FInit ShadowObjectPointer, Me, PropPtr, PropIndex
 End Property
@@ -370,7 +370,7 @@ If ShadowListView.FListItemVerify(PropPtr, PropIndex) = True Then SubItems = Sha
 End Property
 
 Public Property Let SubItems(ByVal Index As Integer, ByVal Value As String)
-If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
+'If PropPtr = NULL_PTR Then Err.Raise Number:=91, Description:="This functionality is disabled when virtual mode is on."
 If Index < 1 Or Index > (ShadowListView.ColumnHeaders.Count - 1) Then Err.Raise 380
 With Me.ListSubItems
 If Index > .Count Then

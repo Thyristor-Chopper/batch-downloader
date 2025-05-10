@@ -289,8 +289,8 @@ Private Sub Form_Load()
     
     Dim EasterEgg As Byte
     EasterEgg = -(RandInt(1, 10000) = 2094) * 3
-    imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(1 + EasterEgg).Picture
-    imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(2 + EasterEgg).Picture
+    imgItems.ListImages.Add Picture:=Train(1 + EasterEgg)
+    imgItems.ListImages.Add Picture:=Train(2 + EasterEgg)
     
     lvItems.ListItems.Add , , "Krool's Comctl", 1
     lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2
@@ -306,7 +306,7 @@ Private Sub Form_Load()
     Next i
 End Sub
 
-Private Sub lvItems_ItemSelect(ByRef Item As LvwListItem, ByVal Selected As Boolean)
+Private Sub lvItems_ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)
     On Error Resume Next
     If Not Selected Then Exit Sub 'If Item Is lvItems.SelectedItem Then Item.Selected = True: Exit Sub
     Static i As Byte

@@ -1,7 +1,6 @@
 VERSION 5.00
 Begin VB.Form frmEditBatch 
    BorderStyle     =   3  '크기 고정 대화 상자
-   Caption         =   "편집"
    ClientHeight    =   3075
    ClientLeft      =   45
    ClientTop       =   435
@@ -257,13 +256,12 @@ Private Sub Form_Load()
     tr fInfo, " File download information "
     tr Label1, "File &address:"
     tr Label2, "&Save to:"
-    tr Me, "Edit"
     tr Label3, "A&dditional settings:"
     tr cmdHeaders, "&Headers..."
     
     EncodedHeaders = frmMain.lvBatchFiles.SelectedItem.ListSubItems(5).Text
     InitialFileName = frmMain.lvBatchFiles.SelectedItem.Text
-    Me.Caption = Me.Caption & " - " & InitialFileName
+    Me.Caption = t("편집", "Edit") & " - " & InitialFileName
     
 #If HIDEYTDL Then
     cmdYtdl.Visible = False

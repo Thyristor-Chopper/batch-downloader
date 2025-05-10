@@ -520,7 +520,7 @@ Private Sub Form_Load()
     tr Label3, "&Format:"
 #End If
     
-    tr tsTabStrip.Tabs(2), " Headers "
+    tr tsTabStrip.Tabs(2), "Headers"
     
     tr OKButton, "OK"
     tr CancelButton, "Cancel"
@@ -700,8 +700,7 @@ invalidname:
 End Sub
 
 Private Sub lvHeaders_ItemDblClick(Item As LvwListItem, ByVal Button As Integer)
-    If Item.Selected Then _
-        cmdEditHeaderValue_Click
+    If Item.Selected And Button = 1 Then cmdEditHeaderValue_Click
 End Sub
 
 Private Sub lvHeaders_ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)

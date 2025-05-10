@@ -39,46 +39,6 @@ Begin VB.Form frmDummyForm
       MaskColor       =   16711935
       InitListImages  =   "frmDummyForm.frx":0000
    End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   5
-      Left            =   2400
-      Picture         =   "frmDummyForm.frx":01A8
-      Top             =   0
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   4
-      Left            =   1800
-      Picture         =   "frmDummyForm.frx":0467
-      Top             =   0
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   3
-      Left            =   1200
-      Picture         =   "frmDummyForm.frx":072B
-      Top             =   0
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   2
-      Left            =   600
-      Picture         =   "frmDummyForm.frx":0AE8
-      Top             =   0
-      Width           =   480
-   End
-   Begin VB.Image imgTrain 
-      Height          =   480
-      Index           =   1
-      Left            =   0
-      Picture         =   "frmDummyForm.frx":0DD9
-      Top             =   0
-      Width           =   480
-   End
 End
 Attribute VB_Name = "frmDummyForm"
 Attribute VB_GlobalNameSpace = False

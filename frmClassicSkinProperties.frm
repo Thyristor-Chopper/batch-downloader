@@ -69,7 +69,7 @@ Private Sub cmdOK_Click()
     SaveSetting "DownloadBooster", "Options", "RoundClassicButtons", chkRoundClassicButtons.Value
     frmOptions.VisualStyleChanged = True
     frmOptions.cmdApply.Enabled = True
-    frmOptions.cmdSample.RoundButton = (chkRoundClassicButtons.Value = 1)
+    frmOptions.cmdSample.RoundButton = chkRoundClassicButtons.Value
     Unload Me
 End Sub
 

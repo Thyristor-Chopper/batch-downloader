@@ -107,7 +107,7 @@ End Sub
 
 Private Sub Form_Load()
     InitForm Me
-    Set imgIcon.Picture = frmDummyForm.imgTrain(3).Picture
+    Set imgIcon.Picture = Train(3)
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

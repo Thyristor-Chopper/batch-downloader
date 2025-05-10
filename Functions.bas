@@ -11,6 +11,7 @@ Attribute VB_Name = "Functions"
 Option Explicit
 
 Public Const MAX_THREAD_COUNT_CONTROL As Long = 655& '679&
+Public Const MAX_32BIT_SIGNED_INT As Long = 2147483647
 
 Public MsgBoxResults As Collection
 Public InputBoxResults As Collection
@@ -241,6 +242,8 @@ Public Const HTBOTTOMLEFT = 16
 Public Const HTBOTTOMRIGHT = 17
 
 Enum ResourceType
+    BITMAP = 2
+    Icon = 3
     RCData = 10
     Manifest = 24
 End Enum
@@ -1030,7 +1033,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
         Case Else
             IconRandomIdx = RandInt(1, 2)
     End Select
-    Set MessageBox.imgTrain.Picture = frmDummyForm.imgTrain(IconRandomIdx).Picture
+    Set MessageBox.imgTrain.Picture = Train(IconRandomIdx)
     Select Case Icon
         Case 48
             MessageBox.imgExclamation.Visible = True
@@ -1989,7 +1992,7 @@ Function Min(ByVal L As Double, ByVal R As Double) As Double
     End If
 End Function
 
-Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyleEx = vbOKOnly, Optional Title = "") As VbMsgBoxResultEx
+Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional Title = "") As VbMsgBoxResult
     If Title = "" Then Title = App.Title
 
     If Buttons > 70 Then

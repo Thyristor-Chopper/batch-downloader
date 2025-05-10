@@ -4,21 +4,22 @@ Option Explicit
 Public CachePath As String
 Public WinVer As Single
 Public Build As Long
-Public PaddedBorderWidth As Integer
-Public DialogBorderWidth As Integer
-Public SizingBorderWidth As Integer
-Public ScrollBarWidth As Integer
-Public CaptionHeight As Integer
+Public PaddedBorderWidth As Byte
+Public DialogBorderWidth As Byte
+Public SizingBorderWidth As Byte
+Public ScrollBarWidth As Byte
+Public CaptionHeight As Byte
 Public Const DefaultBackColor As Long = 15529449 '-1&
-Public DefaultDisableDWMWindow As Integer
+Public DefaultDisableDWMWindow As Byte
 Public LangID As Integer
 Public OSLangID As Integer
 Public DPI As Long
-Public DefaultFont$
+Public DefaultFont As String
 Public MainFormOnTop As Boolean
 
 Public DarkTransparent As IPicture
 Public LightTransparent As IPicture
+Public Train(1 To 5) As IPicture
 
 Public ScriptFileName As String
 Public NodeFileName As String
@@ -42,7 +43,7 @@ Sub Main()
 '    On Error GoTo 0
 
     If WinVer < 5.1 Then
-        If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") = "1")) Then
+        If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") <> "0")) Then
             MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
             Exit Sub
         End If
@@ -82,12 +83,16 @@ Sub Main()
     ExtractResource 1, RCData, ScriptFileName
     ExtractResource 2, RCData, NodeFileName
     ExtractResource 3, RCData, "iconv.js"
+    
+    Dim i As Byte
+    For i = 1 To 5
+        Set Train(i) = LoadResPicture(i + 1, vbResIcon)
+    Next i
 
+    Set MsgBoxResults = New Collection
     Set SessionHeaders = New Collection
     Set SessionHeaderKeys = New Collection
     SessionHeaderCache = ""
-
-    Set MsgBoxResults = New Collection
 
     UpdateBorderWidth
     UpdateDPI
@@ -111,10 +116,10 @@ forcegulim:
         End If
     End If
 
-    If WinVer >= 6.2 Then DefaultDisableDWMWindow = 1 Else DefaultDisableDWMWindow = 0
+    DefaultDisableDWMWindow = -(WinVer >= 6.2)
 
     If GetSetting("DownloadBooster", "UserData", "HeaderSettingsInitialized", "0") = "0" Then
-        SaveSetting "DownloadBooster", "Options\Headers", "User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:102.0) Gecko/20100101 Firefox/102.0 PaleMoon/33.2"
+        SaveSetting "DownloadBooster", "Options\Headers", "User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:115.0) Gecko/20100101 Firefox/115.0 PaleMoon/33.7.0"
         SaveSetting "DownloadBooster", "UserData", "HeaderSettingsInitialized", 1
     End If
     BuildHeaderCache

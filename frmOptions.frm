@@ -418,7 +418,7 @@ Begin VB.Form frmOptions
          Width           =   6495
          _ExtentX        =   11456
          _ExtentY        =   2143
-         Caption         =   " 연결 설정 "
+         Caption         =   " 연결 "
          Transparent     =   -1  'True
          Begin prjDownloadBooster.Slider trRequestInterval 
             Height          =   450
@@ -502,7 +502,7 @@ Begin VB.Form frmOptions
          Width           =   6495
          _ExtentX        =   11456
          _ExtentY        =   6482
-         Caption         =   " 헤더 설정 "
+         Caption         =   " 헤더 "
          Transparent     =   -1  'True
          Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
             Height          =   330
@@ -764,7 +764,7 @@ Begin VB.Form frmOptions
          Width           =   6495
          _ExtentX        =   11456
          _ExtentY        =   3413
-         Caption         =   " 다운로드 설정 "
+         Caption         =   " 다운로드 "
          Transparent     =   -1  'True
          Begin prjDownloadBooster.CheckBoxW chkUseServerModified 
             Height          =   255
@@ -955,7 +955,7 @@ Begin VB.Form frmOptions
          Width           =   6495
          _ExtentX        =   11456
          _ExtentY        =   3201
-         Caption         =   " 경로 설정 "
+         Caption         =   " 경로 "
          Transparent     =   -1  'True
          Begin VB.TextBox txtYtdlPath 
             Height          =   270
@@ -2533,8 +2533,7 @@ invalidname:
 End Sub
 
 Private Sub lvHeaders_ItemDblClick(Item As LvwListItem, ByVal Button As Integer)
-    If Item.Selected Then _
-        cmdEditHeaderValue_Click
+    If Item.Selected And Button = 1 Then cmdEditHeaderValue_Click
 End Sub
 
 Private Sub lvHeaders_ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)
@@ -2748,15 +2747,15 @@ Private Sub Form_Load()
     
     LoadSettings
     
-    tr tsTabStrip.Tabs(1), " General "
-    tr tsTabStrip.Tabs(2), " Network "
-    tr tsTabStrip.Tabs(3), " Appearance "
-    tr tsTabStrip.Tabs(4), " Sound "
-    tr tsTabStrip.Tabs(5), " Advanced "
+    tr tsTabStrip.Tabs(1), "General"
+    tr tsTabStrip.Tabs(2), "Connection"
+    tr tsTabStrip.Tabs(3), "Appearance"
+    tr tsTabStrip.Tabs(4), "Sounds"
+    tr tsTabStrip.Tabs(5), "Advanced"
     tr Frame1, " Colors "
     tr Frame4, " Wallpaper "
     tr Label10, "&Window:"
-    tr Frame2, " Download options "
+    tr Frame2, " Download "
     tr Frame5, " Interface "
     tr chkNoCleanup, "Preserve segme&nts"
     tr chkRememberURL, "Re&member URL"
@@ -2775,12 +2774,12 @@ Private Sub Form_Load()
     tr chkAutoRetry, "A&uto retry on error"
     tr Label3, "If filename alrea&dy exists:"
     tr Label6, "Leave the field blank to use defaults. This option is for advanced users and there is no need to change for normal use."
-    tr FrameW2, " Directory settings "
+    tr FrameW2, " Paths "
     tr Label5, "&Download script:"
     tr cmdSample, "Download"
     tr Label2, "Po&sition:"
     tr Label8, "Butt&on:"
-    tr fHeaders, " Header settings "
+    tr fHeaders, " Headers "
     tr chkNoRedirectCheck, "Don't check fo&r redirects"
     tr chkForceGet, "Force GET re&quest on file check"
     tr chkIgnore300, "&Ignore 3XX reponse code"
@@ -2792,7 +2791,7 @@ Private Sub Form_Load()
     tr cmdEditHeaderValue, "&Edit"
     tr chkLazyElapsed, "Elapsed time sin&ce first data receive"
     tr chkExcludeMergeFromElapsed, "Exclude merging time from elapsed time"
-    tr FrameW3, " Connection settings "
+    tr FrameW3, " Connection "
     tr FrameW4, " Advanced download options "
     tr chkForceOldDialog, "U&se Windows 3.1 dialogs"
     tr chkDontLoadIcons, "Use sa&me icons for all files in the open dialog"

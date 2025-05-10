@@ -1443,17 +1443,17 @@ Implements IBSSubclass
 
 Dim Elapsed As Long
 Dim BatchStarted As Boolean
-Dim CurrentBatchIdx As Integer
+Dim CurrentBatchIdx As Long
 Dim DownloadPath As String
 Dim IsDownloading As Boolean
-Dim BatchErrorCount As Integer
-Dim BatchErrorAllCount As Integer
+Dim BatchErrorCount As Long
+Dim BatchErrorAllCount As Long
 Public ScrollOneScreen As Boolean
 Dim PrevDownloadedBytes As Double
-Dim SpeedCount As Integer
+Dim SpeedCount As Byte
 Dim HttpStatusCode As String
 Dim ResumeUnsupported As Boolean
-Public ImagePosition As Integer
+Public ImagePosition As Byte
 Dim TotalSize As Double
 Dim FormCaption$
 Dim LBFrameEnabled As Boolean
@@ -1764,7 +1764,7 @@ Sub OnData(Data As String)
                     pbTotalProgressMarquee.MarqueeAnimation = -1
                 End If
             End If
-            If fTotal.Caption <> t(" 전체 다운로드 진행률 ", " Total Progress ") Then fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
+            If fTotal.Caption <> t(" 전체 다운로드 현황 ", " Total Progress ") Then fTotal.Caption = t(" 전체 다운로드 현황 ", " Total Progress ")
             If pbTotalProgress.Value <> 0 Then pbTotalProgress.Value = 0
             If DownloadedBytes = -1 Then
                 sbStatusBar.Panels(2).Text = ""
@@ -1800,7 +1800,7 @@ progressAvailable:
             End If
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
             pbTotalProgress.Value = progress
-            fTotal.Caption = t(" 전체 다운로드 진행률 (" & progress & "%) ", " Total Progress (" & progress & "%) ")
+            fTotal.Caption = t(" 전체 다운로드 현황 (" & progress & "%) ", " Total Progress (" & progress & "%) ")
             If Not BatchStarted Then SetTitle progress & "% " & t("다운로드 중", "Downloading")
         End If
         
@@ -1841,7 +1841,7 @@ End Sub
 
 Sub NextBatchDownload()
     If Not BatchStarted Then Exit Sub
-    Dim i%
+    Dim i&
     
     If lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("완료", "Done") Then _
         lvBatchFiles.ListItems(CurrentBatchIdx).Checked = False
@@ -1861,26 +1861,21 @@ Sub NextBatchDownload()
         End If
         cmdGo.Enabled = -1
         
-        If lvBatchFiles.ListItems.Count > 0 Then
+        If lvBatchFiles.ListItems.Count Then
             Dim Enable As Boolean
-            For i = 1 To lvBatchFiles.ListItems.Count
+            For i = 1& To lvBatchFiles.ListItems.Count
                 If lvBatchFiles.ListItems(i).Checked Then
                     Enable = True
                     Exit For
                 End If
             Next i
-            If Not Enable Then
-                cmdStartBatch.Enabled = 0
-            Else
-                cmdStartBatch.Enabled = -1
-            End If
+            cmdStartBatch.Enabled = Enable
         Else
             cmdStartBatch.Enabled = 0
         End If
         
         If BatchErrorCount Then
-            MsgBox t("하나 이상의 오류가 발생했습니다. 해당 항목을 두 번 누르면 오류 정보를 볼 수 있습니다.", _
-                    "One or more errors have occurred. Double click the error item to see details."), 48
+            MsgBox t("하나 이상의 오류가 발생했습니다. 해당 항목을 두 번 누르면 오류 정보를 볼 수 있습니다.", "One or more errors have occurred. Double click the error item to see details."), 48
         ElseIf GetSetting("DownloadBooster", "Options", "PlaySound", 1) <> 0 And BatchErrorAllCount <= 0 Then
             PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=vbInformation
         End If
@@ -2098,7 +2093,7 @@ Sub OnStart()
     lblRemaining.Caption = "-"
     lblMergeStatus.Caption = "-"
     
-    fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
+    fTotal.Caption = t(" 전체 다운로드 현황 ", " Total Progress ")
     pbTotalProgress.Value = 0
     Dim i%
     For i = 1 To trThreadCount.Value
@@ -2150,7 +2145,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     
     SP.FinishChild 0, 0
     
-    Dim i%
+    Dim i&
     For i = 1 To trThreadCount.Value
         pbProgressMarquee(i).MarqueeAnimation = 0
         pbProgressMarquee(i).Visible = 0
@@ -2167,7 +2162,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         lblState.Caption = t("중지됨", "Stopped")
         sbStatusBar.Panels(1).Text = t("준비", "Ready")
     
-        fTotal.Caption = t(" 전체 다운로드 진행률 ", " Total Progress ")
+        fTotal.Caption = t(" 전체 다운로드 현황 ", " Total Progress ")
         For i = 1 To lblDownloader.UBound
             pbProgress(i).Value = 0
             lblPercentage(i).Caption = ""
@@ -2185,19 +2180,15 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         sbStatusBar.Panels(3).Text = ""
         sbStatusBar.Panels(4).Text = ""
         
-        If lvBatchFiles.ListItems.Count > 0 Then
+        If lvBatchFiles.ListItems.Count Then
             Dim Enable As Boolean
-            For i = 1 To lvBatchFiles.ListItems.Count
+            For i = 1& To lvBatchFiles.ListItems.Count
                 If lvBatchFiles.ListItems(i).Checked Then
                     Enable = True
                     Exit For
                 End If
             Next i
-            If Not Enable Then
-                cmdStartBatch.Enabled = 0
-            Else
-                cmdStartBatch.Enabled = -1
-            End If
+            cmdStartBatch.Enabled = Enable
         Else
             cmdStartBatch.Enabled = 0
         End If
@@ -2274,7 +2265,7 @@ Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Opt
         SavePath = Replace(SavePath, "\\", "\")
     Loop
 
-    Dim idx%
+    Dim idx&
     Dim FileName$
     Dim ServerName$
     FileName = SavePath
@@ -2293,7 +2284,7 @@ Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Opt
         FileName = GetParentFolderName(txtFileName.Text) & "\"
         FileName = Replace(FileName, "\\", "\") & ServerName
     End If
-    idx = lvBatchFiles.ListItems.Add(, , ServerName).Index
+    idx = lvBatchFiles.ListItems.Add(Text:=ServerName).Index
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , FileName
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , URL
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , t("대기", "Queued")
@@ -2310,24 +2301,24 @@ Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Opt
     lvBatchFiles.ListItems(idx).ListSubItems.Add , , ""
 #End If
     lvBatchFiles.ListItems(idx).Checked = -1
-    If IsDownloading Or cmdStop.Enabled Or BatchStarted Then
-        cmdStartBatch.Enabled = 0
-    Else
-        cmdStartBatch.Enabled = -1
-    End If
+    cmdStartBatch.Enabled = Not (IsDownloading Or cmdStop.Enabled Or BatchStarted)
     AddBatchURLs = True
 End Function
 
 Private Sub cmdAddToQueue_Click()
+    If lvBatchFiles.ListItems.Count >= MAX_32BIT_SIGNED_INT Then
+        MsgBox t("최대 일괄 다운로드 개수를 초과했습니다.", "Maximum number of items exceeded."), vbExclamation
+        Exit Sub
+    End If
     If LenB(Replace(txtURL.Text, " ", "")) = 0 Then
         MsgBox t("파일 주소를 입력하십시오.", "Specify the file URL."), 64
         Exit Sub
     End If
     On Error GoTo justadd
     If GetSetting("DownloadBooster", "Options", "AllowDuplicatesInQueue", 0) <> 0 Then GoTo justadd
-    Dim i%
+    Dim i&
     If lvBatchFiles.ListItems.Count Then
-        For i = 1 To lvBatchFiles.ListItems.Count
+        For i = 1& To lvBatchFiles.ListItems.Count
             If lvBatchFiles.ListItems(i).ListSubItems(2).Text = Trim$(txtURL.Text) Then
                 MsgBox t("해당 주소는 이미 대기열에 추가되었습니다.", "That URL is already added"), 64
                 Exit Sub
@@ -2399,9 +2390,9 @@ Private Sub cmdDelete_Click()
         Exit Sub
     End If
     
-    Dim i%
+    Dim i&
     Dim Enable As Boolean
-    For i = 1 To lvBatchFiles.ListItems.Count
+    For i = 1& To lvBatchFiles.ListItems.Count
         If lvBatchFiles.ListItems(i).Checked Then
             Enable = True
             Exit For
@@ -3746,51 +3737,58 @@ Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, X As Sing
 End Sub
 
 Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
+    Dim ItemCount As Long
+    ItemCount = lvBatchFiles.ListItems.Count
     On Error GoTo ErrLn
     If lvBatchFiles.SelectedItem.Selected Then
         If cmdDelete.Enabled Then
-            mnuOpenBatch.Visible = cmdOpenBatch.Enabled
-            mnuOpenFolder2.Visible = cmdOpenBatch.Enabled
-            mnuSepOpen.Visible = (lvBatchFiles.SelectedItem.ForeColor = vbRed Or cmdOpenBatch.Enabled)
-            mnuMoveUp.Enabled = (lvBatchFiles.SelectedItem.Index <> 1) And (Not BatchStarted)
-            mnuMoveDown.Enabled = (lvBatchFiles.SelectedItem.Index <> lvBatchFiles.ListItems.Count) And (Not BatchStarted)
-            mnuErrorInfo.Visible = (lvBatchFiles.SelectedItem.ForeColor = vbRed)
+            Dim ErrorOccurred As Boolean, Openable As Boolean, SelectedIndex As Long
+            SelectedIndex = lvBatchFiles.SelectedItem.Index
+            ErrorOccurred = (lvBatchFiles.SelectedItem.ForeColor = vbRed)
+            Openable = cmdOpenBatch.Enabled
+            mnuOpenBatch.Visible = Openable
+            mnuOpenFolder2.Visible = Openable
+            mnuErrorInfo.Visible = ErrorOccurred
+            mnuSepOpen.Visible = ErrorOccurred Or Openable
+            mnuMoveUp.Enabled = (SelectedIndex <> 1) And (Not BatchStarted)
+            mnuMoveDown.Enabled = (SelectedIndex <> ItemCount) And (Not BatchStarted)
+            
+            Dim DefaultMenu As Menu
             If cmdOpenBatch.Enabled Then
-                Me.PopupMenu mnuListContext, , , , mnuOpenBatch
+                Set DefaultMenu = mnuOpenBatch
             ElseIf mnuErrorInfo.Visible Then
-                Me.PopupMenu mnuListContext, , , , mnuErrorInfo
+                Set DefaultMenu = mnuErrorInfo
             Else
-                Me.PopupMenu mnuListContext, , , , mnuEdit
+                Set DefaultMenu = mnuEdit
             End If
+            Me.PopupMenu mnuListContext, DefaultMenu:=DefaultMenu
         End If
         Exit Sub
     End If
     
 ErrLn:
-    mnuClearBatch2.Enabled = (lvBatchFiles.ListItems.Count > 0)
+    mnuClearBatch2.Enabled = (ItemCount > 0)
     Me.PopupMenu mnuListContext2
 End Sub
 
 Private Sub lvBatchFiles_ItemCheck(Item As LvwListItem, ByVal Checked As Boolean)
-    If BatchStarted And Item.Index = CurrentBatchIdx And (Not Checked) Then
+    If BatchStarted And Item.Index = CurrentBatchIdx Then
         Item.Checked = True
         Exit Sub
-    End If
-    
-    If Not (BatchStarted And Item.Index = CurrentBatchIdx) Then
+    Else
+        Dim ForeColor&, StatusText$
         If Not Checked Then
-            Item.ListSubItems(3).Text = t("통과", "Skip")
-            Item.ForeColor = &H808080
-            Item.ListSubItems(1).ForeColor = &H808080
-            Item.ListSubItems(2).ForeColor = &H808080
-            Item.ListSubItems(3).ForeColor = &H808080
+            ForeColor = &H808080
+            StatusText = t("통과", "Skip")
         Else
-            Item.ListSubItems(3).Text = t("대기", "Queued")
-            Item.ForeColor = 0
-            Item.ListSubItems(1).ForeColor = 0
-            Item.ListSubItems(2).ForeColor = 0
-            Item.ListSubItems(3).ForeColor = 0
+            ForeColor = 0&
+            StatusText = t("대기", "Queued")
         End If
+        Item.ListSubItems(3).Text = StatusText
+        Item.ForeColor = ForeColor
+        Item.ListSubItems(1).ForeColor = ForeColor
+        Item.ListSubItems(2).ForeColor = ForeColor
+        Item.ListSubItems(3).ForeColor = ForeColor
     End If
     
     If IsDownloading Or BatchStarted Then
@@ -3828,15 +3826,15 @@ End Sub
 
 Private Sub lvBatchFiles_ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)
     If Selected Then
-        Dim bBool As Boolean
-        bBool = (Not (BatchStarted And Item.Index = CurrentBatchIdx))
-        cmdDelete.Enabled = bBool
-        cmdDeleteDropdown.Enabled = bBool
-        cmdEdit.Enabled = bBool
+        Dim Enable As Boolean
+        Enable = (Not (BatchStarted And Item.Index = CurrentBatchIdx))
+        cmdDelete.Enabled = Enable
+        cmdDeleteDropdown.Enabled = Enable
+        cmdEdit.Enabled = Enable
         
-        bBool = (Item.ListSubItems(3).Text = t("완료", "Done"))
-        cmdOpenBatch.Enabled = bBool
-        cmdOpenDropdown.Enabled = bBool
+        Enable = (Item.ListSubItems(3).Text = t("완료", "Done"))
+        cmdOpenBatch.Enabled = Enable
+        cmdOpenDropdown.Enabled = Enable
     Else
         cmdDelete.Enabled = 0
         cmdDeleteDropdown.Enabled = 0
@@ -3847,11 +3845,8 @@ Private Sub lvBatchFiles_ItemSelect(Item As LvwListItem, ByVal Selected As Boole
 End Sub
 
 Private Sub lvBatchFiles_KeyDown(KeyCode As Integer, Shift As Integer)
-    On Error GoTo ErrLn2
-    If KeyCode = 46 Then
-        If lvBatchFiles.SelectedItem.Selected Then cmdDelete_Click
-    End If
-ErrLn2:
+    On Error Resume Next
+    If KeyCode = 46 And lvBatchFiles.SelectedItem.Selected Then cmdDelete_Click
 End Sub
 
 Private Sub mnuAddItem_Click()
@@ -3865,16 +3860,17 @@ End Sub
 Private Sub mnuClearBatch_Click()
     If lvBatchFiles.ListItems.Count Then
         If MsgBox(t("대기열의 모든 항목을 삭제하시겠습니까?", "Are you sure you want to clear the queue?"), vbQuestion + vbYesNo) <> vbYes Then Exit Sub
-        Dim i%
-        i = 1
+        
+        Dim i&
+        i = 1&
         Do While i <= lvBatchFiles.ListItems.Count
             If Not (BatchStarted And CurrentBatchIdx = i) Then
                 lvBatchFiles.ListItems.Remove i
                 If BatchStarted And CurrentBatchIdx > i Then
-                    CurrentBatchIdx = CurrentBatchIdx - 1
+                    CurrentBatchIdx = CurrentBatchIdx - 1&
                 End If
             ElseIf BatchStarted And CurrentBatchIdx = i Then
-                i = i + 1
+                i = i + 1&
             End If
         Loop
         

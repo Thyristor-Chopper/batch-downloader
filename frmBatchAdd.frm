@@ -26,16 +26,16 @@ Begin VB.Form frmBatchAdd
       Left            =   4560
       TabIndex        =   7
       Top             =   900
-      Width           =   1335
-      _ExtentX        =   2355
+      Width           =   1365
+      _ExtentX        =   2408
       _ExtentY        =   609
       Caption         =   "고급(&V)..."
    End
    Begin VB.TextBox txtSavePath 
-      Height          =   255
+      Height          =   300
       Left            =   120
       TabIndex        =   3
-      Top             =   3405
+      Top             =   3375
       Width           =   4215
    End
    Begin VB.TextBox txtURLs 
@@ -53,9 +53,9 @@ Begin VB.Form frmBatchAdd
       Left            =   4560
       TabIndex        =   6
       Top             =   510
-      Width           =   1335
-      _ExtentX        =   0
-      _ExtentY        =   0
+      Width           =   1365
+      _ExtentX        =   2408
+      _ExtentY        =   609
       Caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
@@ -63,9 +63,9 @@ Begin VB.Form frmBatchAdd
       Left            =   4560
       TabIndex        =   5
       Top             =   120
-      Width           =   1335
-      _ExtentX        =   0
-      _ExtentY        =   0
+      Width           =   1365
+      _ExtentX        =   2408
+      _ExtentY        =   609
       Caption         =   "확인"
    End
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
@@ -73,8 +73,8 @@ Begin VB.Form frmBatchAdd
       Left            =   4560
       TabIndex        =   4
       Top             =   3360
-      Width           =   1335
-      _ExtentX        =   2355
+      Width           =   1365
+      _ExtentX        =   2408
       _ExtentY        =   582
       Caption         =   "찾아보기(&B)..."
    End
@@ -102,8 +102,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'참고자료
-'https://blog.naver.com/wnwlsrb3/220729779017
+Option Explicit
+
 Dim PrevKeyCode As Integer
 Public HeaderCache As String
 
@@ -120,14 +120,13 @@ End Sub
 
 Private Sub cmdBrowse_Click()
     txtSavePath.Text = Trim$(txtSavePath.Text)
-    
-    Unload frmBrowse
-    Unload frmExplorer
     Tags.BrowsePresetPath = txtSavePath.Text
     Tags.BrowseTargetForm = 2
     If GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", "0") = "1" Then
+        Unload frmBrowse
         frmBrowse.Show vbModal, Me
     Else
+        Unload frmExplorer
         frmExplorer.Show vbModal, Me
     End If
 End Sub
@@ -148,26 +147,37 @@ Private Sub cmdOK_Click()
     URLs = Split(txtURLs.Text, vbCrLf)
     Dim ErrURLs$
     ErrURLs = ""
-    For i = 0 To UBound(URLs)
-        If LenB(Replace(URLs(i), " ", "")) Then
-            If frmMain.AddBatchURLs(URLs(i), txtSavePath.Text, HeaderCache) = False Then
+    Dim i&, MaxCountErrorShown As Boolean
+    MaxCountErrorShown = False
+    For i = 0& To UBound(URLs)
+        If LenB(Trim$(URLs(i))) Then
+            If frmMain.lvBatchFiles.ListItems.Count >= MAX_32BIT_SIGNED_INT Then
+                If Not MaxCountErrorShown Then
+                    MsgBox t("최대 일괄 다운로드 개수를 초과했습니다.", "Maximum number of items exceeded."), vbExclamation
+                    MaxCountErrorShown = True
+                End If
+                GoTo adderrorurl
+            End If
+            If Not frmMain.AddBatchURLs(URLs(i), txtSavePath.Text, HeaderCache) Then
+adderrorurl:
                 ErrURLs = ErrURLs & URLs(i) & vbCrLf
             End If
         End If
     Next i
     
-    If ErrURLs = "" Then
-        Unload Me
-    Else
+    If LenB(ErrURLs) Then
         txtURLs.Text = ErrURLs
         txtURLs.SelStart = 0
         txtURLs.SelLength = Len(txtURLs.Text)
         On Error Resume Next
         txtURLs.SetFocus
+    Else
+        Unload Me
     End If
 End Sub
 
 Private Sub Form_Activate()
+    On Error Resume Next
     txtURLs.SetFocus
 End Sub
 
@@ -199,8 +209,8 @@ Sub Form_Resize()
     cmdAdvanced.Left = cmdOK.Left
     txtURLs.Width = Me.Width - PaddedBorderWidth * 15 * 2 - 1890
     txtURLs.Height = Me.Height - PaddedBorderWidth * 15 * 2 - 1770
-    Label2.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 1140
-    txtSavePath.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 900
+    Label2.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 1140 - 30
+    txtSavePath.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 900 - 30
     cmdBrowse.Left = cmdOK.Left
     cmdBrowse.Top = Me.Height - PaddedBorderWidth * 15 * 2 - 945
     txtSavePath.Width = txtURLs.Width
@@ -252,9 +262,7 @@ End Function
 
 Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
     If (KeyCode = 13 Or KeyCode = 10) Then
-        If (PrevKeyCode = 13 Or PrevKeyCode = 10) Then
-            cmdOK_Click
-        End If
+        If (PrevKeyCode = 13 Or PrevKeyCode = 10) Then cmdOK_Click
         PrevKeyCode = KeyCode
     Else
         PrevKeyCode = 0
