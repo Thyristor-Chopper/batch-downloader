@@ -151,12 +151,9 @@ hDC As LongPtr
 RCItem As RECT
 ItemData As LongPtr
 End Type
-Public Event TabBeforeClick(ByVal TabItem As TbsTab, ByRef Cancel As Boolean)
-Attribute TabBeforeClick.VB_Description = "Occurs when a tab is clicked, or the tab's Value setting has been changed. Used to check parameters before actually generating a TabClick event."
-Public Event TabClick(ByVal TabItem As TbsTab)
-Attribute TabClick.VB_Description = "Occurs when a tab is clicked, or the tab's Value setting has been changed."
-Public Event ItemDraw(ByVal TabItem As TbsTab, ByVal ItemAction As Long, ByVal ItemState As Long, ByVal hDC As Long, ByVal Left As Long, ByVal Top As Long, ByVal Right As Long, ByVal Bottom As Long)
-Attribute ItemDraw.VB_Description = "Occurs when a visual aspect of an owner-drawn tab strip has changed."
+Public Event TabBeforeClick(TabItem As TbsTab, ByRef Cancel As Boolean)
+Public Event TabClick(TabItem As TbsTab)
+Public Event ItemDraw(TabItem As TbsTab, ByVal ItemAction As Long, ByVal ItemState As Long, ByVal hDC As Long, ByVal Left As Long, ByVal Top As Long, ByVal Right As Long, ByVal Bottom As Long)
 Public Event PreviewKeyDown(ByVal KeyCode As Integer, ByRef IsInputKey As Boolean)
 Attribute PreviewKeyDown.VB_Description = "Occurs before the KeyDown event."
 Public Event PreviewKeyUp(ByVal KeyCode As Integer, ByRef IsInputKey As Boolean)

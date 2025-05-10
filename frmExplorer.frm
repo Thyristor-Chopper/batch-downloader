@@ -1382,7 +1382,7 @@ folderfloor:
     End If
 End Sub
 
-Private Sub lvFiles_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Integer)
+Private Sub lvFiles_ItemDblClick(Item As LvwListItem, ByVal Button As Integer)
     If Item Is Nothing Then Exit Sub
     If Not Item.Selected Then Exit Sub
     
@@ -1438,7 +1438,7 @@ folderinaccessible:
     End If
 End Sub
 
-Private Sub lvFiles_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
+Private Sub lvFiles_ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)
     cmdPreview.Enabled = Selected
     
     If Item.IconIndex = 1 And Tags.BrowseTargetForm = 2 Then

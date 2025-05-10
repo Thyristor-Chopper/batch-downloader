@@ -149,12 +149,10 @@ Public Event DropDown()
 Attribute DropDown.VB_Description = "Occurs when the drop-down list is about to drop down."
 Public Event CloseUp()
 Attribute CloseUp.VB_Description = "Occurs when the drop-down list has been closed."
-Public Event ItemDrag(ByVal Item As ImcComboItem, ByVal Button As Integer)
-Attribute ItemDrag.VB_Description = "Occurs when a combo item initiate a drag-and-drop operation."
+Public Event ItemDrag(Item As ImcComboItem, ByVal Button As Integer)
 Public Event BeginEdit()
 Attribute BeginEdit.VB_Description = "Occurs when the user activates the drop-down list or clicks in the edit field."
 Public Event EndEdit(ByVal Changed As Boolean, ByVal NewIndex As Long, ByVal NewText As String, ByVal Reason As ImcEndEditReasonConstants)
-Attribute EndEdit.VB_Description = "Occurs when the user has concluded an operation within the edit field or has selected an item from the drop-down list."
 Public Event PreviewKeyDown(ByVal KeyCode As Integer, ByRef IsInputKey As Boolean)
 Attribute PreviewKeyDown.VB_Description = "Occurs before the KeyDown event."
 Public Event PreviewKeyUp(ByVal KeyCode As Integer, ByRef IsInputKey As Boolean)

@@ -1632,7 +1632,7 @@ Private Sub OnFontChange()
     End If
     If LCase(FontName) = "tahoma" Or Left$(FontName, 7) = "Tahoma " Then FontSize = 8 Else FontSize = 9
     
-    Dim i%
+    Dim i As Byte
     For i = LBound(PreviewControls) To UBound(PreviewControls)
         PreviewControls(i).Font.Name = FontName
         PreviewControls(i).Font.Size = FontSize
@@ -2532,12 +2532,12 @@ invalidname:
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 
-Private Sub lvHeaders_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Integer)
+Private Sub lvHeaders_ItemDblClick(Item As LvwListItem, ByVal Button As Integer)
     If Item.Selected Then _
         cmdEditHeaderValue_Click
 End Sub
 
-Private Sub lvHeaders_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
+Private Sub lvHeaders_ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)
     On Error GoTo justdisable
     If Selected Then
         cmdDeleteHeader.Enabled = -1
@@ -2623,7 +2623,7 @@ endedit:
 End Sub
 
 Private Sub InitTabDimension()
-    Dim i%
+    Dim i As Byte
     Dim MaxWidth%, MaxHeight%
     Dim TabHeight%
     TabHeight = tsTabStrip.Tabs(1).Height
@@ -3024,7 +3024,7 @@ End Sub
 Private Sub DrawTabBackground(Optional Force As Boolean = False)
     On Error Resume Next
     Dim ctrl As Control
-    Dim i%
+    Dim i As Byte
     
     For i = pbPanel.LBound To pbPanel.UBound
         tsTabStrip.DrawBackground pbPanel(i).hWnd, pbPanel(i).hDC
@@ -3131,18 +3131,14 @@ Private Sub optUserFore_Click()
     chkForeColorMainOnly.Enabled = True
 End Sub
 
-Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
+Private Sub tsTabStrip_TabClick(TabItem As TbsTab)
     On Error Resume Next
     
-    Dim i%
+    Static i As Byte, Show As Boolean
     For i = 1 To pbPanel.Count
-        If i = TabItem.Index Then
-            pbPanel(i).Visible = -1
-            pbPanel(i).Enabled = -1
-        Else
-            pbPanel(i).Visible = 0
-            pbPanel(i).Enabled = 0
-        End If
+        Show = (i = TabItem.Index)
+        pbPanel(i).Visible = Show
+        pbPanel(i).Enabled = Show
     Next i
     
     If TabItem.Index = 3 Then

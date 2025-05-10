@@ -34,8 +34,9 @@ Begin VB.Form frmAbout
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin VB.TextBox txtNode 
+      Begin VB.TextBox txtLicense 
          Height          =   3255
+         Index           =   2
          Left            =   0
          Locked          =   -1  'True
          MultiLine       =   -1  'True
@@ -56,8 +57,9 @@ Begin VB.Form frmAbout
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin VB.TextBox txtVbal 
+      Begin VB.TextBox txtLicense 
          Height          =   3255
+         Index           =   6
          Left            =   0
          Locked          =   -1  'True
          MultiLine       =   -1  'True
@@ -89,8 +91,9 @@ Begin VB.Form frmAbout
       TabIndex        =   16
       Top             =   1440
       Width           =   4815
-      Begin VB.TextBox txtShellPipe 
+      Begin VB.TextBox txtLicense 
          Height          =   3255
+         Index           =   3
          Left            =   0
          Locked          =   -1  'True
          MultiLine       =   -1  'True
@@ -111,8 +114,9 @@ Begin VB.Form frmAbout
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin VB.TextBox txtPNG 
+      Begin VB.TextBox txtLicense 
          Height          =   3255
+         Index           =   5
          Left            =   0
          Locked          =   -1  'True
          MultiLine       =   -1  'True
@@ -133,8 +137,9 @@ Begin VB.Form frmAbout
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin VB.TextBox txtCC 
+      Begin VB.TextBox txtLicense 
          Height          =   3255
+         Index           =   1
          Left            =   0
          Locked          =   -1  'True
          MultiLine       =   -1  'True
@@ -155,8 +160,9 @@ Begin VB.Form frmAbout
       TabStop         =   0   'False
       Top             =   1440
       Width           =   4815
-      Begin VB.TextBox txtIconv 
+      Begin VB.TextBox txtLicense 
          Height          =   3255
+         Index           =   4
          Left            =   0
          Locked          =   -1  'True
          MultiLine       =   -1  'True
@@ -237,7 +243,7 @@ Begin VB.Form frmAbout
    End
    Begin VB.Label lblDescription 
       BackStyle       =   0  '투명
-      Caption         =   "응용 프로그램 설명"
+      Caption         =   "This product includes software developed by vbAccelerator."
       ForeColor       =   &H00000000&
       Height          =   450
       Left            =   1050
@@ -259,8 +265,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim x As String
-
 Private Sub cmdOK_Click()
     Unload Me
 End Sub
@@ -279,17 +283,14 @@ Private Sub Form_Load()
     lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor
     If App.Revision Then lblVersion.Caption = lblVersion.Caption & "." & App.Revision
     lblTitle.Caption = App.Title
-    lblDescription.Caption = "This product includes software developed by vbAccelerator. " & t("이 프로그램에는 외부 라이브러리가 사용됐으며 라이선스는 아래와 같습니다.", "This program includes external libraries. Check out the license of them below.")
+    'lblDescription.Caption = "This product includes software developed by vbAccelerator. " & t("이 프로그램에는 외부 라이브러리가 사용됐으며 라이선스는 아래와 같습니다.", "This program includes external libraries. Check out the license of them below.")
     tr cmdOK, "OK"
-    tr FrameW1, "&License"
+    'tr FrameW1, "&License"
     
-    If RandInt(1, 10000) = 2094 Then
-        imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(4).Picture
-        imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(5).Picture
-    Else
-        imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(1).Picture
-        imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(2).Picture
-    End If
+    Dim EasterEgg As Byte
+    EasterEgg = -(RandInt(1, 10000) = 2094) * 3
+    imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(1 + EasterEgg).Picture
+    imgItems.ListImages.Add Picture:=frmDummyForm.imgTrain(2 + EasterEgg).Picture
     
     lvItems.ListItems.Add , , "Krool's Comctl", 1
     lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2
@@ -299,18 +300,16 @@ Private Sub Form_Load()
     lvItems.ListItems.Add , , "vbAccelerator SSubTmr", 2
     lvItems.ListItems(1).Selected = True
     
-    txtCC.Text = LoadResText(201, RCData)
-    txtNode.Text = LoadResText(202, RCData)
-    txtShellPipe.Text = LoadResText(203, RCData)
-    txtIconv.Text = LoadResText(204, RCData)
-    txtPNG.Text = LoadResText(205, RCData)
-    txtVbal.Text = LoadResText(206, RCData)
+    Dim i As Byte
+    For i = txtLicense.LBound To txtLicense.UBound
+        txtLicense(i).Text = LoadResText(200 + i, RCData)
+    Next i
 End Sub
 
-Private Sub lvItems_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
+Private Sub lvItems_ItemSelect(ByRef Item As LvwListItem, ByVal Selected As Boolean)
     On Error Resume Next
-    If Not Selected Then If Item Is lvItems.SelectedItem Then Item.Selected = True: Exit Sub
-    Static i%
+    If Not Selected Then Exit Sub 'If Item Is lvItems.SelectedItem Then Item.Selected = True: Exit Sub
+    Static i As Byte
     For i = pbLicenses.LBound To pbLicenses.UBound
         pbLicenses(i).Visible = (i = Item.Index)
     Next i

@@ -464,22 +464,14 @@ Public Event AfterScroll(ByVal DeltaX As Single, ByVal DeltaY As Single)
 Attribute AfterScroll.VB_Description = "Occurs when the control has been scrolled. Requires comctl32.dll version 6.0 or higher."
 Public Event ContextMenu(ByVal X As Single, ByVal Y As Single)
 Attribute ContextMenu.VB_Description = "Occurs when the user clicked the right mouse button or types SHIFT + F10."
-Public Event ItemClick(ByVal Item As LvwListItem, ByVal Button As Integer)
-Attribute ItemClick.VB_Description = "Occurs when a list item is clicked."
-Public Event ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Integer)
-Attribute ItemDblClick.VB_Description = "Occurs when a list item is double clicked."
-Public Event ItemFocus(ByVal Item As LvwListItem)
-Attribute ItemFocus.VB_Description = "Occurs when a list item is focused."
-Public Event ItemActivate(ByVal Item As LvwListItem, ByVal SubItemIndex As Long, ByVal Shift As Integer)
-Attribute ItemActivate.VB_Description = "Occurs when a list item is activated."
-Public Event ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
-Attribute ItemSelect.VB_Description = "Occurs when a list item is selected."
-Public Event ItemCheck(ByVal Item As LvwListItem, ByVal Checked As Boolean)
-Attribute ItemCheck.VB_Description = "Occurs when a list item is checked."
-Public Event ItemDrag(ByVal Item As LvwListItem, ByVal Button As Integer)
-Attribute ItemDrag.VB_Description = "Occurs when a list item initiate a drag-and-drop operation."
-Public Event ItemBkColor(ByVal Item As LvwListItem, ByRef RGBColor As Long)
-Attribute ItemBkColor.VB_Description = "Occurs when a list item is about to draw the background in 'report' view. This is a request to provide an alternative back color. The back color is passed in an RGB format."
+Public Event ItemClick(Item As LvwListItem, ByVal Button As Integer)
+Public Event ItemDblClick(Item As LvwListItem, ByVal Button As Integer)
+Public Event ItemFocus(Item As LvwListItem)
+Public Event ItemActivate(Item As LvwListItem, ByVal SubItemIndex As Long, ByVal Shift As Integer)
+Public Event ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)
+Public Event ItemCheck(Item As LvwListItem, ByVal Checked As Boolean)
+Public Event ItemDrag(Item As LvwListItem, ByVal Button As Integer)
+Public Event ItemBkColor(Item As LvwListItem, ByRef RGBColor As Long)
 Public Event GetVirtualItem(ByVal ItemIndex As Long, ByVal SubItemIndex As Long, ByVal VirtualProperty As LvwVirtualPropertyConstants, ByRef Value As Variant)
 Attribute GetVirtualItem.VB_Description = "Occurs when the list view is in virtual mode and requests for an item or sub item property."
 Public Event FindVirtualItem(ByVal StartIndex As Long, ByVal SearchText As String, ByVal Partial As Boolean, ByVal Wrap As Boolean, ByRef FoundIndex As Long)
@@ -490,39 +482,24 @@ Public Event BeforeLabelEdit(ByRef Cancel As Boolean)
 Attribute BeforeLabelEdit.VB_Description = "Occurs when a user attempts to edit the label of the currently selected list item."
 Public Event AfterLabelEdit(ByRef Cancel As Boolean, ByRef NewString As String)
 Attribute AfterLabelEdit.VB_Description = "Occurs after a user edits the label of the currently selected list item."
-Public Event ColumnClick(ByVal ColumnHeader As LvwColumnHeader)
-Attribute ColumnClick.VB_Description = "Occurs when a column header in a list view is clicked."
-Public Event ColumnDblClick(ByVal ColumnHeader As LvwColumnHeader)
-Attribute ColumnDblClick.VB_Description = "Occurs when a column header in a list view is double-clicked."
-Public Event ColumnBeforeResize(ByVal ColumnHeader As LvwColumnHeader, ByRef Cancel As Boolean)
-Attribute ColumnBeforeResize.VB_Description = "Occurs when the user has begun dragging a divider on one column header."
-Public Event ColumnAfterResize(ByVal ColumnHeader As LvwColumnHeader, ByRef NewWidth As Single)
-Attribute ColumnAfterResize.VB_Description = "Occurs when the user has finished dragging a divider on one column header."
-Public Event ColumnDividerDblClick(ByVal ColumnHeader As LvwColumnHeader, ByRef Cancel As Boolean)
-Attribute ColumnDividerDblClick.VB_Description = "Occurs when the user double-clicked the divider on one column header."
-Public Event ColumnBeforeDrag(ByVal ColumnHeader As LvwColumnHeader)
-Attribute ColumnBeforeDrag.VB_Description = "Occurs when a drag operation has begun on one column header."
-Public Event ColumnAfterDrag(ByVal ColumnHeader As LvwColumnHeader, ByVal NewPosition As Long, ByRef Cancel As Boolean)
-Attribute ColumnAfterDrag.VB_Description = "Occurs when a drag operation has ended on one column header."
-Public Event ColumnDropDown(ByVal ColumnHeader As LvwColumnHeader)
-Attribute ColumnDropDown.VB_Description = "Occurs when the drop-down arrow on the split button of a column header is clicked. Requires comctl32.dll version 6.1 or higher."
-Public Event ColumnCheck(ByVal ColumnHeader As LvwColumnHeader)
-Attribute ColumnCheck.VB_Description = "Occurs when a column header is checked. Requires comctl32.dll version 6.1 or higher."
-Public Event ColumnChevronPushed(ByVal ColumnHeader As LvwColumnHeader)
-Attribute ColumnChevronPushed.VB_Description = "Occurs when a chevron button of a column header is pushed. Requires comctl32.dll version 6.1 or higher."
-Public Event ColumnFilterChanged(ByVal ColumnHeader As LvwColumnHeader)
-Attribute ColumnFilterChanged.VB_Description = "Occurs when a filter of a column header has been changed."
-Public Event ColumnFilterButtonClick(ByVal ColumnHeader As LvwColumnHeader, ByRef RaiseFilterChanged As Boolean, ByVal ButtonLeft As Long, ByVal ButtonTop As Long, ByVal ButtonRight As Long, ByVal ButtonBottom As Long)
-Attribute ColumnFilterButtonClick.VB_Description = "Occurs when a filter button of a column header is clicked."
+Public Event ColumnClick(ColumnHeader As LvwColumnHeader)
+Public Event ColumnDblClick(ColumnHeader As LvwColumnHeader)
+Public Event ColumnBeforeResize(ColumnHeader As LvwColumnHeader, ByRef Cancel As Boolean)
+Public Event ColumnAfterResize(ColumnHeader As LvwColumnHeader, ByRef NewWidth As Single)
+Public Event ColumnDividerDblClick(ColumnHeader As LvwColumnHeader, ByRef Cancel As Boolean)
+Public Event ColumnBeforeDrag(ColumnHeader As LvwColumnHeader)
+Public Event ColumnAfterDrag(ColumnHeader As LvwColumnHeader, ByVal NewPosition As Long, ByRef Cancel As Boolean)
+Public Event ColumnDropDown(ColumnHeader As LvwColumnHeader)
+Public Event ColumnCheck(ColumnHeader As LvwColumnHeader)
+Public Event ColumnChevronPushed(ColumnHeader As LvwColumnHeader)
+Public Event ColumnFilterChanged(ColumnHeader As LvwColumnHeader)
+Public Event ColumnFilterButtonClick(ColumnHeader As LvwColumnHeader, ByRef RaiseFilterChanged As Boolean, ByVal ButtonLeft As Long, ByVal ButtonTop As Long, ByVal ButtonRight As Long, ByVal ButtonBottom As Long)
 #If VBA7 Then
-Public Event BeforeFilterEdit(ByVal ColumnHeader As LvwColumnHeader, ByVal hWndFilterEdit As LongPtr)
-Attribute BeforeFilterEdit.VB_Description = "Occurs when a user attempts to edit the filter of the corresponding column header."
+Public Event BeforeFilterEdit(ColumnHeader As LvwColumnHeader, ByVal hWndFilterEdit As LongPtr)
 #Else
-Public Event BeforeFilterEdit(ByVal ColumnHeader As LvwColumnHeader, ByVal hWndFilterEdit As Long)
-Attribute BeforeFilterEdit.VB_Description = "Occurs when a user attempts to edit the filter of the corresponding column header."
+Public Event BeforeFilterEdit(ColumnHeader As LvwColumnHeader, ByVal hWndFilterEdit As Long)
 #End If
-Public Event AfterFilterEdit(ByVal ColumnHeader As LvwColumnHeader)
-Attribute AfterFilterEdit.VB_Description = "Occurs after a user edits the filter of the corresponding column header."
+Public Event AfterFilterEdit(ColumnHeader As LvwColumnHeader)
 Public Event GetEmptyMarkup(ByRef Text As String, ByRef Center As Boolean)
 Attribute GetEmptyMarkup.VB_Description = "Occurs when the list view has no list items. This is a request to provide a markup text. Requires comctl32.dll version 6.1 or higher."
 Public Event GroupCollapsedChanged(ByVal Group As LvwGroup)

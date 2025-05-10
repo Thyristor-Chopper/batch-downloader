@@ -421,7 +421,7 @@ End Sub
 Private Sub Form_Load()
     InitForm Me
     
-    Dim i%
+    Dim i As Byte
     Dim MaxWidth%, MaxHeight%
     Dim TabHeight%
     TabHeight = tsTabStrip.Tabs(1).Height
@@ -579,7 +579,7 @@ Private Sub LoadSettings()
     cbAudioFormat.ListIndex = frmMain.ytdlAudioFormat
     IIf(frmMain.ytdlAudioBitrateType = CBR, optCBR, optVBR).Value = True
     cbVBR.ListIndex = frmMain.ytdlAudioVBR
-    Dim i%
+    Dim i As Byte
     For i = 0 To cbBitRate.ListCount - 1
         If CInt(Left$(cbBitRate.List(i), InStr(cbBitRate.List(i), " ") - 1)) = frmMain.ytdlAudioCBR Then
             cbBitRate.ListIndex = i
@@ -591,18 +591,13 @@ End Sub
 
 #If HIDEYTDL Then
 #Else
-Private Sub tsTabStrip_TabClick(ByVal TabItem As TbsTab)
+Private Sub tsTabStrip_TabClick(TabItem As TbsTab)
     On Error Resume Next
-    Dim i%
+    Static i As Byte, Show As Boolean
     For i = 1 To pbPanel.Count
-        If i = TabItem.Index Then
-            pbPanel(i).Visible = -1
-            pbPanel(i).Enabled = -1
-            pbPanel(i).SetFocus
-        Else
-            pbPanel(i).Visible = 0
-            pbPanel(i).Enabled = 0
-        End If
+        Show = (i = TabItem.Index)
+        pbPanel(i).Visible = Show
+        pbPanel(i).Enabled = Show
     Next i
 End Sub
 #End If
@@ -704,12 +699,12 @@ invalidname:
     Next i
 End Sub
 
-Private Sub lvHeaders_ItemDblClick(ByVal Item As LvwListItem, ByVal Button As Integer)
+Private Sub lvHeaders_ItemDblClick(Item As LvwListItem, ByVal Button As Integer)
     If Item.Selected Then _
         cmdEditHeaderValue_Click
 End Sub
 
-Private Sub lvHeaders_ItemSelect(ByVal Item As LvwListItem, ByVal Selected As Boolean)
+Private Sub lvHeaders_ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)
     On Error GoTo justdisable
     If Selected Then
         cmdDeleteHeader.Enabled = -1
