@@ -126,32 +126,36 @@ Begin VB.Form frmMessageBox
       Top             =   840
       Width           =   1455
    End
-   Begin VB.Image imgError 
+   Begin VB.Image imgIcon 
       Height          =   360
+      Index           =   1
       Left            =   75
       Picture         =   "frmMessageBox.frx":000C
       Top             =   90
       Visible         =   0   'False
       Width           =   360
    End
-   Begin VB.Image imgExclamation 
+   Begin VB.Image imgIcon 
       Height          =   360
+      Index           =   3
       Left            =   75
       Picture         =   "frmMessageBox.frx":00C1
       Top             =   90
       Visible         =   0   'False
       Width           =   360
    End
-   Begin VB.Image imgQuestion 
+   Begin VB.Image imgIcon 
       Height          =   360
+      Index           =   2
       Left            =   75
       Picture         =   "frmMessageBox.frx":01DC
       Top             =   90
       Visible         =   0   'False
       Width           =   360
    End
-   Begin VB.Image imgInformation 
+   Begin VB.Image imgIcon 
       Height          =   360
+      Index           =   4
       Left            =   75
       Picture         =   "frmMessageBox.frx":029A
       Top             =   90

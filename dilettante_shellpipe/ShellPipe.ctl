@@ -561,7 +561,7 @@ Public Sub Interrupt(Optional ByVal Break As Boolean = False)
         ErrNum = Err.LastDllError
         RaiseEvent Error(ErrNum, "ShellPipe.Interrupt.ConsoleCtrlEvent", Cancel)
         If Not Cancel Then
-            Err.Raise ErrNum, TypeName(Me), "Interrupt ConsoleCtrlEvent error"
+            Err.Raise ErrNum, "SP", "Interrupt ConsoleCtrlEvent error"
         End If
     End If
 End Sub
@@ -580,7 +580,7 @@ End Property
 
 Public Property Let PollInterval(ByVal RHS As Long)
     If 5 > RHS Or RHS > 65535 Then
-        Err.Raise &H80042B02, TypeName(Me), "PollInterval outside valid range 5-65535"
+        Err.Raise &H80042B02, "SP", "PollInterval outside valid range 5-65535"
     End If
     tmrCheck.Interval = RHS
     PropertyChanged "PollInterval"
@@ -682,7 +682,7 @@ Public Property Get WaitForIdle() As Long
 End Property
 
 Public Property Let WaitForIdle(ByVal RHS As Long)
-    If RHS < 0 Then Err.Raise &H80042B03, TypeName(Me), "WaitForIdle must be >= 0"
+    If RHS < 0 Then Err.Raise &H80042B03, "SP", "WaitForIdle must be >= 0"
     mWaitForIdle = RHS
     PropertyChanged "WaitForIdle"
 End Property
@@ -739,7 +739,7 @@ Private Sub ReadData()
                     Else
                         RaiseEvent Error(ErrNum, "ShellPipe.ReadData.ReadFile", Cancel)
                         If Not Cancel Then
-                            Err.Raise ErrNum, TypeName(Me), "ReadData ReadFile error"
+                            Err.Raise ErrNum, "SP", "ReadData ReadFile error"
                         End If
                     End If
                 End If
@@ -757,7 +757,7 @@ Private Sub ReadData()
                 Case Else
                     RaiseEvent Error(ErrNum, "ShellPipe.ReadData.PeekNamedPipe", Cancel)
                     If Not Cancel Then
-                        Err.Raise ErrNum, TypeName(Me), "ReadData PeeknamedPipe error"
+                        Err.Raise ErrNum, "SP", "ReadData PeeknamedPipe error"
                     End If
             End Select
         End If
@@ -788,7 +788,7 @@ Private Sub ReadData()
                     Else
                         RaiseEvent Error(ErrNum, "ShellPipe.ReadData.ReadFile", Cancel)
                         If Not Cancel Then
-                            Err.Raise ErrNum, TypeName(Me), "ReadData ReadFile error"
+                            Err.Raise ErrNum, "SP", "ReadData ReadFile error"
                         End If
                     End If
                 End If
@@ -806,7 +806,7 @@ Private Sub ReadData()
                 Case Else
                     RaiseEvent Error(ErrNum, "ShellPipe.ReadData.PeekNamedPipe", Cancel)
                     If Not Cancel Then
-                        Err.Raise ErrNum, TypeName(Me), "ReadData PeeknamedPipe error"
+                        Err.Raise ErrNum, "SP", "ReadData PeeknamedPipe error"
                     End If
             End Select
         End If
@@ -828,7 +828,7 @@ Private Sub WriteData()
                 ErrNum = Err.LastDllError
                 RaiseEvent Error(ErrNum, "ShellPipe.WriteData.WriteFile", Cancel)
                 If Not Cancel Then
-                    Err.Raise ErrNum, TypeName(Me), "WriteData WriteFile error"
+                    Err.Raise ErrNum, "SP", "WriteData WriteFile error"
                 End If
             End If
         End If

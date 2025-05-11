@@ -27,7 +27,6 @@ Begin VB.UserControl CommandButtonW
       Width           =   975
       _ExtentX        =   1720
       _ExtentY        =   661
-      FontSize        =   0
    End
 End
 Attribute VB_Name = "CommandButtonW"
@@ -1426,15 +1425,11 @@ If CommandButtonHandle <> NULL_PTR Then
     Select Case VarType(Value)
         Case vbObject
             If Not Value Is Nothing Then
-                If TypeName(Value) = "ImageList" Then
-                    On Error Resume Next
-                    Set tygButton.ButtonIcon = Value.ListImages.Item(1).ExtractIcon
-                    Handle = Value.hImageList
-                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                    On Error GoTo 0
-                Else
-                    Err.Raise Number:=35610, Description:="Invalid object"
-                End If
+                On Error Resume Next
+                Set tygButton.ButtonIcon = Value.ListImages.Item(1).ExtractIcon
+                Handle = Value.hImageList
+                Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+                On Error GoTo 0
             End If
             If Success = True Then
                 Call SetImageList(Handle)
@@ -1446,7 +1441,7 @@ If CommandButtonHandle <> NULL_PTR Then
             On Error Resume Next
             Dim ControlEnum As Object, CompareName As String
             For Each ControlEnum In UserControl.ParentControls
-                If TypeName(ControlEnum) = "ImageList" Then
+                If TypeOf ControlEnum Is ImageList Then
                     CompareName = ProperControlName(ControlEnum)
                     If CompareName = Value And Not CompareName = vbNullString Then
                         Err.Clear

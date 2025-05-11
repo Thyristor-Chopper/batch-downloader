@@ -224,7 +224,7 @@ Private Declare Function GetClassLong Lib "user32" Alias "GetClassLongW" (ByVal 
 Private Declare Function SendMessage Lib "user32" Alias "SendMessageW" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByRef lParam As Any) As Long
 Private Declare Function PeekMessage Lib "user32" Alias "PeekMessageW" (ByRef lpMsg As TMSG, ByVal hWnd As Long, ByVal wMsgFilterMin As Long, ByVal wMsgFilterMax As Long, ByVal wRemoveMsg As Long) As Long
 Private Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcW" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
-Private Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExW" (ByVal IDHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
+Private Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExW" (ByVal idHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
 Private Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Long) As Long
 Private Declare Function CallNextHookEx Lib "user32" (ByVal hHook As Long, ByVal nCode As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Private Declare Function GetKeyboardLayout Lib "user32" (ByVal dwThreadID As Long) As Long
@@ -589,7 +589,7 @@ ReDim Preserve CookiesOut(PropUBound + 1) As Long
 StringsOut(PropUBound) = "(None)"
 CookiesOut(PropUBound) = PropUBound
 For Each ControlEnum In ControlsEnum
-    If TypeName(ControlEnum) = "ImageList" Then
+    If TypeOf ControlEnum Is ImageList Then
         PropUBound = UBound(StringsOut())
         ReDim Preserve StringsOut(PropUBound + 1) As String
         ReDim Preserve CookiesOut(PropUBound + 1) As Long
@@ -822,7 +822,7 @@ Select Case VarType(KeyOrIndex)
         ElseIf VarType(ImageList) = vbString Then
             Dim ControlEnum As Object, CompareName As String
             For Each ControlEnum In Control.ControlsEnum
-                If TypeName(ControlEnum) = "ImageList" Then
+                If TypeOf ControlEnum Is ImageList Then
                     CompareName = ProperControlName(ControlEnum)
                     If CompareName = ImageList And Not CompareName = vbNullString Then
                         Set ImageListControl = ControlEnum

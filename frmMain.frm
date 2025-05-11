@@ -1589,10 +1589,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                     On Error Resume Next
                     Dim ctrl As Control
                     For Each ctrl In frmMain.Controls
-                        Select Case TypeName(ctrl)
-                            Case "FrameW", "CheckBoxW", "CommandButtonW", "Slider"
-                                ctrl.Refresh
-                        End Select
+                        If TypeOf ctrl Is FrameW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is CommandButtonW Or TypeOf ctrl Is Slider Then ctrl.Refresh
                     Next ctrl
                     trThreadCount.VisualStyles = Not trThreadCount.VisualStyles
                     trThreadCount.VisualStyles = Not trThreadCount.VisualStyles
@@ -2793,7 +2790,7 @@ dorefresh:
             If (Not cmdBrowse.IsTygemButton) And cmdBrowse.VisualStyles Then
                 Dim ctrl As Control
                 For Each ctrl In Me.Controls
-                    If TypeName(ctrl) = "CommandButtonW" Then ctrl.Refresh
+                    If TypeOf ctrl Is CommandButtonW Then ctrl.Refresh
                 Next ctrl
             End If
             fDownloadInfo.Refresh
@@ -3042,11 +3039,9 @@ Sub LoadLiveBadukSkin()
         End If
     End If
 
-    Dim CtrlTypeName$
     Dim ctrl As Control
     For Each ctrl In Me.Controls
-        CtrlTypeName = TypeName(ctrl)
-        If CtrlTypeName = "FrameW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "CommandButtonW" Or CtrlTypeName = "Slider" Then
+        If TypeOf ctrl Is FrameW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is CommandButtonW Or TypeOf ctrl Is Slider Then
             ctrl.Refresh
         End If
     Next ctrl

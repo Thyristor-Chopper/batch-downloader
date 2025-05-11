@@ -2820,20 +2820,13 @@ Private Sub DrawTabBackground(Optional Force As Boolean = False)
         tsTabStrip.DrawBackground pbPanel(i).hWnd, pbPanel(i).hDC
     Next i
     For Each ctrl In Me.Controls
-        Select Case TypeName(ctrl)
-            Case "FrameW", "CheckBoxW", "CommandButtonW" ', "LinkLabel"
-                'ctrl.Transparent = True
-                ctrl.Refresh
-            Case "Slider"
-                ctrl.Refresh
-                ctrl.VisualStyles = Not ctrl.VisualStyles
-                ctrl.VisualStyles = Not ctrl.VisualStyles
-'            Case "Label"
-'                If ctrl.Tag <> "nobgdraw" Then
-'                ctrl.BackStyle = 0
-'            Case "PictureBox"
-'                ctrl.Refresh
-        End Select
+        If TypeOf ctrl Is FrameW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is CommandButtonW Then
+            ctrl.Refresh
+        ElseIf TypeOf ctrl Is Slider Then
+            ctrl.Refresh
+            ctrl.VisualStyles = Not ctrl.VisualStyles
+            ctrl.VisualStyles = Not ctrl.VisualStyles
+        End If
     Next ctrl
 End Sub
 

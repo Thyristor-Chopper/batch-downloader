@@ -152,7 +152,7 @@ Attribute CloseUp.VB_Description = "Occurs when the drop-down list has been clos
 Public Event ItemDrag(Item As ImcComboItem, ByVal Button As Integer)
 Public Event BeginEdit()
 Attribute BeginEdit.VB_Description = "Occurs when the user activates the drop-down list or clicks in the edit field."
-Public Event EndEdit(ByVal Changed As Boolean, ByVal NewIndex As Long, ByVal NewText As String, ByVal Reason As ImcEndEditReasonConstants)
+Public Event endedit(ByVal Changed As Boolean, ByVal NewIndex As Long, ByVal NewText As String, ByVal Reason As ImcEndEditReasonConstants)
 Public Event PreviewKeyDown(ByVal KeyCode As Integer, ByRef IsInputKey As Boolean)
 Attribute PreviewKeyDown.VB_Description = "Occurs before the KeyDown event."
 Public Event PreviewKeyUp(ByVal KeyCode As Integer, ByRef IsInputKey As Boolean)
@@ -1181,14 +1181,10 @@ If ImageComboHandle <> NULL_PTR Then
     Select Case VarType(Value)
         Case vbObject
             If Not Value Is Nothing Then
-                If TypeName(Value) = "ImageList" Then
-                    On Error Resume Next
-                    Handle = Value.hImageList
-                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                    On Error GoTo 0
-                Else
-                    Err.Raise Number:=35610, Description:="Invalid object"
-                End If
+                On Error Resume Next
+                Handle = Value.hImageList
+                Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+                On Error GoTo 0
             End If
             If Success = True Then
                 SendMessage ImageComboHandle, CBEM_SETIMAGELIST, 0, ByVal Handle
@@ -1200,7 +1196,7 @@ If ImageComboHandle <> NULL_PTR Then
             On Error Resume Next
             Dim ControlEnum As Object, CompareName As String
             For Each ControlEnum In UserControl.ParentControls
-                If TypeName(ControlEnum) = "ImageList" Then
+                If TypeOf ControlEnum Is ImageList Then
                     CompareName = ProperControlName(ControlEnum)
                     If CompareName = Value And Not CompareName = vbNullString Then
                         Err.Clear
@@ -2691,7 +2687,7 @@ Select Case wMsg
                     CopyMemory NMCBEEE, ByVal lParam, LenB(NMCBEEE)
                     NewText = VarToStr(NMCBEEE.szText)
                     NewText = Left$(NewText, InStr(NewText, vbNullChar) - 1)
-                    RaiseEvent EndEdit(CBool(NMCBEEE.fChanged <> 0), NMCBEEE.iNewSelection, NewText, NMCBEEE.iWhy)
+                    RaiseEvent endedit(CBool(NMCBEEE.fChanged <> 0), NMCBEEE.iNewSelection, NewText, NMCBEEE.iWhy)
                 Case CBEN_GETDISPINFO
                     Dim NMCBE As NMCOMBOBOXEX
                     CopyMemory NMCBE, ByVal lParam, LenB(NMCBE)

@@ -2439,14 +2439,10 @@ If ListViewDesignMode = False Then
         Select Case VarType(Value)
             Case vbObject
                 If Not Value Is Nothing Then
-                    If TypeName(Value) = "ImageList" Then
-                        On Error Resume Next
-                        Handle = Value.hImageList
-                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                        On Error GoTo 0
-                    Else
-                        Err.Raise Number:=35610, Description:="Invalid object"
-                    End If
+                    On Error Resume Next
+                    Handle = Value.hImageList
+                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+                    On Error GoTo 0
                 End If
                 If Success = True Then
                     SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_NORMAL, ByVal Handle
@@ -2458,7 +2454,7 @@ If ListViewDesignMode = False Then
                 On Error Resume Next
                 Dim ControlEnum As Object, CompareName As String
                 For Each ControlEnum In UserControl.ParentControls
-                    If TypeName(ControlEnum) = "ImageList" Then
+                    If TypeOf ControlEnum Is ImageList Then
                         CompareName = ProperControlName(ControlEnum)
                         If CompareName = Value And Not CompareName = vbNullString Then
                             Err.Clear
@@ -2541,14 +2537,10 @@ If ListViewDesignMode = False Then
         Select Case VarType(Value)
             Case vbObject
                 If Not Value Is Nothing Then
-                    If TypeName(Value) = "ImageList" Then
-                        On Error Resume Next
-                        Handle = Value.hImageList
-                        Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
-                        On Error GoTo 0
-                    Else
-                        Err.Raise Number:=35610, Description:="Invalid object"
-                    End If
+                    On Error Resume Next
+                    Handle = Value.hImageList
+                    Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
+                    On Error GoTo 0
                 End If
                 If Success = True Then
                     SendMessage ListViewHandle, LVM_SETIMAGELIST, LVSIL_SMALL, ByVal Handle
@@ -2560,7 +2552,7 @@ If ListViewDesignMode = False Then
                 On Error Resume Next
                 Dim ControlEnum As Object, CompareName As String
                 For Each ControlEnum In UserControl.ParentControls
-                    If TypeName(ControlEnum) = "ImageList" Then
+                    If TypeOf ControlEnum Is ImageList Then
                         CompareName = ProperControlName(ControlEnum)
                         If CompareName = Value And Not CompareName = vbNullString Then
                             Err.Clear

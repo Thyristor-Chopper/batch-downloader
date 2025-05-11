@@ -632,64 +632,54 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
 
     On Error Resume Next
     Dim ctrl As Control
-    Dim CtrlTypeName$
     For Each ctrl In frmForm.Controls
-        CtrlTypeName = TypeName(ctrl)
-        If CtrlTypeName = "CommandButtonEx" Or CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ImageCombo" Or CtrlTypeName = "ToolBar" Or CtrlTypeName = "LinkLabel" Or CtrlTypeName = "Frame" Or CtrlTypeName = "PictureBox" Or CtrlTypeName = "Label" Or CtrlTypeName = "TabStrip" Or CtrlTypeName = "Slider" Or CtrlTypeName = "CheckBox" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "ProgressBar" Or CtrlTypeName = "FrameW" Or CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "StatusBar" Or CtrlTypeName = "ListView" Or CtrlTypeName = "ListBoxW" Or CtrlTypeName = "ListBox" Then
-            If (CtrlTypeName = "CommandButtonW" Or CtrlTypeName = "CommandButtonEx") And ctrl.Tag <> "notygchange" Then
-                If EnableLBSkin Then
-                    ctrl.IsTygemButton = True
-                ElseIf ctrl.IsTygemButton Then
-                    ctrl.IsTygemButton = False
-                    ctrl.Refresh
-                End If
+        If TypeOf ctrl Is DriveListBox Or TypeOf ctrl Is FileListBox Or TypeOf ctrl Is DirListBox Or TypeOf ctrl Is TextBox Or TypeOf ctrl Is ComboBox Or TypeOf ctrl Is ImageCombo Or TypeOf ctrl Is ToolBar Or TypeOf ctrl Is PictureBox Or TypeOf ctrl Is Label Or TypeOf ctrl Is TabStrip Or TypeOf ctrl Is Slider Or TypeOf ctrl Is OptionButton Or TypeOf ctrl Is ProgressBar Or TypeOf ctrl Is FrameW Or TypeOf ctrl Is CommandButton Or TypeOf ctrl Is CommandButtonW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is StatusBar Or TypeOf ctrl Is ListView Or TypeOf ctrl Is ListBox Then
+            If TypeOf ctrl Is CommandButtonW And ctrl.Tag <> "notygchange" Then
+                ctrl.IsTygemButton = EnableLBSkin
+                If Not EnableLBSkin Then ctrl.Refresh
             End If
             If ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
-                If CtrlTypeName = "CommandButton" Or CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Then
+                If TypeOf ctrl Is CommandButton Or TypeOf ctrl Is DriveListBox Or TypeOf ctrl Is FileListBox Or TypeOf ctrl Is DirListBox Or TypeOf ctrl Is TextBox Or TypeOf ctrl Is ComboBox Then
                     If DisableVisualStyle Then
                         RemoveVisualStyles ctrl.hWnd
-                        If CtrlTypeName = "CommandButton" Then ctrl.Style = 1
+                        If TypeOf ctrl Is CommandButton Then ctrl.Style = 1
                     Else
                         ActivateVisualStyles ctrl.hWnd
-                        If CtrlTypeName = "CommandButton" Then ctrl.Style = 0
+                        If TypeOf ctrl Is CommandButton Then ctrl.Style = 0
                     End If
                 Else
                     If (Not DisableVisualStyle) Then
-                        If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" And (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "CheckBox") Then
+                        If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And (Not frmForm Is frmOptions) And (Not frmForm Is frmDownloadOptions) And (Not IsSystemColor) And (TypeOf ctrl Is FrameW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is OptionButton) Then
                             RemoveVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = False
                             ctrl.RoundButton = RoundButton
                         Else
-                            If CtrlTypeName <> "PictureBox" Then ActivateVisualStyles ctrl.hWnd
+                            If Not (TypeOf ctrl Is PictureBox) Then ActivateVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = True
                         End If
-                        'If CtrlTypeName = "ProgressBar" Then ctrl.Refresh
-                        'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 0
-                    ElseIf CtrlTypeName <> "PictureBox" Then
+                    ElseIf Not (TypeOf ctrl Is PictureBox) Then
                         RemoveVisualStyles ctrl.hWnd
                         ctrl.VisualStyles = False
-                        ctrl.RoundButton = RoundButton
-                        'If CtrlTypeName = "CommandButton" Or CtrlTypeName = "CommandButtonW" Then ctrl.Style = 1
                     End If
                 End If
             End If
-            If CtrlTypeName = "DriveListBox" Or CtrlTypeName = "FileListBox" Or CtrlTypeName = "DirListBox" Or CtrlTypeName = "TextBox" Or CtrlTypeName = "ComboBox" Or CtrlTypeName = "ListView" Or CtrlTypeName = "TextBoxW" Or CtrlTypeName = "ComboBoxW" Or CtrlTypeName = "ListBoxW" Or CtrlTypeName = "ListBox" Then GoTo nextfor
-            If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And ctrl.Name <> "lblOverlay" And frmForm.Name <> "frmOptions" And frmForm.Name <> "frmDownloadOptions" Then
+            If TypeOf ctrl Is DriveListBox Or TypeOf ctrl Is FileListBox Or TypeOf ctrl Is DirListBox Or TypeOf ctrl Is TextBox Or TypeOf ctrl Is ComboBox Or TypeOf ctrl Is ListView Or TypeOf ctrl Is ListBox Then GoTo nextfor
+            If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And (Not frmForm Is frmOptions) And (Not frmForm Is frmDownloadOptions) Then
                 ctrl.ForeColor = clrForeColor
-                If (Not IsSystemColor) And (CtrlTypeName = "FrameW" Or CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "OptionButton" Or CtrlTypeName = "CheckBox") Then
-                    If CtrlTypeName <> "PictureBox" Then RemoveVisualStyles ctrl.hWnd
+                If (Not IsSystemColor) And (TypeOf ctrl Is FrameW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is OptionButton) Then
+                    If Not (TypeOf ctrl Is PictureBox) Then RemoveVisualStyles ctrl.hWnd
                     ctrl.VisualStyles = False
                 ElseIf (Not DisableVisualStyle) And ctrl.VisualStyles = False And ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
-                    If CtrlTypeName <> "PictureBox" Then ActivateVisualStyles ctrl.hWnd
+                    If Not (TypeOf ctrl Is PictureBox) Then ActivateVisualStyles ctrl.hWnd
                     ctrl.VisualStyles = True
                 End If
             End If
-            If CtrlTypeName = "PictureBox" And (Not ctrl.Tag = "forcebgchange") Then
+            If TypeOf ctrl Is PictureBox And (Not ctrl.Tag = "forcebgchange") Then
                 If ctrl.AutoRedraw = True Then GoTo nextfor
             End If
             If ctrl.Tag <> "nobackcolorchange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" And ctrl.BackColor <> clrBackColor Then
                 ctrl.BackColor = clrBackColor
-                If CtrlTypeName = "CheckBoxW" Or CtrlTypeName = "FrameW" Then ctrl.Refresh
+                If TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is FrameW Then ctrl.Refresh
             End If
         End If
 nextfor:
@@ -1034,19 +1024,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
             IconIndex = (RandVal Mod 2) + 1
     End Select
     Set MessageBox.imgTrain.Picture = Train(IconIndex)
-    Select Case Icon
-        Case 48
-            MessageBox.imgExclamation.Visible = True
-        Case 16
-            MessageBox.imgError.Visible = True
-        Case 64
-            MessageBox.imgInformation.Visible = True
-        Case 32
-            MessageBox.imgQuestion.Visible = True
-        'Case Else
-            'NoIcon = True
-            'MessageBox.imgTrain.Visible = False
-    End Select
+    MessageBox.imgIcon(Icon / 16).Visible = True
 
     Content = Replace(Content, "&", "&&")
     Content = Replace(Content, vbCrLf & vbCrLf, vbCrLf & " " & vbCrLf)
@@ -1073,12 +1051,12 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
 
     Dim MsgBoxMinWidth As Integer
     Select Case MsgBoxMode
-        Case vbOKOnly
-            MsgBoxMinWidth = 1920
         Case vbYesNo, vbRetryCancel, vbOKCancel, vbYesNoEx
             MsgBoxMinWidth = 3480
         Case vbYesNoCancel, vbAbortRetryIgnore, vbCancelTryContinue
             MsgBoxMinWidth = 4920
+        Case Else 'vbOKOnly
+            MsgBoxMinWidth = 1920
     End Select
 
     'MessageBox.lblContent.Height = 185 * LineCount + 60
@@ -1094,16 +1072,6 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
 '    End If
 
     Select Case MsgBoxMode
-        Case vbOKOnly
-            MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 + 30
-            MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350
-            If LineCount < 2 Then
-                MessageBox.Height = MessageBox.Height + 180
-                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top + 180
-            End If
-'            If NoIcon Then
-'                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
-'            End If
         Case vbYesNo
             MessageBox.cmdYes.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdYes.Width / 2
             MessageBox.cmdYes.Top = 840 + (LineCount * 185) - 350
@@ -1233,6 +1201,16 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
 '                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
 '                MessageBox.cmdTryAgain.Top = MessageBox.cmdTryAgain.Top - 210
 '            End If
+        Case Else 'vbOKOnly
+            MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 + 30
+            MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350
+            If LineCount < 2 Then
+                MessageBox.Height = MessageBox.Height + 180
+                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top + 180
+            End If
+'            If NoIcon Then
+'                MessageBox.cmdOK.Top = MessageBox.cmdOK.Top - 210
+'            End If
     End Select
     
     MessageBox.lblContent.Height = MessageBox.Height
@@ -1352,17 +1330,11 @@ nonexist:
     FolderExists = False
 End Function
 
-Function Floor(ByVal floatval As Double, Optional ByVal decimalPlaces As Long = 0) As Long
+Function Floor(ByVal floatval As Double, Optional ByVal decimalPlaces As Long) As Long
     Dim intval As Long
     intval = Round(floatval)
-    If intval > floatval Then
-         intval = intval - 1
-    End If
-
-    If decimalPlaces > 0 Then
-        floatval = floatval / (10 ^ decimalPlaces)
-    End If
-
+    If intval > floatval Then intval = intval - 1
+    If decimalPlaces Then floatval = floatval / (10 ^ decimalPlaces)
     Floor = intval
 End Function
 
@@ -1406,7 +1378,7 @@ ErrLn4:
     ParseSize = "0 " & t("πŸ¿Ã∆Æ", "Bytes")
 End Function
 
-Function FilterFilename(FileName As String, Optional ByVal PreserveBackslash As Boolean = False) As String
+Function FilterFilename(FileName As String, Optional ByVal PreserveBackslash As Boolean) As String
     Dim Str As String
     Dim ret As String
     ret = ""
@@ -1572,49 +1544,32 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     frm.Font.Size = FontSize
     Dim ctrl As Control
     For Each ctrl In frm.Controls
-        If ctrl.Name <> "lvDummyScroll" Then
-            ctrl.Font.Name = FontName
-            If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
-            ctrl.FontName = FontName
-            If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
-            If ctrl.Name <> "lblLBCaption" And ctrl.Name <> "lblLBCaptionShadow" And ctrl.Name <> "lblLBCaption2" And ctrl.Name <> "lblLBCaptionShadow2" Then
-                ctrl.FontBold = False
-                ctrl.Font.Bold = False
-            End If
-            ctrl.FontItalic = False
-            ctrl.Font.Italic = False
+        ctrl.Font.Name = FontName
+        If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
+        ctrl.FontName = FontName
+        If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
+        If (Not ctrl Is frmMain.lblLBCaption) And (Not ctrl Is frmMain.lblLBCaptionShadow) And (Not ctrl Is frmMain.lblLBCaption2) And (Not ctrl Is frmMain.lblLBCaptionShadow2) Then
+            ctrl.FontBold = False
+            ctrl.Font.Bold = False
         End If
+        ctrl.FontItalic = False
+        ctrl.Font.Italic = False
     Next ctrl
 setlbfont:
     If frm Is frmMain Then
-        If LBEnabled Then
-            frm.lblURL.Font.Size = 10
-            frm.lblFilePath.Font.Size = 10
-            frm.lblThreadCountLabel.Font.Size = 10
-            frm.lblURLShadow.Font.Size = 10
-            frm.lblFilePathShadow.Font.Size = 10
-            frm.lblThreadCountLabelShadow.Font.Size = 10
-            frm.lblURL.Font.Bold = True
-            frm.lblFilePath.Font.Bold = True
-            frm.lblThreadCountLabel.Font.Bold = True
-            frm.lblURLShadow.Font.Bold = True
-            frm.lblFilePathShadow.Font.Bold = True
-            frm.lblThreadCountLabelShadow.Font.Bold = True
-        Else
-            frm.lblURL.Font.Bold = False
-            frm.lblFilePath.Font.Bold = False
-            frm.lblThreadCountLabel.Font.Bold = False
-            frm.lblURLShadow.Font.Bold = False
-            frm.lblFilePathShadow.Font.Bold = False
-            frm.lblThreadCountLabelShadow.Font.Bold = False
-            FontSize = IIf(LCase(frm.lblURL.Font.Name) = "tahoma", 8, 9)
-            frm.lblURL.Font.Size = FontSize
-            frm.lblFilePath.Font.Size = FontSize
-            frm.lblThreadCountLabel.Font.Size = FontSize
-            frm.lblURLShadow.Font.Size = FontSize
-            frm.lblFilePathShadow.Font.Size = FontSize
-            frm.lblThreadCountLabelShadow.Font.Size = FontSize
-        End If
+        If LBEnabled Then FontSize = 10 Else FontSize = IIf(LCase(frm.lblURL.Font.Name) = "tahoma", 8, 9)
+        frm.lblURL.Font.Size = FontSize
+        frm.lblFilePath.Font.Size = FontSize
+        frm.lblThreadCountLabel.Font.Size = FontSize
+        frm.lblURLShadow.Font.Size = FontSize
+        frm.lblFilePathShadow.Font.Size = FontSize
+        frm.lblThreadCountLabelShadow.Font.Size = FontSize
+        frm.lblURL.Font.Bold = LBEnabled
+        frm.lblFilePath.Font.Bold = LBEnabled
+        frm.lblThreadCountLabel.Font.Bold = LBEnabled
+        frm.lblURLShadow.Font.Bold = LBEnabled
+        frm.lblFilePathShadow.Font.Bold = LBEnabled
+        frm.lblThreadCountLabelShadow.Font.Bold = LBEnabled
     End If
 End Sub
 
