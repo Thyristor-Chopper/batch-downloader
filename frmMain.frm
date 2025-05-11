@@ -175,21 +175,21 @@ Begin VB.Form frmMain
       Begin VB.Image imgBottomRight2 
          Height          =   180
          Left            =   6345
-         Picture         =   "frmMain.frx":1782
+         Picture         =   "frmMain.frx":08CA
          Top             =   4665
          Width           =   150
       End
       Begin VB.Image imgTopRight2 
          Height          =   435
          Left            =   6345
-         Picture         =   "frmMain.frx":17D4
+         Picture         =   "frmMain.frx":091C
          Top             =   0
          Width           =   150
       End
       Begin VB.Image imgBottom2 
          Height          =   195
          Left            =   1725
-         Picture         =   "frmMain.frx":182B
+         Picture         =   "frmMain.frx":0973
          Stretch         =   -1  'True
          Top             =   4650
          Width           =   4635
@@ -197,14 +197,14 @@ Begin VB.Form frmMain
       Begin VB.Image imgBottomLeft2 
          Height          =   180
          Left            =   0
-         Picture         =   "frmMain.frx":18C8
+         Picture         =   "frmMain.frx":0A10
          Top             =   4665
          Width           =   1725
       End
       Begin VB.Image imgTop2 
          Height          =   450
          Left            =   1725
-         Picture         =   "frmMain.frx":194C
+         Picture         =   "frmMain.frx":0A94
          Stretch         =   -1  'True
          Top             =   0
          Width           =   4620
@@ -212,7 +212,7 @@ Begin VB.Form frmMain
       Begin VB.Image imgTopLeft2 
          Height          =   435
          Left            =   0
-         Picture         =   "frmMain.frx":1A16
+         Picture         =   "frmMain.frx":0B5E
          Top             =   0
          Width           =   1725
       End
@@ -325,7 +325,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       ColorDepth      =   4
-      InitListImages  =   "frmMain.frx":1AED
+      InitListImages  =   "frmMain.frx":0C35
    End
    Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
       Height          =   375
@@ -371,7 +371,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       ColorDepth      =   4
-      InitListImages  =   "frmMain.frx":1FD5
+      InitListImages  =   "frmMain.frx":111D
    End
    Begin prjDownloadBooster.ImageList imgErase 
       Left            =   9840
@@ -381,7 +381,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":24BD
+      InitListImages  =   "frmMain.frx":1605
    End
    Begin prjDownloadBooster.StatusBar sbStatusBar 
       Align           =   2  '¾Æ·¡ ¸ÂÃã
@@ -391,7 +391,7 @@ Begin VB.Form frmMain
       Width           =   12630
       _ExtentX        =   22278
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":28A5
+      InitPanels      =   "frmMain.frx":19ED
    End
    Begin prjDownloadBooster.ListView lvBatchFiles 
       Height          =   870
@@ -457,7 +457,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2BA9
+      InitListImages  =   "frmMain.frx":1CF1
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenDropdown 
       Height          =   375
@@ -480,7 +480,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2D59
+      InitListImages  =   "frmMain.frx":1EA1
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -503,7 +503,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3059
+      InitListImages  =   "frmMain.frx":21A1
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
@@ -539,7 +539,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3441
+      InitListImages  =   "frmMain.frx":2589
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -549,7 +549,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3829
+      InitListImages  =   "frmMain.frx":2971
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -559,7 +559,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3F99
+      InitListImages  =   "frmMain.frx":30E1
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -569,7 +569,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":4381
+      InitListImages  =   "frmMain.frx":34C9
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -579,7 +579,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":4AF1
+      InitListImages  =   "frmMain.frx":3C39
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -589,7 +589,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":5261
+      InitListImages  =   "frmMain.frx":43A9
    End
    Begin prjDownloadBooster.FrameW fDownloadInfo 
       Height          =   3255
@@ -1131,7 +1131,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderBottomRight 
       Height          =   135
       Left            =   11040
-      Picture         =   "frmMain.frx":5649
+      Picture         =   "frmMain.frx":4791
       Top             =   600
       Visible         =   0   'False
       Width           =   135
@@ -1139,7 +1139,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderBottomLeft 
       Height          =   135
       Left            =   10680
-      Picture         =   "frmMain.frx":5697
+      Picture         =   "frmMain.frx":47DF
       Top             =   600
       Visible         =   0   'False
       Width           =   135
@@ -1147,7 +1147,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderTopRight 
       Height          =   135
       Left            =   11040
-      Picture         =   "frmMain.frx":56E3
+      Picture         =   "frmMain.frx":482B
       Top             =   240
       Visible         =   0   'False
       Width           =   135
@@ -1155,7 +1155,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderTopLeft 
       Height          =   135
       Left            =   10680
-      Picture         =   "frmMain.frx":572F
+      Picture         =   "frmMain.frx":4877
       Top             =   240
       Visible         =   0   'False
       Width           =   135

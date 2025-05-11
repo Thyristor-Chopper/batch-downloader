@@ -460,8 +460,6 @@ nextfor1:
     Next i
     tsTabStrip.Width = MaxWidth + 120
     tsTabStrip.Height = MaxHeight + TabHeight + 120
-    tsTabStrip.Top = 120
-    tsTabStrip.Left = 120
     CancelButton.Top = tsTabStrip.Top + tsTabStrip.Height + 60
     OKButton.Top = CancelButton.Top
     CancelButton.Left = tsTabStrip.Left + tsTabStrip.Width - CancelButton.Width
@@ -601,7 +599,7 @@ Private Sub LoadSettings()
             Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
             lblDescription.Caption = t("이 파일 다운로드 시에 요청할 헤더를 지정하십시오.", "Specify the headers when requesting this file to download.")
         Case 3
-            Me.Caption = t("헤더 설정", "Header settings")
+            Me.Caption = t("사용자 지정 헤더", "Headers")
             lblDescription.Caption = t("다운로드 중 서버에 요청할 때 전송할 헤더를 설정합니다. [다운로드 설정]에서 설정한 헤더가 우선적으로 적용됩니다.", "Set the headers when requesting to the server on download. Headers set in Download Options have higher priority.")
             
             Dim GlobalHeaders() As String

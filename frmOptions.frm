@@ -2449,8 +2449,6 @@ Private Sub InitTabDimension()
     Next i
     tsTabStrip.Width = MaxWidth + 120
     tsTabStrip.Height = MaxHeight + TabHeight + 120
-    tsTabStrip.Top = 120
-    tsTabStrip.Left = 120
     cmdApply.Top = tsTabStrip.Top + tsTabStrip.Height + 60
     CancelButton.Top = cmdApply.Top
     OKButton.Top = cmdApply.Top
