@@ -82,25 +82,21 @@ Const LOGPIXELSY As Long = 90&
 Const AC_SRC_OVER  As Byte = 0
 Const AC_SRC_ALPHA As Byte = 1
 
-'https://www.vbforums.com/showthread.php?805563-RESOLVED-GDI-Load-image-from-a-byte-array-into-PictureBox
-Private Function IStreamFromArray(ArrayPtr As Long, Length As Long, ByRef Address As Long) As stdole.IUnknown
-    Dim o_hMem&, o_lpMem&
-    o_hMem = GlobalAlloc(&H2&, Length)
-    o_lpMem = GlobalLock(o_hMem)
-    CopyMemory ByVal o_lpMem, ByVal ArrayPtr, Length
-    GlobalUnlock o_hMem
-    CreateStreamOnHGlobal o_hMem, 1&, IStreamFromArray
-    Address = o_hMem
-End Function
-
 Function LoadPictureFromResource(ByVal ResourceID As Integer, ByVal ResourceType As ResourceType) As IPicture
     Set LoadPictureFromResource = LoadPictureFromBuffer(LoadResData(ResourceID, ResourceType))
 End Function
 
 Function LoadPictureFromBuffer(Buffer() As Byte) As IPicture
-    Dim Address As Long
-    Set LoadPictureFromBuffer = LoadPngIntoPictureWithAlpha(StreamPtr:=ObjPtr(IStreamFromArray(VarPtr(Buffer(0)), UBound(Buffer), Address)))
-    GlobalFree Address
+    'https://www.vbforums.com/showthread.php?805563-RESOLVED-GDI-Load-image-from-a-byte-array-into-PictureBox
+    Dim o_hMem&, Length&, Stream As stdole.IUnknown
+    Length = UBound(Buffer)
+    o_hMem = GlobalAlloc(&H2&, Length)
+    CopyMemory ByVal GlobalLock(o_hMem), ByVal VarPtr(Buffer(0)), Length
+    GlobalUnlock o_hMem
+    CreateStreamOnHGlobal o_hMem, 1&, Stream
+    Set LoadPictureFromBuffer = LoadPngIntoPictureWithAlpha(StreamPtr:=ObjPtr(Stream))
+    Set Stream = Nothing
+    GlobalFree o_hMem
 End Function
 
 Function LoadPictureFromFile(Path As String) As IPicture

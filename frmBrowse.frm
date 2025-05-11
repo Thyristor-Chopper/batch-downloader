@@ -324,9 +324,9 @@ Private Sub OKButton_Click()
     
     Dim IsColonPresent As Boolean
     If Len(txtFileName.Text) > 3 And Mid$(txtFileName.Text, 2, 2) = ":\" Then
-        IsColonPresent = InStr(1, Right$(txtFileName.Text, Len(txtFileName.Text) - 3), "|") > 0
+        IsColonPresent = InStr(1, Right$(txtFileName.Text, Len(txtFileName.Text) - 3), "|")
     Else
-        IsColonPresent = Includes(txtFileName.Text, ":")
+        IsColonPresent = InStr(txtFileName.Text, ":")
     End If
     
     If _

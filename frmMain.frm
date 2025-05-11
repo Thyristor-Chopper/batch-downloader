@@ -1642,7 +1642,7 @@ Private Sub spYtdl_DataArrival(ByVal CharsTotal As Long)
             Select Case Data(0)
                 Case "[info]"
                     '포맷 개수
-                    If Includes(Line, "Downloading ") And Includes(Line, " format(s): ") Then
+                    If CBool(InStr(Line, "Downloading ")) And CBool(InStr(Line, " format(s): ")) Then
                         ytdlTotalFormatCount = UBound(Split(Data(5), "+")) + 1
                     End If
                     lvLogTest.ListItems.Add(, , "정보").ListSubItems.Add , , Line

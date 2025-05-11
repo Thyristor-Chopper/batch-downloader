@@ -1886,7 +1886,7 @@ Private Sub cmdAdvancedSkin_Click()
 End Sub
 
 Private Sub cmdApply_Click()
-    If WinVer >= 6# And cbFrameSkin.ListCount >= 3 Then
+    If cbFrameSkin.ListCount >= 3 Then
         SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", -(cbFrameSkin.ListIndex = 1)
     End If
     SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", -((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
@@ -2190,7 +2190,7 @@ Private Sub cmdSaveTheme_Click()
     ThemeName = InputBoxEx(t("테마 이름을 입력하십시오.", "Choose your theme name."), t("테마 저장", "Save theme"), DefThemeName)
     If ThemeName = "" Then
         Exit Sub
-    ElseIf Includes(ThemeName, "\") Then
+    ElseIf InStr(ThemeName, "\") Then
         MsgBox t("테마 이름에 허용되지 않은 문자가 포함되어 있습니다.", "Theme name contains invalid characters."), 16
         Exit Sub
     ElseIf ThemeName = "수정된 테마" Or LCase(ThemeName) = "modified theme" Then
@@ -2210,7 +2210,7 @@ Private Sub cmdSaveTheme_Click()
         End If
     End If
     
-    If WinVer >= 6# And cbFrameSkin.ListCount >= 3 Then
+    If cbFrameSkin.ListCount >= 3 Then
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", -(cbFrameSkin.ListIndex = 1)
     End If
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", -((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
@@ -2504,7 +2504,7 @@ Private Sub Form_Load()
         If WinVer < 6.2 Or LCase(GetFilename(GetKeyValue(HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\ThemeManager", "DllName", "%SystemRoot%\resources\Themes\Aero\aero.msstyles"))) = "aero.msstyles" Then
             AddItemToComboBox cbFrameSkin, "Windows " & IIf(WinVer < 6.1, "Vista", "7") & " " & t("베이직", "Basic")
         Else
-            AddItemToComboBox cbFrameSkin, t("시스템", "System") & " (" & t("DWM 없음", "No DWM") & ")"
+            AddItemToComboBox cbFrameSkin, t("시스템 (DWM 없음)", "System (No DWM)")
         End If
     End If
     AddItemToComboBox cbFrameSkin, t("고전 스타일", "Classic style")

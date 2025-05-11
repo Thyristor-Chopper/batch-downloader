@@ -162,27 +162,27 @@ Private Type TIME_ZONE_INFORMATION
     DaylightBias As Long
 End Type
 
-Public Const WM_NOTIFY = &H4E&
-Public Const WM_MOVE = &H3&
-Public Const WM_SETCURSOR = &H20&
-Public Const WM_NCPAINT = &H85&
-Public Const WM_COMMAND = &H111&
-Public Const WM_SIZING = &H214
-Public Const WM_GETMINMAXINFO = &H24
-Public Const WM_SYSCOMMAND = &H112
-Public Const WM_INITMENU = &H116
-Public Const WM_SETTINGCHANGE = &H1A
-Public Const WM_DWMCOMPOSITIONCHANGED = &H31E
-Public Const WM_THEMECHANGED = &H31A
-Public Const WM_DPICHANGED = &H2E0
-Public Const WM_CTLCOLORSCROLLBAR = &H137&
-Public Const WM_CTLCOLORSTATIC = &H138
-Public Const WM_CTLCOLORBTN = &H135
-Public Const WM_PAINT As Long = &HF
-Public Const hWnd_TOPMOST = -1
-Public Const hWnd_NOTOPMOST = -2
-Public Const SWP_NOMOVE = &H2
-Public Const SWP_NOSIZE = &H1
+Public Const WM_NOTIFY As Long = &H4E&
+Public Const WM_MOVE As Long = &H3&
+Public Const WM_SETCURSOR As Long = &H20&
+Public Const WM_NCPAINT As Long = &H85&
+Public Const WM_COMMAND As Long = &H111&
+Public Const WM_SIZING As Long = &H214&
+Public Const WM_GETMINMAXINFO As Long = &H24
+Public Const WM_SYSCOMMAND As Long = &H112&
+Public Const WM_INITMENU As Long = &H116&
+Public Const WM_SETTINGCHANGE As Long = &H1A
+Public Const WM_DWMCOMPOSITIONCHANGED As Long = &H31E&
+Public Const WM_THEMECHANGED As Long = &H31A&
+Public Const WM_DPICHANGED As Long = &H2E0&
+Public Const WM_CTLCOLORSCROLLBAR As Long = &H137&
+Public Const WM_CTLCOLORSTATIC As Long = &H138&
+Public Const WM_CTLCOLORBTN As Long = &H135&
+Public Const WM_PAINT As Long = &HF&
+Public Const hWnd_TOPMOST As Long = -1&
+Public Const hWnd_NOTOPMOST As Long = -2&
+Public Const SWP_NOMOVE As Long = &H2&
+Public Const SWP_NOSIZE As Long = &H1&
 
 Private Type FILETIME
     LowDateTime As Long
@@ -200,19 +200,19 @@ Private Type SYSTEMTIME
     Milliseconds As Integer
 End Type
 
-Private Const CB_ERR As Long = -1
-Private Const CB_ADDSTRING As Long = &H143
-Private Const CB_RESETCONTENT As Long = &H14B
-Private Const CB_SETITEMDATA As Long = &H151
+Private Const CB_ERR As Long = -1&
+Private Const CB_ADDSTRING As Long = &H143&
+Private Const CB_RESETCONTENT As Long = &H14B&
+Private Const CB_SETITEMDATA As Long = &H151&
 
-Public Const hWnd_DESKTOP As Long = &H0
-Public Const LAYOUT_RTL As Long = &H1
-Public Const WS_EX_LAYOUTRTL As Long = &H400000, WS_EX_RTLREADING As Long = &H2000
-Public Const RDW_UPDATENOW As Long = &H100, RDW_INVALIDATE As Long = &H1, RDW_ERASE As Long = &H4, RDW_ALLCHILDREN As Long = &H80
+Public Const hWnd_DESKTOP As Long = &H0&
+Public Const LAYOUT_RTL As Long = &H1&
+Public Const WS_EX_LAYOUTRTL As Long = &H400000, WS_EX_RTLREADING As Long = &H2000&
+Public Const RDW_UPDATENOW As Long = &H100&, RDW_INVALIDATE As Long = &H1&, RDW_ERASE As Long = &H4&, RDW_ALLCHILDREN As Long = &H80&
 
-Private Const PROCESS_ALL_ACCESS = &H1F0FFF
+Private Const PROCESS_ALL_ACCESS As Long = &H1F0FFF
 
-Public Const GWL_STYLE = (-16)
+Public Const GWL_STYLE As Long = -16&
 
 'Public Const DWM_EC_DISABLECOMPOSITION As Long = 0&
 'Public Const DWM_EC_ENABLECOMPOSITION As Long = 1&
@@ -317,8 +317,8 @@ End Enum
 Public Const SWP_FRAMECHANGED As Long = &H20&
 Public Const GWL_EXSTYLE As Long = -20&
 
-Public Const RGN_DIFF = 4
-Public Const RGN_OR = 2
+Public Const RGN_DIFF As Long = 4&
+Public Const RGN_OR As Long = 2&
 
 Public Const WS_VISIBLE As Long = &H10000000
 Public Const WS_VSCROLL As Long = &H200000
@@ -491,9 +491,9 @@ Type MENUITEMINFO
     cch As Long
 End Type
 
-Private Const VER_PLATFORM_WIN32s = 0
-Private Const VER_PLATFORM_WIN32_WINDOWS = 1
-Private Const VER_PLATFORM_WIN32_NT = 2
+Private Const VER_PLATFORM_WIN32s = 0&
+Private Const VER_PLATFORM_WIN32_WINDOWS = 1&
+Private Const VER_PLATFORM_WIN32_NT = 2&
 
 Type ChooseColorStruct
     lStructSize As Long
@@ -526,12 +526,12 @@ Const CLR_INVALID = &HFFFF
 '    Doraemon = 128
 'End Enum
 
-Private Const VK_SHIFT As Long = &H10
-Private Const VK_CONTROL As Long = &H11
-Private Const VK_MENU As Long = &H12
-Private Const VK_CAPITAL = &H14
-Private Const VK_NUMLOCK = &H90
-Private Const VK_SCROLL = &H91
+Private Const VK_SHIFT As Long = &H10&
+Private Const VK_CONTROL As Long = &H11&
+Private Const VK_MENU As Long = &H12&
+Private Const VK_CAPITAL As Long = &H14&
+Private Const VK_NUMLOCK As Long = &H90&
+Private Const VK_SCROLL As Long = &H91&
 
 Enum GetKeyStateKeyboardCodes
     gksKeyboardShift = VK_SHIFT
@@ -543,7 +543,7 @@ Enum GetKeyStateKeyboardCodes
 End Enum
 
 'https://www.mrexcel.com/board/threads/test-if-shift-key-was-held-when-commandbutton-gets-clicked.194874/
-Function IsKeyPressed(ByVal lKey As GetKeyStateKeyboardCodes) As Boolean
+Function IsKeyPressed(lKey As GetKeyStateKeyboardCodes) As Boolean
     Dim iResult As Integer
     iResult = GetKeyState(lKey)
 
@@ -554,40 +554,35 @@ Function IsKeyPressed(ByVal lKey As GetKeyStateKeyboardCodes) As Boolean
             iResult = iResult And &H8000
     End Select
 
-    IsKeyPressed = (iResult <> 0)
+    IsKeyPressed = iResult
 End Function
 
 Sub DisableDWMWindow(hWnd As Long)
-    If WinVer < 6# Then Exit Sub
     On Error Resume Next
     DwmSetWindowAttribute hWnd, 2&, 1&, 4&
 End Sub
 
 Sub EnableDWMWindow(hWnd As Long)
-    If WinVer < 6# Then Exit Sub
     On Error Resume Next
     DwmSetWindowAttribute hWnd, 2&, 0&, 4&
 End Sub
 
+Function IsDWMAvailable() As Boolean
+    On Error GoTo noavail
+    DwmSetWindowAttribute 0&, 0&, 0&, 0&
+    IsDWMAvailable = True
+noavail:
+End Function
+
 Function IsDWMEnabled() As Boolean
-    If WinVer < 6# Then GoTo nodwm
     On Error GoTo nodwm
     Dim DwmEnabled&, ret&
-    DwmEnabled = 0
     ret = DwmIsCompositionEnabled(DwmEnabled)
-    If ret <> 0 Then GoTo nodwm
-    If DwmEnabled <> 0 Then
-        IsDWMEnabled = True
-    Else
-        IsDWMEnabled = False
-    End If
-    Exit Function
+    If ret = 0& Then IsDWMEnabled = DwmEnabled
 nodwm:
-    IsDWMEnabled = False
 End Function
 
 'Sub ExtendDWMFrame(ByRef frmForm As Form, Top As Long, Right As Long, Bottom As Long, Left As Long)
-'    If WinVer < 6# Then Exit Sub
 '    On Error Resume Next
 '    Dim Margin As MARGINS
 '    Margin.cxLeftWidth = Left
@@ -1643,27 +1638,24 @@ returncollection:
     DecodeHeaderCache.Add Headers, "Values"
 End Function
 
-Function GetSpecialfolder(CSIDL As Long) As String
+Function GetSpecialFolder(CSIDL As Long) As String
     Dim lngRetVal As Long
     Dim IDL As ITEMIDLIST
     Dim strPath As String
-    lngRetVal = SHGetSpecialFolderLocation(100, CSIDL, IDL)
-    If lngRetVal = 0 Then
-        strPath$ = Space$(512)
-        lngRetVal = SHGetPathFromIDList(ByVal IDL.mkid.cb, ByVal strPath$)
-        GetSpecialfolder = Left$(strPath, InStr(strPath, Chr$(0)) - 1)
-        Exit Function
+    lngRetVal = SHGetSpecialFolderLocation(100&, CSIDL, IDL)
+    If lngRetVal = 0& Then
+        strPath = Space$(512)
+        lngRetVal = SHGetPathFromIDList(ByVal IDL.mkid.cb, ByVal strPath)
+        GetSpecialFolder = Left$(strPath, InStr(strPath, Chr$(0)) - 1)
     End If
-    GetSpecialfolder = ""
 End Function
 
 Sub GetDiskSpace(sDrive As String, ByRef dblTotal As Double, ByRef dblFree As Double)
-    Dim lresult As Long
+    Dim lResult As Long
     Dim liAvailable As LARGE_INTEGER
     Dim liTotal As LARGE_INTEGER
     Dim liFree As LARGE_INTEGER
-    If LenB(Right(sDrive, 1)) Then sDrive = sDrive & ""
-    lresult = GetDiskFreeSpaceEx(sDrive, liAvailable, liTotal, liFree)
+    lResult = GetDiskFreeSpaceEx(sDrive, liAvailable, liTotal, liFree)
     dblTotal = CLargeInt(liTotal.LowPart, liTotal.HighPart)
     dblFree = CLargeInt(liFree.LowPart, liFree.HighPart)
 End Sub
@@ -1688,7 +1680,6 @@ End Function
 
 Sub ShellExecute(sFile As String, Optional Action As String = "open", Optional WorkingDirectory As String)
     Dim shInfo As SHELLEXECUTEINFO
-
     With shInfo
         .cbSize = LenB(shInfo)
         .lpFile = sFile
@@ -1697,7 +1688,6 @@ Sub ShellExecute(sFile As String, Optional Action As String = "open", Optional W
         If LenB(WorkingDirectory) Then .lpDirectory = WorkingDirectory
         .lpVerb = Action
     End With
-
     ShellExecuteEx shInfo
 End Sub
 
@@ -1711,11 +1701,11 @@ Function GetShortcutTarget(sPath As String) As String
     Set shl = New Shell
     Set fld = shl.NameSpace(folderPath)
     Set file = fld.Items.Item(GetFilename(sPath))
-    If Err <> 0 Then
+    If Err Then
         GetShortcutTarget = " Not Accesible"
         Err.Clear
         GoTo exit_sub
-   Else
+    Else
         If file.IsLink Then
             Set lnk = file.GetLink
             GetShortcutTarget = lnk.Path
@@ -1738,7 +1728,6 @@ Function atob(sText As String) As Byte()
     Dim lSize           As Long
     Dim dwDummy         As Long
     Dim baOutput()      As Byte
-
     lSize = Len(sText) + 1
     ReDim baOutput(0 To lSize - 1) As Byte
     CryptStringToBinary StrPtr(sText), Len(sText), CRYPT_STRING_BASE64, VarPtr(baOutput(0)), lSize, 0, dwDummy
@@ -1795,10 +1784,6 @@ errfso:
     GetExtensionName = ""
 End Function
 
-Function Includes(Target As String, toFind As String) As Boolean
-    Includes = (InStr(Target, toFind) <> 0)
-End Function
-
 Function ArrayIncludes(Target, toFind) As Boolean
     Dim i&
     For i = LBound(Target) To UBound(Target)
@@ -1844,8 +1829,10 @@ Function EndsWith(Str As String, s As String) As Boolean
 End Function
 
 Function ExcludeParameters(URL As String) As String
-    If Includes(URL, "?") Then
-        ExcludeParameters = Left$(URL, InStr(URL, "?") - 1)
+    Dim InStrRet As Long
+    InStrRet = InStr(URL, "?")
+    If InStrRet Then
+        ExcludeParameters = Left$(URL, InStrRet - 1)
     Else
         ExcludeParameters = URL
     End If
@@ -1875,14 +1862,15 @@ Function IsYtdlSupported(URL As String) As Boolean
         Exit Function
     End If
 
-    Dim HostName$
-    If Includes(URL, "://") Then
-        HostName = Mid$(URL, InStr(URL, "://") + 3)
+    Dim HostName$, InStrRet&
+    InStrRet = InStr(URL, "://")
+    If InStrRet Then
+        HostName = Mid$(URL, InStrRet + 3)
     Else
         HostName = URL
     End If
     HostName = Left$(HostName, Col(InStr(HostName, "/"), Len(HostName) + 1) - 1)
-    If Includes(HostName, ":") Then
+    If InStr(HostName, ":") Then
         HostName = Left$(HostName, InStrRev(HostName, ":") - 1)
     End If
     HostName = LCase(HostName)

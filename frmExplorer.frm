@@ -468,13 +468,13 @@ Private Sub cbFolderList_Click()
     
     Select Case cbFolderList.SelectedItem.Index
         Case 1
-            lvDir.Path = GetSpecialfolder(CSIDL_RECENT)
+            lvDir.Path = GetSpecialFolder(CSIDL_RECENT)
             tbPlaces.Buttons(1).Value = TbrButtonValuePressed
         Case 2
-            lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
+            lvDir.Path = GetSpecialFolder(CSIDL_DESKTOP)
             tbPlaces.Buttons(2).Value = TbrButtonValuePressed
         Case 3
-            lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
+            lvDir.Path = GetSpecialFolder(CSIDL_PERSONAL)
             tbPlaces.Buttons(3).Value = TbrButtonValuePressed
         Case 4
             ShowMyComputer
@@ -514,7 +514,7 @@ retrydrive:
         Next i
         lvDir.Path = Path
     ElseIf cbFolderList.SelectedItem.Indentation = 1 And cbFolderList.SelectedItem.Index > 4 Then
-        Path = GetSpecialfolder(CSIDL_DESKTOP)
+        Path = GetSpecialFolder(CSIDL_DESKTOP)
         If Right$(Path, 1) <> "\" Then Path = Path & "\"
         lvDir.Path = Path & cbFolderList.SelectedItem.Text
     End If
@@ -580,7 +580,7 @@ Private Sub ListFiles()
     End If
     
     Dim IsDesktop As Boolean
-    IsDesktop = (lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP))
+    IsDesktop = (lvDir.Path = GetSpecialFolder(CSIDL_DESKTOP))
     
     Dim totalcnt As Double
     totalcnt = 0
@@ -593,7 +593,7 @@ Private Sub ListFiles()
     
     If Len(lvDir.Path) > 3 Then
         tbToolBar.Buttons(2).Enabled = True
-        If lvDir.Path <> GetSpecialfolder(CSIDL_DESKTOP) And lvDir.Path <> GetSpecialfolder(CSIDL_RECENT) Then
+        If lvDir.Path <> GetSpecialFolder(CSIDL_DESKTOP) And lvDir.Path <> GetSpecialFolder(CSIDL_RECENT) Then
             Set li = lvFiles.ListItems.Add(, , "..", 1, 1)
             li.ListSubItems.Add , , "-"
             li.ListSubItems.Add , , t("상위 폴더", "Parent Folder")
@@ -1225,7 +1225,7 @@ Private Sub lvDir_Change()
     Next k
     
     Dim Name$
-    Path = GetSpecialfolder(CSIDL_DESKTOP)
+    Path = GetSpecialFolder(CSIDL_DESKTOP)
     If Right$(Path, 1) <> "\" Then Path = Path & "\"
     Name = Dir(Path, vbDirectory)
     On Error Resume Next
@@ -1240,11 +1240,11 @@ Private Sub lvDir_Change()
         Name = Dir
     Loop
     
-    If lvDir.Path = GetSpecialfolder(CSIDL_RECENT) Then
+    If lvDir.Path = GetSpecialFolder(CSIDL_RECENT) Then
         cbFolderList.ComboItems(1).Selected = True
-    ElseIf lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP) Then
+    ElseIf lvDir.Path = GetSpecialFolder(CSIDL_DESKTOP) Then
         cbFolderList.ComboItems(2).Selected = True
-    ElseIf lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL) Then
+    ElseIf lvDir.Path = GetSpecialFolder(CSIDL_PERSONAL) Then
         cbFolderList.ComboItems(3).Selected = True
     Else
         cbFolderList.ComboItems(ItemSelectPos).Selected = True
@@ -1259,13 +1259,13 @@ Private Sub lvDir_Change()
     
     Path = lvDir.Path
     Select Case Path
-        Case GetSpecialfolder(CSIDL_RECENT)
+        Case GetSpecialFolder(CSIDL_RECENT)
             tbPlaces.Buttons(1).Value = TbrButtonValuePressed
-        Case GetSpecialfolder(CSIDL_DESKTOP)
+        Case GetSpecialFolder(CSIDL_DESKTOP)
             tbPlaces.Buttons(2).Value = TbrButtonValuePressed
-        Case GetSpecialfolder(CSIDL_PERSONAL)
+        Case GetSpecialFolder(CSIDL_PERSONAL)
             tbPlaces.Buttons(3).Value = TbrButtonValuePressed
-        Case GetSpecialfolder(CSIDL_FAVORITES)
+        Case GetSpecialFolder(CSIDL_FAVORITES)
             tbPlaces.Buttons(5).Value = TbrButtonValuePressed
         Case Environ$("USERPROFILE")
             tbPlaces.Buttons(6).Value = TbrButtonValuePressed
@@ -1411,7 +1411,7 @@ Private Sub lvFiles_ItemDblClick(Item As LvwListItem, ByVal Button As Integer)
             ShowMyComputer
             Exit Sub
         ElseIf Item.Text = t("내 문서", "My Documents") Then
-            lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
+            lvDir.Path = GetSpecialFolder(CSIDL_PERSONAL)
             Exit Sub
         End If
     
@@ -1835,9 +1835,9 @@ imgerr:
     
     Dim IsColonPresent As Boolean
     If Len(txtFileName.Text) > 3 And Mid$(txtFileName.Text, 2, 2) = ":\" Then
-        IsColonPresent = InStr(1, Right$(txtFileName.Text, Len(txtFileName.Text) - 3), "|") > 0
+        IsColonPresent = InStr(1, Right$(txtFileName.Text, Len(txtFileName.Text) - 3), "|")
     Else
-        IsColonPresent = Includes(txtFileName.Text, ":")
+        IsColonPresent = InStr(txtFileName.Text, ":")
     End If
     
     If _
@@ -1940,18 +1940,18 @@ Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
     
     Select Case Button.Index
         Case 1
-            lvDir.Path = GetSpecialfolder(CSIDL_RECENT)
+            lvDir.Path = GetSpecialFolder(CSIDL_RECENT)
             cbFolderList.ComboItems(1).Selected = True
         Case 2
-            lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
+            lvDir.Path = GetSpecialFolder(CSIDL_DESKTOP)
             cbFolderList.ComboItems(2).Selected = True
         Case 3
-            lvDir.Path = GetSpecialfolder(CSIDL_PERSONAL)
+            lvDir.Path = GetSpecialFolder(CSIDL_PERSONAL)
         Case 4
             ShowMyComputer
             Exit Sub
         Case 5
-            lvDir.Path = GetSpecialfolder(CSIDL_FAVORITES)
+            lvDir.Path = GetSpecialFolder(CSIDL_FAVORITES)
         Case 6
             lvDir.Path = Environ$("USERPROFILE")
     End Select
@@ -1965,13 +1965,13 @@ Private Sub tbPlaces_ButtonClick(ByVal Button As TbrButton)
     Dim Path$
     Path = lvDir.Path
     Select Case Path
-        Case GetSpecialfolder(CSIDL_RECENT)
+        Case GetSpecialFolder(CSIDL_RECENT)
             tbPlaces.Buttons(1).Value = TbrButtonValuePressed
-        Case GetSpecialfolder(CSIDL_DESKTOP)
+        Case GetSpecialFolder(CSIDL_DESKTOP)
             tbPlaces.Buttons(2).Value = TbrButtonValuePressed
-        Case GetSpecialfolder(CSIDL_PERSONAL)
+        Case GetSpecialFolder(CSIDL_PERSONAL)
             tbPlaces.Buttons(3).Value = TbrButtonValuePressed
-        Case GetSpecialfolder(CSIDL_FAVORITES)
+        Case GetSpecialFolder(CSIDL_FAVORITES)
             tbPlaces.Buttons(5).Value = TbrButtonValuePressed
         Case Environ$("USERPROFILE")
             tbPlaces.Buttons(6).Value = TbrButtonValuePressed
@@ -2012,7 +2012,7 @@ Private Sub tbToolBar_ButtonClick(ByVal Button As TbrButton)
         Case 2
             If Not LoadFinished Then Exit Sub
             If IsMyComputer Then
-                lvDir.Path = GetSpecialfolder(CSIDL_DESKTOP)
+                lvDir.Path = GetSpecialFolder(CSIDL_DESKTOP)
             ElseIf Len(lvDir.Path) > 3 Then
                 lvDir.Path = GetParentFolderName(lvDir.Path)
             End If
