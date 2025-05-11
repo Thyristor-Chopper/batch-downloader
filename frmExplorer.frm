@@ -957,7 +957,7 @@ setpreview:
     cmdPreview.Visible = (Tags.BrowseTargetForm = 4)
     
     On Error Resume Next
-    Me.Icon = frmMain.Icon
+    'Me.Icon = frmMain.Icon
     Me.Width = GetSetting("DownloadBooster", "UserData", "ComdlgWidth", 10245) + PaddedBorderWidth * 15 * 2
     Me.Height = GetSetting("DownloadBooster", "UserData", "ComdlgHeight", 6165) + IIf(Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6, 8835 - 6165, 0) + PaddedBorderWidth * 15 * 2
     
@@ -1490,7 +1490,7 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub mnuCmd_Click()
-    Shell "cmd.exe /k cd /d """ & lvDir.Path & """", vbNormalFocus
+    ShellExecute "cmd.exe", WorkingDirectory:=lvDir.Path
 End Sub
 
 Private Sub mnuDelete_Click()
@@ -1532,22 +1532,21 @@ Private Sub mnuExplore_Click()
     If Not lvFiles.SelectedItem.Selected Then Exit Sub
 
     Dim FullPath$
+    
+    If IsMyComputer Then
+        FullPath = Left$(lvFiles.SelectedItem.Text, 1) & ":\"
+        GoTo isfolder
+    End If
+    
     If Right$(lvDir.Path, 1) = "\" Then
         FullPath = lvDir.Path & lvFiles.SelectedItem.Text
     Else
         FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
     End If
     
-    If IsMyComputer Then
-        Shell "explorer.exe /e, """ & Left$(lvFiles.SelectedItem.Text, 1) & ":\""", vbNormalFocus
-        Exit Sub
-    End If
-    
     If lvFiles.SelectedItem.IconIndex = 1 And UCase(GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         Dim LnkPath As String
-        LnkPath = GetShortcutTarget(FullPath)
-        If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
-            LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
+        LnkPath = RemoveQuotes(GetShortcutTarget(FullPath))
         If FolderExists(LnkPath) Then
             FullPath = LnkPath
             GoTo isfolder
@@ -1556,11 +1555,11 @@ Private Sub mnuExplore_Click()
     End If
     
 isfolder:
-    Shell "explorer.exe /e, """ & FullPath & """", vbNormalFocus
+    ShellExecute FullPath, "explore"
 End Sub
 
 Private Sub mnuFolderProperties_Click()
-    DisplayFileProperties lvDir.Path
+    ShellExecute lvDir.Path, "properties"
 End Sub
 
 Private Sub mnuLargeIcons_Click()
@@ -1592,12 +1591,13 @@ Private Sub mnuOpen_Click()
     If lvFiles.SelectedItem Is Nothing Then Exit Sub
     If Not lvFiles.SelectedItem.Selected Then Exit Sub
     
+    Dim FullPath$
+    
     If IsMyComputer Then
-        Shell "explorer.exe """ & Left$(lvFiles.SelectedItem.Text, 1) & ":\""", vbNormalFocus
-        Exit Sub
+        FullPath = Left$(lvFiles.SelectedItem.Text, 1) & ":\"
+        GoTo exec
     End If
 
-    Dim FullPath$
     If Right$(lvDir.Path, 1) = "\" Then
         FullPath = lvDir.Path & lvFiles.SelectedItem.Text
     Else
@@ -1605,14 +1605,11 @@ Private Sub mnuOpen_Click()
     End If
     
     If (lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And UCase(GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
-        Dim LnkPath As String
-        LnkPath = GetShortcutTarget(FullPath)
-        If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
-            LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
-        FullPath = LnkPath
+        FullPath = RemoveQuotes(GetShortcutTarget(FullPath))
     End If
     
-    Shell "cmd.exe /c start """" """ & FullPath & """"
+exec:
+    ShellExecute FullPath
 End Sub
 
 Private Sub mnuProperties_Click()
@@ -1621,7 +1618,7 @@ Private Sub mnuProperties_Click()
     If Not lvFiles.SelectedItem.Selected Then Exit Sub
     
     If IsMyComputer Then
-        DisplayFileProperties Left$(lvFiles.SelectedItem.Text, 1) & ":\"
+        ShellExecute Left$(lvFiles.SelectedItem.Text, 1) & ":\", "properties"
         Exit Sub
     End If
 
@@ -1632,7 +1629,7 @@ Private Sub mnuProperties_Click()
         FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
     End If
     
-    DisplayFileProperties FullPath
+    ShellExecute FullPath, "properties"
 End Sub
 
 Private Sub mnuRefresh_Click()
@@ -1650,8 +1647,7 @@ Private Sub mnuRename_Click()
     If Not lvFiles.SelectedItem Is Nothing Then
         If lvFiles.SelectedItem.Selected Then
             If IsMyComputer Then Exit Sub
-            If (lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> ".." Then _
-                lvFiles.StartLabelEdit
+            If (lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> ".." Then lvFiles.StartLabelEdit
         End If
     End If
 End Sub

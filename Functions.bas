@@ -1021,19 +1021,19 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     On Error Resume Next
     'Dim NoIcon As Boolean
     'NoIcon = False
-
-    Dim IconRandomIdx As Byte
-    Select Case RandInt(1, 1000)
+    
+    Dim IconIndex As Byte
+    Dim RandVal As Integer
+    RandVal = RandInt(1, 1000)
+    Select Case RandVal
         Case 290
-            IconRandomIdx = 5
-        Case 345
-            IconRandomIdx = 4
-        Case 419
-            IconRandomIdx = 3
+            IconIndex = 4
+        Case 441
+            IconIndex = 3
         Case Else
-            IconRandomIdx = RandInt(1, 2)
+            IconIndex = (RandVal Mod 2) + 1
     End Select
-    Set MessageBox.imgTrain.Picture = Train(IconRandomIdx)
+    Set MessageBox.imgTrain.Picture = Train(IconIndex)
     Select Case Icon
         Case 48
             MessageBox.imgExclamation.Visible = True
@@ -1731,15 +1731,16 @@ Private Function CLargeInt(Lo As Long, Hi As Long) As Double
     CLargeInt = dblLo + dblHi * 2 ^ 32
 End Function
 
-Sub DisplayFileProperties(sFullFileAndPathName As String)
+Sub ShellExecute(sFile As String, Optional Action As String = "open", Optional WorkingDirectory As String)
     Dim shInfo As SHELLEXECUTEINFO
 
     With shInfo
         .cbSize = LenB(shInfo)
-        .lpFile = sFullFileAndPathName
+        .lpFile = sFile
         .nShow = SW_SHOW
-        .fMask = SEE_MASK_INVOKEIDLIST
-        .lpVerb = "properties"
+        If Action = "properties" Then .fMask = SEE_MASK_INVOKEIDLIST
+        If LenB(WorkingDirectory) Then .lpDirectory = WorkingDirectory
+        .lpVerb = Action
     End With
 
     ShellExecuteEx shInfo
@@ -1844,7 +1845,7 @@ Function Includes(Target As String, toFind As String) As Boolean
 End Function
 
 Function ArrayIncludes(Target, toFind) As Boolean
-    Dim i%
+    Dim i&
     For i = LBound(Target) To UBound(Target)
         If Target(i) = toFind Then
             ArrayIncludes = True
@@ -1992,7 +1993,7 @@ Function Min(ByVal L As Double, ByVal R As Double) As Double
     End If
 End Function
 
-Function MsgBox(Prompt, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional Title = "") As VbMsgBoxResult
+Function MsgBox(ByVal Prompt As String, Optional Buttons As VbMsgBoxStyle = vbOKOnly, Optional ByVal Title As String) As VbMsgBoxResult
     If Title = "" Then Title = App.Title
 
     If Buttons > 70 Then
@@ -2137,12 +2138,14 @@ Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean 
 End Sub
 
 Sub InitForm(ByRef frmForm As Form)
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow frmForm.hWnd
+    On Error Resume Next
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 Then DisableDWMWindow frmForm.hWnd
     SetFormBackgroundColor frmForm
     SetFont frmForm
     Dim InsertAfter As Long
     If MainFormOnTop Then InsertAfter = hWnd_TOPMOST Else InsertAfter = hWnd_NOTOPMOST
     SetWindowPos frmForm.hWnd, InsertAfter, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
+    If frmForm.BorderStyle = 2 Then Set frmForm.Icon = frmMain.Icon
 End Sub
 
 Function GenerateSolidColor(ByVal Color As Long) As IPictureDisp
@@ -2154,4 +2157,14 @@ Function GenerateSolidColor(ByVal Color As Long) As IPictureDisp
     frmDummyForm.pbDummy.Refresh
     Set GenerateSolidColor = frmDummyForm.pbDummy.Image
     frmDummyForm.pbDummy.Cls
+End Function
+
+Sub OpenFolder(ByVal Path As String)
+    If Not FolderExists(Path) Then Path = GetParentFolderName(Path)
+    ShellExecute Path
+End Sub
+
+Function RemoveQuotes(Path As String) As String
+    RemoveQuotes = Path
+    If Left$(RemoveQuotes, 1) = """" And Right$(RemoveQuotes, 1) = """" Then RemoveQuotes = Mid$(RemoveQuotes, 2, Len(RemoveQuotes) - 2)
 End Function

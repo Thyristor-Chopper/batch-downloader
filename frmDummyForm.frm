@@ -1,6 +1,5 @@
 VERSION 5.00
 Begin VB.Form frmDummyForm 
-   Caption         =   "Form1"
    ClientHeight    =   3090
    ClientLeft      =   60
    ClientTop       =   450
@@ -14,6 +13,7 @@ Begin VB.Form frmDummyForm
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
+   Icon            =   "frmDummyForm.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   3090
    ScaleWidth      =   4680
@@ -37,7 +37,7 @@ Begin VB.Form frmDummyForm
       ImageHeight     =   16
       ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "frmDummyForm.frx":0000
+      InitListImages  =   "frmDummyForm.frx":212A
    End
 End
 Attribute VB_Name = "frmDummyForm"

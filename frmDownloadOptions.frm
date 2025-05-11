@@ -6,7 +6,7 @@ Begin VB.Form frmDownloadOptions
    ClientHeight    =   4815
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   12840
+   ClientWidth     =   11490
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -22,7 +22,7 @@ Begin VB.Form frmDownloadOptions
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   4815
-   ScaleWidth      =   12840
+   ScaleWidth      =   11490
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 
@@ -31,13 +31,13 @@ Begin VB.Form frmDownloadOptions
       Enabled         =   0   'False
       Height          =   4095
       Index           =   2
-      Left            =   6240
+      Left            =   4920
       ScaleHeight     =   4095
-      ScaleWidth      =   6495
+      ScaleWidth      =   6405
       TabIndex        =   2
       Top             =   600
       Visible         =   0   'False
-      Width           =   6495
+      Width           =   6405
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderName 
          Height          =   330
          Left            =   3600
@@ -52,9 +52,9 @@ Begin VB.Form frmDownloadOptions
       End
       Begin VB.TextBox txtEdit 
          Height          =   255
-         Left            =   3360
+         Left            =   3600
          TabIndex        =   22
-         Top             =   1080
+         Top             =   720
          Visible         =   0   'False
          Width           =   2535
       End
@@ -94,13 +94,13 @@ Begin VB.Form frmDownloadOptions
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.ListView lvHeaders 
-         Height          =   2655
+         Height          =   3015
          Left            =   840
          TabIndex        =   17
-         Top             =   960
+         Top             =   600
          Width           =   5475
          _ExtentX        =   9657
-         _ExtentY        =   4683
+         _ExtentY        =   5318
          VisualTheme     =   1
          View            =   3
          FullRowSelect   =   -1  'True
@@ -112,17 +112,17 @@ Begin VB.Form frmDownloadOptions
       End
       Begin VB.Label lblDescription 
          BackStyle       =   0  '투명
-         Caption         =   $"frmDownloadOptions.frx":000C
-         Height          =   735
+         Caption         =   "이 헤더는 이번에만 적용됩니다. 영구적으로 변경하려면 옵션에서 변경하십시오. 이 헤더는 옵션의 헤더보다 우선합니다."
+         Height          =   495
          Left            =   840
          TabIndex        =   16
          Top             =   180
-         Width           =   5175
+         Width           =   5475
       End
       Begin VB.Image imgIcon1 
          Height          =   480
          Left            =   120
-         Picture         =   "frmDownloadOptions.frx":00AB
+         Picture         =   "frmDownloadOptions.frx":000C
          Top             =   120
          Width           =   480
       End
@@ -134,124 +134,135 @@ Begin VB.Form frmDownloadOptions
       Index           =   1
       Left            =   120
       ScaleHeight     =   3135
-      ScaleWidth      =   6015
+      ScaleWidth      =   4695
       TabIndex        =   1
       Top             =   600
-      Width           =   6015
-      Begin prjDownloadBooster.CheckBoxW chkAutoYtdl 
-         Height          =   255
-         Left            =   360
-         TabIndex        =   3
-         Top             =   120
-         Width           =   4455
-         _ExtentX        =   7858
-         _ExtentY        =   450
-         Caption         =   "youtube-dl 사용 여부 자동 결정(&T)"
+      Width           =   4695
+      Begin prjDownloadBooster.FrameW FrameW1 
+         Height          =   3135
+         Left            =   0
+         TabIndex        =   25
+         Top             =   0
+         Width           =   4695
+         _ExtentX        =   8281
+         _ExtentY        =   5530
+         BorderStyle     =   0
          Transparent     =   -1  'True
-      End
-      Begin VB.OptionButton optDisableYtdl 
-         Caption         =   "youtube-dl 사용 안 함(&D)"
-         Height          =   255
-         Left            =   360
-         TabIndex        =   4
-         Top             =   480
-         Value           =   -1  'True
-         Width           =   4335
-      End
-      Begin VB.OptionButton optUseYtdl 
-         Caption         =   "youtube-dl 사용(&U)"
-         Height          =   255
-         Left            =   360
-         TabIndex        =   5
-         Top             =   840
-         Width           =   1935
-      End
-      Begin prjDownloadBooster.FrameW fYtdl 
-         Height          =   2175
-         Left            =   120
-         TabIndex        =   6
-         Top             =   870
-         Width           =   5775
-         _ExtentX        =   10186
-         _ExtentY        =   3836
-         Caption         =   "        "
-         Transparent     =   -1  'True
-         Begin VB.ComboBox txtFormat 
-            Height          =   300
-            Left            =   1200
-            TabIndex        =   8
-            Top             =   360
-            Width           =   1695
-         End
-         Begin VB.ComboBox cbBitRate 
-            Height          =   300
-            Left            =   1560
-            Style           =   2  '드롭다운 목록
-            TabIndex        =   15
-            Top             =   1800
-            Width           =   1215
-         End
-         Begin VB.OptionButton optCBR 
-            Caption         =   "&CBR:"
-            Height          =   255
-            Left            =   840
-            TabIndex        =   14
-            Top             =   1800
-            Width           =   735
-         End
-         Begin VB.ComboBox cbAudioFormat 
-            Height          =   300
-            Left            =   2040
-            Style           =   2  '드롭다운 목록
-            TabIndex        =   11
-            Top             =   1080
-            Width           =   2055
-         End
-         Begin VB.ComboBox cbVBR 
-            Height          =   300
-            Left            =   1560
-            Style           =   2  '드롭다운 목록
-            TabIndex        =   13
-            Top             =   1440
-            Width           =   1215
-         End
-         Begin VB.OptionButton optVBR 
-            Caption         =   "&VBR:"
-            Height          =   255
-            Left            =   840
-            TabIndex        =   12
-            Top             =   1440
-            Value           =   -1  'True
-            Width           =   735
-         End
-         Begin prjDownloadBooster.CheckBoxW chkExtractAudio 
+         Begin prjDownloadBooster.CheckBoxW chkAutoYtdl 
             Height          =   255
             Left            =   360
-            TabIndex        =   9
-            Top             =   720
-            Width           =   3015
-            _ExtentX        =   5318
+            TabIndex        =   3
+            Top             =   120
+            Width           =   4455
+            _ExtentX        =   7858
             _ExtentY        =   450
-            Caption         =   "음원만 추출(&E)"
+            Caption         =   "youtube-dl 사용 여부 자동 결정(&T)"
             Transparent     =   -1  'True
          End
-         Begin VB.Label Label4 
-            BackStyle       =   0  '투명
-            Caption         =   "오디오 형식(&A):"
-            Height          =   255
-            Left            =   600
-            TabIndex        =   10
-            Top             =   1125
-            Width           =   1455
-         End
-         Begin VB.Label Label3 
-            BackStyle       =   0  '투명
-            Caption         =   "포맷(&F):"
+         Begin VB.OptionButton optDisableYtdl 
+            Caption         =   "youtube-dl 사용 안 함(&D)"
             Height          =   255
             Left            =   360
-            TabIndex        =   7
-            Top             =   390
-            Width           =   855
+            TabIndex        =   4
+            Top             =   480
+            Value           =   -1  'True
+            Width           =   4335
+         End
+         Begin VB.OptionButton optUseYtdl 
+            Caption         =   "youtube-dl 사용(&U)"
+            Height          =   255
+            Left            =   360
+            TabIndex        =   5
+            Top             =   840
+            Width           =   1935
+         End
+         Begin prjDownloadBooster.FrameW fYtdl 
+            Height          =   2175
+            Left            =   120
+            TabIndex        =   6
+            Top             =   870
+            Width           =   4455
+            _ExtentX        =   7858
+            _ExtentY        =   3836
+            Caption         =   "        "
+            Transparent     =   -1  'True
+            Begin VB.ComboBox txtFormat 
+               Height          =   300
+               Left            =   1200
+               TabIndex        =   8
+               Top             =   360
+               Width           =   2895
+            End
+            Begin VB.ComboBox cbBitRate 
+               Height          =   300
+               Left            =   1560
+               Style           =   2  '드롭다운 목록
+               TabIndex        =   15
+               Top             =   1800
+               Width           =   1215
+            End
+            Begin VB.OptionButton optCBR 
+               Caption         =   "&CBR:"
+               Height          =   255
+               Left            =   840
+               TabIndex        =   14
+               Top             =   1800
+               Width           =   735
+            End
+            Begin VB.ComboBox cbAudioFormat 
+               Height          =   300
+               Left            =   2040
+               Style           =   2  '드롭다운 목록
+               TabIndex        =   11
+               Top             =   1080
+               Width           =   2055
+            End
+            Begin VB.ComboBox cbVBR 
+               Height          =   300
+               Left            =   1560
+               Style           =   2  '드롭다운 목록
+               TabIndex        =   13
+               Top             =   1440
+               Width           =   1215
+            End
+            Begin VB.OptionButton optVBR 
+               Caption         =   "&VBR:"
+               Height          =   255
+               Left            =   840
+               TabIndex        =   12
+               Top             =   1440
+               Value           =   -1  'True
+               Width           =   735
+            End
+            Begin prjDownloadBooster.CheckBoxW chkExtractAudio 
+               Height          =   255
+               Left            =   360
+               TabIndex        =   9
+               Top             =   720
+               Width           =   3015
+               _ExtentX        =   5318
+               _ExtentY        =   450
+               Caption         =   "음원만 추출(&E)"
+               Transparent     =   -1  'True
+            End
+            Begin VB.Label Label4 
+               BackStyle       =   0  '투명
+               Caption         =   "오디오 형식(&A):"
+               Height          =   255
+               Left            =   600
+               TabIndex        =   10
+               Top             =   1125
+               Width           =   1455
+            End
+            Begin VB.Label Label3 
+               BackStyle       =   0  '투명
+               Caption         =   "포맷(&F):"
+               Height          =   255
+               Left            =   360
+               TabIndex        =   7
+               Top             =   390
+               Width           =   855
+            End
          End
       End
    End
@@ -263,7 +274,8 @@ Begin VB.Form frmDownloadOptions
       Width           =   2400
       _ExtentX        =   4233
       _ExtentY        =   688
-      InitTabs        =   "frmDownloadOptions.frx":04ED
+      TabMinWidth     =   48
+      InitTabs        =   "frmDownloadOptions.frx":044E
    End
    Begin prjDownloadBooster.CommandButtonW CancelButton 
       Cancel          =   -1  'True
@@ -328,47 +340,58 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub OKButton_Click()
-    Dim i%
-    For i = 1 To Headers.Count
-        Headers.Remove 1
-    Next i
-    For i = 1 To HeaderKeys.Count
-        HeaderKeys.Remove 1
-    Next i
+    On Error Resume Next
+    Dim i&
     
-    Dim HeaderCache$
-    
-    If lvHeaders.ListItems.Count > 0 Then
-        Dim RawHeaders$
-        RawHeaders = ""
+    If Tags.DownloadOptionsTargetForm = 3 Then
+        SaveSetting "DownloadBooster", "Options\Headers", "_Dummy_", "x" '오류 방지
+        DeleteSetting "DownloadBooster", "Options\Headers"
         For i = 1 To lvHeaders.ListItems.Count
-            If LenB(Trim$(lvHeaders.ListItems(i).Text)) And (Not Exists(Headers, CStr(Trim$(lvHeaders.ListItems(i).Text)))) Then
-                Headers.Add CStr(lvHeaders.ListItems(i).ListSubItems(1).Text), CStr(Trim$(lvHeaders.ListItems(i).Text))
-                HeaderKeys.Add CStr(Trim$(lvHeaders.ListItems(i).Text))
-                RawHeaders = RawHeaders & LCase(Trim$(lvHeaders.ListItems(i).Text)) & ": " & lvHeaders.ListItems(i).ListSubItems(1).Text & vbLf
-            End If
+            If LenB(Trim$(lvHeaders.ListItems(i).Text)) Then SaveSetting "DownloadBooster", "Options\Headers", Trim$(lvHeaders.ListItems(i).Text), lvHeaders.ListItems(i).ListSubItems(1).Text
         Next i
-        If Right$(RawHeaders, 1) = vbLf Then RawHeaders = Left$(RawHeaders, Len(RawHeaders) - 1)
-        HeaderCache = btoa(RawHeaders)
+        BuildHeaderCache
     Else
-        HeaderCache = ""
+        For i = 1& To Headers.Count
+            Headers.Remove 1
+        Next i
+        For i = 1& To HeaderKeys.Count
+            HeaderKeys.Remove 1
+        Next i
+        
+        Dim HeaderCache$
+        
+        If lvHeaders.ListItems.Count Then
+            Dim RawHeaders$
+            RawHeaders = ""
+            For i = 1& To lvHeaders.ListItems.Count
+                If LenB(Trim$(lvHeaders.ListItems(i).Text)) And (Not Exists(Headers, CStr(Trim$(lvHeaders.ListItems(i).Text)))) Then
+                    Headers.Add CStr(lvHeaders.ListItems(i).ListSubItems(1).Text), CStr(Trim$(lvHeaders.ListItems(i).Text))
+                    HeaderKeys.Add CStr(Trim$(lvHeaders.ListItems(i).Text))
+                    RawHeaders = RawHeaders & LCase(Trim$(lvHeaders.ListItems(i).Text)) & ": " & lvHeaders.ListItems(i).ListSubItems(1).Text & vbLf
+                End If
+            Next i
+            If Right$(RawHeaders, 1) = vbLf Then RawHeaders = Left$(RawHeaders, Len(RawHeaders) - 1)
+            HeaderCache = btoa(RawHeaders)
+        Else
+            HeaderCache = ""
+        End If
+        
+        Select Case Tags.DownloadOptionsTargetForm
+            Case 0
+                SessionHeaderCache = HeaderCache
+            Case 1
+                frmBatchAdd.HeaderCache = HeaderCache
+            Case 2
+                frmEditBatch.EncodedHeaders = HeaderCache
+        End Select
     End If
-    
-    Select Case Tags.DownloadOptionsTargetForm
-        Case 0
-            SessionHeaderCache = HeaderCache
-        Case 1
-            frmBatchAdd.HeaderCache = HeaderCache
-        Case 2
-            frmEditBatch.EncodedHeaders = HeaderCache
-    End Select
     
 #If HIDEYTDL Then
 #Else
     SaveSetting "DownloadBooster", "Options", "AutoDetectYtdlURL", chkAutoYtdl.Value
 
     frmMain.ytdlEnabled = optUseYtdl.Value
-    If optUseYtdl.Value Then
+    If optUseYtdl.Value Or chkAutoYtdl.Value Then
         frmMain.ytdlFormat = Replace(txtFormat.Text, " ", "")
         If frmMain.ytdlFormat = txtFormat.List(0) Then frmMain.ytdlFormat = ""
         frmMain.ytdlExtractAudio = (chkExtractAudio.Value = 1)
@@ -425,11 +448,15 @@ Private Sub Form_Load()
     Dim MaxWidth%, MaxHeight%
     Dim TabHeight%
     TabHeight = tsTabStrip.Tabs(1).Height
-    For i = 1 To pbPanel.Count
+    For i = pbPanel.LBound To pbPanel.UBound
+#If HIDEYTDL Then
+        If i = 1 Then GoTo nextfor1
+#End If
         pbPanel(i).Top = 180 + TabHeight
         pbPanel(i).Left = 180
         If MaxWidth < pbPanel(i).Width Then MaxWidth = pbPanel(i).Width
         If MaxHeight < pbPanel(i).Height Then MaxHeight = pbPanel(i).Height
+nextfor1:
     Next i
     tsTabStrip.Width = MaxWidth + 120
     tsTabStrip.Height = MaxHeight + TabHeight + 120
@@ -441,10 +468,14 @@ Private Sub Form_Load()
     OKButton.Left = CancelButton.Left - 120 - OKButton.Width
     Me.Height = CancelButton.Top + CancelButton.Height + 540
     Me.Width = tsTabStrip.Width + 240 + 60
-    For i = 1 To pbPanel.Count
+    For i = pbPanel.LBound To pbPanel.UBound
+#If HIDEYTDL Then
+        If i = 1 Then GoTo nextfor2
+#End If
         pbPanel(i).Width = MaxWidth
         pbPanel(i).Height = MaxHeight
         tsTabStrip.DrawBackground pbPanel(i).hWnd, pbPanel(i).hDC
+nextfor2:
     Next i
     
     On Error Resume Next
@@ -453,6 +484,7 @@ Private Sub Form_Load()
 
 #If HIDEYTDL Then
 #Else
+    FrameW1.Refresh
     fYtdl.Refresh
     
     AddItemToComboBox cbAudioFormat, t("자동", "Auto") & " (M4A/Opus)"
@@ -536,11 +568,7 @@ Private Sub Form_Load()
     LoadSettings
     
 #If HIDEYTDL Then
-    tsTabStrip.Tabs(2).Selected = True
-    tsTabStrip.Tabs.Remove 1
-    pbPanel(2).Visible = True
-    pbPanel(1).Visible = False
-    pbPanel(2).Enabled = True
+    RemoveYtdlTab
 #End If
 
 #If HIDEYTDL Then
@@ -549,37 +577,58 @@ Private Sub Form_Load()
 #End If
 End Sub
 
+Sub RemoveYtdlTab()
+    tsTabStrip.Tabs(2).Selected = True
+    tsTabStrip.Tabs.Remove 1
+    pbPanel(2).Visible = True
+    pbPanel(1).Visible = False
+    pbPanel(2).Enabled = True
+End Sub
+
 Private Sub LoadSettings()
     'SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     
+    Dim i&
+    
     Me.Caption = t("다운로드 설정", "Download settings")
-    If Tags.DownloadOptionsTargetForm = 2 Then Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
-    If Tags.DownloadOptionsTargetForm = 1 Then Me.Caption = Me.Caption & " - " & t("일괄 다운로드", "Batch Download")
     Select Case Tags.DownloadOptionsTargetForm
         Case 0
             lblDescription.Caption = t(lblDescription.Caption, "Headers here are only applied in this session. Go to options to change them permanently.")
         Case 1
+            Me.Caption = Me.Caption & " - " & t("일괄 다운로드", "Batch Download")
             lblDescription.Caption = t("일괄 다운로드할 파일들에 접속할 때 요청할 헤더를 지정하십시오.", "Specify the headers for this batch download.")
-        Case Else
+        Case 2
+            Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
             lblDescription.Caption = t("이 파일 다운로드 시에 요청할 헤더를 지정하십시오.", "Specify the headers when requesting this file to download.")
+        Case 3
+            Me.Caption = t("헤더 설정", "Header settings")
+            lblDescription.Caption = t("다운로드 중 서버에 요청할 때 전송할 헤더를 설정합니다. [다운로드 설정]에서 설정한 헤더가 우선적으로 적용됩니다.", "Set the headers when requesting to the server on download. Headers set in Download Options have higher priority.")
+            
+            Dim GlobalHeaders() As String
+            GlobalHeaders = GetAllSettings("DownloadBooster", "Options\Headers")
+            For i = LBound(GlobalHeaders) To UBound(GlobalHeaders)
+                lvHeaders.ListItems.Add(, , GlobalHeaders(i, 0), , 1).ListSubItems.Add , , GlobalHeaders(i, 1)
+            Next i
+            
+            GoTo headerloadcomplete
     End Select
     
     Dim Header
-    lvHeaders.ListItems.Clear
     For Each Header In HeaderKeys
         lvHeaders.ListItems.Add(, , Header, , 1).ListSubItems.Add , , Headers(CStr(Header))
     Next Header
+    
+headerloadcomplete:
 
 #If HIDEYTDL Then
 #Else
     optUseYtdl.Value = frmMain.ytdlEnabled
     txtFormat.Text = Replace(frmMain.ytdlFormat, " ", "")
-    If txtFormat.Text = "" Then txtFormat.ListIndex = 0
+    If LenB(txtFormat.Text) = 0 Then txtFormat.ListIndex = 0
     chkExtractAudio.Value = -(frmMain.ytdlExtractAudio)
     cbAudioFormat.ListIndex = frmMain.ytdlAudioFormat
     IIf(frmMain.ytdlAudioBitrateType = CBR, optCBR, optVBR).Value = True
     cbVBR.ListIndex = frmMain.ytdlAudioVBR
-    Dim i As Byte
     For i = 0 To cbBitRate.ListCount - 1
         If CInt(Left$(cbBitRate.List(i), InStr(cbBitRate.List(i), " ") - 1)) = frmMain.ytdlAudioCBR Then
             cbBitRate.ListIndex = i

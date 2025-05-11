@@ -287,10 +287,8 @@ Private Sub Form_Load()
     tr cmdOK, "OK"
     'tr FrameW1, "&License"
     
-    Dim EasterEgg As Byte
-    EasterEgg = -(RandInt(1, 10000) = 2094) * 3
-    imgItems.ListImages.Add Picture:=Train(1 + EasterEgg)
-    imgItems.ListImages.Add Picture:=Train(2 + EasterEgg)
+    imgItems.ListImages.Add Picture:=Train(1)
+    imgItems.ListImages.Add Picture:=Train(2)
     
     lvItems.ListItems.Add , , "Krool's Comctl", 1
     lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2

@@ -2624,7 +2624,7 @@ Private Sub cmdIncreaseThreads_Click()
 End Sub
 
 Private Sub cmdOpen_Click()
-    Shell "cmd /c start """" """ & DownloadPath & """"
+    ShellExecute DownloadPath
 End Sub
 
 Private Sub cmdOpen_DropDown()
@@ -2633,7 +2633,7 @@ End Sub
 
 Private Sub cmdOpenBatch_Click()
     On Error Resume Next
-    Shell "cmd /c start """" """ & lvBatchFiles.SelectedItem.ListSubItems(1).Text & """"
+    ShellExecute lvBatchFiles.SelectedItem.ListSubItems(1).Text
 End Sub
 
 Private Sub cmdOpenBatch_DropDown()
@@ -2658,13 +2658,8 @@ End Sub
 
 Private Sub cmdOpenFolder_Click()
     Dim pth$
-    pth = DownloadPath
-    If DownloadPath = "" Then pth = txtFileName.Text
-    If FolderExists(pth) Then
-        Shell "explorer.exe """ & pth & """", vbNormalFocus
-    Else
-        Shell "explorer.exe """ & GetParentFolderName(pth) & """", vbNormalFocus
-    End If
+    If LenB(DownloadPath) Then pth = DownloadPath Else pth = txtFileName.Text
+    OpenFolder pth
 End Sub
 
 Private Sub cmdOptions_Click()
@@ -2839,7 +2834,7 @@ Sub SetPattern()
     pgPattern.FillColor = CLng(GetSetting("DownloadBooster", "Options", "FormFillColor", 0))
 End Sub
 
-Private Sub SetFrameTexture()
+Sub SetFrameTexture()
     On Error Resume Next
     
     Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "transparent"))
@@ -3389,10 +3384,6 @@ Private Sub Form_Load()
     
     '스크롤 표시 유무
     vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
-    
-    '폼 표시
-    Me.Show vbModeless
-    SetFrameTexture
 End Sub
 
 Private Sub SetTygemFrameRgn()
@@ -3983,12 +3974,8 @@ End Sub
 Private Sub mnuOpenFolder_Click()
     Dim pth$
     pth = lvBatchFiles.SelectedItem.ListSubItems(1).Text
-    If pth = "" Then pth = txtFileName.Text
-    If FolderExists(pth) Then
-        Shell "explorer.exe """ & pth & """", vbNormalFocus
-    Else
-        Shell "explorer.exe """ & GetParentFolderName(pth) & """", vbNormalFocus
-    End If
+    If LenB(pth) = 0 Then pth = txtFileName.Text
+    ShellExecute pth
 End Sub
 
 Private Sub mnuOpenFolder2_Click()
@@ -3997,12 +3984,12 @@ End Sub
 
 Private Sub mnuProperties_Click()
     On Error Resume Next
-    DisplayFileProperties DownloadPath
+    ShellExecute DownloadPath, "properties"
 End Sub
 
 Private Sub mnuPropertiesBatch_Click()
     On Error Resume Next
-    DisplayFileProperties lvBatchFiles.SelectedItem.ListSubItems(1).Text
+    ShellExecute lvBatchFiles.SelectedItem.ListSubItems(1).Text, "properties"
 End Sub
 
 Private Sub optTabDownload2_Click()

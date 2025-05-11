@@ -27,9 +27,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   7
       Top             =   900
       Width           =   1365
-      _ExtentX        =   2408
-      _ExtentY        =   609
-      Caption         =   "고급(&V)..."
+      _extentx        =   2408
+      _extenty        =   609
+      caption         =   "고급(&V)..."
    End
    Begin VB.TextBox txtSavePath 
       Height          =   300
@@ -54,9 +54,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   6
       Top             =   510
       Width           =   1365
-      _ExtentX        =   2408
-      _ExtentY        =   609
-      Caption         =   "취소"
+      _extentx        =   2408
+      _extenty        =   609
+      caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
       Height          =   340
@@ -64,9 +64,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   5
       Top             =   120
       Width           =   1365
-      _ExtentX        =   2408
-      _ExtentY        =   609
-      Caption         =   "확인"
+      _extentx        =   2408
+      _extenty        =   609
+      caption         =   "확인"
    End
    Begin prjDownloadBooster.CommandButtonW cmdBrowse 
       Height          =   330
@@ -74,9 +74,9 @@ Begin VB.Form frmBatchAdd
       TabIndex        =   4
       Top             =   3360
       Width           =   1365
-      _ExtentX        =   2408
-      _ExtentY        =   582
-      Caption         =   "찾아보기(&B)..."
+      _extentx        =   2408
+      _extenty        =   582
+      caption         =   "찾아보기(&B)..."
    End
    Begin VB.Label Label2 
       BackStyle       =   0  '투명

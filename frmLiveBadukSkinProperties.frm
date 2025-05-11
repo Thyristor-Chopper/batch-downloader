@@ -41,7 +41,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Width           =   5055
       _ExtentX        =   8916
       _ExtentY        =   2355
-      Caption         =   " 프레임 배경 "
+      Caption         =   "프레임 배경"
       Begin VB.OptionButton optBackgroundColor 
          Caption         =   "단색(&O):"
          Height          =   255
@@ -113,7 +113,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Width           =   5055
       _ExtentX        =   8916
       _ExtentY        =   2355
-      Caption         =   " 글자 "
+      Caption         =   "글자"
       Begin prjDownloadBooster.CheckBoxW chkShadowColor 
          Height          =   255
          Left            =   120
@@ -237,7 +237,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Width           =   5055
       _ExtentX        =   8916
       _ExtentY        =   2355
-      Caption         =   " 프레임 테두리 "
+      Caption         =   "프레임 테두리"
       Begin prjDownloadBooster.CommandButtonW cmdSelectTexture 
          Height          =   330
          Left            =   2160
@@ -391,10 +391,10 @@ Private Sub Form_Load()
     End Select
     chkEnableBorders.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", 1))
     
-    tr fText, " Text "
+    tr fText, "Text"
     tr chkTextColor, "Label te&xt color:"
     tr chkShadowColor, "Label s&hadow color:"
-    tr fFrameColor, " Frame "
+    tr fFrameColor, "Frame"
     tr optTransparent, "Semi-&transparent"
     tr optColor, "&Color:"
     tr optTexture, "T&exture:"
@@ -402,7 +402,7 @@ Private Sub Form_Load()
     tr cmdOK, "OK"
     tr cmdCancel, "Cancel"
     tr Me, "Skin Settings"
-    tr fFrameBackground, " Frame Background "
+    tr fFrameBackground, "Frame Background"
     tr optFrameTransparent, "Semi-t&ransparent"
     tr optFrameTexture, "Text&ure:"
     tr chkEnableBorders, "Sho&w borders"

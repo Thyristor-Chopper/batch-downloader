@@ -19,7 +19,7 @@ Public MainFormOnTop As Boolean
 
 Public DarkTransparent As IPicture
 Public LightTransparent As IPicture
-Public Train(1 To 5) As IPicture
+Public Train(1 To 4) As IPicture
 
 Public ScriptFileName As String
 Public NodeFileName As String
@@ -83,11 +83,6 @@ Sub Main()
     ExtractResource 1, RCData, ScriptFileName
     ExtractResource 2, RCData, NodeFileName
     ExtractResource 3, RCData, "iconv.js"
-    
-    Dim i As Byte
-    For i = 1 To 5
-        Set Train(i) = LoadResPicture(i + 1, vbResIcon)
-    Next i
 
     Set MsgBoxResults = New Collection
     Set SessionHeaders = New Collection
@@ -123,9 +118,15 @@ forcegulim:
         SaveSetting "DownloadBooster", "UserData", "HeaderSettingsInitialized", 1
     End If
     BuildHeaderCache
+    
+    Set Train(1) = LoadResPicture(2, vbResIcon)
+    Set Train(2) = LoadResPicture(3, vbResIcon)
+    Set Train(3) = frmMain.Icon
+    Set Train(4) = LoadResPicture(4, vbResIcon)
 
     Randomize
     InitVisualStylesFixes
     Load frmDummyForm
-    Load frmMain
+    frmMain.Show vbModeless
+    frmMain.SetFrameTexture
 End Sub
