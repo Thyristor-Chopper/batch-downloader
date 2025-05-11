@@ -1133,7 +1133,6 @@ Private Sub Form_Unload(Cancel As Integer)
     On Error Resume Next
     imgFolder.ListImages.Clear
     imgFolderSmall.ListImages.Clear
-    Unload Me
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse

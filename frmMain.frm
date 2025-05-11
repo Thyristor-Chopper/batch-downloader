@@ -2360,13 +2360,7 @@ Sub cmdBatch_Click()
 End Sub
 
 Private Sub cmdBrowse_Click()
-    Tags.BrowsePresetPath = ""
-    Tags.BrowseTargetForm = 0
-    If GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", "0") = "1" Then
-        frmBrowse.Show vbModal, Me
-    Else
-        frmExplorer.Show vbModal, Me
-    End If
+    ShowFileDialog
 End Sub
 
 Private Sub cmdClear_Click()
@@ -3668,6 +3662,8 @@ Private Sub StopDownload(Optional ByVal StopMode As DownloadStopMode = NormalSto
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    On Error Resume Next
+    
     If cmdStop.Enabled Or BatchStarted Then
         StopDownload ExitApplication, Cancel
         If Cancel Then Exit Sub
@@ -3676,19 +3672,17 @@ Private Sub Form_Unload(Cancel As Integer)
         SP.FinishChild 0, 0
     End If
     
+    Me.Hide
+    
     SaveSetting "DownloadBooster", "UserData", "SavePath", Trim$(txtFileName.Text)
     SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6930 + PaddedBorderWidth * 15 * 2) * -1
     SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
-    If GetSetting("DownloadBooster", "Options", "RememberURL", 0) <> 0 Then
-        SaveSetting "DownloadBooster", "UserData", "FileURL", Trim$(txtURL.Text)
-    End If
+    If GetSetting("DownloadBooster", "Options", "RememberURL", 0) <> 0 Then SaveSetting "DownloadBooster", "UserData", "FileURL", Trim$(txtURL.Text)
     SaveSetting "DownloadBooster", "UserData", "FormTop", Me.Top
     SaveSetting "DownloadBooster", "UserData", "FormLeft", Me.Left
     If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
     SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
     
-    On Error Resume Next
-    Me.Hide
     Unload frmBatchAdd
     Unload frmBrowse
     Unload frmOptions

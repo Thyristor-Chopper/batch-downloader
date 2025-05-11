@@ -2111,3 +2111,16 @@ Function RemoveQuotes(Path As String) As String
     RemoveQuotes = Path
     If Left$(RemoveQuotes, 1) = """" And Right$(RemoveQuotes, 1) = """" Then RemoveQuotes = Mid$(RemoveQuotes, 2, Len(RemoveQuotes) - 2)
 End Function
+
+Sub ShowFileDialog(Optional TargetForm As Byte, Optional PresetPath As String, Optional ForceNewDialog As Boolean)
+    Tags.BrowsePresetPath = PresetPath
+    Tags.BrowseTargetForm = TargetForm
+    If (Not ForceNewDialog) And GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", "0") <> "0" Then
+        frmBrowse.Show vbModal
+    Else
+        Dim Explorer As frmExplorer
+        Set Explorer = New frmExplorer
+        Explorer.Show vbModal
+        Set Explorer = Nothing
+    End If
+End Sub

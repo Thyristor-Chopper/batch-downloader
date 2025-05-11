@@ -138,16 +138,7 @@ Public EncodedHeaders As String
 Public InitialFileName As String
 
 Private Sub cmdBrowse_Click()
-    Tags.BrowsePresetPath = Trim$(txtFilePath.Text)
-    Tags.BrowseTargetForm = 1
-    
-    If GetSetting("DownloadBooster", "Options", "ForceWin31Dialog", "0") = "1" Then
-        Unload frmBrowse
-        frmBrowse.Show vbModal, Me
-    Else
-        Unload frmExplorer
-        frmExplorer.Show vbModal, Me
-    End If
+    ShowFileDialog 1, Trim$(txtFilePath.Text)
     
     If FolderExists(txtFilePath.Text) Then
         If Right$(txtFilePath.Text, 1) <> "\" Then txtFilePath.Text = txtFilePath.Text & "\"

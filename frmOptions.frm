@@ -2125,43 +2125,32 @@ Private Sub ResetChanged()
 End Sub
 
 Private Sub cmdBrowseAsterisk_Click()
-    Tags.BrowseTargetForm = 4
-    Tags.BrowsePresetPath = txtAsterisk.Text
     Set Tags.BrowseTargetTextbox = txtAsterisk
-    frmExplorer.Show vbModal, Me
+    ShowFileDialog 4, Tags.BrowseTargetTextbox.Text, True
 End Sub
 
 Private Sub cmdBrowseCompleteSound_Click()
-    Tags.BrowseTargetForm = 4
-    Tags.BrowsePresetPath = txtCompleteSoundPath.Text
     Set Tags.BrowseTargetTextbox = txtCompleteSoundPath
-    frmExplorer.Show vbModal, Me
+    ShowFileDialog 4, Tags.BrowseTargetTextbox.Text, True
 End Sub
 
 Private Sub cmdBrowseError_Click()
-    Tags.BrowseTargetForm = 4
-    Tags.BrowsePresetPath = txtError.Text
     Set Tags.BrowseTargetTextbox = txtError
-    frmExplorer.Show vbModal, Me
+    ShowFileDialog 4, Tags.BrowseTargetTextbox.Text, True
 End Sub
 
 Private Sub cmdBrowseExclamation_Click()
-    Tags.BrowseTargetForm = 4
-    Tags.BrowsePresetPath = txtExclamation.Text
     Set Tags.BrowseTargetTextbox = txtExclamation
-    frmExplorer.Show vbModal, Me
+    ShowFileDialog 4, Tags.BrowseTargetTextbox.Text, True
 End Sub
 
 Private Sub cmdBrowseQuestion_Click()
-    Tags.BrowseTargetForm = 4
-    Tags.BrowsePresetPath = txtQuestion.Text
     Set Tags.BrowseTargetTextbox = txtQuestion
-    frmExplorer.Show vbModal, Me
+    ShowFileDialog 4, Tags.BrowseTargetTextbox.Text, True
 End Sub
 
 Private Sub cmdChooseBackground_Click()
-    Tags.BrowseTargetForm = 3
-    frmExplorer.Show vbModal, Me
+    ShowFileDialog 3, ForceNewDialog:=True
 End Sub
 
 Private Sub cmdDeleteTheme_Click()

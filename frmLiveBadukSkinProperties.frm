@@ -352,15 +352,11 @@ Private Sub cmdOK_Click()
 End Sub
 
 Private Sub cmdSelectFrameTexture_Click()
-    Tags.BrowseTargetForm = 6
-    Tags.BrowsePresetPath = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
-    frmExplorer.Show vbModal, Me
+    ShowFileDialog 6, GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
 End Sub
 
 Private Sub cmdSelectTexture_Click()
-    Tags.BrowseTargetForm = 5
-    Tags.BrowsePresetPath = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", "")
-    frmExplorer.Show vbModal, Me
+    ShowFileDialog 5, GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", "")
 End Sub
 
 Private Sub Form_Load()
