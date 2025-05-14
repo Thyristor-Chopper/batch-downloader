@@ -29,7 +29,7 @@ Begin VB.Form frmBatchAdd
       Width           =   1365
       _ExtentX        =   2408
       _ExtentY        =   609
-      Caption         =   "고급(&V)..."
+      Caption         =   "옵션(&O)..."
    End
    Begin VB.TextBox txtSavePath 
       Height          =   300
@@ -182,7 +182,7 @@ Private Sub Form_Load()
     tr Label1, "Enter one UR&L per line:"
     tr Label2, "&Save to:"
     tr cmdBrowse, "&Browse..."
-    tr cmdAdvanced, "Ad&vanced..."
+    tr cmdAdvanced, "&Options..."
     
     HeaderCache = ""
     

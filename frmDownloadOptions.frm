@@ -445,35 +445,9 @@ Private Sub Form_Load()
     InitForm Me
     
     Dim i As Byte
-    Dim MaxWidth%, MaxHeight%
-    Dim TabHeight%
-    TabHeight = tsTabStrip.Tabs(1).Height
+    InitPropertySheetDimensions Me, tsTabStrip, pbPanel, OKButton, CancelButton
     For i = pbPanel.LBound To pbPanel.UBound
-#If HIDEYTDL Then
-        If i = 1 Then GoTo nextfor1
-#End If
-        pbPanel(i).Top = 180 + TabHeight
-        pbPanel(i).Left = 180
-        If MaxWidth < pbPanel(i).Width Then MaxWidth = pbPanel(i).Width
-        If MaxHeight < pbPanel(i).Height Then MaxHeight = pbPanel(i).Height
-nextfor1:
-    Next i
-    tsTabStrip.Width = MaxWidth + 120
-    tsTabStrip.Height = MaxHeight + TabHeight + 120
-    CancelButton.Top = tsTabStrip.Top + tsTabStrip.Height + 60
-    OKButton.Top = CancelButton.Top
-    CancelButton.Left = tsTabStrip.Left + tsTabStrip.Width - CancelButton.Width
-    OKButton.Left = CancelButton.Left - 120 - OKButton.Width
-    Me.Height = CancelButton.Top + CancelButton.Height + 540
-    Me.Width = tsTabStrip.Width + 240 + 60
-    For i = pbPanel.LBound To pbPanel.UBound
-#If HIDEYTDL Then
-        If i = 1 Then GoTo nextfor2
-#End If
-        pbPanel(i).Width = MaxWidth
-        pbPanel(i).Height = MaxHeight
         tsTabStrip.DrawBackground pbPanel(i).hWnd, pbPanel(i).hDC
-nextfor2:
     Next i
     
     On Error Resume Next

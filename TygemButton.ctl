@@ -136,29 +136,7 @@ Begin VB.UserControl TygemButton
    End
    Begin VB.Image imgCenter 
       Height          =   285
-      Index           =   2
-      Left            =   0
-      Picture         =   "TygemButton.ctx":0312
-      Stretch         =   -1  'True
-      Top             =   960
-      Visible         =   0   'False
-      Width           =   975
-   End
-   Begin VB.Image imgCenter 
-      Height          =   285
-      Index           =   1
-      Left            =   0
-      Picture         =   "TygemButton.ctx":0A65
-      Stretch         =   -1  'True
-      Top             =   480
-      Visible         =   0   'False
-      Width           =   975
-   End
-   Begin VB.Image imgCenter 
-      Height          =   285
-      Index           =   0
       Left            =   30
-      Picture         =   "TygemButton.ctx":118B
       Stretch         =   -1  'True
       Top             =   30
       Width           =   975
@@ -205,26 +183,26 @@ Private bMouseDown As Boolean
 Public CommandButtonControlHandle As Long
 
 Private Sub SetLineColor()
-    Static A&, B&, C&
+    Static A&, B&, c&
     If m_Enabled Then
         A = 0&
         B = 10812412
-        C = 315901
+        c = 315901
     Else
         A = 8421504
         B = 14145239
-        C = 13027014
+        c = 13027014
     End If
     lblCaption.ForeColor = A
-    If m_SplitRight Then Line1.BorderColor = B Else Line1.BorderColor = C
-    Line2.BorderColor = C
-    Line11.BorderColor = C
+    If m_SplitRight Then Line1.BorderColor = B Else Line1.BorderColor = c
+    Line2.BorderColor = c
+    Line11.BorderColor = c
 End Sub
 
 Private Sub MouseOut()
     If bMouseDown Then Exit Sub
     bHovering = False
-    imgCenter(1).Visible = False
+    Set imgCenter.Picture = TygemButtonTexture(0)
     SetLineColor
     tmrMouse.Enabled = False
 End Sub
@@ -240,8 +218,9 @@ Property Let Enabled(ByVal New_Enabled As Boolean)
 End Property
 
 Private Sub SetEnabled()
-    imgCenter(2).Visible = Not m_Enabled
     SetLineColor
+    If Not m_Enabled Then tmrMouse.Enabled = False
+    Set imgCenter.Picture = TygemButtonTexture(Abs(Not m_Enabled) * 2)
 End Sub
 
 Property Get SplitLeft() As Boolean
@@ -298,20 +277,18 @@ Private Sub SetSplitRight()
     Line6.X1 = X1
     Line2.X1 = X1
     Line1.Y2 = Y2
-    Dim A%, B%, C%, D%
+    Dim A%, B%, c%, D%
     A = UserControl.Width - 3 * Screen.TwipsPerPixelX
     If m_SplitRight Then
-        D = imgCenter(0).Picture.Width / 15
+        D = imgCenter.Picture.Width / 15
         B = A * D
-        C = 30 - A * (D - 1)
+        c = 30 - A * (D - 1)
     Else
         B = A
-        C = 30
+        c = 30
     End If
-    For i = imgCenter.LBound To imgCenter.UBound
-        imgCenter(i).Width = B
-        imgCenter(i).Left = C
-    Next i
+    imgCenter.Width = B
+    imgCenter.Left = c
 End Sub
 
 Property Get Caption() As String
@@ -404,11 +381,6 @@ Private Sub UserControl_GotFocus()
 End Sub
 
 Private Sub UserControl_Initialize()
-    Dim i%
-    For i = 1 To imgCenter.UBound
-        imgCenter(i).Top = imgCenter(0).Top
-        imgCenter(i).Left = imgCenter(0).Left
-    Next i
     bMouseDown = False
 End Sub
 
@@ -444,7 +416,7 @@ Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Singl
     tmrMouse.Enabled = -1
     If Not bHovering Then
         bHovering = True
-        imgCenter(1).Visible = -1
+        Set imgCenter.Picture = TygemButtonTexture(1)
         Line1.BorderColor = IIf(m_SplitRight, RGB(207, 252, 162), RGB(179, 252, 53))
         Line2.BorderColor = RGB(179, 252, 53)
         Line11.BorderColor = RGB(179, 252, 53)
@@ -490,11 +462,8 @@ End Sub
 
 Private Sub UserControl_Resize()
     On Error Resume Next
-    Static i%
-    For i = imgCenter.LBound To imgCenter.UBound
-        imgCenter(i).Width = UserControl.Width - 3 * Screen.TwipsPerPixelX
-        imgCenter(i).Height = UserControl.Height - 3 * Screen.TwipsPerPixelY
-    Next i
+    imgCenter.Width = UserControl.Width - 3 * Screen.TwipsPerPixelX
+    imgCenter.Height = UserControl.Height - 3 * Screen.TwipsPerPixelY
     imgOverlay.Width = UserControl.Width
     imgOverlay.Height = UserControl.Height
     Line1.Y2 = UserControl.Height - 30

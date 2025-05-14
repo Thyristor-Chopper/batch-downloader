@@ -10,8 +10,10 @@ Attribute VB_Name = "Functions"
 
 Option Explicit
 
-Public Const MAX_THREAD_COUNT_CONTROL As Long = 655& '679&
+Public Const MAX_THREAD_COUNT_CONTROL As Integer = 655& '679&
 Public Const MAX_32BIT_SIGNED_INT As Long = 2147483647
+Public Const PROPERTY_SHEET_BUTTON_WIDTH As Integer = 1320
+Public Const PROPERTY_SHEET_BUTTON_HEIGHT As Integer = 360
 
 Public MsgBoxResults As Collection
 Public InputBoxResults As Collection
@@ -114,6 +116,38 @@ Private Declare Function SystemTimeToFileTime Lib "kernel32" (lpSystemTime As SY
 Private Declare Function LocalFileTimeToFileTime Lib "kernel32" (lpLocalFileTime As FILETIME, lpFileTime As FILETIME) As Long
 Private Declare Function GetTimeZoneInformation Lib "kernel32" (lpTimeZoneInformation As TIME_ZONE_INFORMATION) As Long
 'Declare Function CreateSolidBrush Lib "gdi32" (ByVal crColor As Long) As Long
+'Declare Sub IUnknown_AtomicRelease Lib "shlwapi" (ppUnk As Any)
+Declare Function OleCreatePictureIndirect Lib "oleaut32" (lpPictDesc As PICTDESC, riid As IID, ByVal fOwn As Boolean, lplpvObj As IPicture) As Long
+Declare Function SHGetFileInfo Lib "shell32" Alias "SHGetFileInfoW" (ByVal pszPath As Long, ByVal dwFileAttributes As Long, ByVal psfi As Long, ByVal cbSizeFileInfo As Long, ByVal uFlags As Long) As Long
+
+Public Const SHGFI_ICON As Long = &H100&
+Public Const SHGFI_LARGEICON As Long = &H0&
+Public Const SHGFI_SMALLICON As Long = &H1&
+Public Const SHGFI_USEFILEATTRIBUTES As Long = &H10&
+Public Const SHGFI_TYPENAME As Long = &H400&
+
+Type SHFILEINFO
+    hIcon As Long
+    iIcon As Long
+    dwAttributes As Long
+    szDisplayName As String * 260
+    szTypeName As String * 80
+End Type
+
+Type IID
+    Data1       As Long
+    Data2       As Integer
+    Data3       As Integer
+    Data4(7&)   As Byte
+End Type
+
+Type PICTDESC
+    cbSize          As Long
+    PicType         As Long
+    hgdiObj         As Long
+    hPalOrXYExt     As Long
+    Reserved        As Long
+End Type
 
 Enum VbMsgBoxResultEx
 '    vbAbort = 3
@@ -1009,15 +1043,8 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
     
     Dim IconIndex As Byte
     Dim RandVal As Integer
-    RandVal = RandInt(1, 1000)
-    Select Case RandVal
-        Case 290
-            IconIndex = 4
-        Case 441
-            IconIndex = 3
-        Case Else
-            IconIndex = (RandVal Mod 2) + 1
-    End Select
+    RandVal = RandInt(0, 999)
+    If RandVal Then IconIndex = (RandVal Mod 2) + 1 Else IconIndex = 3
     Set MessageBox.imgTrain.Picture = Train(IconIndex)
     MessageBox.imgIcon(Icon / 16).Visible = True
 
@@ -2123,4 +2150,70 @@ Sub ShowFileDialog(Optional TargetForm As Byte, Optional PresetPath As String, O
         Explorer.Show vbModal
         Set Explorer = Nothing
     End If
+End Sub
+
+Function CreatePicture(Handle As Long, PicType As Long) As IPicture
+    Dim uDesc As PICTDESC
+    uDesc.cbSize = Len(uDesc)
+    uDesc.PicType = PicType
+    uDesc.hgdiObj = Handle
+    OleCreatePictureIndirect uDesc, IPictureIID, True, CreatePicture
+End Function
+
+Sub ShellGetFileInfo(Path As String, UseFileAttributes As Boolean, ByRef LargeIcon As IPicture, ByRef SmallIcon As IPicture, ByRef TypeName As String)
+    Dim SFI As SHFILEINFO
+    Dim PathPtr&, SfiPtr&, SfiSize&
+    Dim FlagUFA As Long
+    PathPtr = StrPtr(Path)
+    SfiPtr = VarPtr(SFI)
+    SfiSize = LenB(SFI)
+    FlagUFA = (-UseFileAttributes) * SHGFI_USEFILEATTRIBUTES
+    
+    If SHGetFileInfo(PathPtr, 0&, SfiPtr, SfiSize, FlagUFA Or SHGFI_ICON Or SHGFI_LARGEICON Or SHGFI_TYPENAME) = 0 Then GoTo onfail
+    TypeName = SFI.szTypeName
+    Set LargeIcon = CreatePicture(SFI.hIcon, vbPicTypeIcon)
+    SHGetFileInfo PathPtr, 0&, SfiPtr, SfiSize, FlagUFA Or SHGFI_ICON Or SHGFI_SMALLICON
+    Set SmallIcon = CreatePicture(SFI.hIcon, vbPicTypeIcon)
+onfail:
+End Sub
+
+Sub InitPropertySheetDimensions(frmForm As Form, tsTabStrip As TabStrip, Panels As Object, OKButton As CommandButtonW, CancelButton As CommandButtonW, Optional ApplyButton As CommandButtonW)
+    Dim i As Byte
+    Dim MaxWidth%, MaxHeight%
+    Dim ClientLeft%, ClientTop%, Left%, Top%, Width%, Height%, ButtonTop%
+    ClientLeft = tsTabStrip.ClientLeft
+    ClientTop = tsTabStrip.ClientTop
+    Left = tsTabStrip.Left
+    Top = tsTabStrip.Top
+    Width = tsTabStrip.Width
+    Height = tsTabStrip.Height
+    For i = Panels.LBound To Panels.UBound
+        Panels(i).Top = ClientTop + Top
+        Panels(i).Left = ClientLeft + Left
+        If MaxWidth < Panels(i).Width Then MaxWidth = Panels(i).Width
+        If MaxHeight < Panels(i).Height Then MaxHeight = Panels(i).Height
+    Next i
+    For i = Panels.LBound To Panels.UBound
+        Panels(i).Width = MaxWidth
+        Panels(i).Height = MaxHeight
+    Next i
+    Width = MaxWidth + (Width - tsTabStrip.ClientWidth)
+    tsTabStrip.Width = Width
+    Height = MaxHeight + (Height - tsTabStrip.ClientHeight)
+    tsTabStrip.Height = Height
+    ButtonTop = Top + Height + 60
+    CancelButton.Top = ButtonTop
+    OKButton.Top = ButtonTop
+    Dim ButtonLeft%
+    ButtonLeft = 120 + Width - PROPERTY_SHEET_BUTTON_WIDTH
+    If ApplyButton Is Nothing Then
+        CancelButton.Left = ButtonLeft
+    Else
+        ApplyButton.Top = ButtonTop
+        ApplyButton.Left = ButtonLeft
+        CancelButton.Left = ButtonLeft - 120 - PROPERTY_SHEET_BUTTON_WIDTH
+    End If
+    OKButton.Left = CancelButton.Left - 120 - PROPERTY_SHEET_BUTTON_WIDTH
+    frmForm.Height = ButtonTop + PROPERTY_SHEET_BUTTON_HEIGHT + 540
+    frmForm.Width = Width + 300
 End Sub

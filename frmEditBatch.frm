@@ -99,7 +99,7 @@ Begin VB.Form frmEditBatch
       End
       Begin VB.Label Label3 
          BackStyle       =   0  '투명
-         Caption         =   "추가 설정(&D):"
+         Caption         =   "다운로드 옵션(&D):"
          Height          =   255
          Left            =   120
          TabIndex        =   6
@@ -247,7 +247,7 @@ Private Sub Form_Load()
     tr fInfo, " File download information "
     tr Label1, "File &address:"
     tr Label2, "&Save to:"
-    tr Label3, "A&dditional settings:"
+    tr Label3, "&Download options:"
     tr cmdHeaders, "&Headers..."
     
     EncodedHeaders = frmMain.lvBatchFiles.SelectedItem.ListSubItems(5).Text

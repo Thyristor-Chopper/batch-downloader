@@ -1,9 +1,12 @@
 VERSION 5.00
 Begin VB.Form frmDummyForm 
+   BorderStyle     =   0  '없음
    ClientHeight    =   3090
-   ClientLeft      =   60
-   ClientTop       =   450
+   ClientLeft      =   0
+   ClientTop       =   0
    ClientWidth     =   4680
+   ClipControls    =   0   'False
+   ControlBox      =   0   'False
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -15,9 +18,15 @@ Begin VB.Form frmDummyForm
    EndProperty
    Icon            =   "frmDummyForm.frx":0000
    LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   Moveable        =   0   'False
+   NegotiateMenus  =   0   'False
    ScaleHeight     =   3090
    ScaleWidth      =   4680
+   ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows 기본값
+   Visible         =   0   'False
    Begin VB.PictureBox pbDummy 
       AutoRedraw      =   -1  'True
       Height          =   135

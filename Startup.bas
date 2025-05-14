@@ -19,12 +19,29 @@ Public MainFormOnTop As Boolean
 
 Public DarkTransparent As IPicture
 Public LightTransparent As IPicture
-Public Train(1 To 4) As IPicture
+Public Train(1 To 3) As IPicture
+Public TygemButtonTexture(0 To 2) As IPicture
 
 Public ScriptFileName As String
 Public NodeFileName As String
 
+Public IPictureIID As IID
+
 Sub Main()
+    With IPictureIID
+        .Data1 = &H7BF80980
+        .Data2 = &HBF32
+        .Data3 = &H101A
+        .Data4(0) = &H8B
+        .Data4(1) = &HBB
+        .Data4(2) = &H0
+        .Data4(3) = &HAA
+        .Data4(4) = &H0
+        .Data4(5) = &H30
+        .Data4(6) = &HC
+        .Data4(7) = &HAB
+    End With
+    
     OSLangID = GetUserDefaultUILanguage()
     LangID = GetSetting("DownloadBooster", "Options", "Language", 0)
     If LangID = 0 Then LangID = OSLangID
@@ -119,10 +136,11 @@ forcegulim:
     End If
     BuildHeaderCache
     
-    Set Train(1) = LoadResPicture(2, vbResIcon)
-    Set Train(2) = LoadResPicture(3, vbResIcon)
-    Set Train(3) = frmMain.Icon
-    Set Train(4) = LoadResPicture(4, vbResIcon)
+    Dim i As Byte
+    For i = 1 To 3
+        Set TygemButtonTexture(i - 1) = LoadResPicture(i, vbResBitmap)
+        Set Train(i) = LoadResPicture(i + 1, vbResIcon)
+    Next i
 
     Randomize
     InitVisualStylesFixes

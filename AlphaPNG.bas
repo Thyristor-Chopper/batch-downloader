@@ -49,20 +49,6 @@ End Type
 Private Declare Function GetMem4 Lib "msvbvm60" (ByRef Source As Any, ByRef Dest As Any) As Long ' Always ignore the returned Value, it's useless.
 Private Declare Function GdiAlphaBlend Lib "gdi32" (ByVal hdcDest As Long, ByVal xoriginDest As Long, ByVal yoriginDest As Long, ByVal wDest As Long, ByVal hDest As Long, ByVal hdcSrc As Long, ByVal xoriginSrc As Long, ByVal yoriginSrc As Long, ByVal wSrc As Long, ByVal hSrc As Long, ByVal ftn As Long) As Long
 Private Declare Function CloseEnhMetaFile Lib "gdi32" (ByVal hDC As Long) As Long
-Private Type PICTDESC
-    cbSize          As Long
-    PicType         As Long
-    hgdiObj         As Long
-    hPalOrXYExt     As Long
-    Reserved        As Long
-End Type
-Private Declare Function OleCreatePictureIndirect Lib "oleaut32" (lpPictDesc As PICTDESC, riid As IID, ByVal fOwn As Boolean, lplpvObj As Object) As Long
-Private Type IID
-    Data1       As Long
-    Data2       As Integer
-    Data3       As Integer
-    Data4(7&)   As Byte
-End Type
 Private Declare Function IIDFromString Lib "ole32" (ByVal lpsz As Long, ByRef CLSID As IID) As Long
 Private Declare Function GdiplusShutdown Lib "gdiplus" (ByVal token As Long) As Long
 
@@ -151,19 +137,11 @@ Private Function LoadPngIntoPictureWithAlpha(Optional PathPtr As Long, Optional 
     bf.SourceConstantAlpha = &HFF
     Dim ftn As Long
     GetMem4 bf, ftn
-    GdiAlphaBlend hEmfDC, 0&, 0&, CLng((CDbl(uData.Width)) * Xscale * 1!) + 1&, CLng((CDbl(uData.Height)) * Yscale * 1!) + 1&, hMemDC, 0&, 0&, uData.Width, uData.Height, ftn
+    GdiAlphaBlend hEmfDC, 0&, 0&, CLng(CDbl(uData.Width) * Xscale) + 1&, CLng(CDbl(uData.Height) * Yscale) + 1&, hMemDC, 0&, 0&, uData.Width, uData.Height, ftn
     SelectObject hMemDC, hPrevDib
     DeleteDC hMemDC
     DeleteObject hDib
-    Dim hEmf As Long
-    hEmf = CloseEnhMetaFile(hEmfDC)
-    Dim uDesc As PICTDESC
-    uDesc.cbSize = Len(uDesc)
-    uDesc.PicType = vbPicTypeEMetafile
-    uDesc.hgdiObj = hEmf
-    Dim IPictureIID As IID
-    IIDFromString StrPtr("{7BF80980-BF32-101A-8BBB-00AA00300CAB}"), IPictureIID
-    OleCreatePictureIndirect uDesc, IPictureIID, 1&, LoadPngIntoPictureWithAlpha
+    Set LoadPngIntoPictureWithAlpha = CreatePicture(CloseEnhMetaFile(hEmfDC), vbPicTypeEMetafile)
     GdiplusShutdown mlGdipToken
 loaderror:
 End Function

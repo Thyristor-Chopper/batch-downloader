@@ -440,20 +440,6 @@ Dim LoadFinished As Boolean
 
 Implements IBSSubclass
 
-Private Sub ShowDesktopItems()
-    Dim li As LvwListItem
-    
-    Set li = lvFiles.ListItems.Add(1, , t("내 컴퓨터", "My Computer"), 9, 14)
-    li.ListSubItems.Add , , "-"
-    li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
-    li.ListSubItems.Add , , "-"
-    
-    Set li = lvFiles.ListItems.Add(1, , t("내 문서", "My Documents"), 10, 13)
-    li.ListSubItems.Add , , "-"
-    li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
-    li.ListSubItems.Add , , "-"
-End Sub
-
 Private Sub CancelButton_Click()
     Unload Me
 End Sub
@@ -535,8 +521,7 @@ Private Sub ListFiles()
     LoadFinished = False
 
     Dim li As LvwListItem
-    Dim k As Double
-    Dim i%
+    Dim i%, k#
     On Error Resume Next
     If Not lvFiles.SelectedItem Is Nothing Then
         lvFiles.SelectedItem.Selected = False
@@ -568,27 +553,25 @@ Private Sub ListFiles()
         Next i
     End If
     
-    If ExtToIcon.Count > 0 Then
+    If ExtToIcon.Count Then
         For i = 1 To ExtToIcon.Count
             ExtToIcon.Remove 1
         Next i
     End If
-    If ExtToSmallIcon.Count > 0 Then
+    If ExtToSmallIcon.Count Then
         For i = 1 To ExtToSmallIcon.Count
             ExtToSmallIcon.Remove 1
         Next i
     End If
     
-    Dim IsDesktop As Boolean
-    IsDesktop = (lvDir.Path = GetSpecialFolder(CSIDL_DESKTOP))
-    
-    Dim totalcnt As Double
-    totalcnt = 0
     Dim Path$, Name$
     Path = lvDir.Path
+    Dim IsDesktop As Boolean
+    IsDesktop = (Path = GetSpecialFolder(CSIDL_DESKTOP))
+    
+    Dim totalcnt As Double
     If Right$(Path, 1) <> "\" Then Path = Path & "\"
     On Error Resume Next
-    Dim Shown As Boolean
     tbToolBar.Buttons(2).Enabled = False
     
     If Len(lvDir.Path) > 3 Then
@@ -597,37 +580,32 @@ Private Sub ListFiles()
             Set li = lvFiles.ListItems.Add(, , "..", 1, 1)
             li.ListSubItems.Add , , "-"
             li.ListSubItems.Add , , t("상위 폴더", "Parent Folder")
-            li.ListSubItems.Add , , "-" 'FileDateTime(GetParentFolderName(Path))
+            li.ListSubItems.Add , , "-"
             totalcnt = 1
-            lvFiles.ListItems(1).EnsureVisible
         End If
     End If
     
-    Name = Dir$(Path, vbDirectory)
-'    Dim UpLoopCount%
-'    UpLoopCount = 0
+    Dim Attributes As VbFileAttribute
+    Attributes = (vbHidden * chkHidden.Value) Or vbReadOnly Or vbArchive
+    
+    Name = Dir$(Path, vbDirectory Or Attributes)
+    Dim FullPath As String
     Do While LenB(Name)
         If Name <> "." And Name <> ".." Then
-            If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
-                Shown = True
-                If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." And Name <> ".." Then Shown = False
+            FullPath = Path & Name
+            If (GetAttr(FullPath) And vbDirectory) = vbDirectory Then
+                If ((Not chkUnixHidden.Value) And Left$(Name, 1) = ".") Or InStr(FullPath, "?") Then GoTo nextdir
                 
-                If Shown And Replace(Path & Name, "?", "") = (Path & Name) Then
-                    Set li = lvFiles.ListItems.Add(, , Name, 1, 1)
-                    li.ListSubItems.Add , , "-"
-                    li.ListSubItems.Add , , t("파일 폴더", "File Folder")
-                    li.ListSubItems.Add , , "-"
-                    If Name <> ".." Then
-                        li.ListSubItems(3).Text = FormatModified(FileDateTime(Path & Name))
-                    End If
-                    
-                    TotalCntProc totalcnt
-                End If
+                Set li = lvFiles.ListItems.Add(, , Name, 1, 1)
+                li.ListSubItems.Add Text:="-"
+                li.ListSubItems.Add Text:=t("파일 폴더", "File Folder")
+                li.ListSubItems.Add Text:="-"
+                If Name <> ".." Then li.ListSubItems(3).Text = FormatModified(FileDateTime(FullPath))
+                
+                TotalCntProc totalcnt
             End If
-'        ElseIf Name = ".." Then
-'            UpLoopCount = UpLoopCount + 1
-'            If UpLoopCount > 1 Then Exit Do
         End If
+nextdir:
         Name = Dir$
     Loop
     
@@ -636,91 +614,89 @@ Private Sub ListFiles()
     Dim CurrentPattern$
     Dim ExtName$
     Dim Icon%, SmallIcon%
-    Dim LnkPath As String
     PatternsSplit = Split(Pattern, ";")
-    Dim ShowHidden As VbFileAttribute
-    ShowHidden = 0
-    If chkHidden.Value = 1 Then ShowHidden = vbHidden
-    Name = Dir$(Path, vbNormal Or vbReadOnly Or vbArchive Or ShowHidden)
     Dim cnt As Double
-    cnt = 0
-    Dim ext$
+    Dim ext As String
+    Dim UseFileAttr As Boolean
+    Dim ShellIcon As IPicture, ShellSmallIcon As IPicture
+    Dim IconFlags As Long
+    If Tags.BrowseTargetForm = 2 And chkShowFiles.Value = 0 Then GoTo afterfileload
+    Name = Dir$(Path, Attributes And (Not vbDirectory))
     Do While LenB(Name)
-        If (GetAttr(Path & Name) And vbDirectory) <> vbDirectory Then
-            PatternMatched = False
-            For i = LBound(PatternsSplit) To UBound(PatternsSplit)
-                CurrentPattern = Trim$(PatternsSplit(i))
-                If CurrentPattern = "*.*" Then CurrentPattern = "*"
-                PatternMatched = (LCase(Name) Like LCase(CurrentPattern))
-                If PatternMatched Then Exit For
-            Next i
+        FullPath = Path & Name
+        PatternMatched = False
+        For i = LBound(PatternsSplit) To UBound(PatternsSplit)
+            CurrentPattern = Trim$(PatternsSplit(i))
+            If CurrentPattern = "*.*" Then CurrentPattern = "*"
+            PatternMatched = (LCase(Name) Like LCase(CurrentPattern))
+            If PatternMatched Then Exit For
+        Next i
+        If (Not PatternMatched) Or InStr(FullPath, "?") Or (chkUnixHidden.Value = 0 And Left$(Name, 1) = ".") Then GoTo NextItem
 
-            Shown = True
-            If chkUnixHidden.Value = 0 And Left$(Name, 1) = "." Then Shown = False
-
-            Icon = 2
-            If LCase(GetExtensionName(Name)) = "lnk" Then
-                LnkPath = GetShortcutTarget(Path & Name)
-                If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
-                    LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
-                If FolderExists(LnkPath) Then
-                    Icon = 1
-                ElseIf Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then
-                    Shown = False
-                End If
-            Else
-                If Tags.BrowseTargetForm = 2 And chkShowFiles.Value <> 1 Then Shown = False
-            End If
-
-            SmallIcon = Icon
-            
-            ext = UCase(GetExtensionName(Name))
-            If Icon = 2 And GetSetting("DownloadBooster", "Options", "DontLoadIcons", 0) <> 1 Then
-                If (ext = "EXE" Or ext = "LNK" Or ext = "PIF" Or ext = "ICO") And cnt < 250 Then
-                    Icon = imgFolder.ListImages.Add(, , GetAssocIcon(Path & Name, , True, (Left$(Name, 1) = "."))).Index
-                    SmallIcon = imgFolderSmall.ListImages.Add(, , GetAssocIcon(Path & Name, , False, (Left$(Name, 1) = "."))).Index
-                    cnt = cnt + 1
-                ElseIf Exists(ExtToIcon, ext) Then
-                    Icon = ExtToIcon(CStr(ext))
-                    SmallIcon = ExtToSmallIcon(CStr(ext))
-                ElseIf cnt < 250 Then
-                    Icon = imgFolder.ListImages.Add(, , GetAssocIcon("." & ext, , True, True)).Index
-                    SmallIcon = imgFolderSmall.ListImages.Add(, , GetAssocIcon("." & ext, , False, True)).Index
-                    ExtToIcon.Add Icon, CStr(ext)
-                    ExtToSmallIcon.Add SmallIcon, CStr(ext)
-                    cnt = cnt + 1
-                End If
-            End If
-
-            If PatternMatched And Shown And Replace(Path & Name, "?", "") = (Path & Name) Then
-                Set li = lvFiles.ListItems.Add(, , Name, Icon, SmallIcon)
-                li.ListSubItems.Add , , ParseSize(FileLen(Path & Name))
-                ExtName = t("파일", "File")
-                ExtName = Trim$(GetKeyValue(HKEY_CLASSES_ROOT, GetKeyValue(HKEY_CLASSES_ROOT, "." & LCase(GetExtensionName(Name)), "", "BOOSTER_NO_FILE_EXT_REGISTERED"), "", UCase(GetExtensionName(Name)) & " " & t("파일", "File")))
-                li.ListSubItems.Add , , ExtName
-                li.ListSubItems.Add , , FormatModified(FileDateTime(Path & Name))
-                
-                If LenB(Name) And (Not FirstListed) Then
-                    If Tags.BrowseTargetForm = 3 Then
-                        If LCase(Name) = LCase(GetFilename(GetSetting("DownloadBooster", "Options", "BackgroundImagePath", ""))) Then
-                            li.Selected = True
-                            li.EnsureVisible
-                        End If
-                    ElseIf Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
-                        If LCase(Name) = LCase(GetFilename(Tags.BrowsePresetPath)) Then
-                            li.Selected = True
-                            li.EnsureVisible
-                        End If
-                    End If
-                End If
-                
-                TotalCntProc totalcnt
+        ext = UCase(GetExtensionName(Name))
+        If ext = "LNK" Then
+            If FolderExists(RemoveQuotes(GetShortcutTarget(FullPath))) Then
+                Icon = 1
+                SmallIcon = 1
+                GoTo aftericonproc
             End If
         End If
+        
+        Icon = 2
+        SmallIcon = 2
+        UseFileAttr = Not (ext = "EXE" Or ext = "LNK" Or ext = "PIF" Or ext = "ICO")
+        ShellGetFileInfo FullPath, UseFileAttr, ShellIcon, ShellSmallIcon, ExtName
+        If Not UseFileAttr Then
+            GoTo addicon
+        ElseIf Exists(ExtToIcon, ext) Then
+            Icon = ExtToIcon(ext)
+            SmallIcon = ExtToSmallIcon(ext)
+        Else
+addicon:
+            If cnt < 250 Then
+                If ShellIcon Is Nothing Or ShellSmallIcon Is Nothing Then GoTo aftericonproc
+                Icon = imgFolder.ListImages.Add(, , ShellIcon).Index
+                SmallIcon = imgFolderSmall.ListImages.Add(, , ShellSmallIcon).Index
+                If UseFileAttr Then
+                    ExtToIcon.Add Icon, ext
+                    ExtToSmallIcon.Add SmallIcon, ext
+                End If
+                cnt = cnt + 1
+            End If
+        End If
+aftericonproc:
+        Set li = lvFiles.ListItems.Add(, , Name, Icon, SmallIcon)
+        li.ListSubItems.Add Text:=ParseSize(FileLen(FullPath))
+        If LenB(Trim$(ExtName)) = 0 Then ExtName = ext & " " & t("파일", "File")
+        li.ListSubItems.Add Text:=ExtName
+        li.ListSubItems.Add Text:=FormatModified(FileDateTime(FullPath))
+        
+        If Not FirstListed Then
+            If Tags.BrowseTargetForm >= 3 And Tags.BrowseTargetForm <= 6 Then
+                If LCase(Name) = LCase(GetFilename(Tags.BrowsePresetPath)) Then
+                    li.Selected = True
+                    li.EnsureVisible
+                End If
+            End If
+        End If
+        
+        TotalCntProc totalcnt
+NextItem:
         Name = Dir$
     Loop
+afterfileload:
     
-    If IsDesktop Then ShowDesktopItems
+    If IsDesktop Then
+        Set li = lvFiles.ListItems.Add(1, , t("내 컴퓨터", "My Computer"), 9, 14)
+        li.ListSubItems.Add , , "-"
+        li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
+        li.ListSubItems.Add , , "-"
+        
+        Set li = lvFiles.ListItems.Add(1, , t("내 문서", "My Documents"), 10, 13)
+        li.ListSubItems.Add , , "-"
+        li.ListSubItems.Add , , t("시스템 폴더", "System Folder")
+        li.ListSubItems.Add , , "-"
+    End If
     
     tbToolBar.Buttons(3).Enabled = True
     FirstListed = True
@@ -1228,11 +1204,13 @@ Private Sub lvDir_Change()
     If Right$(Path, 1) <> "\" Then Path = Path & "\"
     Name = Dir(Path, vbDirectory)
     On Error Resume Next
+    Dim FullPath As String
     Do While LenB(Name)
         If Name <> "." And Name <> ".." Then
-            If (GetAttr(Path & Name) And vbDirectory) = vbDirectory Then
+            FullPath = Path & Name
+            If (GetAttr(FullPath) And vbDirectory) = vbDirectory Then
                 Set Item = cbFolderList.ComboItems.Add(, , Name, 1, , 1)
-                If (Path & Name) = lvDir.Path Then ItemSelectPos = Item.Index
+                If (FullPath) = lvDir.Path Then ItemSelectPos = Item.Index
                 ItemCount = ItemCount + 1
             End If
         End If
