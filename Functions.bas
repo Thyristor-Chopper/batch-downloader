@@ -1159,6 +1159,21 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
 '                MessageBox.cmdYes.Top = MessageBox.cmdYes.Top - 210
 '                MessageBox.cmdNo.Top = MessageBox.cmdNo.Top - 210
 '            End If
+        Case vbRetryCancel
+            MessageBox.cmdRetry.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdRetry.Width / 2
+            MessageBox.cmdRetry.Top = 840 + (LineCount * 185) - 350
+            MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdCancel.Width / 2 - 120 + MessageBox.cmdRetry.Width + 240 - 30
+            MessageBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
+            If LineCount < 2 Then
+                MessageBox.Height = MessageBox.Height + 180
+                MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top + 180
+                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top + 180
+            End If
+'            If NoIcon Then
+'                MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
+'                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
+'            End If
+#If False Then
         Case vbAbortRetryIgnore
             MessageBox.cmdAbort.Left = MessageBox.Width / 2 - 900 - MessageBox.cmdAbort.Width
             MessageBox.cmdAbort.Top = 840 + (LineCount * 185) - 350
@@ -1176,20 +1191,6 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
 '                MessageBox.cmdIgnore.Top = MessageBox.cmdIgnore.Top - 210
 '                MessageBox.cmdAbort.Top = MessageBox.cmdAbort.Top - 210
 '                MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
-'            End If
-        Case vbRetryCancel
-            MessageBox.cmdRetry.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdRetry.Width / 2
-            MessageBox.cmdRetry.Top = 840 + (LineCount * 185) - 350
-            MessageBox.cmdCancel.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdCancel.Width / 2 - 120 + MessageBox.cmdRetry.Width + 240 - 30
-            MessageBox.cmdCancel.Top = 840 + (LineCount * 185) - 350
-            If LineCount < 2 Then
-                MessageBox.Height = MessageBox.Height + 180
-                MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top + 180
-                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top + 180
-            End If
-'            If NoIcon Then
-'                MessageBox.cmdRetry.Top = MessageBox.cmdRetry.Top - 210
-'                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
 '            End If
         Case vbOKCancel
             MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 - MessageBox.cmdOK.Width / 2
@@ -1223,6 +1224,7 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
 '                MessageBox.cmdCancel.Top = MessageBox.cmdCancel.Top - 210
 '                MessageBox.cmdTryAgain.Top = MessageBox.cmdTryAgain.Top - 210
 '            End If
+#End If
         Case Else 'vbOKOnly
             MessageBox.cmdOK.Left = MessageBox.Width / 2 - 810 + 30
             MessageBox.cmdOK.Top = 840 + (LineCount * 185) - 350

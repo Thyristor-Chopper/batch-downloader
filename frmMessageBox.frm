@@ -191,6 +191,7 @@ Public MsgBoxResult As VbMsgBoxResultEx
 Public ResultID As String
 Public MessageBoxObject As frmMessageBox
 
+#If False Then
 Private Sub cmdAbort_Click()
     MsgBoxResult = vbAbort
     Unload Me
@@ -205,6 +206,12 @@ Private Sub cmdIgnore_Click()
     MsgBoxResult = vbIgnore
     Unload Me
 End Sub
+
+Private Sub cmdTryAgain_Click()
+    MsgBoxResult = vbTryAgain
+    Unload Me
+End Sub
+#End If
 
 Private Sub cmdNo_Click()
     MsgBoxResult = vbNo
@@ -229,11 +236,6 @@ Private Sub cmdRetry_Click()
     Unload Me
 End Sub
 
-Private Sub cmdTryAgain_Click()
-    MsgBoxResult = vbTryAgain
-    Unload Me
-End Sub
-
 Private Sub cmdYes_Click()
     MsgBoxResult = vbYes
     Unload Me
@@ -255,14 +257,16 @@ Private Sub Form_Activate()
             optNo.SetFocus
         Case vbYesNoCancel
             cmdCancel.SetFocus
-        Case vbAbortRetryIgnore
-            cmdAbort.SetFocus
         Case vbRetryCancel
             cmdRetry.SetFocus
+#If False Then
+        Case vbAbortRetryIgnore
+            cmdAbort.SetFocus
         Case vbOKCancel
             cmdOK.SetFocus
         Case vbCancelTryContinue
             cmdCancel.SetFocus
+#End If
     End Select
 End Sub
 
@@ -274,17 +278,20 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
                 optNo.Value = True
                 optNo_Click
                 optNo.SetFocus
+            ElseIf cmdNo.Visible Then
+                cmdNo_Click
             End If
-            If cmdNo.Visible Then cmdNo_Click
         Case 89 'Y
             If optYes.Visible Then
                 optYes.Value = True
                 optYes_Click
                 optYes.SetFocus
+            ElseIf cmdYes.Visible Then
+                cmdYes_Click
             End If
-            If cmdYes.Visible Then cmdYes_Click
         Case 82 'R
             If cmdRetry.Visible Then cmdRetry_Click
+#If False Then
         Case 65 'A
             If cmdAbort.Visible Then cmdAbort_Click
         Case 73 'I
@@ -293,6 +300,7 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
             If cmdContinue.Visible Then cmdContinue_Click
         Case 84 'T
             If cmdTryAgain.Visible Then cmdTryAgain_Click
+#End If
     End Select
 End Sub
 
