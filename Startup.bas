@@ -28,20 +28,6 @@ Public NodeFileName As String
 Public IPictureIID As IID
 
 Sub Main()
-    With IPictureIID
-        .Data1 = &H7BF80980
-        .Data2 = &HBF32
-        .Data3 = &H101A
-        .Data4(0) = &H8B
-        .Data4(1) = &HBB
-        .Data4(2) = &H0
-        .Data4(3) = &HAA
-        .Data4(4) = &H0
-        .Data4(5) = &H30
-        .Data4(6) = &HC
-        .Data4(7) = &HAB
-    End With
-    
     OSLangID = GetUserDefaultUILanguage()
     LangID = GetSetting("DownloadBooster", "Options", "Language", 0)
     If LangID = 0 Then LangID = OSLangID
@@ -59,12 +45,12 @@ Sub Main()
 '    End If
 '    On Error GoTo 0
 
-    If WinVer < 5.1 Then
-        If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") <> "0")) Then
-            MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
-            Exit Sub
-        End If
-    End If
+'    If WinVer < 5.1 Then
+'        If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") <> "0")) Then
+'            MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
+'            Exit Sub
+'        End If
+'    End If
 
 '    On Error GoTo deftrdcnt
 '    Dim RawMaxThreads$
@@ -82,6 +68,20 @@ Sub Main()
 '    End If
 'aftertrdcntverify:
 '    On Error GoTo 0
+
+    With IPictureIID
+        .Data1 = &H7BF80980
+        .Data2 = &HBF32
+        .Data3 = &H101A
+        .Data4(0) = &H8B
+        .Data4(1) = &HBB
+        .Data4(2) = &H0
+        .Data4(3) = &HAA
+        .Data4(4) = &H0
+        .Data4(5) = &H30
+        .Data4(6) = &HC
+        .Data4(7) = &HAB
+    End With
 
     Dim CachePathSuffix$
     CachePathSuffix = "\BOOSTER_JS_CACHE\"

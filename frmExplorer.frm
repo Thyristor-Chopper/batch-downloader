@@ -80,7 +80,7 @@ Begin VB.Form frmExplorer
       _ExtentY        =   1005
       ImageWidth      =   32
       ImageHeight     =   32
-      ColorDepth      =   8
+      ColorDepth      =   4
       MaskColor       =   16711935
       InitListImages  =   "frmExplorer.frx":000C
    End
@@ -114,7 +114,7 @@ Begin VB.Form frmExplorer
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
-         InitButtons     =   "frmExplorer.frx":393C
+         InitButtons     =   "frmExplorer.frx":111C
       End
    End
    Begin VB.DirListBox lvDir 
@@ -156,7 +156,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   16
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":3F4C
+      InitListImages  =   "frmExplorer.frx":172C
    End
    Begin prjDownloadBooster.ImageList imgFolder 
       Left            =   8640
@@ -167,7 +167,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   32
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":7414
+      InitListImages  =   "frmExplorer.frx":4BF4
    End
    Begin VB.PictureBox picPreviewFrame 
       Enabled         =   0   'False
@@ -285,7 +285,7 @@ Begin VB.Form frmExplorer
       Wrappable       =   0   'False
       AllowCustomize  =   0   'False
       ButtonWidth     =   23
-      InitButtons     =   "frmExplorer.frx":9CD4
+      InitButtons     =   "frmExplorer.frx":74B4
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255
@@ -361,20 +361,25 @@ Begin VB.Form frmExplorer
       End
       Begin VB.Menu mnuView 
          Caption         =   "보기(&V)"
-         Begin VB.Menu mnuLargeIcons 
+         Begin VB.Menu mnuIconSize 
             Caption         =   "큰 아이콘(&L)"
+            Index           =   0
          End
-         Begin VB.Menu mnuSmallIcons 
+         Begin VB.Menu mnuIconSize 
             Caption         =   "작은 아이콘(&S)"
+            Index           =   1
          End
-         Begin VB.Menu mnuList 
+         Begin VB.Menu mnuIconSize 
             Caption         =   "간단히(&I)"
+            Index           =   2
          End
-         Begin VB.Menu mnuDetails 
+         Begin VB.Menu mnuIconSize 
             Caption         =   "자세히(&D)"
+            Index           =   3
          End
-         Begin VB.Menu mnuTiles 
+         Begin VB.Menu mnuIconSize 
             Caption         =   "나란히 보기(&T)"
+            Index           =   4
          End
       End
       Begin VB.Menu mnuSep4 
@@ -895,11 +900,11 @@ setpreview:
     tr mnuNewFolder, "&New folder"
     tr mnuCmd, "Open Co&mmand Prompt"
     tr mnuView, "&View"
-    tr mnuLargeIcons, "&Large icons"
-    tr mnuSmallIcons, "&Small icons"
-    tr mnuList, "L&ist"
-    tr mnuDetails, "&Details"
-    tr mnuTiles, "&Tiles"
+    tr mnuIconSize(0), "&Large icons"
+    tr mnuIconSize(1), "&Small icons"
+    tr mnuIconSize(2), "L&ist"
+    tr mnuIconSize(3), "&Details"
+    tr mnuIconSize(4), "&Tiles"
     tr mnuRefresh, "&Refresh"
     tr mnuFolderProperties, "P&roperties"
     tr mnuSelect, "Se&lect"
@@ -940,20 +945,7 @@ setpreview:
     AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
     AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
     
-    Dim CurrentView As LvwViewConstants
-    CurrentView = lvFiles.View
-    Select Case CurrentView
-        Case LvwViewIcon
-            mnuLargeIcons.Checked = -1
-        Case LvwViewSmallIcon
-            mnuSmallIcons.Checked = -1
-        Case LvwViewList
-            mnuList.Checked = -1
-        Case LvwViewReport
-            mnuDetails.Checked = -1
-        Case LvwViewTile
-            mnuTiles.Checked = -1
-    End Select
+    mnuIconSize(lvFiles.View).Checked = True
     
     If WinVer >= 6# And Build >= 5048 Then lvFiles.FullRowSelect = True
     
@@ -1328,20 +1320,22 @@ End Sub
 
 Private Sub lvFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
     On Error Resume Next
-    If Not lvFiles.SelectedItem Is Nothing Then
-        If lvFiles.SelectedItem.Selected Then
-            mnuRename.Enabled = ((lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> "..")
-            mnuDelete.Enabled = ((Not IsMyComputer) And (lvFiles.SelectedItem.IconIndex = 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> "..")
-            mnuExplore.Visible = IsMyComputer Or lvFiles.SelectedItem.IconIndex = 1
-            mnuOpen.Enabled = (IsMyComputer Or lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10)
-            mnuProperties.Enabled = (((lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And lvFiles.SelectedItem.Text <> "..") Or IsMyComputer)
+    Dim Item As LvwListItem
+    Set Item = lvFiles.SelectedItem
+    If Not Item Is Nothing Then
+        If Item.Selected Then
+            mnuRename.Enabled = ((Item.IconIndex <= 2 Or Item.IconIndex > 10) And Item.Text <> "..")
+            mnuDelete.Enabled = (Not IsMyComputer) And Item.Text <> ".."
+            mnuExplore.Visible = IsMyComputer Or Item.IconIndex = 1
+            mnuOpen.Enabled = (IsMyComputer Or Item.IconIndex <= 2 Or Item.IconIndex > 10)
+            mnuProperties.Enabled = (((Item.IconIndex <= 2 Or Item.IconIndex > 10) And Item.Text <> "..") Or IsMyComputer)
             If Tags.BrowseTargetForm = 2 Then
-                mnuSelect.Enabled = (lvFiles.SelectedItem.IconIndex = 1 Or IsMyComputer) And LoadFinished
+                mnuSelect.Enabled = (Item.IconIndex = 1 Or IsMyComputer) And LoadFinished
             Else
                 mnuSelect.Enabled = LoadFinished
             End If
             If mnuSelect.Enabled Then
-                Me.PopupMenu mnuFile, , , , mnuSelect
+                Me.PopupMenu mnuFile, DefaultMenu:=mnuSelect
             Else
                 Me.PopupMenu mnuFile
             End If
@@ -1485,22 +1479,20 @@ Private Sub mnuDelete_Click()
     
     If ConfirmEx("'" & lvFiles.SelectedItem.Text & "' " & t("항목을 영구적으로 삭제하시겠습니까?", " - delete item permanently?"), App.Title, 48) = vbYes Then
         On Error GoTo deletefail
-        Kill FullPath
+        Dim IsDirectory As Boolean
+        IsDirectory = (lvFiles.SelectedItem.IconIndex = 1)
+        If IsDirectory Then RmDir FullPath Else Kill FullPath
         lvFiles.ListItems.Remove lvFiles.SelectedItem.Index
         Exit Sub
 deletefail:
-        MsgBox t("항목을 지우는 데 실패했습니다.", "Failed to delete the specified item."), 16
+        Dim ErrorMessage As String
+        If IsDirectory Then
+            ErrorMessage = t("폴더가 비어 있지 않거나 삭제 권한이 없습니다.", "Directory is not empty or there is no delete permission.")
+        Else
+            ErrorMessage = t("항목을 지우는 데 실패했습니다.", "Failed to delete the specified item.")
+        End If
+        MsgBox ErrorMessage, 16
     End If
-End Sub
-
-Private Sub mnuDetails_Click()
-    lvFiles.View = LvwViewReport
-    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
-    mnuLargeIcons.Checked = 0
-    mnuSmallIcons.Checked = 0
-    mnuList.Checked = 0
-    mnuDetails.Checked = -1
-    mnuTiles.Checked = 0
 End Sub
 
 Private Sub mnuExplore_Click()
@@ -1539,24 +1531,14 @@ Private Sub mnuFolderProperties_Click()
     ShellExecute lvDir.Path, "properties"
 End Sub
 
-Private Sub mnuLargeIcons_Click()
-    lvFiles.View = LvwViewIcon
-    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
-    mnuLargeIcons.Checked = -1
-    mnuSmallIcons.Checked = 0
-    mnuList.Checked = 0
-    mnuDetails.Checked = 0
-    mnuTiles.Checked = 0
-End Sub
-
-Private Sub mnuList_Click()
-    lvFiles.View = LvwViewList
-    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
-    mnuLargeIcons.Checked = 0
-    mnuSmallIcons.Checked = 0
-    mnuList.Checked = -1
-    mnuDetails.Checked = 0
-    mnuTiles.Checked = 0
+Private Sub mnuIconSize_Click(Index As Integer)
+    lvFiles.View = Index
+    SaveSetting "DownloadBooster", "UserData", "FileListView", Index
+    Static i As Byte
+    For i = 1 To 5
+        mnuIconSize(i).Checked = False
+    Next i
+    mnuIconSize(Index).Checked = True
 End Sub
 
 Private Sub mnuNewFolder_Click()
@@ -1638,26 +1620,6 @@ Private Sub mnuSelect_Click()
     End If
 End Sub
 
-Private Sub mnuSmallIcons_Click()
-    lvFiles.View = LvwViewSmallIcon
-    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
-    mnuLargeIcons.Checked = 0
-    mnuSmallIcons.Checked = -1
-    mnuList.Checked = 0
-    mnuDetails.Checked = 0
-    mnuTiles.Checked = 0
-End Sub
-
-Private Sub mnuTiles_Click()
-    lvFiles.View = LvwViewTile
-    SaveSetting "DownloadBooster", "UserData", "FileListView", lvFiles.View
-    mnuLargeIcons.Checked = 0
-    mnuSmallIcons.Checked = 0
-    mnuList.Checked = 0
-    mnuDetails.Checked = 0
-    mnuTiles.Checked = -1
-End Sub
-
 Private Sub OKButton_Click()
     txtFileName.Text = Trim$(txtFileName.Text)
     
@@ -1675,7 +1637,6 @@ Private Sub OKButton_Click()
         Pattern = txtFileName.Text
         txtFileName.SelStart = 0
         txtFileName.SelLength = Len(txtFileName.Text)
-        MessageBeep 0
         ListedOn = ""
         ListFiles
         Exit Sub
@@ -1701,12 +1662,8 @@ Private Sub OKButton_Click()
         
             If lvFiles.SelectedItem.IconIndex = 1 And UCase(GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
                 Dim LnkPath As String
-                LnkPath = GetShortcutTarget(FullPath)
-                If Left$(LnkPath, 1) = """" And Right$(LnkPath, 1) = """" Then _
-                    LnkPath = Mid$(LnkPath, 2, Len(LnkPath) - 2)
-                If FolderExists(LnkPath) Then
-                    FullPath = LnkPath
-                End If
+                LnkPath = RemoveQuotes(GetShortcutTarget(FullPath))
+                If FolderExists(LnkPath) Then FullPath = LnkPath
             End If
             
             If lvFiles.SelectedItem.IconIndex = 1 And FolderExists(FullPath) And (txtFileName.Text = "" Or ((Not FolderExists(txtFileName)) And (Not FolderExists(FullPath2)))) Then
@@ -1742,7 +1699,6 @@ Private Sub OKButton_Click()
         If txtFileName.Text = "." Or txtFileName.Text = ".." Then
             If LoadFinished Then
                 lvDir.Path = txtFileName.Text
-                'MessageBeep 0
                 txtFileName.Text = ""
 '                txtFileName.SelStart = 0
 '                txtFileName.SelLength = Len(txtFileName.Text)
@@ -1770,13 +1726,13 @@ Private Sub OKButton_Click()
                 Exit Sub
             End If
         End If
-    ElseIf InStr(1, txtFileName.Text, "\") > 0 Then
+    ElseIf InStr(1, txtFileName.Text, "\") Then
         MsgBox t("입력한 폴더의 경로가 존재하지 않습니다.", "The specified folder path does not exist."), 48
         Exit Sub
     End If
     On Error GoTo 0
     
-    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
+    If Tags.BrowseTargetForm >= 3 And Tags.BrowseTargetForm <= 6 Then
         Path = lvDir.Path
         If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
         If Not FileExists(Path & txtFileName.Text) Then
@@ -1785,30 +1741,29 @@ Private Sub OKButton_Click()
         End If
     End If
     
-    If Tags.BrowseTargetForm = 3 Then
-        If LoadPictureFromFile(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
-        frmOptions.ChangedBackgroundPath = Path & txtFileName.Text
-        frmOptions.LoadBackgroundList
+    Select Case Tags.BrowseTargetForm: Case 3, 5, 6
+        Dim PicturePath As String
+        PicturePath = Path & txtFileName.Text
+        If LoadPictureFromFile(PicturePath) Is Nothing Then GoTo imgerr
+        Select Case Tags.BrowseTargetForm
+            Case 3
+                frmOptions.ChangedBackgroundPath = PicturePath
+                frmOptions.LoadBackgroundList
+            Case 5
+                SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", PicturePath
+                frmLiveBadukSkinProperties.optTexture.Value = True
+            Case 6
+                SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", PicturePath
+                frmLiveBadukSkinProperties.optFrameTexture.Value = True
+        End Select
         Unload Me
         Exit Sub
 imgerr:
         MsgBox t("그림이 손상되었거나 올바르지 않습니다.", "The selected picture is corrupt or invalid."), 16
         Exit Sub
-    ElseIf Tags.BrowseTargetForm = 5 Then
-        If LoadPictureFromFile(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
-        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", Path & txtFileName.Text
-        frmLiveBadukSkinProperties.optTexture.Value = True
-        Unload Me
-        Exit Sub
-    ElseIf Tags.BrowseTargetForm = 6 Then
-        If LoadPictureFromFile(Path & txtFileName.Text) Is Nothing Then GoTo imgerr
-        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", Path & txtFileName.Text
-        frmLiveBadukSkinProperties.optFrameTexture.Value = True
-        Unload Me
-        Exit Sub
-    End If
+    End Select
     
-    If (Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6) And txtFileName.Text = "" Then Exit Sub
+    If Tags.BrowseTargetForm = 4 And LenB(txtFileName.Text) = 0 Then Exit Sub
     
     Dim IsColonPresent As Boolean
     If Len(txtFileName.Text) > 3 And Mid$(txtFileName.Text, 2, 2) = ":\" Then
@@ -1860,7 +1815,7 @@ imgerr:
         End If
     End If
     On Error Resume Next
-    If FileExists(Path) And Tags.BrowseTargetForm <> 4 And Tags.BrowseTargetForm <> 3 Then
+    If FileExists(Path) And Tags.BrowseTargetForm <> 4 Then
         If frmMain.cbWhenExist.ListIndex = 0 Then
             MsgBox t("파일 이름이 이미 존재합니다. 다른 이름을 선택하십시오.", "File name already exists."), 16
             Exit Sub
@@ -1878,8 +1833,6 @@ imgerr:
             frmEditBatch.txtFilePath.Text = Path
         Case 2
             frmBatchAdd.txtSavePath.Text = Path
-        Case 3
-            frmOptions.RedrawPreview
         Case 4
             Tags.BrowseTargetTextbox.Text = Path
         Case Else
