@@ -1403,13 +1403,13 @@ ErrLn4:
 End Function
 
 Function FilterFilename(FileName As String, Optional ByVal PreserveBackslash As Boolean) As String
-    Dim Str As String
+    Dim str As String
     Dim ret As String
     ret = ""
-    Str = StrConv(FileName, vbProperCase)
+    str = StrConv(FileName, vbProperCase)
     Dim i%
-    For i = 1 To Len(Str)
-        If Mid$(Str, i, 1) = "?" Then
+    For i = 1 To Len(str)
+        If Mid$(str, i, 1) = "?" Then
             ret = ret & "_"
         Else
             ret = ret & Mid$(FileName, i, 1)
@@ -1613,10 +1613,10 @@ Function FormatTime(Sec) As String
     FormatTime = ret
 End Function
 
-Function btoa(Str As String) As String
+Function btoa(str As String) As String
     On Error Resume Next
     Dim Data() As Byte
-    Data = StrConv(Str, vbFromUnicode)
+    Data = StrConv(str, vbFromUnicode)
     Dim ss As String, s As Long
     ss = String$(2 * UBound(Data) + 6, 0)
     s = Len(ss) + 1
@@ -1849,12 +1849,12 @@ Function ExpandEnvironmentStrings(strInput As String) As String
     ExpandEnvironmentStrings = strOutput
 End Function
 
-Function StartsWith(Str As String, s As String) As Boolean
-    StartsWith = (Left$(Str, Len(s)) = s)
+Function StartsWith(str As String, s As String) As Boolean
+    StartsWith = (Left$(str, Len(s)) = s)
 End Function
 
-Function EndsWith(Str As String, s As String) As Boolean
-    EndsWith = (Right$(Str, Len(s)) = s)
+Function EndsWith(str As String, s As String) As Boolean
+    EndsWith = (Right$(str, Len(s)) = s)
 End Function
 
 Function ExcludeParameters(URL As String) As String
@@ -1989,9 +1989,9 @@ nativemsgbox:
     MsgBox = VBA.MsgBox(Prompt, Buttons, Title)
 End Function
 
-Function Right(Str As String, Length As Long) As String
+Function Right(str As String, Length As Long) As String
     On Error GoTo errproc
-    Right = VBA.Right$(Str, Length)
+    Right = VBA.Right$(str, Length)
     Exit Function
 errproc:
     Right = ""
@@ -2219,3 +2219,7 @@ Sub InitPropertySheetDimensions(frmForm As Form, tsTabStrip As TabStrip, Panels 
     frmForm.Height = ButtonTop + PROPERTY_SHEET_BUTTON_HEIGHT + 540
     frmForm.Width = Width + 300
 End Sub
+
+Function AppendBackslash(Path As String) As String
+    If Right$(Path, 1) <> "\" Then AppendBackslash = Path & "\" Else AppendBackslash = Path
+End Function

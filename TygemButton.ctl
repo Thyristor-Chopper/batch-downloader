@@ -60,8 +60,8 @@ Begin VB.UserControl TygemButton
       BorderColor     =   &H00404040&
       BorderStyle     =   3  'Á¡
       Height          =   255
-      Left            =   1200
-      Top             =   960
+      Left            =   30
+      Top             =   30
       Visible         =   0   'False
       Width           =   375
    End
@@ -147,25 +147,25 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Const m_def_Enabled = True
+'Const m_def_Enabled = True
 Dim m_Enabled As Boolean
 
-Const m_def_Caption = ""
+'Const m_def_Caption = ""
 Dim m_Caption As String
 
 'Const m_def_BackColor = &H8000000F
 'Dim m_BackColor As OLE_COLOR
 
-Const m_def_FontName = "±¼¸²"
+'Const m_def_FontName = "±¼¸²"
 Dim m_FontName As String
 
-Const m_def_FontSize = 9
+'Const m_def_FontSize = 9
 Dim m_FontSize As Integer
 
-Const m_def_SplitLeft = False
+'Const m_def_SplitLeft = False
 Dim m_SplitLeft As Boolean
 
-Const m_def_SplitRight = False
+'Const m_def_SplitRight = False
 Dim m_SplitRight As Boolean
 
 Dim m_Icon As IPictureDisp
@@ -220,7 +220,7 @@ End Property
 Private Sub SetEnabled()
     SetLineColor
     If Not m_Enabled Then tmrMouse.Enabled = False
-    Set imgCenter.Picture = TygemButtonTexture(Abs(Not m_Enabled) * 2)
+    Set imgCenter.Picture = TygemButtonTexture(-(Not m_Enabled) * 2)
 End Sub
 
 Property Get SplitLeft() As Boolean
@@ -343,7 +343,7 @@ Private Sub SetIcon()
     If Not m_Icon Is Nothing Then
         If m_Icon.Height < 240 Or (m_Icon.Width < 16 And m_Icon.Height < 16) Or UserControl.Width = 255 Then
             imgIcon.Stretch = False
-            imgIcon.Top = UserControl.Height / 2 - m_Icon.Height / 2 + 30
+            imgIcon.Top = (UserControl.Height - m_Icon.Height) / 2 + 30
         End If
         lblCaption.Caption = "  " & Trim$(lblCaption.Caption)
     End If
@@ -366,10 +366,8 @@ End Sub
 
 Private Sub tmrMouse_Timer()
     Static lpPos As POINTAPI
-    Static lhWnd As Long
     GetCursorPos lpPos
-    lhWnd = WindowFromPoint(lpPos.X, lpPos.Y)
-    If lhWnd <> CommandButtonControlHandle And bHovering Then MouseOut
+    If WindowFromPoint(lpPos.X, lpPos.Y) <> CommandButtonControlHandle And bHovering Then MouseOut
 End Sub
 
 'Private Sub UserControl_AccessKeyPress(KeyAscii As Integer)
@@ -380,47 +378,46 @@ Private Sub UserControl_GotFocus()
     pgFocusRect.Visible = True
 End Sub
 
-Private Sub UserControl_Initialize()
-    bMouseDown = False
-End Sub
-
 Sub ShowAsPressed()
-    If Not m_Enabled Then Exit Sub
+    If Not m_Enabled Then GoTo exitsub
     lblCaption.Left = 15
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 20 + 15
     lblCaption.Tag = "mousedown"
     lblCaption.ForeColor = &H0&
     If UserControl.Width <= 495 And UserControl.Width > 255 Then imgIcon.Left = (UserControl.Width - imgIcon.Width) / 2 + 10 Else imgIcon.Left = 45
     imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2 + 20
+exitsub:
 End Sub
 
 Sub ShowAsUnpressed()
-    If Not m_Enabled Then Exit Sub
+    If Not m_Enabled Then GoTo exitsub
     lblCaption.Left = 0
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 15
     lblCaption.Tag = ""
     If UserControl.Width <= 495 And UserControl.Width > 255 Then imgIcon.Left = (UserControl.Width - imgIcon.Width) / 2 - 10 Else imgIcon.Left = 30
     imgIcon.Top = (UserControl.Height - imgIcon.Height) / 2
+exitsub:
 End Sub
 
 Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     'RaiseEvent MouseDown(Button, Shift, X, Y)
-    If Not m_Enabled Then Exit Sub
+    If Not m_Enabled Then GoTo exitsub
     bMouseDown = True
     ShowAsPressed
+exitsub:
 End Sub
  
 Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     'RaiseEvent MouseMove(Button, Shift, X, Y)
     If Not m_Enabled Then Exit Sub
     tmrMouse.Enabled = -1
-    If Not bHovering Then
-        bHovering = True
-        Set imgCenter.Picture = TygemButtonTexture(1)
-        Line1.BorderColor = IIf(m_SplitRight, RGB(207, 252, 162), RGB(179, 252, 53))
-        Line2.BorderColor = RGB(179, 252, 53)
-        Line11.BorderColor = RGB(179, 252, 53)
-    End If
+    bHovering = True
+    Set imgCenter.Picture = TygemButtonTexture(1)
+    Dim Line1Color As Long
+    If m_SplitRight Then Line1Color = 10681551 Else Line1Color = 3538099
+    Line1.BorderColor = Line1Color
+    Line2.BorderColor = 3538099
+    Line11.BorderColor = 3538099
     If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = 255
 End Sub
  
@@ -431,15 +428,15 @@ Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single,
     ShowAsUnpressed
 End Sub
 
-Private Sub UserControl_InitProperties()
-    'm_Caption = Ambient.DisplayName
-    'm_BackColor = &H8000000F
-    m_Enabled = True
-    'm_SplitLeft = False
-    'm_SplitRight = False
-    'UserControl.BackColor = &H8000000F
-    'lblCaption.Caption = m_Caption
-End Sub
+'Private Sub UserControl_InitProperties()
+'    m_Caption = Ambient.DisplayName
+'    m_BackColor = &H8000000F
+'    m_Enabled = True
+'    m_SplitLeft = False
+'    m_SplitRight = False
+'    UserControl.BackColor = &H8000000F
+'    lblCaption.Caption = m_Caption
+'End Sub
 
 Private Sub UserControl_KeyDown(KeyCode As Integer, Shift As Integer)
     If Not bMouseDown Then
@@ -462,38 +459,39 @@ End Sub
 
 Private Sub UserControl_Resize()
     On Error Resume Next
-    imgCenter.Width = UserControl.Width - 3 * Screen.TwipsPerPixelX
-    imgCenter.Height = UserControl.Height - 3 * Screen.TwipsPerPixelY
-    imgOverlay.Width = UserControl.Width
-    imgOverlay.Height = UserControl.Height
-    Line1.Y2 = UserControl.Height - 30
-    Line2.X2 = UserControl.Width - 30
-    Line3.X2 = UserControl.Width - 30
-    Line4.Y2 = UserControl.Height - 30
-    Line6.Y1 = UserControl.Height - 15
-    Line6.Y2 = UserControl.Height - 15
-    Line6.X2 = UserControl.Width - 45
-    Line7.X1 = UserControl.Width - 15
-    Line7.X2 = UserControl.Width - 15
-    Line7.Y2 = UserControl.Height - 45
-    Line8.Y1 = UserControl.Height - 45
-    Line8.Y2 = UserControl.Height
-    Line9.Y1 = UserControl.Height
-    Line9.Y2 = UserControl.Height - 60
-    Line9.X1 = UserControl.Width - 60
-    Line9.X2 = UserControl.Width
-    Line10.X1 = UserControl.Width - 45
-    Line10.X2 = UserControl.Width - 15
+    Dim Width As Integer, Height As Integer
+    Width = UserControl.Width
+    Height = UserControl.Height
+    imgCenter.Width = Width - 45
+    imgCenter.Height = Height - 45
+    imgOverlay.Width = Width
+    imgOverlay.Height = Height
+    Line1.Y2 = Height - 30
+    Line2.X2 = Width - 30
+    Line3.X2 = Width - 30
+    Line4.Y2 = Height - 30
+    Line6.Y1 = Height - 15
+    Line6.Y2 = Height - 15
+    Line6.X2 = Width - 45
+    Line7.X1 = Width - 15
+    Line7.X2 = Width - 15
+    Line7.Y2 = Height - 45
+    Line8.Y1 = Height - 45
+    Line8.Y2 = Height
+    Line9.Y1 = Height
+    Line9.Y2 = Height - 60
+    Line9.X1 = Width - 60
+    Line9.X2 = Width
+    Line10.X1 = Width - 45
+    Line10.X2 = Width - 15
     SetSplitLeft
     SetSplitRight
-    lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 15
-    lblCaption.Width = UserControl.Width
-    imgIcon.Top = (UserControl.Height - imgIcon.Height) / 2
-    If UserControl.Width <= 495 And UserControl.Width > 255 Then imgIcon.Left = (UserControl.Width - imgIcon.Width) / 2 - 10 Else imgIcon.Left = 30
-    pgFocusRect.Top = 30
-    pgFocusRect.Left = 30
-    pgFocusRect.Width = UserControl.Width - 60
-    pgFocusRect.Height = UserControl.Height - 60
+    lblCaption.Top = (Height - lblCaption.Height) / 2 + 15
+    lblCaption.Width = Width
+    imgIcon.Top = (Height - imgIcon.Height) / 2
+    If Width <= 495 And Width > 255 Then imgIcon.Left = (Width - imgIcon.Width) / 2 - 10 Else imgIcon.Left = 30
+    pgFocusRect.Width = Width - 60
+    pgFocusRect.Height = Height - 60
 End Sub
 
 'Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
