@@ -1358,7 +1358,11 @@ Private Sub lvFiles_ItemDblClick(Item As LvwListItem, ByVal Button As Integer)
     If Not Item.Selected Then Exit Sub
     
     Dim FullPath$
-    FullPath = AppendBackslash(lvDir.Path) & Item.Text
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & Item.Text
+    Else
+        FullPath = lvDir.Path & "\" & Item.Text
+    End If
     
     If (Item.IconIndex <= 2 Or Item.IconIndex > 10) And UCase(GetExtensionName(Item.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         Dim LnkPath As String
@@ -1467,7 +1471,11 @@ Private Sub mnuDelete_Click()
     If IsMyComputer Then Exit Sub
 
     Dim FullPath$
-    FullPath = AppendBackslash(lvDir.Path) & lvFiles.SelectedItem.Text
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+    Else
+        FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+    End If
     
     If ConfirmEx("'" & lvFiles.SelectedItem.Text & "' " & t("항목을 영구적으로 삭제하시겠습니까?", " - delete item permanently?"), App.Title, 48) = vbYes Then
         On Error GoTo deletefail
@@ -1499,7 +1507,11 @@ Private Sub mnuExplore_Click()
         GoTo isfolder
     End If
     
-    FullPath = AppendBackslash(lvDir.Path) & lvFiles.SelectedItem.Text
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+    Else
+        FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+    End If
     
     If lvFiles.SelectedItem.IconIndex = 1 And UCase(GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         Dim LnkPath As String
@@ -1545,7 +1557,11 @@ Private Sub mnuOpen_Click()
         GoTo exec
     End If
 
-    FullPath = AppendBackslash(lvDir.Path) & lvFiles.SelectedItem.Text
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+    Else
+        FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+    End If
     
     If (lvFiles.SelectedItem.IconIndex <= 2 Or lvFiles.SelectedItem.IconIndex > 10) And UCase(GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
         FullPath = RemoveQuotes(GetShortcutTarget(FullPath))
@@ -1564,8 +1580,15 @@ Private Sub mnuProperties_Click()
         ShellExecute Left$(lvFiles.SelectedItem.Text, 1) & ":\", "properties"
         Exit Sub
     End If
+
+    Dim FullPath$
+    If Right$(lvDir.Path, 1) = "\" Then
+        FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+    Else
+        FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+    End If
     
-    ShellExecute AppendBackslash(lvDir.Path) & lvFiles.SelectedItem.Text, "properties"
+    ShellExecute FullPath, "properties"
 End Sub
 
 Private Sub mnuRefresh_Click()
@@ -1623,9 +1646,19 @@ Private Sub OKButton_Click()
     
     If Not lvFiles.SelectedItem Is Nothing Then
         If lvFiles.SelectedItem.Selected Then
-            Dim FullPath$, FullPath2$
-            FullPath = AppendBackslash(lvDir.Path) & lvFiles.SelectedItem.Text
-            FullPath2 = AppendBackslash(lvDir.Path) & txtFileName.Text
+            Dim FullPath$
+            If Right$(lvDir.Path, 1) = "\" Then
+                FullPath = lvDir.Path & lvFiles.SelectedItem.Text
+            Else
+                FullPath = lvDir.Path & "\" & lvFiles.SelectedItem.Text
+            End If
+            
+            Dim FullPath2$
+            If Right$(lvDir.Path, 1) = "\" Then
+                FullPath2 = lvDir.Path & txtFileName.Text
+            Else
+                FullPath2 = lvDir.Path & "\" & txtFileName.Text
+            End If
         
             If lvFiles.SelectedItem.IconIndex = 1 And UCase(GetExtensionName(lvFiles.SelectedItem.Text)) = "LNK" And (Not FolderExists(FullPath)) Then
                 Dim LnkPath As String
@@ -1640,7 +1673,7 @@ Private Sub OKButton_Click()
         End If
     End If
     
-    If Tags.BrowseTargetForm >= 3 And Tags.BrowseTargetForm <= 6 Then
+    If Tags.BrowseTargetForm = 3 Or Tags.BrowseTargetForm = 4 Or Tags.BrowseTargetForm = 5 Or Tags.BrowseTargetForm = 6 Then
         If FolderExists(txtFileName.Text) Then
             If LoadFinished Then
                 txtFileName.SelStart = 0
@@ -1648,11 +1681,11 @@ Private Sub OKButton_Click()
                 lvDir.Path = txtFileName.Text
             End If
             Exit Sub
-        ElseIf FolderExists(AppendBackslash(lvDir.Path) & txtFileName.Text) Then
+        ElseIf FolderExists(lvDir.Path & IIf(EndsWith(lvDir.Path, "\"), "", "\") & txtFileName.Text) Then
             If LoadFinished Then
                 txtFileName.SelStart = 0
                 txtFileName.SelLength = Len(txtFileName.Text)
-                lvDir.Path = AppendBackslash(lvDir.Path) & txtFileName.Text
+                lvDir.Path = lvDir.Path & IIf(EndsWith(lvDir.Path, "\"), "", "\") & txtFileName.Text
             End If
             Exit Sub
         End If
@@ -1679,7 +1712,9 @@ Private Sub OKButton_Click()
         If Not LoadFinished Then Exit Sub
         lvDir.Path = GetParentFolderName(txtFileName.Text)
         txtFileName.Text = GetFilename(txtFileName.Text)
-        If txtFileName.Text = "." Or txtFileName.Text = ".." Then Exit Sub
+        If txtFileName.Text = "." Or txtFileName.Text = ".." Then
+            Exit Sub
+        End If
     ElseIf Tags.BrowseTargetForm = 2 Then
         Path = lvDir.Path
         If Right$(lvDir.Path, 1) <> "\" Then Path = Path & "\"
@@ -1773,7 +1808,11 @@ imgerr:
     If Tags.BrowseTargetForm = 2 Then
         Path = lvDir.Path
     Else
-        Path = AppendBackslash(lvDir.Path) & txtFileName.Text
+        If Right$(lvDir.Path, 1) = "\" Then
+            Path = lvDir.Path & txtFileName.Text
+        Else
+            Path = lvDir.Path & "\" & txtFileName.Text
+        End If
     End If
     On Error Resume Next
     If FileExists(Path) And Tags.BrowseTargetForm <> 4 Then
@@ -1805,6 +1844,7 @@ imgerr:
     
 e:
     MsgBox t("문제가 발생했습니다!", "Error!"), 16
+    Exit Sub
 End Sub
 
 Private Sub selFileType_Change()
@@ -1871,10 +1911,15 @@ End Sub
 Private Sub CreateNewFolder()
     If Not tbToolBar.Buttons(3).Enabled Then Exit Sub
 
-    Dim DirName$, FullPath$
+    Dim DirName$
+    Dim FullPath$
     Do
         DirName = CStr(Fix(Rnd * 100000000))
-        FullPath = AppendBackslash(lvDir.Path) & DirName
+        If Right$(lvDir.Path, 1) = "\" Then
+            FullPath = lvDir.Path & DirName
+        Else
+            FullPath = lvDir.Path & "\" & DirName
+        End If
     Loop While FileExists(FullPath) Or FolderExists(FullPath)
     On Error Resume Next
     MkDir FullPath

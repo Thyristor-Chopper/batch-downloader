@@ -626,21 +626,14 @@ End Function
 '    DwmExtendFrameIntoClientArea frmForm.hWnd, Margin
 'End Sub
 
-Sub Localize(ctrl As Object)
-    On Error Resume Next
-    Dim Caption As String
-    Caption = ctrl.Caption
-    If IsNumeric(Caption) Then ctrl.Caption = LoadResString(Caption)
-End Sub
-
-Sub SetupFormControls(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
+Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
     Dim clrBackColor As Long
     Dim clrForeColor As Long
     Dim DisableVisualStyle As Boolean
     Dim EnableLBSkin As Boolean
     Dim RoundButton As Boolean
-    EnableLBSkin = CBool(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0))
-    DisableVisualStyle = CBool(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))
+    EnableLBSkin = CBool(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)))
+    DisableVisualStyle = CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
     RoundButton = (GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0) <> 0)
     If clrBackColor < 0 Or clrBackColor > 16777215 Then
@@ -665,41 +658,10 @@ Sub SetupFormControls(frmForm As Form, Optional DisableClassicTheme As Boolean =
     Else
         frmForm.ForeColor = clrForeColor
     End If
-    
-    Dim FontName$, FontSize%
-    FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
-    If FontName = "" Then FontName = DefaultFont
-    If LCase(FontName) = "tahoma" Then FontSize = 8 Else FontSize = 9
-    frmForm.Font.Name = FontName
-    frmForm.Font.Size = FontSize
 
     On Error Resume Next
-    Localize frmForm
-    Dim Caption As String
     Dim ctrl As Control
-    Dim i As Byte
     For Each ctrl In frmForm.Controls
-        '글꼴 설정
-        ctrl.Font.Name = FontName
-        ctrl.FontName = FontName
-        If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize: ctrl.FontSize = FontSize
-        If (Not ctrl Is frmMain.lblLBCaption) And (Not ctrl Is frmMain.lblLBCaptionShadow) And (Not ctrl Is frmMain.lblLBCaption2) And (Not ctrl Is frmMain.lblLBCaptionShadow2) Then
-            ctrl.FontBold = False
-            ctrl.Font.Bold = False
-        End If
-        ctrl.FontItalic = False
-        ctrl.Font.Italic = False
-        
-        '문자열 설정
-        If TypeOf ctrl Is TabStrip Then
-            For i = 1 To ctrl.Tabs.Count
-                Localize ctrl.Tabs(i)
-            Next i
-        Else
-            Localize ctrl
-        End If
-        
-        '스킨 설정
         If TypeOf ctrl Is DriveListBox Or TypeOf ctrl Is FileListBox Or TypeOf ctrl Is DirListBox Or TypeOf ctrl Is TextBox Or TypeOf ctrl Is ComboBox Or TypeOf ctrl Is ImageCombo Or TypeOf ctrl Is ToolBar Or TypeOf ctrl Is PictureBox Or TypeOf ctrl Is Label Or TypeOf ctrl Is TabStrip Or TypeOf ctrl Is Slider Or TypeOf ctrl Is OptionButton Or TypeOf ctrl Is ProgressBar Or TypeOf ctrl Is FrameW Or TypeOf ctrl Is CommandButton Or TypeOf ctrl Is CommandButtonW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is StatusBar Or TypeOf ctrl Is ListView Or TypeOf ctrl Is ListBox Then
             If TypeOf ctrl Is CommandButtonW And ctrl.Tag <> "notygchange" Then
                 ctrl.IsTygemButton = EnableLBSkin
@@ -753,22 +715,6 @@ nextfor:
     Next ctrl
 
     SetClassicTheme frmForm, DisableClassicTheme
-    
-    If frmForm Is frmMain And DPI = 96 Then
-        If EnableLBSkin Then FontSize = 10
-        frmForm.lblURL.Font.Size = FontSize
-        frmForm.lblFilePath.Font.Size = FontSize
-        frmForm.lblThreadCountLabel.Font.Size = FontSize
-        frmForm.lblURLShadow.Font.Size = FontSize
-        frmForm.lblFilePathShadow.Font.Size = FontSize
-        frmForm.lblThreadCountLabelShadow.Font.Size = FontSize
-        frmForm.lblURL.Font.Bold = EnableLBSkin
-        frmForm.lblFilePath.Font.Bold = EnableLBSkin
-        frmForm.lblThreadCountLabel.Font.Bold = EnableLBSkin
-        frmForm.lblURLShadow.Font.Bold = EnableLBSkin
-        frmForm.lblFilePathShadow.Font.Bold = EnableLBSkin
-        frmForm.lblThreadCountLabelShadow.Font.Bold = EnableLBSkin
-    End If
 End Sub
 
 Sub SetClassicTheme(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
@@ -1060,6 +1006,9 @@ Function InputBoxEx(Prompt As String, Optional Title As String, Optional Default
 
     On Error Resume Next
 
+    InpBox.cmdOK.Caption = t("확인", "OK")
+    InpBox.cmdCancel.Caption = t("취소", "Cancel")
+
     InpBox.lblCaption = Prompt
     InpBox.txtInput.Text = Default
     InpBox.Caption = Title
@@ -1326,6 +1275,18 @@ Function ShowMessageBox(ByVal Content As String, Optional ByVal Title As String,
         MessageBox.timeout.Enabled = -1
     End If
 
+    tr MessageBox.cmdOK, "OK"
+    tr MessageBox.cmdCancel, "Cancel"
+    tr MessageBox.cmdYes, "&Yes"
+    tr MessageBox.cmdNo, "&No"
+    tr MessageBox.cmdAbort, "&Abort"
+    tr MessageBox.cmdRetry, "&Retry"
+    tr MessageBox.cmdIgnore, "&Ignore"
+    tr MessageBox.optYes, "&Yes"
+    tr MessageBox.optNo, "&No"
+    tr MessageBox.cmdTryAgain, "&Try Again"
+    tr MessageBox.cmdContinue, "&Continue"
+
     MessageBox.cmdOK.Visible = (MsgBoxMode = vbOKOnly Or MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbOKCancel)
     MessageBox.cmdCancel.Visible = (MsgBoxMode = vbYesNoEx Or MsgBoxMode = vbYesNoCancel Or MsgBoxMode = vbRetryCancel Or MsgBoxMode = vbOKCancel Or MsgBoxMode = vbCancelTryContinue)
     MessageBox.cmdYes.Visible = (MsgBoxMode = vbYesNo Or MsgBoxMode = vbYesNoCancel)
@@ -1406,9 +1367,6 @@ Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = F
         ParseSize = "-"
         Exit Function
     End If
-    
-    Dim Bytes As String
-    Bytes = LoadResString(BYTES_SUFFIX)
 
     On Error GoTo ErrLn4
     Dim ret@
@@ -1433,25 +1391,25 @@ Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = F
         'ElseIf ret >= 100@ Then ret = Fix(ret)
         ParseSize = ret & "KB" & Suffix
     Else
-        ParseSize = CStr(Size) & " " & Bytes
+        ParseSize = CStr(Size) & " " & t("바이트", "Bytes")
     End If
 
     If Size >= (1024@) And ShowBytes Then
-        ParseSize = ParseSize & " (" & Size & " " & Bytes & Suffix & ")"
+        ParseSize = ParseSize & " (" & Size & " " & t("바이트", "Bytes") & Suffix & ")"
     End If
     Exit Function
 ErrLn4:
-    ParseSize = "0 " & Bytes
+    ParseSize = "0 " & t("바이트", "Bytes")
 End Function
 
 Function FilterFilename(FileName As String, Optional ByVal PreserveBackslash As Boolean) As String
-    Dim str As String
+    Dim Str As String
     Dim ret As String
     ret = ""
-    str = StrConv(FileName, vbProperCase)
+    Str = StrConv(FileName, vbProperCase)
     Dim i%
-    For i = 1 To Len(str)
-        If Mid$(str, i, 1) = "?" Then
+    For i = 1 To Len(Str)
+        If Mid$(Str, i, 1) = "?" Then
             ret = ret & "_"
         Else
             ret = ret & Mid$(FileName, i, 1)
@@ -1586,6 +1544,59 @@ Function t(k As String, e As String) As String
     End If
 End Function
 
+Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
+    On Error Resume Next
+    Dim LBEnabled As Boolean
+    LBEnabled = CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96
+    Dim FontName$, FontSize%
+    FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
+    If FontName = "" And LangID = 1042 Then
+        If Force Or (DefaultFont <> "굴림") Then
+            FontName = DefaultFont
+        Else
+            GoTo setlbfont
+        End If
+    End If
+    If FontName = "" Then FontName = "Tahoma"
+    If Not FontExists(FontName) Then
+        If LangID = 1042 Then GoTo setlbfont
+        FontName = "Tahoma"
+    End If
+    FontSize = 9
+    If FontName = "Tahoma" Or Left$(FontName, 7) = "Tahoma " Then FontSize = 8
+    frm.Font.Name = FontName
+    frm.Font.Size = FontSize
+    Dim ctrl As Control
+    For Each ctrl In frm.Controls
+        ctrl.Font.Name = FontName
+        If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
+        ctrl.FontName = FontName
+        If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
+        If (Not ctrl Is frmMain.lblLBCaption) And (Not ctrl Is frmMain.lblLBCaptionShadow) And (Not ctrl Is frmMain.lblLBCaption2) And (Not ctrl Is frmMain.lblLBCaptionShadow2) Then
+            ctrl.FontBold = False
+            ctrl.Font.Bold = False
+        End If
+        ctrl.FontItalic = False
+        ctrl.Font.Italic = False
+    Next ctrl
+setlbfont:
+    If frm Is frmMain Then
+        If LBEnabled Then FontSize = 10 Else FontSize = IIf(LCase(frm.lblURL.Font.Name) = "tahoma", 8, 9)
+        frm.lblURL.Font.Size = FontSize
+        frm.lblFilePath.Font.Size = FontSize
+        frm.lblThreadCountLabel.Font.Size = FontSize
+        frm.lblURLShadow.Font.Size = FontSize
+        frm.lblFilePathShadow.Font.Size = FontSize
+        frm.lblThreadCountLabelShadow.Font.Size = FontSize
+        frm.lblURL.Font.Bold = LBEnabled
+        frm.lblFilePath.Font.Bold = LBEnabled
+        frm.lblThreadCountLabel.Font.Bold = LBEnabled
+        frm.lblURLShadow.Font.Bold = LBEnabled
+        frm.lblFilePathShadow.Font.Bold = LBEnabled
+        frm.lblThreadCountLabelShadow.Font.Bold = LBEnabled
+    End If
+End Sub
+
 Function FormatTime(Sec) As String
     Dim Hour As Integer, Minutes As Integer, Seconds As Integer
     Dim ret As String
@@ -1602,10 +1613,10 @@ Function FormatTime(Sec) As String
     FormatTime = ret
 End Function
 
-Function btoa(str As String) As String
+Function btoa(Str As String) As String
     On Error Resume Next
     Dim Data() As Byte
-    Data = StrConv(str, vbFromUnicode)
+    Data = StrConv(Str, vbFromUnicode)
     Dim ss As String, s As Long
     ss = String$(2 * UBound(Data) + 6, 0)
     s = Len(ss) + 1
@@ -1838,12 +1849,12 @@ Function ExpandEnvironmentStrings(strInput As String) As String
     ExpandEnvironmentStrings = strOutput
 End Function
 
-Function StartsWith(str As String, s As String) As Boolean
-    StartsWith = (Left$(str, Len(s)) = s)
+Function StartsWith(Str As String, s As String) As Boolean
+    StartsWith = (Left$(Str, Len(s)) = s)
 End Function
 
-Function EndsWith(str As String, s As String) As Boolean
-    EndsWith = (Right$(str, Len(s)) = s)
+Function EndsWith(Str As String, s As String) As Boolean
+    EndsWith = (Right$(Str, Len(s)) = s)
 End Function
 
 Function ExcludeParameters(URL As String) As String
@@ -1978,9 +1989,9 @@ nativemsgbox:
     MsgBox = VBA.MsgBox(Prompt, Buttons, Title)
 End Function
 
-Function Right(str As String, Length As Long) As String
+Function Right(Str As String, Length As Long) As String
     On Error GoTo errproc
-    Right = VBA.Right$(str, Length)
+    Right = VBA.Right$(Str, Length)
     Exit Function
 errproc:
     Right = ""
@@ -2101,7 +2112,8 @@ End Sub
 Sub InitForm(ByRef frmForm As Form)
     On Error Resume Next
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 Then DisableDWMWindow frmForm.hWnd
-    SetupFormControls frmForm
+    SetFormBackgroundColor frmForm
+    SetFont frmForm
     Dim InsertAfter As Long
     If MainFormOnTop Then InsertAfter = hWnd_TOPMOST Else InsertAfter = hWnd_NOTOPMOST
     SetWindowPos frmForm.hWnd, InsertAfter, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
@@ -2207,17 +2219,3 @@ Sub InitPropertySheetDimensions(frmForm As Form, tsTabStrip As TabStrip, Panels 
     frmForm.Height = ButtonTop + PROPERTY_SHEET_BUTTON_HEIGHT + 540
     frmForm.Width = Width + 300
 End Sub
-
-Function AppendBackslash(Path As String) As String
-    If Right$(Path, 1) <> "\" Then AppendBackslash = Path & "\" Else AppendBackslash = Path
-End Function
-
-Function FormatString(str As String, Optional var1 As String, Optional var2 As String) As String
-    FormatString = str
-    If LenB(var1) Then
-        FormatString = Replace(FormatString, "%1", var1)
-        If LenB(var2) Then
-            FormatString = Replace(FormatString, "%2", var2)
-        End If
-    End If
-End Function

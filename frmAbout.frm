@@ -79,7 +79,7 @@ Begin VB.Form frmAbout
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   609
-      Caption         =   "2"
+      Caption         =   "확인"
    End
    Begin VB.PictureBox pbLicenses 
       BorderStyle     =   0  '없음
@@ -278,11 +278,14 @@ Private Sub Form_Load()
     On Error Resume Next
     InitForm Me
     
-    Me.Caption = FormatString(LoadResString(ABOUT_CAPTION), App.Title)
+    Me.Caption = t(App.Title & " 정보", "About " & App.Title)
     Set picIcon.Picture = frmMain.Icon
-    lblVersion.Caption = LoadResString(VERSION_CAPTION) & " " & App.Major & "." & App.Minor
+    lblVersion.Caption = t("버전 ", "Version ") & App.Major & "." & App.Minor
     If App.Revision Then lblVersion.Caption = lblVersion.Caption & "." & App.Revision
     lblTitle.Caption = App.Title
+    'lblDescription.Caption = "This product includes software developed by vbAccelerator. " & t("이 프로그램에는 외부 라이브러리가 사용됐으며 라이선스는 아래와 같습니다.", "This program includes external libraries. Check out the license of them below.")
+    tr cmdOK, "OK"
+    'tr FrameW1, "&License"
     
     imgItems.ListImages.Add Picture:=Train(1)
     imgItems.ListImages.Add Picture:=Train(2)

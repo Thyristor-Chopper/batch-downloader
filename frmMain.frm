@@ -1930,51 +1930,51 @@ Sub OnExit(RetVal As Long)
                 Dim ErrDesc As String
                 Dim Icon As VbMsgBoxStyle
                 Icon = vbCritical
-                If LenB(HttpStatusCode) Then
-                    Select Case CInt(HttpStatusCode)
-                        Case 400
+                If Len(HttpStatusCode) > 0 And LangID = 1042 Then
+                    Select Case HttpStatusCode
+                        Case "400"
                             ErrDesc = "요청이 잘못되었습니다."
-                        Case 401
+                        Case "401"
                             ErrDesc = "접근하려면 인증 정보가 필요합니다."
-                        Case 402
+                        Case "402"
                             ErrDesc = "접근하려면 결제가 필요합니다."
-                        Case 403
+                        Case "403"
                             ErrDesc = "접근 권한이 없습니다."
-                        Case 404
+                        Case "404"
                             ErrDesc = "서버에 파일이 존재하지 않습니다."
-                        Case 405
+                        Case "405"
                             ErrDesc = "파일을 받으려면 데이타를 전송해야 합니다."
-                        Case 406
+                        Case "406"
                             ErrDesc = "요청을 받아들일 수 없습니다."
-                        Case 407
+                        Case "407"
                             ErrDesc = "프록시 인증이 필요합니다."
-                        Case 408
+                        Case "408"
                             ErrDesc = "요청이 제시간 안에 마무리되지 않았습니다."
-                        Case 409
+                        Case "409"
                             ErrDesc = "요청이 서버와 충돌했습니다."
-                        Case 410
+                        Case "410"
                             If Month(Now) = 4 And Day(Now) = 1 Then
                                 ErrDesc = "파일이 있었는데 없었습니다."
                                 Icon = vbInformation
                             Else
                                 ErrDesc = "파일이 더 이상 서버에 없습니다."
                             End If
-                        Case 414
+                        Case "414"
                             ErrDesc = "주소가 너무 깁니다."
-                        Case 418
+                        Case "418"
                             ErrDesc = "서버가 자신은 찻주전자라서 커피를 만들 수 없다고 합니다 ㅎ   "
                             Icon = vbInformation
-                        Case 451
+                        Case "451"
                             ErrDesc = "법적인 이유로 파일을 다운로드 받을 수 없습니다."
-                        Case 500
+                        Case "500"
                             ErrDesc = "서버 측에서 오류가 발생했습니다."
-                        Case 502
+                        Case "502"
                             ErrDesc = "게이트웨이가 불량입니다."
-                        Case 503
+                        Case "503"
                             ErrDesc = "서버가 일시적으로 응답할 수 없는 상태입니다."
-                        Case 504
+                        Case "504"
                             ErrDesc = "게이트웨이 시간이 초과되었습니다."
-                        Case 505
+                        Case "505"
                             ErrDesc = "HTTP 버전이 지원되지 않습니다."
                         Case Else
                             ErrDesc = "서버 측 오류이거나 페이지가 존재하지 않거나 접근 권한이 없을 수 있습니다."
@@ -2993,6 +2993,7 @@ Sub LoadLiveBadukSkin()
         fTabDownload.Visible = True
     End If
     
+    SetFormBackgroundColor Me
     If LBEnabled Then
         Dim ContentTextColor As Long
         ContentTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", 0))
@@ -3039,7 +3040,7 @@ Sub LoadLiveBadukSkin()
         End If
     Next ctrl
     
-    SetupFormControls Me
+    SetFont Me
 End Sub
 
 #If HIDEYTDL Then
@@ -3334,6 +3335,7 @@ Private Sub Form_Load()
     SetBackgroundImage
     SetBackgroundPosition
     SetTextColors
+    SetFont Me
     
     '이미지 리스트 로드
     Dim imlPicture As IPictureDisp
