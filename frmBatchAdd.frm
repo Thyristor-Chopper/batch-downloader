@@ -1,6 +1,6 @@
 VERSION 5.00
 Begin VB.Form frmBatchAdd 
-   Caption         =   "일괄 다운로드"
+   Caption         =   "25"
    ClientHeight    =   3795
    ClientLeft      =   60
    ClientTop       =   450
@@ -176,7 +176,6 @@ End Sub
 Private Sub Form_Load()
     InitForm Me
     
-    tr Me, "Batch download"
     tr cmdOK, "OK"
     tr cmdCancel, "Cancel"
     tr Label1, "Enter one UR&L per line:"
@@ -233,9 +232,9 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.X = (5145 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMinTrackSize.x = (5145 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
             lpMMI.ptMinTrackSize.Y = (2310 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
-            lpMMI.ptMaxTrackSize.X = (Screen.Width + 1200) * (DPI / 96)
+            lpMMI.ptMaxTrackSize.x = (Screen.Width + 1200) * (DPI / 96)
             lpMMI.ptMaxTrackSize.Y = (Screen.Height + 1200) * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
@@ -261,6 +260,6 @@ Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     PrevKeyCode = 0
 End Sub

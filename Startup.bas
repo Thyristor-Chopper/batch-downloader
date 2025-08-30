@@ -12,7 +12,6 @@ Public CaptionHeight As Byte
 Public Const DefaultBackColor As Long = 15529449 '-1&
 Public DefaultDisableDWMWindow As Byte
 Public LangID As Integer
-Public OSLangID As Integer
 Public DPI As Long
 Public DefaultFont As String
 Public MainFormOnTop As Boolean
@@ -28,11 +27,9 @@ Public NodeFileName As String
 Public IPictureIID As IID
 
 Sub Main()
-    OSLangID = GetUserDefaultUILanguage()
-    LangID = GetSetting("DownloadBooster", "Options", "Language", 0)
-    If LangID = 0 Then LangID = OSLangID
+    LangID = GetUserDefaultUILanguage()
 
-    App.Title = t(App.Title, "Download Booster")
+    App.Title = LoadResString(APP_NAME)
 
 '    Dim OverrideWinver$
 '    OverrideWinver = GetSetting("DownloadBooster", "Options\Debug", "WindowsVersionOverride", "")
@@ -109,23 +106,17 @@ Sub Main()
     UpdateBorderWidth
     UpdateDPI
 
+    Dim HdpiFont As String
     If (WinVer >= 6.2 And Build > 8102) Or DPI <> 96 Then
-        If FontExists("¸¼Àº °íµñ") Then
-            DefaultFont = "¸¼Àº °íµñ"
-        ElseIf FontExists("Malgun Gothic") Then
-            DefaultFont = "Malgun Gothic"
+        HdpiFont = LoadResString(DEFAULT_FONT_HIDPI)
+        If FontExists(HdpiFont) Then
+            DefaultFont = HdpiFont
         Else
-            GoTo forcegulim
+            GoTo gendpi
         End If
     Else
-forcegulim:
-        If FontExists("±¼¸²") Then
-            DefaultFont = "±¼¸²"
-        ElseIf FontExists("Gulim") Then
-            DefaultFont = "Gulim"
-        Else
-            DefaultFont = "Tahoma"
-        End If
+gendpi:
+        DefaultFont = LoadResString(DEFAULT_FONT)
     End If
 
     DefaultDisableDWMWindow = -(WinVer >= 6.2)

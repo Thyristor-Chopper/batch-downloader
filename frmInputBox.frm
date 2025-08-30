@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin VB.Form frmInputBox 
    BorderStyle     =   3  '크기 고정 대화 상자
-   Caption         =   "입력 상자"
+   Caption         =   " "
    ClientHeight    =   1395
    ClientLeft      =   45
    ClientTop       =   435
@@ -31,10 +31,10 @@ Begin VB.Form frmInputBox
       TabIndex        =   2
       Top             =   960
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   582
-      Enabled         =   0   'False
-      Caption         =   "확인"
+      _extentx        =   2355
+      _extenty        =   582
+      enabled         =   0
+      caption         =   "확인"
    End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
@@ -43,9 +43,9 @@ Begin VB.Form frmInputBox
       TabIndex        =   3
       Top             =   960
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   582
-      Caption         =   "취소"
+      _extentx        =   2355
+      _extenty        =   582
+      caption         =   "취소"
    End
    Begin VB.TextBox txtInput 
       Height          =   270
@@ -69,7 +69,6 @@ Begin VB.Form frmInputBox
    End
    Begin VB.Label lblCaption 
       BackStyle       =   0  '투명
-      Caption         =   "입력하십시오."
       Height          =   255
       Left            =   960
       TabIndex        =   0

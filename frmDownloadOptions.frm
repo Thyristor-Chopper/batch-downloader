@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmDownloadOptions 
    BackColor       =   &H00FFFFFF&
    BorderStyle     =   3  '크기 고정 대화 상자
-   Caption         =   "다운로드 설정"
+   Caption         =   "22"
    ClientHeight    =   4815
    ClientLeft      =   45
    ClientTop       =   435
@@ -47,7 +47,7 @@ Begin VB.Form frmDownloadOptions
          _ExtentX        =   2355
          _ExtentY        =   582
          Enabled         =   0   'False
-         Caption         =   "이름 변경(&R)"
+         Caption         =   "19"
          Transparent     =   -1  'True
       End
       Begin VB.TextBox txtEdit 
@@ -67,7 +67,7 @@ Begin VB.Form frmDownloadOptions
          _ExtentX        =   2355
          _ExtentY        =   582
          Enabled         =   0   'False
-         Caption         =   "삭제(&D)"
+         Caption         =   "18"
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CommandButtonW cmdEditHeaderValue 
@@ -79,7 +79,7 @@ Begin VB.Form frmDownloadOptions
          _ExtentX        =   2355
          _ExtentY        =   582
          Enabled         =   0   'False
-         Caption         =   "편집(&E)"
+         Caption         =   "20"
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CommandButtonW cmdAddHeader 
@@ -90,7 +90,7 @@ Begin VB.Form frmDownloadOptions
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   582
-         Caption         =   "추가(&A)"
+         Caption         =   "17"
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.ListView lvHeaders 
@@ -112,7 +112,6 @@ Begin VB.Form frmDownloadOptions
       End
       Begin VB.Label lblDescription 
          BackStyle       =   0  '투명
-         Caption         =   "이 헤더는 이번에만 적용됩니다. 영구적으로 변경하려면 옵션에서 변경하십시오. 이 헤더는 옵션의 헤더보다 우선합니다."
          Height          =   495
          Left            =   840
          TabIndex        =   16
@@ -286,7 +285,7 @@ Begin VB.Form frmDownloadOptions
       Width           =   1320
       _ExtentX        =   0
       _ExtentY        =   0
-      Caption         =   "취소"
+      Caption         =   "3"
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW OKButton 
@@ -298,7 +297,7 @@ Begin VB.Form frmDownloadOptions
       Width           =   1320
       _ExtentX        =   0
       _ExtentY        =   0
-      Caption         =   "확인"
+      Caption         =   "2"
       Transparent     =   -1  'True
    End
 End
@@ -524,18 +523,8 @@ Private Sub Form_Load()
     tr Label3, "&Format:"
 #End If
     
-    tr tsTabStrip.Tabs(2), "Headers"
-    
-    tr OKButton, "OK"
-    tr CancelButton, "Cancel"
-    
-    tr cmdAddHeader, "&Add"
-    tr cmdDeleteHeader, "&Delete"
-    tr cmdEditHeaderName, "&Rename"
-    tr cmdEditHeaderValue, "&Edit"
-    
-    lvHeaders.ColumnHeaders.Add , , t("이름", "Name"), 2055
-    lvHeaders.ColumnHeaders.Add , , t("값", "Value"), 2775
+    lvHeaders.ColumnHeaders.Add , , LoadResString(HEADER_NAME), 2055
+    lvHeaders.ColumnHeaders.Add , , LoadResString(HEADER_VALUE), 2775
     
     LoadSettings
     
@@ -558,22 +547,19 @@ Sub RemoveYtdlTab()
 End Sub
 
 Private Sub LoadSettings()
-    'SetWindowPos Me.hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
-    
     Dim i&
     
-    Me.Caption = t("다운로드 설정", "Download settings")
     Select Case Tags.DownloadOptionsTargetForm
         Case 0
-            lblDescription.Caption = t(lblDescription.Caption, "Headers here are only applied in this session. Go to options to change them permanently.")
+            lblDescription.Caption = t("이 헤더는 이번에만 적용됩니다. 영구적으로 변경하려면 옵션에서 변경하십시오. 이 헤더는 옵션의 헤더보다 우선합니다.", "Headers here are only applied in this session. Go to options to change them permanently.")
         Case 1
-            Me.Caption = Me.Caption & " - " & t("일괄 다운로드", "Batch Download")
+            Me.Caption = Me.Caption & " - " & LoadResString(BATCH_DOWNLOAD)
             lblDescription.Caption = t("일괄 다운로드할 파일들에 접속할 때 요청할 헤더를 지정하십시오.", "Specify the headers for this batch download.")
         Case 2
             Me.Caption = Me.Caption & " - " & frmEditBatch.InitialFileName
             lblDescription.Caption = t("이 파일 다운로드 시에 요청할 헤더를 지정하십시오.", "Specify the headers when requesting this file to download.")
         Case 3
-            Me.Caption = t("사용자 지정 헤더", "Headers")
+            Me.Caption = LoadResString(HEADERS_CAPTION)
             lblDescription.Caption = t("다운로드 중 서버에 요청할 때 전송할 헤더를 설정합니다. [다운로드 설정]에서 설정한 헤더가 우선적으로 적용됩니다.", "Set the headers when requesting to the server on download. Headers set in Download Options have higher priority.")
             
             Dim GlobalHeaders() As String

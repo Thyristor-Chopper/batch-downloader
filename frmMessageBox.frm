@@ -25,7 +25,7 @@ Begin VB.Form frmMessageBox
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '화면 가운데
    Begin VB.CommandButton cmdTryAgain 
-      Caption         =   "다시 시도(&T)"
+      Caption         =   "15"
       Height          =   315
       Left            =   15240
       TabIndex        =   11
@@ -39,7 +39,7 @@ Begin VB.Form frmMessageBox
    End
    Begin VB.CommandButton cmdCancel 
       Cancel          =   -1  'True
-      Caption         =   "취소"
+      Caption         =   "3"
       Height          =   320
       Left            =   5880
       TabIndex        =   3
@@ -47,7 +47,7 @@ Begin VB.Form frmMessageBox
       Width           =   1455
    End
    Begin VB.CommandButton cmdNo 
-      Caption         =   "아니요(&N)"
+      Caption         =   "11"
       Height          =   320
       Left            =   4320
       TabIndex        =   1
@@ -55,7 +55,7 @@ Begin VB.Form frmMessageBox
       Width           =   1455
    End
    Begin VB.CommandButton cmdYes 
-      Caption         =   "예(&Y)"
+      Caption         =   "10"
       Height          =   320
       Left            =   2760
       TabIndex        =   0
@@ -63,7 +63,7 @@ Begin VB.Form frmMessageBox
       Width           =   1455
    End
    Begin VB.OptionButton optNo 
-      Caption         =   "아니요(&N)"
+      Caption         =   "11"
       Height          =   255
       Left            =   1080
       TabIndex        =   9
@@ -71,7 +71,7 @@ Begin VB.Form frmMessageBox
       Width           =   1575
    End
    Begin VB.OptionButton optYes 
-      Caption         =   "예(&Y)"
+      Caption         =   "10"
       Height          =   255
       Left            =   1080
       TabIndex        =   8
@@ -79,7 +79,7 @@ Begin VB.Form frmMessageBox
       Width           =   1575
    End
    Begin VB.CommandButton cmdOK 
-      Caption         =   "확인"
+      Caption         =   "2"
       Height          =   315
       Left            =   7440
       TabIndex        =   2
@@ -87,7 +87,7 @@ Begin VB.Form frmMessageBox
       Width           =   1455
    End
    Begin VB.CommandButton cmdRetry 
-      Caption         =   "다시 시도(&R)"
+      Caption         =   "13"
       Height          =   315
       Left            =   9000
       TabIndex        =   5
@@ -95,7 +95,7 @@ Begin VB.Form frmMessageBox
       Width           =   1455
    End
    Begin VB.CommandButton cmdAbort 
-      Caption         =   "중단(&A)"
+      Caption         =   "12"
       Height          =   315
       Left            =   10560
       TabIndex        =   4
@@ -103,7 +103,7 @@ Begin VB.Form frmMessageBox
       Width           =   1455
    End
    Begin VB.CommandButton cmdIgnore 
-      Caption         =   "무시(&I)"
+      Caption         =   "14"
       Height          =   315
       Left            =   12120
       TabIndex        =   6
@@ -111,7 +111,7 @@ Begin VB.Form frmMessageBox
       Width           =   1455
    End
    Begin VB.CommandButton cmdContinue 
-      Caption         =   "계속(&C)"
+      Caption         =   "16"
       Height          =   315
       Left            =   13680
       TabIndex        =   12
