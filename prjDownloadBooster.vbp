@@ -72,7 +72,7 @@ IconForm="frmDummyForm"
 Startup="Sub Main"
 HelpFile=""
 Title="다운로드 부스터"
-ExeName32="booster_v1.105.exe"
+ExeName32="booster_v1.105_beta2.exe"
 Path32="..\bin"
 Command32=""
 Name="prjDownloadBooster"
@@ -89,7 +89,7 @@ VersionCompanyName="싸이리스터 초퍼"
 VersionFileDescription="다운로드 부스터"
 VersionLegalCopyright="개조저항이여 영원하리"
 VersionProductName="다운로드 부스터"
-CondComp="HIDEYTDL = 1"
+CondComp="HIDEYTDL = 1 : BETA = 1"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=-1

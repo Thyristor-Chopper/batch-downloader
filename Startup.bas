@@ -1,6 +1,10 @@
 Attribute VB_Name = "Startup"
 Option Explicit
 
+#If BETA Then
+Public Const BetaVer As Byte = 2
+#End If
+
 Public CachePath As String
 Public WinVer As Single
 Public Build As Long
@@ -94,7 +98,10 @@ Sub Main()
     Else
         CachePath = Environ$("TEMP") & CachePathSuffix
     End If
-    ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
+    ScriptFileName = "booster__v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
+#If BETA Then
+    ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & "_beta" & BetaVer & ".js"
+#End If
     NodeFileName = "node_v0_11_11.exe"
     
     ExtractResource 1, RCData, ScriptFileName

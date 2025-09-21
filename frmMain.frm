@@ -1674,6 +1674,7 @@ End Sub
 #End If
 
 Sub OnData(Data As String)
+    'If Left$(Data, 6) = "DEBUG " Then Debug.Print Data
     Dim output$
     Dim idx%
     Dim progress%
@@ -3084,6 +3085,9 @@ Private Sub Form_Load()
     '창 제목 설정
     FormCaption = App.Title & " " & App.Major & "." & App.Minor
     If App.Revision > 0 Then FormCaption = FormCaption & "." & App.Revision
+#If BETA Then
+    FormCaption = FormCaption & " " & t("베타", "Beta") & " " & BetaVer
+#End If
     SetTitle
     
     '스크롤 막대 설정

@@ -26,6 +26,30 @@ if(!Buffer.from) Buffer.from = function from(data, encoding) {
 if(!Buffer.alloc) Buffer.alloc = function alloc(length) {
 	return new Buffer(length).fill(0);
 };
+if(!Buffer.prototype.indexOf) Buffer.prototype.indexOf = function indexOf(val, offset) {
+	offset = offset >>> 0;
+	var buf = this;
+	if(typeof val == 'string') {
+		val = new Buffer(val);
+	} else if(typeof val == 'number') {
+		val = new Buffer([val & 0xFF]);
+	} else if(!Buffer.isBuffer(val)) {
+		throw TypeError();
+	}
+	var len = val.length;
+	if(!len) return -1;
+	for(var i=offset; i<=buf.length-len; i++) {
+		var match = true;
+		for(var j=0; j<len; j++)
+			if(buf[i + j] !== val[j]) {
+				match = false;
+				break;
+			}
+		if(match)
+			return i;
+	}
+	return -1;
+};
 function print() {
 	return console.log.apply(this, Array.prototype.slice.call(arguments).concat(['\r']));
 }
@@ -411,12 +435,12 @@ function startDownload(url) {
 							var writtenBytes;
 							if(buffer.length <= partBytesRemaining) {
 								fs.writeSync(fd, buffer, 0, buffer.length, currentPart.start + bytesWrittenInPart);
-								buffer = Buffer.alloc(0);
 								writtenBytes = buffer.length;
+								buffer = Buffer.alloc(0);
 							} else {
 								fs.writeSync(fd, buffer, 0, partBytesRemaining, currentPart.start + bytesWrittenInPart);
-								buffer = buffer.slice(partBytesRemaining);
 								writtenBytes = partBytesRemaining;
+								buffer = buffer.slice(partBytesRemaining);
 							}
 							downloadedSizes[sizeidx][1] = currentPart.start + bytesWrittenInPart + writtenBytes - 1;
 							bytesWrittenInPart += writtenBytes;
@@ -500,6 +524,11 @@ function startDownload(url) {
 				}
 				print('TOTAL', (!total ? '-1' : total) + ',' + dsum + ',' + (total == 0 || psum < 0 ? '-1' : (Math.floor((psum / (100 * trd)) * 100) || '-1')));
 				if(comp >= trd) {
+					if(dsum < total) {
+						fs.closeSync(fd);
+						process.exit(1);
+						throw Error();
+					}
 					clearInterval(statusReporter);
 					if(total) fs.ftruncateSync(fd, total);
 					fs.closeSync(fd);
