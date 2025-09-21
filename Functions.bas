@@ -1425,7 +1425,12 @@ Function FilterFilename(FileName As String, Optional ByVal PreserveBackslash As 
 End Function
 
 'https://gist.github.com/jvarn/5e11b1fd741b5f79d8a516c9c2368f17
-Function URLDecode(ByVal strIn As String) As String
+Function URLDecode(ByVal strIn As String, Optional Skip As Boolean = False) As String
+    If Skip Then
+        URLDecode = strIn
+        Exit Function
+    End If
+    
     On Error GoTo ErrorHandler
 
     Dim sl As Long, tl As Long

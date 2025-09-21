@@ -99,7 +99,7 @@ Sub Main()
     
     ExtractResource 1, RCData, ScriptFileName
     ExtractResource 2, RCData, NodeFileName
-    ExtractResource 3, RCData, "iconv.js"
+    ExtractResource 3, RCData, "iconvp.js"
 
     Set MsgBoxResults = New Collection
     Set SessionHeaders = New Collection

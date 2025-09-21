@@ -1982,6 +1982,12 @@ Sub OnExit(RetVal As Long)
                     End Select
                 End If
                 MsgBox t("서버가 요청을 거부했습니다. " & ErrDesc & statusMsg, "Server denied your request. The file may not exist or have insufficient permissions to access it."), Icon
+            Case 109
+                MsgBox t("기술적 문제로 이어받기가 불가능합니다.", "Unable to resume due to technical issues."), 16
+            Case 110
+                MsgBox t("디스크 공간이 부족합니다.", "Low disk space."), 16
+            Case 111
+                MsgBox t("디스크 쓰기 오류입니다. 일시적인 오류이거나 디스크가 읽기 전용이거나 디스크의 상태가 452편성처럼 좋지 않을 수 있습니다.", "Disk write error. It may be just a temporary error, or disk is in an unhealthy state or disk is write protected."), 16
             Case Else
                 MsgBox t("내부 오류가 발생했습니다. 프로세스 반환 값은 ( " & RetVal & " ) 입니다.", "Internal error. Process returned ( " & RetVal & " )."), 16
         End Select
@@ -2396,7 +2402,7 @@ Private Sub cmdDelete_Click()
     End If
 End Sub
 
-Sub StartDownload(ByVal URL As String, ByVal FileName As String)
+Sub StartDownload(ByVal URL As String, ByVal FileName As String, Optional NeedsDecoding As Boolean = False)
     If BatchStarted Then
         If Not lvBatchFiles.ListItems(CurrentBatchIdx).Checked Then
             lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(3).Text = t("통과", "Skip")
@@ -2472,7 +2478,7 @@ L2:
     AutoName = False
     If FolderExists(FileName) Then
         If Not (Right$(FileName, 1) = "\") Then FileName = FileName & "\"
-        ServerName = FilterFilename(ExcludeParameters((Split(URL, "/")(UBound(Split(URL, "/"))))))
+        ServerName = FilterFilename(ExcludeParameters(URLDecode(Split(URL, "/")(UBound(Split(URL, "/"))), Not NeedsDecoding)))
         If LenB(Replace(ServerName, " ", "")) = 0 Then ServerName = "download_" & CStr(Rnd * 1E+15)
         FileName = FileName & ServerName
         AutoName = True
@@ -2491,8 +2497,7 @@ L2:
     ContinueDownload = chkContinueDownload.Value
     If (Not BatchStarted) And chkContinueDownload.Value <> 1 Then
         Dim PrevPartialDownload As Boolean
-        PrevPartialDownload = (trThreadCount.Value <= 1 And FileExists(FileName & ".part.tmp")) Or _
-                              (trThreadCount.Value > 1 And FileExists(FileName & ".part_" & trThreadCount.Value & ".tmp") And (Not FileExists(FileName & ".part_" & (trThreadCount.Value + 1) & ".tmp")))
+        PrevPartialDownload = FileExists(FileName & ".part.tmp")
         If PrevPartialDownload Then
             Dim ContinueMsgboxResult As VbMsgBoxResult
             ContinueMsgboxResult = MsgBox(t("기존에 다운로드 받다가 중지한 파일입니다. 다운로드받은 지점부터 이어서 받으시겠습니까?" & vbCrLf & "　[아니요]를 누를 경우 처음부터 다시 다운로드됩니다.", "This file was previously downloaded partially. Would you like to resume?" & vbCrLf & "  We will download from the start if you choose No."), vbQuestion + vbYesNoCancel)
@@ -2607,7 +2612,7 @@ Private Sub cmdGo_Click()
 
     Elapsed = 0
     If GetSetting("DownloadBooster", "Options", "LazyElapsed", "0") <> "1" Then timElapsed.Enabled = -1
-    StartDownload txtURL.Text, txtFileName.Text
+    StartDownload txtURL.Text, txtFileName.Text, True
 End Sub
 
 Private Sub cmdIncreaseThreads_Click()
@@ -3637,18 +3642,11 @@ Private Sub StopDownload(Optional ByVal StopMode As DownloadStopMode = NormalSto
             If IsMarquee Or ResumeUnsupported Then
                 KillTemp = True
             Else
-                KillTemp = MsgBox(t("나중에 계속 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbQuestion + vbYesNo) <> vbYes
+                KillTemp = MsgBox(t("나중에 이어서 다운로드받을 수 있도록 다운로드한 데이타를 저장하시겠습니까?", "Would you like to keep the partially downloaded data to resume later?"), vbQuestion + vbYesNo) <> vbYes
             End If
             If KillTemp Then
                 On Error Resume Next
-                If trThreadCount.Value <= 1 Then
-                    Kill DownloadPath & ".part.tmp"
-                Else
-                    Dim i%
-                    For i = 1 To trThreadCount.Value
-                        Kill DownloadPath & ".part_" & i & ".tmp"
-                    Next i
-                End If
+                Kill DownloadPath & ".part.tmp"
             End If
         End If
         
