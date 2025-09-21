@@ -267,7 +267,7 @@ function startDownload(url) {
 		if(total) {
 			if(prevSize < total) {
 				try {
-					fs.writeSync(fd, Buffer.alloc(1), 0, 1, total - 1);
+					fs.ftruncateSync(fd, total);
 				} catch(e) {
 					fs.closeSync(fd);
 					if(e.code == 'ENOSPC')
@@ -280,6 +280,9 @@ function startDownload(url) {
 			} else if(prevSize > total) {
 				var infoBuf = Buffer.alloc(prevSize - total);
 				fs.readSync(fd, infoBuf, 0, prevSize - total, total);
+				var nulpos = infoBuf.indexOf(0);
+				if(nulpos >= 0)
+					infoBuf = infoBuf.slice(0, nulpos);
 				try {
 					downloadInfo = JSON.parse(infoBuf);
 				} catch(e) {
@@ -383,7 +386,7 @@ function startDownload(url) {
 				var sizeidx;
 				response.on('error', function() {});
 				var contentType = response.headers['content-type'];
-				if(total && contentType && contentType.indexOf('multipart/byteranges') == 0) {
+				if(total && contentType && contentType.toLowerCase().indexOf('multipart/byteranges') == 0) {
 					var m = /boundary=([^\s;]+)/i.exec(contentType);
 					if(!m) {
 						fs.closeSync(fd);
@@ -454,18 +457,6 @@ function startDownload(url) {
 								bytesWrittenInPart = 0;
 							}
 						}
-						var downloadInfoJSON = Buffer.from(JSON.stringify(downloadInfo));
-						try {
-							fs.writeSync(fd, downloadInfoJSON, 0, downloadInfoJSON.length, total);
-						} catch(e) {
-							fs.closeSync(fd);
-							if(e.code == 'ENOSPC')
-								process.exit(110);
-							else
-								process.exit(111);
-							throw Error();
-						}
-						fs.ftruncateSync(fd, total + downloadInfoJSON.length);
 					});
 				} else {
 					var pos, start, sizeidx;
@@ -483,18 +474,6 @@ function startDownload(url) {
 						if(total) {
 							if(downloadedSizes)
 								downloadedSizes[sizeidx][1] = pos - 1;
-							var downloadInfoJSON = Buffer.from(JSON.stringify(downloadInfo));
-							try {
-								fs.writeSync(fd, downloadInfoJSON, 0, downloadInfoJSON.length, total);
-							} catch(e) {
-								fs.closeSync(fd);
-								if(e.code == 'ENOSPC')
-									process.exit(110);
-								else
-									process.exit(111);
-								throw Error();
-							}
-							fs.ftruncateSync(fd, total + downloadInfoJSON.length);
 						}
 					});
 				}
@@ -506,6 +485,7 @@ function startDownload(url) {
 				}, Number(process.argv[12]) || 100);
 			});
 		})(1);
+		var infoSaveInterval = 0;
 		var statusReporter = setInterval(function() {
 			try {
 				var totalbytes = '';
@@ -527,6 +507,22 @@ function startDownload(url) {
 					else print('DATA', di + ',-1,0,0');
 				}
 				print('TOTAL', (!total ? '-1' : total) + ',' + dsum + ',' + (total == 0 || psum < 0 ? '-1' : (Math.floor((psum / (100 * trd)) * 100) || '-1')));
+				if(infoSaveInterval >= 30) {
+					infoSaveInterval = 0;
+					var downloadInfoJSON = Buffer.concat([Buffer.from(JSON.stringify(downloadInfo)), Buffer.alloc(1)]);
+					try {
+						fs.writeSync(fd, downloadInfoJSON, 0, downloadInfoJSON.length, total);
+					} catch(e) {
+						fs.closeSync(fd);
+						if(e.code == 'ENOSPC')
+							process.exit(110);
+						else
+							process.exit(111);
+						throw Error();
+					}
+				} else {
+					infoSaveInterval++;
+				}
 				if(comp >= trd) {
 					if(total && dsum < total) {
 						fs.closeSync(fd);

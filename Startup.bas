@@ -98,7 +98,7 @@ Sub Main()
     Else
         CachePath = Environ$("TEMP") & CachePathSuffix
     End If
-    ScriptFileName = "booster__v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
+    ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
 #If BETA Then
     ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & "_beta" & BetaVer & ".js"
 #End If
