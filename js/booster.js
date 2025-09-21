@@ -79,43 +79,46 @@ function safeFilename(filename) {
 	return iconv.decode(iconv.encode(filename, 'cp949'), 'cp949').replace(/\?/g, '_').replace(/\*/g, '_').replace(/\\/g, '_').replace(/\//g, '_').replace(/\:/g, '_').replace(/\"/g, '_').replace(/\|/g, '_').replace(/\</g, '_').replace(/\>/g, '_');
 }
 function splitRanges(fileSize, threadCount) {
-	var ranges = [];
-	var base = Math.floor(fileSize / threadCount);
-	var extra = fileSize % threadCount;
+	var baseSize = Math.floor(fileSize / threadCount);
+	var remainder = fileSize % threadCount;
+	var ranges = [, ];
 	var start = 0;
-	var size, end;
-	for(var i=0; i<threadCount; i++) {
-		size = base + (i < extra ? 1 : 0);
-		end = start + size - 1;
+	for(var i=1; i<=threadCount; i++) {
+		var size = baseSize + (i <= remainder ? 1 : 0);
+		var end = start + size - 1;
 		ranges.push([start, end]);
 		start = end + 1;
 	}
 	return ranges;
 }
-function remapRanges(fileSize, oldRanges, newThreadCount) {
-	oldRanges.splice(0, 1);
-	var flat = [];
-	for(var i=0; i<oldRanges.length; i++)
-		for(var j=0; j<oldRanges[i].length; j++)
-			flat.push(oldRanges[i][j]);
-	flat.sort(function(l, r) {
-		return l[0] - r[0];
-	});
-	var newSplit = splitRanges(fileSize, newThreadCount);
-	var ret = [];
-	for(var i=0; i<newSplit.length; i++) {
-		var ns = newSplit[i][0], ne = newSplit[i][1];
-		var d = [];
-		for(var j=0; j<flat.length; j++) {
-			var os = flat[j][0], oe = flat[j][1];
-			var s = Math.max(ns, os);
-			var e = Math.min(ne, oe);
-			if(s <= e)
-				d.push([s, e]);
-		}
-		ret.push(d);
-	}
-	return [, ].concat(ret);
+function intersect(r1, r2) {
+	var s = Math.max(r1[0], r2[0]);
+	var e = Math.min(r1[1], r2[1]);
+	return s <= e ? [s, e] : null;
+}
+function remapDownloadInfo(downloadInfo, newThreadCount) {
+    var totalSize = downloadInfo.downloadRanges[downloadInfo.threads][1] + 1;
+    var fileEnd = totalSize - 1;
+    var newDownloadRanges = splitRanges(totalSize, newThreadCount);
+    var newDownloadedSizes = [, ];
+    for(var i=1; i<=newThreadCount; i++) {
+        var newRange = newDownloadRanges[i];
+        var d = [];
+        for(var j=1; j<downloadInfo.downloadRanges.length; j++) {
+            var oldDownloaded = downloadInfo.downloadedSizes[j] || [];
+			var inter;
+            for(var k=0; k<oldDownloaded.length; k++) {
+                inter = intersect(oldDownloaded[k], newRange);
+                if(inter) d.push(inter);
+            }
+        }
+        newDownloadedSizes.push(d);
+    }
+    return {
+        threads: newThreadCount,
+        downloadedSizes: newDownloadedSizes,
+        downloadRanges: newDownloadRanges
+    };
 }
 function invertRanges(totalStart, totalEnd, downloaded) {
 	var ret = [];
@@ -297,32 +300,33 @@ function startDownload(url) {
 						if(downloadInfo.downloadedSizes[i][j][1] - downloadInfo.downloadedSizes[i][j][0] < 0)
 							downloadInfo.downloadedSizes[i].splice(j, 1);
 			}
-			if(trd != downloadInfo.threads) {
-				downloadInfo.downloadedSizes = remapRanges(total, downloadInfo.downloadedSizes, trd);
-				downloadInfo.threads = trd;
-			}
+			if(!downloadInfo.downloadRanges)
+				downloadInfo.downloadRanges = splitRanges(total, downloadInfo.threads);
+			if(trd != downloadInfo.threads)
+				downloadInfo = remapDownloadInfo(downloadInfo, trd);
 		}
 		var comp = 0;
 		var downloader = [];
 		var totals = [];
-		var unit = Math.floor(total / trd);
-		var range = 0;
 		function get(id, callback) {
 			var startRange, endRange;
 			var reqHeaders = Object.assign({}, headers);
 			var ranges = '';
-			var flag = false;
 			var dr = [];
-			if(!downloadInfo.downloadedSizes[id])
+			if(downloadInfo && !downloadInfo.downloadedSizes[id])
 				downloadInfo.downloadedSizes[id] = [];
 			if(continuedownload) {
 				downloader[id] = 0;
 				for(var i=0; i<downloadInfo.downloadedSizes[id].length; i++)
 					downloader[id] += (downloadInfo.downloadedSizes[id][i][1] - downloadInfo.downloadedSizes[id][i][0] + 1);
-				startRange = range;
-				endRange = range + unit;
+				startRange = downloadInfo.downloadRanges[id][0];
+				endRange = downloadInfo.downloadRanges[id][1];
 				if(endRange >= total || id == trd)
 					endRange = total - 1;
+				if(endRange < startRange) {
+					ready.push(id);
+					return callback('NONEEDTODOWNLOAD');
+				}
 				totals[id] = endRange - startRange + 1;
 				if(downloader[id] >= totals[id]) {
 					ready.push(id);
@@ -333,14 +337,17 @@ function startDownload(url) {
 					dr.push(notDownloaded[i][0] + '-' + notDownloaded[i][1]);
 				reqHeaders.Range = 'bytes=' + dr.join(',');
 			} else if(trd > 1) {
-				startRange = range;
-				endRange = range + unit;
+				startRange = downloadInfo.downloadRanges[id][0];
+				endRange = downloadInfo.downloadRanges[id][1];
 				if(endRange >= total || id == trd)
 					endRange = total - 1;
+				if(endRange < startRange) {
+					ready.push(id);
+					return callback('NONEEDTODOWNLOAD');
+				}
 				var nrange = startRange + '-' + endRange;
 				reqHeaders.Range = 'bytes=' + nrange;
 				dr.push(nrange);
-				flag = true;
 			} else if(total) {
 				dr.push('0-' + (total - 1));
 			}
@@ -362,7 +369,6 @@ function startDownload(url) {
 			var id = i;
 			get(id, function(response, dr, downloadedSizes) {
 				if(response == 'NONEEDTODOWNLOAD') {
-					range += totals[id];
 					comp++;
 					return startThreads(i + 1);
 				}
@@ -371,11 +377,9 @@ function startDownload(url) {
 					fs.closeSync(fd);
 					return process.exit(108);
 				}
-				
 				ready.push(i);
 				if(!downloader[id]) downloader[id] = 0;
 				if(!totals[id]) totals[id] = Number(response.headers['content-length'] || 0);
-				range += totals[id];
 				var sizeidx;
 				response.on('error', function() {});
 				var contentType = response.headers['content-type'];
@@ -524,7 +528,7 @@ function startDownload(url) {
 				}
 				print('TOTAL', (!total ? '-1' : total) + ',' + dsum + ',' + (total == 0 || psum < 0 ? '-1' : (Math.floor((psum / (100 * trd)) * 100) || '-1')));
 				if(comp >= trd) {
-					if(dsum < total) {
+					if(total && dsum < total) {
 						fs.closeSync(fd);
 						process.exit(1);
 						throw Error();

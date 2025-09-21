@@ -2,7 +2,7 @@ Attribute VB_Name = "Startup"
 Option Explicit
 
 #If BETA Then
-Public Const BetaVer As Byte = 2
+Public Const BetaVer As Byte = 0
 #End If
 
 Public CachePath As String
