@@ -78,7 +78,7 @@ Begin VB.Form frmMain
    Begin prjDownloadBooster.FrameW fTygemFrameTransparent 
       Height          =   4845
       Left            =   10560
-      TabIndex        =   74
+      TabIndex        =   72
       Tag             =   "nobackcolorchange"
       Top             =   2280
       Visible         =   0   'False
@@ -104,7 +104,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   375
          Left            =   120
-         TabIndex        =   75
+         TabIndex        =   73
          Tag             =   "nosizechange"
          Top             =   120
          Width           =   1215
@@ -125,7 +125,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   135
-         TabIndex        =   76
+         TabIndex        =   74
          Tag             =   "nocolorsizechange"
          Top             =   135
          Width           =   1215
@@ -603,30 +603,12 @@ Begin VB.Form frmMain
       _ExtentY        =   0
       BorderStyle     =   0
       Transparent     =   -1  'True
-      Begin VB.Label lblMergeStatus 
-         BackStyle       =   0  '투명
-         Caption         =   "-"
-         Height          =   255
-         Left            =   1320
-         TabIndex        =   67
-         Top             =   2940
-         Width           =   4335
-      End
-      Begin VB.Label Label9 
-         BackStyle       =   0  '투명
-         Caption         =   "조각 결합 현황:"
-         Height          =   255
-         Left            =   0
-         TabIndex        =   68
-         Top             =   2940
-         Width           =   1335
-      End
       Begin VB.Label lblRemaining 
          BackStyle       =   0  '투명
          Caption         =   "-"
          Height          =   255
          Left            =   1320
-         TabIndex        =   69
+         TabIndex        =   67
          Top             =   2580
          Width           =   4335
       End
@@ -635,7 +617,7 @@ Begin VB.Form frmMain
          Caption         =   "남은 시간:"
          Height          =   255
          Left            =   0
-         TabIndex        =   70
+         TabIndex        =   68
          Top             =   2580
          Width           =   1215
       End
@@ -934,7 +916,7 @@ Begin VB.Form frmMain
          Caption         =   "중지됨"
          Height          =   255
          Left            =   120
-         TabIndex        =   72
+         TabIndex        =   70
          Top             =   285
          Width           =   735
       End
@@ -1015,7 +997,7 @@ Begin VB.Form frmMain
          Caption         =   "."
          Height          =   180
          Left            =   0
-         TabIndex        =   73
+         TabIndex        =   71
          Top             =   0
          Visible         =   0   'False
          Width           =   60
@@ -1216,7 +1198,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000008&
       Height          =   375
       Left            =   240
-      TabIndex        =   71
+      TabIndex        =   69
       Tag             =   "nosizechange"
       Top             =   1320
       Visible         =   0   'False
@@ -1238,7 +1220,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   375
       Left            =   255
-      TabIndex        =   77
+      TabIndex        =   75
       Tag             =   "nocolorsizechange"
       Top             =   1335
       Visible         =   0   'False
@@ -1302,7 +1284,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   180
       Left            =   255
-      TabIndex        =   78
+      TabIndex        =   76
       Tag             =   "nocolorchange"
       Top             =   165
       Visible         =   0   'False
@@ -1315,7 +1297,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   180
       Left            =   255
-      TabIndex        =   79
+      TabIndex        =   77
       Tag             =   "nocolorchange"
       Top             =   510
       Visible         =   0   'False
@@ -1328,7 +1310,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   180
       Left            =   255
-      TabIndex        =   80
+      TabIndex        =   78
       Tag             =   "nocolorchange"
       Top             =   885
       Visible         =   0   'False
@@ -1823,13 +1805,6 @@ progressAvailable:
             lvBatchFiles.ListItems(CurrentBatchIdx).Text = lblFilename.Caption
         End If
         If Len(lblFilename.Caption) > 22 Then lblFilename.Caption = Left$(lblFilename.Caption, 22) & "..."
-    ElseIf Left$(Data, 10) = "MERGESIZE " Then
-        On Error GoTo exitif
-        Dim MergedSize As Double
-        MergedSize = CDbl(Right$(Data, Len(Data) - 10))
-        If TotalSize <= 0 Then GoTo exitif
-        lblMergeStatus.Caption = t(ParseSize(TotalSize) & " 중 " & ParseSize(MergedSize), ParseSize(MergedSize) & " of " & ParseSize(TotalSize)) & " (" & Fix((MergedSize / TotalSize) * 100) & "%)"
-exitif:
     ElseIf Left$(Data, 16) = "SETMODIFIEDDATE " Then
         On Error Resume Next
         SetFileDate DownloadPath, Right$(Data, Len(Data) - 16)
@@ -2094,7 +2069,6 @@ Sub OnStart()
     lblElapsed.Caption = "0" & t("초", " seconds")
     lblSpeed.Caption = "-"
     lblRemaining.Caption = "-"
-    lblMergeStatus.Caption = "-"
     
     fTotal.Caption = t(" 전체 다운로드 현황 ", " Total Progress ")
     pbTotalProgress.Value = 0
@@ -3019,7 +2993,6 @@ Sub LoadLiveBadukSkin()
         Label6.ForeColor = ContentTextColor
         Label7.ForeColor = ContentTextColor
         Label10.ForeColor = ContentTextColor
-        Label9.ForeColor = ContentTextColor
         lblFilename.ForeColor = ContentTextColor
         lblTotalBytes.ForeColor = ContentTextColor
         lblDownloadedBytes.ForeColor = ContentTextColor
@@ -3028,7 +3001,6 @@ Sub LoadLiveBadukSkin()
         lblThreadCount2.ForeColor = ContentTextColor
         lblTotalSizeThread.ForeColor = ContentTextColor
         lblRemaining.ForeColor = ContentTextColor
-        lblMergeStatus.ForeColor = ContentTextColor
         
         If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0) <> 0 Then
             Dim LBTextColor As Long
@@ -3315,8 +3287,6 @@ Private Sub Form_Load()
     tr mnuOpenFolder2, "Open &folder"
     
     tr cmdEdit, "Edit(&N)..."
-    
-    tr Label9, "Merge status:"
     
     tr mnuProperties, "View p&roperties"
     tr mnuPropertiesBatch, "View p&roperties"
