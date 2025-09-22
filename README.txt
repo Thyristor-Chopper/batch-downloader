@@ -14,8 +14,11 @@
 
 <라이선스>
 이 프로젝트에는 Node.js의 실행화일이 포함되어 있음.  
+버전: 4.9.1 (1.0~1.6), 8.6.0 (1.7~1.20), 0.11.11 (1.21~1.105.1), 5.12.0 (1.105.2~)  
 Node.js의 라이선스를 보는 곳: https://github.com/gec-chopper-control/batch-downloader/blob/master/NODEJS_LICENSE
 
 iconv-lite 라이선스 - https://github.com/gec-chopper-control/batch-downloader/blob/master/ICONV_LICENSE
 
 Krool's Common Controls - https://github.com/gec-chopper-control/batch-downloader/blob/master/COMMONCONTROLS_LICENSE
+
+이 프로그램 자체는 퍼블릭 도메인이다.
