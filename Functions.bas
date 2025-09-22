@@ -1391,7 +1391,7 @@ Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = F
         'ElseIf ret >= 100@ Then ret = Fix(ret)
         ParseSize = ret & "KB" & Suffix
     Else
-        ParseSize = CStr(Size) & " " & t("바이트", "Bytes")
+        ParseSize = CStr(Size) & " " & t("바이트", "Bytes") & Suffix
     End If
 
     If Size >= (1024@) And ShowBytes Then
@@ -1399,7 +1399,7 @@ Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = F
     End If
     Exit Function
 ErrLn4:
-    ParseSize = "0 " & t("바이트", "Bytes")
+    ParseSize = "0 " & t("바이트", "Bytes") & Suffix
 End Function
 
 Function FilterFilename(FileName As String, Optional ByVal PreserveBackslash As Boolean) As String

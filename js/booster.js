@@ -383,6 +383,7 @@ function startDownload(url) {
 				ready.push(i);
 				if(!downloader[id]) downloader[id] = 0;
 				if(!totals[id]) totals[id] = Number(response.headers['content-length'] || 0);
+				var stream = null;
 				var sizeidx;
 				response.on('error', function() {});
 				var contentType = response.headers['content-type'];
@@ -437,15 +438,15 @@ function startDownload(url) {
 								currentPartIndex++;
 								bytesWrittenInPart = 0;
 								buffer = buffer.slice(headerEnd + 4);
+								stream = fs.createWriteStream(null, { fd: fd, start: currentPart.start, autoClose: false });
 							}
 							var partBytesRemaining = currentPart.end - currentPart.start + 1 - bytesWrittenInPart;
 							var writtenBytes;
+							stream.write(buffer);
 							if(buffer.length <= partBytesRemaining) {
-								fs.writeSync(fd, buffer, 0, buffer.length, currentPart.start + bytesWrittenInPart);
 								writtenBytes = buffer.length;
 								buffer = Buffer.alloc(0);
 							} else {
-								fs.writeSync(fd, buffer, 0, partBytesRemaining, currentPart.start + bytesWrittenInPart);
 								writtenBytes = partBytesRemaining;
 								buffer = buffer.slice(partBytesRemaining);
 							}
@@ -455,6 +456,7 @@ function startDownload(url) {
 							if(bytesWrittenInPart == currentPart.end - currentPart.start + 1) {
 								currentPart = null;
 								bytesWrittenInPart = 0;
+								stream.end();
 							}
 						}
 					});
@@ -465,20 +467,20 @@ function startDownload(url) {
 					else
 						start = 0;
 					pos = start;
+					stream = fs.createWriteStream(null, { fd: fd, start: start, autoClose: false });
 					if(total && downloadedSizes)
 						sizeidx = downloadedSizes.push([start, start - 1]) - 1;
 					response.on('data', function(chunk) {
-						fs.writeSync(fd, chunk, 0, chunk.length, pos);
+						stream.write(chunk);
 						pos += chunk.length;
 						downloader[id] += chunk.length;
-						if(total) {
-							if(downloadedSizes)
-								downloadedSizes[sizeidx][1] = pos - 1;
-						}
+						if(total && downloadedSizes)
+							downloadedSizes[sizeidx][1] = pos - 1;
 					});
 				}
 				response.on('end', function() {
 					comp++;
+					if(stream) stream.end();
 				});
 				return setTimeout(function() {
 					return startThreads(i + 1);
@@ -486,6 +488,7 @@ function startDownload(url) {
 			});
 		})(1);
 		var infoSaveInterval = 0;
+		var infoSavePending = 0;
 		var statusReporter = setInterval(function() {
 			try {
 				var totalbytes = '';
@@ -510,20 +513,23 @@ function startDownload(url) {
 				if(infoSaveInterval >= 30) {
 					infoSaveInterval = 0;
 					var downloadInfoJSON = Buffer.concat([Buffer.from(JSON.stringify(downloadInfo)), Buffer.alloc(1)]);
-					try {
-						fs.writeSync(fd, downloadInfoJSON, 0, downloadInfoJSON.length, total);
-					} catch(e) {
-						fs.closeSync(fd);
-						if(e.code == 'ENOSPC')
-							process.exit(110);
-						else
-							process.exit(111);
-						throw Error();
-					}
+					infoSavePending++;
+					fs.write(fd, downloadInfoJSON, 0, downloadInfoJSON.length, total, function(err) {
+						if(err) {
+							fs.closeSync(fd);
+							if(e.code == 'ENOSPC')
+								process.exit(110);
+							else
+								process.exit(111);
+							throw Error();
+							return;
+						}
+						infoSavePending--;
+					});
 				} else {
 					infoSaveInterval++;
 				}
-				if(comp >= trd) {
+				if(comp >= trd && infoSavePending <= 0) {
 					if(total && dsum < total) {
 						fs.closeSync(fd);
 						process.exit(1);

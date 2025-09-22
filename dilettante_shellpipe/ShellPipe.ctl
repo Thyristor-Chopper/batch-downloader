@@ -587,8 +587,7 @@ Public Property Let PollInterval(ByVal RHS As Long)
 End Property
 
 Public Function Run( _
-    ByVal CommandLine As String, _
-    Optional ByVal CurrentDir As String = vbNullString) _
+    ByVal CommandLine As String, Optional ByVal CurrentDir As String = vbNullString, Optional EnvironmentVariables As Long = WIN32NULL) _
     As SP_RESULTS
     
     Dim siStart As STARTUPINFO
@@ -645,7 +644,7 @@ Public Function Run( _
     If Len(CurrentDir) = 0 Then CurrentDir = vbNullString
         
     If CreateProcessA(vbNullString, CommandLine, WIN32NULL, WIN32NULL, WIN32TRUE, _
-                      NORMAL_PRIORITY_CLASS, WIN32NULL, CurrentDir, _
+                      NORMAL_PRIORITY_CLASS, EnvironmentVariables, CurrentDir, _
                       siStart, piProc) = WIN32FALSE Then
         blnProcessActive = False
         Run = SP_CREATEPROCFAILED

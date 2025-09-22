@@ -98,11 +98,12 @@ Sub Main()
     Else
         CachePath = Environ$("TEMP") & CachePathSuffix
     End If
-    ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
 #If BETA Then
     ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & "_beta" & BetaVer & ".js"
+#Else
+    ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
 #End If
-    NodeFileName = "node_v0_11_11.exe"
+    NodeFileName = "node_v5_12_0.exe"
     
     ExtractResource 1, RCData, ScriptFileName
     ExtractResource 2, RCData, NodeFileName

@@ -1692,7 +1692,6 @@ Sub OnData(Data As String)
                 pbTotalProgressMarquee.Visible = -1
                 pbTotalProgressMarquee.MarqueeAnimation = -1
                 cmdStop.Enabled = 0
-                If GetSetting("DownloadBooster", "Options", "ExcludeMergeFromElapsed", "0") = "1" Then timElapsed.Enabled = 0
             Case "COMPLETE"
                 sbStatusBar.Panels(1).Text = t("¿Ï·á", "Complete")
                 sbStatusBar.Panels(2).Text = ""
@@ -2539,7 +2538,10 @@ L2:
         GetSetting("DownloadBooster", "Options", "ThreadRequestInterval", 100) & " " & _
         GetSetting("DownloadBooster", "Options", "UseServerModifiedDate", 1) & " " & _
         Replace(Col(Functions.HeaderCache, "-"), vbCrLf, "") & " " & _
-        Replace(Col(CurrentHeaderCache, "-"), vbCrLf, ""))
+        Replace(Col(CurrentHeaderCache, "-"), vbCrLf, "") _
+ _
+        )
+    'EnvironmentVariables:=StrPtr("UV_THREADPOOL_SIZE=" & (trThreadCount.Value + 1) & vbNullChar & vbNullChar)
     Select Case SPResult
         Case SP_SUCCESS
             SP.ClosePipe
