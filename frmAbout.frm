@@ -291,7 +291,7 @@ Private Sub Form_Load()
     imgItems.ListImages.Add Picture:=Train(2)
     
     lvItems.ListItems.Add , , "Krool's Comctl", 1
-    lvItems.ListItems.Add , , "Node.js (v0.11.11)", 2
+    lvItems.ListItems.Add , , "Node.js (v5.12.0)", 2
     lvItems.ListItems.Add , , "ShellPipe (v7)", 1
     lvItems.ListItems.Add , , "iconv-lite (v0.6.3)", 2
     lvItems.ListItems.Add , , "PNG with alpha", 1
