@@ -1656,6 +1656,7 @@ End Sub
 #End If
 
 Sub OnData(Data As String)
+Debug.Print Data
     'If Left$(Data, 6) = "DEBUG " Then Debug.Print Data
     Dim output$
     Dim idx%
@@ -2102,6 +2103,8 @@ Sub OnStart()
 End Sub
 
 Sub OnStop(Optional PlayBeep As Boolean = True)
+    SP.ClosePipe
+    
     IsDownloading = False
     cmdGo.Enabled = Not BatchStarted
     cmdStop.Enabled = 0
@@ -2496,9 +2499,7 @@ L2:
         CurrentHeaderCache = Functions.SessionHeaderCache
     End If
     Dim SPResult As SP_RESULTS
-    SPResult = SP.Run("""" & _
-        NodePath & """ """ & _
-        ScriptPath & """ """ & _
+    SPResult = RunNodeInMemory(SP, DownloadScript, _
         Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & _
         FileName & """ " & _
         trThreadCount.Value & " " & _
@@ -2513,16 +2514,14 @@ L2:
         GetSetting("DownloadBooster", "Options", "UseServerModifiedDate", 1) & " " & _
         Replace(Col(Functions.HeaderCache, "-"), vbCrLf, "") & " " & _
         Replace(Col(CurrentHeaderCache, "-"), vbCrLf, "") _
- _
-        )
+    )
     'EnvironmentVariables:=StrPtr("UV_THREADPOOL_SIZE=" & (trThreadCount.Value + 1) & vbNullChar & vbNullChar)
     Select Case SPResult
         Case SP_SUCCESS
-            SP.ClosePipe
+            'SP.ClosePipe
             Exit Sub
         Case SP_CREATEPIPEFAILED
             MsgBox t("다운로드 시작에 실패했습니다. 다운로더 프로세스로부터 정보를 받아올 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to receieve data from the downloader process. Check if the directory settings are valid."), 16
-            
         Case SP_CREATEPROCFAILED
             MsgBox t("다운로드 시작에 실패했습니다. 다운로더 프로세스를 생성할 수 없습니다. 디렉토리 설정에서 올바른 프로그램을 지정했는지 확인하십시오.", "Failed to create the downloader process. Check if the directory settings are valid."), 16
     End Select

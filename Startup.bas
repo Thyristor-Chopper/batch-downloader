@@ -29,6 +29,9 @@ Public TygemButtonTexture(0 To 2) As IPicture
 Public ScriptFileName As String
 Public NodeFileName As String
 
+Public NodeJS() As Byte
+Public DownloadScript As String
+
 Public IPictureIID As IID
 
 Sub Main()
@@ -105,9 +108,8 @@ Sub Main()
 #End If
     NodeFileName = "node_v5_12_0.exe"
     
-    ExtractResource 1, RCData, ScriptFileName
-    ExtractResource 2, RCData, NodeFileName
-    ExtractResource 3, RCData, "iconvp.js"
+    NodeJS = LoadResData(2, RCData)
+    DownloadScript = MinifyScript(ConvertUTF8(LoadResData(1, RCData)))
 
     Set MsgBoxResults = New Collection
     Set SessionHeaders = New Collection

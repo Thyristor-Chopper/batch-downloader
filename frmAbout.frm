@@ -26,6 +26,29 @@ Begin VB.Form frmAbout
    Begin VB.PictureBox pbLicenses 
       BorderStyle     =   0  '없음
       Height          =   3255
+      Index           =   7
+      Left            =   2640
+      ScaleHeight     =   3255
+      ScaleWidth      =   4815
+      TabIndex        =   13
+      TabStop         =   0   'False
+      Top             =   1440
+      Width           =   4815
+      Begin VB.TextBox txtLicense 
+         Height          =   3255
+         Index           =   7
+         Left            =   0
+         Locked          =   -1  'True
+         MultiLine       =   -1  'True
+         ScrollBars      =   2  '수직
+         TabIndex        =   19
+         Top             =   0
+         Width           =   4815
+      End
+   End
+   Begin VB.PictureBox pbLicenses 
+      BorderStyle     =   0  '없음
+      Height          =   3255
       Index           =   2
       Left            =   2640
       ScaleHeight     =   3255
@@ -210,18 +233,6 @@ Begin VB.Form frmAbout
          SnapToGrid      =   -1  'True
       End
    End
-   Begin VB.PictureBox pbLicenses 
-      BorderStyle     =   0  '없음
-      Height          =   3255
-      Index           =   7
-      Left            =   2640
-      ScaleHeight     =   3255
-      ScaleWidth      =   4815
-      TabIndex        =   13
-      TabStop         =   0   'False
-      Top             =   1440
-      Width           =   4815
-   End
    Begin VB.Label lblVersion 
       BackStyle       =   0  '투명
       Caption         =   "버전"
@@ -296,6 +307,7 @@ Private Sub Form_Load()
     lvItems.ListItems.Add , , "iconv-lite (v0.6.3)", 2
     lvItems.ListItems.Add , , "PNG with alpha", 1
     lvItems.ListItems.Add , , "vbAccelerator SSubTmr", 2
+    lvItems.ListItems.Add , , "Run EXE in-memory", 1
     lvItems.ListItems(1).Selected = True
     
     Dim i As Byte

@@ -126,6 +126,34 @@ Public Const SHGFI_SMALLICON As Long = &H1&
 Public Const SHGFI_USEFILEATTRIBUTES As Long = &H10&
 Public Const SHGFI_TYPENAME As Long = &H400&
 
+Type PROCESSINFO
+    hProcess As Long
+    hThread As Long
+    dwProcessId As Long
+    dwThreadID As Long
+End Type
+
+Type STARTUPINFO
+    cb As Long
+    lpReserved As String
+    lpDesktop As String
+    lpTitle As String
+    dwX As Long
+    dwY As Long
+    dwXSize As Long
+    dwYSize As Long
+    dwXCountChars As Long
+    dwYCountChars As Long
+    dwFillAttribute As Long
+    dwFlags As Long
+    wShowWindow As Integer
+    cbReserved2 As Integer
+    lpReserved2 As Long                'LPBYTE
+    hStdInput As Long
+    hStdOutput As Long
+    hStdError As Long
+End Type
+
 Type SHFILEINFO
     hIcon As Long
     iIcon As Long
@@ -2224,3 +2252,51 @@ Sub InitPropertySheetDimensions(frmForm As Form, tsTabStrip As TabStrip, Panels 
     frmForm.Height = ButtonTop + PROPERTY_SHEET_BUTTON_HEIGHT + 540
     frmForm.Width = Width + 300
 End Sub
+
+Function RunNodeInMemory(SP As ShellPipe, Script As String, Optional Arguments As String) As Long
+    SP.RunInMemory NodeJS, "-e ""var r=readline.createInterface(process.stdin,null);r.question('',function(s){eval(s);r.close();});"" 0 " & Arguments
+    Dim i As Long
+    For i = 1 To Len(Script)
+        SP.SendData Mid$(Script, i, 1)
+    Next i
+    SP.SendData vbLf
+End Function
+
+Function ConvertUTF8(ByRef bytes() As Byte) As String
+    Dim i As Long
+    Dim codePoint As Long
+    Dim c As Long
+    Dim ret As String
+    i = 0
+    Do While i <= UBound(bytes)
+        c = bytes(i)
+        If c < &H80 Then
+            ret = ret & ChrW(c)
+            i = i + 1
+        ElseIf (c And &HE0) = &HC0 Then
+            If i + 1 > UBound(bytes) Then Exit Do
+            codePoint = ((c And &H1F) * &H40) Or (bytes(i + 1) And &H3F)
+            ret = ret & ChrW(codePoint)
+            i = i + 2
+        ElseIf (c And &HF0) = &HE0 Then
+            If i + 2 > UBound(bytes) Then Exit Do
+            codePoint = ((c And &HF) * &H1000) Or ((bytes(i + 1) And &H3F) * &H40) Or (bytes(i + 2) And &H3F)
+            ret = ret & ChrW(codePoint)
+            i = i + 3
+        ElseIf (c And &HF8) = &HF0 Then
+            If i + 3 > UBound(bytes) Then Exit Do
+            codePoint = ((c And &H7) * &H40000) Or ((bytes(i + 1) And &H3F) * &H1000) Or ((bytes(i + 2) And &H3F) * &H40) Or (bytes(i + 3) And &H3F)
+            codePoint = codePoint - &H10000
+            ret = ret & ChrW(&HD800 + (codePoint \ &H400)) & ChrW(&HDC00 + (codePoint And &H3FF))
+            i = i + 4
+        Else
+            i = i + 1
+        End If
+    Loop
+    ConvertUTF8 = ret
+End Function
+
+Function MinifyScript(ByRef Script As String) As String
+    MinifyScript = Replace(Replace(Replace(Script, vbLf, ""), vbCr, ""), vbTab, "")
+End Function
+
