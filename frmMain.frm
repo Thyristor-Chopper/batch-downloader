@@ -2528,7 +2528,7 @@ L2:
         Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & _
         FileName & """ " & _
         trThreadCount.Value & " " & _
-        GetSetting("DownloadBooster", "Options", "NoCleanup", 0) & " " & _
+        "0 " & _
         cbWhenExist.ListIndex & " " & _
         ContinueDownload & " " & _
         GetSetting("DownloadBooster", "Options", "NoRedirectCheck", 0) & " " & _
