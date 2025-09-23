@@ -33,7 +33,7 @@ Public DownloadScript As String
 
 Public IPictureIID As IID
 
-Public Is64 As Boolean
+'Public Is64 As Boolean
 Public LaunchFromMemory As Boolean
 
 Sub Main()
@@ -92,7 +92,7 @@ aftertrdcntverify:
         .Data4(7) = &HAB
     End With
     
-    Is64 = IsWOW64()
+    'Is64 = IsWOW64()
     LaunchFromMemory = (GetSetting("DownloadBooster", "Options", "RunDownloaderInMemory", "1") <> "0")
 
     Dim CachePathSuffix$
@@ -155,6 +155,9 @@ forcegulim:
         Set TygemButtonTexture(i - 1) = LoadResPicture(i, vbResBitmap)
         Set Train(i) = LoadResPicture(i + 1, vbResIcon)
     Next i
+    
+'    Dim si As STARTUPINFO, pi As PROCESSINFO
+'    RunFromMemory NodeJS, si, pi
 
     Randomize
     InitVisualStylesFixes

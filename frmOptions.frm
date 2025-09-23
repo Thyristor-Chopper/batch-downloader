@@ -2328,6 +2328,10 @@ End Sub
 Private Sub Form_Load()
     InitForm Me
     
+#If HIDEYTDL Then
+    If LaunchFromMemory Then tsTabStrip.Tabs.Remove 5
+#End If
+
     Set PreviewControls(0) = Label11
     Set PreviewControls(1) = TextBoxW1
     Set PreviewControls(2) = FrameW5
@@ -2418,7 +2422,10 @@ Private Sub Form_Load()
     tr tsTabStrip.Tabs(2), "Connection"
     tr tsTabStrip.Tabs(3), "Appearance"
     tr tsTabStrip.Tabs(4), "Sounds"
-    tr tsTabStrip.Tabs(5), "Advanced"
+#If HIDEYTDL Then
+    If Not LaunchFromMemory Then _
+        tr tsTabStrip.Tabs(5), "Advanced"
+#End If
     tr Frame1, "Colors"
     tr Frame4, "Wallpaper"
     tr Label10, "&Window:"
@@ -2488,8 +2495,8 @@ Private Sub Form_Load()
     tr cmdHeaders, "&Headers..."
     
     If LaunchFromMemory Then
-        FrameW2.Enabled = 0
-        EnableFrameControls FrameW2, Nothing, Enable:=False
+        Label4.Enabled = 0
+        txtNodePath.Enabled = 0
     End If
     
     AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE

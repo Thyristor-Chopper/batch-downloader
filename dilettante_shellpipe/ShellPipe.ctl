@@ -605,7 +605,7 @@ Public Function Run(ByVal CommandLine As String, Optional ByVal CurrentDir As St
     With piProc
         .hProcess = 0
         .hThread = 0
-        .dwProcessId = 0
+        .dwProcessID = 0
         .dwThreadID = 0
     End With
     
@@ -679,7 +679,7 @@ Public Function RunInMemory(ByRef Executable() As Byte, Optional ByVal Arguments
     With piProc
         .hProcess = 0
         .hThread = 0
-        .dwProcessId = 0
+        .dwProcessID = 0
         .dwThreadID = 0
     End With
     

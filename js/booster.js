@@ -832,6 +832,7 @@ function startDownload(url) {
 					fs.renameSync(fn + '.part.tmp', fn);
 					setLastModified(lastModified);
 					print('STATUS', 'COMPLETE');
+					process.exit(0);
 				}
 			} catch (e) {}
 		}, 100);
