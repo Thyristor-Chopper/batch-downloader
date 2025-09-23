@@ -21,13 +21,12 @@ Public DPI As Long
 Public DefaultFont As String
 Public MainFormOnTop As Boolean
 
+Public NodeFileName As String
+
 Public DarkTransparent As IPicture
 Public LightTransparent As IPicture
 Public Train(1 To 3) As IPicture
 Public TygemButtonTexture(0 To 2) As IPicture
-
-Public ScriptFileName As String
-Public NodeFileName As String
 
 Public NodeJS() As Byte
 Public DownloadScript As String
@@ -94,7 +93,7 @@ aftertrdcntverify:
     End With
     
     Is64 = IsWOW64()
-    LaunchFromMemory = Not (Is64 Or (GetSetting("DownloadBooster", "Options", "RunDownloaderInMemory", "0") <> "0"))
+    LaunchFromMemory = (GetSetting("DownloadBooster", "Options", "RunDownloaderInMemory", "1") <> "0")
 
     Dim CachePathSuffix$
     CachePathSuffix = "\BOOSTER_JS_CACHE\"
@@ -112,8 +111,8 @@ aftertrdcntverify:
     If LaunchFromMemory Then
         NodeJS = LoadResData(2, RCData)
     Else
-        ExtractResource 2, RCData, NodeFileName
         NodeFileName = "node_v5_12_0.exe"
+        ExtractResource 2, RCData, NodeFileName
     End If
 
     Set MsgBoxResults = New Collection

