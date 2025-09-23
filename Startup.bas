@@ -34,6 +34,9 @@ Public DownloadScript As String
 
 Public IPictureIID As IID
 
+Public Is64 As Boolean
+Public LaunchFromMemory As Boolean
+
 Sub Main()
     OSLangID = GetUserDefaultUILanguage()
     LangID = GetSetting("DownloadBooster", "Options", "Language", 0)
@@ -41,40 +44,40 @@ Sub Main()
 
     App.Title = t(App.Title, "Download Booster")
 
-'    Dim OverrideWinver$
-'    OverrideWinver = GetSetting("DownloadBooster", "Options\Debug", "WindowsVersionOverride", "")
-'    If OverrideWinver <> "" And IsNumeric(OverrideWinver) Then
-'        On Error GoTo dontoverrideversion
-'        WinVer = CSng(OverrideWinver)
-'    Else
-'dontoverrideversion:
+    Dim OverrideWinver$
+    OverrideWinver = GetSetting("DownloadBooster", "Options\Debug", "WindowsVersionOverride", "")
+    If OverrideWinver <> "" And IsNumeric(OverrideWinver) Then
+        On Error GoTo dontoverrideversion
+        WinVer = CSng(OverrideWinver)
+    Else
+dontoverrideversion:
         WinVer = GetWindowsVersion()
-'    End If
-'    On Error GoTo 0
+    End If
+    On Error GoTo 0
 
-'    If WinVer < 5.1 Then
-'        If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") <> "0")) Then
-'            MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
-'            Exit Sub
-'        End If
-'    End If
+    If WinVer < 5.1 Then
+        If (Not (Environ$("BOOSTER_NO_VERSION_CHECK") = "1" Or GetSetting("DownloadBooster", "Options", "DisableVersionCheck", "0") <> "0")) Then
+            MsgBox t("지원되지 않는 운영 체제입니다. Windows XP 이상에서 실행하십시오.", "Unsupported operating system! Requires Windows XP or newer."), 16
+            Exit Sub
+        End If
+    End If
 
-'    On Error GoTo deftrdcnt
-'    Dim RawMaxThreads$
-'    RawMaxThreads = GetSetting("DownloadBooster", "Options", "MaxThreadCount", "25")
-'    If Not IsNumeric(RawMaxThreads) Then
-'deftrdcnt:
-'        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "25"
-'        GoTo aftertrdcntverify
-'    ElseIf CDbl(RawMaxThreads) > MAX_THREAD_COUNT_CONTROL Then
-'        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", CStr(MAX_THREAD_COUNT_CONTROL)
-'    ElseIf CDbl(RawMaxThreads) < 2 Then
-'        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "2"
-'    ElseIf CStr(CInt(RawMaxThreads)) <> RawMaxThreads Then
-'        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", CStr(CInt(RawMaxThreads))
-'    End If
-'aftertrdcntverify:
-'    On Error GoTo 0
+    On Error GoTo deftrdcnt
+    Dim RawMaxThreads$
+    RawMaxThreads = GetSetting("DownloadBooster", "Options", "MaxThreadCount", "25")
+    If Not IsNumeric(RawMaxThreads) Then
+deftrdcnt:
+        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "25"
+        GoTo aftertrdcntverify
+    ElseIf CDbl(RawMaxThreads) > MAX_THREAD_COUNT_CONTROL Then
+        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", CStr(MAX_THREAD_COUNT_CONTROL)
+    ElseIf CDbl(RawMaxThreads) < 2 Then
+        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", "2"
+    ElseIf CStr(CInt(RawMaxThreads)) <> RawMaxThreads Then
+        SaveSetting "DownloadBooster", "Options", "MaxThreadCount", CStr(CInt(RawMaxThreads))
+    End If
+aftertrdcntverify:
+    On Error GoTo 0
 
     With IPictureIID
         .Data1 = &H7BF80980
@@ -89,6 +92,9 @@ Sub Main()
         .Data4(6) = &HC
         .Data4(7) = &HAB
     End With
+    
+    Is64 = IsWOW64()
+    LaunchFromMemory = Not (Is64 Or (GetSetting("DownloadBooster", "Options", "RunDownloaderInMemory", "0") <> "0"))
 
     Dim CachePathSuffix$
     CachePathSuffix = "\BOOSTER_JS_CACHE\"
@@ -101,15 +107,14 @@ Sub Main()
     Else
         CachePath = Environ$("TEMP") & CachePathSuffix
     End If
-#If BETA Then
-    ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & "_beta" & BetaVer & ".js"
-#Else
-    ScriptFileName = "booster_v" & App.Major & "_" & App.Minor & "_" & App.Revision & ".js"
-#End If
-    NodeFileName = "node_v5_12_0.exe"
     
-    NodeJS = LoadResData(2, RCData)
     DownloadScript = MinifyScript(ConvertUTF8(LoadResData(1, RCData)))
+    If LaunchFromMemory Then
+        NodeJS = LoadResData(2, RCData)
+    Else
+        ExtractResource 2, RCData, NodeFileName
+        NodeFileName = "node_v5_12_0.exe"
+    End If
 
     Set MsgBoxResults = New Collection
     Set SessionHeaders = New Collection

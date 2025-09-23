@@ -1,7 +1,7 @@
 Attribute VB_Name = "RunMemory"
 'https://www.vbforums.com/showthread.php?652830-How-to-include-EXE-in-VB6
 ' jmsrickland
-' Anything I post is an example only and is not intended to be the only solution, the total solution nor the final solution to your request nor do I claim that it is. If you find it useful then it is entirely up to you to make whatever changes necessary you feel are adequate for your purposes.
+' Anything I post is an example only and is not intended to be the only solution, the total solution nor the final solution to your request nor do I claim that it is. If you find it useful, it is entirely up to you to make whatever changes necessary that you feel are adequate for your purposes.
 
 Private Const SIZE_OF_80387_REGISTERS = 80
 
@@ -172,7 +172,7 @@ Private Type IMAGE_OPTIONAL_HEADER
     SizeOfImage As Long
     SizeOfHeaders As Long
     CheckSum As Long
-    SubSystem As Integer
+    Subsystem As Integer
     DllCharacteristics As Integer
     SizeOfStackReserve As Long
     SizeOfStackCommit As Long
@@ -215,7 +215,7 @@ Function RunFromMemory(abExeFile() As Byte, si As STARTUPINFO, pi As PROCESSINFO
     Dim ish As IMAGE_SECTION_HEADER
     Dim context As CONTEXT86
     Dim ImageBase As Long, ret As Long, i As Long
-    Dim addr As Long, lOffset As Long
+    Dim Addr As Long, lOffset As Long
            
     CopyMemory idh, abExeFile(0), Len(idh)
     If idh.e_magic <> IMAGE_DOS_SIGNATURE Then
@@ -237,9 +237,9 @@ Function RunFromMemory(abExeFile() As Byte, si As STARTUPINFO, pi As PROCESSINFO
     context.ContextFlags = CONTEXT86_INTEGER
     If GetThreadContext(pi.hThread, context) = 0 Then GoTo ClearProcess
        
-    ReadProcessMemory pi.hProcess, ByVal context.Ebx + 8, addr, 4, 0
-    If addr = 0 Then GoTo ClearProcess
-    If ZwUnmapViewOfSection(pi.hProcess, addr) Then GoTo ClearProcess
+    ReadProcessMemory pi.hProcess, ByVal context.Ebx + 8, Addr, 4, 0
+    If Addr = 0 Then GoTo ClearProcess
+    If ZwUnmapViewOfSection(pi.hProcess, Addr) Then GoTo ClearProcess
        
     ImageBase = VirtualAllocEx(pi.hProcess, ByVal inh.OptionalHeader.ImageBase, inh.OptionalHeader.SizeOfImage, MEM_RESERVE Or MEM_COMMIT, PAGE_READWRITE)
     If ImageBase = 0 Then GoTo ClearProcess
@@ -250,7 +250,7 @@ Function RunFromMemory(abExeFile() As Byte, si As STARTUPINFO, pi As PROCESSINFO
     For i = 0 To inh.FileHeader.NumberOfSections - 1
         CopyMemory ish, abExeFile(lOffset + i * Len(ish)), Len(ish)
         WriteProcessMemory pi.hProcess, ByVal ImageBase + ish.VirtualAddress, abExeFile(ish.PointerToRawData), ish.SizeOfRawData, ret
-        VirtualProtectEx pi.hProcess, ByVal ImageBase + ish.VirtualAddress, ish.VirtualSize, Protect(ish.characteristics), addr
+        VirtualProtectEx pi.hProcess, ByVal ImageBase + ish.VirtualAddress, ish.VirtualSize, Protect(ish.characteristics), Addr
     Next i
        
     WriteProcessMemory pi.hProcess, ByVal context.Ebx + 8, ImageBase, 4, ret
@@ -287,3 +287,5 @@ Private Function vbLongToULong(ByVal Value As Long) As Double
         vbLongToULong = Value
     End If
 End Function
+
+

@@ -1656,7 +1656,6 @@ End Sub
 #End If
 
 Sub OnData(Data As String)
-Debug.Print Data
     'If Left$(Data, 6) = "DEBUG " Then Debug.Print Data
     Dim output$
     Dim idx%
@@ -2487,11 +2486,6 @@ L2:
         End If
     End If
     
-    Dim NodePath$, ScriptPath$
-    NodePath = GetSetting("DownloadBooster", "Options", "NodePath", "")
-    ScriptPath = GetSetting("DownloadBooster", "Options", "ScriptPath", "")
-    If NodePath = "" Then NodePath = CachePath & NodeFileName
-    If ScriptPath = "" Then ScriptPath = CachePath & ScriptFileName
     Dim CurrentHeaderCache$
     If BatchStarted Then
         CurrentHeaderCache = lvBatchFiles.ListItems(CurrentBatchIdx).ListSubItems(5).Text
@@ -2499,7 +2493,7 @@ L2:
         CurrentHeaderCache = Functions.SessionHeaderCache
     End If
     Dim SPResult As SP_RESULTS
-    SPResult = RunNodeInMemory(SP, DownloadScript, _
+    SPResult = RunNodeInMemory(SP, DownloadScript, """" & _
         Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & _
         FileName & """ " & _
         trThreadCount.Value & " " & _

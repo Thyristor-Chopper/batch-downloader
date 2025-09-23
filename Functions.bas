@@ -18,6 +18,7 @@ Public Const PROPERTY_SHEET_BUTTON_HEIGHT As Integer = 360
 Public MsgBoxResults As Collection
 Public InputBoxResults As Collection
 
+Private Declare Function IsWow64Process Lib "kernel32" (ByVal hProcess As Long, ByRef Wow64Process As Long) As Long
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 'Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
@@ -93,6 +94,7 @@ Private Declare Function GetDesktopWindow Lib "user32" () As Long
 Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
 Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 Declare Function SetWindowText Lib "user32" Alias "SetWindowTextA" (ByVal hWnd As Long, ByVal lpString As String) As Long
+Private Declare Function GetCurrentProcess Lib "kernel32" () As Long
 'Declare Function GetCurrentProcessId Lib "kernel32" () As Long
 'Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessID As Long) As Long
 'Private Declare Function TerminateProcess Lib "kernel32" (ByVal hProcess As Long, ByVal uExitCode As Long) As Long
@@ -2253,8 +2255,15 @@ Sub InitPropertySheetDimensions(frmForm As Form, tsTabStrip As TabStrip, Panels 
     frmForm.Width = Width + 300
 End Sub
 
-Function RunNodeInMemory(SP As ShellPipe, Script As String, Optional Arguments As String) As Long
-    SP.RunInMemory NodeJS, "-e ""var r=readline.createInterface(process.stdin,null);r.question('',function(s){eval(s);r.close();});"" 0 " & Arguments
+Function RunNodeInMemory(SP As ShellPipe, Script As String, Optional ByVal Arguments As String) As Long
+    Arguments = "-e ""var r=readline.createInterface(process.stdin,null);r.question('',function(s){eval(s);r.close();});"" 0 " & Arguments
+    If LaunchFromMemory Then
+        SP.RunInMemory NodeJS, Arguments
+    Else
+        Dim NodePath$: NodePath = GetSetting("DownloadBooster", "Options", "NodePath", "")
+        If NodePath = "" Then NodePath = CachePath & NodeFileName
+        SP.Run """" & NodePath & """ " & Arguments
+    End If
     Dim i As Long
     For i = 1 To Len(Script)
         SP.SendData Mid$(Script, i, 1)
@@ -2262,32 +2271,32 @@ Function RunNodeInMemory(SP As ShellPipe, Script As String, Optional Arguments A
     SP.SendData vbLf
 End Function
 
-Function ConvertUTF8(ByRef bytes() As Byte) As String
+Function ConvertUTF8(ByRef Bytes() As Byte) As String
     Dim i As Long
-    Dim codePoint As Long
+    Dim CodePoint As Long
     Dim c As Long
     Dim ret As String
     i = 0
-    Do While i <= UBound(bytes)
-        c = bytes(i)
+    Do While i <= UBound(Bytes)
+        c = Bytes(i)
         If c < &H80 Then
             ret = ret & ChrW(c)
             i = i + 1
         ElseIf (c And &HE0) = &HC0 Then
-            If i + 1 > UBound(bytes) Then Exit Do
-            codePoint = ((c And &H1F) * &H40) Or (bytes(i + 1) And &H3F)
-            ret = ret & ChrW(codePoint)
+            If i + 1 > UBound(Bytes) Then Exit Do
+            CodePoint = ((c And &H1F) * &H40) Or (Bytes(i + 1) And &H3F)
+            ret = ret & ChrW(CodePoint)
             i = i + 2
         ElseIf (c And &HF0) = &HE0 Then
-            If i + 2 > UBound(bytes) Then Exit Do
-            codePoint = ((c And &HF) * &H1000) Or ((bytes(i + 1) And &H3F) * &H40) Or (bytes(i + 2) And &H3F)
-            ret = ret & ChrW(codePoint)
+            If i + 2 > UBound(Bytes) Then Exit Do
+            CodePoint = ((c And &HF) * &H1000) Or ((Bytes(i + 1) And &H3F) * &H40) Or (Bytes(i + 2) And &H3F)
+            ret = ret & ChrW(CodePoint)
             i = i + 3
         ElseIf (c And &HF8) = &HF0 Then
-            If i + 3 > UBound(bytes) Then Exit Do
-            codePoint = ((c And &H7) * &H40000) Or ((bytes(i + 1) And &H3F) * &H1000) Or ((bytes(i + 2) And &H3F) * &H40) Or (bytes(i + 3) And &H3F)
-            codePoint = codePoint - &H10000
-            ret = ret & ChrW(&HD800 + (codePoint \ &H400)) & ChrW(&HDC00 + (codePoint And &H3FF))
+            If i + 3 > UBound(Bytes) Then Exit Do
+            CodePoint = ((c And &H7) * &H40000) Or ((Bytes(i + 1) And &H3F) * &H1000) Or ((Bytes(i + 2) And &H3F) * &H40) Or (Bytes(i + 3) And &H3F)
+            CodePoint = CodePoint - &H10000
+            ret = ret & ChrW(&HD800 + (CodePoint \ &H400)) & ChrW(&HDC00 + (CodePoint And &H3FF))
             i = i + 4
         Else
             i = i + 1
@@ -2297,6 +2306,19 @@ Function ConvertUTF8(ByRef bytes() As Byte) As String
 End Function
 
 Function MinifyScript(ByRef Script As String) As String
-    MinifyScript = Replace(Replace(Replace(Script, vbLf, ""), vbCr, ""), vbTab, "")
+    MinifyScript = Replace(Replace(Replace(Script, vbLf, " "), vbCr, ""), vbTab, "")
 End Function
 
+Function IsWOW64() As Boolean
+    On Error GoTo Not64
+    
+    Dim bIsWow64 As Long
+    Dim ret As Long
+    ret = IsWow64Process(GetCurrentProcess(), bIsWow64)
+    If ret = 0 Then GoTo Not64
+    IsWOW64 = bIsWow64 <> 0
+    Exit Function
+    
+Not64:
+    IsWOW64 = False
+End Function
