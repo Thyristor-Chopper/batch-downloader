@@ -1480,6 +1480,7 @@ Dim ScrollChanged As Boolean
 Dim IntervalValues(7) As Single
 Public ChangedBackgroundPath$
 Dim PreviewControls(4) As Control
+Dim DoLoadTheme As Boolean
 
 Implements IBSSubclass
 
@@ -1666,28 +1667,30 @@ Private Sub cbTheme_Click()
     Dim ThemeName$
     ThemeName = cbTheme.List(cbTheme.ListIndex)
     
-    VisualStyleChanged = True
-    ImageChanged = True
-    ColorChanged = True
-    SkinChanged = True
-    FontChanged = True
+    If DoLoadTheme Then
+        VisualStyleChanged = True
+        ImageChanged = True
+        ColorChanged = True
+        SkinChanged = True
+        FontChanged = True
     
-    SaveSetting "DownloadBooster", "Options", "RoundClassicButtons", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0)
-    
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinShadowColor", 16777215)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameColor", 16777215)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameType", "transparent")
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinTextColor", 0)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableShadow", 1)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableTextColor", 0)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableBorder", 1)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackgroundType", "transparent")
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackgroundColor", 16777215)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinContentTextColor", 0)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameTexture", "")
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackground", "")
-    
-    LoadTheme ThemeName
+        SaveSetting "DownloadBooster", "Options", "RoundClassicButtons", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0)
+        
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinShadowColor", 16777215)
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameColor", 16777215)
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameType", "transparent")
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinTextColor", 0)
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableShadow", 1)
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableTextColor", 0)
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableBorder", 1)
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackgroundType", "transparent")
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackgroundColor", 16777215)
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinContentTextColor", 0)
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameTexture", "")
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackground", "")
+        
+        LoadTheme ThemeName
+    End If
     
     RedrawPreview
     
@@ -2619,6 +2622,8 @@ Private Sub LoadSettings()
     pgPatternPreview.Width = pbBackground.Width
     pgPatternPreview.Height = pbBackground.Height
     
+    DoLoadTheme = False
+    
     ClearComboBox cbTheme
     AddItemToComboBox cbTheme, t("수정된 테마", "Modified theme")
     cbTheme.ListIndex = 0
@@ -2631,6 +2636,8 @@ Private Sub LoadSettings()
         AddItemToComboBox cbTheme, ThemeList(i)
         If ThemeList(i) = CurrentTheme Then cbTheme.ListIndex = cbTheme.ListCount - 1
     Next i
+    
+    DoLoadTheme = True
     
     txtNodePath.Text = GetSetting("DownloadBooster", "Options", "NodePath", "")
     txtYtdlPath.Text = GetSetting("DownloadBooster", "Options", "YtdlPath", "")

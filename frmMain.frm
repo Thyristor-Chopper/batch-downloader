@@ -2236,6 +2236,20 @@ Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Opt
         Exit Function
     End If
     
+    On Error GoTo justadd
+    If GetSetting("DownloadBooster", "Options", "AllowDuplicatesInQueue", 0) <> 0 Then GoTo justadd
+    Dim i&
+    If lvBatchFiles.ListItems.Count Then
+        For i = 1& To lvBatchFiles.ListItems.Count
+            If lvBatchFiles.ListItems(i).ListSubItems(2).Text = Trim$(txtURL.Text) Then
+                AddBatchURLs = True
+                Exit Function
+            End If
+        Next i
+    End If
+justadd:
+    On Error GoTo 0
+    
     If Headers = "-" Then Headers = SessionHeaderCache
     
     If LenB(Trim$(SavePath)) = 0 Then SavePath = txtFileName.Text

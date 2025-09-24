@@ -1,3 +1,3 @@
-https://www.vbforums.com/showthread.php?652830-How-to-include-EXE-in-VB6
+https://www.vbforums.com/showthread.php?652830
 
 Anything I post is an example only and is not intended to be the only solution, the total solution nor the final solution to your request nor do I claim that it is. If you find it useful then it is entirely up to you to make whatever changes necessary you feel are adequate for your purposes. 

