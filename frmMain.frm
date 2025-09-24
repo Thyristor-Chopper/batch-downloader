@@ -25,8 +25,8 @@ Begin VB.Form frmMain
       Left            =   480
       TabIndex        =   13
       Top             =   2040
-      Width           =   1815
-      _ExtentX        =   3201
+      Width           =   2175
+      _ExtentX        =   3836
       _ExtentY        =   450
       BorderStyle     =   0
       Transparent     =   -1  'True
@@ -39,7 +39,7 @@ Begin VB.Form frmMain
       End
       Begin VB.OptionButton optTabThreads2 
          Height          =   195
-         Left            =   840
+         Left            =   1200
          TabIndex        =   17
          Top             =   0
          Value           =   -1  'True
@@ -60,7 +60,7 @@ Begin VB.Form frmMain
          BackStyle       =   0  '투명
          Caption         =   "스레드"
          Height          =   180
-         Left            =   1080
+         Left            =   1440
          TabIndex        =   16
          Top             =   15
          Width           =   540
@@ -2857,7 +2857,7 @@ Sub LoadLiveBadukSkin()
         pbTotalProgress.Top = 1800 - 90
         pbTotalProgressMarquee.Top = 1800 - 90
         
-        optTabDownload2.Width = 840
+        optTabDownload2.Width = 1085
         optTabThreads2.Width = 1485
         optTabDownload2.Caption = fTabDownload.Caption
         optTabThreads2.Caption = fTabThreads.Caption
@@ -3246,7 +3246,7 @@ Private Sub Form_Load()
     tr cmdClear, "Clear(&Y)"
     tr cmdBrowse, "&Browse..."
     tr fTotal, " Total Progress "
-    tr fTabDownload, " Total "
+    tr fTabDownload, " Summary "
     tr fTabThreads, " Threads "
     tr cmdOptions, "More opt&ions..."
     tr cmdOpen, "&Open"
