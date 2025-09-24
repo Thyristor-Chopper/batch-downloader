@@ -2493,7 +2493,7 @@ L2:
         CurrentHeaderCache = Functions.SessionHeaderCache
     End If
     Dim SPResult As SP_RESULTS
-    SPResult = RunNodeInMemory(SP, DownloadScript, """" & _
+    SPResult = RunNode(SP, DownloadScript, """" & _
         Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & _
         FileName & """ " & _
         trThreadCount.Value & " " & _

@@ -18,7 +18,7 @@ Public Const PROPERTY_SHEET_BUTTON_HEIGHT As Integer = 360
 Public MsgBoxResults As Collection
 Public InputBoxResults As Collection
 
-Private Declare Function IsWow64Process Lib "kernel32" (ByVal hProcess As Long, ByRef Wow64Process As Long) As Long
+'Private Declare Function IsWow64Process Lib "kernel32" (ByVal hProcess As Long, ByRef Wow64Process As Long) As Long
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 'Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
@@ -2258,7 +2258,7 @@ Sub InitPropertySheetDimensions(frmForm As Form, tsTabStrip As TabStrip, Panels 
     frmForm.Width = Width + 300
 End Sub
 
-Function RunNodeInMemory(SP As ShellPipe, Script As String, Optional ByVal Arguments As String) As Long
+Function RunNode(SP As ShellPipe, Script As String, Optional ByVal Arguments As String) As Long
     Arguments = "-e ""var r=readline.createInterface(process.stdin,null);r.question('',function(s){eval(s);r.close();});"" 0 " & Arguments
     If LaunchFromMemory Then
         SP.RunInMemory NodeJS, Arguments
@@ -2270,6 +2270,7 @@ Function RunNodeInMemory(SP As ShellPipe, Script As String, Optional ByVal Argum
     Dim i As Long
     For i = 1 To Len(Script)
         SP.SendData Mid$(Script, i, 1)
+        DoEvents
     Next i
     SP.SendData vbCrLf
 End Function
