@@ -110,7 +110,7 @@ Begin VB.Form frmExplorer
          Orientation     =   1
          Divider         =   0   'False
          AllowCustomize  =   0   'False
-         ButtonHeight    =   35
+         ButtonHeight    =   51
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
@@ -136,7 +136,7 @@ Begin VB.Form frmExplorer
       Width           =   2175
    End
    Begin prjDownloadBooster.ImageCombo cbFolderList 
-      Height          =   315
+      Height          =   330
       Left            =   1680
       TabIndex        =   11
       Top             =   120
@@ -1535,7 +1535,7 @@ Private Sub mnuIconSize_Click(Index As Integer)
     lvFiles.View = Index
     SaveSetting "DownloadBooster", "UserData", "FileListView", Index
     Static i As Byte
-    For i = 1 To 5
+    For i = mnuIconSize.LBound To mnuIconSize.UBound
         mnuIconSize(i).Checked = False
     Next i
     mnuIconSize(Index).Checked = True

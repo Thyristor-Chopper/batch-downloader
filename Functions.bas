@@ -45,7 +45,7 @@ Declare Function InsertMenuItem Lib "user32" Alias "InsertMenuItemA" (ByVal hMen
 'Declare Function GetMenuItemID Lib "user32" (ByVal hMenu As Long, ByVal nPos As Long) As Long
 Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As Long
 Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
-Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
+Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
 'Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1&
@@ -316,7 +316,7 @@ Enum ResourceType
 End Enum
 
 Type POINTAPI
-   X As Long
+   x As Long
    Y As Long
 End Type
 
@@ -2134,13 +2134,13 @@ End Sub
 
 Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean = False)
     On Error Resume Next
-    Dim A%, B%, X%, Y%, Z%
+    Dim A%, B%, x%, Y%, Z%
     A = tsTabStrip.Tabs.Count
     B = tsTabStrip.SelectedItem.Index
-    If Reverse Then X = 1 Else X = A
+    If Reverse Then x = 1 Else x = A
     If Reverse Then Y = A Else Y = 1
     If Reverse Then Z = -1 Else Z = 1
-    If B = X Then
+    If B = x Then
         tsTabStrip.Tabs(Y).Selected = True
     Else
         tsTabStrip.Tabs(B + Z).Selected = True

@@ -183,9 +183,9 @@ Private Type IMAGE_OPTIONAL_HEADER
 End Type
 
 Private Type IMAGE_NT_HEADERS
-  Signature As Long
-  FileHeader As IMAGE_FILE_HEADER
-  OptionalHeader As IMAGE_OPTIONAL_HEADER
+    Signature As Long
+    FileHeader As IMAGE_FILE_HEADER
+    OptionalHeader As IMAGE_OPTIONAL_HEADER
 End Type
 
 '
@@ -194,16 +194,16 @@ End Type
 Private Const IMAGE_SIZEOF_SHORT_NAME = 8
 
 Private Type IMAGE_SECTION_HEADER
-  SecName As String * IMAGE_SIZEOF_SHORT_NAME
-  VirtualSize As Long
-  VirtualAddress  As Long
-  SizeOfRawData As Long
-  PointerToRawData As Long
-  PointerToRelocations As Long
-  PointerToLinenumbers As Long
-  NumberOfRelocations As Integer
-  NumberOfLinenumbers As Integer
-  characteristics  As Long
+    SecName As String * IMAGE_SIZEOF_SHORT_NAME
+    VirtualSize As Long
+    VirtualAddress  As Long
+    SizeOfRawData As Long
+    PointerToRawData As Long
+    PointerToRelocations As Long
+    PointerToLinenumbers As Long
+    NumberOfRelocations As Integer
+    NumberOfLinenumbers As Integer
+    characteristics  As Long
 End Type
 
 Private Const OFFSET_4 = 4294967296#
