@@ -2858,7 +2858,7 @@ Sub LoadLiveBadukSkin()
         pbTotalProgress.Top = 1800 - 90
         pbTotalProgressMarquee.Top = 1800 - 90
         
-        optTabDownload2.Width = 1085
+        optTabDownload2.Width = 1130
         optTabThreads2.Width = 1485
         optTabDownload2.Caption = fTabDownload.Caption
         optTabThreads2.Caption = fTabThreads.Caption
