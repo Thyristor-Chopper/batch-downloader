@@ -1583,6 +1583,7 @@ Private Sub cbFrameSkin_Click()
 End Sub
 
 Private Sub cbImagePosition_Click()
+    chkCenter.Enabled = (cbImagePosition.ListIndex >= 1 And cbImagePosition.ListIndex <= 3)
     If Loaded Then
         cmdApply.Enabled = -1
         ImageChanged = True
@@ -1679,7 +1680,13 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     pgPatternPreview.FillColor = pgPatternColor.BackColor
     pgPatternPreview.FillStyle = lvPatterns.ListIndex + 1
     
-    cbImagePosition.ListIndex = GetSetting("DownloadBooster", Section, "ImagePosition", 1)
+    Dim imgpos As Byte: imgpos = GetSetting("DownloadBooster", Section, "ImagePosition", 1)
+    If imgpos > 3 And imgpos <= 6 Then
+        imgpos = imgpos - 3: chkCenter.Value = 1
+    ElseIf imgpos = 7 Then
+        imgpos = 4
+    End If
+    cbImagePosition.ListIndex = imgpos
     cbImagePosition_Click
     
     cbFont.Text = Trim$(GetSetting("DownloadBooster", Section, "Font", ""))
@@ -2010,8 +2017,16 @@ aftermaxtrdcheck:
         SaveSetting "DownloadBooster", "Options", "Language", 1033
     End If
     
-    SaveSetting "DownloadBooster", "Options", "ImagePosition", cbImagePosition.ListIndex
-    frmMain.ImagePosition = cbImagePosition.ListIndex
+    Dim SaveImgPos As Byte
+    If chkCenter.Value <> 0 And cbImagePosition.ListIndex >= 1 And cbImagePosition.ListIndex <= 3 Then
+        SaveImgPos = cbImagePosition.ListIndex + 3
+    ElseIf cbImagePosition.ListIndex = 4 Then
+        SaveImgPos = 7
+    Else
+        SaveImgPos = cbImagePosition.ListIndex
+    End If
+    SaveSetting "DownloadBooster", "Options", "ImagePosition", SaveImgPos
+    frmMain.ImagePosition = SaveImgPos
     If ImageChanged Then
         SaveSetting "DownloadBooster", "Options", "UseBackgroundImage", -(lvBackgrounds.ListIndex <> 0)
         SaveSetting "DownloadBooster", "Options", "BackgroundImagePath", ChangedBackgroundPath
@@ -2501,9 +2516,6 @@ Private Sub Form_Load()
     AddItemToComboBox cbImagePosition, t("높이에 맞춤", "Fit to height")
     AddItemToComboBox cbImagePosition, t("너비에 맞춤", "Fit to width")
     AddItemToComboBox cbImagePosition, t("원본 크기 유지", "True size")
-    AddItemToComboBox cbImagePosition, t("높이 맞춤(가운데)", "Fit to height (centered)")
-    AddItemToComboBox cbImagePosition, t("너비 맞춤(가운데)", "Fit to width (centered)")
-    AddItemToComboBox cbImagePosition, t("가운데", "True size (centered)")
     AddItemToComboBox cbImagePosition, t("바둑판식", "Tile")
     
     LoadSettings
