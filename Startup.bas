@@ -159,7 +159,6 @@ forcegulim:
     BuildHeaderCache
     
     If GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", "0") <> "0" Then
-        DeleteSetting "DownloadBooster", "Options", "EnableLiveBadukMemoSkin"
         SaveSetting "DownloadBooster", "Options", "ProgressFrameSkin", 2
         SaveSetting "DownloadBooster", "Options", "ButtonSkin", 1
     End If
