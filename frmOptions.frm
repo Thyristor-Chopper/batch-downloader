@@ -1670,7 +1670,7 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     
     chkBeepWhenComplete.Value = GetSetting("DownloadBooster", Section, "PlaySound", 1)
     
-    cbSkin.ListIndex = CurrentButtonSkin
+    cbSkin.ListIndex = GetSetting("DownloadBooster", Section, "ButtonSkin", 4)
     cbProgressSkin.ListIndex = GetSetting("DownloadBooster", Section, "ProgressFrameSkin", 1)
     
     cmdSample.RoundButton = RoundClassicButtons
@@ -2238,7 +2238,15 @@ Private Sub cmdSaveTheme_Click()
     End If
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ButtonSkin", cbSkin.ListIndex
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ProgressFrameSkin", cbProgressSkin.ListIndex
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ImagePosition", cbImagePosition.ListIndex
+    Dim SaveImgPos As Byte
+    If cbImagePosition.ListIndex >= 1 And cbImagePosition.ListIndex <= 3 And chkCenter.Value <> 0 Then
+        SaveImgPos = cbImagePosition.ListIndex + 3
+    ElseIf cbImagePosition.ListIndex = 4 Then
+        SaveImgPos = 7
+    Else
+        SaveImgPos = cbImagePosition.ListIndex
+    End If
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ImagePosition", SaveImgPos
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", -(lvBackgrounds.ListIndex <> 0)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImagePath", ChangedBackgroundPath
     

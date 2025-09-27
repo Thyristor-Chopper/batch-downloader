@@ -3635,7 +3635,7 @@ Sub SetTextColors()
         sbStatusBar.Panels(i).ForeColor = StatusTextColor
     Next i
     
-    If cmdAdd.VisualStyles Then
+    If fOptions.VisualStyles Then
         fTabDownload.ForeColor = FrameCaptionColor
         fTabThreads.ForeColor = FrameCaptionColor
     End If
