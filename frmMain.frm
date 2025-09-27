@@ -20,6 +20,48 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   13905
    StartUpPosition =   3  'Windows 기본값
+   Begin prjDownloadBooster.FrameW fProgress 
+      Height          =   255
+      Left            =   5640
+      TabIndex        =   81
+      Top             =   1800
+      Visible         =   0   'False
+      Width           =   735
+      _ExtentX        =   1296
+      _ExtentY        =   450
+      BorderStyle     =   0
+      Transparent     =   -1  'True
+      Begin VB.Label lblProgress 
+         Alignment       =   1  '오른쪽 맞춤
+         BackStyle       =   0  '투명
+         Height          =   255
+         Left            =   0
+         TabIndex        =   82
+         Top             =   0
+         Width           =   735
+      End
+   End
+   Begin prjDownloadBooster.FrameW fState 
+      Height          =   255
+      Left            =   360
+      TabIndex        =   79
+      Top             =   1800
+      Visible         =   0   'False
+      Width           =   735
+      _ExtentX        =   1296
+      _ExtentY        =   450
+      BorderStyle     =   0
+      Transparent     =   -1  'True
+      Begin VB.Label lblLBState 
+         BackStyle       =   0  '투명
+         Caption         =   "중지됨"
+         Height          =   255
+         Left            =   0
+         TabIndex        =   80
+         Top             =   0
+         Width           =   735
+      End
+   End
    Begin prjDownloadBooster.FrameW fTabs 
       Height          =   255
       Left            =   480
@@ -1743,7 +1785,10 @@ Sub OnData(Data As String)
                     pbTotalProgressMarquee.MarqueeAnimation = -1
                 End If
             End If
-            If fTotal.Caption <> t(" 전체 다운로드 현황 ", " Total Progress ") Then fTotal.Caption = t(" 전체 다운로드 현황 ", " Total Progress ")
+            If fTotal.Caption <> t(" 전체 다운로드 현황 ", " Total Progress ") Then
+                fTotal.Caption = t(" 전체 다운로드 현황 ", " Total Progress ")
+                lblProgress = ""
+            End If
             If pbTotalProgress.Value <> 0 Then pbTotalProgress.Value = 0
             If DownloadedBytes = -1 Then
                 sbStatusBar.Panels(2).Text = ""
@@ -1780,6 +1825,7 @@ progressAvailable:
             lblDownloadedBytes.Caption = ParseSize(DownloadedBytes, True)
             pbTotalProgress.Value = progress
             fTotal.Caption = t(" 전체 다운로드 현황 (" & progress & "%) ", " Total Progress (" & progress & "%) ")
+            lblProgress = "(" & progress & "%)"
             If Not BatchStarted Then SetTitle progress & "% " & t("다운로드 중", "Downloading")
         End If
         
@@ -2071,6 +2117,7 @@ Sub OnStart()
     lblRemaining.Caption = "-"
     
     fTotal.Caption = t(" 전체 다운로드 현황 ", " Total Progress ")
+    lblProgress = ""
     pbTotalProgress.Value = 0
     Dim i%
     For i = 1 To trThreadCount.Value
@@ -2087,6 +2134,7 @@ Sub OnStart()
     pbTotalProgressMarquee.MarqueeAnimation = -1
     
     lblState.Caption = t("진행 중", "Working")
+    lblLBState = lblState
     sbStatusBar.Panels(1).Text = t("시작 중...", "Starting...")
     
     If BatchStarted Then
@@ -2139,15 +2187,18 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
     
     If pbTotalProgress.Value < 100 Then
         lblState.Caption = t("중지됨", "Stopped")
+        lblLBState = lblState
         sbStatusBar.Panels(1).Text = t("준비", "Ready")
     
         fTotal.Caption = t(" 전체 다운로드 현황 ", " Total Progress ")
+        lblProgress = ""
         For i = 1 To lblDownloader.UBound
             pbProgress(i).Value = 0
             lblPercentage(i).Caption = ""
         Next i
     Else
         lblState.Caption = t("완료됨", "Done")
+        lblLBState = lblState
         sbStatusBar.Panels(1).Text = t("완료", "Done")
         sbStatusBar.Panels(2).Text = ""
         sbStatusBar.Panels(3).Text = ""
@@ -2175,6 +2226,7 @@ Sub OnStop(Optional PlayBeep As Boolean = True)
         If PlayBeep And GetSetting("DownloadBooster", "Options", "PlaySound", 1) <> 0 Then
             PlayWave Trim$(GetSetting("DownloadBooster", "Options", "CompleteSoundPath", "")), FallbackSound:=vbInformation
             lblState.Caption = t("완료됨", "Done")
+            lblLBState = lblState
             sbStatusBar.Panels(1).Text = t("완료", "Done")
             sbStatusBar.Panels(2).Text = ""
         End If
@@ -2781,6 +2833,8 @@ dorefresh:
             pbProgressOuterContainer.Refresh
             pbProgressContainer.Refresh
             If fTygemFrameTransparent.Visible And fTygemFrameTransparent.Transparent Then fTygemFrameTransparent.Refresh
+            fState.Refresh
+            fProgress.Refresh
         End If
     Else
         GoTo dorefresh
@@ -2862,11 +2916,20 @@ Sub LoadLiveBadukSkin()
         optTabDownload2.Caption = fTabDownload.Caption
         optTabThreads2.Caption = fTabThreads.Caption
         
-        pbTotalProgressMarquee.Left = 360
-        pbTotalProgressMarquee.Width = 6015
-        pbTotalProgress.Left = 360
-        pbTotalProgress.Width = 6015
+        pbTotalProgressMarquee.Left = 360 + 735
+        pbTotalProgressMarquee.Width = 6015 - 735 - 735
+        pbTotalProgress.Left = 360 + 735
+        pbTotalProgress.Width = 6015 - 735 - 735
         lblState.Visible = False
+        
+        fState.Visible = True
+        fState.Top = 1755
+        fState.Left = 360
+        fState.Refresh
+        
+        fProgress.Visible = True
+        fProgress.Top = 1755
+        fProgress.Refresh
         
         LBFrameEnabled = True
         fOptions.BorderStyle = 0
@@ -2980,6 +3043,9 @@ Sub LoadLiveBadukSkin()
         
         fTabThreads.Visible = True
         fTabDownload.Visible = True
+        
+        fState.Visible = False
+        fProgress.Visible = False
     End If
     
     SetFormBackgroundColor Me
@@ -3256,6 +3322,7 @@ Private Sub Form_Load()
     tr cmdAddToQueue, "Add to &queue"
     tr cmdBatch, "Batc&h download"
     tr lblState, "Stopped"
+    lblLBState = lblState
     tr cmdOpenBatch, "Open(&W)"
     tr cmdAdd, "Add U&RL..."
     tr cmdDelete, "Remo&ve"

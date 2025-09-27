@@ -57,11 +57,11 @@ Begin VB.Form frmSystemSkinProperties
    End
    Begin prjDownloadBooster.CheckBoxW chkRoundClassicButtons 
       Height          =   255
-      Left            =   480
+      Left            =   240
       TabIndex        =   0
       Top             =   600
-      Width           =   3855
-      _ExtentX        =   6800
+      Width           =   4215
+      _ExtentX        =   7435
       _ExtentY        =   450
       Caption         =   "둥근 단추 사용(&U)"
    End

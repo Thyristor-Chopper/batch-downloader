@@ -2,10 +2,10 @@ VERSION 5.00
 Begin VB.Form frmLiveBadukSkinProperties 
    BorderStyle     =   3  '크기 고정 대화 상자
    Caption         =   "스킨 설정"
-   ClientHeight    =   5295
+   ClientHeight    =   6000
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   5415
+   ClientWidth     =   5310
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -19,15 +19,15 @@ Begin VB.Form frmLiveBadukSkinProperties
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5295
-   ScaleWidth      =   5415
+   ScaleHeight     =   6000
+   ScaleWidth      =   5310
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin prjDownloadBooster.CheckBoxW chkEnableBorders 
       Height          =   255
       Left            =   240
       TabIndex        =   19
-      Top             =   4440
+      Top             =   5160
       Width           =   2295
       _ExtentX        =   4048
       _ExtentY        =   450
@@ -37,7 +37,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Height          =   1335
       Left            =   120
       TabIndex        =   13
-      Top             =   3000
+      Top             =   3720
       Width           =   5055
       _ExtentX        =   8916
       _ExtentY        =   2355
@@ -106,14 +106,51 @@ Begin VB.Form frmLiveBadukSkinProperties
       End
    End
    Begin prjDownloadBooster.FrameW fText 
-      Height          =   1335
+      Height          =   2055
       Left            =   120
       TabIndex        =   0
       Top             =   120
       Width           =   5055
       _ExtentX        =   8916
-      _ExtentY        =   2355
+      _ExtentY        =   3625
       Caption         =   "글자"
+      Begin prjDownloadBooster.CheckBoxW chkEnableFontSize 
+         Height          =   255
+         Left            =   120
+         TabIndex        =   24
+         Top             =   1320
+         Width           =   1935
+         _ExtentX        =   3413
+         _ExtentY        =   450
+         Value           =   1
+         Caption         =   "라벨 글자 크기(&S):"
+      End
+      Begin prjDownloadBooster.CheckBoxW chkBold 
+         Height          =   255
+         Left            =   120
+         TabIndex        =   23
+         Top             =   1680
+         Width           =   2655
+         _ExtentX        =   4683
+         _ExtentY        =   450
+         Value           =   1
+         Caption         =   "라벨 굵게(&B)"
+      End
+      Begin prjDownloadBooster.SpinBox sbFontSize 
+         Height          =   255
+         Left            =   2160
+         TabIndex        =   22
+         Top             =   1320
+         Width           =   615
+         _ExtentX        =   1085
+         _ExtentY        =   450
+         Min             =   6
+         Max             =   14
+         Value           =   10
+         ThousandsSeparator=   0   'False
+         AllowOnlyNumbers=   -1  'True
+         TextAlignment   =   1
+      End
       Begin prjDownloadBooster.CheckBoxW chkShadowColor 
          Height          =   255
          Left            =   120
@@ -233,7 +270,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Height          =   1335
       Left            =   120
       TabIndex        =   7
-      Top             =   1560
+      Top             =   2280
       Width           =   5055
       _ExtentX        =   8916
       _ExtentY        =   2355
@@ -304,9 +341,9 @@ Begin VB.Form frmLiveBadukSkinProperties
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
       Height          =   375
-      Left            =   3120
+      Left            =   3000
       TabIndex        =   21
-      Top             =   4800
+      Top             =   5520
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -317,7 +354,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Height          =   375
       Left            =   960
       TabIndex        =   20
-      Top             =   4800
+      Top             =   5520
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -346,8 +383,13 @@ Private Sub cmdOK_Click()
     frmOptions.LiveBadukMemoSkinFrameBackgroundType = IIf(optFrameTransparent.Value, "transparent", IIf(optBackgroundColor.Value, "solidcolor", "texture"))
     frmOptions.LiveBadukMemoSkinFrameBackgroundColor = CLng(pgFrameBackgroundColor.BackColor)
     frmOptions.LiveBadukMemoSkinContentTextColor = CLng(pgContentColor.BackColor)
+    frmOptions.LiveBadukMemoSkinEnableLabelFontSize = chkEnableFontSize.Value
+    frmOptions.LiveBadukMemoSkinLabelFontSize = sbFontSize.Value
+    frmOptions.LiveBadukMemoSkinLabelFontBold = chkBold.Value
     
     frmOptions.ColorChanged = True
+    frmOptions.FontChanged = True
+    frmOptions.ProgressSkinChanged = True
     frmOptions.cmdApply.Enabled = -1
     Unload Me
 End Sub
@@ -388,6 +430,10 @@ Private Sub Form_Load()
     End Select
     chkEnableBorders.Value = frmOptions.LiveBadukMemoSkinEnableBorder
     
+    chkEnableFontSize.Value = frmOptions.LiveBadukMemoSkinEnableLabelFontSize
+    sbFontSize.Value = frmOptions.LiveBadukMemoSkinLabelFontSize
+    chkBold.Value = frmOptions.LiveBadukMemoSkinLabelFontBold
+    
     tr fText, "Text"
     tr chkTextColor, "Label te&xt color:"
     tr chkShadowColor, "Label s&hadow color:"
@@ -406,6 +452,7 @@ Private Sub Form_Load()
     tr cmdSelectFrameTexture, "Se&lect..."
     tr optBackgroundColor, "C&olor:"
     tr Label1, "&Progress text color:"
+    tr chkEnableFontSize, "Label text &size:"
 End Sub
 
 Private Sub lblFrameBackgroundColorSelect_Click()
@@ -446,3 +493,8 @@ Private Sub lblSelectTextColor_Click()
     pgText.BackColor = Color
     chkTextColor.Value = 1
 End Sub
+
+Private Sub sbFontSize_Change()
+    chkEnableFontSize.Value = 1
+End Sub
+

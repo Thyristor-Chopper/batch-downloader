@@ -1403,32 +1403,44 @@ Function ParseSize(ByVal Size As Double, Optional ByVal ShowBytes As Boolean = F
     End If
 
     On Error GoTo ErrLn4
-    Dim ret@
-    If Size >= (1024@ * 1024@ * 1024@ * 1024@) Then
-        ret = Fix(Size / 1024@ / 1024@ / 1024@ / 1024@ * 100) / 100
-        'If ret >= 10@ Then ret = Fix(ret * 10) / 10
-        'ElseIf ret >= 100@ Then ret = Fix(ret)
+    Dim ret#
+    If Size >= (1024# * 1024# * 1024# * 1024#) Then
+        ret = Fix(Size / 1024# / 1024# / 1024# / 1024# * 100) / 100
+        If ret >= 100# Then
+            ret = Fix(ret)
+        ElseIf ret >= 10# Then
+            ret = Fix(ret * 10) / 10
+        End If
         ParseSize = ret & "TB" & Suffix
-    ElseIf Size >= (1024@ * 1024@ * 1024@) Then
-        ret = Fix(Size / 1024@ / 1024@ / 1024@ * 100) / 100
-        'If ret >= 10@ Then ret = Fix(ret * 10) / 10
-        'ElseIf ret >= 100@ Then ret = Fix(ret)
+    ElseIf Size >= (1024# * 1024# * 1024#) Then
+        ret = Fix(Size / 1024# / 1024# / 1024# * 100) / 100
+        If ret >= 100# Then
+            ret = Fix(ret)
+        ElseIf ret >= 10# Then
+            ret = Fix(ret * 10) / 10
+        End If
         ParseSize = ret & "GB" & Suffix
-    ElseIf Size >= (1024@ * 1024@) Then
-        ret = Fix(Size / 1024@ / 1024@ * 100) / 100
-        'If ret >= 10@ Then ret = Fix(ret * 10) / 10
-        'ElseIf ret >= 100@ Then ret = Fix(ret)
+    ElseIf Size >= (1024# * 1024#) Then
+        ret = Fix(Size / 1024# / 1024# * 100) / 100
+        If ret >= 100# Then
+            ret = Fix(ret)
+        ElseIf ret >= 10# Then
+            ret = Fix(ret * 10) / 10
+        End If
         ParseSize = ret & "MB" & Suffix
-    ElseIf Size >= (1024@) Then
-        ret = Fix(Size / 1024@ * 100) / 100
-        'If ret >= 10@ Then ret = Fix(ret * 10) / 10
-        'ElseIf ret >= 100@ Then ret = Fix(ret)
+    ElseIf Size >= (1024#) Then
+        ret = Fix(Size / 1024# * 100) / 100
+        If ret >= 100# Then
+            ret = Fix(ret)
+        ElseIf ret >= 10# Then
+            ret = Fix(ret * 10) / 10
+        End If
         ParseSize = ret & "KB" & Suffix
     Else
         ParseSize = CStr(Size) & " " & t("바이트", "Bytes") & Suffix
     End If
 
-    If Size >= (1024@) And ShowBytes Then
+    If Size >= (1024#) And ShowBytes Then
         ParseSize = ParseSize & " (" & Size & " " & t("바이트", "Bytes") & Suffix & ")"
     End If
     Exit Function
@@ -1587,7 +1599,7 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     On Error Resume Next
     Dim LBEnabled As Boolean
     LBEnabled = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 0)) > 0 And DPI = 96
-    Dim FontName$, FontSize%
+    Dim FontName$, FontSize%, FontBold As Boolean
     FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
     If FontName = "" And LangID = 1042 Then
         If Force Or (DefaultFont <> "굴림") Then
@@ -1620,7 +1632,15 @@ Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     Next ctrl
 setlbfont:
     If frm Is frmMain Then
-        If LBEnabled Then FontSize = 10 Else FontSize = IIf(LCase(frm.lblURL.Font.Name) = "tahoma", 8, 9)
+        If LCase(frm.lblURL.Font.Name) = "tahoma" Then FontSize = 8 Else FontSize = 9
+        If LBEnabled Then
+            If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableLabelFontSize", "1") <> "0" Then
+                FontSize = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinLabelFontSize", 10))
+            End If
+            FontBold = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinLabelFontBold", "1") <> "0"
+        Else
+            FontBold = False
+        End If
         frm.lblURL.Font.Size = FontSize
         frm.lblFilePath.Font.Size = FontSize
         frm.lblThreadCountLabel.Font.Size = FontSize
@@ -1631,12 +1651,16 @@ setlbfont:
         frm.lblLBCaption2.Font.Size = FontSize
         frm.lblLBCaptionShadow.Font.Size = FontSize
         frm.lblLBCaptionShadow2.Font.Size = FontSize
-        frm.lblURL.Font.Bold = LBEnabled
-        frm.lblFilePath.Font.Bold = LBEnabled
-        frm.lblThreadCountLabel.Font.Bold = LBEnabled
-        frm.lblURLShadow.Font.Bold = LBEnabled
-        frm.lblFilePathShadow.Font.Bold = LBEnabled
-        frm.lblThreadCountLabelShadow.Font.Bold = LBEnabled
+        frm.lblURL.Font.Bold = FontBold
+        frm.lblFilePath.Font.Bold = FontBold
+        frm.lblThreadCountLabel.Font.Bold = FontBold
+        frm.lblURLShadow.Font.Bold = FontBold
+        frm.lblFilePathShadow.Font.Bold = FontBold
+        frm.lblThreadCountLabelShadow.Font.Bold = FontBold
+        frm.lblLBCaption.Font.Bold = FontBold
+        frm.lblLBCaption2.Font.Bold = FontBold
+        frm.lblLBCaptionShadow.Font.Bold = FontBold
+        frm.lblLBCaptionShadow2.Font.Bold = FontBold
     End If
 End Sub
 

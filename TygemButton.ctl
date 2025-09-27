@@ -404,6 +404,8 @@ Private Sub RefreshSkin(Optional Redraw As Boolean = False)
     lblCaption.Font.Bold = ButtonSkinBold(m_Skin)
     If DrawNormalState = Focused Then
         lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 5)
+    ElseIf Not m_Enabled Then
+        lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 4)
     Else
         lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 1)
     End If

@@ -6,7 +6,7 @@ Begin VB.Form frmOptions
    ClientHeight    =   10650
    ClientLeft      =   2760
    ClientTop       =   3855
-   ClientWidth     =   13815
+   ClientWidth     =   14805
    BeginProperty Font 
       Name            =   "굴림"
       Size            =   9
@@ -22,7 +22,7 @@ Begin VB.Form frmOptions
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   10650
-   ScaleWidth      =   13815
+   ScaleWidth      =   14805
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '소유자 가운데
    Begin VB.PictureBox pbPanel 
@@ -31,20 +31,20 @@ Begin VB.Form frmOptions
       Enabled         =   0   'False
       Height          =   4425
       Index           =   4
-      Left            =   6960
+      Left            =   7200
       ScaleHeight     =   4425
-      ScaleWidth      =   6735
+      ScaleWidth      =   6975
       TabIndex        =   4
-      Top             =   6120
+      Top             =   5040
       Visible         =   0   'False
-      Width           =   6735
+      Width           =   6975
       Begin prjDownloadBooster.FrameW FrameW6 
          Height          =   975
          Left            =   120
          TabIndex        =   72
          Top             =   120
-         Width           =   6495
-         _ExtentX        =   11456
+         Width           =   6735
+         _ExtentX        =   11880
          _ExtentY        =   1720
          Caption         =   "다운로드 알림"
          Transparent     =   -1  'True
@@ -123,8 +123,8 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   117
          Top             =   1200
-         Width           =   6495
-         _ExtentX        =   11456
+         Width           =   6735
+         _ExtentX        =   11880
          _ExtentY        =   5530
          Caption         =   "메시지 상자"
          Transparent     =   -1  'True
@@ -402,21 +402,21 @@ Begin VB.Form frmOptions
       Enabled         =   0   'False
       Height          =   2385
       Index           =   2
-      Left            =   6960
+      Left            =   7200
       ScaleHeight     =   2385
-      ScaleWidth      =   6735
+      ScaleWidth      =   6975
       TabIndex        =   2
       TabStop         =   0   'False
       Top             =   600
       Visible         =   0   'False
-      Width           =   6735
+      Width           =   6975
       Begin prjDownloadBooster.FrameW FrameW3 
          Height          =   1215
          Left            =   120
          TabIndex        =   31
          Top             =   120
-         Width           =   6495
-         _ExtentX        =   11456
+         Width           =   6735
+         _ExtentX        =   11880
          _ExtentY        =   2143
          Caption         =   "서버 연결"
          Transparent     =   -1  'True
@@ -499,14 +499,14 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   38
          Top             =   1440
-         Width           =   6495
-         _ExtentX        =   11456
+         Width           =   6735
+         _ExtentX        =   11880
          _ExtentY        =   1402
          Caption         =   "사용자 지정 헤더"
          Transparent     =   -1  'True
          Begin prjDownloadBooster.CommandButtonW cmdHeaders 
             Height          =   330
-            Left            =   4800
+            Left            =   5040
             TabIndex        =   120
             Top             =   240
             Width           =   1575
@@ -528,7 +528,7 @@ Begin VB.Form frmOptions
             Left            =   840
             TabIndex        =   115
             Top             =   240
-            Width           =   3735
+            Width           =   4095
          End
       End
    End
@@ -539,18 +539,18 @@ Begin VB.Form frmOptions
       Index           =   1
       Left            =   120
       ScaleHeight     =   4185
-      ScaleWidth      =   6735
+      ScaleWidth      =   6975
       TabIndex        =   1
       TabStop         =   0   'False
       Top             =   600
-      Width           =   6735
+      Width           =   6975
       Begin prjDownloadBooster.FrameW Frame5 
          Height          =   1905
          Left            =   120
          TabIndex        =   19
          Top             =   2160
-         Width           =   6495
-         _ExtentX        =   11456
+         Width           =   6735
+         _ExtentX        =   11880
          _ExtentY        =   3360
          Caption         =   "인터페이스"
          Transparent     =   -1  'True
@@ -677,8 +677,8 @@ Begin VB.Form frmOptions
          Left            =   120
          TabIndex        =   6
          Top             =   120
-         Width           =   6495
-         _ExtentX        =   11456
+         Width           =   6735
+         _ExtentX        =   11880
          _ExtentY        =   3413
          Caption         =   "다운로드 설정"
          Transparent     =   -1  'True
@@ -826,21 +826,21 @@ Begin VB.Form frmOptions
       Enabled         =   0   'False
       Height          =   1695
       Index           =   5
-      Left            =   6960
+      Left            =   7200
       ScaleHeight     =   1695
-      ScaleWidth      =   6735
+      ScaleWidth      =   6975
       TabIndex        =   5
       TabStop         =   0   'False
       Top             =   3120
       Visible         =   0   'False
-      Width           =   6735
+      Width           =   6975
       Begin prjDownloadBooster.FrameW FrameW2 
          Height          =   1455
          Left            =   120
          TabIndex        =   98
          Top             =   120
-         Width           =   6495
-         _ExtentX        =   11456
+         Width           =   6735
+         _ExtentX        =   11880
          _ExtentY        =   2566
          Caption         =   "프로그램 경로"
          Transparent     =   -1  'True
@@ -849,14 +849,14 @@ Begin VB.Form frmOptions
             Left            =   2520
             TabIndex        =   103
             Top             =   1080
-            Width           =   3855
+            Width           =   4095
          End
          Begin VB.TextBox txtNodePath 
             Height          =   270
             Left            =   2520
             TabIndex        =   101
             Top             =   720
-            Width           =   3855
+            Width           =   4095
          End
          Begin VB.Image imgIcon2 
             Height          =   480
@@ -872,7 +872,7 @@ Begin VB.Form frmOptions
             Left            =   840
             TabIndex        =   99
             Top             =   240
-            Width           =   5415
+            Width           =   5775
          End
          Begin VB.Label Label7 
             BackStyle       =   0  '투명
@@ -898,23 +898,23 @@ Begin VB.Form frmOptions
       AutoRedraw      =   -1  'True
       BorderStyle     =   0  '없음
       Enabled         =   0   'False
-      Height          =   5265
+      Height          =   5385
       Index           =   3
       Left            =   120
-      ScaleHeight     =   5265
-      ScaleWidth      =   6735
+      ScaleHeight     =   5385
+      ScaleWidth      =   6975
       TabIndex        =   3
       TabStop         =   0   'False
       Top             =   5040
       Visible         =   0   'False
-      Width           =   6735
+      Width           =   6975
       Begin prjDownloadBooster.FrameW FrameW1 
          Height          =   1275
          Left            =   120
          TabIndex        =   39
-         Top             =   2160
-         Width           =   3135
-         _ExtentX        =   5530
+         Top             =   2280
+         Width           =   3255
+         _ExtentX        =   5741
          _ExtentY        =   2249
          Caption         =   "테마"
          Transparent     =   -1  'True
@@ -963,9 +963,9 @@ Begin VB.Form frmOptions
          Height          =   1635
          Left            =   120
          TabIndex        =   44
-         Top             =   3540
-         Width           =   3135
-         _ExtentX        =   5530
+         Top             =   3660
+         Width           =   3255
+         _ExtentX        =   5741
          _ExtentY        =   2884
          Caption         =   "스킨"
          Transparent     =   -1  'True
@@ -1064,11 +1064,11 @@ Begin VB.Form frmOptions
       End
       Begin prjDownloadBooster.FrameW Frame4 
          Height          =   1635
-         Left            =   3480
+         Left            =   3600
          TabIndex        =   63
-         Top             =   3540
-         Width           =   3135
-         _ExtentX        =   5530
+         Top             =   3660
+         Width           =   3255
+         _ExtentX        =   5741
          _ExtentY        =   2884
          Caption         =   "배경"
          Transparent     =   -1  'True
@@ -1177,14 +1177,14 @@ Begin VB.Form frmOptions
       End
       Begin VB.PictureBox pbOuterPreview 
          AutoRedraw      =   -1  'True
-         Height          =   1935
+         Height          =   2055
          Left            =   120
-         ScaleHeight     =   1875
-         ScaleWidth      =   6435
+         ScaleHeight     =   1995
+         ScaleWidth      =   6675
          TabIndex        =   107
          TabStop         =   0   'False
          Top             =   120
-         Width           =   6495
+         Width           =   6735
          Begin VB.PictureBox pbBackground 
             Height          =   1320
             Left            =   360
@@ -1303,15 +1303,15 @@ Begin VB.Form frmOptions
             BackColor       =   &H80000001&
             BorderStyle     =   0  '없음
             Enabled         =   0   'False
-            Height          =   1935
+            Height          =   2055
             Left            =   0
-            ScaleHeight     =   1935
-            ScaleWidth      =   6495
+            ScaleHeight     =   2055
+            ScaleWidth      =   6735
             TabIndex        =   108
             TabStop         =   0   'False
             Tag             =   "nobgdraw"
             Top             =   0
-            Width           =   6495
+            Width           =   6735
             Begin VB.Image imgDesktop 
                Height          =   735
                Left            =   0
@@ -1323,11 +1323,11 @@ Begin VB.Form frmOptions
       End
       Begin prjDownloadBooster.FrameW Frame1 
          Height          =   1275
-         Left            =   3480
+         Left            =   3600
          TabIndex        =   52
-         Top             =   2160
-         Width           =   3135
-         _ExtentX        =   5530
+         Top             =   2280
+         Width           =   3255
+         _ExtentX        =   5741
          _ExtentY        =   2249
          Caption         =   "색상"
          Transparent     =   -1  'True
@@ -1513,8 +1513,8 @@ Public ColorChanged As Boolean
 Public ImageChanged As Boolean
 Public VisualStyleChanged As Boolean
 Dim SkinChanged As Boolean
-Dim ProgressSkinChanged As Boolean
-Dim FontChanged As Boolean
+Public ProgressSkinChanged As Boolean
+Public FontChanged As Boolean
 Dim PatternChanged As Boolean
 Dim ScrollChanged As Boolean
 Dim IntervalValues(7) As Single
@@ -1523,7 +1523,7 @@ Dim PreviewControls(4) As Control
 Dim DoLoadTheme As Boolean
 
 Public RoundClassicButtons As Byte, DisableVisualStyle As Byte
-Public LiveBadukMemoSkinShadowColor&, LiveBadukMemoSkinFrameColor&, LiveBadukMemoSkinFrameType$, LiveBadukMemoSkinTextColor&, LiveBadukMemoSkinEnableShadow As Byte, LiveBadukMemoSkinEnableTextColor As Byte, LiveBadukMemoSkinEnableBorder As Byte, LiveBadukMemoSkinFrameBackgroundType$, LiveBadukMemoSkinFrameBackgroundColor&, LiveBadukMemoSkinContentTextColor&, LiveBadukMemoSkinFrameTexture$, LiveBadukMemoSkinFrameBackground$
+Public LiveBadukMemoSkinShadowColor&, LiveBadukMemoSkinFrameColor&, LiveBadukMemoSkinFrameType$, LiveBadukMemoSkinTextColor&, LiveBadukMemoSkinEnableShadow As Byte, LiveBadukMemoSkinEnableTextColor As Byte, LiveBadukMemoSkinEnableBorder As Byte, LiveBadukMemoSkinFrameBackgroundType$, LiveBadukMemoSkinFrameBackgroundColor&, LiveBadukMemoSkinContentTextColor&, LiveBadukMemoSkinFrameTexture$, LiveBadukMemoSkinFrameBackground$, LiveBadukMemoSkinLabelFontSize As Integer, LiveBadukMemoSkinLabelFontBold As Byte, LiveBadukMemoSkinEnableLabelFontSize As Byte
 
 Implements IBSSubclass
 
@@ -1721,18 +1721,21 @@ Private Sub cbTheme_Click()
         DisableVisualStyle = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0)
         RoundClassicButtons = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0)
                 
-        LiveBadukMemoSkinShadowColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinShadowColor", 16777215)
-        LiveBadukMemoSkinFrameColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameColor", 16777215)
+        LiveBadukMemoSkinShadowColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinShadowColor", 16777215))
+        LiveBadukMemoSkinFrameColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameColor", 16777215))
         LiveBadukMemoSkinFrameType = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameType", "transparent")
-        LiveBadukMemoSkinTextColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinTextColor", 0)
-        LiveBadukMemoSkinEnableShadow = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableShadow", 1)
-        LiveBadukMemoSkinEnableTextColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableTextColor", 0)
-        LiveBadukMemoSkinEnableBorder = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableBorder", 1)
+        LiveBadukMemoSkinTextColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinTextColor", 0))
+        LiveBadukMemoSkinEnableShadow = CByte(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableShadow", 1))
+        LiveBadukMemoSkinEnableTextColor = CByte(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableTextColor", 0))
+        LiveBadukMemoSkinEnableBorder = CByte(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableBorder", 1))
         LiveBadukMemoSkinFrameBackgroundType = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackgroundType", "transparent")
-        LiveBadukMemoSkinFrameBackgroundColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackgroundColor", 16777215)
-        LiveBadukMemoSkinContentTextColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinContentTextColor", 0)
+        LiveBadukMemoSkinFrameBackgroundColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackgroundColor", 16777215))
+        LiveBadukMemoSkinContentTextColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinContentTextColor", 0))
         LiveBadukMemoSkinFrameTexture = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameTexture", "")
         LiveBadukMemoSkinFrameBackground = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackground", "")
+        LiveBadukMemoSkinLabelFontSize = CInt(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinLabelFontSize", 10))
+        LiveBadukMemoSkinLabelFontBold = CByte(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinLabelFontBold", 1))
+        LiveBadukMemoSkinEnableLabelFontSize = CByte(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableLabelFontSize", 1))
         
         LoadTheme ThemeName
     End If
@@ -1973,6 +1976,9 @@ aftermaxtrdcheck:
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", LiveBadukMemoSkinContentTextColor
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", LiveBadukMemoSkinFrameTexture
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", LiveBadukMemoSkinFrameBackground
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinLabelFontSize", LiveBadukMemoSkinLabelFontSize
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinLabelFontBold", LiveBadukMemoSkinLabelFontBold
+        SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableLabelFontSize", LiveBadukMemoSkinEnableLabelFontSize
     
         SaveSetting "DownloadBooster", "Options", "ButtonSkin", cbSkin.ListIndex
         CurrentButtonSkin = cbSkin.ListIndex
@@ -2234,6 +2240,9 @@ Private Sub cmdSaveTheme_Click()
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinContentTextColor", LiveBadukMemoSkinContentTextColor
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameTexture", LiveBadukMemoSkinFrameTexture
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameBackground", LiveBadukMemoSkinFrameBackground
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinLabelFontSize", LiveBadukMemoSkinLabelFontSize
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinLabelFontBold", LiveBadukMemoSkinLabelFontBold
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinEnableLabelFontSize", LiveBadukMemoSkinEnableLabelFontSize
     
     Dim i%, ThemeFound As Boolean
     ThemeFound = False
@@ -2687,13 +2696,16 @@ Private Sub LoadSettings()
     LiveBadukMemoSkinFrameType = LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "transparent"))
     LiveBadukMemoSkinTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 0))
     LiveBadukMemoSkinEnableShadow = CByte(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", 1))
-    LiveBadukMemoSkinEnableTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0))
+    LiveBadukMemoSkinEnableTextColor = CByte(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0))
     LiveBadukMemoSkinEnableBorder = CByte(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", 1))
     LiveBadukMemoSkinFrameBackgroundType = LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent"))
     LiveBadukMemoSkinFrameBackgroundColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", 16777215))
     LiveBadukMemoSkinContentTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", 0))
     LiveBadukMemoSkinFrameTexture = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", "")
     LiveBadukMemoSkinFrameBackground = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
+    LiveBadukMemoSkinLabelFontSize = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinLabelFontSize", 10))
+    LiveBadukMemoSkinLabelFontBold = CByte(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinLabelFontBold", 1))
+    LiveBadukMemoSkinEnableLabelFontSize = CByte(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableLabelFontSize", 1))
     
     LoadTheme
     
