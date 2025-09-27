@@ -789,6 +789,7 @@ Private Sub UserControl_AmbientChanged(PropertyName As String)
 Select Case PropertyName
     Case "DisplayAsDefault"
         CommandButtonDisplayAsDefault = Ambient.DisplayAsDefault
+        tygButton.Default = Ambient.DisplayAsDefault
         If CommandButtonHandle <> NULL_PTR Then
             Dim dwStyle As Long
             dwStyle = GetWindowLong(CommandButtonHandle, GWL_STYLE)
@@ -962,6 +963,7 @@ End Property
 
 Public Property Let Default(ByVal Value As Boolean)
 Extender.Default = Value
+tygButton.Default = Value
 End Property
 
 Public Property Get Cancel() As Boolean

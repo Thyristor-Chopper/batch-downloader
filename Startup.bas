@@ -26,7 +26,13 @@ Public NodeFileName As String
 Public DarkTransparent As IPicture
 Public LightTransparent As IPicture
 Public Train(1 To 3) As IPicture
-Public TygemButtonTexture(0 To 2) As IPicture
+
+Public CurrentButtonSkin As ButtonSkin
+Public ButtonSkinTexture(-4 To 5) As IPicture
+Public ButtonSkinBorder(0 To 3) As Byte
+Public ButtonSkinBold(0 To 3) As Boolean
+Public ButtonSkinCaptionColor(-4 To 15) As Long
+Public ButtonSkinSplitColor(0 To 3) As Long
 
 Public NodeJS() As Byte
 Public DownloadScript As String
@@ -150,11 +156,47 @@ forcegulim:
     End If
     BuildHeaderCache
     
+    ButtonSkinBorder(1) = 3
+    ButtonSkinBorder(2) = 6
+    ButtonSkinBorder(3) = 6
+    
+    ButtonSkinBold(1) = True
+    ButtonSkinBold(2) = False
+    ButtonSkinBold(3) = False
+    
+    ButtonSkinCaptionColor(1) = 0&
+    ButtonSkinCaptionColor(2) = 255&
+    ButtonSkinCaptionColor(3) = 0&
+    ButtonSkinCaptionColor(4) = 8421504
+    ButtonSkinCaptionColor(5) = 0&
+    
+    ButtonSkinCaptionColor(6) = 0&
+    ButtonSkinCaptionColor(7) = 0&
+    ButtonSkinCaptionColor(8) = 0&
+    ButtonSkinCaptionColor(9) = 8421504
+    ButtonSkinCaptionColor(10) = 0&
+    
+    ButtonSkinCaptionColor(11) = 0&
+    ButtonSkinCaptionColor(12) = 16777215
+    ButtonSkinCaptionColor(13) = 16777215
+    ButtonSkinCaptionColor(14) = 8421504
+    ButtonSkinCaptionColor(15) = 0&
+    
+    ButtonSkinSplitColor(1) = 3881787
+    ButtonSkinSplitColor(2) = 8421504
+    ButtonSkinSplitColor(3) = 11381671
+    
     Dim i As Byte
     For i = 1 To 3
-        Set TygemButtonTexture(i - 1) = LoadResPicture(i, vbResBitmap)
         Set Train(i) = LoadResPicture(i + 1, vbResIcon)
     Next i
+    
+    CurrentButtonSkin = CByte(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", "0"))
+    If CurrentButtonSkin <> 0 Then
+        For i = 1 To 5
+            Set ButtonSkinTexture(i) = LoadResPicture(i + (CurrentButtonSkin - 1) * 5, vbResBitmap)
+        Next i
+    End If
     
 '    Dim si As STARTUPINFO, pi As PROCESSINFO
 '    RunFromMemory NodeJS, si, pi

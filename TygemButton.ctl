@@ -24,12 +24,12 @@ Begin VB.UserControl TygemButton
       Left            =   1200
       Top             =   0
    End
-   Begin VB.Line Line11 
-      BorderColor     =   &H0004D1FD&
-      X1              =   30
-      X2              =   45
-      Y1              =   30
-      Y2              =   45
+   Begin VB.Line lSplit 
+      Visible         =   0   'False
+      X1              =   960
+      X2              =   960
+      Y1              =   480
+      Y2              =   960
    End
    Begin VB.Image imgOverlay 
       Height          =   375
@@ -40,15 +40,6 @@ Begin VB.UserControl TygemButton
    Begin VB.Label lblCaption 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
       BackStyle       =   0  'Åõ¸í
-      BeginProperty Font 
-         Name            =   "±¼¸²"
-         Size            =   9
-         Charset         =   129
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       ForeColor       =   &H00000000&
       Height          =   210
       Left            =   0
@@ -72,74 +63,11 @@ Begin VB.UserControl TygemButton
       Top             =   600
       Width           =   240
    End
-   Begin VB.Line Line10 
-      X1              =   975
-      X2              =   1005
-      Y1              =   0
-      Y2              =   30
-   End
-   Begin VB.Line Line9 
-      X1              =   975
-      X2              =   1025
-      Y1              =   315
-      Y2              =   270
-   End
-   Begin VB.Line Line8 
-      X1              =   0
-      X2              =   45
-      Y1              =   285
-      Y2              =   330
-   End
-   Begin VB.Line Line7 
-      X1              =   1005
-      X2              =   1005
-      Y1              =   30
-      Y2              =   285
-   End
-   Begin VB.Line Line6 
-      X1              =   30
-      X2              =   990
-      Y1              =   315
-      Y2              =   315
-   End
-   Begin VB.Line Line5 
-      X1              =   0
-      X2              =   30
-      Y1              =   30
-      Y2              =   0
-   End
-   Begin VB.Line Line4 
-      X1              =   0
-      X2              =   0
-      Y1              =   30
-      Y2              =   285
-   End
-   Begin VB.Line Line3 
-      X1              =   30
-      X2              =   990
-      Y1              =   0
-      Y2              =   0
-   End
-   Begin VB.Line Line2 
-      BorderColor     =   &H0004D1FD&
-      X1              =   30
-      X2              =   1005
-      Y1              =   15
-      Y2              =   15
-   End
-   Begin VB.Line Line1 
-      BorderColor     =   &H0004D1FD&
-      X1              =   15
-      X2              =   15
-      Y1              =   30
-      Y2              =   315
-   End
-   Begin VB.Image imgCenter 
-      Height          =   285
-      Left            =   30
-      Stretch         =   -1  'True
-      Top             =   30
-      Width           =   975
+   Begin VB.Image imgSkin 
+      Height          =   855
+      Left            =   0
+      Top             =   0
+      Width           =   735
    End
 End
 Attribute VB_Name = "TygemButton"
@@ -147,6 +75,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+Option Explicit
+
 Const m_def_Enabled = True
 Dim m_Enabled As Boolean
 
@@ -168,7 +98,27 @@ Dim m_SplitLeft As Boolean
 Const m_def_SplitRight = False
 Dim m_SplitRight As Boolean
 
+Const m_def_Default = False
+Dim m_Default As Boolean
+
+Enum ButtonSkin
+    LiveBaduk = 1
+    Diskeeper = 2
+    Bluemetal = 3
+End Enum
+
+Enum ButtonState
+    Normal = 1
+    Hover = 2
+    Pressed = 3
+    Disabled = 4
+    Focused = 5
+End Enum
+
 Dim m_Icon As IPictureDisp
+
+Dim DrawNormalState As ButtonState
+Dim IsPressed As Boolean
 
 Event Click()
 'Event MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -182,28 +132,15 @@ Private bMouseDown As Boolean
 
 Public CommandButtonControlHandle As Long
 
-Private Sub SetLineColor()
-    Static A&, B&, c&
-    If m_Enabled Then
-        A = 0&
-        B = 10812412
-        c = 315901
-    Else
-        A = 8421504
-        B = 14145239
-        c = 13027014
-    End If
-    lblCaption.ForeColor = A
-    If m_SplitRight Then Line1.BorderColor = B Else Line1.BorderColor = c
-    Line2.BorderColor = c
-    Line11.BorderColor = c
-End Sub
-
 Private Sub MouseOut()
     If bMouseDown Then Exit Sub
     bHovering = False
-    Set imgCenter.Picture = TygemButtonTexture(0)
-    SetLineColor
+    If DrawNormalState = Focused Then
+        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 5)
+    Else
+        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 1)
+    End If
+    DrawSkin DrawNormalState
     tmrMouse.Enabled = False
 End Sub
 
@@ -218,10 +155,29 @@ Property Let Enabled(ByVal New_Enabled As Boolean)
 End Property
 
 Private Sub SetEnabled()
-    SetLineColor
     If Not m_Enabled Then tmrMouse.Enabled = False
-    Set imgCenter.Picture = TygemButtonTexture(Abs(Not m_Enabled) * 2)
+    If m_Enabled Then
+        If DrawNormalState = Focused Then
+            lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 5)
+        Else
+            lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 1)
+        End If
+        DrawNormalState = Normal
+    Else
+        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 4)
+        DrawNormalState = Disabled
+    End If
+    DrawSkin DrawNormalState
 End Sub
+
+Property Get Default() As Boolean
+    Default = m_Default
+End Property
+
+Property Let Default(New_Default As Boolean)
+    m_Default = Default
+    DrawSkin DrawNormalState
+End Property
 
 Property Get SplitLeft() As Boolean
     SplitLeft = m_SplitLeft
@@ -230,7 +186,7 @@ End Property
 Property Let SplitLeft(ByVal New_SplitLeft As Boolean)
     m_SplitLeft = New_SplitLeft
     PropertyChanged "SplitLeft"
-    SetSplitLeft
+    SetSplitButton
 End Property
 
 Property Get SplitRight() As Boolean
@@ -240,55 +196,12 @@ End Property
 Property Let SplitRight(ByVal New_SplitRight As Boolean)
     m_SplitRight = New_SplitRight
     PropertyChanged "SplitRight"
-    SetSplitRight
+    SetSplitButton
 End Property
 
-Private Sub SetSplitLeft()
-    Line9.Visible = Not m_SplitLeft
-    Line10.Visible = Not m_SplitLeft
-    Dim w%, h%
-    w = UserControl.Width
-    h = UserControl.Height
-    If Not m_SplitLeft Then
-        w = w - 30
-        h = h - 45
-    End If
-    Line3.X2 = w
-    Line6.X2 = w
-    If m_SplitLeft Then Line7.Y1 = 0 Else Line7.Y1 = 30
-    Line7.Y2 = h
-    Line2.X2 = w
-End Sub
-
-Private Sub SetSplitRight()
-    Line4.Visible = Not m_SplitRight
-    Line5.Visible = Not m_SplitRight
-    Line8.Visible = Not m_SplitRight
-    Line11.Visible = Not m_SplitRight
-    Dim i%, X1%, Y2%
-    If m_SplitRight Then
-        X1 = 0
-        Y2 = UserControl.Height - 15
-    Else
-        X1 = 30
-        Y2 = UserControl.Height - 30
-    End If
-    Line3.X1 = X1
-    Line6.X1 = X1
-    Line2.X1 = X1
-    Line1.Y2 = Y2
-    Dim A%, B%, c%, D%
-    A = UserControl.Width - 3 * Screen.TwipsPerPixelX
-    If m_SplitRight Then
-        D = imgCenter.Picture.Width / 15
-        B = A * D
-        c = 30 - A * (D - 1)
-    Else
-        B = A
-        c = 30
-    End If
-    imgCenter.Width = B
-    imgCenter.Left = c
+Private Sub SetSplitButton()
+    lSplit.Visible = m_SplitLeft
+    DrawSkin DrawNormalState
 End Sub
 
 Property Get Caption() As String
@@ -314,8 +227,9 @@ Property Let FontName(ByVal New_FontName As String)
 End Property
 
 Private Sub SetCaptionFont()
+    If CurrentButtonSkin = 0 Then Exit Sub
     lblCaption.Font.Name = m_FontName
-    lblCaption.Font.Bold = True
+    lblCaption.Font.Bold = ButtonSkinBold(CurrentButtonSkin)
     lblCaption.Font.Italic = False
 End Sub
 
@@ -372,16 +286,17 @@ Private Sub tmrMouse_Timer()
     If lhWnd <> CommandButtonControlHandle And bHovering Then MouseOut
 End Sub
 
-'Private Sub UserControl_AccessKeyPress(KeyAscii As Integer)
-'    RaiseEvent Click
-'End Sub
-
 Private Sub UserControl_GotFocus()
     pgFocusRect.Visible = True
+    DrawNormalState = Focused
+    If Not IsPressed Then DrawSkin DrawNormalState
 End Sub
 
 Private Sub UserControl_Initialize()
     bMouseDown = False
+    DrawNormalState = Normal
+    IsPressed = False
+    RefreshSkin
 End Sub
 
 Sub ShowAsPressed()
@@ -389,9 +304,11 @@ Sub ShowAsPressed()
     lblCaption.Left = 15
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 20 + 15
     lblCaption.Tag = "mousedown"
-    lblCaption.ForeColor = &H0&
+    lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 3)
     If UserControl.Width <= 495 And UserControl.Width > 255 Then imgIcon.Left = (UserControl.Width - imgIcon.Width) / 2 + 10 Else imgIcon.Left = 45
     imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2 + 20
+    IsPressed = True
+    DrawSkin Pressed
 End Sub
 
 Sub ShowAsUnpressed()
@@ -401,6 +318,13 @@ Sub ShowAsUnpressed()
     lblCaption.Tag = ""
     If UserControl.Width <= 495 And UserControl.Width > 255 Then imgIcon.Left = (UserControl.Width - imgIcon.Width) / 2 - 10 Else imgIcon.Left = 30
     imgIcon.Top = (UserControl.Height - imgIcon.Height) / 2
+    IsPressed = False
+    If DrawNormalState = Focused Then
+        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 5)
+    Else
+        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 1)
+    End If
+    DrawSkin DrawNormalState
 End Sub
 
 Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -416,12 +340,9 @@ Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Singl
     tmrMouse.Enabled = -1
     If Not bHovering Then
         bHovering = True
-        Set imgCenter.Picture = TygemButtonTexture(1)
-        Line1.BorderColor = IIf(m_SplitRight, RGB(207, 252, 162), RGB(179, 252, 53))
-        Line2.BorderColor = RGB(179, 252, 53)
-        Line11.BorderColor = RGB(179, 252, 53)
+        DrawSkin Hover
     End If
-    If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = 255
+    If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 2)
 End Sub
  
 Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -458,34 +379,109 @@ End Sub
 
 Private Sub UserControl_LostFocus()
     pgFocusRect.Visible = False
+    If m_Enabled Then
+        DrawNormalState = Normal
+    Else
+        DrawNormalState = Disabled
+    End If
+    If Not IsPressed Then DrawSkin DrawNormalState
 End Sub
+
+Sub RefreshSkin()
+    If CurrentButtonSkin = 0 Then Exit Sub
+    lblCaption.Font.Bold = ButtonSkinBold(CurrentButtonSkin)
+    If DrawNormalState = Focused Then
+        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 5)
+    Else
+        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 1)
+    End If
+    lSplit.BorderColor = ButtonSkinSplitColor(CurrentButtonSkin)
+End Sub
+
+Private Sub DrawSkin(Optional ByVal State As ButtonState = Normal)
+    Dim pic As StdPicture
+    If State = Normal And m_Default Then State = Focused
+    Set pic = ButtonSkinTexture(State)
+    If pic Is Nothing Or CurrentButtonSkin = 0 Then Exit Sub
+    
+    Dim srcW As Long, srcH As Long
+    Dim dstW As Long, dstH As Long
+    Dim B As Long
+
+    srcW = ScaleX(pic.Width, vbHimetric, vbPixels)
+    srcH = ScaleY(pic.Height, vbHimetric, vbPixels)
+    dstW = ScaleX(ScaleWidth, vbTwips, vbPixels)
+    dstH = ScaleY(ScaleHeight, vbTwips, vbPixels)
+    B = ButtonSkinBorder(CurrentButtonSkin)
+
+    Dim effectiveSrcW As Long
+    Dim srcXOffset As Long
+
+    If m_SplitLeft Then
+        effectiveSrcW = srcW - 16
+        srcXOffset = 0
+    ElseIf m_SplitRight Then
+        effectiveSrcW = 16
+        srcXOffset = srcW - 16
+    Else
+        effectiveSrcW = srcW
+        srcXOffset = 0
+    End If
+
+    Dim hScreenDC As Long, hMemDC As Long, hBmp As Long, hOld As Long
+    hScreenDC = GetDC(0)
+    hMemDC = CreateCompatibleDC(hScreenDC)
+    hBmp = CreateCompatibleBitmap(hScreenDC, dstW, dstH)
+    hOld = SelectObject(hMemDC, hBmp)
+
+    Dim hSrcBmp As Long
+    hSrcBmp = GetBitmapHandle(pic)
+    If hSrcBmp = 0 Then
+        GoTo Cleanup
+    End If
+
+    Dim hSrcDC As Long, hOldSrc As Long
+    hSrcDC = CreateCompatibleDC(hScreenDC)
+    hOldSrc = SelectObject(hSrcDC, hSrcBmp)
+
+    If effectiveSrcW > 2 * B And srcH > 2 * B Then
+        StretchBlt hMemDC, 0, 0, B, B, hSrcDC, srcXOffset, 0, B, B, vbSrcCopy
+        StretchBlt hMemDC, 0, dstH - B, B, B, hSrcDC, srcXOffset, srcH - B, B, B, vbSrcCopy
+        StretchBlt hMemDC, dstW - B, 0, B, B, hSrcDC, srcXOffset + effectiveSrcW - B, 0, B, B, vbSrcCopy
+        StretchBlt hMemDC, dstW - B, dstH - B, B, B, hSrcDC, srcXOffset + effectiveSrcW - B, srcH - B, B, B, vbSrcCopy
+    End If
+
+    StretchBlt hMemDC, 0, B, B, dstH - 2 * B, hSrcDC, srcXOffset, B, B, srcH - 2 * B, vbSrcCopy
+    StretchBlt hMemDC, dstW - B, B, B, dstH - 2 * B, hSrcDC, srcXOffset + effectiveSrcW - B, B, B, srcH - 2 * B, vbSrcCopy
+    StretchBlt hMemDC, B, 0, dstW - 2 * B, B, hSrcDC, srcXOffset + B, 0, effectiveSrcW - 2 * B, B, vbSrcCopy   ' top
+    StretchBlt hMemDC, B, dstH - B, dstW - 2 * B, B, hSrcDC, srcXOffset + B, srcH - B, effectiveSrcW - 2 * B, B, vbSrcCopy
+
+    StretchBlt hMemDC, B, B, dstW - 2 * B, dstH - 2 * B, hSrcDC, srcXOffset + B, B, effectiveSrcW - 2 * B, srcH - 2 * B, vbSrcCopy
+
+    SelectObject hSrcDC, hOldSrc
+    DeleteDC hSrcDC
+
+    Set imgSkin.Picture = CreatePicture(hBmp, 1&)
+
+Cleanup:
+    SelectObject hMemDC, hOld
+    DeleteDC hMemDC
+    ReleaseDC 0, hScreenDC
+End Sub
+
+Private Function GetBitmapHandle(pic As StdPicture) As Long
+    If Not pic Is Nothing Then
+        If pic.Type = vbPicTypeBitmap Then
+            GetBitmapHandle = pic.Handle
+        End If
+    End If
+End Function
 
 Private Sub UserControl_Resize()
     On Error Resume Next
-    imgCenter.Width = UserControl.Width - 3 * Screen.TwipsPerPixelX
-    imgCenter.Height = UserControl.Height - 3 * Screen.TwipsPerPixelY
     imgOverlay.Width = UserControl.Width
     imgOverlay.Height = UserControl.Height
-    Line1.Y2 = UserControl.Height - 30
-    Line2.X2 = UserControl.Width - 30
-    Line3.X2 = UserControl.Width - 30
-    Line4.Y2 = UserControl.Height - 30
-    Line6.Y1 = UserControl.Height - 15
-    Line6.Y2 = UserControl.Height - 15
-    Line6.X2 = UserControl.Width - 45
-    Line7.X1 = UserControl.Width - 15
-    Line7.X2 = UserControl.Width - 15
-    Line7.Y2 = UserControl.Height - 45
-    Line8.Y1 = UserControl.Height - 45
-    Line8.Y2 = UserControl.Height
-    Line9.Y1 = UserControl.Height
-    Line9.Y2 = UserControl.Height - 60
-    Line9.X1 = UserControl.Width - 60
-    Line9.X2 = UserControl.Width
-    Line10.X1 = UserControl.Width - 45
-    Line10.X2 = UserControl.Width - 15
-    SetSplitLeft
-    SetSplitRight
+    SetSplitButton
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 15
     lblCaption.Width = UserControl.Width
     imgIcon.Top = (UserControl.Height - imgIcon.Height) / 2
@@ -494,6 +490,11 @@ Private Sub UserControl_Resize()
     pgFocusRect.Left = 30
     pgFocusRect.Width = UserControl.Width - 60
     pgFocusRect.Height = UserControl.Height - 60
+    lSplit.Y1 = 15
+    lSplit.Y2 = UserControl.Height - 15
+    lSplit.X1 = UserControl.Width - 15
+    lSplit.X2 = lSplit.X1
+    DrawSkin DrawNormalState
 End Sub
 
 'Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
