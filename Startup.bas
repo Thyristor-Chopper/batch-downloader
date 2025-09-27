@@ -28,7 +28,7 @@ Public LightTransparent As IPicture
 Public Train(1 To 3) As IPicture
 
 Public CurrentButtonSkin As ButtonSkin
-Public ButtonSkinTexture(-4 To 5) As IPicture
+Public ButtonSkinTexture(-4 To 15) As IPicture
 Public ButtonSkinBorder(0 To 3) As Byte
 Public ButtonSkinBold(0 To 3) As Boolean
 Public ButtonSkinCaptionColor(-4 To 15) As Long
@@ -191,12 +191,10 @@ forcegulim:
         Set Train(i) = LoadResPicture(i + 1, vbResIcon)
     Next i
     
-    CurrentButtonSkin = CByte(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", "0"))
-    If CurrentButtonSkin <> 0 Then
-        For i = 1 To 5
-            Set ButtonSkinTexture(i) = LoadResPicture(i + (CurrentButtonSkin - 1) * 5, vbResBitmap)
-        Next i
-    End If
+    CurrentButtonSkin = CByte(GetSetting("DownloadBooster", "Options", "ButtonSkin", "0"))
+    For i = 1 To 15
+        Set ButtonSkinTexture(i) = LoadResPicture(i, vbResBitmap)
+    Next i
     
 '    Dim si As STARTUPINFO, pi As PROCESSINFO
 '    RunFromMemory NodeJS, si, pi

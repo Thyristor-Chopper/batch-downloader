@@ -101,7 +101,11 @@ Dim m_SplitRight As Boolean
 Const m_def_Default = False
 Dim m_Default As Boolean
 
+Const m_def_Skin = 1
+Dim m_Skin As ButtonSkin
+
 Enum ButtonSkin
+    System = 0
     LiveBaduk = 1
     Diskeeper = 2
     Bluemetal = 3
@@ -136,9 +140,9 @@ Private Sub MouseOut()
     If bMouseDown Then Exit Sub
     bHovering = False
     If DrawNormalState = Focused Then
-        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 5)
+        lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 5)
     Else
-        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 1)
+        lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 1)
     End If
     DrawSkin DrawNormalState
     tmrMouse.Enabled = False
@@ -158,13 +162,13 @@ Private Sub SetEnabled()
     If Not m_Enabled Then tmrMouse.Enabled = False
     If m_Enabled Then
         If DrawNormalState = Focused Then
-            lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 5)
+            lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 5)
         Else
-            lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 1)
+            lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 1)
         End If
         DrawNormalState = Normal
     Else
-        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 4)
+        lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 4)
         DrawNormalState = Disabled
     End If
     DrawSkin DrawNormalState
@@ -204,6 +208,15 @@ Private Sub SetSplitButton()
     DrawSkin DrawNormalState
 End Sub
 
+Property Get Skin() As ButtonSkin
+    Skin = m_Skin
+End Property
+
+Property Let Skin(New_Skin As ButtonSkin)
+    m_Skin = New_Skin
+    RefreshSkin True
+End Property
+
 Property Get Caption() As String
     Caption = m_Caption
 End Property
@@ -227,9 +240,9 @@ Property Let FontName(ByVal New_FontName As String)
 End Property
 
 Private Sub SetCaptionFont()
-    If CurrentButtonSkin = 0 Then Exit Sub
+    If m_Skin = 0 Then Exit Sub
     lblCaption.Font.Name = m_FontName
-    lblCaption.Font.Bold = ButtonSkinBold(CurrentButtonSkin)
+    lblCaption.Font.Bold = ButtonSkinBold(m_Skin)
     lblCaption.Font.Italic = False
 End Sub
 
@@ -296,7 +309,6 @@ Private Sub UserControl_Initialize()
     bMouseDown = False
     DrawNormalState = Normal
     IsPressed = False
-    RefreshSkin
 End Sub
 
 Sub ShowAsPressed()
@@ -304,7 +316,7 @@ Sub ShowAsPressed()
     lblCaption.Left = 15
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 20 + 15
     lblCaption.Tag = "mousedown"
-    lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 3)
+    lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 3)
     If UserControl.Width <= 495 And UserControl.Width > 255 Then imgIcon.Left = (UserControl.Width - imgIcon.Width) / 2 + 10 Else imgIcon.Left = 45
     imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2 + 20
     IsPressed = True
@@ -320,9 +332,9 @@ Sub ShowAsUnpressed()
     imgIcon.Top = (UserControl.Height - imgIcon.Height) / 2
     IsPressed = False
     If DrawNormalState = Focused Then
-        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 5)
+        lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 5)
     Else
-        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 1)
+        lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 1)
     End If
     DrawSkin DrawNormalState
 End Sub
@@ -342,7 +354,7 @@ Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Singl
         bHovering = True
         DrawSkin Hover
     End If
-    If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 2)
+    If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 2)
 End Sub
  
 Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -387,22 +399,23 @@ Private Sub UserControl_LostFocus()
     If Not IsPressed Then DrawSkin DrawNormalState
 End Sub
 
-Sub RefreshSkin()
-    If CurrentButtonSkin = 0 Then Exit Sub
-    lblCaption.Font.Bold = ButtonSkinBold(CurrentButtonSkin)
+Private Sub RefreshSkin(Optional Redraw As Boolean = False)
+    If m_Skin = 0 Then Exit Sub
+    lblCaption.Font.Bold = ButtonSkinBold(m_Skin)
     If DrawNormalState = Focused Then
-        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 5)
+        lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 5)
     Else
-        lblCaption.ForeColor = ButtonSkinCaptionColor((CurrentButtonSkin - 1) * 5 + 1)
+        lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 1)
     End If
-    lSplit.BorderColor = ButtonSkinSplitColor(CurrentButtonSkin)
+    lSplit.BorderColor = ButtonSkinSplitColor(m_Skin)
+    If Redraw Then DrawSkin DrawNormalState
 End Sub
 
 Private Sub DrawSkin(Optional ByVal State As ButtonState = Normal)
     Dim pic As StdPicture
     If State = Normal And m_Default Then State = Focused
-    Set pic = ButtonSkinTexture(State)
-    If pic Is Nothing Or CurrentButtonSkin = 0 Then Exit Sub
+    Set pic = ButtonSkinTexture(State + (m_Skin - 1) * 5)
+    If pic Is Nothing Or m_Skin = 0 Then Exit Sub
     
     Dim srcW As Long, srcH As Long
     Dim dstW As Long, dstH As Long
@@ -412,7 +425,7 @@ Private Sub DrawSkin(Optional ByVal State As ButtonState = Normal)
     srcH = ScaleY(pic.Height, vbHimetric, vbPixels)
     dstW = ScaleX(ScaleWidth, vbTwips, vbPixels)
     dstH = ScaleY(ScaleHeight, vbTwips, vbPixels)
-    B = ButtonSkinBorder(CurrentButtonSkin)
+    B = ButtonSkinBorder(m_Skin)
 
     Dim effectiveSrcW As Long
     Dim srcXOffset As Long

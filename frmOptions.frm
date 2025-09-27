@@ -898,10 +898,10 @@ Begin VB.Form frmOptions
       AutoRedraw      =   -1  'True
       BorderStyle     =   0  '없음
       Enabled         =   0   'False
-      Height          =   5145
+      Height          =   5265
       Index           =   3
       Left            =   120
-      ScaleHeight     =   5145
+      ScaleHeight     =   5265
       ScaleWidth      =   6735
       TabIndex        =   3
       TabStop         =   0   'False
@@ -960,22 +960,22 @@ Begin VB.Form frmOptions
          End
       End
       Begin prjDownloadBooster.FrameW Frame6 
-         Height          =   1515
+         Height          =   1635
          Left            =   120
          TabIndex        =   44
          Top             =   3540
          Width           =   3135
          _ExtentX        =   5530
-         _ExtentY        =   2672
+         _ExtentY        =   2884
          Caption         =   "스킨"
          Transparent     =   -1  'True
-         Begin VB.ComboBox Combo1 
+         Begin VB.ComboBox cbProgressSkin 
             Height          =   300
-            Left            =   840
+            Left            =   870
+            Style           =   2  '드롭다운 목록
             TabIndex        =   122
-            Text            =   "Combo1"
-            Top             =   1200
-            Width           =   1335
+            Top             =   1230
+            Width           =   1665
          End
          Begin VB.ComboBox cbFont 
             Height          =   300
@@ -1011,6 +1011,26 @@ Begin VB.Form frmOptions
             Top             =   240
             Width           =   2205
          End
+         Begin prjDownloadBooster.CommandButtonW cmdAdvancedProgressSkin 
+            Height          =   300
+            Left            =   2580
+            TabIndex        =   123
+            Top             =   1230
+            Width           =   495
+            _ExtentX        =   873
+            _ExtentY        =   529
+            ImageListAlignment=   4
+            Transparent     =   -1  'True
+         End
+         Begin VB.Label Label5 
+            BackStyle       =   0  '투명
+            Caption         =   "현황(&R):"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   124
+            Top             =   1275
+            Width           =   855
+         End
          Begin VB.Label Label13 
             AutoSize        =   -1  'True
             BackStyle       =   0  '투명
@@ -1043,24 +1063,25 @@ Begin VB.Form frmOptions
          End
       End
       Begin prjDownloadBooster.FrameW Frame4 
-         Height          =   1515
+         Height          =   1635
          Left            =   3480
          TabIndex        =   63
          Top             =   3540
          Width           =   3135
          _ExtentX        =   5530
-         _ExtentY        =   2672
+         _ExtentY        =   2884
          Caption         =   "배경"
          Transparent     =   -1  'True
          Begin prjDownloadBooster.CheckBoxW chkCenter 
             Height          =   255
             Left            =   960
             TabIndex        =   121
-            Top             =   1200
+            Top             =   1260
             Width           =   2055
             _ExtentX        =   3625
             _ExtentY        =   450
             Caption         =   "가운데(&C)"
+            Transparent     =   -1  'True
          End
          Begin VB.ComboBox cbImagePosition 
             Height          =   300
@@ -1492,6 +1513,7 @@ Public ColorChanged As Boolean
 Public ImageChanged As Boolean
 Public VisualStyleChanged As Boolean
 Dim SkinChanged As Boolean
+Dim ProgressSkinChanged As Boolean
 Dim FontChanged As Boolean
 Dim PatternChanged As Boolean
 Dim ScrollChanged As Boolean
@@ -1500,7 +1522,7 @@ Public ChangedBackgroundPath$
 Dim PreviewControls(4) As Control
 Dim DoLoadTheme As Boolean
 
-Public RoundClassicButtons As Byte
+Public RoundClassicButtons As Byte, DisableVisualStyle As Byte
 Public LiveBadukMemoSkinShadowColor&, LiveBadukMemoSkinFrameColor&, LiveBadukMemoSkinFrameType$, LiveBadukMemoSkinTextColor&, LiveBadukMemoSkinEnableShadow As Byte, LiveBadukMemoSkinEnableTextColor As Byte, LiveBadukMemoSkinEnableBorder As Byte, LiveBadukMemoSkinFrameBackgroundType$, LiveBadukMemoSkinFrameBackgroundColor&, LiveBadukMemoSkinContentTextColor&, LiveBadukMemoSkinFrameTexture$, LiveBadukMemoSkinFrameBackground$
 
 Implements IBSSubclass
@@ -1571,12 +1593,18 @@ Private Sub cbLanguage_Click()
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 
+Private Sub cbProgressSkin_Click()
+    cmdAdvancedProgressSkin.Enabled = (cbProgressSkin.ListIndex <> 0)
+    If Loaded Then
+        ProgressSkinChanged = True
+        cmdApply.Enabled = -1
+    End If
+End Sub
+
 Private Sub cbSkin_Click()
-    cmdSample.VisualStyles = (cbSkin.ListIndex <> 1)
-    cmdSample.IsTygemButton = (cbSkin.ListIndex = 2)
+    cmdSample.IsTygemButton = (cbSkin.ListIndex > 0)
+    If cmdSample.IsTygemButton Then cmdSample.GetTygemButton().Skin = cbSkin.ListIndex
     cmdSample.Refresh
-    pbSampleClassic.Visible = Not cmdSample.VisualStyles
-    txtSampleClassic.Visible = (cbSkin.ListIndex = 1)
     Dim ctrl As Control
     On Error Resume Next
     For Each ctrl In Me.Controls
@@ -1588,9 +1616,9 @@ Private Sub cbSkin_Click()
         cmdApply.Enabled = -1
         SkinChanged = True
         VisualStyleChanged = True
-        If cbSkin.ListIndex = 2 And DPI <> 96 Then
-            MsgBox t("이 스킨의 일부 요소는 96 DPI(100% 배율)에서만 표시됩니다.", "Some of the elements of this skin only works in 96 DPI (100% size)."), 48
-        End If
+'        If cbSkin.ListIndex = 2 And DPI <> 96 Then
+'            MsgBox t("이 스킨의 일부 요소는 96 DPI(100% 배율)에서만 표시됩니다.", "Some of the elements of this skin only works in 96 DPI (100% size)."), 48
+'        End If
     End If
     If optUserFore.Value Then
         CheckBoxW1.VisualStyles = False
@@ -1598,7 +1626,7 @@ Private Sub cbSkin_Click()
         CheckBoxW1.ForeColor = pgFore.BackColor
         FrameW5.ForeColor = pgFore.BackColor
     End If
-    cmdAdvancedSkin.Enabled = (cbSkin.ListIndex = 1 Or cbSkin.ListIndex = 2)
+    'cmdAdvancedSkin.Enabled = (cbSkin.ListIndex = 0)
     cmdSample.RoundButton = (GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0) <> 0)
 End Sub
 
@@ -1635,17 +1663,12 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     
     chkBeepWhenComplete.Value = GetSetting("DownloadBooster", Section, "PlaySound", 1)
     
-    If GetSetting("DownloadBooster", Section, "EnableLiveBadukMemoSkin", 0) Then
-        cbSkin.ListIndex = 2
-    ElseIf GetSetting("DownloadBooster", Section, "DisableVisualStyle", 0) Then
-        cbSkin.ListIndex = 1
-        cmdSample.RoundButton = (GetSetting("DownloadBooster", Section, "RoundClassicButtons", 0) <> 0)
-    Else
-        cbSkin.ListIndex = 0
-    End If
+    cbSkin.ListIndex = GetSetting("DownloadBooster", Section, "ButtonSkin", 0)
+    cbProgressSkin.ListIndex = GetSetting("DownloadBooster", Section, "ProgressFrameSkin", 0)
     
-    cmdSample.VisualStyles = (Not CBool(GetSetting("DownloadBooster", Section, "DisableVisualStyle", 0)))
-    cmdSample.IsTygemButton = GetSetting("DownloadBooster", Section, "EnableLiveBadukMemoSkin", 0)
+    cmdSample.RoundButton = RoundClassicButtons
+    cmdSample.VisualStyles = (DisableVisualStyle = 0)
+    cmdSample.IsTygemButton = cbSkin.ListIndex > 0
     
     lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", Section, "FormFillStyle", 0))
     
@@ -1695,6 +1718,7 @@ Private Sub cbTheme_Click()
         SkinChanged = True
         FontChanged = True
     
+        DisableVisualStyle = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0)
         RoundClassicButtons = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0)
                 
         LiveBadukMemoSkinShadowColor = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinShadowColor", 16777215)
@@ -1757,6 +1781,13 @@ Private Sub chkBeepWhenComplete_Click()
     EnableFrameControls fCompleteSound, chkBeepWhenComplete, (chkBeepWhenComplete.Value = 1)
 End Sub
 
+Private Sub chkCenter_Click()
+    If Loaded Then
+        cmdApply.Enabled = -1
+        ImageChanged = True
+    End If
+End Sub
+
 Private Sub chkError_Click()
     If Loaded Then cmdApply.Enabled = -1
     EnableFrameControls fError, chkError, (chkError.Value = 1)
@@ -1815,15 +1846,12 @@ Private Sub chkUseServerModified_Click()
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 
+Private Sub cmdAdvancedProgressSkin_Click()
+    frmLiveBadukSkinProperties.Show vbModal, Me
+End Sub
+
 Private Sub cmdAdvancedSkin_Click()
-    Select Case cbSkin.ListIndex
-        Case 1
-            frmClassicSkinProperties.Show vbModal, Me
-        Case 2
-            frmLiveBadukSkinProperties.Show vbModal, Me
-'        Case Else
-'            MsgBox t("이 스킨은 설정 기능을 지원하지 않습니다.", "Skin setting not supported for selected skin."), 64
-    End Select
+    frmSystemSkinProperties.Show vbModal, Me
 End Sub
 
 Private Sub cmdApply_Click()
@@ -1930,6 +1958,7 @@ aftermaxtrdcheck:
         SaveSetting "DownloadBooster", "Options", "ForeColor", CLng(pgFore.BackColor)
     End If
     If ColorChanged Or VisualStyleChanged Or SkinChanged Then
+        SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", DisableVisualStyle
         SaveSetting "DownloadBooster", "Options", "RoundClassicButtons", RoundClassicButtons
         
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", LiveBadukMemoSkinShadowColor
@@ -1945,16 +1974,20 @@ aftermaxtrdcheck:
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", LiveBadukMemoSkinFrameTexture
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", LiveBadukMemoSkinFrameBackground
     
-        SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
-        SaveSetting "DownloadBooster", "Options", "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
+        SaveSetting "DownloadBooster", "Options", "ButtonSkin", cbSkin.ListIndex
+        CurrentButtonSkin = cbSkin.ListIndex
+        
         SetFormBackgroundColor Me, True
         SetFormBackgroundColor frmMain, True
-        frmMain.LoadLiveBadukSkin
         RedrawPreview
         cmdChooseBackground.Refresh
         frmMain.pbProgressContainer.Refresh
-        frmMain.SetupSplitButtons
         frmMain.SetTextColors
+    End If
+    If ProgressSkinChanged Then
+        SaveSetting "DownloadBooster", "Options", "ProgressFrameSkin", cbProgressSkin.ListIndex
+        frmMain.LoadLiveBadukSkin
+        frmMain.SetupSplitButtons
     End If
     If VisualStyleChanged Then
         On Error Resume Next
@@ -2062,6 +2095,7 @@ Private Sub ResetChanged()
     ImageChanged = False
     VisualStyleChanged = False
     SkinChanged = False
+    ProgressSkinChanged = False
     ScrollChanged = False
     FontChanged = False
     PatternChanged = False
@@ -2175,8 +2209,8 @@ Private Sub cmdSaveTheme_Click()
     ElseIf optUserFore.Value Then
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ForeColor", CLng(pgFore.BackColor)
     End If
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", CBool(cbSkin.ListIndex = 1) * (-1)
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "EnableLiveBadukMemoSkin", CBool(cbSkin.ListIndex = 2) * (-1)
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ButtonSkin", cbSkin.ListIndex
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ProgressFrameSkin", cbProgressSkin.ListIndex
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ImagePosition", cbImagePosition.ListIndex
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", -(lvBackgrounds.ListIndex <> 0)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackgroundImagePath", ChangedBackgroundPath
@@ -2185,6 +2219,7 @@ Private Sub cmdSaveTheme_Click()
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseBackgroundImage", "0"
     End If
     
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", DisableVisualStyle
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", RoundClassicButtons
     
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinShadowColor", LiveBadukMemoSkinShadowColor
@@ -2387,6 +2422,7 @@ Private Sub Form_Load()
     IntervalValues(7) = 5#
     
     Set cmdAdvancedSkin.ImageList = frmMain.imgWrench
+    Set cmdAdvancedProgressSkin.ImageList = frmMain.imgWrench
     
     RemoveVisualStyles txtSampleClassic.hWnd
     
@@ -2427,8 +2463,12 @@ Private Sub Form_Load()
     DrawTabBackground
     
     AddItemToComboBox cbSkin, t("시스템 스타일", "System style")
-    AddItemToComboBox cbSkin, t("고전 스타일", "Classic style")
     AddItemToComboBox cbSkin, t("라이브바둑 쪽지", "LiveBaduk memo")
+    AddItemToComboBox cbSkin, t("디스크키퍼 2011", "Diskeeper 2011")
+    AddItemToComboBox cbSkin, t("블루메탈", "Bluemetal")
+    
+    AddItemToComboBox cbProgressSkin, t("(없음)", "(None)")
+    AddItemToComboBox cbProgressSkin, t("라이브바둑 쪽지", "LiveBaduk memo")
     
     AddItemToComboBox cbLanguage, t("자동", "Auto")
     AddItemToComboBox cbLanguage, "한국어"
@@ -2457,6 +2497,7 @@ Private Sub Form_Load()
     
     LoadSettings
     
+    tr chkCenter, "&Centered"
     tr tsTabStrip.Tabs(1), "General"
     tr tsTabStrip.Tabs(2), "Connection"
     tr tsTabStrip.Tabs(3), "Appearance"
@@ -2464,6 +2505,7 @@ Private Sub Form_Load()
 #If HIDEYTDL Then
     If Not LaunchFromMemory Then tr tsTabStrip.Tabs(5), "Advanced"
 #End If
+    tr Label5, "P&rogress:"
     tr Frame1, "Colors"
     tr Frame4, "Wallpaper"
     tr Label10, "&Window:"
@@ -2637,7 +2679,8 @@ Private Sub LoadSettings()
     End Select
     trRequestInterval_Scroll
     
-    RoundClassicButtons = GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0)
+    DisableVisualStyle = CByte(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))
+    RoundClassicButtons = CByte(GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0))
     
     LiveBadukMemoSkinShadowColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", 16777215))
     LiveBadukMemoSkinFrameColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
@@ -2806,8 +2849,8 @@ Private Sub optSystemFore_Click()
         ColorChanged = True
     End If
     Label11.ForeColor = &H80000012
-    CheckBoxW1.VisualStyles = (cbSkin.ListIndex <> 1)
-    FrameW5.VisualStyles = (cbSkin.ListIndex <> 1)
+    CheckBoxW1.VisualStyles = (DisableVisualStyle = 0)
+    FrameW5.VisualStyles = (DisableVisualStyle = 0)
     CheckBoxW1.ForeColor = &H80000012
     FrameW5.ForeColor = &H80000012
     chkForeColorMainOnly.Enabled = False

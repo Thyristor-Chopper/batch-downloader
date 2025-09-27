@@ -4,7 +4,7 @@ Begin VB.Form frmMain
    ClientHeight    =   7740
    ClientLeft      =   165
    ClientTop       =   555
-   ClientWidth     =   12630
+   ClientWidth     =   13905
    BeginProperty Font 
       Name            =   "±¼¸²"
       Size            =   9
@@ -18,7 +18,7 @@ Begin VB.Form frmMain
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
    ScaleHeight     =   7740
-   ScaleWidth      =   12630
+   ScaleWidth      =   13905
    StartUpPosition =   3  'Windows ±âº»°ª
    Begin prjDownloadBooster.FrameW fTabs 
       Height          =   255
@@ -91,10 +91,10 @@ Begin VB.Form frmMain
       Begin VB.Label lblLBCaption2 
          Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
          BackStyle       =   0  'Åõ¸í
-         Caption         =   "Çö   È²"
+         Caption         =   "-"
          BeginProperty Font 
             Name            =   "±¼¸²"
-            Size            =   11.25
+            Size            =   9.75
             Charset         =   129
             Weight          =   700
             Underline       =   0   'False
@@ -103,19 +103,19 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   375
-         Left            =   120
+         Left            =   150
          TabIndex        =   73
          Tag             =   "nosizechange"
          Top             =   120
-         Width           =   1215
+         Width           =   1095
       End
       Begin VB.Label lblLBCaptionShadow2 
          Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
          BackStyle       =   0  'Åõ¸í
-         Caption         =   "Çö   È²"
+         Caption         =   "-"
          BeginProperty Font 
             Name            =   "±¼¸²"
-            Size            =   11.25
+            Size            =   9.75
             Charset         =   129
             Weight          =   700
             Underline       =   0   'False
@@ -124,11 +124,11 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   375
-         Left            =   135
+         Left            =   165
          TabIndex        =   74
          Tag             =   "nocolorsizechange"
          Top             =   135
-         Width           =   1215
+         Width           =   1095
       End
       Begin VB.Line Line6 
          BorderColor     =   &H00404040&
@@ -388,8 +388,8 @@ Begin VB.Form frmMain
       Height          =   330
       Left            =   0
       Top             =   7410
-      Width           =   12630
-      _ExtentX        =   22278
+      Width           =   13905
+      _ExtentX        =   24527
       _ExtentY        =   582
       InitPanels      =   "frmMain.frx":19ED
    End
@@ -1185,10 +1185,10 @@ Begin VB.Form frmMain
    Begin VB.Label lblLBCaption 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
       BackStyle       =   0  'Åõ¸í
-      Caption         =   "Çö   È²"
+      Caption         =   "Çö    È²"
       BeginProperty Font 
          Name            =   "±¼¸²"
-         Size            =   11.25
+         Size            =   9.75
          Charset         =   129
          Weight          =   700
          Underline       =   0   'False
@@ -1207,10 +1207,10 @@ Begin VB.Form frmMain
    Begin VB.Label lblLBCaptionShadow 
       Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
       BackStyle       =   0  'Åõ¸í
-      Caption         =   "Çö   È²"
+      Caption         =   "Çö    È²"
       BeginProperty Font 
          Name            =   "±¼¸²"
-         Size            =   11.25
+         Size            =   9.75
          Charset         =   129
          Weight          =   700
          Underline       =   0   'False
@@ -1523,10 +1523,10 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.x = FormWidth * (DPI / 96)
-            lpMMI.ptMinTrackSize.y = FormMinHeight * (DPI / 96)
-            lpMMI.ptMaxTrackSize.x = lpMMI.ptMinTrackSize.x
-            lpMMI.ptMaxTrackSize.y = FormMaxHeight * (DPI / 96)
+            lpMMI.ptMinTrackSize.X = FormWidth * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = FormMinHeight * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = lpMMI.ptMinTrackSize.X
+            lpMMI.ptMaxTrackSize.Y = FormMaxHeight * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
             IBSSubclass_WindowProc = 1&
@@ -2550,7 +2550,7 @@ Private Sub cmdDeleteDropdown_Click()
     Me.PopupMenu mnuDeleteDropdown, , cmdDelete.Left, cmdDelete.Top + cmdDelete.Height
 End Sub
 
-Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     cmdDeleteDropdown_Click
 End Sub
 
@@ -2624,7 +2624,7 @@ Private Sub cmdOpenDropdown_Click()
     Me.PopupMenu mnuOpenDropdown, , cmdOpenBatch.Left, cmdOpenBatch.Top + cmdOpenBatch.Height
 End Sub
 
-Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     cmdOpenDropdown_Click
 End Sub
 
@@ -2632,7 +2632,7 @@ Private Sub cmdOpenFileDropdown_Click()
     Me.PopupMenu mnuOpenFileDropdown, , cmdOpen.Left, cmdOpen.Top + cmdOpen.Height
 End Sub
 
-Private Sub cmdOpenFileDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub cmdOpenFileDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     cmdOpenFileDropdown_Click
 End Sub
 
@@ -2837,7 +2837,7 @@ Sub LoadLiveBadukSkin()
     On Error Resume Next
     Dim i%
     Dim LBEnabled As Boolean
-    LBEnabled = (CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96)
+    LBEnabled = (CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 0)) > 0 And DPI = 96)
     If LBEnabled Then
         fTygemFrameTransparent.Top = 1200
         fTygemFrameTransparent.Left = 120
@@ -3516,7 +3516,7 @@ Private Sub SetupSplitButton(ByRef LeftButton As CommandButtonW, ByRef RightButt
     LeftButton.SetRgn
     RightButton.SetRgn
     If ComCtlsSupportLevel() >= 2 Then
-        If GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0) = 0 Then
+        If CurrentButtonSkin = 0 Then
             If Not LeftButton.SplitButton Then LeftButton.Width = LeftButton.Width + 255
             LeftButton.SplitButton = True
             RightButton.Visible = False
@@ -3684,7 +3684,7 @@ Private Sub fTabDownload_Click()
     optTabDownload2_Click
 End Sub
 
-Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabDownload_Click
 End Sub
 
@@ -3693,11 +3693,11 @@ Private Sub fTabThreads_Click()
     optTabThreads2_Click
 End Sub
 
-Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabThreads_Click
 End Sub
 
-Private Sub lvBatchFiles_ContextMenu(ByVal x As Single, ByVal y As Single)
+Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
     Dim ItemCount As Long
     ItemCount = lvBatchFiles.ListItems.Count
     On Error GoTo ErrLn
@@ -3968,7 +3968,7 @@ Private Sub optTabDownload2_Click()
     vsProgressScroll.Visible = False
 End Sub
 
-Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabDownload_Click
 End Sub
 
@@ -3978,7 +3978,7 @@ Private Sub optTabThreads2_Click()
     vsProgressScroll.Visible = trThreadCount.Value > 10
 End Sub
 
-Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabThreads_Click
 End Sub
 

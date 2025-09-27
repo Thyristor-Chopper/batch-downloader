@@ -45,7 +45,7 @@ Declare Function InsertMenuItem Lib "user32" Alias "InsertMenuItemA" (ByVal hMen
 'Declare Function GetMenuItemID Lib "user32" (ByVal hMenu As Long, ByVal nPos As Long) As Long
 Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As Long
 Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
-Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
+Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
 'Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1&
@@ -123,8 +123,8 @@ Private Declare Function GetTimeZoneInformation Lib "kernel32" (lpTimeZoneInform
 Declare Function OleCreatePictureIndirect Lib "oleaut32" (lpPictDesc As PICTDESC, riid As IID, ByVal fOwn As Boolean, lplpvObj As IPicture) As Long
 Declare Function SHGetFileInfo Lib "shell32" Alias "SHGetFileInfoW" (ByVal pszPath As Long, ByVal dwFileAttributes As Long, ByVal psfi As Long, ByVal cbSizeFileInfo As Long, ByVal uFlags As Long) As Long
 Declare Function CreateCompatibleBitmap Lib "gdi32" (ByVal hDC As Long, ByVal nWidth As Long, ByVal nHeight As Long) As Long
-Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
-Declare Function StretchBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
+Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal dwRop As Long) As Long
+Declare Function StretchBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
 
 Public Const SHGFI_ICON As Long = &H100&
 Public Const SHGFI_LARGEICON As Long = &H0&
@@ -317,8 +317,8 @@ Enum ResourceType
 End Enum
 
 Type POINTAPI
-   x As Long
-   y As Long
+   X As Long
+   Y As Long
 End Type
 
 Type RECT
@@ -664,9 +664,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     Dim clrBackColor As Long
     Dim clrForeColor As Long
     Dim DisableVisualStyle As Boolean
-    Dim EnableLBSkin As Boolean
     Dim RoundButton As Boolean
-    EnableLBSkin = CBool(CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)))
     DisableVisualStyle = CBool(CInt(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0)))
     clrBackColor = GetSetting("DownloadBooster", "Options", "BackColor", DefaultBackColor)
     RoundButton = (GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0) <> 0)
@@ -698,8 +696,9 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
     For Each ctrl In frmForm.Controls
         If TypeOf ctrl Is DriveListBox Or TypeOf ctrl Is FileListBox Or TypeOf ctrl Is DirListBox Or TypeOf ctrl Is TextBox Or TypeOf ctrl Is ComboBox Or TypeOf ctrl Is ImageCombo Or TypeOf ctrl Is ToolBar Or TypeOf ctrl Is PictureBox Or TypeOf ctrl Is Label Or TypeOf ctrl Is TabStrip Or TypeOf ctrl Is Slider Or TypeOf ctrl Is OptionButton Or TypeOf ctrl Is ProgressBar Or TypeOf ctrl Is FrameW Or TypeOf ctrl Is CommandButton Or TypeOf ctrl Is CommandButtonW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is StatusBar Or TypeOf ctrl Is ListView Or TypeOf ctrl Is ListBox Then
             If TypeOf ctrl Is CommandButtonW And ctrl.Tag <> "notygchange" Then
-                ctrl.IsTygemButton = EnableLBSkin
-                If Not EnableLBSkin Then ctrl.Refresh
+                ctrl.IsTygemButton = CurrentButtonSkin > 0
+                If CurrentButtonSkin = 0 Then ctrl.Refresh Else ctrl.GetTygemButton().Skin = CurrentButtonSkin
+                Debug.Print Err.Description
             End If
             If ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
                 If TypeOf ctrl Is CommandButton Or TypeOf ctrl Is DriveListBox Or TypeOf ctrl Is FileListBox Or TypeOf ctrl Is DirListBox Or TypeOf ctrl Is TextBox Or TypeOf ctrl Is ComboBox Then
@@ -723,6 +722,7 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
                     ElseIf Not (TypeOf ctrl Is PictureBox) Then
                         RemoveVisualStyles ctrl.hWnd
                         ctrl.VisualStyles = False
+                        ctrl.RoundButton = RoundButton
                     End If
                 End If
             End If
@@ -1586,7 +1586,7 @@ End Function
 Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     On Error Resume Next
     Dim LBEnabled As Boolean
-    LBEnabled = CInt(GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", 0)) <> 0 And DPI = 96
+    LBEnabled = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 0)) > 0 And DPI = 96
     Dim FontName$, FontSize%
     FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
     If FontName = "" And LangID = 1042 Then
@@ -1627,6 +1627,10 @@ setlbfont:
         frm.lblURLShadow.Font.Size = FontSize
         frm.lblFilePathShadow.Font.Size = FontSize
         frm.lblThreadCountLabelShadow.Font.Size = FontSize
+        frm.lblLBCaption.Font.Size = FontSize
+        frm.lblLBCaption2.Font.Size = FontSize
+        frm.lblLBCaptionShadow.Font.Size = FontSize
+        frm.lblLBCaptionShadow2.Font.Size = FontSize
         frm.lblURL.Font.Bold = LBEnabled
         frm.lblFilePath.Font.Bold = LBEnabled
         frm.lblThreadCountLabel.Font.Bold = LBEnabled
@@ -2135,14 +2139,14 @@ End Sub
 
 Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean = False)
     On Error Resume Next
-    Dim A%, B%, x%, y%, Z%
+    Dim A%, B%, X%, Y%, Z%
     A = tsTabStrip.Tabs.Count
     B = tsTabStrip.SelectedItem.Index
-    If Reverse Then x = 1 Else x = A
-    If Reverse Then y = A Else y = 1
+    If Reverse Then X = 1 Else X = A
+    If Reverse Then Y = A Else Y = 1
     If Reverse Then Z = -1 Else Z = 1
-    If B = x Then
-        tsTabStrip.Tabs(y).Selected = True
+    If B = X Then
+        tsTabStrip.Tabs(Y).Selected = True
     Else
         tsTabStrip.Tabs(B + Z).Selected = True
     End If

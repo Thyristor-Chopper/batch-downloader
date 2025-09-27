@@ -1277,6 +1277,7 @@ End Property
 
 Public Property Let RoundButton(ByVal Value As Boolean)
 PropRoundButton = Value
+Debug.Print 1
 SetRgn
 End Property
 
