@@ -1,3 +1,3 @@
 @ECHO OFF
-upx.exe -9 %1
+upx.exe -9 --compress-icons=0 %1
 sign.bat %1
