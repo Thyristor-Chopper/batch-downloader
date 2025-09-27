@@ -203,8 +203,8 @@ forcegulim:
     ButtonSkinSplitColor(3) = 11381671
     ButtonSkinSplitColor(4) = 11381671
     
-    FrameSkinLabelOffset(1) = 150
     FrameSkinLabelOffset(1) = 300
+    FrameSkinLabelOffset(2) = 150
     
     Dim i As Byte
     For i = 1 To 3

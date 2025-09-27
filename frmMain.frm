@@ -2675,17 +2675,17 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
     Dim i%, j%, k%
     If imgBackground.Visible Then
         Dim ImageCentered As Boolean
-        Dim ImgPos As Integer
+        Dim imgpos As Integer
         ImageCentered = False
-        ImgPos = ImagePosition
+        imgpos = ImagePosition
         If ImagePosition > 3 And ImagePosition <= 6 Then
             ImageCentered = True
-            ImgPos = ImgPos - 3
+            imgpos = imgpos - 3
         End If
         Dim Width&, Height&
         Width = GetPictureWidth(imgBackground.Picture)
         Height = GetPictureHeight(imgBackground.Picture)
-        Select Case ImgPos
+        Select Case imgpos
             Case 0 '´ÃÀÌ±â
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
                 imgBackground.Move 0, 0, Me.Width, Me.Height
@@ -2739,7 +2739,7 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
                     MaxLoadedTileBackgroundImage = 0
                 End If
         End Select
-        If ImgPos <> 7 And MaxLoadedTileBackgroundImage > 0 Then
+        If imgpos <> 7 And MaxLoadedTileBackgroundImage > 0 Then
             For i = 1 To MaxLoadedTileBackgroundImage
                 Set imgBackgroundTile(i).Picture = Nothing
                 Unload imgBackgroundTile(i)
