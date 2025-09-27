@@ -26,7 +26,7 @@ Begin VB.Form frmLiveBadukSkinProperties
    Begin prjDownloadBooster.CheckBoxW chkEnableBorders 
       Height          =   255
       Left            =   240
-      TabIndex        =   19
+      TabIndex        =   22
       Top             =   5160
       Width           =   2295
       _ExtentX        =   4048
@@ -36,7 +36,7 @@ Begin VB.Form frmLiveBadukSkinProperties
    Begin prjDownloadBooster.FrameW fFrameBackground 
       Height          =   1335
       Left            =   120
-      TabIndex        =   13
+      TabIndex        =   16
       Top             =   3720
       Width           =   5055
       _ExtentX        =   8916
@@ -46,14 +46,14 @@ Begin VB.Form frmLiveBadukSkinProperties
          Caption         =   "단색(&O):"
          Height          =   255
          Left            =   120
-         TabIndex        =   15
+         TabIndex        =   18
          Top             =   600
          Width           =   1695
       End
       Begin prjDownloadBooster.CommandButtonW cmdSelectFrameTexture 
          Height          =   330
          Left            =   2160
-         TabIndex        =   18
+         TabIndex        =   21
          Top             =   900
          Width           =   1455
          _ExtentX        =   2566
@@ -64,7 +64,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          Caption         =   "텍스처(&U):"
          Height          =   255
          Left            =   120
-         TabIndex        =   17
+         TabIndex        =   20
          Top             =   960
          Width           =   1335
       End
@@ -72,7 +72,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          Caption         =   "반투명(&R)"
          Height          =   255
          Left            =   120
-         TabIndex        =   14
+         TabIndex        =   17
          Top             =   240
          Value           =   -1  'True
          Width           =   2055
@@ -90,7 +90,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          EndProperty
          Height          =   255
          Left            =   2160
-         TabIndex        =   16
+         TabIndex        =   19
          Top             =   600
          Width           =   615
       End
@@ -117,7 +117,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.CheckBoxW chkEnableFontSize 
          Height          =   255
          Left            =   120
-         TabIndex        =   24
+         TabIndex        =   7
          Top             =   1320
          Width           =   1935
          _ExtentX        =   3413
@@ -128,7 +128,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.CheckBoxW chkBold 
          Height          =   255
          Left            =   120
-         TabIndex        =   23
+         TabIndex        =   9
          Top             =   1680
          Width           =   2655
          _ExtentX        =   4683
@@ -139,7 +139,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.SpinBox sbFontSize 
          Height          =   255
          Left            =   2160
-         TabIndex        =   22
+         TabIndex        =   8
          Top             =   1320
          Width           =   615
          _ExtentX        =   1085
@@ -269,7 +269,7 @@ Begin VB.Form frmLiveBadukSkinProperties
    Begin prjDownloadBooster.FrameW fFrameColor 
       Height          =   1335
       Left            =   120
-      TabIndex        =   7
+      TabIndex        =   10
       Top             =   2280
       Width           =   5055
       _ExtentX        =   8916
@@ -278,7 +278,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Begin prjDownloadBooster.CommandButtonW cmdSelectTexture 
          Height          =   330
          Left            =   2160
-         TabIndex        =   12
+         TabIndex        =   15
          Top             =   930
          Width           =   1455
          _ExtentX        =   2566
@@ -289,7 +289,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          Caption         =   "텍스처(&E):"
          Height          =   255
          Left            =   120
-         TabIndex        =   11
+         TabIndex        =   14
          Top             =   960
          Width           =   1335
       End
@@ -297,7 +297,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          Caption         =   "단색(&C):"
          Height          =   255
          Left            =   120
-         TabIndex        =   9
+         TabIndex        =   12
          Top             =   600
          Width           =   1335
       End
@@ -305,7 +305,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          Caption         =   "반투명(&T)"
          Height          =   255
          Left            =   120
-         TabIndex        =   8
+         TabIndex        =   11
          Top             =   240
          Value           =   -1  'True
          Width           =   2655
@@ -323,7 +323,7 @@ Begin VB.Form frmLiveBadukSkinProperties
          EndProperty
          Height          =   255
          Left            =   2160
-         TabIndex        =   10
+         TabIndex        =   13
          Top             =   600
          Width           =   615
       End
@@ -342,7 +342,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Cancel          =   -1  'True
       Height          =   375
       Left            =   3000
-      TabIndex        =   21
+      TabIndex        =   24
       Top             =   5520
       Width           =   1335
       _ExtentX        =   2355
@@ -353,7 +353,7 @@ Begin VB.Form frmLiveBadukSkinProperties
       Default         =   -1  'True
       Height          =   375
       Left            =   960
-      TabIndex        =   20
+      TabIndex        =   23
       Top             =   5520
       Width           =   1335
       _ExtentX        =   2355

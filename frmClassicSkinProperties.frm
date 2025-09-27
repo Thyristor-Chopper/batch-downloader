@@ -26,7 +26,7 @@ Begin VB.Form frmSystemSkinProperties
    Begin prjDownloadBooster.CheckBoxW chkDisableVisualStyle 
       Height          =   255
       Left            =   240
-      TabIndex        =   3
+      TabIndex        =   1
       Top             =   240
       Width           =   4215
       _ExtentX        =   7435
@@ -37,7 +37,7 @@ Begin VB.Form frmSystemSkinProperties
       Default         =   -1  'True
       Height          =   375
       Left            =   960
-      TabIndex        =   1
+      TabIndex        =   2
       Top             =   960
       Width           =   1215
       _ExtentX        =   2143
@@ -48,7 +48,7 @@ Begin VB.Form frmSystemSkinProperties
       Cancel          =   -1  'True
       Height          =   375
       Left            =   2520
-      TabIndex        =   2
+      TabIndex        =   3
       Top             =   960
       Width           =   1215
       _ExtentX        =   2143
