@@ -1730,6 +1730,7 @@ Private Sub cbTheme_Click()
         ColorChanged = True
         SkinChanged = True
         FontChanged = True
+        ProgressSkinChanged = True
     
         DisableVisualStyle = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0)
         RoundClassicButtons = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0)
