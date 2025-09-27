@@ -90,12 +90,12 @@ Begin VB.Form frmMain
       Begin VB.Label fTabDownload 
          AutoSize        =   -1  'True
          BackStyle       =   0  '투명
-         Caption         =   "요약"
+         Caption         =   "요약 정보"
          Height          =   180
          Left            =   240
          TabIndex        =   14
          Top             =   15
-         Width           =   360
+         Width           =   780
       End
       Begin VB.Label fTabThreads 
          AutoSize        =   -1  'True
@@ -3044,6 +3044,12 @@ Sub LoadLiveBadukSkin()
     Next ctrl
     
     SetFont Me
+    
+    If Not LBEnabled Then
+        SetTextColors
+        fTabDownload.Refresh
+        fTabThreads.Refresh
+    End If
 End Sub
 
 #If HIDEYTDL Then
