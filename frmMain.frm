@@ -3027,7 +3027,7 @@ Sub LoadLiveBadukSkin()
         
         If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 1) <> 0 Then
             Dim LBTextColor As Long
-            LBTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 2902560))
+            LBTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 2111255))
             lblURL.ForeColor = LBTextColor
             lblFilePath.ForeColor = LBTextColor
             lblThreadCountLabel.ForeColor = LBTextColor

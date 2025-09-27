@@ -1634,10 +1634,10 @@ setlbfont:
     If frm Is frmMain Then
         If LCase(frm.lblURL.Font.Name) = "tahoma" Then FontSize = 8 Else FontSize = 9
         If LBEnabled Then
-            If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableLabelFontSize", "1") <> "0" Then
+            If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableLabelFontSize", "0") <> "0" Then
                 FontSize = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinLabelFontSize", 10))
             End If
-            FontBold = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinLabelFontBold", "1") <> "0"
+            FontBold = GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinLabelFontBold", "0") <> "0"
         Else
             FontBold = False
         End If
