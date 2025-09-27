@@ -687,6 +687,7 @@ PropRoundButton = .ReadProperty("RoundButton", False)
 tygButton.Visible = PropIsTygemButton
 tygButton.Enabled = Me.Enabled
 tygButton.Caption = PropCaption
+tygButton.Default = Ambient.DisplayAsDefault
 SetRgn
 If Not PropFont Is Nothing Then
     tygButton.FontName = PropFont.Name
@@ -694,6 +695,9 @@ If Not PropFont Is Nothing Then
 End If
 If CommandButtonHandle <> NULL_PTR Then
     MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, -(Not PropTransparent)
+End If
+If .ReadProperty("Default", False) = True Then
+    tygButton.Default = True
 End If
 End With
 Call CreateCommandButton
@@ -963,7 +967,7 @@ End Property
 
 Public Property Let Default(ByVal Value As Boolean)
 Extender.Default = Value
-tygButton.Default = Value
+tygButton.Default = Ambient.DisplayAsDefault
 End Property
 
 Public Property Get Cancel() As Boolean
@@ -1262,6 +1266,7 @@ End Property
 
 Public Property Let IsTygemButton(ByVal Value As Boolean)
 tygButton.Visible = Value
+If Value Then tygButton.Default = Ambient.DisplayAsDefault
 PropIsTygemButton = Value
 If CommandButtonHandle <> NULL_PTR Then
     MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, -(Not PropTransparent)
@@ -1277,7 +1282,6 @@ End Property
 
 Public Property Let RoundButton(ByVal Value As Boolean)
 PropRoundButton = Value
-Debug.Print 1
 SetRgn
 End Property
 
@@ -2095,6 +2099,7 @@ Attribute Refresh.VB_UserMemId = -550
 If PropIsTygemButton Then
     tygButton.Visible = False
     tygButton.Visible = True
+    tygButton.Default = Ambient.DisplayAsDefault
 End If
 If CommandButtonTransparentBrush <> NULL_PTR Then
     DeleteObject CommandButtonTransparentBrush

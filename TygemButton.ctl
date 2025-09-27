@@ -108,7 +108,8 @@ Enum ButtonSkin
     System = 0
     LiveBaduk = 1
     Diskeeper = 2
-    Bluemetal = 3
+    Blue = 3
+    Green = 4
 End Enum
 
 Enum ButtonState
@@ -179,7 +180,7 @@ Property Get Default() As Boolean
 End Property
 
 Property Let Default(New_Default As Boolean)
-    m_Default = Default
+    m_Default = New_Default
     DrawSkin DrawNormalState
 End Property
 

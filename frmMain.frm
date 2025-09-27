@@ -4,7 +4,7 @@ Begin VB.Form frmMain
    ClientHeight    =   7740
    ClientLeft      =   165
    ClientTop       =   555
-   ClientWidth     =   13905
+   ClientWidth     =   17295
    BeginProperty Font 
       Name            =   "±¼¸²"
       Size            =   9
@@ -18,7 +18,7 @@ Begin VB.Form frmMain
    LinkTopic       =   "frmMain"
    MaxButton       =   0   'False
    ScaleHeight     =   7740
-   ScaleWidth      =   13905
+   ScaleWidth      =   17295
    StartUpPosition =   3  'Windows ±âº»°ª
    Begin prjDownloadBooster.FrameW fProgress 
       Height          =   255
@@ -172,40 +172,25 @@ Begin VB.Form frmMain
          Top             =   135
          Width           =   1095
       End
-      Begin VB.Line Line6 
-         BorderColor     =   &H00404040&
-         X1              =   6345
-         X2              =   6345
-         Y1              =   435
-         Y2              =   4650
+      Begin VB.Image imgFrame 
+         Height          =   4845
+         Index           =   1
+         Left            =   0
+         Picture         =   "frmMain.frx":08CA
+         Stretch         =   -1  'True
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   6495
       End
-      Begin VB.Line Line5 
-         BorderColor     =   &H00404040&
-         X1              =   6480
-         X2              =   6480
-         Y1              =   435
-         Y2              =   4680
-      End
-      Begin VB.Line Line4 
-         BorderColor     =   &H00404040&
-         X1              =   135
-         X2              =   135
-         Y1              =   435
-         Y2              =   4650
-      End
-      Begin VB.Line Line3 
-         BorderColor     =   &H00404040&
-         X1              =   135
-         X2              =   1725
-         Y1              =   4650
-         Y2              =   4650
-      End
-      Begin VB.Line Line2 
-         BorderColor     =   &H00404040&
-         X1              =   0
-         X2              =   0
-         Y1              =   360
-         Y2              =   4695
+      Begin VB.Image imgFrame 
+         Height          =   4845
+         Index           =   2
+         Left            =   0
+         Picture         =   "frmMain.frx":1075
+         Stretch         =   -1  'True
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   6495
       End
       Begin VB.Line Line1 
          BorderColor     =   &H00404040&
@@ -213,50 +198,6 @@ Begin VB.Form frmMain
          X2              =   1725
          Y1              =   435
          Y2              =   435
-      End
-      Begin VB.Image imgBottomRight2 
-         Height          =   180
-         Left            =   6345
-         Picture         =   "frmMain.frx":08CA
-         Top             =   4665
-         Width           =   150
-      End
-      Begin VB.Image imgTopRight2 
-         Height          =   435
-         Left            =   6345
-         Picture         =   "frmMain.frx":091C
-         Top             =   0
-         Width           =   150
-      End
-      Begin VB.Image imgBottom2 
-         Height          =   195
-         Left            =   1725
-         Picture         =   "frmMain.frx":0973
-         Stretch         =   -1  'True
-         Top             =   4650
-         Width           =   4635
-      End
-      Begin VB.Image imgBottomLeft2 
-         Height          =   180
-         Left            =   0
-         Picture         =   "frmMain.frx":0A10
-         Top             =   4665
-         Width           =   1725
-      End
-      Begin VB.Image imgTop2 
-         Height          =   450
-         Left            =   1725
-         Picture         =   "frmMain.frx":0A94
-         Stretch         =   -1  'True
-         Top             =   0
-         Width           =   4620
-      End
-      Begin VB.Image imgTopLeft2 
-         Height          =   435
-         Left            =   0
-         Picture         =   "frmMain.frx":0B5E
-         Top             =   0
-         Width           =   1725
       End
       Begin VB.Image imgFrameTexture 
          Height          =   4845
@@ -367,7 +308,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       ColorDepth      =   4
-      InitListImages  =   "frmMain.frx":0C35
+      InitListImages  =   "frmMain.frx":182F
    End
    Begin prjDownloadBooster.CommandButtonW cmdStopBatch 
       Height          =   375
@@ -413,7 +354,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       ColorDepth      =   4
-      InitListImages  =   "frmMain.frx":111D
+      InitListImages  =   "frmMain.frx":1D17
    End
    Begin prjDownloadBooster.ImageList imgErase 
       Left            =   9840
@@ -423,17 +364,17 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":1605
+      InitListImages  =   "frmMain.frx":21FF
    End
    Begin prjDownloadBooster.StatusBar sbStatusBar 
       Align           =   2  '¾Æ·¡ ¸ÂÃã
       Height          =   330
       Left            =   0
       Top             =   7410
-      Width           =   13905
-      _ExtentX        =   24527
+      Width           =   17295
+      _ExtentX        =   30506
       _ExtentY        =   582
-      InitPanels      =   "frmMain.frx":19ED
+      InitPanels      =   "frmMain.frx":25E7
    End
    Begin prjDownloadBooster.ListView lvBatchFiles 
       Height          =   870
@@ -499,7 +440,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":1CF1
+      InitListImages  =   "frmMain.frx":28EB
    End
    Begin prjDownloadBooster.CommandButtonW cmdOpenDropdown 
       Height          =   375
@@ -522,7 +463,7 @@ Begin VB.Form frmMain
       ImageWidth      =   13
       ImageHeight     =   5
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":1EA1
+      InitListImages  =   "frmMain.frx":2A9B
    End
    Begin prjDownloadBooster.CommandButtonW cmdDeleteDropdown 
       Height          =   375
@@ -545,7 +486,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":21A1
+      InitListImages  =   "frmMain.frx":2D9B
    End
    Begin prjDownloadBooster.CommandButtonW cmdAddToQueue 
       Height          =   330
@@ -581,7 +522,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2589
+      InitListImages  =   "frmMain.frx":3183
    End
    Begin prjDownloadBooster.ImageList imgPlay 
       Left            =   9840
@@ -591,7 +532,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":2971
+      InitListImages  =   "frmMain.frx":356B
    End
    Begin prjDownloadBooster.ImageList imgDownload 
       Left            =   9840
@@ -601,7 +542,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":30E1
+      InitListImages  =   "frmMain.frx":3CDB
    End
    Begin prjDownloadBooster.ImageList imgMinus 
       Left            =   9840
@@ -611,7 +552,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":34C9
+      InitListImages  =   "frmMain.frx":40C3
    End
    Begin prjDownloadBooster.ImageList imgOpenFile 
       Left            =   9840
@@ -621,7 +562,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":3C39
+      InitListImages  =   "frmMain.frx":4833
    End
    Begin prjDownloadBooster.ImageList imgOpenFolder 
       Left            =   9840
@@ -631,7 +572,7 @@ Begin VB.Form frmMain
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   16711935
-      InitListImages  =   "frmMain.frx":43A9
+      InitListImages  =   "frmMain.frx":4FA3
    End
    Begin prjDownloadBooster.FrameW fDownloadInfo 
       Height          =   3255
@@ -1155,7 +1096,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderBottomRight 
       Height          =   135
       Left            =   11040
-      Picture         =   "frmMain.frx":4791
+      Picture         =   "frmMain.frx":538B
       Top             =   600
       Visible         =   0   'False
       Width           =   135
@@ -1163,7 +1104,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderBottomLeft 
       Height          =   135
       Left            =   10680
-      Picture         =   "frmMain.frx":47DF
+      Picture         =   "frmMain.frx":53D9
       Top             =   600
       Visible         =   0   'False
       Width           =   135
@@ -1171,7 +1112,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderTopRight 
       Height          =   135
       Left            =   11040
-      Picture         =   "frmMain.frx":482B
+      Picture         =   "frmMain.frx":5425
       Top             =   240
       Visible         =   0   'False
       Width           =   135
@@ -1179,7 +1120,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgBorderTopLeft 
       Height          =   135
       Left            =   10680
-      Picture         =   "frmMain.frx":4877
+      Picture         =   "frmMain.frx":5471
       Top             =   240
       Visible         =   0   'False
       Width           =   135
@@ -2871,7 +2812,7 @@ End Sub
 Sub SetFrameTexture()
     On Error Resume Next
     
-    Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "transparent"))
+    Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "solidcolor"))
         Case "texture"
             fTygemFrameTransparent.Transparent = False
             Set imgFrameTexture.Picture = LoadPictureFromFile(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", ""))
@@ -2891,19 +2832,25 @@ Sub LoadLiveBadukSkin()
     On Error Resume Next
     Dim i%
     Dim LBEnabled As Boolean
-    LBEnabled = (CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 0)) > 0 And DPI = 96)
+    Dim fSkin As Byte
+    fSkin = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 1))
+    LBEnabled = (fSkin > 0 And DPI = 96)
     If LBEnabled Then
         fTygemFrameTransparent.Top = 1200
         fTygemFrameTransparent.Left = 120
         SetTygemFrameRgn
         fTygemFrameTransparent.Visible = -1
-        fTygemFrameTransparent.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
+        fTygemFrameTransparent.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 11194780))
         
         SetFrameTexture
+        
+        For i = imgFrame.LBound To imgFrame.UBound
+            imgFrame(i).Visible = (i = fSkin)
+        Next i
 
         fTotal.Visible = 0
         Frame4.Visible = 0
-        lblLBCaption.Visible = -1
+        'lblLBCaption.Visible = -1
         fDownloadInfo.Refresh
         pbProgressOuterContainer.Refresh
         pbProgressContainer.Refresh
@@ -2949,13 +2896,13 @@ Sub LoadLiveBadukSkin()
             Dim ShadowColor As Long
             ShadowColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", 16777215))
             If ShadowColor < 0& Then ShadowColor = 16777215
-            lblLBCaptionShadow.ForeColor = ShadowColor
+            'lblLBCaptionShadow.ForeColor = ShadowColor
             lblLBCaptionShadow2.ForeColor = ShadowColor
             lblURLShadow.ForeColor = ShadowColor
             lblFilePathShadow.ForeColor = ShadowColor
             lblThreadCountLabelShadow.ForeColor = ShadowColor
         End If
-        lblLBCaptionShadow.Visible = EnableShadow
+        'lblLBCaptionShadow.Visible = EnableShadow
         lblLBCaptionShadow2.Visible = EnableShadow
         lblURLShadow.Visible = EnableShadow
         lblFilePathShadow.Visible = EnableShadow
@@ -2987,10 +2934,13 @@ Sub LoadLiveBadukSkin()
         
         fTabThreads.Visible = False
         fTabDownload.Visible = False
+        
+        lblLBCaption2.Left = FrameSkinLabelOffset(fSkin)
+        lblLBCaptionShadow2.Left = FrameSkinLabelOffset(fSkin) + Screen.TwipsPerPixelX
     Else
         fTygemFrameTransparent.Visible = 0
 
-        lblLBCaption.Visible = 0
+        'lblLBCaption.Visible = 0
         fTotal.Visible = -1
         fTotal.Refresh
         Frame4.Visible = -1
@@ -3020,7 +2970,7 @@ Sub LoadLiveBadukSkin()
         lbOptionsHeader.Visible = False
         lbOptionsHeader3D.Visible = False
         
-        lblLBCaptionShadow.Visible = 0
+        'lblLBCaptionShadow.Visible = 0
         lblURLShadow.Visible = 0
         lblFilePathShadow.Visible = 0
         lblThreadCountLabelShadow.Visible = 0
@@ -3075,9 +3025,9 @@ Sub LoadLiveBadukSkin()
         lblTotalSizeThread.ForeColor = ContentTextColor
         lblRemaining.ForeColor = ContentTextColor
         
-        If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0) <> 0 Then
+        If GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 1) <> 0 Then
             Dim LBTextColor As Long
-            LBTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 0))
+            LBTextColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 2902560))
             lblURL.ForeColor = LBTextColor
             lblFilePath.ForeColor = LBTextColor
             lblThreadCountLabel.ForeColor = LBTextColor
@@ -3431,124 +3381,229 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub SetTygemFrameRgn()
+    Dim fSkin As Byte
+    fSkin = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 1))
+    
     Dim RC As RECT
     GetWindowRect fTygemFrameTransparent.hWnd, RC
     Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&, Rgn9&
     Rgn = CreateRectRgn(0, 0, RC.Right - RC.Left, RC.Bottom - RC.Top)
-    Rgn1 = CreateRectRgn(0, 0, 6, 1)
-    Rgn2 = CreateRectRgn(0, 1, 4, 2)
-    Rgn3 = CreateRectRgn(0, 2, 3, 3)
-    Rgn4 = CreateRectRgn(0, 3, 2, 4)
-    Rgn5 = CreateRectRgn(0, 4, 1, 7)
-    CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
-    DeleteObject Rgn1
-    DeleteObject Rgn2
-    DeleteObject Rgn3
-    DeleteObject Rgn4
-    DeleteObject Rgn5
-    Rgn1 = CreateRectRgn(0, RC.Bottom - RC.Top - 6, 1, RC.Bottom - RC.Top)
-    Rgn2 = CreateRectRgn(1, RC.Bottom - RC.Top - 3, 2, RC.Bottom - RC.Top)
-    Rgn3 = CreateRectRgn(2, RC.Bottom - RC.Top - 2, 3, RC.Bottom - RC.Top)
-    Rgn4 = CreateRectRgn(3, RC.Bottom - RC.Top - 1, 5, RC.Bottom - RC.Top)
-    CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
-    DeleteObject Rgn1
-    DeleteObject Rgn2
-    DeleteObject Rgn3
-    DeleteObject Rgn4
-    Rgn1 = CreateRectRgn(RC.Right - RC.Left - 5, RC.Bottom - RC.Top - 1, RC.Right - RC.Left, RC.Bottom - RC.Top)
-    Rgn2 = CreateRectRgn(RC.Right - RC.Left - 3, RC.Bottom - RC.Top - 2, RC.Right - RC.Left, RC.Bottom - RC.Top - 1)
-    Rgn3 = CreateRectRgn(RC.Right - RC.Left - 2, RC.Bottom - RC.Top - 3, RC.Right - RC.Left, RC.Bottom - RC.Top - 2)
-    Rgn4 = CreateRectRgn(RC.Right - RC.Left - 1, RC.Bottom - RC.Top - 6, RC.Right - RC.Left, RC.Bottom - RC.Top - 3)
-    CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
-    DeleteObject Rgn1
-    DeleteObject Rgn2
-    DeleteObject Rgn3
-    DeleteObject Rgn4
-    Rgn1 = CreateRectRgn(112, 0, RC.Right - RC.Left, 18)
-    Rgn2 = CreateRectRgn(RC.Right - RC.Left - 6, 18, RC.Right - RC.Left, 19)
-    Rgn3 = CreateRectRgn(RC.Right - RC.Left - 4, 19, RC.Right - RC.Left, 20)
-    Rgn4 = CreateRectRgn(RC.Right - RC.Left - 3, 20, RC.Right - RC.Left, 21)
-    Rgn5 = CreateRectRgn(RC.Right - RC.Left - 2, 21, RC.Right - RC.Left, 22)
-    Rgn6 = CreateRectRgn(RC.Right - RC.Left - 1, 22, RC.Right - RC.Left, 24)
-    CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
-    DeleteObject Rgn1
-    DeleteObject Rgn2
-    DeleteObject Rgn3
-    DeleteObject Rgn4
-    DeleteObject Rgn5
-    DeleteObject Rgn6
-    Rgn1 = CreateRectRgn(94, 0, 112, 1)
-    Rgn2 = CreateRectRgn(95, 1, 112, 2)
-    Rgn3 = CreateRectRgn(96, 2, 112, 3)
-    Rgn4 = CreateRectRgn(97, 3, 112, 4)
-    Rgn5 = CreateRectRgn(98, 4, 112, 5)
-    Rgn6 = CreateRectRgn(99, 5, 112, 6)
-    Rgn7 = CreateRectRgn(100, 6, 112, 7)
-    Rgn8 = CreateRectRgn(101, 7, 112, 8)
-    Rgn9 = CreateRectRgn(102, 8, 112, 9)
-    CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn9, RGN_DIFF
-    DeleteObject Rgn1
-    DeleteObject Rgn2
-    DeleteObject Rgn3
-    DeleteObject Rgn4
-    DeleteObject Rgn5
-    DeleteObject Rgn6
-    DeleteObject Rgn7
-    DeleteObject Rgn8
-    DeleteObject Rgn9
-    Rgn1 = CreateRectRgn(103, 9, 112, 10)
-    Rgn2 = CreateRectRgn(104, 10, 112, 11)
-    Rgn3 = CreateRectRgn(105, 11, 112, 12)
-    Rgn4 = CreateRectRgn(106, 12, 112, 13)
-    Rgn5 = CreateRectRgn(107, 13, 112, 14)
-    Rgn6 = CreateRectRgn(108, 14, 112, 15)
-    Rgn7 = CreateRectRgn(109, 15, 112, 16)
-    Rgn8 = CreateRectRgn(110, 16, 112, 17)
-    Rgn9 = CreateRectRgn(111, 17, 112, 18)
-    CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
-    CombineRgn Rgn, Rgn, Rgn9, RGN_DIFF
-    DeleteObject Rgn1
-    DeleteObject Rgn2
-    DeleteObject Rgn3
-    DeleteObject Rgn4
-    DeleteObject Rgn5
-    DeleteObject Rgn6
-    DeleteObject Rgn7
-    DeleteObject Rgn8
-    DeleteObject Rgn9
-    Rgn1 = CreateRectRgn(10, 30, RC.Right - RC.Left - 10, RC.Bottom - RC.Top - 13)
-    CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
-    DeleteObject Rgn1
+    
+    Select Case fSkin
+        Case 1
+            Rgn1 = CreateRectRgn(0, 0, 17, 1)
+            Rgn2 = CreateRectRgn(0, 1, 15, 2)
+            Rgn3 = CreateRectRgn(0, 2, 14, 3)
+            Rgn4 = CreateRectRgn(0, 3, 13, 4)
+            Rgn5 = CreateRectRgn(0, 4, 12, 7)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            Rgn1 = CreateRectRgn(0, 7, 12, 18)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            DeleteObject Rgn1
+            Rgn1 = CreateRectRgn(0, 18, 6, 19)
+            Rgn2 = CreateRectRgn(0, 19, 4, 20)
+            Rgn3 = CreateRectRgn(0, 20, 3, 21)
+            Rgn4 = CreateRectRgn(0, 21, 2, 22)
+            Rgn5 = CreateRectRgn(0, 22, 1, 23)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            Rgn1 = CreateRectRgn(0, RC.Bottom - RC.Top - 6, 1, RC.Bottom - RC.Top)
+            Rgn2 = CreateRectRgn(1, RC.Bottom - RC.Top - 3, 2, RC.Bottom - RC.Top)
+            Rgn3 = CreateRectRgn(2, RC.Bottom - RC.Top - 2, 3, RC.Bottom - RC.Top)
+            Rgn4 = CreateRectRgn(3, RC.Bottom - RC.Top - 1, 5, RC.Bottom - RC.Top)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            Rgn1 = CreateRectRgn(RC.Right - RC.Left - 5, RC.Bottom - RC.Top - 1, RC.Right - RC.Left, RC.Bottom - RC.Top)
+            Rgn2 = CreateRectRgn(RC.Right - RC.Left - 3, RC.Bottom - RC.Top - 2, RC.Right - RC.Left, RC.Bottom - RC.Top - 1)
+            Rgn3 = CreateRectRgn(RC.Right - RC.Left - 2, RC.Bottom - RC.Top - 3, RC.Right - RC.Left, RC.Bottom - RC.Top - 2)
+            Rgn4 = CreateRectRgn(RC.Right - RC.Left - 1, RC.Bottom - RC.Top - 6, RC.Right - RC.Left, RC.Bottom - RC.Top - 3)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            Rgn1 = CreateRectRgn(112, 0, RC.Right - RC.Left, 18)
+            Rgn2 = CreateRectRgn(RC.Right - RC.Left - 6, 18, RC.Right - RC.Left, 19)
+            Rgn3 = CreateRectRgn(RC.Right - RC.Left - 4, 19, RC.Right - RC.Left, 20)
+            Rgn4 = CreateRectRgn(RC.Right - RC.Left - 3, 20, RC.Right - RC.Left, 21)
+            Rgn5 = CreateRectRgn(RC.Right - RC.Left - 2, 21, RC.Right - RC.Left, 22)
+            Rgn6 = CreateRectRgn(RC.Right - RC.Left - 1, 22, RC.Right - RC.Left, 24)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            DeleteObject Rgn6
+            Rgn1 = CreateRectRgn(100, 0, 112, 1)
+            Rgn2 = CreateRectRgn(102, 1, 112, 2)
+            Rgn3 = CreateRectRgn(103, 2, 112, 3)
+            Rgn4 = CreateRectRgn(104, 3, 112, 4)
+            Rgn5 = CreateRectRgn(105, 4, 112, 17)
+            Rgn6 = CreateRectRgn(106, 17, 112, 18)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            DeleteObject Rgn6
+            Rgn1 = CreateRectRgn(10, 30, RC.Right - RC.Left - 10, RC.Bottom - RC.Top - 13)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            DeleteObject Rgn1
+        Case 2
+            Rgn1 = CreateRectRgn(0, 0, 6, 1)
+            Rgn2 = CreateRectRgn(0, 1, 4, 2)
+            Rgn3 = CreateRectRgn(0, 2, 3, 3)
+            Rgn4 = CreateRectRgn(0, 3, 2, 4)
+            Rgn5 = CreateRectRgn(0, 4, 1, 7)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            Rgn1 = CreateRectRgn(0, RC.Bottom - RC.Top - 6, 1, RC.Bottom - RC.Top)
+            Rgn2 = CreateRectRgn(1, RC.Bottom - RC.Top - 3, 2, RC.Bottom - RC.Top)
+            Rgn3 = CreateRectRgn(2, RC.Bottom - RC.Top - 2, 3, RC.Bottom - RC.Top)
+            Rgn4 = CreateRectRgn(3, RC.Bottom - RC.Top - 1, 5, RC.Bottom - RC.Top)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            Rgn1 = CreateRectRgn(RC.Right - RC.Left - 5, RC.Bottom - RC.Top - 1, RC.Right - RC.Left, RC.Bottom - RC.Top)
+            Rgn2 = CreateRectRgn(RC.Right - RC.Left - 3, RC.Bottom - RC.Top - 2, RC.Right - RC.Left, RC.Bottom - RC.Top - 1)
+            Rgn3 = CreateRectRgn(RC.Right - RC.Left - 2, RC.Bottom - RC.Top - 3, RC.Right - RC.Left, RC.Bottom - RC.Top - 2)
+            Rgn4 = CreateRectRgn(RC.Right - RC.Left - 1, RC.Bottom - RC.Top - 6, RC.Right - RC.Left, RC.Bottom - RC.Top - 3)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            Rgn1 = CreateRectRgn(112, 0, RC.Right - RC.Left, 18)
+            Rgn2 = CreateRectRgn(RC.Right - RC.Left - 6, 18, RC.Right - RC.Left, 19)
+            Rgn3 = CreateRectRgn(RC.Right - RC.Left - 4, 19, RC.Right - RC.Left, 20)
+            Rgn4 = CreateRectRgn(RC.Right - RC.Left - 3, 20, RC.Right - RC.Left, 21)
+            Rgn5 = CreateRectRgn(RC.Right - RC.Left - 2, 21, RC.Right - RC.Left, 22)
+            Rgn6 = CreateRectRgn(RC.Right - RC.Left - 1, 22, RC.Right - RC.Left, 24)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            DeleteObject Rgn6
+            Rgn1 = CreateRectRgn(94, 0, 112, 1)
+            Rgn2 = CreateRectRgn(95, 1, 112, 2)
+            Rgn3 = CreateRectRgn(96, 2, 112, 3)
+            Rgn4 = CreateRectRgn(97, 3, 112, 4)
+            Rgn5 = CreateRectRgn(98, 4, 112, 5)
+            Rgn6 = CreateRectRgn(99, 5, 112, 6)
+            Rgn7 = CreateRectRgn(100, 6, 112, 7)
+            Rgn8 = CreateRectRgn(101, 7, 112, 8)
+            Rgn9 = CreateRectRgn(102, 8, 112, 9)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn9, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            DeleteObject Rgn6
+            DeleteObject Rgn7
+            DeleteObject Rgn8
+            DeleteObject Rgn9
+            Rgn1 = CreateRectRgn(103, 9, 112, 10)
+            Rgn2 = CreateRectRgn(104, 10, 112, 11)
+            Rgn3 = CreateRectRgn(105, 11, 112, 12)
+            Rgn4 = CreateRectRgn(106, 12, 112, 13)
+            Rgn5 = CreateRectRgn(107, 13, 112, 14)
+            Rgn6 = CreateRectRgn(108, 14, 112, 15)
+            Rgn7 = CreateRectRgn(109, 15, 112, 16)
+            Rgn8 = CreateRectRgn(110, 16, 112, 17)
+            Rgn9 = CreateRectRgn(111, 17, 112, 18)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn9, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            DeleteObject Rgn6
+            DeleteObject Rgn7
+            DeleteObject Rgn8
+            DeleteObject Rgn9
+            Rgn1 = CreateRectRgn(10, 30, RC.Right - RC.Left - 10, RC.Bottom - RC.Top - 13)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            DeleteObject Rgn1
+    End Select
+    
     SetWindowRgn fTygemFrameTransparent.hWnd, Rgn, True
     DeleteObject Rgn
 End Sub

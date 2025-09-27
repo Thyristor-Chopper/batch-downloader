@@ -28,11 +28,13 @@ Public LightTransparent As IPicture
 Public Train(1 To 3) As IPicture
 
 Public CurrentButtonSkin As ButtonSkin
-Public ButtonSkinTexture(-4 To 15) As IPicture
-Public ButtonSkinBorder(0 To 3) As Byte
-Public ButtonSkinBold(0 To 3) As Boolean
-Public ButtonSkinCaptionColor(-4 To 15) As Long
-Public ButtonSkinSplitColor(0 To 3) As Long
+Public ButtonSkinTexture(-4 To 20) As IPicture
+Public ButtonSkinBorder(0 To 4) As Byte
+Public ButtonSkinBold(0 To 4) As Boolean
+Public ButtonSkinCaptionColor(-4 To 20) As Long
+Public ButtonSkinSplitColor(0 To 4) As Long
+
+Public FrameSkinLabelOffset(1 To 2) As Integer
 
 Public NodeJS() As Byte
 Public DownloadScript As String
@@ -156,13 +158,21 @@ forcegulim:
     End If
     BuildHeaderCache
     
+    If GetSetting("DownloadBooster", "Options", "EnableLiveBadukMemoSkin", "0") <> "0" Then
+        DeleteSetting "DownloadBooster", "Options", "EnableLiveBadukMemoSkin"
+        SaveSetting "DownloadBooster", "Options", "ProgressFrameSkin", 1
+        SaveSetting "DownloadBooster", "Options", "ButtonSkin", 1
+    End If
+    
     ButtonSkinBorder(1) = 3
     ButtonSkinBorder(2) = 6
     ButtonSkinBorder(3) = 6
+    ButtonSkinBorder(4) = 6
     
     ButtonSkinBold(1) = True
     ButtonSkinBold(2) = False
     ButtonSkinBold(3) = False
+    ButtonSkinBold(4) = False
     
     ButtonSkinCaptionColor(1) = 0&
     ButtonSkinCaptionColor(2) = 255&
@@ -182,17 +192,27 @@ forcegulim:
     ButtonSkinCaptionColor(14) = 8421504
     ButtonSkinCaptionColor(15) = 0&
     
+    ButtonSkinCaptionColor(16) = 0&
+    ButtonSkinCaptionColor(17) = 16777215
+    ButtonSkinCaptionColor(18) = 16777215
+    ButtonSkinCaptionColor(19) = 8421504
+    ButtonSkinCaptionColor(20) = 0&
+    
     ButtonSkinSplitColor(1) = 3881787
     ButtonSkinSplitColor(2) = 8421504
     ButtonSkinSplitColor(3) = 11381671
+    ButtonSkinSplitColor(4) = 11381671
+    
+    FrameSkinLabelOffset(1) = 150
+    FrameSkinLabelOffset(1) = 300
     
     Dim i As Byte
     For i = 1 To 3
         Set Train(i) = LoadResPicture(i + 1, vbResIcon)
     Next i
     
-    CurrentButtonSkin = CByte(GetSetting("DownloadBooster", "Options", "ButtonSkin", "0"))
-    For i = 1 To 15
+    CurrentButtonSkin = CByte(GetSetting("DownloadBooster", "Options", "ButtonSkin", "4"))
+    For i = 1 To 20
         Set ButtonSkinTexture(i) = LoadResPicture(i, vbResBitmap)
     Next i
     

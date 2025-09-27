@@ -1598,7 +1598,7 @@ End Function
 Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     On Error Resume Next
     Dim LBEnabled As Boolean
-    LBEnabled = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 0)) > 0 And DPI = 96
+    LBEnabled = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 1)) > 0 And DPI = 96
     Dim FontName$, FontSize%, FontBold As Boolean
     FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
     If FontName = "" And LangID = 1042 Then
