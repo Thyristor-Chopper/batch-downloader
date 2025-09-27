@@ -66,7 +66,8 @@ Private Sub cmdCancel_Click()
 End Sub
 
 Private Sub cmdOK_Click()
-    SaveSetting "DownloadBooster", "Options", "RoundClassicButtons", chkRoundClassicButtons.Value
+    frmOptions.RoundClassicButtons = chkRoundClassicButtons.Value
+    
     frmOptions.VisualStyleChanged = True
     frmOptions.cmdApply.Enabled = True
     frmOptions.cmdSample.RoundButton = chkRoundClassicButtons.Value
@@ -76,7 +77,7 @@ End Sub
 Private Sub Form_Load()
     InitForm Me
     
-    chkRoundClassicButtons.Value = GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0)
+    chkRoundClassicButtons.Value = frmOptions.RoundClassicButtons
     
     tr Me, "Skin Settings"
     tr chkRoundClassicButtons, "&Use rounded buttons"

@@ -336,40 +336,41 @@ Private Sub cmdCancel_Click()
 End Sub
 
 Private Sub cmdOK_Click()
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", CLng(pgShadow.BackColor)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", CLng(pgFrameColor.BackColor)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", IIf(optTransparent.Value, "transparent", IIf(optColor.Value, "solidcolor", "texture"))
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", CLng(pgText.BackColor)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", chkShadowColor.Value
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", chkTextColor.Value
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", chkEnableBorders.Value
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", IIf(optFrameTransparent.Value, "transparent", IIf(optBackgroundColor.Value, "solidcolor", "texture"))
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", CLng(pgFrameBackgroundColor.BackColor)
-    SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", CLng(pgContentColor.BackColor)
+    frmOptions.LiveBadukMemoSkinShadowColor = CLng(pgShadow.BackColor)
+    frmOptions.LiveBadukMemoSkinFrameColor = CLng(pgFrameColor.BackColor)
+    frmOptions.LiveBadukMemoSkinFrameType = IIf(optTransparent.Value, "transparent", IIf(optColor.Value, "solidcolor", "texture"))
+    frmOptions.LiveBadukMemoSkinTextColor = CLng(pgText.BackColor)
+    frmOptions.LiveBadukMemoSkinEnableShadow = chkShadowColor.Value
+    frmOptions.LiveBadukMemoSkinEnableTextColor = chkTextColor.Value
+    frmOptions.LiveBadukMemoSkinEnableBorder = chkEnableBorders.Value
+    frmOptions.LiveBadukMemoSkinFrameBackgroundType = IIf(optFrameTransparent.Value, "transparent", IIf(optBackgroundColor.Value, "solidcolor", "texture"))
+    frmOptions.LiveBadukMemoSkinFrameBackgroundColor = CLng(pgFrameBackgroundColor.BackColor)
+    frmOptions.LiveBadukMemoSkinContentTextColor = CLng(pgContentColor.BackColor)
+    
     frmOptions.ColorChanged = True
     frmOptions.cmdApply.Enabled = -1
     Unload Me
 End Sub
 
 Private Sub cmdSelectFrameTexture_Click()
-    ShowFileDialog 6, GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackground", "")
+    ShowFileDialog 6, frmOptions.LiveBadukMemoSkinFrameBackground
 End Sub
 
 Private Sub cmdSelectTexture_Click()
-    ShowFileDialog 5, GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameTexture", "")
+    ShowFileDialog 5, frmOptions.LiveBadukMemoSkinFrameTexture
 End Sub
 
 Private Sub Form_Load()
     InitForm Me
     
-    pgShadow.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", 16777215))
-    pgFrameColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 16777215))
-    pgText.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinTextColor", 0))
-    pgFrameBackgroundColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundColor", 16777215))
-    pgContentColor.BackColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinContentTextColor", 0))
-    chkShadowColor.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableShadow", 1))
-    chkTextColor.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableTextColor", 0))
-    Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameType", "transparent"))
+    pgShadow.BackColor = frmOptions.LiveBadukMemoSkinShadowColor
+    pgFrameColor.BackColor = frmOptions.LiveBadukMemoSkinFrameColor
+    pgText.BackColor = frmOptions.LiveBadukMemoSkinTextColor
+    pgFrameBackgroundColor.BackColor = frmOptions.LiveBadukMemoSkinFrameBackgroundColor
+    pgContentColor.BackColor = frmOptions.LiveBadukMemoSkinContentTextColor
+    chkShadowColor.Value = frmOptions.LiveBadukMemoSkinEnableShadow
+    chkTextColor.Value = frmOptions.LiveBadukMemoSkinEnableTextColor
+    Select Case frmOptions.LiveBadukMemoSkinFrameType
         Case "solidcolor"
             optColor.Value = True
         Case "texture"
@@ -377,7 +378,7 @@ Private Sub Form_Load()
         Case Else
             optTransparent.Value = True
     End Select
-    Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent"))
+    Select Case frmOptions.LiveBadukMemoSkinFrameBackgroundType
         Case "texture"
             optFrameTexture.Value = True
         Case "solidcolor"
@@ -385,7 +386,7 @@ Private Sub Form_Load()
         Case Else
             optFrameTransparent.Value = True
     End Select
-    chkEnableBorders.Value = CInt(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", 1))
+    chkEnableBorders.Value = frmOptions.LiveBadukMemoSkinEnableBorder
     
     tr fText, "Text"
     tr chkTextColor, "Label te&xt color:"
