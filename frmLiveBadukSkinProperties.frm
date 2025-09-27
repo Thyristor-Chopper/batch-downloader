@@ -453,6 +453,7 @@ Private Sub Form_Load()
     tr optBackgroundColor, "C&olor:"
     tr Label1, "&Progress text color:"
     tr chkEnableFontSize, "Label text &size:"
+    tr chkBold, "&Bold text"
 End Sub
 
 Private Sub lblFrameBackgroundColorSelect_Click()
