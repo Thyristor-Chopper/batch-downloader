@@ -3406,9 +3406,12 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn3
             DeleteObject Rgn4
             DeleteObject Rgn5
-            Rgn1 = CreateRectRgn(0, 7, 12, 18)
+            Rgn1 = CreateRectRgn(0, 7, 12, 17)
+            Rgn2 = CreateRectRgn(0, 17, 11, 18)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             DeleteObject Rgn1
+            DeleteObject Rgn2
             Rgn1 = CreateRectRgn(0, 18, 6, 19)
             Rgn2 = CreateRectRgn(0, 19, 4, 20)
             Rgn3 = CreateRectRgn(0, 20, 3, 21)
