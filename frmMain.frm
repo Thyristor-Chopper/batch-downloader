@@ -2234,7 +2234,7 @@ Function AddBatchURLs(URL As String, Optional ByVal SavePath As String = "", Opt
     Dim i&
     If lvBatchFiles.ListItems.Count Then
         For i = 1& To lvBatchFiles.ListItems.Count
-            If lvBatchFiles.ListItems(i).ListSubItems(2).Text = Trim$(txtURL.Text) Then
+            If lvBatchFiles.ListItems(i).ListSubItems(2).Text = Trim$(URL) Then
                 AddBatchURLs = True
                 Exit Function
             End If
