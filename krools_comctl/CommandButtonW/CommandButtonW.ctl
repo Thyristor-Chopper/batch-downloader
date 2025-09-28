@@ -568,7 +568,15 @@ Private Sub tygButton_Click()
 End Sub
 
 'Private Sub tygButton_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    'RaiseEvent MouseDown(Button, Shift, X, Y)
+'    RaiseEvent MouseDown(Button, Shift, X, Y)
+'End Sub
+'
+'Private Sub tygButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+'    RaiseEvent MouseMove(Button, Shift, X, Y)
+'End Sub
+'
+'Private Sub tygButton_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+'    RaiseEvent MouseUp(Button, Shift, X, Y)
 'End Sub
 
 Private Sub UserControl_Initialize()

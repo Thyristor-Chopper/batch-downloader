@@ -404,7 +404,7 @@ Begin VB.Form frmMain
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   529
-      Caption         =   "프로그램 정보(&U)..."
+      Caption         =   "프로그램 정보(&U)"
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW cmdOptions 
@@ -3305,7 +3305,7 @@ Private Sub Form_Load()
     tr mnuClearBatch3, "&Clear list"
     tr mnuDeleteItem, "&Remove"
     tr mnuOpenFolder, "Open &folder"
-    tr cmdAbout, "Abo&ut application..."
+    tr cmdAbout, "Abo&ut application"
     tr Label10, "Remaining:"
     tr lblLBCaption, "Progress"
     
@@ -3320,8 +3320,12 @@ Private Sub Form_Load()
     
     tr mnuProperties, "View p&roperties"
     tr mnuPropertiesBatch, "View p&roperties"
-    
+
+#If HIDEYTDL Then
+    cmdDownloadOptions.Caption = t("헤더 편집(&S)...", "Edit header&s...")
+#Else
     tr cmdDownloadOptions, "Download &settings..."
+#End If
     
     Label11.Caption = fOptions.Caption
     

@@ -281,23 +281,31 @@ End Sub
 'Property Get BackColor() As OLE_COLOR
 '    BackColor = UserControl.BackColor
 'End Property
-'
+
 'Property Let BackColor(ByVal New_BackColor As OLE_COLOR)
 '    m_BackColor = New_BackColor
 '    UserControl.BackColor = New_BackColor
 '    PropertyChanged "BackColor"
 'End Property
 
-Private Sub imgOverlay_Click()
-    If m_Enabled Then RaiseEvent Click
-End Sub
+'Private Sub imgOverlay_Click()
+'    If m_Enabled Then RaiseEvent Click
+'End Sub
+
+Private Function IsHovering() As Boolean
+    Static lpPos As POINTAPI
+    Static lhWnd As Long
+    GetCursorPos lpPos
+    lhWnd = WindowFromPoint(lpPos.X, lpPos.Y)
+    IsHovering = (lhWnd = CommandButtonControlHandle)
+End Function
 
 Private Sub tmrMouse_Timer()
     Static lpPos As POINTAPI
     Static lhWnd As Long
     GetCursorPos lpPos
     lhWnd = WindowFromPoint(lpPos.X, lpPos.Y)
-    If lhWnd <> CommandButtonControlHandle And bHovering Then MouseOut
+    If (Not IsHovering()) And bHovering Then MouseOut
 End Sub
 
 Private Sub UserControl_GotFocus()
@@ -313,7 +321,6 @@ Private Sub UserControl_Initialize()
 End Sub
 
 Sub ShowAsPressed()
-    If Not m_Enabled Then Exit Sub
     lblCaption.Left = 15
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 20 + 15
     lblCaption.Tag = "mousedown"
@@ -325,7 +332,6 @@ Sub ShowAsPressed()
 End Sub
 
 Sub ShowAsUnpressed()
-    If Not m_Enabled Then Exit Sub
     lblCaption.Left = 0
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 15
     lblCaption.Tag = ""
@@ -341,28 +347,30 @@ Sub ShowAsUnpressed()
 End Sub
 
 Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    'RaiseEvent MouseDown(Button, Shift, X, Y)
     If Not m_Enabled Then Exit Sub
     bMouseDown = True
     ShowAsPressed
+    'RaiseEvent MouseDown(Button, Shift, X, Y)
 End Sub
  
 Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    'RaiseEvent MouseMove(Button, Shift, X, Y)
     If Not m_Enabled Then Exit Sub
     tmrMouse.Enabled = -1
     If Not bHovering Then
         bHovering = True
         DrawSkin Hover
+        If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 2)
     End If
-    If lblCaption.Tag <> "mousedown" Then lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 2)
+    'RaiseEvent MouseMove(Button, Shift, X, Y)
 End Sub
  
 Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    'RaiseEvent MouseUp(Button, Shift, X, Y)
     If Not m_Enabled Then Exit Sub
     bMouseDown = False
     ShowAsUnpressed
+    bHovering = False
+    If IsHovering() Then RaiseEvent Click
+    'RaiseEvent MouseUp(Button, Shift, X, Y)
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -376,12 +384,14 @@ Private Sub UserControl_InitProperties()
 End Sub
 
 Private Sub UserControl_KeyDown(KeyCode As Integer, Shift As Integer)
+    If Not m_Enabled Then Exit Sub
     If Not bMouseDown Then
         If KeyCode = 32 Then ShowAsPressed
     End If
 End Sub
 
 Private Sub UserControl_KeyUp(KeyCode As Integer, Shift As Integer)
+    If Not m_Enabled Then Exit Sub
     If Not bMouseDown Then
         If KeyCode = 32 Then
             ShowAsUnpressed
