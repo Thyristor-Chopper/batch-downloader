@@ -898,10 +898,10 @@ Begin VB.Form frmOptions
       AutoRedraw      =   -1  'True
       BorderStyle     =   0  '¾øÀ½
       Enabled         =   0   'False
-      Height          =   5100
+      Height          =   5130
       Index           =   3
       Left            =   120
-      ScaleHeight     =   5100
+      ScaleHeight     =   5130
       ScaleWidth      =   7110
       TabIndex        =   3
       TabStop         =   0   'False
@@ -912,7 +912,7 @@ Begin VB.Form frmOptions
          Height          =   1200
          Left            =   120
          TabIndex        =   44
-         Top             =   2550
+         Top             =   2580
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   2117
@@ -979,7 +979,7 @@ Begin VB.Form frmOptions
          Height          =   1200
          Left            =   120
          TabIndex        =   49
-         Top             =   3840
+         Top             =   3870
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   2117
@@ -1116,7 +1116,7 @@ Begin VB.Form frmOptions
          Height          =   1200
          Left            =   3600
          TabIndex        =   66
-         Top             =   3840
+         Top             =   3870
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   2117
@@ -1202,7 +1202,7 @@ Begin VB.Form frmOptions
          Height          =   1200
          Left            =   3600
          TabIndex        =   56
-         Top             =   2550
+         Top             =   2580
          Width           =   3375
          _ExtentX        =   5953
          _ExtentY        =   2117
@@ -1673,9 +1673,14 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     cbSkin.ListIndex = GetSetting("DownloadBooster", Section, "ButtonSkin", 4)
     cbProgressSkin.ListIndex = GetSetting("DownloadBooster", Section, "ProgressFrameSkin", 1)
     
+    DisableVisualStyle = CByte(GetSetting("DownloadBooster", Section, "DisableVisualStyle", 0))
+    RoundClassicButtons = CByte(GetSetting("DownloadBooster", Section, "RoundClassicButtons", 0))
+    
     cmdSample.RoundButton = RoundClassicButtons
     cmdSample.VisualStyles = (DisableVisualStyle = 0)
     cmdSample.IsTygemButton = cbSkin.ListIndex > 0
+    txtSampleClassic.Visible = (DisableVisualStyle <> 0)
+    pbSampleClassic.Visible = (DisableVisualStyle <> 0)
     
     lvPatterns.ListIndex = CInt(GetSetting("DownloadBooster", Section, "FormFillStyle", 0))
     
@@ -1703,6 +1708,8 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     If clrForeColor < 0 Or clrForeColor > 16777215 Then
         optSystemFore.Value = True
         pgFore.BackColor = &H80000012
+        CheckBoxW1.VisualStyles = (DisableVisualStyle = 0)
+        FrameW5.VisualStyles = (DisableVisualStyle = 0)
     Else
         optUserFore.Value = True
         pgFore.BackColor = clrForeColor
@@ -1731,9 +1738,6 @@ Private Sub cbTheme_Click()
         SkinChanged = True
         FontChanged = True
         ProgressSkinChanged = True
-    
-        DisableVisualStyle = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", 0)
-        RoundClassicButtons = GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", 0)
                 
         LiveBadukMemoSkinShadowColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinShadowColor", 16777215))
         LiveBadukMemoSkinFrameColor = CLng(GetSetting("DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameColor", 11194780))
@@ -2717,9 +2721,6 @@ Private Sub LoadSettings()
             trRequestInterval.Value = 8
     End Select
     trRequestInterval_Scroll
-    
-    DisableVisualStyle = CByte(GetSetting("DownloadBooster", "Options", "DisableVisualStyle", 0))
-    RoundClassicButtons = CByte(GetSetting("DownloadBooster", "Options", "RoundClassicButtons", 0))
     
     LiveBadukMemoSkinShadowColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", 16777215))
     LiveBadukMemoSkinFrameColor = CLng(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", 11194780))

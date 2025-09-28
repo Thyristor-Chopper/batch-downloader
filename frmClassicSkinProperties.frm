@@ -92,6 +92,9 @@ Private Sub cmdOK_Click()
     If frmOptions.optSystemFore.Value Then
         frmOptions.CheckBoxW1.VisualStyles = (chkDisableVisualStyle.Value = 0)
         frmOptions.FrameW5.VisualStyles = (chkDisableVisualStyle.Value = 0)
+    Else
+        frmOptions.CheckBoxW1.VisualStyles = False
+        frmOptions.FrameW5.VisualStyles = False
     End If
     Unload Me
 End Sub
