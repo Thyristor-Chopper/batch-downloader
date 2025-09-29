@@ -1905,7 +1905,7 @@ Sub OnExit(RetVal As Long)
                         Case "404"
                             ErrDesc = "서버에 파일이 존재하지 않습니다."
                         Case "405"
-                            ErrDesc = "파일을 받으려면 데이타를 전송해야 합니다."
+                            ErrDesc = "파일을 받으려면 추가 데이타를 전송해야 합니다."
                         Case "406"
                             ErrDesc = "요청을 받아들일 수 없습니다."
                         Case "407"
@@ -1927,7 +1927,7 @@ Sub OnExit(RetVal As Long)
                             ErrDesc = "서버가 자신은 찻주전자라서 커피를 만들 수 없다고 합니다 ㅎ   "
                             Icon = vbInformation
                         Case "451"
-                            ErrDesc = "법적인 이유로 파일을 다운로드 받을 수 없습니다."
+                            ErrDesc = "법적인 이유로 파일을 다운로드할 수 없습니다."
                         Case "500"
                             ErrDesc = "서버 측에서 오류가 발생했습니다."
                         Case "502"
@@ -1943,13 +1943,15 @@ Sub OnExit(RetVal As Long)
                             statusMsg = " HTTP 응답 코드는 ( " & HttpStatusCode & " ) 입니다."
                     End Select
                 End If
-                MsgBox t("서버가 요청을 거부했습니다. " & ErrDesc & statusMsg, "Server denied your request. The file may not exist or have insufficient permissions to access it."), Icon
+                MsgBox t("서버가 요청을 거부했습니다. " & ErrDesc & statusMsg, "Server denied your request. The file may not exist or have insufficient permissions to access it. HTTP response code is " & HttpStatusCode & "."), Icon
             Case 109
                 MsgBox t("기술적 문제로 이어받기가 불가능합니다.", "Unable to resume due to technical issues."), 16
             Case 110
                 MsgBox t("디스크 공간이 부족합니다.", "Low disk space."), 16
             Case 111
                 MsgBox t("디스크 쓰기 오류입니다. 일시적인 오류이거나 디스크가 읽기 전용이거나 디스크의 상태가 452편성처럼 좋지 않을 수 있습니다.", "Disk write error. It may be just a temporary error, or disk is in an unhealthy state or disk is write protected."), 16
+            Case 112
+                MsgBox t("지정한 폴더에 저장할 수 있는 권한이 없습니다. 다른 폴더를 선택하십시오.", "Insufficient permission to save to specified folder. Please choose a different folder."), 16
             Case Else
                 MsgBox t("내부 오류가 발생했습니다. 프로세스 반환 값은 ( " & RetVal & " ) 입니다.", "Internal error. Process returned ( " & RetVal & " )."), 16
         End Select

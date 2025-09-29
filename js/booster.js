@@ -552,7 +552,14 @@ function startDownload(url) {
 		try {
 			fd = fs.openSync(fn + '.part.tmp', 'r+');
 		} catch(e) {
-			fd = fs.openSync(fn + '.part.tmp', 'w+');
+			try {
+				fd = fs.openSync(fn + '.part.tmp', 'w+');
+			} catch(e) {
+				if(e.code == 'EPERM')
+					process.exit(112);
+				else
+					process.exit(111);
+			}
 		}
 		var prevSize = fs.fstatSync(fd).size;
 		if(total) {

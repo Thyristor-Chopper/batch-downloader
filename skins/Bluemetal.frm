@@ -1,17 +1,52 @@
 VERSION 5.00
 Begin VB.Form Bluemetal 
    Caption         =   "Form1"
-   ClientHeight    =   3090
+   ClientHeight    =   3060
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   4680
+   ClientWidth     =   4650
+   BeginProperty Font 
+      Name            =   "±¼¸²"
+      Size            =   9.75
+      Charset         =   129
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3090
-   ScaleWidth      =   4680
+   ScaleHeight     =   3060
+   ScaleWidth      =   4650
    StartUpPosition =   3  'Windows ±âº»°ª
+   Begin VB.CommandButton Command1 
+      Caption         =   "Command1"
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   975
+      Left            =   2520
+      TabIndex        =   8
+      Top             =   2040
+      Width           =   1455
+   End
    Begin VB.PictureBox pbRight 
       AutoRedraw      =   -1  'True
       BorderStyle     =   0  '¾øÀ½
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   930
       Left            =   4560
       MousePointer    =   9  'W E Å©±â Á¶Á¤
@@ -23,6 +58,15 @@ Begin VB.Form Bluemetal
    End
    Begin VB.PictureBox pbBottomRight 
       BorderStyle     =   0  '¾øÀ½
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   60
       Left            =   3720
       MousePointer    =   8  'NW SE Å©±â Á¶Á¤
@@ -36,10 +80,19 @@ Begin VB.Form Bluemetal
    Begin VB.PictureBox pbBottomMiddle 
       AutoRedraw      =   -1  'True
       BorderStyle     =   0  '¾øÀ½
-      Height          =   60
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   75
       Left            =   120
       MousePointer    =   7  'N SÅ©±â Á¶Á¤
-      ScaleHeight     =   60
+      ScaleHeight     =   75
       ScaleWidth      =   2055
       TabIndex        =   5
       Top             =   1680
@@ -47,6 +100,15 @@ Begin VB.Form Bluemetal
    End
    Begin VB.PictureBox pbBottomLeft 
       BorderStyle     =   0  '¾øÀ½
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   60
       Left            =   0
       MousePointer    =   6  'NE SW Å©±â Á¶Á¤
@@ -60,6 +122,15 @@ Begin VB.Form Bluemetal
    Begin VB.PictureBox pbLeft 
       AutoRedraw      =   -1  'True
       BorderStyle     =   0  '¾øÀ½
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   930
       Left            =   0
       MousePointer    =   9  'W E Å©±â Á¶Á¤
@@ -71,6 +142,15 @@ Begin VB.Form Bluemetal
    End
    Begin VB.PictureBox pbTopRight 
       BorderStyle     =   0  '¾øÀ½
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   480
       Left            =   3360
       Picture         =   "Bluemetal.frx":0083
@@ -82,6 +162,15 @@ Begin VB.Form Bluemetal
    End
    Begin VB.PictureBox pbTopLeft 
       BorderStyle     =   0  '¾øÀ½
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   480
       Left            =   0
       Picture         =   "Bluemetal.frx":069D
@@ -94,6 +183,15 @@ Begin VB.Form Bluemetal
    Begin VB.PictureBox pbTopMiddle 
       AutoRedraw      =   -1  'True
       BorderStyle     =   0  '¾øÀ½
+      BeginProperty Font 
+         Name            =   "µ¸¿ò"
+         Size            =   9
+         Charset         =   129
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   480
       Left            =   570
       ScaleHeight     =   480
@@ -101,6 +199,46 @@ Begin VB.Form Bluemetal
       TabIndex        =   0
       Top             =   0
       Width           =   2250
+      Begin VB.Label lblCaption 
+         Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
+         BackStyle       =   0  'Åõ¸í
+         Caption         =   "Label1"
+         BeginProperty Font 
+            Name            =   "±¼¸²"
+            Size            =   9.75
+            Charset         =   129
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   255
+         Left            =   0
+         TabIndex        =   9
+         Top             =   150
+         Width           =   2295
+      End
+      Begin VB.Label lblCaptionShadow 
+         Alignment       =   2  '°¡¿îµ¥ ¸ÂÃã
+         BackStyle       =   0  'Åõ¸í
+         Caption         =   "Label1"
+         BeginProperty Font 
+            Name            =   "±¼¸²"
+            Size            =   9.75
+            Charset         =   129
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   255
+         Left            =   15
+         TabIndex        =   10
+         Top             =   165
+         Width           =   2295
+      End
    End
    Begin VB.Image imgTopMiddle 
       Height          =   480
@@ -162,6 +300,9 @@ Private Sub Form_Load()
     SetParent pbRight.hWnd, GetParent(Me.hWnd)
     
     Form_Resize
+    
+    lblCaption.Caption = Me.Caption
+    lblCaptionShadow.Caption = Me.Caption
 End Sub
 
 Private Sub Form_Resize()
@@ -209,6 +350,9 @@ Private Sub Form_Resize()
     CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
     CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
     SetWindowRgn Me.hWnd, Rgn, True
+    
+    lblCaption.Width = pbTopMiddle.Width
+    lblCaptionShadow.Width = pbTopMiddle.Width
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -230,6 +374,20 @@ Private Sub pbBottomMiddle_MouseMove(Button As Integer, Shift As Integer, X As S
     If Button = 1 Then
         ReleaseCapture
         SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTBOTTOM, 0&
+    End If
+End Sub
+
+Private Sub lblCaption_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Button = 1 Then
+        ReleaseCapture
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
+    End If
+End Sub
+
+Private Sub lblCaptionShadow_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Button = 1 Then
+        ReleaseCapture
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
     End If
 End Sub
 

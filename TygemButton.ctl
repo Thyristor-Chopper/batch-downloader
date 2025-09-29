@@ -347,7 +347,7 @@ Sub ShowAsUnpressed()
 End Sub
 
 Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If Not m_Enabled Then Exit Sub
+    If (Not m_Enabled) Or Button <> 1 Then Exit Sub
     bMouseDown = True
     ShowAsPressed
     'RaiseEvent MouseDown(Button, Shift, X, Y)
@@ -365,7 +365,7 @@ Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Singl
 End Sub
  
 Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If Not m_Enabled Then Exit Sub
+    If (Not m_Enabled) Or Button <> 1 Then Exit Sub
     bMouseDown = False
     ShowAsUnpressed
     bHovering = False
