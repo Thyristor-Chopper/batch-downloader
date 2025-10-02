@@ -1085,6 +1085,26 @@ Begin VB.Form frmMain
       ImageListAlignment=   4
       Transparent     =   -1  'True
    End
+   Begin VB.Shape pgOuterBorderRight 
+      BackColor       =   &H00C8D0D4&
+      BackStyle       =   1  '투명하지 않음
+      BorderStyle     =   0  '투명
+      Height          =   135
+      Left            =   11040
+      Top             =   1440
+      Visible         =   0   'False
+      Width           =   135
+   End
+   Begin VB.Shape pgOuterBorderBottom 
+      BackColor       =   &H00C8D0D4&
+      BackStyle       =   1  '투명하지 않음
+      BorderStyle     =   0  '투명
+      Height          =   135
+      Left            =   10800
+      Top             =   1440
+      Visible         =   0   'False
+      Width           =   135
+   End
    Begin VB.Image imgLBContentBackground 
       Height          =   4215
       Left            =   270
@@ -1125,26 +1145,6 @@ Begin VB.Form frmMain
       Visible         =   0   'False
       Width           =   135
    End
-   Begin VB.Shape pgBorderRight 
-      BackColor       =   &H00C8D0D4&
-      BackStyle       =   1  '투명하지 않음
-      BorderColor     =   &H005F5F5C&
-      Height          =   135
-      Left            =   10680
-      Top             =   1680
-      Visible         =   0   'False
-      Width           =   45
-   End
-   Begin VB.Shape pgBorderLeft 
-      BackColor       =   &H00C8D0D4&
-      BackStyle       =   1  '투명하지 않음
-      BorderColor     =   &H005F5F5C&
-      Height          =   135
-      Left            =   10680
-      Top             =   1440
-      Visible         =   0   'False
-      Width           =   45
-   End
    Begin VB.Shape pgBorderBottom 
       BackColor       =   &H00C8D0D4&
       BackStyle       =   1  '투명하지 않음
@@ -1152,16 +1152,6 @@ Begin VB.Form frmMain
       Height          =   45
       Left            =   10680
       Top             =   1200
-      Visible         =   0   'False
-      Width           =   615
-   End
-   Begin VB.Shape pgBorderTop 
-      BackColor       =   &H00C8D0D4&
-      BackStyle       =   1  '투명하지 않음
-      BorderColor     =   &H005F5F5C&
-      Height          =   45
-      Left            =   10680
-      Top             =   960
       Visible         =   0   'False
       Width           =   615
    End
@@ -1320,6 +1310,36 @@ Begin VB.Form frmMain
       Left            =   0
       Top             =   0
       Width           =   255
+   End
+   Begin VB.Shape pgBorderLeft 
+      BackColor       =   &H00C8D0D4&
+      BackStyle       =   1  '투명하지 않음
+      BorderColor     =   &H005F5F5C&
+      Height          =   135
+      Left            =   10680
+      Top             =   1440
+      Visible         =   0   'False
+      Width           =   45
+   End
+   Begin VB.Shape pgBorderRight 
+      BackColor       =   &H00C8D0D4&
+      BackStyle       =   1  '투명하지 않음
+      BorderColor     =   &H005F5F5C&
+      Height          =   135
+      Left            =   10680
+      Top             =   1680
+      Visible         =   0   'False
+      Width           =   45
+   End
+   Begin VB.Shape pgBorderTop 
+      BackColor       =   &H00C8D0D4&
+      BackStyle       =   1  '투명하지 않음
+      BorderColor     =   &H005F5F5C&
+      Height          =   45
+      Left            =   10680
+      Top             =   960
+      Visible         =   0   'False
+      Width           =   615
    End
    Begin VB.Menu mnuListContext 
       Caption         =   "mnuListContext"
@@ -2834,7 +2854,7 @@ Sub LoadLiveBadukSkin()
     Dim LBEnabled As Boolean
     Dim fSkin As Byte
     fSkin = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 1))
-    LBEnabled = (fSkin > 0 And DPI = 96)
+    LBEnabled = (fSkin > 0)
     If LBEnabled Then
         fTygemFrameTransparent.Top = 1200
         fTygemFrameTransparent.Left = 120
@@ -2920,6 +2940,8 @@ Sub LoadLiveBadukSkin()
         pgBorderTop.Visible = ShowBorder
         pgBorderRight.Visible = ShowBorder
         pgBorderBottom.Visible = ShowBorder
+        pgOuterBorderBottom.Visible = ShowBorder
+        pgOuterBorderRight.Visible = ShowBorder
         
         imgLBContentBackground.Visible = True
         Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent"))
@@ -2988,6 +3010,8 @@ Sub LoadLiveBadukSkin()
         pgBorderTop.Visible = False
         pgBorderRight.Visible = False
         pgBorderBottom.Visible = False
+        pgOuterBorderBottom.Visible = False
+        pgOuterBorderRight.Visible = False
         
         imgLBContentBackground.Visible = False
         
@@ -3396,16 +3420,20 @@ Private Sub SetTygemFrameRgn()
     
     Dim RC As RECT
     GetWindowRect fTygemFrameTransparent.hWnd, RC
+    Dim Height&, Width&
+    Dim DPIScaleRev As Double: DPIScaleRev = 96 / DPI
+    Width = (RC.Right - RC.Left) * DPIScaleRev
+    Height = (RC.Bottom - RC.Top) * DPIScaleRev
     Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&, Rgn9&
-    Rgn = CreateRectRgn(0, 0, RC.Right - RC.Left, RC.Bottom - RC.Top)
+    Rgn = CreateRectRgnFix(0, 0, Width, Height)
     
     Select Case fSkin
         Case 1
-            Rgn1 = CreateRectRgn(0, 0, 17, 1)
-            Rgn2 = CreateRectRgn(0, 1, 15, 2)
-            Rgn3 = CreateRectRgn(0, 2, 14, 3)
-            Rgn4 = CreateRectRgn(0, 3, 13, 4)
-            Rgn5 = CreateRectRgn(0, 4, 12, 7)
+            Rgn1 = CreateRectRgnFix(0, 0, 17, 1)
+            Rgn2 = CreateRectRgnFix(0, 1, 15, 2)
+            Rgn3 = CreateRectRgnFix(0, 2, 14, 3)
+            Rgn4 = CreateRectRgnFix(0, 3, 13, 4)
+            Rgn5 = CreateRectRgnFix(0, 4, 12, 7)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3416,17 +3444,17 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn3
             DeleteObject Rgn4
             DeleteObject Rgn5
-            Rgn1 = CreateRectRgn(0, 7, 12, 17)
-            Rgn2 = CreateRectRgn(0, 17, 11, 18)
+            Rgn1 = CreateRectRgnFix(0, 7, 12, 17)
+            Rgn2 = CreateRectRgnFix(0, 17, 11, 18)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             DeleteObject Rgn1
             DeleteObject Rgn2
-            Rgn1 = CreateRectRgn(0, 18, 6, 19)
-            Rgn2 = CreateRectRgn(0, 19, 4, 20)
-            Rgn3 = CreateRectRgn(0, 20, 3, 21)
-            Rgn4 = CreateRectRgn(0, 21, 2, 22)
-            Rgn5 = CreateRectRgn(0, 22, 1, 23)
+            Rgn1 = CreateRectRgnFix(0, 18, 6, 19)
+            Rgn2 = CreateRectRgnFix(0, 19, 4, 20)
+            Rgn3 = CreateRectRgnFix(0, 20, 3, 21)
+            Rgn4 = CreateRectRgnFix(0, 21, 2, 22)
+            Rgn5 = CreateRectRgnFix(0, 22, 1, 23)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3437,10 +3465,10 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn3
             DeleteObject Rgn4
             DeleteObject Rgn5
-            Rgn1 = CreateRectRgn(0, RC.Bottom - RC.Top - 6, 1, RC.Bottom - RC.Top)
-            Rgn2 = CreateRectRgn(1, RC.Bottom - RC.Top - 3, 2, RC.Bottom - RC.Top)
-            Rgn3 = CreateRectRgn(2, RC.Bottom - RC.Top - 2, 3, RC.Bottom - RC.Top)
-            Rgn4 = CreateRectRgn(3, RC.Bottom - RC.Top - 1, 5, RC.Bottom - RC.Top)
+            Rgn1 = CreateRectRgnFix(0, Height - 6, 1, Height)
+            Rgn2 = CreateRectRgnFix(1, Height - 3, 2, Height)
+            Rgn3 = CreateRectRgnFix(2, Height - 2, 3, Height)
+            Rgn4 = CreateRectRgnFix(3, Height - 1, 5, Height)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3449,10 +3477,10 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn2
             DeleteObject Rgn3
             DeleteObject Rgn4
-            Rgn1 = CreateRectRgn(RC.Right - RC.Left - 5, RC.Bottom - RC.Top - 1, RC.Right - RC.Left, RC.Bottom - RC.Top)
-            Rgn2 = CreateRectRgn(RC.Right - RC.Left - 3, RC.Bottom - RC.Top - 2, RC.Right - RC.Left, RC.Bottom - RC.Top - 1)
-            Rgn3 = CreateRectRgn(RC.Right - RC.Left - 2, RC.Bottom - RC.Top - 3, RC.Right - RC.Left, RC.Bottom - RC.Top - 2)
-            Rgn4 = CreateRectRgn(RC.Right - RC.Left - 1, RC.Bottom - RC.Top - 6, RC.Right - RC.Left, RC.Bottom - RC.Top - 3)
+            Rgn1 = CreateRectRgnFix(Width - 5, Height - 1, Width, Height)
+            Rgn2 = CreateRectRgnFix(Width - 3, Height - 2, Width, Height - 1)
+            Rgn3 = CreateRectRgnFix(Width - 2, Height - 3, Width, Height - 2)
+            Rgn4 = CreateRectRgnFix(Width - 1, Height - 6, Width, Height - 3)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3461,30 +3489,12 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn2
             DeleteObject Rgn3
             DeleteObject Rgn4
-            Rgn1 = CreateRectRgn(112, 0, RC.Right - RC.Left, 18)
-            Rgn2 = CreateRectRgn(RC.Right - RC.Left - 6, 18, RC.Right - RC.Left, 19)
-            Rgn3 = CreateRectRgn(RC.Right - RC.Left - 4, 19, RC.Right - RC.Left, 20)
-            Rgn4 = CreateRectRgn(RC.Right - RC.Left - 3, 20, RC.Right - RC.Left, 21)
-            Rgn5 = CreateRectRgn(RC.Right - RC.Left - 2, 21, RC.Right - RC.Left, 22)
-            Rgn6 = CreateRectRgn(RC.Right - RC.Left - 1, 22, RC.Right - RC.Left, 24)
-            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
-            DeleteObject Rgn1
-            DeleteObject Rgn2
-            DeleteObject Rgn3
-            DeleteObject Rgn4
-            DeleteObject Rgn5
-            DeleteObject Rgn6
-            Rgn1 = CreateRectRgn(100, 0, 112, 1)
-            Rgn2 = CreateRectRgn(102, 1, 112, 2)
-            Rgn3 = CreateRectRgn(103, 2, 112, 3)
-            Rgn4 = CreateRectRgn(104, 3, 112, 4)
-            Rgn5 = CreateRectRgn(105, 4, 112, 17)
-            Rgn6 = CreateRectRgn(106, 17, 112, 18)
+            Rgn1 = CreateRectRgnFix(112, 0, Width, 18)
+            Rgn2 = CreateRectRgnFix(Width - 6, 18, Width, 19)
+            Rgn3 = CreateRectRgnFix(Width - 4, 19, Width, 20)
+            Rgn4 = CreateRectRgnFix(Width - 3, 20, Width, 21)
+            Rgn5 = CreateRectRgnFix(Width - 2, 21, Width, 22)
+            Rgn6 = CreateRectRgnFix(Width - 1, 22, Width, 24)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3497,15 +3507,33 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn4
             DeleteObject Rgn5
             DeleteObject Rgn6
-            Rgn1 = CreateRectRgn(10, 30, RC.Right - RC.Left - 10, RC.Bottom - RC.Top - 13)
+            Rgn1 = CreateRectRgnFix(100, 0, 112, 1)
+            Rgn2 = CreateRectRgnFix(102, 1, 112, 2)
+            Rgn3 = CreateRectRgnFix(103, 2, 112, 3)
+            Rgn4 = CreateRectRgnFix(104, 3, 112, 4)
+            Rgn5 = CreateRectRgnFix(105, 4, 112, 17)
+            Rgn6 = CreateRectRgnFix(106, 17, 112, 18)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            DeleteObject Rgn6
+            Rgn1 = CreateRectRgnFix(10, 30, Width - 10, Height - 13)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             DeleteObject Rgn1
         Case 2
-            Rgn1 = CreateRectRgn(0, 0, 6, 1)
-            Rgn2 = CreateRectRgn(0, 1, 4, 2)
-            Rgn3 = CreateRectRgn(0, 2, 3, 3)
-            Rgn4 = CreateRectRgn(0, 3, 2, 4)
-            Rgn5 = CreateRectRgn(0, 4, 1, 7)
+            Rgn1 = CreateRectRgnFix(0, 0, 6, 1)
+            Rgn2 = CreateRectRgnFix(0, 1, 4, 2)
+            Rgn3 = CreateRectRgnFix(0, 2, 3, 3)
+            Rgn4 = CreateRectRgnFix(0, 3, 2, 4)
+            Rgn5 = CreateRectRgnFix(0, 4, 1, 7)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3516,10 +3544,10 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn3
             DeleteObject Rgn4
             DeleteObject Rgn5
-            Rgn1 = CreateRectRgn(0, RC.Bottom - RC.Top - 6, 1, RC.Bottom - RC.Top)
-            Rgn2 = CreateRectRgn(1, RC.Bottom - RC.Top - 3, 2, RC.Bottom - RC.Top)
-            Rgn3 = CreateRectRgn(2, RC.Bottom - RC.Top - 2, 3, RC.Bottom - RC.Top)
-            Rgn4 = CreateRectRgn(3, RC.Bottom - RC.Top - 1, 5, RC.Bottom - RC.Top)
+            Rgn1 = CreateRectRgnFix(0, Height - 6, 1, Height)
+            Rgn2 = CreateRectRgnFix(1, Height - 3, 2, Height)
+            Rgn3 = CreateRectRgnFix(2, Height - 2, 3, Height)
+            Rgn4 = CreateRectRgnFix(3, Height - 1, 5, Height)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3528,10 +3556,10 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn2
             DeleteObject Rgn3
             DeleteObject Rgn4
-            Rgn1 = CreateRectRgn(RC.Right - RC.Left - 5, RC.Bottom - RC.Top - 1, RC.Right - RC.Left, RC.Bottom - RC.Top)
-            Rgn2 = CreateRectRgn(RC.Right - RC.Left - 3, RC.Bottom - RC.Top - 2, RC.Right - RC.Left, RC.Bottom - RC.Top - 1)
-            Rgn3 = CreateRectRgn(RC.Right - RC.Left - 2, RC.Bottom - RC.Top - 3, RC.Right - RC.Left, RC.Bottom - RC.Top - 2)
-            Rgn4 = CreateRectRgn(RC.Right - RC.Left - 1, RC.Bottom - RC.Top - 6, RC.Right - RC.Left, RC.Bottom - RC.Top - 3)
+            Rgn1 = CreateRectRgnFix(Width - 5, Height - 1, Width, Height)
+            Rgn2 = CreateRectRgnFix(Width - 3, Height - 2, Width, Height - 1)
+            Rgn3 = CreateRectRgnFix(Width - 2, Height - 3, Width, Height - 2)
+            Rgn4 = CreateRectRgnFix(Width - 1, Height - 6, Width, Height - 3)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3540,12 +3568,12 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn2
             DeleteObject Rgn3
             DeleteObject Rgn4
-            Rgn1 = CreateRectRgn(112, 0, RC.Right - RC.Left, 18)
-            Rgn2 = CreateRectRgn(RC.Right - RC.Left - 6, 18, RC.Right - RC.Left, 19)
-            Rgn3 = CreateRectRgn(RC.Right - RC.Left - 4, 19, RC.Right - RC.Left, 20)
-            Rgn4 = CreateRectRgn(RC.Right - RC.Left - 3, 20, RC.Right - RC.Left, 21)
-            Rgn5 = CreateRectRgn(RC.Right - RC.Left - 2, 21, RC.Right - RC.Left, 22)
-            Rgn6 = CreateRectRgn(RC.Right - RC.Left - 1, 22, RC.Right - RC.Left, 24)
+            Rgn1 = CreateRectRgnFix(112, 0, Width, 18)
+            Rgn2 = CreateRectRgnFix(Width - 6, 18, Width, 19)
+            Rgn3 = CreateRectRgnFix(Width - 4, 19, Width, 20)
+            Rgn4 = CreateRectRgnFix(Width - 3, 20, Width, 21)
+            Rgn5 = CreateRectRgnFix(Width - 2, 21, Width, 22)
+            Rgn6 = CreateRectRgnFix(Width - 1, 22, Width, 24)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3558,42 +3586,15 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn4
             DeleteObject Rgn5
             DeleteObject Rgn6
-            Rgn1 = CreateRectRgn(94, 0, 112, 1)
-            Rgn2 = CreateRectRgn(95, 1, 112, 2)
-            Rgn3 = CreateRectRgn(96, 2, 112, 3)
-            Rgn4 = CreateRectRgn(97, 3, 112, 4)
-            Rgn5 = CreateRectRgn(98, 4, 112, 5)
-            Rgn6 = CreateRectRgn(99, 5, 112, 6)
-            Rgn7 = CreateRectRgn(100, 6, 112, 7)
-            Rgn8 = CreateRectRgn(101, 7, 112, 8)
-            Rgn9 = CreateRectRgn(102, 8, 112, 9)
-            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
-            CombineRgn Rgn, Rgn, Rgn9, RGN_DIFF
-            DeleteObject Rgn1
-            DeleteObject Rgn2
-            DeleteObject Rgn3
-            DeleteObject Rgn4
-            DeleteObject Rgn5
-            DeleteObject Rgn6
-            DeleteObject Rgn7
-            DeleteObject Rgn8
-            DeleteObject Rgn9
-            Rgn1 = CreateRectRgn(103, 9, 112, 10)
-            Rgn2 = CreateRectRgn(104, 10, 112, 11)
-            Rgn3 = CreateRectRgn(105, 11, 112, 12)
-            Rgn4 = CreateRectRgn(106, 12, 112, 13)
-            Rgn5 = CreateRectRgn(107, 13, 112, 14)
-            Rgn6 = CreateRectRgn(108, 14, 112, 15)
-            Rgn7 = CreateRectRgn(109, 15, 112, 16)
-            Rgn8 = CreateRectRgn(110, 16, 112, 17)
-            Rgn9 = CreateRectRgn(111, 17, 112, 18)
+            Rgn1 = CreateRectRgnFix(94, 0, 112, 1)
+            Rgn2 = CreateRectRgnFix(95, 1, 112, 2)
+            Rgn3 = CreateRectRgnFix(96, 2, 112, 3)
+            Rgn4 = CreateRectRgnFix(97, 3, 112, 4)
+            Rgn5 = CreateRectRgnFix(98, 4, 112, 5)
+            Rgn6 = CreateRectRgnFix(99, 5, 112, 6)
+            Rgn7 = CreateRectRgnFix(100, 6, 112, 7)
+            Rgn8 = CreateRectRgnFix(101, 7, 112, 8)
+            Rgn9 = CreateRectRgnFix(102, 8, 112, 9)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
@@ -3612,11 +3613,38 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn7
             DeleteObject Rgn8
             DeleteObject Rgn9
-            Rgn1 = CreateRectRgn(10, 30, RC.Right - RC.Left - 10, RC.Bottom - RC.Top - 13)
+            Rgn1 = CreateRectRgnFix(103, 9, 112, 10)
+            Rgn2 = CreateRectRgnFix(104, 10, 112, 11)
+            Rgn3 = CreateRectRgnFix(105, 11, 112, 12)
+            Rgn4 = CreateRectRgnFix(106, 12, 112, 13)
+            Rgn5 = CreateRectRgnFix(107, 13, 112, 14)
+            Rgn6 = CreateRectRgnFix(108, 14, 112, 15)
+            Rgn7 = CreateRectRgnFix(109, 15, 112, 16)
+            Rgn8 = CreateRectRgnFix(110, 16, 112, 17)
+            Rgn9 = CreateRectRgnFix(111, 17, 112, 18)
+            CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn3, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn4, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn5, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn6, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn7, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn8, RGN_DIFF
+            CombineRgn Rgn, Rgn, Rgn9, RGN_DIFF
+            DeleteObject Rgn1
+            DeleteObject Rgn2
+            DeleteObject Rgn3
+            DeleteObject Rgn4
+            DeleteObject Rgn5
+            DeleteObject Rgn6
+            DeleteObject Rgn7
+            DeleteObject Rgn8
+            DeleteObject Rgn9
+            Rgn1 = CreateRectRgnFix(10, 30, Width - 10, Height - 13)
             CombineRgn Rgn, Rgn, Rgn1, RGN_DIFF
             DeleteObject Rgn1
     End Select
-    
+
     SetWindowRgn fTygemFrameTransparent.hWnd, Rgn, True
     DeleteObject Rgn
 End Sub
@@ -3675,23 +3703,33 @@ Private Sub Form_Resize()
     imgBorderTopLeft.Left = 0
     imgBorderTopLeft.Top = 0
     imgBorderTopRight.Top = 0
-    imgBorderTopRight.Left = Me.Width - imgBorderTopRight.Width - SizingBorderWidth * 15 * 2
+    imgBorderTopRight.Left = Me.Width - imgBorderTopRight.Width * (DPI / 96) - SizingBorderWidth * 15 * 2
     imgBorderBottomLeft.Left = 0
-    imgBorderBottomLeft.Top = Me.Height - sbStatusBar.Height - imgBorderBottomLeft.Height - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
-    imgBorderBottomRight.Left = Me.Width - imgBorderBottomRight.Width - SizingBorderWidth * 15 * 2
-    imgBorderBottomRight.Top = Me.Height - sbStatusBar.Height - imgBorderBottomRight.Height - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    imgBorderBottomLeft.Top = Me.Height - sbStatusBar.Height - imgBorderBottomLeft.Height * (DPI / 96) - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    imgBorderBottomRight.Left = Me.Width - imgBorderBottomRight.Width * (DPI / 96) - SizingBorderWidth * 15 * 2
+    imgBorderBottomRight.Top = Me.Height - sbStatusBar.Height - imgBorderBottomRight.Height * (DPI / 96) - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
     pgBorderTop.Left = 0
-    pgBorderTop.Top = -15
+    pgBorderTop.Top = -15 * (DPI / 96)
     pgBorderTop.Width = Me.Width
     pgBorderBottom.Left = 0
-    pgBorderBottom.Top = Me.Height - sbStatusBar.Height - 30 - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    pgBorderBottom.Top = Me.Height - sbStatusBar.Height - 30 * (DPI / 96) - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
     pgBorderBottom.Width = Me.Width
-    pgBorderLeft.Left = -15
+    pgBorderLeft.Left = -15 * (DPI / 96)
     pgBorderLeft.Top = 0
     pgBorderLeft.Height = Me.Height
     pgBorderRight.Top = 0
-    pgBorderRight.Left = Me.Width - 30 - SizingBorderWidth * 15 * 2
+    pgBorderRight.Left = Me.Width - 30 * (DPI / 96) - SizingBorderWidth * 15 * 2
     pgBorderRight.Height = Me.Height
+    
+    pgOuterBorderBottom.Left = 0
+    pgOuterBorderBottom.Top = pgBorderBottom.Top + 15 * (DPI / 96)
+    pgOuterBorderRight.Top = 0
+    pgOuterBorderRight.Left = pgBorderRight.Left + 15 * (DPI / 96)
+    
+    pgOuterBorderBottom.Width = Me.Width
+    pgOuterBorderBottom.Height = Me.Width
+    pgOuterBorderRight.Width = Me.Width
+    pgOuterBorderRight.Height = Me.Width
     
     pgPattern.Width = Me.Width
     pgPattern.Height = Me.Height

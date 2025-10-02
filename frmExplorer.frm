@@ -110,7 +110,7 @@ Begin VB.Form frmExplorer
          Orientation     =   1
          Divider         =   0   'False
          AllowCustomize  =   0   'False
-         ButtonHeight    =   51
+         ButtonHeight    =   35
          ButtonWidth     =   94
          MinButtonWidth  =   94
          MaxButtonWidth  =   94
@@ -136,7 +136,7 @@ Begin VB.Form frmExplorer
       Width           =   2175
    End
    Begin prjDownloadBooster.ImageCombo cbFolderList 
-      Height          =   330
+      Height          =   315
       Left            =   1680
       TabIndex        =   11
       Top             =   120

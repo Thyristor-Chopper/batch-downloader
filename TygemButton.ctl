@@ -436,8 +436,8 @@ Private Sub DrawSkin(Optional ByVal State As ButtonState = Normal)
 
     srcW = ScaleX(pic.Width, vbHimetric, vbPixels)
     srcH = ScaleY(pic.Height, vbHimetric, vbPixels)
-    dstW = ScaleX(ScaleWidth, vbTwips, vbPixels)
-    dstH = ScaleY(ScaleHeight, vbTwips, vbPixels)
+    dstW = ScaleX(UserControl.Width, vbTwips, vbPixels)
+    dstH = ScaleY(UserControl.Height, vbTwips, vbPixels)
     B = ButtonSkinBorder(m_Skin)
 
     Dim effectiveSrcW As Long

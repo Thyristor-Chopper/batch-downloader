@@ -47,6 +47,11 @@ Public IPictureIID As IID
 Public LaunchFromMemory As Boolean
 
 Sub Main()
+'    On Error Resume Next
+'    'SetProcessDPIAware
+'    SetProcessDpiAwarenessContext -5&
+'    On Error GoTo 0
+
     OSLangID = GetUserDefaultUILanguage()
     LangID = GetSetting("DownloadBooster", "Options", "Language", 0)
     If LangID = 0 Then LangID = OSLangID

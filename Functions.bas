@@ -18,6 +18,8 @@ Public Const PROPERTY_SHEET_BUTTON_HEIGHT As Integer = 360
 Public MsgBoxResults As Collection
 Public InputBoxResults As Collection
 
+'Declare Function SetProcessDpiAwarenessContext Lib "user32" (ByVal context As Long) As Long
+'Declare Function SetProcessDPIAware Lib "user32" () As Long
 Declare Function GlobalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal dwBytes As Long) As Long
 Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
 Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
@@ -1608,7 +1610,7 @@ End Function
 Sub SetFont(frm As Form, Optional ByVal Force As Boolean = False)
     On Error Resume Next
     Dim LBEnabled As Boolean
-    LBEnabled = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 1)) > 0 And DPI = 96
+    LBEnabled = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 1)) > 0
     Dim FontName$, FontSize%, FontBold As Boolean
     FontName = Trim$(GetSetting("DownloadBooster", "Options", "Font", ""))
     If FontName = "" And LangID = 1042 Then
@@ -2109,18 +2111,18 @@ End Function
 
 Sub ExtractResource(ByVal ResourceID As Integer, ByVal ResourceType As ResourceType, FileName As String)
     Dim ff As Integer
-    Dim b() As Byte
+    Dim B() As Byte
     On Error Resume Next
     MkDir CachePath
     On Error GoTo 0
 
     If Not FileExists(CachePath & FileName) Then
-        b = LoadResData(ResourceID, ResourceType)
+        B = LoadResData(ResourceID, ResourceType)
         ff = FreeFile()
         Open CachePath & FileName For Binary Access Write As #ff
-        Put #ff, , b
+        Put #ff, , B
         Close #ff
-        Erase b
+        Erase B
     End If
 End Sub
 
@@ -2173,16 +2175,16 @@ End Sub
 
 Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean = False)
     On Error Resume Next
-    Dim A%, b%, X%, Y%, Z%
+    Dim A%, B%, X%, Y%, Z%
     A = tsTabStrip.Tabs.Count
-    b = tsTabStrip.SelectedItem.Index
+    B = tsTabStrip.SelectedItem.Index
     If Reverse Then X = 1 Else X = A
     If Reverse Then Y = A Else Y = 1
     If Reverse Then Z = -1 Else Z = 1
-    If b = X Then
+    If B = X Then
         tsTabStrip.Tabs(Y).Selected = True
     Else
-        tsTabStrip.Tabs(b + Z).Selected = True
+        tsTabStrip.Tabs(B + Z).Selected = True
     End If
 End Sub
 
@@ -2316,20 +2318,20 @@ Function RunNode(SP As ShellPipe, FileName As String, Script() As Byte, Optional
     End If
 End Function
 
-Sub StripTrailingNull(ByRef b() As Byte)
+Sub StripTrailingNull(ByRef B() As Byte)
     Dim i As Long
     Dim newSize As Long
     newSize = -1
-    For i = UBound(b) To 0 Step -1
-        If b(i) <> 0 Then
+    For i = UBound(B) To 0 Step -1
+        If B(i) <> 0 Then
             newSize = i
             Exit For
         End If
     Next i
     If newSize = -1 Then
-        ReDim b(-1)
+        ReDim B(-1)
     Else
-        ReDim Preserve b(newSize)
+        ReDim Preserve B(newSize)
     End If
 End Sub
 
@@ -2404,3 +2406,8 @@ End Sub
 '
 '    GetCurrentEXEPath = Left$(exePath, ret)
 'End Function
+
+Function CreateRectRgnFix(ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
+    Dim DPIScale As Double: DPIScale = DPI / 96
+    CreateRectRgnFix = CreateRectRgn(X1 * DPIScale, Y1 * DPIScale, X2 * DPIScale, Y2 * DPIScale)
+End Function

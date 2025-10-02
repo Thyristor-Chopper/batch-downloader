@@ -131,6 +131,7 @@ Begin VB.Form frmMessageBox
       Index           =   1
       Left            =   75
       Picture         =   "frmMessageBox.frx":000C
+      Stretch         =   -1  'True
       Top             =   90
       Visible         =   0   'False
       Width           =   360
@@ -140,6 +141,7 @@ Begin VB.Form frmMessageBox
       Index           =   3
       Left            =   75
       Picture         =   "frmMessageBox.frx":00C1
+      Stretch         =   -1  'True
       Top             =   90
       Visible         =   0   'False
       Width           =   360
@@ -149,6 +151,7 @@ Begin VB.Form frmMessageBox
       Index           =   2
       Left            =   75
       Picture         =   "frmMessageBox.frx":01DC
+      Stretch         =   -1  'True
       Top             =   90
       Visible         =   0   'False
       Width           =   360
@@ -158,6 +161,7 @@ Begin VB.Form frmMessageBox
       Index           =   4
       Left            =   75
       Picture         =   "frmMessageBox.frx":029A
+      Stretch         =   -1  'True
       Top             =   90
       Visible         =   0   'False
       Width           =   360
@@ -175,6 +179,7 @@ Begin VB.Form frmMessageBox
    Begin VB.Image imgTrain 
       Height          =   480
       Left            =   255
+      Stretch         =   -1  'True
       Top             =   240
       Width           =   480
    End
