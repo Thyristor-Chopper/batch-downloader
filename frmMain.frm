@@ -2093,8 +2093,6 @@ Sub OnStart()
 End Sub
 
 Sub OnStop(Optional PlayBeep As Boolean = True)
-    SP.ClosePipe
-    
     IsDownloading = False
     cmdGo.Enabled = Not BatchStarted
     cmdStop.Enabled = 0
@@ -2502,7 +2500,7 @@ L2:
         CurrentHeaderCache = Functions.SessionHeaderCache
     End If
     Dim SPResult As SP_RESULTS
-    SPResult = RunNode(SP, DownloadScript, """" & _
+    SPResult = RunNode(SP, "booster.js", DownloadScript, """" & _
         Replace(Replace(URL, " ", "%20"), """", "%22") & """ """ & _
         FileName & """ " & _
         trThreadCount.Value & " " & _
@@ -2518,7 +2516,7 @@ L2:
         Replace(Col(Functions.HeaderCache, "-"), vbCrLf, "") & " " & _
         Replace(Col(CurrentHeaderCache, "-"), vbCrLf, "") _
     )
-    'EnvironmentVariables:=StrPtr("UV_THREADPOOL_SIZE=" & (trThreadCount.Value + 1) & vbNullChar & vbNullChar)
+    '"UV_THREADPOOL_SIZE=" & (trThreadCount.Value + 1) & vbNullChar & vbNullChar
     Select Case SPResult
         Case SP_SUCCESS
             'SP.ClosePipe

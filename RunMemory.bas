@@ -85,6 +85,8 @@ Private Const PAGE_WRITECOPY As Long = &H8
 Private Const PAGE_NOACCESS As Long = &H1
 Private Const PAGE_READWRITE As Long = &H4
 
+'Private Const CREATE_UNICODE_ENVIRONMENT As Long = &H400&
+
 '
 ' Main stuff for any API code
 '

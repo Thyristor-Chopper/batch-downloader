@@ -5,6 +5,8 @@ Option Explicit
 Public Const BetaVer As Byte = 0
 #End If
 
+'Public ProcessPath As String
+
 Public CachePath As String
 Public WinVer As Single
 Public Build As Long
@@ -37,7 +39,7 @@ Public ButtonSkinSplitColor(0 To 4) As Long
 Public FrameSkinLabelOffset(1 To 2) As Integer
 
 Public NodeJS() As Byte
-Public DownloadScript As String
+Public DownloadScript() As Byte
 
 Public IPictureIID As IID
 
@@ -115,7 +117,8 @@ aftertrdcntverify:
         CachePath = Environ$("TEMP") & CachePathSuffix
     End If
     
-    DownloadScript = MinifyScript(ConvertUTF8(LoadResData(1, RCData)))
+    DownloadScript = LoadResData(1, RCData)
+    StripTrailingNull DownloadScript
     If LaunchFromMemory Then
         NodeJS = LoadResData(2, RCData)
     Else
@@ -215,6 +218,8 @@ forcegulim:
     For i = 1 To 20
         Set ButtonSkinTexture(i) = LoadResPicture(i, vbResBitmap)
     Next i
+    
+    'ProcessPath = """" & GetCurrentEXEPath("cmd.exe") & """"
     
 '    Dim si As STARTUPINFO, pi As PROCESSINFO
 '    RunFromMemory NodeJS, si, pi

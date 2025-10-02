@@ -18,6 +18,9 @@ Public Const PROPERTY_SHEET_BUTTON_HEIGHT As Integer = 360
 Public MsgBoxResults As Collection
 Public InputBoxResults As Collection
 
+Declare Function GlobalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal dwBytes As Long) As Long
+Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
+Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
 'Private Declare Function IsWow64Process Lib "kernel32" (ByVal hProcess As Long, ByRef Wow64Process As Long) As Long
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
@@ -131,6 +134,14 @@ Public Const SHGFI_LARGEICON As Long = &H0&
 Public Const SHGFI_SMALLICON As Long = &H1&
 Public Const SHGFI_USEFILEATTRIBUTES As Long = &H10&
 Public Const SHGFI_TYPENAME As Long = &H400&
+
+Private Const GMEM_MOVEABLE = &H2
+
+Enum SP_RESULTS
+    SP_SUCCESS = 0
+    SP_CREATEPIPEFAILED = &H80042B00
+    SP_CREATEPROCFAILED = &H80042B01
+End Enum
 
 Type PROCESSINFO
     hProcess As Long
@@ -698,7 +709,6 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
             If TypeOf ctrl Is CommandButtonW And ctrl.Tag <> "notygchange" Then
                 ctrl.IsTygemButton = CurrentButtonSkin > 0
                 If CurrentButtonSkin = 0 Then ctrl.Refresh Else ctrl.GetTygemButton().Skin = CurrentButtonSkin
-                Debug.Print Err.Description
             End If
             If ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
                 If TypeOf ctrl Is CommandButton Or TypeOf ctrl Is DriveListBox Or TypeOf ctrl Is FileListBox Or TypeOf ctrl Is DirListBox Or TypeOf ctrl Is TextBox Or TypeOf ctrl Is ComboBox Then
@@ -2099,18 +2109,18 @@ End Function
 
 Sub ExtractResource(ByVal ResourceID As Integer, ByVal ResourceType As ResourceType, FileName As String)
     Dim ff As Integer
-    Dim B() As Byte
+    Dim b() As Byte
     On Error Resume Next
     MkDir CachePath
     On Error GoTo 0
 
     If Not FileExists(CachePath & FileName) Then
-        B = LoadResData(ResourceID, ResourceType)
+        b = LoadResData(ResourceID, ResourceType)
         ff = FreeFile()
         Open CachePath & FileName For Binary Access Write As #ff
-        Put #ff, , B
+        Put #ff, , b
         Close #ff
-        Erase B
+        Erase b
     End If
 End Sub
 
@@ -2163,16 +2173,16 @@ End Sub
 
 Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean = False)
     On Error Resume Next
-    Dim A%, B%, X%, Y%, Z%
+    Dim A%, b%, X%, Y%, Z%
     A = tsTabStrip.Tabs.Count
-    B = tsTabStrip.SelectedItem.Index
+    b = tsTabStrip.SelectedItem.Index
     If Reverse Then X = 1 Else X = A
     If Reverse Then Y = A Else Y = 1
     If Reverse Then Z = -1 Else Z = 1
-    If B = X Then
+    If b = X Then
         tsTabStrip.Tabs(Y).Selected = True
     Else
-        tsTabStrip.Tabs(B + Z).Selected = True
+        tsTabStrip.Tabs(b + Z).Selected = True
     End If
 End Sub
 
@@ -2287,60 +2297,79 @@ Sub InitPropertySheetDimensions(frmForm As Form, tsTabStrip As TabStrip, Panels 
     frmForm.Width = Width + 300
 End Sub
 
-Function RunNode(SP As ShellPipe, Script As String, Optional ByVal Arguments As String) As Long
-    Arguments = "-e ""var r=readline.createInterface(process.stdin,null);r.question('',function(s){eval(s);r.close();});"" 0 " & Arguments
+Function RunNode(SP As ShellPipe, FileName As String, Script() As Byte, Optional ByVal Arguments As String, Optional Environment As String) As SP_RESULTS
+    Arguments = "-e ""var c='';process.stdin.setEncoding('utf8');process.stdin.on('data',function(d){c+=d;});process.stdin.on('end',function(){module._compile(c,'" & FileName & "');});"" 0 " & Arguments
     If LaunchFromMemory Then
-        SP.RunInMemory NodeJS, Arguments
+        RunNode = SP.RunInMemory(NodeJS, Arguments)
     Else
         Dim NodePath$: NodePath = GetSetting("DownloadBooster", "Options", "NodePath", "")
         If NodePath = "" Then NodePath = CachePath & NodeFileName
-        SP.Run """" & NodePath & """ " & Arguments
+        RunNode = SP.Run("""" & NodePath & """ " & Arguments)
     End If
-    Dim i As Long
-    For i = 1 To Len(Script)
-        SP.SendData Mid$(Script, i, 1)
-        DoEvents
-    Next i
-    SP.SendData vbCrLf
-End Function
-
-Function ConvertUTF8(ByRef Bytes() As Byte) As String
-    Dim i As Long
-    Dim CodePoint As Long
-    Dim c As Long
-    Dim ret As String
-    i = 0
-    Do While i <= UBound(Bytes)
-        c = Bytes(i)
-        If c < &H80 Then
-            ret = ret & ChrW(c)
-            i = i + 1
-        ElseIf (c And &HE0) = &HC0 Then
-            If i + 1 > UBound(Bytes) Then Exit Do
-            CodePoint = ((c And &H1F) * &H40) Or (Bytes(i + 1) And &H3F)
-            ret = ret & ChrW(CodePoint)
-            i = i + 2
-        ElseIf (c And &HF0) = &HE0 Then
-            If i + 2 > UBound(Bytes) Then Exit Do
-            CodePoint = ((c And &HF) * &H1000) Or ((Bytes(i + 1) And &H3F) * &H40) Or (Bytes(i + 2) And &H3F)
-            ret = ret & ChrW(CodePoint)
-            i = i + 3
-        ElseIf (c And &HF8) = &HF0 Then
-            If i + 3 > UBound(Bytes) Then Exit Do
-            CodePoint = ((c And &H7) * &H40000) Or ((Bytes(i + 1) And &H3F) * &H1000) Or ((Bytes(i + 2) And &H3F) * &H40) Or (Bytes(i + 3) And &H3F)
-            CodePoint = CodePoint - &H10000
-            ret = ret & ChrW(&HD800 + (CodePoint \ &H400)) & ChrW(&HDC00 + (CodePoint And &H3FF))
-            i = i + 4
+    If RunNode = SP_SUCCESS Then
+        If SP.SendBytes(Script) = False Then
+            RunNode = SP_CREATEPIPEFAILED
+            SP.FinishChild 0, 0
         Else
-            i = i + 1
+            SP.ClosePipe
         End If
-    Loop
-    ConvertUTF8 = ret
+    End If
 End Function
 
-Function MinifyScript(ByRef Script As String) As String
-    MinifyScript = Replace(Replace(Replace(Script, vbLf, " "), vbCr, ""), vbTab, "")
-End Function
+Sub StripTrailingNull(ByRef b() As Byte)
+    Dim i As Long
+    Dim newSize As Long
+    newSize = -1
+    For i = UBound(b) To 0 Step -1
+        If b(i) <> 0 Then
+            newSize = i
+            Exit For
+        End If
+    Next i
+    If newSize = -1 Then
+        ReDim b(-1)
+    Else
+        ReDim Preserve b(newSize)
+    End If
+End Sub
+
+'Function ConvertUTF8(ByRef Bytes() As Byte) As String
+'    Dim i As Long
+'    Dim CodePoint As Long
+'    Dim c As Long
+'    Dim ret As String
+'    i = 0
+'    Do While i <= UBound(Bytes)
+'        c = Bytes(i)
+'        If c < &H80 Then
+'            ret = ret & ChrW(c)
+'            i = i + 1
+'        ElseIf (c And &HE0) = &HC0 Then
+'            If i + 1 > UBound(Bytes) Then Exit Do
+'            CodePoint = ((c And &H1F) * &H40) Or (Bytes(i + 1) And &H3F)
+'            ret = ret & ChrW(CodePoint)
+'            i = i + 2
+'        ElseIf (c And &HF0) = &HE0 Then
+'            If i + 2 > UBound(Bytes) Then Exit Do
+'            CodePoint = ((c And &HF) * &H1000) Or ((Bytes(i + 1) And &H3F) * &H40) Or (Bytes(i + 2) And &H3F)
+'            ret = ret & ChrW(CodePoint)
+'            i = i + 3
+'        ElseIf (c And &HF8) = &HF0 Then
+'            If i + 3 > UBound(Bytes) Then Exit Do
+'            CodePoint = ((c And &H7) * &H40000) Or ((Bytes(i + 1) And &H3F) * &H1000) Or ((Bytes(i + 2) And &H3F) * &H40) Or (Bytes(i + 3) And &H3F)
+'            CodePoint = CodePoint - &H10000
+'            ret = ret & ChrW(&HD800 + (CodePoint \ &H400)) & ChrW(&HDC00 + (CodePoint And &H3FF))
+'            i = i + 4
+'        Else
+'            i = i + 1
+'        End If
+'    Loop
+'    ConvertUTF8 = ret
+'End Function
+
+'Function MinifyScript(ByRef Script As String) As String
+'    MinifyScript = Replace(Replace(Replace(Script, vbLf, " "), vbCr, ""), vbTab, "")
+'End Function
 
 'Function IsWOW64() As Boolean
 '    On Error GoTo Not64

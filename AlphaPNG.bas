@@ -53,10 +53,7 @@ Private Declare Function IIDFromString Lib "ole32" (ByVal lpsz As Long, ByRef CL
 Private Declare Function GdiplusShutdown Lib "gdiplus" (ByVal token As Long) As Long
 
 Private Declare Function CreateStreamOnHGlobal Lib "ole32.dll" (ByVal hGlobal As Long, ByVal fDeleteOnRelease As Long, ppstm As Any) As Long
-Private Declare Function GlobalAlloc Lib "kernel32" (ByVal uFlags As Long, ByVal dwBytes As Long) As Long
 Private Declare Function GlobalFree Lib "kernel32" (ByVal hMem As Long) As Long
-Private Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
-Private Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
 Private Declare Function GdipLoadImageFromStream Lib "gdiplus" (ByVal Stream As Long, hImage As Long) As Long
 
 Const HORZSIZE   As Long = 4&

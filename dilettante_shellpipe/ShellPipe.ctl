@@ -406,6 +406,8 @@ Private Declare Function WriteFile Lib "kernel32" _
      ByRef cWritten As Long, _
      ByVal lpOverlapped As Any) As Long
 
+Private Declare Function WriteBuffer Lib "kernel32" Alias "WriteFile" (ByVal hFile As Long, ByRef lpBuffer As Any, ByVal nNumberOfBytesToWrite As Long, lpNumberOfBytesWritten As Long, ByVal lpOverlapped As Long) As Long
+
 Private piProc As PROCESSINFO
 Private saPipe As SECURITY_ATTRIBUTES
 Private hChildInPipeRd As Long
@@ -429,12 +431,6 @@ Private mWaitForIdle As Long
 Public Enum SPEOF_TYPES
     SPEOF_NORMAL = 0
     SPEOF_BROKEN_PIPE = ERROR_BROKEN_PIPE
-End Enum
-
-Public Enum SP_RESULTS
-    SP_SUCCESS = 0
-    SP_CREATEPIPEFAILED = &H80042B00
-    SP_CREATEPROCFAILED = &H80042B01
 End Enum
 
 Public Event DataArrival(ByVal CharsTotal As Long)
@@ -852,6 +848,23 @@ Private Sub ReadData()
         End If
     End If
 End Sub
+
+Function SendBytes(ByRef B() As Byte) As Boolean
+    Dim nWritten As Long
+    Dim nLength As Long
+    Dim ret As Long
+    nLength = UBound(B) + 1
+    If nLength <= 0 Then
+        SendBytes = False
+        Exit Function
+    End If
+    If WriteBuffer(hChildInPipeWr, B(0), nLength, nWritten, 0&) = 0 Then
+        SendBytes = False
+        Exit Function
+    Else
+        SendBytes = (nWritten = nLength)
+    End If
+End Function
 
 Private Sub WriteData()
     Dim Buffer As String
