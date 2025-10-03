@@ -1085,26 +1085,6 @@ Begin VB.Form frmMain
       ImageListAlignment=   4
       Transparent     =   -1  'True
    End
-   Begin VB.Shape pgOuterBorderRight 
-      BackColor       =   &H00C8D0D4&
-      BackStyle       =   1  '투명하지 않음
-      BorderStyle     =   0  '투명
-      Height          =   135
-      Left            =   11040
-      Top             =   1440
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Shape pgOuterBorderBottom 
-      BackColor       =   &H00C8D0D4&
-      BackStyle       =   1  '투명하지 않음
-      BorderStyle     =   0  '투명
-      Height          =   135
-      Left            =   10800
-      Top             =   1440
-      Visible         =   0   'False
-      Width           =   135
-   End
    Begin VB.Image imgLBContentBackground 
       Height          =   4215
       Left            =   270
@@ -2931,7 +2911,7 @@ Sub LoadLiveBadukSkin()
         cbWhenExist.Width = 1305
         
         Dim ShowBorder As Boolean
-        ShowBorder = (GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", 1) <> 0)
+        ShowBorder = (GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinEnableBorder", 1) <> 0) And (DPI = 96)
         imgBorderTopLeft.Visible = ShowBorder
         imgBorderTopRight.Visible = ShowBorder
         imgBorderBottomLeft.Visible = ShowBorder
@@ -2940,8 +2920,6 @@ Sub LoadLiveBadukSkin()
         pgBorderTop.Visible = ShowBorder
         pgBorderRight.Visible = ShowBorder
         pgBorderBottom.Visible = ShowBorder
-        pgOuterBorderBottom.Visible = ShowBorder
-        pgOuterBorderRight.Visible = ShowBorder
         
         imgLBContentBackground.Visible = True
         Select Case LCase(GetSetting("DownloadBooster", "Options", "LiveBadukMemoSkinFrameBackgroundType", "transparent"))
@@ -3010,8 +2988,6 @@ Sub LoadLiveBadukSkin()
         pgBorderTop.Visible = False
         pgBorderRight.Visible = False
         pgBorderBottom.Visible = False
-        pgOuterBorderBottom.Visible = False
-        pgOuterBorderRight.Visible = False
         
         imgLBContentBackground.Visible = False
         
@@ -3703,33 +3679,23 @@ Private Sub Form_Resize()
     imgBorderTopLeft.Left = 0
     imgBorderTopLeft.Top = 0
     imgBorderTopRight.Top = 0
-    imgBorderTopRight.Left = Me.Width - imgBorderTopRight.Width * (DPI / 96) - SizingBorderWidth * 15 * 2
+    imgBorderTopRight.Left = Me.Width - imgBorderTopRight.Width - SizingBorderWidth * 15 * 2
     imgBorderBottomLeft.Left = 0
-    imgBorderBottomLeft.Top = Me.Height - sbStatusBar.Height - imgBorderBottomLeft.Height * (DPI / 96) - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
-    imgBorderBottomRight.Left = Me.Width - imgBorderBottomRight.Width * (DPI / 96) - SizingBorderWidth * 15 * 2
-    imgBorderBottomRight.Top = Me.Height - sbStatusBar.Height - imgBorderBottomRight.Height * (DPI / 96) - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    imgBorderBottomLeft.Top = Me.Height - sbStatusBar.Height - imgBorderBottomLeft.Height - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    imgBorderBottomRight.Left = Me.Width - imgBorderBottomRight.Width - SizingBorderWidth * 15 * 2
+    imgBorderBottomRight.Top = Me.Height - sbStatusBar.Height - imgBorderBottomRight.Height - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
     pgBorderTop.Left = 0
-    pgBorderTop.Top = -15 * (DPI / 96)
+    pgBorderTop.Top = -15
     pgBorderTop.Width = Me.Width
     pgBorderBottom.Left = 0
-    pgBorderBottom.Top = Me.Height - sbStatusBar.Height - 30 * (DPI / 96) - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    pgBorderBottom.Top = Me.Height - sbStatusBar.Height - 30 - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
     pgBorderBottom.Width = Me.Width
-    pgBorderLeft.Left = -15 * (DPI / 96)
+    pgBorderLeft.Left = -15
     pgBorderLeft.Top = 0
     pgBorderLeft.Height = Me.Height
     pgBorderRight.Top = 0
-    pgBorderRight.Left = Me.Width - 30 * (DPI / 96) - SizingBorderWidth * 15 * 2
+    pgBorderRight.Left = Me.Width - 30 - SizingBorderWidth * 15 * 2
     pgBorderRight.Height = Me.Height
-    
-    pgOuterBorderBottom.Left = 0
-    pgOuterBorderBottom.Top = pgBorderBottom.Top + 15 * (DPI / 96)
-    pgOuterBorderRight.Top = 0
-    pgOuterBorderRight.Left = pgBorderRight.Left + 15 * (DPI / 96)
-    
-    pgOuterBorderBottom.Width = Me.Width
-    pgOuterBorderBottom.Height = Me.Width
-    pgOuterBorderRight.Width = Me.Width
-    pgOuterBorderRight.Height = Me.Width
     
     pgPattern.Width = Me.Width
     pgPattern.Height = Me.Height

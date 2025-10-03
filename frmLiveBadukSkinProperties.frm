@@ -434,6 +434,8 @@ Private Sub Form_Load()
     sbFontSize.Value = frmOptions.LiveBadukMemoSkinLabelFontSize
     chkBold.Value = frmOptions.LiveBadukMemoSkinLabelFontBold
     
+    chkEnableBorders.Enabled = (DPI = 96)
+    
     tr fText, "Text"
     tr chkTextColor, "Label te&xt color:"
     tr chkShadowColor, "Label s&hadow color:"
