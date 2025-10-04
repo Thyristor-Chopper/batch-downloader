@@ -2409,3 +2409,24 @@ Function CreateRectRgnFix(ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, 
     Dim DPIScale As Double: DPIScale = DPI / 96
     CreateRectRgnFix = CreateRectRgn(X1 * DPIScale, Y1 * DPIScale, X2 * DPIScale, Y2 * DPIScale)
 End Function
+
+Sub DrawTabBackground(frmForm As Form, tsTabStrip As TabStrip, pbPanel As Object, Optional Refresh As Boolean = True)
+    On Error Resume Next
+    Dim ctrl As Control
+    Dim i As Byte
+    
+    For i = pbPanel.LBound To pbPanel.UBound
+        tsTabStrip.DrawBackground pbPanel(i).hWnd, pbPanel(i).hDC
+    Next i
+    
+    If Not Refresh Then Exit Sub
+    For Each ctrl In frmForm.Controls
+        If TypeOf ctrl Is FrameW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is CommandButtonW Then
+            ctrl.Refresh
+        ElseIf TypeOf ctrl Is Slider Then
+            ctrl.Refresh
+            ctrl.VisualStyles = Not ctrl.VisualStyles
+            ctrl.VisualStyles = Not ctrl.VisualStyles
+        End If
+    Next ctrl
+End Sub

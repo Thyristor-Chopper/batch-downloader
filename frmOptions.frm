@@ -2015,7 +2015,7 @@ aftermaxtrdcheck:
     End If
     If VisualStyleChanged Then
         On Error Resume Next
-        DrawTabBackground True
+        DrawTabBackground Me, tsTabStrip, pbPanel
         cmdChooseBackground.Refresh
         cmdSample.Refresh
         On Error GoTo 0
@@ -2359,10 +2359,10 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                 Case "WindowMetrics"
                     UpdateBorderWidth
                     SetPreviewPosition
-                    DrawTabBackground True
+                    DrawTabBackground Me, tsTabStrip, pbPanel
             End Select
         Case WM_THEMECHANGED
-            DrawTabBackground True
+            DrawTabBackground Me, tsTabStrip, pbPanel
     End Select
     
     IBSSubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
@@ -2506,7 +2506,7 @@ Private Sub Form_Load()
     imgPreview.Top = 0
     imgPreview.Left = 0
     
-    DrawTabBackground
+    DrawTabBackground Me, tsTabStrip, pbPanel
     
     AddItemToComboBox cbSkin, t("시스템 스타일", "System style")
     AddItemToComboBox cbSkin, t("라이브바둑 쪽지", "LiveBaduk memo")
@@ -2835,25 +2835,6 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 9 And IsKeyPressed(gksKeyboardctrl) Then
         NextTabPage tsTabStrip, IsKeyPressed(gksKeyboardShift)
     End If
-End Sub
-
-Private Sub DrawTabBackground(Optional Force As Boolean = False)
-    On Error Resume Next
-    Dim ctrl As Control
-    Dim i As Byte
-    
-    For i = pbPanel.LBound To pbPanel.UBound
-        tsTabStrip.DrawBackground pbPanel(i).hWnd, pbPanel(i).hDC
-    Next i
-    For Each ctrl In Me.Controls
-        If TypeOf ctrl Is FrameW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is CommandButtonW Then
-            ctrl.Refresh
-        ElseIf TypeOf ctrl Is Slider Then
-            ctrl.Refresh
-            ctrl.VisualStyles = Not ctrl.VisualStyles
-            ctrl.VisualStyles = Not ctrl.VisualStyles
-        End If
-    Next ctrl
 End Sub
 
 Private Sub lblSelectColor_Click()
