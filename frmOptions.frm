@@ -50,18 +50,18 @@ Begin VB.Form frmOptions
          Transparent     =   -1  'True
          Begin prjDownloadBooster.FrameW fCompleteSound 
             Height          =   705
-            Left            =   840
+            Left            =   720
             TabIndex        =   76
             Top             =   240
-            Width           =   5535
-            _ExtentX        =   9763
+            Width           =   6015
+            _ExtentX        =   10610
             _ExtentY        =   1244
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
             Begin prjDownloadBooster.CommandButtonW cmdBrowseCompleteSound 
                Height          =   300
-               Left            =   4560
+               Left            =   5040
                TabIndex        =   79
                Top             =   330
                Width           =   495
@@ -76,7 +76,7 @@ Begin VB.Form frmOptions
                Left            =   360
                TabIndex        =   78
                Top             =   330
-               Width           =   4095
+               Width           =   4575
             End
             Begin prjDownloadBooster.CheckBoxW chkBeepWhenComplete 
                Height          =   255
@@ -91,7 +91,7 @@ Begin VB.Form frmOptions
             End
             Begin prjDownloadBooster.CommandButtonW cmdTestCompleteSound 
                Height          =   300
-               Left            =   5160
+               Left            =   5640
                TabIndex        =   80
                Top             =   330
                Width           =   375
@@ -130,18 +130,18 @@ Begin VB.Form frmOptions
          Transparent     =   -1  'True
          Begin prjDownloadBooster.FrameW fAsterisk 
             Height          =   735
-            Left            =   840
+            Left            =   720
             TabIndex        =   81
             Top             =   240
-            Width           =   5535
-            _ExtentX        =   9763
+            Width           =   6015
+            _ExtentX        =   10610
             _ExtentY        =   1296
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
             Begin prjDownloadBooster.CommandButtonW cmdBrowseAsterisk 
                Height          =   300
-               Left            =   4560
+               Left            =   5040
                TabIndex        =   84
                Top             =   330
                Width           =   495
@@ -156,7 +156,7 @@ Begin VB.Form frmOptions
                Left            =   360
                TabIndex        =   83
                Top             =   330
-               Width           =   4095
+               Width           =   4575
             End
             Begin prjDownloadBooster.CheckBoxW chkAsterisk 
                Height          =   255
@@ -171,7 +171,7 @@ Begin VB.Form frmOptions
             End
             Begin prjDownloadBooster.CommandButtonW cmdTestAsterisk 
                Height          =   300
-               Left            =   5160
+               Left            =   5640
                TabIndex        =   85
                Top             =   330
                Width           =   375
@@ -192,18 +192,18 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.FrameW fExclamation 
             Height          =   735
-            Left            =   840
+            Left            =   720
             TabIndex        =   86
             Top             =   960
-            Width           =   5535
-            _ExtentX        =   9763
+            Width           =   6015
+            _ExtentX        =   10610
             _ExtentY        =   1296
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
             Begin prjDownloadBooster.CommandButtonW cmdBrowseExclamation 
                Height          =   300
-               Left            =   4560
+               Left            =   5040
                TabIndex        =   89
                Top             =   330
                Width           =   495
@@ -218,7 +218,7 @@ Begin VB.Form frmOptions
                Left            =   360
                TabIndex        =   88
                Top             =   330
-               Width           =   4095
+               Width           =   4575
             End
             Begin prjDownloadBooster.CheckBoxW chkExclamation 
                Height          =   255
@@ -233,7 +233,7 @@ Begin VB.Form frmOptions
             End
             Begin prjDownloadBooster.CommandButtonW cmdTestExclamation 
                Height          =   300
-               Left            =   5160
+               Left            =   5640
                TabIndex        =   90
                Top             =   330
                Width           =   375
@@ -254,18 +254,18 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.FrameW fError 
             Height          =   735
-            Left            =   840
+            Left            =   720
             TabIndex        =   91
             Top             =   1680
-            Width           =   5535
-            _ExtentX        =   9763
+            Width           =   6015
+            _ExtentX        =   10610
             _ExtentY        =   1296
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
             Begin prjDownloadBooster.CommandButtonW cmdBrowseError 
                Height          =   300
-               Left            =   4560
+               Left            =   5040
                TabIndex        =   94
                Top             =   330
                Width           =   495
@@ -280,7 +280,7 @@ Begin VB.Form frmOptions
                Left            =   360
                TabIndex        =   93
                Top             =   330
-               Width           =   4095
+               Width           =   4575
             End
             Begin prjDownloadBooster.CheckBoxW chkError 
                Height          =   255
@@ -295,7 +295,7 @@ Begin VB.Form frmOptions
             End
             Begin prjDownloadBooster.CommandButtonW cmdTestError 
                Height          =   300
-               Left            =   5160
+               Left            =   5640
                TabIndex        =   95
                Top             =   330
                Width           =   375
@@ -316,18 +316,18 @@ Begin VB.Form frmOptions
          End
          Begin prjDownloadBooster.FrameW fQuestion 
             Height          =   675
-            Left            =   840
+            Left            =   720
             TabIndex        =   96
             Top             =   2400
-            Width           =   5535
-            _ExtentX        =   9763
+            Width           =   6015
+            _ExtentX        =   10610
             _ExtentY        =   1191
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
             Begin prjDownloadBooster.CommandButtonW cmdBrowseQuestion 
                Height          =   300
-               Left            =   4560
+               Left            =   5040
                TabIndex        =   99
                Top             =   330
                Width           =   495
@@ -342,7 +342,7 @@ Begin VB.Form frmOptions
                Left            =   360
                TabIndex        =   98
                Top             =   330
-               Width           =   4095
+               Width           =   4575
             End
             Begin prjDownloadBooster.CheckBoxW chkQuestion 
                Height          =   255
@@ -357,7 +357,7 @@ Begin VB.Form frmOptions
             End
             Begin prjDownloadBooster.CommandButtonW cmdTestQuestion 
                Height          =   300
-               Left            =   5160
+               Left            =   5640
                TabIndex        =   100
                Top             =   330
                Width           =   375
