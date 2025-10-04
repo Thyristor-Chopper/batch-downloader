@@ -292,7 +292,7 @@ Private Function GetIconPosition() As ButtonIconPositions
         Case IconPositionCenter
             GetIconPosition = UserControl.Width / 2 - ScaleX(m_Icon.Width, vbHimetric, vbTwips) / 2
         Case Else
-            GetIconPosition = 2 * Screen.TwipsPerPixelX
+            GetIconPosition = 3 * Screen.TwipsPerPixelX
     End Select
 End Function
 

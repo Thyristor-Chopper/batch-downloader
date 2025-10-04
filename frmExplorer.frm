@@ -167,7 +167,7 @@ Begin VB.Form frmExplorer
       ImageHeight     =   32
       ColorDepth      =   32
       MaskColor       =   16711935
-      InitListImages  =   "frmExplorer.frx":4BF4
+      InitListImages  =   "frmExplorer.frx":409C
    End
    Begin VB.PictureBox picPreviewFrame 
       Enabled         =   0   'False
@@ -285,7 +285,7 @@ Begin VB.Form frmExplorer
       Wrappable       =   0   'False
       AllowCustomize  =   0   'False
       ButtonWidth     =   23
-      InitButtons     =   "frmExplorer.frx":74B4
+      InitButtons     =   "frmExplorer.frx":695C
    End
    Begin prjDownloadBooster.CheckBoxW chkUnixHidden 
       Height          =   255

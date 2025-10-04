@@ -3323,6 +3323,7 @@ Private Sub Form_Load()
 
 #If HIDEYTDL Then
     cmdDownloadOptions.Caption = t("헤더 편집(&S)...", "Edit header&s...")
+    Set cmdDownloadOptions.ImageList = cmdEdit.ImageList
 #Else
     tr cmdDownloadOptions, "Download &settings..."
 #End If

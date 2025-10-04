@@ -69,6 +69,7 @@ Module=mBSSubclass; vbaccelerator_ssubtmr\mBSSubclass.bas
 UserControl=krools_comctl\SpinBox\SpinBox.ctl
 Module=RunMemory; RunMemory.bas
 ResFile32="Booster.res"
+PropertyPage=krools_comctl\ImageList\PPImageListImages.pag
 IconForm="frmDummyForm"
 Startup="Sub Main"
 HelpFile=""
