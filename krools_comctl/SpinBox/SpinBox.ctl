@@ -326,8 +326,8 @@ End If
 End Sub
 
 Private Sub UserControl_Initialize()
-Call ComCtlsLoadShellMod
-Call ComCtlsInitCC(ICC_STANDARD_CLASSES Or ICC_UPDOWN_CLASS)
+'Call ComCtlsLoadShellMod
+'Call ComCtlsInitCC(ICC_STANDARD_CLASSES Or ICC_UPDOWN_CLASS)
 
 #If ImplementPreTranslateMsg = True Then
 
@@ -335,7 +335,7 @@ If SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject) = False Then UsePre
 
 #Else
 
-Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
@@ -479,16 +479,16 @@ Private Sub UserControl_Terminate()
 
 #If ImplementPreTranslateMsg = True Then
 
-If UsePreTranslateMsg = False Then Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+If UsePreTranslateMsg = False Then 'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #Else
 
-Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
 Call DestroySpinBox
-Call ComCtlsReleaseShellMod
+'Call ComCtlsReleaseShellMod
 End Sub
 
 Public Property Get Name() As String
@@ -835,7 +835,7 @@ Public Property Let RightToLeft(ByVal Value As Boolean)
 'Dim dwMask As Long
 'If PropRightToLeft = True Then dwMask = WS_EX_RTLREADING
 'If SpinBoxEditHandle <> NULL_PTR Then
-'    Call ComCtlsSetRightToLeft(SpinBoxEditHandle, dwMask)
+'    'Call ComCtlsSetRightToLeft(SpinBoxEditHandle, dwMask)
 '    If PropRightToLeft = False Then
 '        If PropAlignment = CCLeftRightAlignmentLeft Then Me.Alignment = CCLeftRightAlignmentRight
 '        If PropTextAlignment = vbRightJustify Then Me.TextAlignment = vbLeftJustify

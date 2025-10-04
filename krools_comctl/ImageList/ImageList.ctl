@@ -5,7 +5,7 @@ Begin VB.UserControl ImageList
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   2400
-   DrawStyle       =   5  'Transparent
+   DrawStyle       =   5  '≈ı∏Ì
    BeginProperty Font 
       Name            =   "Tahoma"
       Size            =   6.75
@@ -19,7 +19,7 @@ Begin VB.UserControl ImageList
    InvisibleAtRuntime=   -1  'True
    PropertyPages   =   "ImageList.ctx":0000
    ScaleHeight     =   120
-   ScaleMode       =   3  'Pixel
+   ScaleMode       =   3  '«»ºø
    ScaleWidth      =   160
    ToolboxBitmap   =   "ImageList.ctx":003D
    Begin VB.Image ImagePictures 
@@ -161,7 +161,7 @@ Private Sub IObjectSafety_SetInterfaceSafetyOptions(ByRef riid As OLEGuids.OLECL
 End Sub
 
 Private Sub UserControl_Initialize()
-Call ComCtlsLoadShellMod
+'Call ComCtlsLoadShellMod
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -260,7 +260,7 @@ End Sub
 
 Private Sub UserControl_Terminate()
 Call DestroyImageList
-Call ComCtlsReleaseShellMod
+'Call ComCtlsReleaseShellMod
 End Sub
 
 Public Property Get Name() As String

@@ -322,7 +322,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal wMsg As Long, 
 End Function
 
 Private Sub UserControl_Initialize()
-Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -492,7 +492,7 @@ End With
 End Sub
 
 Private Sub UserControl_Terminate()
-Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 DetachMessage Me, UserControl.hWnd, WM_PRINTCLIENT
 DetachMessage Me, UserControl.hWnd, WM_GETTEXTLENGTH
 DetachMessage Me, UserControl.hWnd, WM_GETTEXT

@@ -803,14 +803,14 @@ If UsePreTranslateMsg = False Then Call RemoveVTableHandling(Me, VTableInterface
 
 #Else
 
-Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
-Call RemoveVTableHandling(Me, VTableInterfaceControl)
-Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call RemoveVTableHandling(Me, VTableInterfaceControl)
+'Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 Call DestroyCheckBox
-Call ComCtlsReleaseShellMod
+'Call ComCtlsReleaseShellMod
 End Sub
 
 'Private Sub TimerImageList_Timer()

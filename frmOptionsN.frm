@@ -38,7 +38,7 @@ Begin VB.Form frmOptions
       Top             =   5040
       Visible         =   0   'False
       Width           =   7095
-      Begin prjDownloadBooster.FrameW FrameW6 
+      Begin VB.Frame FrameW6 
          Height          =   975
          Left            =   120
          TabIndex        =   75
@@ -48,7 +48,7 @@ Begin VB.Form frmOptions
          _ExtentY        =   1720
          Caption         =   "다운로드 알림"
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.FrameW fCompleteSound 
+         Begin VB.Frame fCompleteSound 
             Height          =   705
             Left            =   840
             TabIndex        =   76
@@ -59,7 +59,7 @@ Begin VB.Form frmOptions
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
-            Begin prjDownloadBooster.CommandButtonW cmdBrowseCompleteSound 
+            Begin VB.CommandButton cmdBrowseCompleteSound 
                Height          =   300
                Left            =   4560
                TabIndex        =   79
@@ -78,7 +78,7 @@ Begin VB.Form frmOptions
                Top             =   330
                Width           =   4095
             End
-            Begin prjDownloadBooster.CheckBoxW chkBeepWhenComplete 
+            Begin VB.CheckBox chkBeepWhenComplete 
                Height          =   255
                Left            =   120
                TabIndex        =   77
@@ -89,7 +89,7 @@ Begin VB.Form frmOptions
                Caption         =   "다운로드 완료(&B)"
                Transparent     =   -1  'True
             End
-            Begin prjDownloadBooster.CommandButtonW cmdTestCompleteSound 
+            Begin VB.CommandButton cmdTestCompleteSound 
                Height          =   300
                Left            =   5160
                TabIndex        =   80
@@ -118,7 +118,7 @@ Begin VB.Form frmOptions
             Width           =   480
          End
       End
-      Begin prjDownloadBooster.FrameW FrameW9 
+      Begin VB.Frame FrameW9 
          Height          =   3135
          Left            =   120
          TabIndex        =   120
@@ -128,7 +128,7 @@ Begin VB.Form frmOptions
          _ExtentY        =   5530
          Caption         =   "메시지 상자"
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.FrameW fAsterisk 
+         Begin VB.Frame fAsterisk 
             Height          =   735
             Left            =   840
             TabIndex        =   81
@@ -139,7 +139,7 @@ Begin VB.Form frmOptions
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
-            Begin prjDownloadBooster.CommandButtonW cmdBrowseAsterisk 
+            Begin VB.CommandButton cmdBrowseAsterisk 
                Height          =   300
                Left            =   4560
                TabIndex        =   84
@@ -158,7 +158,7 @@ Begin VB.Form frmOptions
                Top             =   330
                Width           =   4095
             End
-            Begin prjDownloadBooster.CheckBoxW chkAsterisk 
+            Begin VB.CheckBox chkAsterisk 
                Height          =   255
                Left            =   120
                TabIndex        =   82
@@ -169,7 +169,7 @@ Begin VB.Form frmOptions
                Caption         =   "일반 메시지(&A)"
                Transparent     =   -1  'True
             End
-            Begin prjDownloadBooster.CommandButtonW cmdTestAsterisk 
+            Begin VB.CommandButton cmdTestAsterisk 
                Height          =   300
                Left            =   5160
                TabIndex        =   85
@@ -190,7 +190,7 @@ Begin VB.Form frmOptions
                Transparent     =   -1  'True
             End
          End
-         Begin prjDownloadBooster.FrameW fExclamation 
+         Begin VB.Frame fExclamation 
             Height          =   735
             Left            =   840
             TabIndex        =   86
@@ -201,7 +201,7 @@ Begin VB.Form frmOptions
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
-            Begin prjDownloadBooster.CommandButtonW cmdBrowseExclamation 
+            Begin VB.CommandButton cmdBrowseExclamation 
                Height          =   300
                Left            =   4560
                TabIndex        =   89
@@ -220,7 +220,7 @@ Begin VB.Form frmOptions
                Top             =   330
                Width           =   4095
             End
-            Begin prjDownloadBooster.CheckBoxW chkExclamation 
+            Begin VB.CheckBox chkExclamation 
                Height          =   255
                Left            =   120
                TabIndex        =   87
@@ -231,7 +231,7 @@ Begin VB.Form frmOptions
                Caption         =   "경고 메시지(&E)"
                Transparent     =   -1  'True
             End
-            Begin prjDownloadBooster.CommandButtonW cmdTestExclamation 
+            Begin VB.CommandButton cmdTestExclamation 
                Height          =   300
                Left            =   5160
                TabIndex        =   90
@@ -252,7 +252,7 @@ Begin VB.Form frmOptions
                Transparent     =   -1  'True
             End
          End
-         Begin prjDownloadBooster.FrameW fError 
+         Begin VB.Frame fError 
             Height          =   735
             Left            =   840
             TabIndex        =   91
@@ -263,7 +263,7 @@ Begin VB.Form frmOptions
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
-            Begin prjDownloadBooster.CommandButtonW cmdBrowseError 
+            Begin VB.CommandButton cmdBrowseError 
                Height          =   300
                Left            =   4560
                TabIndex        =   94
@@ -282,7 +282,7 @@ Begin VB.Form frmOptions
                Top             =   330
                Width           =   4095
             End
-            Begin prjDownloadBooster.CheckBoxW chkError 
+            Begin VB.CheckBox chkError 
                Height          =   255
                Left            =   120
                TabIndex        =   92
@@ -293,7 +293,7 @@ Begin VB.Form frmOptions
                Caption         =   "오류 메시지(&R)"
                Transparent     =   -1  'True
             End
-            Begin prjDownloadBooster.CommandButtonW cmdTestError 
+            Begin VB.CommandButton cmdTestError 
                Height          =   300
                Left            =   5160
                TabIndex        =   95
@@ -314,7 +314,7 @@ Begin VB.Form frmOptions
                Transparent     =   -1  'True
             End
          End
-         Begin prjDownloadBooster.FrameW fQuestion 
+         Begin VB.Frame fQuestion 
             Height          =   675
             Left            =   840
             TabIndex        =   96
@@ -325,7 +325,7 @@ Begin VB.Form frmOptions
             BorderStyle     =   0
             Caption         =   "                             "
             Transparent     =   -1  'True
-            Begin prjDownloadBooster.CommandButtonW cmdBrowseQuestion 
+            Begin VB.CommandButton cmdBrowseQuestion 
                Height          =   300
                Left            =   4560
                TabIndex        =   99
@@ -344,7 +344,7 @@ Begin VB.Form frmOptions
                Top             =   330
                Width           =   4095
             End
-            Begin prjDownloadBooster.CheckBoxW chkQuestion 
+            Begin VB.CheckBox chkQuestion 
                Height          =   255
                Left            =   120
                TabIndex        =   97
@@ -355,7 +355,7 @@ Begin VB.Form frmOptions
                Caption         =   "질문(&Q)"
                Transparent     =   -1  'True
             End
-            Begin prjDownloadBooster.CommandButtonW cmdTestQuestion 
+            Begin VB.CommandButton cmdTestQuestion 
                Height          =   300
                Left            =   5160
                TabIndex        =   100
@@ -410,7 +410,7 @@ Begin VB.Form frmOptions
       Top             =   600
       Visible         =   0   'False
       Width           =   7095
-      Begin prjDownloadBooster.FrameW FrameW3 
+      Begin VB.Frame FrameW3 
          Height          =   1215
          Left            =   120
          TabIndex        =   31
@@ -433,7 +433,7 @@ Begin VB.Form frmOptions
             ShowTip         =   0   'False
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkIgnore300 
+         Begin VB.CheckBox chkIgnore300 
             Height          =   255
             Left            =   3720
             TabIndex        =   33
@@ -444,7 +444,7 @@ Begin VB.Form frmOptions
             Caption         =   "300번대 응답 코드 무시(&I)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkForceGet 
+         Begin VB.CheckBox chkForceGet 
             Height          =   255
             Left            =   840
             TabIndex        =   34
@@ -455,7 +455,7 @@ Begin VB.Form frmOptions
             Caption         =   "파일 검사 시 GET 요청(&Q)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkNoRedirectCheck 
+         Begin VB.CheckBox chkNoRedirectCheck 
             Height          =   255
             Left            =   840
             TabIndex        =   32
@@ -494,7 +494,7 @@ Begin VB.Form frmOptions
             Width           =   480
          End
       End
-      Begin prjDownloadBooster.FrameW fHeaders 
+      Begin VB.Frame fHeaders 
          Height          =   795
          Left            =   120
          TabIndex        =   38
@@ -504,7 +504,7 @@ Begin VB.Form frmOptions
          _ExtentY        =   1402
          Caption         =   "사용자 지정 헤더"
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CommandButtonW cmdHeaders 
+         Begin VB.CommandButton cmdHeaders 
             Height          =   330
             Left            =   5040
             TabIndex        =   122
@@ -544,7 +544,7 @@ Begin VB.Form frmOptions
       TabStop         =   0   'False
       Top             =   600
       Width           =   7095
-      Begin prjDownloadBooster.FrameW Frame5 
+      Begin VB.Frame Frame5 
          Height          =   1905
          Left            =   120
          TabIndex        =   19
@@ -570,7 +570,7 @@ Begin VB.Form frmOptions
             Top             =   1575
             Width           =   1395
          End
-         Begin prjDownloadBooster.CheckBoxW chkAllowDuplicates 
+         Begin VB.CheckBox chkAllowDuplicates 
             Height          =   255
             Left            =   840
             TabIndex        =   24
@@ -581,7 +581,7 @@ Begin VB.Form frmOptions
             Caption         =   "일괄 처리 목록에 중복 항목 허용(&I)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkForceOldDialog 
+         Begin VB.CheckBox chkForceOldDialog 
             Height          =   255
             Left            =   840
             TabIndex        =   23
@@ -592,7 +592,7 @@ Begin VB.Form frmOptions
             Caption         =   "윈도우 3.1 대화 상자 사용(&S)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkLazyElapsed 
+         Begin VB.CheckBox chkLazyElapsed 
             Height          =   255
             Left            =   840
             TabIndex        =   22
@@ -603,7 +603,7 @@ Begin VB.Form frmOptions
             Caption         =   "첫 바이트 수신 후 경과 시간 계산(&C)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkAeroWindow 
+         Begin VB.CheckBox chkAeroWindow 
             Height          =   255
             Left            =   2880
             TabIndex        =   21
@@ -616,7 +616,7 @@ Begin VB.Form frmOptions
             Caption         =   "유리 창 효과 사용(&G)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkAlwaysOnTop 
+         Begin VB.CheckBox chkAlwaysOnTop 
             Height          =   255
             Left            =   840
             TabIndex        =   20
@@ -672,7 +672,7 @@ Begin VB.Form frmOptions
             Width           =   975
          End
       End
-      Begin prjDownloadBooster.FrameW Frame2 
+      Begin VB.Frame Frame2 
          Height          =   1935
          Left            =   120
          TabIndex        =   6
@@ -682,7 +682,7 @@ Begin VB.Form frmOptions
          _ExtentY        =   3413
          Caption         =   "다운로드 설정"
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CheckBoxW chkUseServerModified 
+         Begin VB.CheckBox chkUseServerModified 
             Height          =   255
             Left            =   3480
             TabIndex        =   12
@@ -707,7 +707,7 @@ Begin VB.Form frmOptions
             AllowOnlyNumbers=   -1  'True
             TextAlignment   =   1
          End
-         Begin prjDownloadBooster.CheckBoxW chkAutoYtdl 
+         Begin VB.CheckBox chkAutoYtdl 
             Height          =   255
             Left            =   840
             TabIndex        =   13
@@ -726,7 +726,7 @@ Begin VB.Form frmOptions
             Top             =   1230
             Width           =   2040
          End
-         Begin prjDownloadBooster.CheckBoxW chkAutoRetry 
+         Begin VB.CheckBox chkAutoRetry 
             Height          =   255
             Left            =   840
             TabIndex        =   11
@@ -737,7 +737,7 @@ Begin VB.Form frmOptions
             Caption         =   "오류 시 자동 재시도(&U)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkRememberURL 
+         Begin VB.CheckBox chkRememberURL 
             Height          =   255
             Left            =   840
             TabIndex        =   9
@@ -748,7 +748,7 @@ Begin VB.Form frmOptions
             Caption         =   "파일 주소 기억(&M)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkAlwaysResume 
+         Begin VB.CheckBox chkAlwaysResume 
             Height          =   255
             Left            =   3480
             TabIndex        =   10
@@ -759,7 +759,7 @@ Begin VB.Form frmOptions
             Caption         =   "항상 이어받기(&A)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkOpenDirWhenComplete 
+         Begin VB.CheckBox chkOpenDirWhenComplete 
             Height          =   255
             Left            =   3480
             TabIndex        =   8
@@ -770,7 +770,7 @@ Begin VB.Form frmOptions
             Caption         =   "완료 후 폴더 열기(&P)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CheckBoxW chkOpenWhenComplete 
+         Begin VB.CheckBox chkOpenWhenComplete 
             Height          =   255
             Left            =   840
             TabIndex        =   7
@@ -834,7 +834,7 @@ Begin VB.Form frmOptions
       Top             =   3120
       Visible         =   0   'False
       Width           =   7095
-      Begin prjDownloadBooster.FrameW FrameW2 
+      Begin VB.Frame FrameW2 
          Height          =   1455
          Left            =   120
          TabIndex        =   101
@@ -908,7 +908,7 @@ Begin VB.Form frmOptions
       Top             =   5040
       Visible         =   0   'False
       Width           =   7110
-      Begin prjDownloadBooster.FrameW Frame1 
+      Begin VB.Frame Frame1 
          Height          =   1200
          Left            =   120
          TabIndex        =   44
@@ -934,7 +934,7 @@ Begin VB.Form frmOptions
             Top             =   240
             Width           =   1575
          End
-         Begin prjDownloadBooster.CheckBoxW chkBackColorMainOnly 
+         Begin VB.CheckBox chkBackColorMainOnly 
             Height          =   255
             Left            =   360
             TabIndex        =   48
@@ -975,7 +975,7 @@ Begin VB.Form frmOptions
             Width           =   480
          End
       End
-      Begin prjDownloadBooster.FrameW FrameW4 
+      Begin VB.Frame FrameW4 
          Height          =   1200
          Left            =   120
          TabIndex        =   49
@@ -1008,7 +1008,7 @@ Begin VB.Form frmOptions
             Top             =   540
             Width           =   1575
          End
-         Begin prjDownloadBooster.CheckBoxW chkForeColorMainOnly 
+         Begin VB.CheckBox chkForeColorMainOnly 
             Height          =   255
             Left            =   2340
             TabIndex        =   53
@@ -1060,7 +1060,7 @@ Begin VB.Form frmOptions
             Width           =   480
          End
       End
-      Begin prjDownloadBooster.FrameW FrameW1 
+      Begin VB.Frame FrameW1 
          Height          =   345
          Left            =   120
          TabIndex        =   39
@@ -1071,7 +1071,7 @@ Begin VB.Form frmOptions
          BorderStyle     =   0
          Caption         =   "테마"
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CommandButtonW cmdDeleteTheme 
+         Begin VB.CommandButton cmdDeleteTheme 
             Height          =   300
             Left            =   5520
             TabIndex        =   43
@@ -1082,7 +1082,7 @@ Begin VB.Form frmOptions
             Caption         =   "삭제(&D)"
             Transparent     =   -1  'True
          End
-         Begin prjDownloadBooster.CommandButtonW cmdSaveTheme 
+         Begin VB.CommandButton cmdSaveTheme 
             Height          =   300
             Left            =   4080
             TabIndex        =   42
@@ -1112,7 +1112,7 @@ Begin VB.Form frmOptions
             Width           =   690
          End
       End
-      Begin prjDownloadBooster.FrameW Frame6 
+      Begin VB.Frame Frame6 
          Height          =   1200
          Left            =   3600
          TabIndex        =   66
@@ -1130,7 +1130,7 @@ Begin VB.Form frmOptions
             Top             =   840
             Width           =   1785
          End
-         Begin prjDownloadBooster.CommandButtonW cmdAdvancedSkin 
+         Begin VB.CommandButton cmdAdvancedSkin 
             Height          =   300
             Left            =   2700
             TabIndex        =   71
@@ -1157,7 +1157,7 @@ Begin VB.Form frmOptions
             Top             =   150
             Width           =   1785
          End
-         Begin prjDownloadBooster.CommandButtonW cmdAdvancedProgressSkin 
+         Begin VB.CommandButton cmdAdvancedProgressSkin 
             Height          =   300
             Left            =   2700
             TabIndex        =   74
@@ -1198,7 +1198,7 @@ Begin VB.Form frmOptions
             Width           =   705
          End
       End
-      Begin prjDownloadBooster.FrameW Frame4 
+      Begin VB.Frame Frame4 
          Height          =   1200
          Left            =   3600
          TabIndex        =   56
@@ -1208,7 +1208,7 @@ Begin VB.Form frmOptions
          _ExtentY        =   2117
          Caption         =   "배경"
          Transparent     =   -1  'True
-         Begin prjDownloadBooster.CheckBoxW chkCenter 
+         Begin VB.CheckBox chkCenter 
             Height          =   255
             Left            =   2400
             TabIndex        =   65
@@ -1253,7 +1253,7 @@ Begin VB.Form frmOptions
             Visible         =   0   'False
             Width           =   615
          End
-         Begin prjDownloadBooster.CommandButtonW cmdChooseBackground 
+         Begin VB.CommandButton cmdChooseBackground 
             Height          =   300
             Left            =   2400
             TabIndex        =   62
@@ -1339,7 +1339,7 @@ Begin VB.Form frmOptions
                Visible         =   0   'False
                Width           =   2415
             End
-            Begin prjDownloadBooster.CheckBoxW CheckBoxW1 
+            Begin VB.CheckBox CheckBoxW1 
                Height          =   255
                Left            =   180
                TabIndex        =   113
@@ -1357,7 +1357,7 @@ Begin VB.Form frmOptions
                Top             =   60
                Width           =   2415
             End
-            Begin prjDownloadBooster.FrameW FrameW5 
+            Begin VB.Frame FrameW5 
                Height          =   555
                Left            =   180
                TabIndex        =   115
@@ -1458,7 +1458,7 @@ Begin VB.Form frmOptions
          End
       End
    End
-   Begin prjDownloadBooster.CommandButtonW cmdApply 
+   Begin VB.CommandButton cmdApply 
       Height          =   360
       Left            =   9840
       TabIndex        =   109
@@ -1483,7 +1483,7 @@ Begin VB.Form frmOptions
       Transparent     =   -1  'True
       InitTabs        =   "frmOptions.frx":1FBA
    End
-   Begin prjDownloadBooster.CommandButtonW CancelButton 
+   Begin VB.CommandButton CancelButton 
       Cancel          =   -1  'True
       Height          =   360
       Left            =   8400
@@ -1494,7 +1494,7 @@ Begin VB.Form frmOptions
       _ExtentY        =   0
       Caption         =   "취소"
    End
-   Begin prjDownloadBooster.CommandButtonW OKButton 
+   Begin VB.CommandButton OKButton 
       Default         =   -1  'True
       Height          =   360
       Left            =   6960
@@ -1628,8 +1628,8 @@ Private Sub cbSkin_Click()
 '        End If
     End If
     If optUserFore.Value Then
-        CheckBoxW1.VisualStyles = False
-        FrameW5.VisualStyles = False
+        'CheckBoxW1.VisualStyles = False
+        'FrameW5.VisualStyles = False
         CheckBoxW1.ForeColor = pgFore.BackColor
         FrameW5.ForeColor = pgFore.BackColor
     End If
@@ -1708,13 +1708,13 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     If clrForeColor < 0 Or clrForeColor > 16777215 Then
         optSystemFore.Value = True
         pgFore.BackColor = &H80000012
-        CheckBoxW1.VisualStyles = (DisableVisualStyle = 0)
-        FrameW5.VisualStyles = (DisableVisualStyle = 0)
+        'CheckBoxW1.VisualStyles = (DisableVisualStyle = 0)
+        'FrameW5.VisualStyles = (DisableVisualStyle = 0)
     Else
         optUserFore.Value = True
         pgFore.BackColor = clrForeColor
-        CheckBoxW1.VisualStyles = False
-        FrameW5.VisualStyles = False
+        'CheckBoxW1.VisualStyles = False
+        'FrameW5.VisualStyles = False
         CheckBoxW1.ForeColor = pgFore.BackColor
         FrameW5.ForeColor = pgFore.BackColor
     End If
@@ -1783,7 +1783,7 @@ End Sub
 
 Private Sub chkAsterisk_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fAsterisk, chkAsterisk, (chkAsterisk.Value = 1)
+    'EnableFrameControls fAsterisk, chkAsterisk, (chkAsterisk.Value = 1)
 End Sub
 
 Private Sub chkAutoRetry_Click()
@@ -1799,7 +1799,7 @@ End Sub
 
 Private Sub chkBeepWhenComplete_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fCompleteSound, chkBeepWhenComplete, (chkBeepWhenComplete.Value = 1)
+    'EnableFrameControls fCompleteSound, chkBeepWhenComplete, (chkBeepWhenComplete.Value = 1)
 End Sub
 
 Private Sub chkCenter_Click()
@@ -1811,12 +1811,12 @@ End Sub
 
 Private Sub chkError_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fError, chkError, (chkError.Value = 1)
+    'EnableFrameControls fError, chkError, (chkError.Value = 1)
 End Sub
 
 Private Sub chkExclamation_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fExclamation, chkExclamation, (chkExclamation.Value = 1)
+    'EnableFrameControls fExclamation, chkExclamation, (chkExclamation.Value = 1)
 End Sub
 
 Private Sub chkForceGet_Click()
@@ -1856,7 +1856,7 @@ End Sub
 
 Private Sub chkQuestion_Click()
     If Loaded Then cmdApply.Enabled = -1
-    EnableFrameControls fQuestion, chkQuestion, (chkQuestion.Value = 1)
+    'EnableFrameControls fQuestion, chkQuestion, (chkQuestion.Value = 1)
 End Sub
 
 Private Sub chkRememberURL_Click()
@@ -2015,7 +2015,7 @@ aftermaxtrdcheck:
     End If
     If VisualStyleChanged Then
         On Error Resume Next
-        DrawTabBackground True
+        'DrawTabBackground True
         cmdChooseBackground.Refresh
         cmdSample.Refresh
         On Error GoTo 0
@@ -2107,8 +2107,8 @@ aftermaxtrdcheck:
     SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", -MainFormOnTop
     
     If optUserFore.Value Then
-        CheckBoxW1.VisualStyles = False
-        FrameW5.VisualStyles = False
+        'CheckBoxW1.VisualStyles = False
+        'FrameW5.VisualStyles = False
         CheckBoxW1.ForeColor = pgFore.BackColor
         FrameW5.ForeColor = pgFore.BackColor
     End If
@@ -2359,10 +2359,10 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                 Case "WindowMetrics"
                     UpdateBorderWidth
                     SetPreviewPosition
-                    DrawTabBackground True
+                    'DrawTabBackground True
             End Select
-        Case WM_THEMECHANGED
-            DrawTabBackground True
+'        Case WM_THEMECHANGED
+'            DrawTabBackground True
     End Select
     
     IBSSubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
@@ -2464,8 +2464,8 @@ Private Sub Form_Load()
     IntervalValues(6) = 3#
     IntervalValues(7) = 5#
     
-    Set cmdAdvancedSkin.ImageList = frmMain.imgWrench
-    Set cmdAdvancedProgressSkin.ImageList = frmMain.imgWrench
+    'Set cmdAdvancedSkin.ImageList = frmMain.imgWrench
+    'Set cmdAdvancedProgressSkin.ImageList = frmMain.imgWrench
     
     RemoveVisualStyles txtSampleClassic.hWnd
     
@@ -2503,7 +2503,7 @@ Private Sub Form_Load()
     imgPreview.Top = 0
     imgPreview.Left = 0
     
-    DrawTabBackground
+    'DrawTabBackground
     
     AddItemToComboBox cbSkin, t("시스템 스타일", "System style")
     AddItemToComboBox cbSkin, t("라이브바둑 쪽지", "LiveBaduk memo")
@@ -2658,20 +2658,20 @@ activefail:
     End If
 
 nextcode:
-    Set cmdSample.ImageList = frmMain.imgDownload
+    'Set cmdSample.ImageList = frmMain.imgDownload
     
 #If HIDEYTDL Then
     txtYtdlPath.Visible = False
     chkAutoYtdl.Visible = False
     Label7.Visible = False
     Frame2.Height = Frame2.Height - chkAutoYtdl.Height
-    Frame2.Refresh
+    'Frame2.Refresh
     Frame5.Top = Frame5.Top - chkAutoYtdl.Height
-    Frame5.Refresh
+    'Frame5.Refresh
     Label3.Top = Label3.Top - chkAutoYtdl.Height
     cbWhenExist.Top = cbWhenExist.Top - chkAutoYtdl.Height
     FrameW2.Height = FrameW2.Height - txtYtdlPath.Height - 120
-    FrameW2.Refresh
+    'FrameW2.Refresh
     Label14.Top = Label14.Top - chkAutoYtdl.Height
     txtMaxThreadCount.Top = txtMaxThreadCount.Top - chkAutoYtdl.Height
     Label15.Top = Label15.Top - chkAutoYtdl.Height
@@ -2877,8 +2877,8 @@ Private Sub lblSelectFore_Click()
     ColorChanged = True
     ProgressSkinChanged = True
     Label11.ForeColor = pgFore.BackColor
-    CheckBoxW1.VisualStyles = False
-    FrameW5.VisualStyles = False
+    'CheckBoxW1.VisualStyles = False
+    'FrameW5.VisualStyles = False
     CheckBoxW1.ForeColor = pgFore.BackColor
     FrameW5.ForeColor = pgFore.BackColor
 End Sub
@@ -2907,8 +2907,8 @@ Private Sub optSystemFore_Click()
         ProgressSkinChanged = True
     End If
     Label11.ForeColor = &H80000012
-    CheckBoxW1.VisualStyles = (DisableVisualStyle = 0)
-    FrameW5.VisualStyles = (DisableVisualStyle = 0)
+    'CheckBoxW1.VisualStyles = (DisableVisualStyle = 0)
+    'FrameW5.VisualStyles = (DisableVisualStyle = 0)
     CheckBoxW1.ForeColor = &H80000012
     FrameW5.ForeColor = &H80000012
     chkForeColorMainOnly.Enabled = False
@@ -2933,8 +2933,8 @@ Private Sub optUserFore_Click()
         ProgressSkinChanged = True
     End If
     Label11.ForeColor = pgFore.BackColor
-    CheckBoxW1.VisualStyles = False
-    FrameW5.VisualStyles = False
+    'CheckBoxW1.VisualStyles = False
+    'FrameW5.VisualStyles = False
     CheckBoxW1.ForeColor = pgFore.BackColor
     FrameW5.ForeColor = pgFore.BackColor
     chkForeColorMainOnly.Enabled = True

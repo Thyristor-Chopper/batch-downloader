@@ -1332,8 +1332,8 @@ End If
 End Sub
 
 Private Sub UserControl_Initialize()
-Call ComCtlsLoadShellMod
-Call ComCtlsInitCC(ICC_LISTVIEW_CLASSES)
+'Call ComCtlsLoadShellMod
+'Call ComCtlsInitCC(ICC_LISTVIEW_CLASSES)
 
 #If ImplementPreTranslateMsg = True Then
 
@@ -1341,11 +1341,11 @@ If SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject) = False Then UsePre
 
 #Else
 
-Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
-Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 ListViewHotLightColor = CLR_DEFAULT
 ListViewHotTrackItem = -1
 ListViewHotTrackSubItem = 0
@@ -1767,17 +1767,17 @@ Private Sub UserControl_Terminate()
 
 #If ImplementPreTranslateMsg = True Then
 
-If UsePreTranslateMsg = False Then Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+If UsePreTranslateMsg = False Then 'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #Else
 
-Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
-Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 Call DestroyListView
-Call ComCtlsReleaseShellMod
+'Call ComCtlsReleaseShellMod
 End Sub
 
 Private Sub TimerImageList_Timer()
@@ -2355,17 +2355,17 @@ PropRightToLeft = False 'Value
 'Dim dwMask As Long
 'If ListViewDesignMode = False Then
 '    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-'    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'    'Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
 '    dwMask = 0
 'End If
 'If PropRightToLeft = True Then
 '    If PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = WS_EX_RTLREADING
 'End If
-'If ListViewHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ListViewHandle, dwMask)
+'If ListViewHandle <> NULL_PTR Then 'Call ComCtlsSetRightToLeft(ListViewHandle, dwMask)
 'If ListViewHeaderHandle = NULL_PTR Then ListViewHeaderHandle = Me.hWndHeader
 'If ListViewHeaderHandle <> NULL_PTR Then
 '    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = 0
-'    Call ComCtlsSetRightToLeft(ListViewHeaderHandle, dwMask)
+'    'Call ComCtlsSetRightToLeft(ListViewHeaderHandle, dwMask)
 '    If Me.ColumnHeaders.Count > 0 Then
 '        Dim i As Long
 '        For i = 1 To Me.ColumnHeaders.Count
@@ -2375,11 +2375,11 @@ PropRightToLeft = False 'Value
 'End If
 'If ListViewToolTipHandle <> NULL_PTR Then
 '    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = 0
-'    Call ComCtlsSetRightToLeft(ListViewToolTipHandle, dwMask)
+'    'Call ComCtlsSetRightToLeft(ListViewToolTipHandle, dwMask)
 'End If
 'If ListViewHeaderToolTipHandle <> NULL_PTR Then
 '    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = 0
-'    Call ComCtlsSetRightToLeft(ListViewHeaderToolTipHandle, dwMask)
+'    'Call ComCtlsSetRightToLeft(ListViewHeaderToolTipHandle, dwMask)
 'End If
 UserControl.PropertyChanged "RightToLeft"
 End Property
@@ -2823,14 +2823,14 @@ BorderStyle = PropBorderStyle
 End Property
 
 Public Property Let BorderStyle(ByVal Value As CCBorderStyleConstants)
-Select Case Value
-    Case CCBorderStyleNone, CCBorderStyleSingle, CCBorderStyleThin, CCBorderStyleSunken, CCBorderStyleRaised
-        PropBorderStyle = Value
-    Case Else
-        Err.Raise 380
-End Select
-If ListViewHandle <> NULL_PTR Then Call ComCtlsChangeBorderStyle(ListViewHandle, PropBorderStyle)
-UserControl.PropertyChanged "BorderStyle"
+'Select Case Value
+'    Case CCBorderStyleNone, CCBorderStyleSingle, CCBorderStyleThin, CCBorderStyleSunken, CCBorderStyleRaised
+'        PropBorderStyle = Value
+'    Case Else
+'        Err.Raise 380
+'End Select
+'If ListViewHandle <> NULL_PTR Then Call ComCtlsChangeBorderStyle(ListViewHandle, PropBorderStyle)
+'UserControl.PropertyChanged "BorderStyle"
 End Property
 
 Public Property Get BackColor() As OLE_COLOR
@@ -5786,7 +5786,7 @@ Private Sub CreateHeaderToolTip()
 Static Done As Boolean
 If ListViewHeaderToolTipHandle <> NULL_PTR Then Exit Sub
 If Done = False Then
-    Call ComCtlsInitCC(ICC_TAB_CLASSES)
+    'Call ComCtlsInitCC(ICC_TAB_CLASSES)
     Done = True
 End If
 Dim dwExStyle As Long
@@ -7777,7 +7777,7 @@ Select Case wMsg
 '                ListViewFilterEditHandle = lParam
 '                ListViewFilterEditIndex = GetFilterEditIndex(lParam)
 '                If lParam <> 0 Then
-'                    If PropRightToLeft = True And PropRightToLeftLayout = False Then Call ComCtlsSetRightToLeft(lParam, WS_EX_RTLREADING)
+'                    If PropRightToLeft = True And PropRightToLeftLayout = False Then 'Call ComCtlsSetRightToLeft(lParam, WS_EX_RTLREADING)
 '                    Call ComCtlsSetSubclass(lParam, Me, 3)
 '                    Call ActivateIPAO(Me)
 '                End If
@@ -7916,7 +7916,7 @@ Select Case wMsg
                                     WindowProcUserControl = 0
                                     LabelEditHandle = Me.hWndLabelEdit
                                     If LabelEditHandle <> NULL_PTR Then
-                                        If PropRightToLeft = True And PropRightToLeftLayout = False Then Call ComCtlsSetRightToLeft(LabelEditHandle, WS_EX_RTLREADING)
+                                        'If PropRightToLeft = True And PropRightToLeftLayout = False Then 'Call ComCtlsSetRightToLeft(LabelEditHandle, WS_EX_RTLREADING)
                                         Call ComCtlsSetSubclass(LabelEditHandle, Me, 2)
                                     End If
                                     ListViewLabelInEdit = True

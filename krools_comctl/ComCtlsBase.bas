@@ -295,37 +295,33 @@ Private ComCtlsPreTranslateMsghWnd As LongPtr, ComCtlsPreTranslateMsgCount As Lo
 
 #End If
 
-Public Sub ComCtlsLoadShellMod()
-If ShellModHandle = NULL_PTR And ShellModCount = 0 Then ShellModHandle = LoadLibrary(StrPtr("shell32.dll"))
-ShellModCount = ShellModCount + 1
-End Sub
+'Public Sub ComCtlsLoadShellMod()
+'If ShellModHandle = NULL_PTR And ShellModCount = 0 Then ShellModHandle = LoadLibrary(StrPtr("shell32.dll"))
+'ShellModCount = ShellModCount + 1
+'End Sub
+'
+'Public Sub ComCtlsReleaseShellMod()
+'ShellModCount = ShellModCount - 1
+'If ShellModHandle <> NULL_PTR And ShellModCount = 0 Then
+'    FreeLibrary ShellModHandle
+'    ShellModHandle = NULL_PTR
+'End If
+'End Sub
 
-Public Sub ComCtlsReleaseShellMod()
-ShellModCount = ShellModCount - 1
-If ShellModHandle <> NULL_PTR And ShellModCount = 0 Then
-    FreeLibrary ShellModHandle
-    ShellModHandle = NULL_PTR
-End If
-End Sub
+'Public Sub ComCtlsInitCC(ByVal ICC As Long)
+'Dim ICCEX As TINITCOMMONCONTROLSEX
+'With ICCEX
+'.dwSize = LenB(ICCEX)
+'.dwICC = ICC
+'End With
+'InitCommonControlsEx ICCEX
+'End Sub
 
-Public Sub ComCtlsInitCC(ByVal ICC As Long)
-Dim ICCEX As TINITCOMMONCONTROLSEX
-With ICCEX
-.dwSize = LenB(ICCEX)
-.dwICC = ICC
-End With
-InitCommonControlsEx ICCEX
-End Sub
-
-#If VBA7 Then
-Public Sub ComCtlsShowAllUIStates(ByVal hWnd As LongPtr)
-#Else
-Public Sub ComCtlsShowAllUIStates(ByVal hWnd As Long)
-#End If
-Const WM_UPDATEUISTATE As Long = &H128
-Const UIS_CLEAR As Long = 2, UISF_HIDEFOCUS As Long = &H1, UISF_HIDEACCEL As Long = &H2
-SendMessage hWnd, WM_UPDATEUISTATE, MakeDWord(UIS_CLEAR, UISF_HIDEFOCUS Or UISF_HIDEACCEL), ByVal 0&
-End Sub
+'Public Sub ComCtlsShowAllUIStates(ByVal hWnd As Long)
+'Const WM_UPDATEUISTATE As Long = &H128
+'Const UIS_CLEAR As Long = 2, UISF_HIDEFOCUS As Long = &H1, UISF_HIDEACCEL As Long = &H2
+'SendMessage hWnd, WM_UPDATEUISTATE, MakeDWord(UIS_CLEAR, UISF_HIDEFOCUS Or UISF_HIDEACCEL), ByVal 0&
+'End Sub
 
 Public Sub ComCtlsInitBorderStyle(ByRef dwStyle As Long, ByRef dwExStyle As Long, ByVal Value As CCBorderStyleConstants)
 Const WS_BORDER As Long = &H800000, WS_DLGFRAME As Long = &H400000
@@ -343,35 +339,31 @@ Select Case Value
 End Select
 End Sub
 
-#If VBA7 Then
-Public Sub ComCtlsChangeBorderStyle(ByVal hWnd As LongPtr, ByVal Value As CCBorderStyleConstants)
-#Else
-Public Sub ComCtlsChangeBorderStyle(ByVal hWnd As Long, ByVal Value As CCBorderStyleConstants)
-#End If
-Const WS_BORDER As Long = &H800000, WS_DLGFRAME As Long = &H400000
-Const WS_EX_CLIENTEDGE As Long = &H200, WS_EX_STATICEDGE As Long = &H20000, WS_EX_WINDOWEDGE As Long = &H100
-Dim dwStyle As Long, dwExStyle As Long
-dwStyle = GetWindowLong(hWnd, GWL_STYLE)
-dwExStyle = GetWindowLong(hWnd, GWL_EXSTYLE)
-If (dwStyle And WS_BORDER) = WS_BORDER Then dwStyle = dwStyle And Not WS_BORDER
-If (dwStyle And WS_DLGFRAME) = WS_DLGFRAME Then dwStyle = dwStyle And Not WS_DLGFRAME
-If (dwExStyle And WS_EX_STATICEDGE) = WS_EX_STATICEDGE Then dwExStyle = dwExStyle And Not WS_EX_STATICEDGE
-If (dwExStyle And WS_EX_CLIENTEDGE) = WS_EX_CLIENTEDGE Then dwExStyle = dwExStyle And Not WS_EX_CLIENTEDGE
-If (dwExStyle And WS_EX_WINDOWEDGE) = WS_EX_WINDOWEDGE Then dwExStyle = dwExStyle And Not WS_EX_WINDOWEDGE
-Call ComCtlsInitBorderStyle(dwStyle, dwExStyle, Value)
-SetWindowLong hWnd, GWL_STYLE, dwStyle
-SetWindowLong hWnd, GWL_EXSTYLE, dwExStyle
-Call ComCtlsFrameChanged(hWnd)
-End Sub
+'Public Sub ComCtlsChangeBorderStyle(ByVal hWnd As Long, ByVal Value As CCBorderStyleConstants)
+'Const WS_BORDER As Long = &H800000, WS_DLGFRAME As Long = &H400000
+'Const WS_EX_CLIENTEDGE As Long = &H200, WS_EX_STATICEDGE As Long = &H20000, WS_EX_WINDOWEDGE As Long = &H100
+'Dim dwStyle As Long, dwExStyle As Long
+'dwStyle = GetWindowLong(hWnd, GWL_STYLE)
+'dwExStyle = GetWindowLong(hWnd, GWL_EXSTYLE)
+'If (dwStyle And WS_BORDER) = WS_BORDER Then dwStyle = dwStyle And Not WS_BORDER
+'If (dwStyle And WS_DLGFRAME) = WS_DLGFRAME Then dwStyle = dwStyle And Not WS_DLGFRAME
+'If (dwExStyle And WS_EX_STATICEDGE) = WS_EX_STATICEDGE Then dwExStyle = dwExStyle And Not WS_EX_STATICEDGE
+'If (dwExStyle And WS_EX_CLIENTEDGE) = WS_EX_CLIENTEDGE Then dwExStyle = dwExStyle And Not WS_EX_CLIENTEDGE
+'If (dwExStyle And WS_EX_WINDOWEDGE) = WS_EX_WINDOWEDGE Then dwExStyle = dwExStyle And Not WS_EX_WINDOWEDGE
+''Call ComCtlsInitBorderStyle(dwStyle, dwExStyle, Value)
+'SetWindowLong hWnd, GWL_STYLE, dwStyle
+'SetWindowLong hWnd, GWL_EXSTYLE, dwExStyle
+''Call ComCtlsFrameChanged(hWnd)
+'End Sub
 
-#If VBA7 Then
-Public Sub ComCtlsFrameChanged(ByVal hWnd As LongPtr)
-#Else
-Public Sub ComCtlsFrameChanged(ByVal hWnd As Long)
-#End If
-Const SWP_FRAMECHANGED As Long = &H20, SWP_NOMOVE As Long = &H2, SWP_NOOWNERZORDER As Long = &H200, SWP_NOSIZE As Long = &H1, SWP_NOZORDER As Long = &H4
-SetWindowPos hWnd, NULL_PTR, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE Or SWP_NOOWNERZORDER Or SWP_NOZORDER Or SWP_FRAMECHANGED
-End Sub
+'#If VBA7 Then
+'Public Sub ComCtlsFrameChanged(ByVal hWnd As LongPtr)
+'#Else
+'Public Sub ComCtlsFrameChanged(ByVal hWnd As Long)
+'#End If
+'Const SWP_FRAMECHANGED As Long = &H20, SWP_NOMOVE As Long = &H2, SWP_NOOWNERZORDER As Long = &H200, SWP_NOSIZE As Long = &H1, SWP_NOZORDER As Long = &H4
+'SetWindowPos hWnd, NULL_PTR, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE Or SWP_NOOWNERZORDER Or SWP_NOZORDER Or SWP_FRAMECHANGED
+'End Sub
 
 #If VBA7 Then
 Public Sub ComCtlsInitToolTip(ByVal hWnd As LongPtr)
@@ -523,63 +515,63 @@ Select Case ModeValue
 End Select
 End Sub
 
-#If VBA7 Then
-Public Sub ComCtlsSetRightToLeft(ByVal hWnd As LongPtr, ByVal dwMask As Long)
-#Else
-Public Sub ComCtlsSetRightToLeft(ByVal hWnd As Long, ByVal dwMask As Long)
-#End If
-Const WS_EX_LAYOUTRTL As Long = &H400000, WS_EX_RTLREADING As Long = &H2000, WS_EX_RIGHT As Long = &H1000, WS_EX_LEFTSCROLLBAR As Long = &H4000
-' WS_EX_LAYOUTRTL will take care of both layout and reading order with the single flag and mirrors the window.
-Dim dwExStyle As Long
-dwExStyle = GetWindowLong(hWnd, GWL_EXSTYLE)
-If (dwExStyle And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Then dwExStyle = dwExStyle And Not WS_EX_LAYOUTRTL
-If (dwExStyle And WS_EX_RTLREADING) = WS_EX_RTLREADING Then dwExStyle = dwExStyle And Not WS_EX_RTLREADING
-If (dwExStyle And WS_EX_RIGHT) = WS_EX_RIGHT Then dwExStyle = dwExStyle And Not WS_EX_RIGHT
-If (dwExStyle And WS_EX_LEFTSCROLLBAR) = WS_EX_LEFTSCROLLBAR Then dwExStyle = dwExStyle And Not WS_EX_LEFTSCROLLBAR
-If (dwMask And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Then dwExStyle = dwExStyle Or WS_EX_LAYOUTRTL
-If (dwMask And WS_EX_RTLREADING) = WS_EX_RTLREADING Then dwExStyle = dwExStyle Or WS_EX_RTLREADING
-If (dwMask And WS_EX_RIGHT) = WS_EX_RIGHT Then dwExStyle = dwExStyle Or WS_EX_RIGHT
-If (dwMask And WS_EX_LEFTSCROLLBAR) = WS_EX_LEFTSCROLLBAR Then dwExStyle = dwExStyle Or WS_EX_LEFTSCROLLBAR
-Const WS_POPUP As Long = &H80000000
-If (GetWindowLong(hWnd, GWL_STYLE) And WS_POPUP) = 0 Then
-    SetWindowLong hWnd, GWL_EXSTYLE, dwExStyle
-    InvalidateRect hWnd, ByVal NULL_PTR, 1
-    Call ComCtlsFrameChanged(hWnd)
-Else
-    ' ToolTip control supports only the WS_EX_LAYOUTRTL flag.
-    ' Set TTF_RTLREADING flag when dwMask contains WS_EX_RTLREADING, though WS_EX_RTLREADING will not be actually set.
-    If (dwExStyle And WS_EX_RTLREADING) = WS_EX_RTLREADING Then dwExStyle = dwExStyle And Not WS_EX_RTLREADING
-    If (dwExStyle And WS_EX_RIGHT) = WS_EX_RIGHT Then dwExStyle = dwExStyle And Not WS_EX_RIGHT
-    If (dwExStyle And WS_EX_LEFTSCROLLBAR) = WS_EX_LEFTSCROLLBAR Then dwExStyle = dwExStyle And Not WS_EX_LEFTSCROLLBAR
-    SetWindowLong hWnd, GWL_EXSTYLE, dwExStyle
-    Const TTM_SETTOOLINFOA As Long = (WM_USER + 9)
-    Const TTM_SETTOOLINFOW As Long = (WM_USER + 54)
-    Const TTM_SETTOOLINFO As Long = TTM_SETTOOLINFOW
-    Const TTM_GETTOOLCOUNT As Long = (WM_USER + 13)
-    Const TTM_ENUMTOOLSA As Long = (WM_USER + 14)
-    Const TTM_ENUMTOOLSW As Long = (WM_USER + 58)
-    Const TTM_ENUMTOOLS As Long = TTM_ENUMTOOLSW
-    Const TTM_UPDATE As Long = (WM_USER + 29)
-    Const TTF_RTLREADING As Long = &H4
-    Dim i As Long, TI As TOOLINFO, Buffer As String
-    With TI
-    .cbSize = LenB(TI)
-    Buffer = String(80, vbNullChar)
-    .lpszText = StrPtr(Buffer)
-    For i = 1 To CLng(SendMessage(hWnd, TTM_GETTOOLCOUNT, 0, ByVal 0&))
-        If SendMessage(hWnd, TTM_ENUMTOOLS, i - 1, ByVal VarPtr(TI)) <> 0 Then
-            If (dwMask And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Or (dwMask And WS_EX_RTLREADING) = 0 Then
-                If (.uFlags And TTF_RTLREADING) = TTF_RTLREADING Then .uFlags = .uFlags And Not TTF_RTLREADING
-            Else
-                If (.uFlags And TTF_RTLREADING) = 0 Then .uFlags = .uFlags Or TTF_RTLREADING
-            End If
-            SendMessage hWnd, TTM_SETTOOLINFO, 0, ByVal VarPtr(TI)
-            SendMessage hWnd, TTM_UPDATE, 0, ByVal 0&
-        End If
-    Next i
-    End With
-End If
-End Sub
+'#If VBA7 Then
+'Public Sub ComCtlsSetRightToLeft(ByVal hWnd As LongPtr, ByVal dwMask As Long)
+'#Else
+'Public Sub ComCtlsSetRightToLeft(ByVal hWnd As Long, ByVal dwMask As Long)
+'#End If
+'Const WS_EX_LAYOUTRTL As Long = &H400000, WS_EX_RTLREADING As Long = &H2000, WS_EX_RIGHT As Long = &H1000, WS_EX_LEFTSCROLLBAR As Long = &H4000
+'' WS_EX_LAYOUTRTL will take care of both layout and reading order with the single flag and mirrors the window.
+'Dim dwExStyle As Long
+'dwExStyle = GetWindowLong(hWnd, GWL_EXSTYLE)
+'If (dwExStyle And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Then dwExStyle = dwExStyle And Not WS_EX_LAYOUTRTL
+'If (dwExStyle And WS_EX_RTLREADING) = WS_EX_RTLREADING Then dwExStyle = dwExStyle And Not WS_EX_RTLREADING
+'If (dwExStyle And WS_EX_RIGHT) = WS_EX_RIGHT Then dwExStyle = dwExStyle And Not WS_EX_RIGHT
+'If (dwExStyle And WS_EX_LEFTSCROLLBAR) = WS_EX_LEFTSCROLLBAR Then dwExStyle = dwExStyle And Not WS_EX_LEFTSCROLLBAR
+'If (dwMask And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Then dwExStyle = dwExStyle Or WS_EX_LAYOUTRTL
+'If (dwMask And WS_EX_RTLREADING) = WS_EX_RTLREADING Then dwExStyle = dwExStyle Or WS_EX_RTLREADING
+'If (dwMask And WS_EX_RIGHT) = WS_EX_RIGHT Then dwExStyle = dwExStyle Or WS_EX_RIGHT
+'If (dwMask And WS_EX_LEFTSCROLLBAR) = WS_EX_LEFTSCROLLBAR Then dwExStyle = dwExStyle Or WS_EX_LEFTSCROLLBAR
+'Const WS_POPUP As Long = &H80000000
+'If (GetWindowLong(hWnd, GWL_STYLE) And WS_POPUP) = 0 Then
+'    SetWindowLong hWnd, GWL_EXSTYLE, dwExStyle
+'    InvalidateRect hWnd, ByVal NULL_PTR, 1
+'    'Call ComCtlsFrameChanged(hWnd)
+'Else
+'    ' ToolTip control supports only the WS_EX_LAYOUTRTL flag.
+'    ' Set TTF_RTLREADING flag when dwMask contains WS_EX_RTLREADING, though WS_EX_RTLREADING will not be actually set.
+'    If (dwExStyle And WS_EX_RTLREADING) = WS_EX_RTLREADING Then dwExStyle = dwExStyle And Not WS_EX_RTLREADING
+'    If (dwExStyle And WS_EX_RIGHT) = WS_EX_RIGHT Then dwExStyle = dwExStyle And Not WS_EX_RIGHT
+'    If (dwExStyle And WS_EX_LEFTSCROLLBAR) = WS_EX_LEFTSCROLLBAR Then dwExStyle = dwExStyle And Not WS_EX_LEFTSCROLLBAR
+'    SetWindowLong hWnd, GWL_EXSTYLE, dwExStyle
+'    Const TTM_SETTOOLINFOA As Long = (WM_USER + 9)
+'    Const TTM_SETTOOLINFOW As Long = (WM_USER + 54)
+'    Const TTM_SETTOOLINFO As Long = TTM_SETTOOLINFOW
+'    Const TTM_GETTOOLCOUNT As Long = (WM_USER + 13)
+'    Const TTM_ENUMTOOLSA As Long = (WM_USER + 14)
+'    Const TTM_ENUMTOOLSW As Long = (WM_USER + 58)
+'    Const TTM_ENUMTOOLS As Long = TTM_ENUMTOOLSW
+'    Const TTM_UPDATE As Long = (WM_USER + 29)
+'    Const TTF_RTLREADING As Long = &H4
+'    Dim i As Long, TI As TOOLINFO, Buffer As String
+'    With TI
+'    .cbSize = LenB(TI)
+'    Buffer = String(80, vbNullChar)
+'    .lpszText = StrPtr(Buffer)
+'    For i = 1 To CLng(SendMessage(hWnd, TTM_GETTOOLCOUNT, 0, ByVal 0&))
+'        If SendMessage(hWnd, TTM_ENUMTOOLS, i - 1, ByVal VarPtr(TI)) <> 0 Then
+'            If (dwMask And WS_EX_LAYOUTRTL) = WS_EX_LAYOUTRTL Or (dwMask And WS_EX_RTLREADING) = 0 Then
+'                If (.uFlags And TTF_RTLREADING) = TTF_RTLREADING Then .uFlags = .uFlags And Not TTF_RTLREADING
+'            Else
+'                If (.uFlags And TTF_RTLREADING) = 0 Then .uFlags = .uFlags Or TTF_RTLREADING
+'            End If
+'            SendMessage hWnd, TTM_SETTOOLINFO, 0, ByVal VarPtr(TI)
+'            SendMessage hWnd, TTM_UPDATE, 0, ByVal 0&
+'        End If
+'    Next i
+'    End With
+'End If
+'End Sub
 
 Public Sub ComCtlsIPPBSetPredefinedStringsImageList(ByRef StringsOut() As String, ByRef CookiesOut() As Long, ByRef ControlsEnum As VBRUN.ParentControls, ByRef ImageListArray() As String)
 Dim ControlEnum As Object, PropUBound As Long

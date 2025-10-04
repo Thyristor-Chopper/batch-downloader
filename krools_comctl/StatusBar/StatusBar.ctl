@@ -440,8 +440,8 @@ Private Sub IObjectSafety_SetInterfaceSafetyOptions(ByRef riid As OLEGuids.OLECL
 End Sub
 
 Private Sub UserControl_Initialize()
-Call ComCtlsLoadShellMod
-Call ComCtlsInitCC(ICC_BAR_CLASSES)
+'Call ComCtlsLoadShellMod
+'Call ComCtlsInitCC(ICC_BAR_CLASSES)
 PropShadowDefaultPanel.FixedWidth = -1
 End Sub
 
@@ -717,7 +717,7 @@ End Sub
 
 Private Sub UserControl_Terminate()
 Call DestroyStatusBar
-Call ComCtlsReleaseShellMod
+'Call ComCtlsReleaseShellMod
 End Sub
 
 Private Sub StatusBarParentMDIFormEvents_Resize()
@@ -1097,8 +1097,8 @@ PropRightToLeft = False 'Value
 'Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
 'Dim dwMask As Long
 'If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-'If StatusBarDesignMode = False Then Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
-'If StatusBarHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(StatusBarHandle, dwMask)
+'If StatusBarDesignMode = False Then 'Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'If StatusBarHandle <> NULL_PTR Then 'Call ComCtlsSetRightToLeft(StatusBarHandle, dwMask)
 'Me.SimpleText = Me.SimpleText
 'If StatusBarToolTipHandle <> NULL_PTR Then
 '    If PropRightToLeft = True Then
@@ -1106,7 +1106,7 @@ PropRightToLeft = False 'Value
 '    Else
 '        dwMask = 0
 '    End If
-'    Call ComCtlsSetRightToLeft(StatusBarToolTipHandle, dwMask)
+'    'Call ComCtlsSetRightToLeft(StatusBarToolTipHandle, dwMask)
 'End If
 UserControl.PropertyChanged "RightToLeft"
 End Property
@@ -1638,7 +1638,7 @@ Static Done As Boolean
 Dim dwExStyle As Long
 If StatusBarToolTipHandle <> NULL_PTR Then Exit Sub
 If Done = False Then
-    Call ComCtlsInitCC(ICC_TAB_CLASSES)
+    'Call ComCtlsInitCC(ICC_TAB_CLASSES)
     Done = True
 End If
 dwExStyle = WS_EX_TOOLWINDOW Or WS_EX_TOPMOST

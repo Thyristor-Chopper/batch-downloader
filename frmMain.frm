@@ -1269,28 +1269,6 @@ Begin VB.Form frmMain
       Visible         =   0   'False
       Width           =   690
    End
-   Begin VB.Image imgBackgroundTile 
-      Height          =   135
-      Index           =   0
-      Left            =   0
-      Top             =   240
-      Visible         =   0   'False
-      Width           =   135
-   End
-   Begin VB.Image imgBackground 
-      Height          =   135
-      Left            =   0
-      Stretch         =   -1  'True
-      Top             =   0
-      Width           =   135
-   End
-   Begin VB.Shape pgPattern 
-      BorderStyle     =   0  '투명
-      Height          =   255
-      Left            =   0
-      Top             =   0
-      Width           =   255
-   End
    Begin VB.Shape pgBorderLeft 
       BackColor       =   &H00C8D0D4&
       BackStyle       =   1  '투명하지 않음
@@ -1320,6 +1298,28 @@ Begin VB.Form frmMain
       Top             =   960
       Visible         =   0   'False
       Width           =   615
+   End
+   Begin VB.Image imgBackgroundTile 
+      Height          =   135
+      Index           =   0
+      Left            =   0
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   135
+   End
+   Begin VB.Image imgBackground 
+      Height          =   135
+      Left            =   0
+      Stretch         =   -1  'True
+      Top             =   0
+      Width           =   135
+   End
+   Begin VB.Shape pgPattern 
+      BorderStyle     =   0  '투명
+      Height          =   255
+      Left            =   0
+      Top             =   0
+      Width           =   255
    End
    Begin VB.Menu mnuListContext 
       Caption         =   "mnuListContext"

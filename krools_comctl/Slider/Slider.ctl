@@ -579,7 +579,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal wMsg As Long, 
 End Function
 
 Private Sub UserControl_Initialize()
-'Call ComCtlsInitCC(ICC_BAR_CLASSES)
+''Call ComCtlsInitCC(ICC_BAR_CLASSES)
 
 #If ImplementPreTranslateMsg = True Then
 
@@ -587,7 +587,7 @@ If SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject) = False Then UsePre
 
 #Else
 
-Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
@@ -769,11 +769,11 @@ Private Sub UserControl_Terminate()
 
 #If ImplementPreTranslateMsg = True Then
 
-If UsePreTranslateMsg = False Then Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+If UsePreTranslateMsg = False Then 'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #Else
 
-Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
@@ -1062,17 +1062,17 @@ RightToLeft = PropRightToLeft
 End Property
 
 Public Property Let RightToLeft(ByVal Value As Boolean)
-PropRightToLeft = Value
-UserControl.RightToLeft = PropRightToLeft
-Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
-Dim dwMask As Long
-If SliderDesignMode = False Then
-    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
-    dwMask = 0
-End If
-If SliderHandle <> NULL_PTR Then Call ReCreateSlider
-UserControl.PropertyChanged "RightToLeft"
+'PropRightToLeft = Value
+'UserControl.RightToLeft = PropRightToLeft
+'Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
+'Dim dwMask As Long
+'If SliderDesignMode = False Then
+'    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
+'    'Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'    dwMask = 0
+'End If
+'If SliderHandle <> NULL_PTR Then Call ReCreateSlider
+'UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean

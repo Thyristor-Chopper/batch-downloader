@@ -59,7 +59,6 @@ Begin VB.UserControl TygemButton
    Begin VB.Image imgIcon 
       Height          =   240
       Left            =   1200
-      Stretch         =   -1  'True
       Top             =   600
       Width           =   240
    End
@@ -104,6 +103,15 @@ Dim m_Default As Boolean
 Const m_def_Skin = 1
 Dim m_Skin As ButtonSkin
 
+Enum ButtonIconPositions
+    IconPositionLeft = 0
+    IconPositionRight = 1
+    IconPositionCenter = 4
+End Enum
+
+Const m_def_IconPosition = 0
+Dim m_IconPosition As ButtonIconPositions
+
 Enum ButtonSkin
     System = 0
     LiveBaduk = 1
@@ -121,6 +129,7 @@ Enum ButtonState
 End Enum
 
 Dim m_Icon As IPictureDisp
+Dim IconLeft%, IconTop%
 
 Dim DrawNormalState As ButtonState
 Dim IsPressed As Boolean
@@ -267,13 +276,40 @@ Property Set ButtonIcon(ByVal New_Icon As IPictureDisp)
     SetIcon
 End Property
 
+Property Get ButtonIconPosition() As ButtonIconPositions
+    ButtonIconPosition = m_IconPosition
+End Property
+
+Property Let ButtonIconPosition(ByVal New_ButtonIconPosition As ButtonIconPositions)
+    m_IconPosition = New_ButtonIconPosition
+    If Not m_Icon Is Nothing Then imgIcon.Left = GetIconPosition()
+End Property
+
+Private Function GetIconPosition() As ButtonIconPositions
+    Select Case m_IconPosition
+        Case IconPositionRight
+            GetIconPosition = UserControl.Width - 2 * Screen.TwipsPerPixelX - ScaleX(m_Icon.Width, vbHimetric, vbTwips)
+        Case IconPositionCenter
+            GetIconPosition = UserControl.Width / 2 - ScaleX(m_Icon.Width, vbHimetric, vbTwips) / 2
+        Case Else
+            GetIconPosition = 2 * Screen.TwipsPerPixelX
+    End Select
+End Function
+
 Private Sub SetIcon()
     If Not m_Icon Is Nothing Then
-        If m_Icon.Height < 240 Or (m_Icon.Width < 16 And m_Icon.Height < 16) Or UserControl.Width = 255 Then
-            imgIcon.Stretch = False
-            imgIcon.Top = UserControl.Height / 2 - m_Icon.Height / 2 + 30
-        End If
-        lblCaption.Caption = "  " & Trim$(lblCaption.Caption)
+        IconTop = UserControl.Height / 2 - ScaleY(m_Icon.Height, vbHimetric, vbTwips) / 2
+        imgIcon.Top = IconTop
+        IconLeft = GetIconPosition()
+        imgIcon.Left = IconLeft
+        Select Case m_IconPosition
+            Case IconPositionRight
+                lblCaption.Caption = Trim$(lblCaption.Caption) & "  "
+            Case IconPositionCenter
+                lblCaption.Caption = Trim$(lblCaption.Caption)
+            Case Else
+                lblCaption.Caption = "  " & Trim$(lblCaption.Caption)
+        End Select
     End If
     Set imgIcon.Picture = m_Icon
 End Sub
@@ -325,8 +361,8 @@ Sub ShowAsPressed()
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 20 + 15
     lblCaption.Tag = "mousedown"
     lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 3)
-    If UserControl.Width <= 495 And UserControl.Width > 255 Then imgIcon.Left = (UserControl.Width - imgIcon.Width) / 2 + 10 Else imgIcon.Left = 45
-    imgIcon.Top = UserControl.Height / 2 - imgIcon.Height / 2 + 20
+    imgIcon.Left = IconLeft + Screen.TwipsPerPixelX
+    imgIcon.Top = IconTop + Screen.TwipsPerPixelY
     IsPressed = True
     DrawSkin Pressed
 End Sub
@@ -335,8 +371,8 @@ Sub ShowAsUnpressed()
     lblCaption.Left = 0
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 15
     lblCaption.Tag = ""
-    If UserControl.Width <= 495 And UserControl.Width > 255 Then imgIcon.Left = (UserControl.Width - imgIcon.Width) / 2 - 10 Else imgIcon.Left = 30
-    imgIcon.Top = (UserControl.Height - imgIcon.Height) / 2
+    imgIcon.Left = IconLeft
+    imgIcon.Top = IconTop
     IsPressed = False
     If DrawNormalState = Focused Then
         lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 5)
@@ -510,8 +546,10 @@ Private Sub UserControl_Resize()
     SetSplitButton
     lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 15
     lblCaption.Width = UserControl.Width
-    imgIcon.Top = (UserControl.Height - imgIcon.Height) / 2
-    If UserControl.Width <= 495 And UserControl.Width > 255 Then imgIcon.Left = (UserControl.Width - imgIcon.Width) / 2 - 10 Else imgIcon.Left = 30
+    IconTop = UserControl.Height / 2 - ScaleY(m_Icon.Height, vbHimetric, vbTwips) / 2
+    imgIcon.Top = IconTop
+    IconLeft = GetIconPosition()
+    imgIcon.Left = IconLeft
     pgFocusRect.Top = 30
     pgFocusRect.Left = 30
     pgFocusRect.Width = UserControl.Width - 60

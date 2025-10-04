@@ -90,11 +90,11 @@ Private Sub cmdOK_Click()
     frmOptions.txtSampleClassic.Visible = chkDisableVisualStyle.Value
     frmOptions.pbSampleClassic.Visible = chkDisableVisualStyle.Value
     If frmOptions.optSystemFore.Value Then
-        frmOptions.CheckBoxW1.VisualStyles = (chkDisableVisualStyle.Value = 0)
-        frmOptions.FrameW5.VisualStyles = (chkDisableVisualStyle.Value = 0)
+        'frmOptions.CheckBoxW1.VisualStyles = (chkDisableVisualStyle.Value = 0)
+        'frmOptions.FrameW5.VisualStyles = (chkDisableVisualStyle.Value = 0)
     Else
-        frmOptions.CheckBoxW1.VisualStyles = False
-        frmOptions.FrameW5.VisualStyles = False
+        'frmOptions.CheckBoxW1.VisualStyles = False
+        'frmOptions.FrameW5.VisualStyles = False
     End If
     Unload Me
 End Sub

@@ -595,8 +595,8 @@ End If
 End Sub
 
 Private Sub UserControl_Initialize()
-Call ComCtlsLoadShellMod
-Call ComCtlsInitCC(ICC_TAB_CLASSES)
+'Call ComCtlsLoadShellMod
+'Call ComCtlsInitCC(ICC_TAB_CLASSES)
 
 #If ImplementPreTranslateMsg = True Then
 
@@ -604,12 +604,12 @@ If SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject) = False Then UsePre
 
 #Else
 
-Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
-Call SetVTableHandling(Me, VTableInterfaceControl)
-Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call SetVTableHandling(Me, VTableInterfaceControl)
+'Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 ReDim ImageListArray(0) As String
 End Sub
 
@@ -848,18 +848,18 @@ Private Sub UserControl_Terminate()
 
 #If ImplementPreTranslateMsg = True Then
 
-If UsePreTranslateMsg = False Then Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+If UsePreTranslateMsg = False Then 'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #Else
 
-Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
-Call RemoveVTableHandling(Me, VTableInterfaceControl)
-Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call RemoveVTableHandling(Me, VTableInterfaceControl)
+'Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 Call DestroyTabStrip
-Call ComCtlsReleaseShellMod
+'Call ComCtlsReleaseShellMod
 End Sub
 
 Private Sub TimerImageList_Timer()
@@ -1182,7 +1182,7 @@ Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRight
 Dim dwMask As Long
 If TabStripDesignMode = False Then
     If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+    'Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
     dwMask = 0
 End If
 If TabStripHandle <> NULL_PTR Then Call ReCreateTabStrip
@@ -1921,7 +1921,7 @@ If TabStripDesignMode = False Then
 End If
 TabStripHandle = CreateWindowEx(dwExStyle, StrPtr("SysTabControl32"), NULL_PTR, dwStyle, 0, 0, UserControl.ScaleWidth, UserControl.ScaleHeight, UserControl.hWnd, NULL_PTR, App.hInstance, ByVal NULL_PTR)
 If TabStripHandle <> NULL_PTR Then
-    Call ComCtlsShowAllUIStates(TabStripHandle)
+    'Call ComCtlsShowAllUIStates(TabStripHandle)
     TabStripToolTipHandle = SendMessage(TabStripHandle, TCM_GETTOOLTIPS, 0, ByVal 0&)
     If TabStripToolTipHandle <> NULL_PTR Then Call ComCtlsInitToolTip(TabStripToolTipHandle)
     If PropTabWidthStyle = TbsTabWidthStyleFixed Then SendMessage TabStripHandle, TCM_SETITEMSIZE, 0, ByVal MakeDWord(PropTabFixedWidth, PropTabFixedHeight)

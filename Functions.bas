@@ -75,7 +75,7 @@ Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd A
 'Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal idHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
 'Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Long) As Long
 'Declare Function GetParent Lib "user32" (ByVal hWnd As Long) As Long
-'Declare Function SetParent Lib "user32" (ByVal hWndChild As Long, ByVal hWndNewParent As Long) As Long
+Declare Function SetParent Lib "user32" (ByVal hWndChild As Long, ByVal hWndNewParent As Long) As Long
 Declare Function GetWindowRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
 Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 'Declare Sub ReleaseCapture Lib "user32" ()
@@ -659,7 +659,7 @@ Function IsDWMEnabled() As Boolean
     On Error GoTo nodwm
     Dim DwmEnabled&, ret&
     ret = DwmIsCompositionEnabled(DwmEnabled)
-    If ret = 0& Then IsDWMEnabled = DwmEnabled
+    If ret = 0& Then IsDWMEnabled = (DwmEnabled <> 0&)
 nodwm:
 End Function
 
@@ -2193,10 +2193,8 @@ Sub InitForm(ByRef frmForm As Form)
     If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 Then DisableDWMWindow frmForm.hWnd
     SetFormBackgroundColor frmForm
     SetFont frmForm
-    Dim InsertAfter As Long
-    If MainFormOnTop Then InsertAfter = hWnd_TOPMOST Else InsertAfter = hWnd_NOTOPMOST
-    SetWindowPos frmForm.hWnd, InsertAfter, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
-    If frmForm.BorderStyle = 2 Then Set frmForm.Icon = frmMain.Icon
+    If MainFormOnTop Then SetWindowPos frmForm.hWnd, hWnd_TOPMOST, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
+    'If frmForm.BorderStyle = 2 Then Set frmForm.Icon = frmMain.Icon
 End Sub
 
 Function GenerateSolidColor(ByVal Color As Long) As IPictureDisp

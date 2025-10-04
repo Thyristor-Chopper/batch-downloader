@@ -507,8 +507,8 @@ End If
 End Sub
 
 Private Sub UserControl_Initialize()
-Call ComCtlsLoadShellMod
-Call ComCtlsInitCC(ICC_USEREX_CLASSES)
+'Call ComCtlsLoadShellMod
+'Call ComCtlsInitCC(ICC_USEREX_CLASSES)
 
 #If ImplementPreTranslateMsg = True Then
 
@@ -516,11 +516,11 @@ If SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject) = False Then UsePre
 
 #Else
 
-Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
-Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 ReDim ImageListArray(0) As String
 End Sub
 
@@ -727,17 +727,17 @@ Private Sub UserControl_Terminate()
 
 #If ImplementPreTranslateMsg = True Then
 
-If UsePreTranslateMsg = False Then Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+If UsePreTranslateMsg = False Then 'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #Else
 
-Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
-Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 Call DestroyImageCombo
-Call ComCtlsReleaseShellMod
+'Call ComCtlsReleaseShellMod
 End Sub
 
 Private Sub TimerImageList_Timer()
@@ -1106,15 +1106,15 @@ Public Property Let RightToLeft(ByVal Value As Boolean)
 'Dim dwMask As Long
 'If ImageComboDesignMode = False Then
 '    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-'    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'    'Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
 '    dwMask = 0
 'End If
 'If PropRightToLeft = True Then
 '    If PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL Else dwMask = WS_EX_RTLREADING Or WS_EX_RIGHT Or WS_EX_LEFTSCROLLBAR
 'End If
-'If ImageComboHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboHandle, dwMask)
-'If ImageComboComboHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboComboHandle, dwMask)
-'If ImageComboEditHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboEditHandle, dwMask)
+'If ImageComboHandle <> NULL_PTR Then 'Call ComCtlsSetRightToLeft(ImageComboHandle, dwMask)
+'If ImageComboComboHandle <> NULL_PTR Then 'Call ComCtlsSetRightToLeft(ImageComboComboHandle, dwMask)
+'If ImageComboEditHandle <> NULL_PTR Then 'Call ComCtlsSetRightToLeft(ImageComboEditHandle, dwMask)
 'If (PropRightToLeft = False Or PropRightToLeftLayout = False) And ImageComboEditHandle <> NULL_PTR <> 0 Then
 '    Const ES_RIGHT As Long = &H2
 '    Dim dwStyle As Long
@@ -1122,7 +1122,7 @@ Public Property Let RightToLeft(ByVal Value As Boolean)
 '    If (dwStyle And ES_RIGHT) = ES_RIGHT Then dwStyle = dwStyle And Not ES_RIGHT
 '    SetWindowLong ImageComboEditHandle, GWL_STYLE, dwStyle
 'End If
-'If ImageComboListHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ImageComboListHandle, dwMask)
+'If ImageComboListHandle <> NULL_PTR Then 'Call ComCtlsSetRightToLeft(ImageComboListHandle, dwMask)
 'If ImageComboHandle <> NULL_PTR Then SetWindowPos ImageComboHandle, NULL_PTR, 0, 0, 0, 0, SWP_NOSIZE Or SWP_NOMOVE Or SWP_NOZORDER Or SWP_NOACTIVATE Or SWP_NOOWNERZORDER
 UserControl.PropertyChanged "RightToLeft"
 End Property

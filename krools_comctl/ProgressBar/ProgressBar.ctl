@@ -290,8 +290,8 @@ End If
 End Sub
 
 Private Sub UserControl_Initialize()
-'Call ComCtlsInitCC(ICC_PROGRESS_CLASS)
-Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+''Call ComCtlsInitCC(ICC_PROGRESS_CLASS)
+'Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 ProgressBarDblClickTime = GetDoubleClickTime()
 Const SM_CXDOUBLECLK As Long = 36
 Const SM_CYDOUBLECLK As Long = 37
@@ -473,7 +473,7 @@ InProc = False
 End Sub
 
 Private Sub UserControl_Terminate()
-Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 Call DestroyProgressBar
 End Sub
 
@@ -687,7 +687,7 @@ If ProgressBarHandle <> NULL_PTR And EnabledVisualStyles() = True Then
         RemoveVisualStyles ProgressBarHandle
     End If
     ProgressBarNoThemeFrameChanged = False
-    Call ComCtlsFrameChanged(ProgressBarHandle)
+    'Call ComCtlsFrameChanged(ProgressBarHandle)
     Me.Refresh
 End If
 UserControl.PropertyChanged "VisualStyles"
@@ -780,14 +780,14 @@ RightToLeft = PropRightToLeft
 End Property
 
 Public Property Let RightToLeft(ByVal Value As Boolean)
-PropRightToLeft = Value
-UserControl.RightToLeft = PropRightToLeft
-Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
-Dim dwMask As Long
-If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-If ProgressBarDesignMode = False Then Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
-If ProgressBarHandle <> NULL_PTR Then Call ComCtlsSetRightToLeft(ProgressBarHandle, dwMask)
-UserControl.PropertyChanged "RightToLeft"
+'PropRightToLeft = Value
+'UserControl.RightToLeft = PropRightToLeft
+'Call ComCtlsCheckRightToLeft(PropRightToLeft, UserControl.RightToLeft, PropRightToLeftMode)
+'Dim dwMask As Long
+'If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
+'If ProgressBarDesignMode = False Then 'Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'If ProgressBarHandle <> NULL_PTR Then 'Call ComCtlsSetRightToLeft(ProgressBarHandle, dwMask)
+'UserControl.PropertyChanged "RightToLeft"
 End Property
 
 Public Property Get RightToLeftLayout() As Boolean
@@ -834,7 +834,7 @@ PropBorderStyle = Value
 '        If (dwStyle And WS_BORDER) = WS_BORDER Then dwStyle = dwStyle And Not WS_BORDER
 '    End If
 '    SetWindowLong ProgressBarHandle, GWL_STYLE, dwStyle
-'    Call ComCtlsFrameChanged(ProgressBarHandle)
+'    'Call ComCtlsFrameChanged(ProgressBarHandle)
 'End If
 UserControl.PropertyChanged "BorderStyle"
 End Property

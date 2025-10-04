@@ -568,20 +568,12 @@ Private Sub tygButton_Click()
 End Sub
 
 'Private Sub tygButton_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-'    RaiseEvent MouseDown(Button, Shift, X, Y)
-'End Sub
-'
-'Private Sub tygButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-'    RaiseEvent MouseMove(Button, Shift, X, Y)
-'End Sub
-'
-'Private Sub tygButton_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-'    RaiseEvent MouseUp(Button, Shift, X, Y)
+    'RaiseEvent MouseDown(Button, Shift, X, Y)
 'End Sub
 
 Private Sub UserControl_Initialize()
-'Call ComCtlsLoadShellMod
-'Call ComCtlsInitCC(ICC_STANDARD_CLASSES)
+''Call ComCtlsLoadShellMod
+''Call ComCtlsInitCC(ICC_STANDARD_CLASSES)
 
 #If ImplementPreTranslateMsg = True Then
 
@@ -589,12 +581,12 @@ If SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject) = False Then UsePre
 
 #Else
 
-Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call SetVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
-Call SetVTableHandling(Me, VTableInterfaceControl)
-Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call SetVTableHandling(Me, VTableInterfaceControl)
+'Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 ReDim ImageListArray(0) As String
 
 tygButton.CommandButtonControlHandle = UserControl.hWnd
@@ -672,6 +664,7 @@ PropRightToLeftMode = .ReadProperty("RightToLeftMode", CCRightToLeftModeVBAME)
 If PropRightToLeft = True Then Me.RightToLeft = True
 PropImageListName = .ReadProperty("ImageList", "(None)")
 PropImageListAlignment = .ReadProperty("ImageListAlignment", CmdImageListAlignmentLeft)
+tygButton.ButtonIconPosition = PropImageListAlignment
 PropImageListMargin = .ReadProperty("ImageListMargin", 0)
 PropCaption = .ReadProperty("Caption", vbNullString) ' Unicode not necessary
 PropAlignment = .ReadProperty("Alignment", vbCenter)
@@ -695,7 +688,6 @@ PropRoundButton = .ReadProperty("RoundButton", False)
 tygButton.Visible = PropIsTygemButton
 tygButton.Enabled = Me.Enabled
 tygButton.Caption = PropCaption
-tygButton.Default = Ambient.DisplayAsDefault
 SetRgn
 If Not PropFont Is Nothing Then
     tygButton.FontName = PropFont.Name
@@ -703,9 +695,6 @@ If Not PropFont Is Nothing Then
 End If
 If CommandButtonHandle <> NULL_PTR Then
     MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, -(Not PropTransparent)
-End If
-If .ReadProperty("Default", False) = True Then
-    tygButton.Default = True
 End If
 End With
 Call CreateCommandButton
@@ -801,7 +790,6 @@ Private Sub UserControl_AmbientChanged(PropertyName As String)
 Select Case PropertyName
     Case "DisplayAsDefault"
         CommandButtonDisplayAsDefault = Ambient.DisplayAsDefault
-        tygButton.Default = Ambient.DisplayAsDefault
         If CommandButtonHandle <> NULL_PTR Then
             Dim dwStyle As Long
             dwStyle = GetWindowLong(CommandButtonHandle, GWL_STYLE)
@@ -938,18 +926,18 @@ Private Sub UserControl_Terminate()
 
 #If ImplementPreTranslateMsg = True Then
 
-If UsePreTranslateMsg = False Then Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+If UsePreTranslateMsg = False Then 'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #Else
 
-Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
+'Call RemoveVTableHandling(Me, VTableInterfaceInPlaceActiveObject)
 
 #End If
 
-Call RemoveVTableHandling(Me, VTableInterfaceControl)
-Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call RemoveVTableHandling(Me, VTableInterfaceControl)
+'Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 Call DestroyCommandButton
-Call ComCtlsReleaseShellMod
+'Call ComCtlsReleaseShellMod
 
 SetWindowRgn UserControl.hWnd, 0&, True
 tygButton.CommandButtonControlHandle = 0&
@@ -975,7 +963,6 @@ End Property
 
 Public Property Let Default(ByVal Value As Boolean)
 Extender.Default = Value
-tygButton.Default = Ambient.DisplayAsDefault
 End Property
 
 Public Property Get Cancel() As Boolean
@@ -1274,7 +1261,6 @@ End Property
 
 Public Property Let IsTygemButton(ByVal Value As Boolean)
 tygButton.Visible = Value
-If Value Then tygButton.Default = Ambient.DisplayAsDefault
 PropIsTygemButton = Value
 If CommandButtonHandle <> NULL_PTR Then
     MoveWindow CommandButtonHandle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, -(Not PropTransparent)
@@ -1375,7 +1361,7 @@ Public Property Let RightToLeft(ByVal Value As Boolean)
 'Dim dwMask As Long
 'If PropRightToLeft = True Then dwMask = WS_EX_RTLREADING
 'If CommandButtonHandle <> NULL_PTR Then
-'    Call ComCtlsSetRightToLeft(CommandButtonHandle, dwMask)
+'    'Call ComCtlsSetRightToLeft(CommandButtonHandle, dwMask)
 '    If PropRightToLeft = False Then
 '        If PropImageListAlignment = CmdImageListAlignmentRight Then Me.ImageListAlignment = CmdImageListAlignmentLeft
 '        If PropAlignment = vbRightJustify Then Me.Alignment = vbLeftJustify
@@ -1511,12 +1497,7 @@ ImageListAlignment = PropImageListAlignment
 End Property
 
 Public Property Let ImageListAlignment(ByVal Value As CmdImageListAlignmentConstants)
-Select Case Value
-    Case CmdImageListAlignmentLeft, CmdImageListAlignmentRight, CmdImageListAlignmentTop, CmdImageListAlignmentBottom, CmdImageListAlignmentCenter
-        PropImageListAlignment = Value
-    Case Else
-        Err.Raise 380
-End Select
+PropImageListAlignment = Value
 If CommandButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then
     If Not PropImageListControl Is Nothing Then
         Me.ImageList = PropImageListControl
@@ -1524,6 +1505,7 @@ If CommandButtonHandle <> NULL_PTR And ComCtlsSupportLevel() >= 1 Then
         Me.ImageList = PropImageListName
     End If
 End If
+tygButton.ButtonIconPosition = Value
 UserControl.PropertyChanged "ImageListAlignment"
 End Property
 
@@ -2025,7 +2007,7 @@ If (dwStyle And BS_OWNERDRAW) = BS_OWNERDRAW Then
 End If
 CommandButtonHandle = CreateWindowEx(dwExStyle, StrPtr("Button"), NULL_PTR, dwStyle, -((UserControl.ScaleWidth + 5) * PropIsTygemButton), -((UserControl.ScaleHeight + 5) * PropIsTygemButton), UserControl.ScaleWidth, UserControl.ScaleHeight, UserControl.hWnd, NULL_PTR, App.hInstance, ByVal NULL_PTR)
 If CommandButtonHandle <> NULL_PTR Then
-    Call ComCtlsShowAllUIStates(CommandButtonHandle)
+    'Call ComCtlsShowAllUIStates(CommandButtonHandle)
     If ComCtlsSupportLevel() >= 2 Then
         Dim BTNSPLITINFO As BUTTON_SPLITINFO
         With BTNSPLITINFO
@@ -2042,7 +2024,7 @@ Me.Caption = PropCaption
 If Not PropPicture Is Nothing Then Set Me.Picture = PropPicture
 Me.SplitButtonAlignment = PropSplitButtonAlignment
 Me.SplitButtonNoSplit = PropSplitButtonNoSplit
-If Not PropSplitButtonGlyph Is Nothing Then Set Me.SplitButtonGlyph = PropSplitButtonGlyph
+'If Not PropSplitButtonGlyph Is Nothing Then Set Me.SplitButtonGlyph = PropSplitButtonGlyph
 If CommandButtonDesignMode = False Then
     'If CommandButtonHandle <> NULL_PTR Then
     Call ComCtlsSetSubclass(CommandButtonHandle, Me, 1)
@@ -2107,7 +2089,6 @@ Attribute Refresh.VB_UserMemId = -550
 If PropIsTygemButton Then
     tygButton.Visible = False
     tygButton.Visible = True
-    tygButton.Default = Ambient.DisplayAsDefault
 End If
 If CommandButtonTransparentBrush <> NULL_PTR Then
     DeleteObject CommandButtonTransparentBrush

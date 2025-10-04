@@ -456,8 +456,8 @@ Private Sub Form_Load()
 
 #If HIDEYTDL Then
 #Else
-    FrameW1.Refresh
-    fYtdl.Refresh
+    'FrameW1.Refresh
+    'fYtdl.Refresh
     
     AddItemToComboBox cbAudioFormat, t("ÀÚµ¿", "Auto") & " (M4A/Opus)"
     AddItemToComboBox cbAudioFormat, "MP3"

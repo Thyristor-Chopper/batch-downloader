@@ -846,9 +846,9 @@ End If
 End Sub
 
 Private Sub UserControl_Initialize()
-Call ComCtlsLoadShellMod
-Call ComCtlsInitCC(ICC_BAR_CLASSES)
-Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call ComCtlsLoadShellMod
+'Call ComCtlsInitCC(ICC_BAR_CLASSES)
+'Call SetVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 ReDim ImageListArray(0) As String
 ReDim DisabledImageListArray(0) As String
 ReDim HotImageListArray(0) As String
@@ -1287,9 +1287,9 @@ If ToolBarDesignMode = True Then Call UserControl_Resize
 End Sub
 
 Private Sub UserControl_Terminate()
-Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
+'Call RemoveVTableHandling(Me, VTableInterfacePerPropertyBrowsing)
 Call DestroyToolBar
-Call ComCtlsReleaseShellMod
+'Call ComCtlsReleaseShellMod
 End Sub
 
 Private Sub TimerImageList_Timer()
@@ -1630,7 +1630,7 @@ PropRightToLeft = False 'Value
 'Dim dwMask As Long
 'If ToolBarDesignMode = False Then
 '    If PropRightToLeft = True And PropRightToLeftLayout = True Then dwMask = WS_EX_LAYOUTRTL
-'    Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
+'    'Call ComCtlsSetRightToLeft(UserControl.hWnd, dwMask)
 '    dwMask = 0
 'End If
 'If ToolBarHandle <> NULL_PTR Then Call ReCreateToolBar
@@ -2327,12 +2327,12 @@ If ToolBarHandle <> NULL_PTR Then
     If PropDivider = True Then
         If (dwStyle And CCS_NODIVIDER) = CCS_NODIVIDER Then
             SendMessage ToolBarHandle, TB_SETSTYLE, 0, ByVal dwStyle And Not CCS_NODIVIDER
-            Call ComCtlsFrameChanged(ToolBarHandle)
+            'Call ComCtlsFrameChanged(ToolBarHandle)
         End If
     Else
         If Not (dwStyle And CCS_NODIVIDER) = CCS_NODIVIDER Then
             SendMessage ToolBarHandle, TB_SETSTYLE, 0, ByVal dwStyle Or CCS_NODIVIDER
-            Call ComCtlsFrameChanged(ToolBarHandle)
+            'Call ComCtlsFrameChanged(ToolBarHandle)
         End If
     End If
     Call UserControl_Resize
@@ -3410,7 +3410,7 @@ If PropAllowCustomize = True Then dwStyle = dwStyle Or CCS_ADJUSTABLE
 If PropAltDrag = True Then dwStyle = dwStyle Or TBSTYLE_ALTDRAG
 ToolBarHandle = CreateWindowEx(dwExStyle, StrPtr("ToolbarWindow32"), NULL_PTR, dwStyle, 0, 0, UserControl.ScaleWidth, UserControl.ScaleHeight, UserControl.hWnd, NULL_PTR, App.hInstance, ByVal NULL_PTR)
 If ToolBarHandle <> NULL_PTR Then
-    Call ComCtlsShowAllUIStates(ToolBarHandle)
+    'Call ComCtlsShowAllUIStates(ToolBarHandle)
     Dim TBB As TBBUTTON
     SendMessage ToolBarHandle, TB_BUTTONSTRUCTSIZE, LenB(TBB), ByVal 0&
     SendMessage ToolBarHandle, TB_SETUNICODEFORMAT, 1, ByVal 0&
