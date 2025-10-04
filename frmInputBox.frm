@@ -108,6 +108,9 @@ End Sub
 Private Sub Form_Load()
     InitForm Me
     Set imgIcon.Picture = Train(RandInt(1, 2))
+    
+    Set cmdOK.ImageList = frmDummyForm.imgOK
+    Set cmdCancel.ImageList = frmDummyForm.imgCancel
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

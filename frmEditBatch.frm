@@ -254,6 +254,9 @@ Private Sub Form_Load()
     InitialFileName = frmMain.lvBatchFiles.SelectedItem.Text
     Me.Caption = t("ÆíÁý", "Edit") & " - " & InitialFileName
     
+    Set cmdOK.ImageList = frmDummyForm.imgOK
+    Set cmdCancel.ImageList = frmDummyForm.imgCancel
+    
 #If HIDEYTDL Then
     cmdYtdl.Visible = False
     cmdHeaders.Left = cmdYtdl.Left

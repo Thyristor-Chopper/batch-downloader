@@ -27,6 +27,26 @@ Begin VB.Form frmDummyForm
    ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows ±âº»°ª
    Visible         =   0   'False
+   Begin prjDownloadBooster.ImageList imgCancel 
+      Left            =   600
+      Top             =   0
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmDummyForm.frx":212A
+   End
+   Begin prjDownloadBooster.ImageList imgOK 
+      Left            =   0
+      Top             =   0
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   16711935
+      InitListImages  =   "frmDummyForm.frx":22D2
+   End
    Begin VB.PictureBox pbDummy 
       AutoRedraw      =   -1  'True
       Height          =   135
@@ -46,7 +66,7 @@ Begin VB.Form frmDummyForm
       ImageHeight     =   16
       ColorDepth      =   4
       MaskColor       =   16711935
-      InitListImages  =   "frmDummyForm.frx":212A
+      InitListImages  =   "frmDummyForm.frx":247A
    End
 End
 Attribute VB_Name = "frmDummyForm"

@@ -453,6 +453,9 @@ Private Sub Form_Load()
     On Error Resume Next
     
     Set lvHeaders.SmallIcons = frmDummyForm.imgFiles
+    
+    Set OKButton.ImageList = frmDummyForm.imgOK
+    Set CancelButton.ImageList = frmDummyForm.imgCancel
 
 #If HIDEYTDL Then
 #Else

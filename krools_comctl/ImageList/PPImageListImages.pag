@@ -205,7 +205,7 @@ Private PropShadowListImages() As ShadowListImageStruct
 Private FreezeChanged As Boolean
 
 Private Sub PropertyPage_Initialize()
-Call ComCtlsShowAllUIStates(PropertyPage.hWnd)
+'Call ComCtlsShowAllUIStates(PropertyPage.hWnd)
 CurrIndex = 0
 ImageFrameWidth = 42
 ImageFrameHeight = 42
@@ -501,13 +501,13 @@ End If
 End Sub
 
 Private Sub CommandClear_Click()
-If MsgBoxInternal("Are you sure you want to remove all images?", vbYesNo Or vbQuestion) = vbYes Then
+'If MsgBoxInternal("Are you sure you want to remove all images?", vbYesNo Or vbQuestion) = vbYes Then
     PropertyPage.SelectedControls(0).ListImages.Clear
     CurrIndex = 0
     Call ApplyControlStates
     Call FillShadowListImages
     Call DrawImages
-End If
+'End If
 End Sub
 
 Private Sub CommandMoveDown_Click()

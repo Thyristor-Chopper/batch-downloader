@@ -183,6 +183,8 @@ Private Sub Form_Load()
     lvItems.ListItems.Add , , "vbAccelerator SSubTmr", 2
     lvItems.ListItems.Add , , "Run EXE in-memory", 1
     lvItems.ListItems(1).Selected = True
+    
+    Set cmdOK.ImageList = frmDummyForm.imgOK
 End Sub
 
 Private Sub lvItems_ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)

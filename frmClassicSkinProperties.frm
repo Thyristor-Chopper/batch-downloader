@@ -35,24 +35,24 @@ Begin VB.Form frmSystemSkinProperties
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
       Default         =   -1  'True
-      Height          =   375
+      Height          =   345
       Left            =   960
       TabIndex        =   2
       Top             =   960
       Width           =   1215
       _ExtentX        =   2143
-      _ExtentY        =   661
+      _ExtentY        =   609
       Caption         =   "확인"
    End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
-      Height          =   375
+      Height          =   345
       Left            =   2520
       TabIndex        =   3
       Top             =   960
       Width           =   1215
       _ExtentX        =   2143
-      _ExtentY        =   661
+      _ExtentY        =   609
       Caption         =   "취소"
    End
    Begin prjDownloadBooster.CheckBoxW chkRoundClassicButtons 
@@ -112,6 +112,9 @@ Private Sub Form_Load()
         cmdCancel.Top = cmdCancel.Top - 240
         Me.Height = Me.Height - 240
     End If
+    
+    Set cmdOK.ImageList = frmDummyForm.imgOK
+    Set cmdCancel.ImageList = frmDummyForm.imgCancel
     
     tr Me, "Skin Settings"
     tr chkRoundClassicButtons, "&Use rounded buttons"

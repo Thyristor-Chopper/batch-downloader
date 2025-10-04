@@ -2467,6 +2467,9 @@ Private Sub Form_Load()
     Set cmdAdvancedSkin.ImageList = frmMain.imgWrench
     Set cmdAdvancedProgressSkin.ImageList = frmMain.imgWrench
     
+    Set OKButton.ImageList = frmDummyForm.imgOK
+    Set CancelButton.ImageList = frmDummyForm.imgCancel
+    
     RemoveVisualStyles txtSampleClassic.hWnd
     
     InitPropertySheetDimensions Me, tsTabStrip, pbPanel, OKButton, CancelButton, cmdApply

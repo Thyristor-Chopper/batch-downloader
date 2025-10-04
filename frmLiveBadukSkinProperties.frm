@@ -340,24 +340,24 @@ Begin VB.Form frmLiveBadukSkinProperties
    End
    Begin prjDownloadBooster.CommandButtonW cmdCancel 
       Cancel          =   -1  'True
-      Height          =   375
+      Height          =   345
       Left            =   3000
       TabIndex        =   24
       Top             =   5520
       Width           =   1335
       _ExtentX        =   2355
-      _ExtentY        =   661
+      _ExtentY        =   609
       Caption         =   "취소"
    End
    Begin prjDownloadBooster.CommandButtonW cmdOK 
       Default         =   -1  'True
-      Height          =   375
+      Height          =   345
       Left            =   960
       TabIndex        =   23
       Top             =   5520
       Width           =   1335
       _ExtentX        =   2355
-      _ExtentY        =   661
+      _ExtentY        =   609
       Caption         =   "확인"
    End
 End
@@ -435,6 +435,9 @@ Private Sub Form_Load()
     chkBold.Value = frmOptions.LiveBadukMemoSkinLabelFontBold
     
     chkEnableBorders.Enabled = (DPI = 96)
+    
+    Set cmdOK.ImageList = frmDummyForm.imgOK
+    Set cmdCancel.ImageList = frmDummyForm.imgCancel
     
     tr fText, "Text"
     tr chkTextColor, "Label te&xt color:"

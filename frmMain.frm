@@ -881,7 +881,7 @@ Begin VB.Form frmMain
       _ExtentY        =   582
       ImageList       =   "imgDropdown"
       ImageListAlignment=   1
-      Caption         =   "  老褒 贸府(&H)"
+      Caption         =   "  老褒 促款肺靛(&H)"
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.FrameW fTotal 

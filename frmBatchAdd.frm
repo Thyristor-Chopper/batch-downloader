@@ -184,6 +184,9 @@ Private Sub Form_Load()
     tr cmdBrowse, "&Browse..."
     tr cmdAdvanced, "&Options..."
     
+    Set cmdOK.ImageList = frmDummyForm.imgOK
+    Set cmdCancel.ImageList = frmDummyForm.imgCancel
+    
     HeaderCache = ""
     
     On Error Resume Next
