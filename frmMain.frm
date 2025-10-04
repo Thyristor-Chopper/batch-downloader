@@ -856,7 +856,7 @@ Begin VB.Form frmMain
       _ExtentX        =   3149
       _ExtentY        =   582
       ImageList       =   "imgErase"
-      Caption         =   "초기화(&Y) "
+      Caption         =   "초기화(&L) "
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW cmdAdd 
@@ -933,7 +933,7 @@ Begin VB.Form frmMain
          Width           =   2280
          _ExtentX        =   0
          _ExtentY        =   0
-         Caption         =   "완료 후 폴더 열기(&L)"
+         Caption         =   "완료 후 폴더 열기(&W)"
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CheckBoxW chkContinueDownload 
@@ -988,7 +988,7 @@ Begin VB.Form frmMain
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
          BackStyle       =   0  '투명
-         Caption         =   "중복(&K):"
+         Caption         =   "중복(&X):"
          Height          =   180
          Left            =   330
          TabIndex        =   22
@@ -3265,7 +3265,7 @@ Private Sub Form_Load()
     tr lblURL, "File &address:"
     tr lblFilePath, "Save &file to:"
     tr lblThreadCountLabel, "&Threads:"
-    tr cmdClear, "Clear(&Y)"
+    tr cmdClear, "C&lear"
     tr cmdBrowse, "&Browse..."
     tr fTotal, " Total Progress "
     tr fTabDownload, " Summary "
@@ -3294,11 +3294,11 @@ Private Sub Form_Load()
     tr fOptions, " Settings "
     
     tr chkOpenAfterComplete, "Open when &complete"
-    tr chkOpenFolder, "Open fo&lder when done"
+    tr chkOpenFolder, "Open folder &when done"
     tr chkContinueDownload, "Always resu&me"
     tr chkAutoRetry, "Try a&gain on error"
     
-    tr Label1, "Exists(&K):"
+    tr Label1, "E&xists:"
     tr mnuAddItem, "&Add URL..."
     tr mnuClearBatch, "&Clear list"
     tr mnuClearBatch2, "&Clear list"
