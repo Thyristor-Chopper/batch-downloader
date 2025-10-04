@@ -1090,7 +1090,7 @@ Begin VB.Form frmOptions
             Width           =   1335
             _ExtentX        =   2355
             _ExtentY        =   529
-            Caption         =   "저장(&A)..."
+            Caption         =   "저장(&V)..."
             Transparent     =   -1  'True
          End
          Begin VB.ComboBox cbTheme 
@@ -2615,7 +2615,7 @@ Private Sub Form_Load()
     tr Label22, "W&allpaper:"
     tr FrameW1, "Theme"
     tr Label20, "&Theme:"
-    tr cmdSaveTheme, "S&ave..."
+    tr cmdSaveTheme, "Sa&ve..."
     tr cmdDeleteTheme, "&Delete"
     tr chkUseServerModified, "Use server's mo&dified date"
     tr cmdHeaders, "&Headers..."

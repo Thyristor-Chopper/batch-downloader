@@ -232,11 +232,20 @@ Property Get Caption() As String
 End Property
 
 Property Let Caption(ByVal New_Caption As String)
-    m_Caption = New_Caption
+    m_Caption = Trim$(New_Caption)
     PropertyChanged "Caption"
-    lblCaption.Caption = Trim$(m_Caption)
-    If Not m_Icon Is Nothing Then _
-        lblCaption.Caption = "  " & Trim$(lblCaption.Caption)
+    If Not m_Icon Is Nothing Then
+        Select Case m_IconPosition
+            Case IconPositionRight
+                lblCaption = m_Caption & "  "
+            Case IconPositionCenter
+                lblCaption = m_Caption
+            Case Else
+                lblCaption = "  " & m_Caption
+        End Select
+    Else
+        lblCaption = m_Caption
+    End If
 End Property
 
 Property Get FontName() As String
@@ -254,6 +263,9 @@ Private Sub SetCaptionFont()
     lblCaption.Font.Name = m_FontName
     lblCaption.Font.Bold = ButtonSkinBold(m_Skin)
     lblCaption.Font.Italic = False
+    UserControl.Font.Name = lblCaption.Font.Name
+    UserControl.Font.Bold = lblCaption.Font.Bold
+    UserControl.Font.Italic = lblCaption.Font.Italic
 End Sub
 
 Property Get FontSize() As String
@@ -264,6 +276,7 @@ Property Let FontSize(ByVal New_FontSize As String)
     m_FontSize = New_FontSize
     PropertyChanged "FontSize"
     lblCaption.Font.Size = m_FontSize
+    UserControl.Font.Size = m_FontSize
 End Property
 
 Property Get ButtonIcon() As IPictureDisp
@@ -304,11 +317,11 @@ Private Sub SetIcon()
         imgIcon.Left = IconLeft
         Select Case m_IconPosition
             Case IconPositionRight
-                lblCaption.Caption = Trim$(lblCaption.Caption) & "  "
+                lblCaption = Trim$(lblCaption) & "  "
             Case IconPositionCenter
-                lblCaption.Caption = Trim$(lblCaption.Caption)
+                lblCaption = Trim$(lblCaption)
             Case Else
-                lblCaption.Caption = "  " & Trim$(lblCaption.Caption)
+                lblCaption = "  " & Trim$(lblCaption)
         End Select
     End If
     Set imgIcon.Picture = m_Icon
@@ -357,22 +370,26 @@ Private Sub UserControl_Initialize()
 End Sub
 
 Sub ShowAsPressed()
-    lblCaption.Left = 15
-    lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 20 + 15
-    lblCaption.Tag = "mousedown"
     lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 3)
-    imgIcon.Left = IconLeft + Screen.TwipsPerPixelX
-    imgIcon.Top = IconTop + Screen.TwipsPerPixelY
+    lblCaption.Tag = "mousedown"
+    If ButtonSkinInsetLabel(m_Skin) Then
+        lblCaption.Left = Screen.TwipsPerPixelX
+        lblCaption.Top = (UserControl.Height - UserControl.TextHeight(lblCaption)) / 2 + 5 + Screen.TwipsPerPixelY
+        imgIcon.Left = IconLeft + Screen.TwipsPerPixelX
+        imgIcon.Top = IconTop + Screen.TwipsPerPixelY
+    End If
     IsPressed = True
     DrawSkin Pressed
 End Sub
 
 Sub ShowAsUnpressed()
-    lblCaption.Left = 0
-    lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 15
     lblCaption.Tag = ""
-    imgIcon.Left = IconLeft
-    imgIcon.Top = IconTop
+    If ButtonSkinInsetLabel(m_Skin) Then
+        lblCaption.Left = 0
+        lblCaption.Top = (UserControl.Height - UserControl.TextHeight(lblCaption)) / 2
+        imgIcon.Left = IconLeft
+        imgIcon.Top = IconTop
+    End If
     IsPressed = False
     If DrawNormalState = Focused Then
         lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 5)
@@ -449,6 +466,7 @@ End Sub
 Private Sub RefreshSkin(Optional Redraw As Boolean = False)
     If m_Skin = 0 Then Exit Sub
     lblCaption.Font.Bold = ButtonSkinBold(m_Skin)
+    UserControl.Font.Bold = lblCaption.Font.Bold
     If DrawNormalState = Focused Then
         lblCaption.ForeColor = ButtonSkinCaptionColor((m_Skin - 1) * 5 + 5)
     ElseIf Not m_Enabled Then
@@ -498,9 +516,7 @@ Private Sub DrawSkin(Optional ByVal State As ButtonState = Normal)
 
     Dim hSrcBmp As Long
     hSrcBmp = GetBitmapHandle(pic)
-    If hSrcBmp = 0 Then
-        GoTo Cleanup
-    End If
+    If hSrcBmp = 0 Then GoTo Cleanup
 
     Dim hSrcDC As Long, hOldSrc As Long
     hSrcDC = CreateCompatibleDC(hScreenDC)
@@ -544,7 +560,8 @@ Private Sub UserControl_Resize()
     imgOverlay.Width = UserControl.Width
     imgOverlay.Height = UserControl.Height
     SetSplitButton
-    lblCaption.Top = (UserControl.Height - lblCaption.Height) / 2 + 15
+    lblCaption.Left = 0
+    lblCaption.Top = (UserControl.Height - UserControl.TextHeight(lblCaption)) / 2
     lblCaption.Width = UserControl.Width
     IconTop = UserControl.Height / 2 - ScaleY(m_Icon.Height, vbHimetric, vbTwips) / 2
     imgIcon.Top = IconTop

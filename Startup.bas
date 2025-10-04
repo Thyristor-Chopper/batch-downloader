@@ -35,6 +35,7 @@ Public ButtonSkinBorder(0 To 4) As Byte
 Public ButtonSkinBold(0 To 4) As Boolean
 Public ButtonSkinCaptionColor(-4 To 20) As Long
 Public ButtonSkinSplitColor(0 To 4) As Long
+Public ButtonSkinInsetLabel(0 To 4) As Boolean
 
 Public FrameSkinLabelOffset(1 To 2) As Integer
 
@@ -182,34 +183,39 @@ forcegulim:
     ButtonSkinBold(3) = False
     ButtonSkinBold(4) = False
     
-    ButtonSkinCaptionColor(1) = 0&
+    'ButtonSkinCaptionColor(1) = 0&
     ButtonSkinCaptionColor(2) = 255&
-    ButtonSkinCaptionColor(3) = 0&
+    'ButtonSkinCaptionColor(3) = 0&
     ButtonSkinCaptionColor(4) = 8421504
-    ButtonSkinCaptionColor(5) = 0&
+    'ButtonSkinCaptionColor(5) = 0&
     
-    ButtonSkinCaptionColor(6) = 0&
-    ButtonSkinCaptionColor(7) = 0&
-    ButtonSkinCaptionColor(8) = 0&
+    'ButtonSkinCaptionColor(6) = 0&
+    'ButtonSkinCaptionColor(7) = 0&
+    'ButtonSkinCaptionColor(8) = 0&
     ButtonSkinCaptionColor(9) = 8421504
-    ButtonSkinCaptionColor(10) = 0&
+    'ButtonSkinCaptionColor(10) = 0&
     
-    ButtonSkinCaptionColor(11) = 0&
+    'ButtonSkinCaptionColor(11) = 0&
     ButtonSkinCaptionColor(12) = 16777215
     ButtonSkinCaptionColor(13) = 16777215
     ButtonSkinCaptionColor(14) = 8421504
-    ButtonSkinCaptionColor(15) = 0&
+    'ButtonSkinCaptionColor(15) = 0&
     
-    ButtonSkinCaptionColor(16) = 0&
+    'ButtonSkinCaptionColor(16) = 0&
     ButtonSkinCaptionColor(17) = 16777215
     ButtonSkinCaptionColor(18) = 16777215
     ButtonSkinCaptionColor(19) = 8421504
-    ButtonSkinCaptionColor(20) = 0&
+    'ButtonSkinCaptionColor(20) = 0&
     
     ButtonSkinSplitColor(1) = 3881787
     ButtonSkinSplitColor(2) = 8421504
     ButtonSkinSplitColor(3) = 11381671
     ButtonSkinSplitColor(4) = 11381671
+    
+    ButtonSkinInsetLabel(1) = True
+    'ButtonSkinInsetLabel(2) = False
+    'ButtonSkinInsetLabel(3) = False
+    'ButtonSkinInsetLabel(4) = False
     
     FrameSkinLabelOffset(1) = 300
     FrameSkinLabelOffset(2) = 150

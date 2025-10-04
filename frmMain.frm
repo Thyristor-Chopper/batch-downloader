@@ -231,7 +231,7 @@ Begin VB.Form frmMain
       _ExtentY        =   661
       Enabled         =   0   'False
       ImageList       =   "imgOpenFile"
-      Caption         =   "열기(&W) "
+      Caption         =   "열기(&N) "
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.CommandButtonW cmdDelete 
@@ -297,7 +297,7 @@ Begin VB.Form frmMain
       _ExtentY        =   661
       Enabled         =   0   'False
       ImageList       =   "imgEdit"
-      Caption         =   "편집(&N)..."
+      Caption         =   "편집(&E)..."
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.ImageList imgEdit 
@@ -320,7 +320,7 @@ Begin VB.Form frmMain
       _ExtentY        =   661
       Enabled         =   0   'False
       ImageList       =   "imgStopRed"
-      Caption         =   "중지(&Z) "
+      Caption         =   "중지(&P) "
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.ProgressBar pbTotalProgressMarquee 
@@ -429,7 +429,7 @@ Begin VB.Form frmMain
       _ExtentY        =   582
       Enabled         =   0   'False
       ImageList       =   "imgStopRed"
-      Caption         =   "중지(&P) "
+      Caption         =   "중지(&W) "
       Transparent     =   -1  'True
    End
    Begin prjDownloadBooster.ImageList imgDropdownReverse 
@@ -944,7 +944,7 @@ Begin VB.Form frmMain
          Width           =   1935
          _ExtentX        =   0
          _ExtentY        =   0
-         Caption         =   "항상 이어받기(&J)"
+         Caption         =   "항상 이어받기(&M)"
          Transparent     =   -1  'True
       End
       Begin prjDownloadBooster.CheckBoxW chkAutoRetry 
@@ -1005,7 +1005,7 @@ Begin VB.Form frmMain
       _ExtentX        =   3413
       _ExtentY        =   582
       ImageList       =   "imgOpenFolder"
-      Caption         =   "폴더 열기(&E) "
+      Caption         =   "폴더 열기(&P) "
       Transparent     =   -1  'True
    End
    Begin VB.Timer timElapsed 
@@ -3272,18 +3272,18 @@ Private Sub Form_Load()
     tr fTabThreads, " Threads "
     tr cmdOptions, "More opt&ions..."
     tr cmdOpen, "&Open"
-    tr cmdOpenFolder, "Op&en folder"
+    tr cmdOpenFolder, "O&pen folder"
     tr cmdGo, "&Download"
-    tr cmdStop, "Sto&p"
+    tr cmdStop, "Stop do&wnload"
     tr cmdAddToQueue, "Add to &queue"
     tr cmdBatch, "Batc&h download"
     tr lblState, "Stopped"
     lblLBState = lblState
-    tr cmdOpenBatch, "Open(&W)"
+    tr cmdOpenBatch, "Ope&n"
     tr cmdAdd, "Add U&RL..."
     tr cmdDelete, "Remo&ve"
     tr cmdStartBatch, "&Start"
-    tr cmdStopBatch, "Stop(&Z)"
+    tr cmdStopBatch, "Sto&p"
     tr Label8, "File name:"
     tr Label2, "Total:"
     tr Label3, "Recieved:"
@@ -3295,8 +3295,8 @@ Private Sub Form_Load()
     
     tr chkOpenAfterComplete, "Open when &complete"
     tr chkOpenFolder, "Open fo&lder when done"
-    tr chkContinueDownload, "Always resume(&J)"
-    tr chkAutoRetry, "Auto retry on error(&G)"
+    tr chkContinueDownload, "Always resu&me"
+    tr chkAutoRetry, "Try a&gain on error"
     
     tr Label1, "Exists(&K):"
     tr mnuAddItem, "&Add URL..."
@@ -3316,7 +3316,7 @@ Private Sub Form_Load()
     tr mnuOpenBatch, "&Open"
     tr mnuOpenFolder2, "Open &folder"
     
-    tr cmdEdit, "Edit(&N)..."
+    tr cmdEdit, "&Edit..."
     
     tr mnuProperties, "View p&roperties"
     tr mnuPropertiesBatch, "View p&roperties"

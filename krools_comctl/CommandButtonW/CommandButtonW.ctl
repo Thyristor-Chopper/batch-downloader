@@ -447,6 +447,7 @@ Private PropIsTygemButton As Boolean
 Private PropRoundButton As Boolean
 
 Private bMouseDown As Boolean
+Private CurrentImageList As ImageList
 
 Private Sub IObjectSafety_GetInterfaceSafetyOptions(ByRef riid As OLEGuids.OLECLSID, ByRef pdwSupportedOptions As Long, ByRef pdwEnabledOptions As Long)
 Const INTERFACESAFE_FOR_UNTRUSTED_CALLER As Long = &H1, INTERFACESAFE_FOR_UNTRUSTED_DATA As Long = &H2
@@ -701,6 +702,7 @@ Call CreateCommandButton
 If Not PropImageListName = "(None)" Then
     TimerImageList.Enabled = True
 End If
+SetSkinnedButtonIcon
 End Sub
 
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
@@ -1253,7 +1255,17 @@ UserControl.Enabled = Value
 If CommandButtonHandle <> NULL_PTR Then EnableWindow CommandButtonHandle, -Value
 UserControl.PropertyChanged "Enabled"
 tygButton.Enabled = Value
+SetSkinnedButtonIcon
 End Property
+
+Private Sub SetSkinnedButtonIcon()
+    If CurrentImageList Is Nothing Then Exit Sub
+    If CurrentImageList.ListImages.Count >= 4 And Me.Enabled = False Then
+        Set tygButton.ButtonIcon = CurrentImageList.ListImages(4).ExtractIcon()
+    Else
+        Set tygButton.ButtonIcon = CurrentImageList.ListImages(1).ExtractIcon()
+    End If
+End Sub
 
 Public Property Get IsTygemButton() As Boolean
 IsTygemButton = PropIsTygemButton
@@ -1427,7 +1439,8 @@ If CommandButtonHandle <> NULL_PTR Then
         Case vbObject
             If Not Value Is Nothing Then
                 On Error Resume Next
-                Set tygButton.ButtonIcon = Value.ListImages.Item(1).ExtractIcon
+                Set CurrentImageList = Value
+                SetSkinnedButtonIcon
                 Handle = Value.hImageList
                 Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
                 On Error GoTo 0
@@ -1446,7 +1459,8 @@ If CommandButtonHandle <> NULL_PTR Then
                     CompareName = ProperControlName(ControlEnum)
                     If CompareName = Value And Not CompareName = vbNullString Then
                         Err.Clear
-                        Set tygButton.ButtonIcon = ControlEnum.ListImages.Item(1).ExtractIcon
+                        Set CurrentImageList = ControlEnum
+                        SetSkinnedButtonIcon
                         
                         Handle = ControlEnum.hImageList
                         Success = CBool(Err.Number = 0 And Handle <> NULL_PTR)
