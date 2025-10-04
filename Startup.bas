@@ -49,6 +49,7 @@ Public WindowSkinClose(-4 To 3) As IPicture
 Public WindowSkinMaximize(-4 To 7) As IPicture
 Public WindowSkinMinimize(-4 To 3) As IPicture
 Public WindowSkinBorderSize(-3 To 2) As Byte
+Public WindowSkinBorderPadding(-1 To 0) As Byte
 Public WindowSkinCaptionHeight(-1 To 0) As Byte
 Public CurrentWindowSkin As WindowSkin
 
@@ -270,6 +271,8 @@ forcegulim:
         WindowSkinBorderSize(i + 2) = GetPictureHeight(WindowSkinBottom(i * 2), vbPixels)
         WindowSkinCaptionHeight(i) = GetPictureHeight(WindowSkinTop(i * 2), vbPixels)
     Next i
+    
+    WindowSkinBorderPadding(0) = 0
     
     'ProcessPath = """" & GetCurrentEXEPath("cmd.exe") & """"
     

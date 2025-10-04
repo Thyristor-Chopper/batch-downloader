@@ -1776,26 +1776,26 @@ Private Sub cmdDownloadOptions_Click()
     frmDownloadOptions.Show vbModal, Me
 End Sub
 
-Private Function IBSSubclass_MsgResponse(ByVal hwnd As Long, ByVal uMsg As Long) As EMsgResponse
+Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
     IBSSubclass_MsgResponse = emrConsume
 End Function
 
 Private Sub IBSSubclass_UnsubclassIt()
-    DetachMessage Me, Me.hwnd, WM_GETMINMAXINFO
-    DetachMessage Me, Me.hwnd, WM_INITMENU
-    DetachMessage Me, Me.hwnd, WM_SYSCOMMAND
+    DetachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    DetachMessage Me, Me.hWnd, WM_INITMENU
+    DetachMessage Me, Me.hWnd, WM_SYSCOMMAND
     'DetachMessage Me, Me.hWnd, WM_DWMCOMPOSITIONCHANGED
-    DetachMessage Me, Me.hwnd, WM_SETTINGCHANGE
-    DetachMessage Me, Me.hwnd, WM_THEMECHANGED
-    DetachMessage Me, Me.hwnd, WM_CTLCOLORSCROLLBAR
-    DetachMessage Me, Me.hwnd, WM_NCPAINT
-    DetachMessage Me, Me.hwnd, WM_MOVE
-    DetachMessage Me, Me.hwnd, WM_NCCALCSIZE
-    DetachMessage Me, Me.hwnd, WM_NCHITTEST
-    DetachMessage Me, Me.hwnd, WM_NCACTIVATE
+    DetachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    DetachMessage Me, Me.hWnd, WM_THEMECHANGED
+    DetachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
+    DetachMessage Me, Me.hWnd, WM_NCPAINT
+    DetachMessage Me, Me.hWnd, WM_MOVE
+    DetachMessage Me, Me.hWnd, WM_NCCALCSIZE
+    DetachMessage Me, Me.hWnd, WM_NCHITTEST
+    DetachMessage Me, Me.hWnd, WM_NCACTIVATE
 End Sub
 
-Private Function IBSSubclass_WindowProc(ByVal hwnd As Long, ByVal uMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long
+Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, ByRef wParam As Long, ByRef lParam As Long, ByRef bConsume As Boolean) As Long
     On Error Resume Next
     
     Dim hSysMenu As Long
@@ -1815,7 +1815,7 @@ Private Function IBSSubclass_WindowProc(ByVal hwnd As Long, ByVal uMsg As Long, 
             IBSSubclass_WindowProc = 1&
             Exit Function
         Case WM_INITMENU
-            hSysMenu = GetSystemMenu(Me.hwnd, 0)
+            hSysMenu = GetSystemMenu(Me.hWnd, 0)
             With MII
                 .cbSize = Len(MII)
                 .fMask = MIIM_STATE
@@ -1828,13 +1828,13 @@ Private Function IBSSubclass_WindowProc(ByVal hwnd As Long, ByVal uMsg As Long, 
         Case WM_SYSCOMMAND
             If wParam = 1000 Then '항상 위에 표시
                 MainFormOnTop = Not MainFormOnTop
-                SetWindowPos hwnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+                SetWindowPos hWnd, IIf(MainFormOnTop, hWnd_TOPMOST, hWnd_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
                 SaveSetting "DownloadBooster", "Options", "AlwaysOnTop", -(MainFormOnTop)
                 
                 IBSSubclass_WindowProc = 1&
                 Exit Function
-            ElseIf wParam = 1003 And (Not (frmMain.Height <= 6930 + PaddedBorderWidth * 15 * 2)) Then '창 크기 초기화
-                Me.Height = 8985 + PaddedBorderWidth * 15 * 2
+            ElseIf wParam = 1003 And (Not (frmMain.Height <= 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2)) Then '창 크기 초기화
+                Me.Height = 8985 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
             
                 IBSSubclass_WindowProc = 1&
                 Exit Function
@@ -1845,8 +1845,8 @@ Private Function IBSSubclass_WindowProc(ByVal hwnd As Long, ByVal uMsg As Long, 
                 Case "WindowMetrics"
                     UpdateBorderWidth
                     
-                    FormWidth = (9450 + PaddedBorderWidth * 15 * 2) / 15
-                    FormMinHeight = (8220 + PaddedBorderWidth * 15 * 2) / 15
+                    FormWidth = (9450 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
+                    FormMinHeight = (8220 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
                     
                     Me.Width = FormWidth * 15
                     Form_Resize
@@ -1868,15 +1868,15 @@ Private Function IBSSubclass_WindowProc(ByVal hwnd As Long, ByVal uMsg As Long, 
             Exit Function
         Case WM_NCPAINT, WM_MOVE
             If CurrentWindowSkin <> System Then
-                GetWindowRect Me.hwnd, RC
-                SetWindowPos pbTopLeft.hwnd, -2, RC.Left, RC.Top, pbTopLeft.Width / 15, pbTopLeft.Height / 15, SWP_FRAMECHANGED
-                SetWindowPos pbTopMiddle.hwnd, -2, RC.Left + pbTopLeft.Width / 15, RC.Top, pbTopMiddle.Width / 15, pbTopMiddle.Height / 15, SWP_FRAMECHANGED
-                SetWindowPos pbTopRight.hwnd, -2, RC.Right - pbTopRight.Width / 15, RC.Top, pbTopRight.Width / 15, pbTopRight.Height / 15, SWP_FRAMECHANGED
-                SetWindowPos pbLeft.hwnd, -2, RC.Left, RC.Top + pbTopLeft.Height / 15, pbLeft.Width / 15, pbLeft.Height / 15, SWP_FRAMECHANGED
-                SetWindowPos pbBottomLeft.hwnd, -2, RC.Left, RC.Top + pbTopLeft.Height / 15 + pbLeft.Height / 15, pbBottomLeft.Width / 15, pbBottomLeft.Height / 15, SWP_FRAMECHANGED
-                SetWindowPos pbBottomMiddle.hwnd, -2, RC.Left + pbBottomLeft.Width / 15, RC.Top + pbTopLeft.Height / 15 + pbLeft.Height / 15, pbBottomMiddle.Width / 15, pbBottomMiddle.Height / 15, SWP_FRAMECHANGED
-                SetWindowPos pbBottomRight.hwnd, -2, RC.Left + pbBottomLeft.Width / 15 + pbBottomMiddle.Width / 15, RC.Top + pbTopLeft.Height / 15 + pbLeft.Height / 15, pbBottomRight.Width / 15, pbBottomRight.Height / 15, SWP_FRAMECHANGED
-                SetWindowPos pbRight.hwnd, -2, RC.Right - pbRight.Width / 15, RC.Top + pbTopRight.Height / 15, pbRight.Width / 15, pbRight.Height / 15, SWP_FRAMECHANGED
+                GetWindowRect Me.hWnd, RC
+                SetWindowPos pbTopLeft.hWnd, -2, RC.Left, RC.Top, pbTopLeft.Width / 15, pbTopLeft.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos pbTopMiddle.hWnd, -2, RC.Left + pbTopLeft.Width / 15, RC.Top, pbTopMiddle.Width / 15, pbTopMiddle.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos pbTopRight.hWnd, -2, RC.Right - pbTopRight.Width / 15, RC.Top, pbTopRight.Width / 15, pbTopRight.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos pbLeft.hWnd, -2, RC.Left, RC.Top + pbTopLeft.Height / 15, pbLeft.Width / 15, pbLeft.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos pbBottomLeft.hWnd, -2, RC.Left, RC.Top + pbTopLeft.Height / 15 + pbLeft.Height / 15, pbBottomLeft.Width / 15, pbBottomLeft.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos pbBottomMiddle.hWnd, -2, RC.Left + pbBottomLeft.Width / 15, RC.Top + pbTopLeft.Height / 15 + pbLeft.Height / 15, pbBottomMiddle.Width / 15, pbBottomMiddle.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos pbBottomRight.hWnd, -2, RC.Left + pbBottomLeft.Width / 15 + pbBottomMiddle.Width / 15, RC.Top + pbTopLeft.Height / 15 + pbLeft.Height / 15, pbBottomRight.Width / 15, pbBottomRight.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos pbRight.hWnd, -2, RC.Right - pbRight.Width / 15, RC.Top + pbTopRight.Height / 15, pbRight.Width / 15, pbRight.Height / 15, SWP_FRAMECHANGED
 
                 IBSSubclass_WindowProc = 0&
                 Exit Function
@@ -1904,7 +1904,7 @@ Private Function IBSSubclass_WindowProc(ByVal hwnd As Long, ByVal uMsg As Long, 
                 If Y And &H8000& Then Y = Y Or &HFFFF0000
             
                 Dim RCWin As RECT
-                GetWindowRect hwnd, RCWin
+                GetWindowRect hWnd, RCWin
             
                 Dim hit As Long: hit = HTCLIENT
             
@@ -1950,7 +1950,7 @@ Private Function IBSSubclass_WindowProc(ByVal hwnd As Long, ByVal uMsg As Long, 
             SetSizableSkinTextures
     End Select
     
-    IBSSubclass_WindowProc = CallOldWindowProc(hwnd, uMsg, wParam, lParam)
+    IBSSubclass_WindowProc = CallOldWindowProc(hWnd, uMsg, wParam, lParam)
 End Function
 
 Private Sub mnuErrorInfo_Click()
@@ -2700,29 +2700,29 @@ End Sub
 Sub cmdBatch_Click()
     On Error Resume Next
     
-    If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then
+    If Me.Height <= 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 Then
         cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
         cmdAddToQueue.Visible = -1
-        FormWidth = (MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2) / 15
-        FormMinHeight = (8220 + PaddedBorderWidth * 15 * 2 + 45) / 15
+        FormWidth = (MAIN_FORM_WIDTH + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
+        FormMinHeight = (8220 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 + 45) / 15
         FormMaxHeight = (Screen.Height + 1200) / 15
         'sbStatusBar.AllowSizeGrip = True
         
         Dim formHeight As Integer
         formHeight = GetSetting("DownloadBooster", "UserData", "FormHeight", 8985)
         If formHeight < 8220 Then
-            Me.Height = 8985 + PaddedBorderWidth * 15 * 2
+            Me.Height = 8985 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
         Else
-            Me.Height = formHeight + PaddedBorderWidth * 15 * 2
+            Me.Height = formHeight + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
         End If
     Else
-        SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
-        FormWidth = (MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2) / 15
-        FormMinHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
-        FormMaxHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
+        SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
+        FormWidth = (MAIN_FORM_WIDTH + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
+        FormMinHeight = (6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
+        FormMaxHeight = (6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
         'sbStatusBar.AllowSizeGrip = False
-        Me.Height = 6930 + PaddedBorderWidth * 15 * 2
+        Me.Height = 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
         cmdBatch.ImageList = imgDropdown
         lvBatchFiles.Visible = 0
         cmdAddToQueue.Visible = 0
@@ -3531,7 +3531,7 @@ Private Sub Form_Load()
     LoadLiveBadukSkin
     
     '창 너비 구성
-    Me.Width = MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2 * (DPI / 96)
+    Me.Width = MAIN_FORM_WIDTH + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 * (DPI / 96)
     cmdStop.Left = Me.Width + 1200
     cmdStopBatch.Left = Me.Width + 1200
     
@@ -3567,12 +3567,12 @@ Private Sub Form_Load()
     '화일 이름 및 경로 기억
     txtFileName.Text = GetSetting("DownloadBooster", "UserData", "SavePath", CurDir())
     
-    Me.Height = 6930 + PaddedBorderWidth * 15 * 2
+    Me.Height = 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
     
     '항상 위에 표시
     If GetSetting("DownloadBooster", "Options", "AlwaysOnTop", 0) = 1 Then
         MainFormOnTop = True
-        SetWindowPos hwnd, hWnd_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
+        SetWindowPos hWnd, hWnd_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE
     Else
         MainFormOnTop = False
     End If
@@ -3580,7 +3580,7 @@ Private Sub Form_Load()
     '조절 메뉴 항목 추가
     Dim hSysMenu As Long
     Dim MenuCount As Long
-    hSysMenu = GetSystemMenu(Me.hwnd, 0)
+    hSysMenu = GetSystemMenu(Me.hWnd, 0)
     MenuCount = GetMenuItemCount(hSysMenu)
     Dim MII As MENUITEMINFO
     
@@ -3621,9 +3621,9 @@ Private Sub Form_Load()
     If GetSetting("DownloadBooster", "UserData", "BatchExpanded", 1) <> 0 Then
         cmdBatch_Click
     Else
-        FormWidth = (MAIN_FORM_WIDTH + PaddedBorderWidth * 15 * 2) / 15
-        FormMinHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
-        FormMaxHeight = (6930 + PaddedBorderWidth * 15 * 2) / 15
+        FormWidth = (MAIN_FORM_WIDTH + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
+        FormMinHeight = (6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
+        FormMaxHeight = (6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
     End If
     
     '사용자 설정 불러오기
@@ -3730,7 +3730,7 @@ Private Sub Form_Load()
     lbOptionsHeader3D.X1 = Label11.Width + 75
     
     '창 화면배색 설정 불러오기
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hwnd
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) = 1 Then DisableDWMWindow Me.hWnd
     SetPattern
     SetBackgroundImage
     SetBackgroundPosition
@@ -3763,18 +3763,18 @@ Private Sub Form_Load()
     Set imlPicture = Nothing
     
     '서브클래스
-    AttachMessage Me, Me.hwnd, WM_GETMINMAXINFO
-    AttachMessage Me, Me.hwnd, WM_INITMENU
-    AttachMessage Me, Me.hwnd, WM_SYSCOMMAND
+    AttachMessage Me, Me.hWnd, WM_GETMINMAXINFO
+    AttachMessage Me, Me.hWnd, WM_INITMENU
+    AttachMessage Me, Me.hWnd, WM_SYSCOMMAND
     'AttachMessage Me, Me.hWnd, WM_DWMCOMPOSITIONCHANGED
-    AttachMessage Me, Me.hwnd, WM_SETTINGCHANGE
-    AttachMessage Me, Me.hwnd, WM_THEMECHANGED
-    AttachMessage Me, Me.hwnd, WM_CTLCOLORSCROLLBAR
-    AttachMessage Me, Me.hwnd, WM_NCPAINT
-    AttachMessage Me, Me.hwnd, WM_MOVE
-    AttachMessage Me, Me.hwnd, WM_NCCALCSIZE
-    AttachMessage Me, Me.hwnd, WM_NCHITTEST
-    AttachMessage Me, Me.hwnd, WM_NCACTIVATE
+    AttachMessage Me, Me.hWnd, WM_SETTINGCHANGE
+    AttachMessage Me, Me.hWnd, WM_THEMECHANGED
+    AttachMessage Me, Me.hWnd, WM_CTLCOLORSCROLLBAR
+    AttachMessage Me, Me.hWnd, WM_NCPAINT
+    AttachMessage Me, Me.hWnd, WM_MOVE
+    AttachMessage Me, Me.hWnd, WM_NCCALCSIZE
+    AttachMessage Me, Me.hWnd, WM_NCHITTEST
+    AttachMessage Me, Me.hWnd, WM_NCACTIVATE
     
     '스크롤 표시 유무
     vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
@@ -3787,7 +3787,7 @@ Private Sub SetTygemFrameRgn()
     fSkin = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 1))
     
     Dim RC As RECT
-    GetWindowRect fTygemFrameTransparent.hwnd, RC
+    GetWindowRect fTygemFrameTransparent.hWnd, RC
     Dim Height&, Width&
     Dim DPIScaleRev As Double: DPIScaleRev = 96 / DPI
     Width = (RC.Right - RC.Left) * DPIScaleRev
@@ -4013,7 +4013,7 @@ Private Sub SetTygemFrameRgn()
             DeleteObject Rgn1
     End Select
 
-    SetWindowRgn fTygemFrameTransparent.hwnd, Rgn, True
+    SetWindowRgn fTygemFrameTransparent.hWnd, Rgn, True
     DeleteObject Rgn
 End Sub
 
@@ -4026,8 +4026,8 @@ Sub SetTextColors()
         StatusTextColor = &H80000012
         FrameCaptionColor = 0&
     Else
-        StatusTextColor = GetThemeColor(Me.hwnd, "STATUS", DefaultColor:=&H80000012)
-        FrameCaptionColor = GetThemeColor(Me.hwnd, "BUTTON", 4)
+        StatusTextColor = GetThemeColor(Me.hWnd, "STATUS", DefaultColor:=&H80000012)
+        FrameCaptionColor = GetThemeColor(Me.hWnd, "BUTTON", 4)
     End If
     
     Dim i%
@@ -4077,32 +4077,32 @@ Private Sub Form_Resize()
     imgBorderTopLeft.Left = 0
     imgBorderTopLeft.Top = 0
     imgBorderTopRight.Top = 0
-    imgBorderTopRight.Left = Me.Width - imgBorderTopRight.Width - SizingBorderWidth * 15 * 2
+    imgBorderTopRight.Left = Me.Width - imgBorderTopRight.Width - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 1) * 15 * 2
     imgBorderBottomLeft.Left = 0
-    imgBorderBottomLeft.Top = Me.Height - sbStatusBar.Height - imgBorderBottomLeft.Height - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
-    imgBorderBottomRight.Left = Me.Width - imgBorderBottomRight.Width - SizingBorderWidth * 15 * 2
-    imgBorderBottomRight.Top = Me.Height - sbStatusBar.Height - imgBorderBottomRight.Height - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    imgBorderBottomLeft.Top = Me.Height - sbStatusBar.Height - imgBorderBottomLeft.Height - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 - CaptionHeight * 15 - 15
+    imgBorderBottomRight.Left = Me.Width - imgBorderBottomRight.Width - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2
+    imgBorderBottomRight.Top = Me.Height - sbStatusBar.Height - imgBorderBottomRight.Height - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 - CaptionHeight * 15 - 15
     pgBorderTop.Left = 0
     pgBorderTop.Top = -15
     pgBorderTop.Width = Me.Width
     pgBorderBottom.Left = 0
-    pgBorderBottom.Top = Me.Height - sbStatusBar.Height - 30 - SizingBorderWidth * 15 * 2 - CaptionHeight * 15 - 15
+    pgBorderBottom.Top = Me.Height - sbStatusBar.Height - 30 - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 - CaptionHeight * 15 - 15
     pgBorderBottom.Width = Me.Width
     pgBorderLeft.Left = -15
     pgBorderLeft.Top = 0
     pgBorderLeft.Height = Me.Height
     pgBorderRight.Top = 0
-    pgBorderRight.Left = Me.Width - 30 - SizingBorderWidth * 15 * 2
+    pgBorderRight.Left = Me.Width - 30 - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 1) * 15 * 2
     pgBorderRight.Height = Me.Height
     
     pgPattern.Width = Me.Width
     pgPattern.Height = Me.Height
     
-    If Me.Height <= 6930 + PaddedBorderWidth * 15 * 2 Then Exit Sub
-    If Me.Height - lvBatchFiles.Top - 1320 < 870 + PaddedBorderWidth * 15 * 2 Then Exit Sub
+    If Me.Height <= 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 Then Exit Sub
+    If Me.Height - lvBatchFiles.Top - 1320 < 870 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 Then Exit Sub
     If Me.WindowState = 1 Then Exit Sub
     
-    lvBatchFiles.Height = Me.Height - PaddedBorderWidth * 15 * 2 - lvBatchFiles.Top - 1320
+    lvBatchFiles.Height = Me.Height - WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 - lvBatchFiles.Top - 1320
     cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdAdd.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
@@ -4193,12 +4193,12 @@ Private Sub Form_Unload(Cancel As Integer)
     Me.Hide
     
     SaveSetting "DownloadBooster", "UserData", "SavePath", Trim$(txtFileName.Text)
-    SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6930 + PaddedBorderWidth * 15 * 2) * -1
+    SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) * -1
     SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
     If GetSetting("DownloadBooster", "Options", "RememberURL", 0) <> 0 Then SaveSetting "DownloadBooster", "UserData", "FileURL", Trim$(txtURL.Text)
     SaveSetting "DownloadBooster", "UserData", "FormTop", Me.Top
     SaveSetting "DownloadBooster", "UserData", "FormLeft", Me.Left
-    If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - PaddedBorderWidth * 15 * 2
+    If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
     SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
     
     Unload frmBatchAdd
@@ -4208,7 +4208,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmDummyForm
     Unload frmEditBatch
     IBSSubclass_UnsubclassIt
-    GetSystemMenu Me.hwnd, 1&
+    GetSystemMenu Me.hWnd, 1&
     Unload frmMessageBox
     Unload frmInputBox
     Unload frmAbout
@@ -4670,7 +4670,7 @@ Private Sub SetSizableSkinTextures()
     If Me.WindowState = 1 Or CurrentWindowSkin = System Then Exit Sub
     
     Dim RC As RECT
-    GetWindowRect Me.hwnd, RC
+    GetWindowRect Me.hWnd, RC
     
     Dim X%, Y%
     
@@ -4699,14 +4699,14 @@ Private Sub SetSkin(NewSkin As WindowSkin)
     CurrentWindowSkin = NewSkin
     
     If NewSkin <> System Then
-        SetParent pbTopLeft.hwnd, 0&
-        SetParent pbTopMiddle.hwnd, 0&
-        SetParent pbTopRight.hwnd, 0&
-        SetParent pbLeft.hwnd, 0&
-        SetParent pbBottomLeft.hwnd, 0&
-        SetParent pbBottomMiddle.hwnd, 0&
-        SetParent pbBottomRight.hwnd, 0&
-        SetParent pbRight.hwnd, 0&
+        SetParent pbTopLeft.hWnd, 0&
+        SetParent pbTopMiddle.hWnd, 0&
+        SetParent pbTopRight.hWnd, 0&
+        SetParent pbLeft.hWnd, 0&
+        SetParent pbBottomLeft.hWnd, 0&
+        SetParent pbBottomMiddle.hWnd, 0&
+        SetParent pbBottomRight.hWnd, 0&
+        SetParent pbRight.hWnd, 0&
         
         Form_Resize
         
@@ -4730,7 +4730,7 @@ Private Sub SetSkin(NewSkin As WindowSkin)
     
     SetWindowFrameRgn
     
-    SetWindowPos Me.hwnd, 0, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE Or SWP_NOZORDER Or SWP_FRAMECHANGED
+    SetWindowPos Me.hWnd, 0, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE Or SWP_NOZORDER Or SWP_FRAMECHANGED
 End Sub
 
 Private Sub SetResizeCursors()
@@ -4746,32 +4746,32 @@ Private Sub SetResizeCursors()
     pbLeft.MousePointer = 9 * Active
     pbRight.MousePointer = 9 * Active
     pbBottomLeft.MousePointer = 6 * Active
-    pbBottomMiddle.MousePointer = 8 * Active
+    pbBottomMiddle.MousePointer = 7 * Active
     pbBottomRight.MousePointer = 8 * Active
 End Sub
 
 Private Sub SetWindowFrameRgn()
-    If CurrentWindowSkin = System Then SetWindowRgn Me.hwnd, 0&, True: Exit Sub
+    If CurrentWindowSkin = System Then SetWindowRgn Me.hWnd, 0&, True: Exit Sub
     Dim RC As RECT, RCWin As RECT
     Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&, Rgn9&
     Dim Width%, Height%
     
     Dim topLeft As POINTAPI
-    GetClientRect Me.hwnd, RC
-    GetWindowRect Me.hwnd, RCWin
+    GetClientRect Me.hWnd, RC
+    GetWindowRect Me.hWnd, RCWin
     topLeft.X = RC.Left
     topLeft.Y = RC.Top
-    ClientToScreen Me.hwnd, topLeft
+    ClientToScreen Me.hWnd, topLeft
     topLeft.Y = topLeft.Y - RCWin.Top
     topLeft.X = topLeft.X - RCWin.Left
     Debug.Print topLeft.X, topLeft.Y
     Rgn = CreateRectRgn(topLeft.X + RC.Left, topLeft.Y + RC.Top, topLeft.X + RC.Right, topLeft.Y + RC.Bottom)
-    SetWindowRgn Me.hwnd, Rgn, True
+    SetWindowRgn Me.hWnd, Rgn, True
     DeleteObject Rgn
     
     Select Case CurrentWindowSkin
         Case Bluemetal
-            GetWindowRect pbTopLeft.hwnd, RC
+            GetWindowRect pbTopLeft.hWnd, RC
             Width = RC.Right - RC.Left: Height = RC.Bottom - RC.Top
             Rgn = CreateRectRgn(0, 0, Width, Height)
             Rgn1 = CreateRectRgn(0, 0, 7, 1)
@@ -4795,10 +4795,10 @@ Private Sub SetWindowFrameRgn()
             DeleteObject Rgn5
             DeleteObject Rgn6
             DeleteObject Rgn7
-            SetWindowRgn pbTopLeft.hwnd, Rgn, True
+            SetWindowRgn pbTopLeft.hWnd, Rgn, True
             DeleteObject Rgn
             
-            GetWindowRect pbTopRight.hwnd, RC
+            GetWindowRect pbTopRight.hWnd, RC
             Width = RC.Right - RC.Left: Height = RC.Bottom - RC.Top
             Rgn = CreateRectRgn(0, 0, Width, Height)
             Rgn1 = CreateRectRgn(Width - 7, 0, Width, 1)
@@ -4822,10 +4822,10 @@ Private Sub SetWindowFrameRgn()
             DeleteObject Rgn5
             DeleteObject Rgn6
             DeleteObject Rgn7
-            SetWindowRgn pbTopRight.hwnd, Rgn, True
+            SetWindowRgn pbTopRight.hWnd, Rgn, True
             DeleteObject Rgn
             
-            GetWindowRect pbBottomLeft.hwnd, RC
+            GetWindowRect pbBottomLeft.hWnd, RC
             Width = RC.Right - RC.Left: Height = RC.Bottom - RC.Top
             Rgn = CreateRectRgn(0, 0, Width, Height)
             Rgn1 = CreateRectRgn(0, Height - 2, 1, Height - 1)
@@ -4834,10 +4834,10 @@ Private Sub SetWindowFrameRgn()
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             DeleteObject Rgn1
             DeleteObject Rgn2
-            SetWindowRgn pbBottomLeft.hwnd, Rgn, True
+            SetWindowRgn pbBottomLeft.hWnd, Rgn, True
             DeleteObject Rgn
             
-            GetWindowRect pbBottomRight.hwnd, RC
+            GetWindowRect pbBottomRight.hWnd, RC
             Width = RC.Right - RC.Left: Height = RC.Bottom - RC.Top
             Rgn = CreateRectRgn(0, 0, Width, Height)
             Rgn1 = CreateRectRgn(Width - 1, Height - 2, Width, Height - 1)
@@ -4846,7 +4846,7 @@ Private Sub SetWindowFrameRgn()
             CombineRgn Rgn, Rgn, Rgn2, RGN_DIFF
             DeleteObject Rgn1
             DeleteObject Rgn2
-            SetWindowRgn pbBottomRight.hwnd, Rgn, True
+            SetWindowRgn pbBottomRight.hWnd, Rgn, True
             DeleteObject Rgn
     End Select
 End Sub
@@ -4951,14 +4951,14 @@ End Sub
 Private Sub lblResizeLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTLEFT, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTLEFT, 0&
     End If
 End Sub
 
 Private Sub lblResizeRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTRIGHT, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTRIGHT, 0&
     End If
 End Sub
 
@@ -4969,7 +4969,7 @@ End Sub
 Private Sub lblResizeTop_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTTOP, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTTOP, 0&
     End If
 End Sub
 
@@ -4984,7 +4984,7 @@ End Sub
 Private Sub lblResizeTopLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTTOPLEFT, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTTOPLEFT, 0&
     End If
 End Sub
 
@@ -4995,28 +4995,28 @@ End Sub
 Private Sub lblResizeTopRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTTOPRIGHT, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTTOPRIGHT, 0&
     End If
 End Sub
 
 Private Sub pbBottomLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTBOTTOMLEFT, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTBOTTOMLEFT, 0&
     End If
 End Sub
 
 Private Sub pbBottomMiddle_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTBOTTOM, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTBOTTOM, 0&
     End If
 End Sub
 
 Private Sub lblCaption_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
     End If
 End Sub
 
@@ -5027,36 +5027,36 @@ Private Sub ShowControlMenu()
     Dim Cmd As Long
     
     GetCursorPos PT
-    hMenu = GetSystemMenu(Me.hwnd, 0)
-    Cmd = TrackPopupMenu(hMenu, TPM_LEFTALIGN Or TPM_RETURNCMD, PT.X + 1, PT.Y + 1, 0, Me.hwnd, ByVal 0&)
-    If Cmd <> 0 Then SendMessage Me.hwnd, WM_SYSCOMMAND, Cmd, 0&
+    hMenu = GetSystemMenu(Me.hWnd, 0)
+    Cmd = TrackPopupMenu(hMenu, TPM_LEFTALIGN Or TPM_RETURNCMD, PT.X + 1, PT.Y + 1, 0, Me.hWnd, ByVal 0&)
+    If Cmd <> 0 Then SendMessage Me.hWnd, WM_SYSCOMMAND, Cmd, 0&
 End Sub
 
 Private Sub lblCaptionShadow_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
     End If
 End Sub
 
 Private Sub pbBottomRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTBOTTOMRIGHT, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTBOTTOMRIGHT, 0&
     End If
 End Sub
 
 Private Sub pbLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTLEFT, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTLEFT, 0&
     End If
 End Sub
 
 Private Sub pbRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTRIGHT, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTRIGHT, 0&
     End If
 End Sub
 
@@ -5083,7 +5083,7 @@ End Sub
 Private Sub pbTopMiddle_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
-        SendMessage Me.hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
+        SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
     End If
 End Sub
 
@@ -5115,7 +5115,7 @@ Private Function IsMouseOn(imgImage As Image) As Boolean
     Dim rectLeft As Single, rectTop As Single, rectRight As Single, rectBottom As Single
     
     GetCursorPos PT
-    ScreenToClient pbTopRight.hwnd, PT
+    ScreenToClient pbTopRight.hWnd, PT
     PT.X = PT.X * Screen.TwipsPerPixelX
     PT.Y = PT.Y * Screen.TwipsPerPixelY
     

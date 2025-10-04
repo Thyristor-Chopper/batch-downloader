@@ -27,7 +27,7 @@ Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
 Declare Function MessageBeep Lib "user32" (ByVal wType As Long) As Long
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 'Private Declare Function RtlGetVersion Lib "ntdll" (lpVersionInformation As OSVERSIONINFO) As Long
-Declare Function DwmSetWindowAttribute Lib "dwmapi.dll" (ByVal hwnd As Long, ByVal dwAttribute As Long, ByRef pvAttribute As Long, ByVal cbAttribute As Long) As Long
+Declare Function DwmSetWindowAttribute Lib "dwmapi.dll" (ByVal hWnd As Long, ByVal dwAttribute As Long, ByRef pvAttribute As Long, ByVal cbAttribute As Long) As Long
 Private Declare Function DwmIsCompositionEnabled Lib "dwmapi.dll" (ByRef pfEnabled As Long) As Long
 'Declare Function DwmEnableComposition Lib "dwmapi.dll" (ByVal uCompositionAction As Long) As Long
 'Declare Function DwmExtendFrameIntoClientArea Lib "dwmapi.dll" (ByVal hWnd As Long, Margin As MARGINS) As Long
@@ -40,7 +40,7 @@ Private Declare Function RegEnumKeyEx Lib "advapi32" Alias "RegEnumKeyExW" (ByVa
 Private Declare Function RegQueryInfoKey Lib "advapi32" Alias "RegQueryInfoKeyW" (ByVal hKey As Long, Optional ByVal lpClass As Long, Optional ByRef lpcClass As Long, Optional ByVal lpReserved As Long, Optional ByRef lpcSubKeys As Long, Optional ByRef lpcMaxSubKeyLen As Long, Optional ByRef lpcMaxClassLen As Long, Optional ByRef lpcValues As Long, Optional ByRef lpcMaxValueNameLen As Long, Optional ByRef lpcMaxValueLen As Long, Optional ByRef lpcbSecurityDescriptor As Long, Optional ByVal lpftLastWriteTime As Long) As Long
 Private Declare Function SysReAllocStringLen Lib "oleaut32" (ByVal pBSTR As Long, Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As Long
 Declare Function GetUserDefaultUILanguage Lib "kernel32" () As Integer
-Declare Function GetSystemMenu Lib "user32" (ByVal hwnd As Long, ByVal bRevert As Long) As Long
+Declare Function GetSystemMenu Lib "user32" (ByVal hWnd As Long, ByVal bRevert As Long) As Long
 Declare Function DeleteMenu Lib "user32" (ByVal hMenu As Long, ByVal nPosition As Long, ByVal wFlags As Long) As Long
 'Declare Function ModifyMenu Lib "user32" Alias "ModifyMenuA" (ByVal hMenu As Long, ByVal nPosition As Long, ByVal wFlags As Long, ByVal wIDNewItem As Long, ByVal lpString As Any) As Long
 Declare Function InsertMenuItem Lib "user32" Alias "InsertMenuItemA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
@@ -50,39 +50,39 @@ Declare Function InsertMenuItem Lib "user32" Alias "InsertMenuItemA" (ByVal hMen
 'Declare Function GetMenuItemID Lib "user32" (ByVal hMenu As Long, ByVal nPos As Long) As Long
 Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As Long
 Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
-Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
+Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
 'Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1&
 Private Declare Function CryptStringToBinary Lib "crypt32" Alias "CryptStringToBinaryW" (ByVal pszString As Long, ByVal cchString As Long, ByVal dwFlags As Long, ByVal pbBinary As Long, ByRef pcbBinary As Long, ByRef pdwSkip As Long, ByRef pdwFlags As Long) As Long
-Declare Function SetWindowRgn Lib "user32" (ByVal hwnd As Long, ByVal hRgn As Long, ByVal bRedraw As Long) As Long
+Declare Function SetWindowRgn Lib "user32" (ByVal hWnd As Long, ByVal hRgn As Long, ByVal bRedraw As Long) As Long
 Declare Function CreateRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
 Declare Function CombineRgn Lib "gdi32" (ByVal hDestRgn As Long, ByVal hSrcRgn1 As Long, ByVal hSrcRgn2 As Long, ByVal nCombineMode As Long) As Long
 'Declare Function GetWindowDC Lib "user32" (ByVal hWnd As Long) As Long
 Private Declare Function ExpandEnvironmentStringsA Lib "kernel32" (ByVal lpSrc As String, ByVal lpDst As String, ByVal nSize As Long) As Long
 'Declare Function CreateWindowEx Lib "user32" Alias "CreateWindowExA" (ByVal dwExStyle As Long, ByVal lpClassName As String, ByVal lpWindowName As String, ByVal dwStyle As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hWndParent As Long, ByVal hMenu As Long, ByVal hInstance As Long, lpParam As Any) As Long
 'Declare Function DestroyWindow Lib "user32" (ByVal hWnd As Long) As Long
-Declare Function GetDC Lib "user32" (ByVal hwnd As Long) As Long
+Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
 'Declare Function PrintWindow Lib "user32" (ByVal hWnd As Long, ByVal hdcBlt As Long, ByVal nFlags As Long) As Long
 Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
 Declare Function lstrlen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As Long) As Long
 Private Declare Function SysAllocStringByteLen Lib "oleaut32.dll" (Optional ByVal pszStrPtr As Long, Optional ByVal Length As Long) As String
 Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
-Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
-Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
+Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 'Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 'Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 'Declare Function SetWindowsHookEx Lib "user32" Alias "SetWindowsHookExA" (ByVal idHook As Long, ByVal lpfn As Long, ByVal hMod As Long, ByVal dwThreadID As Long) As Long
 'Declare Function UnhookWindowsHookEx Lib "user32" (ByVal hHook As Long) As Long
-Declare Function GetParent Lib "user32" (ByVal hwnd As Long) As Long
+Declare Function GetParent Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function SetParent Lib "user32" (ByVal hWndChild As Long, ByVal hWndNewParent As Long) As Long
-Declare Function GetWindowRect Lib "user32" (ByVal hwnd As Long, lpRect As RECT) As Long
-Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+Declare Function GetWindowRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
+Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 Declare Sub ReleaseCapture Lib "user32" ()
 Private Declare Function X_GetThemeColor Lib "uxtheme.dll" Alias "GetThemeColor" (ByVal hTheme As Long, ByVal iPartId As Long, ByVal iStateId As Long, ByVal iPropId As Long, pColor As Long) As Long
 Private Declare Function IsAppThemed Lib "uxtheme.dll" () As Long
 Private Declare Function IsThemeActive Lib "uxtheme.dll" () As Long
-Private Declare Function OpenThemeData Lib "uxtheme.dll" (ByVal hwnd As Long, ByVal pszClassList As Long) As Long
+Private Declare Function OpenThemeData Lib "uxtheme.dll" (ByVal hWnd As Long, ByVal pszClassList As Long) As Long
 Private Declare Function CloseThemeData Lib "uxtheme.dll" (ByVal hTheme As Long) As Long
 'Declare Function Beep Lib "kernel32" (ByVal dwFreq As Long, Optional ByVal dwDuration As Long = 250) As Long
 'Declare Function FlashWindow Lib "user32" (ByVal hWnd As Long, Optional ByVal bInvert As Long = 1&) As Long
@@ -96,9 +96,9 @@ Declare Function OleTranslateColor Lib "oleaut32.dll" (ByVal lOleColor As Long, 
 Private Declare Function ShellExecuteEx Lib "shell32" (ByRef s As SHELLEXECUTEINFO) As Long
 Declare Function GetKeyState Lib "user32" (ByVal vKey As Long) As Integer
 Private Declare Function GetDesktopWindow Lib "user32" () As Long
-Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Long, ByVal hDC As Long) As Long
+Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
 Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
-Declare Function SetWindowText Lib "user32" Alias "SetWindowTextA" (ByVal hwnd As Long, ByVal lpString As String) As Long
+Declare Function SetWindowText Lib "user32" Alias "SetWindowTextA" (ByVal hWnd As Long, ByVal lpString As String) As Long
 'Private Declare Function GetCurrentProcess Lib "kernel32" () As Long
 'Private Declare Function GetCurrentProcessId Lib "kernel32" () As Long
 'Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessID As Long) As Long
@@ -130,11 +130,11 @@ Declare Function SHGetFileInfo Lib "shell32" Alias "SHGetFileInfoW" (ByVal pszPa
 Declare Function CreateCompatibleBitmap Lib "gdi32" (ByVal hDC As Long, ByVal nWidth As Long, ByVal nHeight As Long) As Long
 Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal dwRop As Long) As Long
 Declare Function StretchBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
-Declare Function TrackPopupMenu Lib "user32" (ByVal hMenu As Long, ByVal uFlags As Long, ByVal X As Long, ByVal Y As Long, ByVal nReserved As Long, ByVal hwnd As Long, lprcRect As Any) As Long
+Declare Function TrackPopupMenu Lib "user32" (ByVal hMenu As Long, ByVal uFlags As Long, ByVal X As Long, ByVal Y As Long, ByVal nReserved As Long, ByVal hWnd As Long, lprcRect As Any) As Long
 Declare Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
-Declare Function ScreenToClient Lib "user32" (ByVal hwnd As Long, lpPoint As POINTAPI) As Long
-Declare Function GetClientRect Lib "user32" (ByVal hwnd As Long, lpRect As RECT) As Long
-Declare Function ClientToScreen Lib "user32" (ByVal hwnd As Long, lpPoint As POINTAPI) As Long
+Declare Function ScreenToClient Lib "user32" (ByVal hWnd As Long, lpPoint As POINTAPI) As Long
+Declare Function GetClientRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
+Declare Function ClientToScreen Lib "user32" (ByVal hWnd As Long, lpPoint As POINTAPI) As Long
 
 Public Const TPM_LEFTALIGN As Long = &H0&
 Public Const TPM_RETURNCMD As Long = &H100&
@@ -506,7 +506,7 @@ Private Const SEE_MASK_INVOKEIDLIST = &HC
 Private Type SHELLEXECUTEINFO
     cbSize As Long
     fMask As Long
-    hwnd As Long
+    hWnd As Long
     lpVerb As String
     lpFile As String
     lpParameters As String
@@ -683,14 +683,14 @@ Function IsKeyPressed(lKey As GetKeyStateKeyboardCodes) As Boolean
     IsKeyPressed = iResult
 End Function
 
-Sub DisableDWMWindow(hwnd As Long)
+Sub DisableDWMWindow(hWnd As Long)
     On Error Resume Next
-    DwmSetWindowAttribute hwnd, 2&, 1&, 4&
+    DwmSetWindowAttribute hWnd, 2&, 1&, 4&
 End Sub
 
-Sub EnableDWMWindow(hwnd As Long)
+Sub EnableDWMWindow(hWnd As Long)
     On Error Resume Next
-    DwmSetWindowAttribute hwnd, 2&, 0&, 4&
+    DwmSetWindowAttribute hWnd, 2&, 0&, 4&
 End Sub
 
 Function IsDWMAvailable() As Boolean
@@ -760,24 +760,24 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
             If ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
                 If TypeOf ctrl Is CommandButton Or TypeOf ctrl Is DriveListBox Or TypeOf ctrl Is FileListBox Or TypeOf ctrl Is DirListBox Or TypeOf ctrl Is TextBox Or TypeOf ctrl Is ComboBox Then
                     If DisableVisualStyle Then
-                        RemoveVisualStyles ctrl.hwnd
+                        RemoveVisualStyles ctrl.hWnd
                         If TypeOf ctrl Is CommandButton Then ctrl.Style = 1
                     Else
-                        ActivateVisualStyles ctrl.hwnd
+                        ActivateVisualStyles ctrl.hWnd
                         If TypeOf ctrl Is CommandButton Then ctrl.Style = 0
                     End If
                 Else
                     If (Not DisableVisualStyle) Then
                         If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And (Not frmForm Is frmOptions) And (Not frmForm Is frmDownloadOptions) And (Not IsSystemColor) And (TypeOf ctrl Is FrameW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is OptionButton) Then
-                            RemoveVisualStyles ctrl.hwnd
+                            RemoveVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = False
                             ctrl.RoundButton = RoundButton
                         Else
-                            If Not (TypeOf ctrl Is PictureBox) Then ActivateVisualStyles ctrl.hwnd
+                            If Not (TypeOf ctrl Is PictureBox) Then ActivateVisualStyles ctrl.hWnd
                             ctrl.VisualStyles = True
                         End If
                     ElseIf Not (TypeOf ctrl Is PictureBox) Then
-                        RemoveVisualStyles ctrl.hwnd
+                        RemoveVisualStyles ctrl.hWnd
                         ctrl.VisualStyles = False
                         ctrl.RoundButton = RoundButton
                     End If
@@ -787,10 +787,10 @@ Sub SetFormBackgroundColor(frmForm As Form, Optional DisableClassicTheme As Bool
             If ctrl.Tag <> "nocolorchange" And ctrl.Tag <> "nocolorsizechange" And ctrl.ForeColor <> clrForeColor And (Not frmForm Is frmOptions) And (Not frmForm Is frmDownloadOptions) Then
                 ctrl.ForeColor = clrForeColor
                 If (Not IsSystemColor) And (TypeOf ctrl Is FrameW Or TypeOf ctrl Is CheckBoxW Or TypeOf ctrl Is OptionButton) Then
-                    If Not (TypeOf ctrl Is PictureBox) Then RemoveVisualStyles ctrl.hwnd
+                    If Not (TypeOf ctrl Is PictureBox) Then RemoveVisualStyles ctrl.hWnd
                     ctrl.VisualStyles = False
                 ElseIf (Not DisableVisualStyle) And ctrl.VisualStyles = False And ctrl.Tag <> "novisualstylechange" And ctrl.Tag <> "nobackcolorchange novisualstylechange" Then
-                    If Not (TypeOf ctrl Is PictureBox) Then ActivateVisualStyles ctrl.hwnd
+                    If Not (TypeOf ctrl Is PictureBox) Then ActivateVisualStyles ctrl.hWnd
                     ctrl.VisualStyles = True
                 End If
             End If
@@ -810,9 +810,9 @@ End Sub
 
 Sub SetClassicTheme(frmForm As Form, Optional DisableClassicTheme As Boolean = False)
     If GetSetting("DownloadBooster", "Options", "UseClassicThemeFrame", 0) <> 0 Then
-        RemoveVisualStyles frmForm.hwnd
+        RemoveVisualStyles frmForm.hWnd
     ElseIf DisableClassicTheme Then
-        ActivateVisualStyles frmForm.hwnd
+        ActivateVisualStyles frmForm.hWnd
     End If
 End Sub
 
@@ -1962,6 +1962,7 @@ Sub UpdateBorderWidth()
     WindowSkinBorderSize(-2) = SizingBorderWidth
     WindowSkinBorderSize(-1) = SizingBorderWidth
     WindowSkinCaptionHeight(-1) = CaptionHeight + SizingBorderWidth
+    WindowSkinBorderPadding(-1) = PaddedBorderWidth
 End Sub
 
 Function ExpandEnvironmentStrings(strInput As String) As String
@@ -2041,12 +2042,12 @@ Sub tr(ByRef ctrl As Object, EnglishCaption As String)
     If LangID <> 1042 Then ctrl.Caption = EnglishCaption
 End Sub
 
-Function GetThemeColor(ByVal hwnd As Long, ClassList As String, Optional ByVal Part As Long = 0&, Optional ByVal State As Long = 0&, Optional ByVal Prop As Long = TMT_TEXTCOLOR, Optional ByVal DefaultColor As Long = 0&) As Long
+Function GetThemeColor(ByVal hWnd As Long, ClassList As String, Optional ByVal Part As Long = 0&, Optional ByVal State As Long = 0&, Optional ByVal Prop As Long = TMT_TEXTCOLOR, Optional ByVal DefaultColor As Long = 0&) As Long
     On Error GoTo returndefault
     Dim hTheme&, clr&
 
     If IsAppThemed() = 0& Or IsThemeActive() = 0& Then GoTo returndefault
-    hTheme = OpenThemeData(hwnd, StrPtr(ClassList))
+    hTheme = OpenThemeData(hWnd, StrPtr(ClassList))
     If hTheme = 0& Then GoTo returndefault
     If X_GetThemeColor(hTheme, Part, State, Prop, clr) <> 0 Then GoTo returndefault
     CloseThemeData hTheme
@@ -2181,11 +2182,11 @@ End Function
 
 'https://stackoverflow.com/questions/1230333
 Sub AddItemToComboBox(cbComboBox As ComboBox, ByVal Text As String)
-    SendMessage cbComboBox.hwnd, CB_ADDSTRING, 0&, ByVal Text
+    SendMessage cbComboBox.hWnd, CB_ADDSTRING, 0&, ByVal Text
 End Sub
 
 Sub ClearComboBox(cbComboBox As ComboBox)
-    SendMessage cbComboBox.hwnd, CB_RESETCONTENT, 0&, 0&
+    SendMessage cbComboBox.hWnd, CB_RESETCONTENT, 0&, 0&
 End Sub
 
 'https://www.vbforums.com/showthread.php?704979
@@ -2239,10 +2240,10 @@ End Sub
 
 Sub InitForm(ByRef frmForm As Form)
     On Error Resume Next
-    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 Then DisableDWMWindow frmForm.hwnd
+    If GetSetting("DownloadBooster", "Options", "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 Then DisableDWMWindow frmForm.hWnd
     SetFormBackgroundColor frmForm
     SetFont frmForm
-    If MainFormOnTop Then SetWindowPos frmForm.hwnd, hWnd_TOPMOST, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
+    If MainFormOnTop Then SetWindowPos frmForm.hWnd, hWnd_TOPMOST, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
     'If frmForm.BorderStyle = 2 Then Set frmForm.Icon = frmMain.Icon
 End Sub
 
@@ -2465,7 +2466,7 @@ Sub DrawTabBackground(frmForm As Form, tsTabStrip As TabStrip, pbPanel As Object
     Dim i As Byte
     
     For i = pbPanel.LBound To pbPanel.UBound
-        tsTabStrip.DrawBackground pbPanel(i).hwnd, pbPanel(i).hDC
+        tsTabStrip.DrawBackground pbPanel(i).hWnd, pbPanel(i).hDC
     Next i
     
     If Not Refresh Then Exit Sub
