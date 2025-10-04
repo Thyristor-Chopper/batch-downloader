@@ -6,12 +6,17 @@ Attribute VB_Name = "Subclass"
 
 Option Explicit
 
-Public Const SWP_FRAMECHANGED As Long = &H20&
+Dim IsWindowActive As Byte
+
+Public TitleHeight&, BorderSize&
+Public Enable As Boolean
+
 Public Const GWL_EXSTYLE As Long = -20&
 Public Const RGN_DIFF As Long = 4&
 
 Public Const WM_NCLBUTTONDOWN = &HA1
 
+Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long
 Declare Function SetParent Lib "user32" (ByVal hWndChild As Long, ByVal hWndNewParent As Long) As Long
 Declare Function GetParent Lib "user32" (ByVal hWnd As Long) As Long
 Declare Function SetWindowRgn Lib "user32" (ByVal hWnd As Long, ByVal hRgn As Long, ByVal bRedraw As Long) As Long
@@ -26,8 +31,23 @@ Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsert
 Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
+Declare Function GetSystemMenu Lib "user32" (ByVal hWnd As Long, ByVal bRevert As Long) As Long
+Declare Function TrackPopupMenu Lib "user32" (ByVal hMenu As Long, ByVal uFlags As Long, ByVal X As Long, ByVal Y As Long, ByVal nReserved As Long, ByVal hWnd As Long, lprcRect As Any) As Long
+Declare Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
+Declare Function ScreenToClient Lib "user32" (ByVal hWnd As Long, lpPoint As POINTAPI) As Long
+
+Type POINTAPI
+    X As Long
+    Y As Long
+End Type
+
+Public Const TPM_LEFTALIGN As Long = &H0&
+Public Const TPM_RETURNCMD As Long = &H100&
 
 Private Const GWL_WNDPROC = (-4)
+Public Const WM_ACTIVATEAPP As Long = &H1C
+Public Const WA_INACTIVE As Long = 0
+Public Const WA_ACTIVE As Long = 1
 Public Const WM_MOVE = &H3&
 Public Const WM_SETCURSOR = &H20&
 Public Const WM_NCPAINT = &H85&
@@ -45,6 +65,8 @@ Public Const hWnd_TOPMOST = -1
 Public Const hWnd_NOTOPMOST = -2
 Public Const SWP_NOMOVE = &H2
 Public Const SWP_NOSIZE = &H1
+Public Const SWP_NOZORDER = &H4
+Public Const SWP_FRAMECHANGED As Long = &H20&
 Private Const WMSZ_LEFT = 1
 Private Const WMSZ_RIGHT = 2
 Private Const WMSZ_TOP = 3
@@ -111,34 +133,31 @@ End Sub
 Function WndProc_Bluemetal(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
     On Error Resume Next
     Dim rc As RECT
-    
-    Dim TitleHeight&, BorderSize&
 
     Select Case uMsg
         Case WM_NCPAINT, WM_MOVE
-            GetWindowRect Bluemetal.hWnd, rc
-            SetWindowPos Bluemetal.pbTopLeft.hWnd, 0, rc.Left, rc.Top, Bluemetal.pbTopLeft.Width / 15, Bluemetal.pbTopLeft.Height / 15, SWP_FRAMECHANGED
-            SetWindowPos Bluemetal.pbTopMiddle.hWnd, 0, rc.Left + Bluemetal.pbTopLeft.Width / 15, rc.Top, Bluemetal.pbTopMiddle.Width / 15, Bluemetal.pbTopMiddle.Height / 15, SWP_FRAMECHANGED
-            SetWindowPos Bluemetal.pbTopRight.hWnd, 0, rc.Right - Bluemetal.pbTopRight.Width / 15, rc.Top, Bluemetal.pbTopRight.Width / 15, Bluemetal.pbTopRight.Height / 15, SWP_FRAMECHANGED
-            SetWindowPos Bluemetal.pbLeft.hWnd, 0, rc.Left, rc.Top + Bluemetal.pbTopLeft.Height / 15, Bluemetal.pbLeft.Width / 15, Bluemetal.pbLeft.Height / 15, SWP_FRAMECHANGED
-            SetWindowPos Bluemetal.pbBottomLeft.hWnd, 0, rc.Left, rc.Top + Bluemetal.pbTopLeft.Height / 15 + Bluemetal.pbLeft.Height / 15, Bluemetal.pbBottomLeft.Width / 15, Bluemetal.pbBottomLeft.Height / 15, SWP_FRAMECHANGED
-            SetWindowPos Bluemetal.pbBottomMiddle.hWnd, 0, rc.Left + Bluemetal.pbBottomLeft.Width / 15, rc.Top + Bluemetal.pbTopLeft.Height / 15 + Bluemetal.pbLeft.Height / 15, Bluemetal.pbBottomMiddle.Width / 15, Bluemetal.pbBottomMiddle.Height / 15, SWP_FRAMECHANGED
-            SetWindowPos Bluemetal.pbBottomRight.hWnd, 0, rc.Left + Bluemetal.pbBottomLeft.Width / 15 + Bluemetal.pbBottomMiddle.Width / 15, rc.Top + Bluemetal.pbTopLeft.Height / 15 + Bluemetal.pbLeft.Height / 15, Bluemetal.pbBottomRight.Width / 15, Bluemetal.pbBottomRight.Height / 15, SWP_FRAMECHANGED
-            SetWindowPos Bluemetal.pbRight.hWnd, 0, rc.Right - Bluemetal.pbRight.Width / 15, rc.Top + Bluemetal.pbTopRight.Height / 15, Bluemetal.pbRight.Width / 15, Bluemetal.pbRight.Height / 15, SWP_FRAMECHANGED
-            
-            WndProc_Bluemetal = 0&
-            Exit Function
+            If Enable Then
+                GetWindowRect Bluemetal.hWnd, rc
+                SetWindowPos Bluemetal.pbTopLeft.hWnd, 0, rc.Left, rc.Top, Bluemetal.pbTopLeft.Width / 15, Bluemetal.pbTopLeft.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos Bluemetal.pbTopMiddle.hWnd, 0, rc.Left + Bluemetal.pbTopLeft.Width / 15, rc.Top, Bluemetal.pbTopMiddle.Width / 15, Bluemetal.pbTopMiddle.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos Bluemetal.pbTopRight.hWnd, 0, rc.Right - Bluemetal.pbTopRight.Width / 15, rc.Top, Bluemetal.pbTopRight.Width / 15, Bluemetal.pbTopRight.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos Bluemetal.pbLeft.hWnd, 0, rc.Left, rc.Top + Bluemetal.pbTopLeft.Height / 15, Bluemetal.pbLeft.Width / 15, Bluemetal.pbLeft.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos Bluemetal.pbBottomLeft.hWnd, 0, rc.Left, rc.Top + Bluemetal.pbTopLeft.Height / 15 + Bluemetal.pbLeft.Height / 15, Bluemetal.pbBottomLeft.Width / 15, Bluemetal.pbBottomLeft.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos Bluemetal.pbBottomMiddle.hWnd, 0, rc.Left + Bluemetal.pbBottomLeft.Width / 15, rc.Top + Bluemetal.pbTopLeft.Height / 15 + Bluemetal.pbLeft.Height / 15, Bluemetal.pbBottomMiddle.Width / 15, Bluemetal.pbBottomMiddle.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos Bluemetal.pbBottomRight.hWnd, 0, rc.Left + Bluemetal.pbBottomLeft.Width / 15 + Bluemetal.pbBottomMiddle.Width / 15, rc.Top + Bluemetal.pbTopLeft.Height / 15 + Bluemetal.pbLeft.Height / 15, Bluemetal.pbBottomRight.Width / 15, Bluemetal.pbBottomRight.Height / 15, SWP_FRAMECHANGED
+                SetWindowPos Bluemetal.pbRight.hWnd, 0, rc.Right - Bluemetal.pbRight.Width / 15, rc.Top + Bluemetal.pbTopRight.Height / 15, Bluemetal.pbRight.Width / 15, Bluemetal.pbRight.Height / 15, SWP_FRAMECHANGED
+                
+                WndProc_Bluemetal = 0&
+                Exit Function
+            End If
         Case WM_NCCALCSIZE
-            If wParam <> 0 Then
+            If wParam <> 0 And Enable Then
                 CopyMemory rc, ByVal lParam, Len(rc)
-        
-                TitleHeight = 32
-                BorderSize = 5
         
                 rc.Top = rc.Top + TitleHeight
                 rc.Left = rc.Left + BorderSize
                 rc.Right = rc.Right - BorderSize
-                rc.Bottom = rc.Bottom - BorderSize
+                rc.Bottom = rc.Bottom - BorderSize + 1
         
                 CopyMemory ByVal lParam, rc, Len(rc)
         
@@ -146,50 +165,58 @@ Function WndProc_Bluemetal(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam 
                 Exit Function
             End If
         Case WM_NCHITTEST
-            Dim X As Long, Y As Long
-            X = (lParam And &HFFFF&)
-            Y = ((lParam \ &H10000) And &HFFFF&)
-            If X And &H8000& Then X = X Or &HFFFF0000
-            If Y And &H8000& Then Y = Y Or &HFFFF0000
-        
-            Dim rcWin As RECT
-            GetWindowRect hWnd, rcWin
-        
-            TitleHeight = 32
-            BorderSize = 5
-        
-            Dim hit As Long: hit = HTCLIENT
-        
-            If X >= rcWin.Left And X < rcWin.Left + BorderSize Then
-                hit = HTLEFT
-            ElseIf X < rcWin.Right And X >= rcWin.Right - BorderSize Then
-                hit = HTRIGHT
-            End If
-        
-            If Y >= rcWin.Top And Y < rcWin.Top + BorderSize Then
-                If hit = HTLEFT Then
-                    hit = HTTOPLEFT
-                ElseIf hit = HTRIGHT Then
-                    hit = HTTOPRIGHT
-                Else
-                    hit = HTTOP
+            If Enable Then
+                Dim X As Long, Y As Long
+                X = (lParam And &HFFFF&)
+                Y = ((lParam \ &H10000) And &HFFFF&)
+                If X And &H8000& Then X = X Or &HFFFF0000
+                If Y And &H8000& Then Y = Y Or &HFFFF0000
+            
+                Dim rcWin As RECT
+                GetWindowRect hWnd, rcWin
+            
+                Dim hit As Long: hit = HTCLIENT
+            
+                If X >= rcWin.Left And X < rcWin.Left + BorderSize Then
+                    hit = HTLEFT
+                ElseIf X < rcWin.Right And X >= rcWin.Right - BorderSize Then
+                    hit = HTRIGHT
                 End If
-            ElseIf Y < rcWin.Bottom And Y >= rcWin.Bottom - BorderSize Then
-                If hit = HTLEFT Then
-                    hit = HTBOTTOMLEFT
-                ElseIf hit = HTRIGHT Then
-                    hit = HTBOTTOMRIGHT
-                Else
-                    hit = HTBOTTOM
+            
+                If Y >= rcWin.Top And Y < rcWin.Top + BorderSize Then
+                    If hit = HTLEFT Then
+                        hit = HTTOPLEFT
+                    ElseIf hit = HTRIGHT Then
+                        hit = HTTOPRIGHT
+                    Else
+                        hit = HTTOP
+                    End If
+                ElseIf Y < rcWin.Bottom And Y >= rcWin.Bottom - BorderSize + 1 Then
+                    If hit = HTLEFT Then
+                        hit = HTBOTTOMLEFT
+                    ElseIf hit = HTRIGHT Then
+                        hit = HTBOTTOMRIGHT
+                    Else
+                        hit = HTBOTTOM
+                    End If
                 End If
+            
+                If Y >= rcWin.Top + BorderSize And Y < rcWin.Top + TitleHeight Then
+                    If hit = HTCLIENT Then hit = HTCAPTION
+                End If
+            
+                WndProc_Bluemetal = hit
+                Exit Function
             End If
-        
-            If Y >= rcWin.Top + BorderSize And Y < rcWin.Top + TitleHeight Then
-                If hit = HTCLIENT Then hit = HTCAPTION
-            End If
-        
-            WndProc_Bluemetal = hit
-            Exit Function
+        Case WM_ACTIVATEAPP
+            Select Case LoWord(wParam)
+                Case WA_INACTIVE
+                    Bluemetal.IsWindowActive = 0
+                Case WA_ACTIVE
+                    Bluemetal.IsWindowActive = 1
+            End Select
+            Bluemetal.SetSkinTextures
+            Bluemetal.SetSizableSkinTextures
     End Select
 
     If mPrevProc_Bluemetal <> 0& Then
@@ -199,4 +226,11 @@ Function WndProc_Bluemetal(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam 
     End If
 End Function
 
+Public Function LoWord(dw As Long) As Integer
+    If dw And &H8000& Then
+        LoWord = &H8000& Or (dw And &H7FFF&)
+    Else
+        LoWord = dw And &HFFFF&
+    End If
+End Function
 

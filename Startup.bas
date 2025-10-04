@@ -37,6 +37,21 @@ Public ButtonSkinCaptionColor(-4 To 20) As Long
 Public ButtonSkinSplitColor(0 To 4) As Long
 Public ButtonSkinInsetLabel(0 To 4) As Boolean
 
+Public WindowSkinTopLeft(-2 To 1) As IPicture
+Public WindowSkinTop(-2 To 1) As IPicture
+Public WindowSkinTopRight(-2 To 1) As IPicture
+Public WindowSkinLeft(-2 To 1) As IPicture
+Public WindowSkinRight(-2 To 1) As IPicture
+Public WindowSkinBottomLeft(-2 To 1) As IPicture
+Public WindowSkinBottom(-2 To 1) As IPicture
+Public WindowSkinBottomRight(-2 To 1) As IPicture
+Public WindowSkinClose(-4 To 3) As IPicture
+Public WindowSkinMaximize(-4 To 7) As IPicture
+Public WindowSkinMinimize(-4 To 3) As IPicture
+Public WindowSkinBorderSize(-3 To 2) As Byte
+Public WindowSkinCaptionHeight(-1 To 0) As Byte
+Public CurrentWindowSkin As WindowSkin
+
 Public FrameSkinLabelOffset(1 To 2) As Integer
 
 Public NodeJS() As Byte
@@ -220,7 +235,7 @@ forcegulim:
     FrameSkinLabelOffset(1) = 300
     FrameSkinLabelOffset(2) = 150
     
-    Dim i As Byte
+    Dim i As Byte, j As Byte
     For i = 1 To 3
         Set Train(i) = LoadResPicture(i + 1, vbResIcon)
     Next i
@@ -230,14 +245,41 @@ forcegulim:
         Set ButtonSkinTexture(i) = LoadResPicture(i, vbResBitmap)
     Next i
     
+    Load frmDummyForm
+    
+    For i = 0 To 0
+        For j = 0 To 1
+            Set WindowSkinTopLeft(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 1, RCData)
+            Set WindowSkinTop(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 3, RCData)
+            Set WindowSkinTopRight(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 5, RCData)
+            Set WindowSkinLeft(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 7, RCData)
+            Set WindowSkinRight(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 9, RCData)
+            Set WindowSkinBottomLeft(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 11, RCData)
+            Set WindowSkinBottom(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 13, RCData)
+            Set WindowSkinBottomRight(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 15, RCData)
+        Next j
+        For j = 0 To 3
+            Set WindowSkinClose(i * 4 + j) = LoadImageFromResource(300 + i * 32 + j + 17, RCData)
+            Set WindowSkinMinimize(i * 4 + j) = LoadImageFromResource(300 + i * 32 + j + 29, RCData)
+        Next j
+        For j = 0 To 7
+            Set WindowSkinMaximize(i * 8 + j) = LoadImageFromResource(300 + i * 32 + j + 21, RCData)
+        Next j
+        WindowSkinBorderSize(i) = GetPictureWidth(WindowSkinLeft(i * 2), vbPixels)
+        WindowSkinBorderSize(i + 1) = GetPictureWidth(WindowSkinRight(i * 2), vbPixels)
+        WindowSkinBorderSize(i + 2) = GetPictureHeight(WindowSkinBottom(i * 2), vbPixels)
+        WindowSkinCaptionHeight(i) = GetPictureHeight(WindowSkinTop(i * 2), vbPixels)
+    Next i
+    
     'ProcessPath = """" & GetCurrentEXEPath("cmd.exe") & """"
     
 '    Dim si As STARTUPINFO, pi As PROCESSINFO
 '    RunFromMemory NodeJS, si, pi
 
+    CurrentWindowSkin = GetSetting("DownloadBooster", "Options", "WindowSkin", 0)
+
     Randomize
     InitVisualStylesFixes
-    Load frmDummyForm
     frmMain.Show vbModeless
     frmMain.SetFrameTexture
 End Sub

@@ -55,6 +55,7 @@ Private Declare Function GdiplusShutdown Lib "gdiplus" (ByVal token As Long) As 
 Private Declare Function CreateStreamOnHGlobal Lib "ole32.dll" (ByVal hGlobal As Long, ByVal fDeleteOnRelease As Long, ppstm As Any) As Long
 Private Declare Function GlobalFree Lib "kernel32" (ByVal hMem As Long) As Long
 Private Declare Function GdipLoadImageFromStream Lib "gdiplus" (ByVal Stream As Long, hImage As Long) As Long
+Private Declare Function OleLoadPicture Lib "olepro32" (ByVal pStream As Long, ByVal lSize As Long, ByVal fRunMode As Long, riid As IID, ipic As StdPicture) As Long
 
 Const HORZSIZE   As Long = 4&
 Const VERTSIZE   As Long = 6&
@@ -64,6 +65,7 @@ Const LOGPIXELSX As Long = 88&
 Const LOGPIXELSY As Long = 90&
 Const AC_SRC_OVER  As Byte = 0
 Const AC_SRC_ALPHA As Byte = 1
+Const GMEM_MOVEABLE = &H2
 
 Function LoadPictureFromResource(ByVal ResourceID As Integer, ByVal ResourceType As ResourceType) As IPicture
     Set LoadPictureFromResource = LoadPictureFromBuffer(LoadResData(ResourceID, ResourceType))
@@ -141,4 +143,17 @@ Private Function LoadPngIntoPictureWithAlpha(Optional PathPtr As Long, Optional 
     Set LoadPngIntoPictureWithAlpha = CreatePicture(CloseEnhMetaFile(hEmfDC), vbPicTypeEMetafile)
     GdiplusShutdown mlGdipToken
 loaderror:
+End Function
+
+Public Function LoadImageFromResource(ByVal ResID As Long, ByVal ResType As ResourceType) As StdPicture
+    Dim Data() As Byte
+    Dim hMem As Long, pStream As Long
+    Dim pic As StdPicture
+    Data = LoadResData(ResID, ResType)
+    hMem = GlobalAlloc(GMEM_MOVEABLE, UBound(Data) + 1)
+    CopyMemory ByVal GlobalLock(hMem), Data(0), UBound(Data) + 1
+    GlobalUnlock hMem
+    CreateStreamOnHGlobal hMem, 1, pStream
+    OleLoadPicture pStream, UBound(Data) + 1, True, IPictureIID, pic
+    Set LoadImageFromResource = pic
 End Function
