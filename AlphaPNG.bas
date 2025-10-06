@@ -57,6 +57,8 @@ Private Declare Function GlobalFree Lib "kernel32" (ByVal hMem As Long) As Long
 Private Declare Function GdipLoadImageFromStream Lib "gdiplus" (ByVal Stream As Long, hImage As Long) As Long
 Private Declare Function OleLoadPicture Lib "olepro32" (ByVal pStream As Long, ByVal lSize As Long, ByVal fRunMode As Long, riid As IID, ipic As StdPicture) As Long
 
+'Private Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+
 Const HORZSIZE   As Long = 4&
 Const VERTSIZE   As Long = 6&
 Const HORZRES    As Long = 8&
@@ -75,7 +77,7 @@ Function LoadPictureFromBuffer(Buffer() As Byte) As IPicture
     'https://www.vbforums.com/showthread.php?805563-RESOLVED-GDI-Load-image-from-a-byte-array-into-PictureBox
     Dim o_hMem&, Length&, Stream As stdole.IUnknown
     Length = UBound(Buffer)
-    o_hMem = GlobalAlloc(&H2&, Length)
+    o_hMem = GlobalAlloc(GMEM_MOVEABLE, Length)
     CopyMemory ByVal GlobalLock(o_hMem), ByVal VarPtr(Buffer(0)), Length
     GlobalUnlock o_hMem
     CreateStreamOnHGlobal o_hMem, 1&, Stream
@@ -145,15 +147,26 @@ Private Function LoadPngIntoPictureWithAlpha(Optional PathPtr As Long, Optional 
 loaderror:
 End Function
 
-Public Function LoadImageFromResource(ByVal ResID As Long, ByVal ResType As ResourceType) As StdPicture
-    Dim Data() As Byte
+'Private Sub IUnknown_Release(ByVal pUnk As Long)
+'    Dim vtbl As Long, pRelease As Long
+'    If pUnk = 0& Then Exit Sub
+'
+'    CopyMemory vtbl, ByVal pUnk, 4&
+'    CopyMemory pRelease, ByVal (vtbl + 8&), 4&
+'    CallWindowProc pRelease, pUnk, 0&, 0&, 0&
+'End Sub
+
+Function LoadImageFromResource(ByVal ResID As Long, ByVal ResType As ResourceType) As StdPicture
+    Dim B() As Byte
     Dim hMem As Long, pStream As Long
     Dim pic As StdPicture
-    Data = LoadResData(ResID, ResType)
-    hMem = GlobalAlloc(GMEM_MOVEABLE, UBound(Data) + 1)
-    CopyMemory ByVal GlobalLock(hMem), Data(0), UBound(Data) + 1
+    B = LoadResData(ResID, ResType)
+    hMem = GlobalAlloc(GMEM_MOVEABLE, UBound(B) + 1)
+    CopyMemory ByVal GlobalLock(hMem), B(0), UBound(B) + 1
     GlobalUnlock hMem
-    CreateStreamOnHGlobal hMem, 1, pStream
-    OleLoadPicture pStream, UBound(Data) + 1, True, IPictureIID, pic
+    CreateStreamOnHGlobal hMem, 1&, pStream
+    OleLoadPicture pStream, UBound(B) + 1, True, IPictureIID, pic
     Set LoadImageFromResource = pic
+    'IUnknown_Release pStream
+    GlobalFree hMem
 End Function

@@ -135,6 +135,13 @@ Declare Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
 Declare Function ScreenToClient Lib "user32" (ByVal hWnd As Long, lpPoint As POINTAPI) As Long
 Declare Function GetClientRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
 Declare Function ClientToScreen Lib "user32" (ByVal hWnd As Long, lpPoint As POINTAPI) As Long
+'Declare Function Release Lib "ole32.dll" Alias "IUnknown_Release_Proxy" (pUnk As Any) As Long
+Declare Function ShowWindow Lib "user32" (ByVal hWnd As Long, ByVal nCmdShow As Long) As Long
+
+Public Const WS_SIZEBOX As Long = &H40000
+
+Public Const WS_EX_APPWINDOW As Long = &H40000
+Public Const WS_EX_TOOLWINDOW As Long = &H80&
 
 Public Const TPM_LEFTALIGN As Long = &H0&
 Public Const TPM_RETURNCMD As Long = &H100&
@@ -175,7 +182,7 @@ Public Const SHGFI_SMALLICON As Long = &H1&
 Public Const SHGFI_USEFILEATTRIBUTES As Long = &H10&
 Public Const SHGFI_TYPENAME As Long = &H400&
 
-Private Const GMEM_MOVEABLE = &H2
+Private Const GMEM_MOVEABLE = &H2&
 
 Public Const SWP_NOMOVE = &H2
 Public Const SWP_NOSIZE = &H1
@@ -293,10 +300,12 @@ End Type
 
 Public Const WM_NOTIFY As Long = &H4E&
 Public Const WM_MOVE As Long = &H3&
+'Public Const WM_MOVING As Long = &H216&
 Public Const WM_SETCURSOR As Long = &H20&
 Public Const WM_NCPAINT As Long = &H85&
 Public Const WM_COMMAND As Long = &H111&
-Public Const WM_SIZING As Long = &H214&
+Public Const WM_SIZE As Long = &H5&
+'Public Const WM_SIZING As Long = &H214&
 Public Const WM_GETMINMAXINFO As Long = &H24
 Public Const WM_SYSCOMMAND As Long = &H112&
 Public Const WM_INITMENU As Long = &H116&
@@ -315,6 +324,25 @@ Public Const WM_NCHITTEST As Long = &H84&
 Public Const WM_NCACTIVATE As Long = &H86&
 Public Const WA_INACTIVE As Long = 0&
 Public Const WA_ACTIVE As Long = 1&
+
+Declare Function GetWindowPlacement Lib "user32" (ByVal hWnd As Long, lpwndpl As WINDOWPLACEMENT) As Long
+Public Const SW_SHOWMAXIMIZED = 3
+Public Const SW_SHOWMINIMIZED = 2
+Public Const SW_SHOWNORMAL = 1
+
+Type WINDOWPLACEMENT
+    Length As Long
+    Flags As Long
+    showCmd As Long
+    ptMinPositionX As Long
+    ptMinPositionY As Long
+    ptMaxPositionX As Long
+    ptMaxPositionY As Long
+    rcNormalPositionLeft As Long
+    rcNormalPositionTop As Long
+    rcNormalPositionRight As Long
+    rcNormalPositionBottom As Long
+End Type
 
 Private Type FILETIME
     LowDateTime As Long
@@ -964,7 +992,7 @@ Function Exists(oCol As Collection, vKey As String) As Boolean
     Err.Clear
 End Function
 
-Function TextWidth(s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
+Function TextWidth(s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1, Optional FontBold As Boolean = False) As Single
     If FontSize = 0 Then
         TextWidth = 0
         Exit Function
@@ -997,10 +1025,11 @@ Function TextWidth(s As String, Optional ByVal FontName As String = "", Optional
     End If
     frmDummyForm.Font.Name = FontName
     frmDummyForm.Font.Size = FontSize
+    frmDummyForm.Font.Bold = FontBold
     TextWidth = frmDummyForm.TextWidth(s)
 End Function
 
-Function TextHeight(s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1) As Single
+Function TextHeight(s As String, Optional ByVal FontName As String = "", Optional ByVal FontSize As Integer = -1, Optional FontBold As Boolean = False) As Single
     If FontSize = 0 Then
         TextHeight = 0
         Exit Function
@@ -1033,6 +1062,7 @@ Function TextHeight(s As String, Optional ByVal FontName As String = "", Optiona
     End If
     frmDummyForm.Font.Name = FontName
     frmDummyForm.Font.Size = FontSize
+    frmDummyForm.Font.Bold = FontBold
     TextHeight = frmDummyForm.TextHeight(s)
 End Function
 
@@ -2245,6 +2275,11 @@ Sub InitForm(ByRef frmForm As Form)
     SetFont frmForm
     If MainFormOnTop Then SetWindowPos frmForm.hWnd, hWnd_TOPMOST, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
     'If frmForm.BorderStyle = 2 Then Set frmForm.Icon = frmMain.Icon
+    On Error GoTo noskin
+    Set frmForm.SkinnedFrame = New frmSkinnedFrame
+    frmForm.SkinnedFrame.Init frmForm
+noskin:
+    'On Error Resume Next
 End Sub
 
 Function GenerateSolidColor(ByVal Color As Long) As IPictureDisp
@@ -2479,4 +2514,20 @@ Sub DrawTabBackground(frmForm As Form, tsTabStrip As TabStrip, pbPanel As Object
             ctrl.VisualStyles = Not ctrl.VisualStyles
         End If
     Next ctrl
+End Sub
+
+Sub SetLabelText(lbl As Label, ByVal fullText As String)
+    Dim i As Long
+    Dim tempText As String
+    lbl = fullText
+    If TextWidth(fullText, lbl.Font.Name, lbl.Font.Size, lbl.Font.Bold) > lbl.Width Then
+        For i = Len(fullText) To 1 Step -1
+            tempText = Left$(fullText, i) & "..."
+            If TextWidth(tempText, lbl.Font.Name, lbl.Font.Size, lbl.Font.Bold) <= lbl.Width Then
+                lbl = tempText
+                Exit Sub
+            End If
+        Next i
+        lbl = "..."
+    End If
 End Sub

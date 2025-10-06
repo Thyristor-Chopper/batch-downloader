@@ -1514,6 +1514,8 @@ Attribute VB_Exposed = False
 '참고 자료:
 '- https://www.vbforums.com/showthread.php?284592-Listview-StartLabelEdit-second-column-*RESOLVED*
 
+Public SkinnedFrame As frmSkinnedFrame
+
 Dim Loaded As Boolean
 Public ColorChanged As Boolean
 Public ImageChanged As Boolean
@@ -2339,6 +2341,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     IBSSubclass_UnsubclassIt
+    Unload SkinnedFrame
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse

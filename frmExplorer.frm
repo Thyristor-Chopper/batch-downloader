@@ -433,6 +433,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+
+Public SkinnedFrame As frmSkinnedFrame
+
 Dim Pattern$
 Dim IsMyComputer As Boolean
 'Dim mnuTop&, mnuBottom&, mnuViewID&
@@ -1101,6 +1104,8 @@ Private Sub Form_Unload(Cancel As Integer)
     On Error Resume Next
     imgFolder.ListImages.Clear
     imgFolderSmall.ListImages.Clear
+    
+    Unload SkinnedFrame
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse

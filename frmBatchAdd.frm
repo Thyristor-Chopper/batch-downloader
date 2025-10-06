@@ -104,6 +104,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Public SkinnedFrame As frmSkinnedFrame
+
 Dim PrevKeyCode As Integer
 Public HeaderCache As String
 
@@ -218,6 +220,7 @@ Private Sub Form_Unload(Cancel As Integer)
     End If
     
     IBSSubclass_UnsubclassIt
+    Unload SkinnedFrame
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse

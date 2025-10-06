@@ -132,6 +132,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Public SkinnedFrame As frmSkinnedFrame
+
 Public OriginalURL As String
 Public OriginalPath As String
 Public EncodedHeaders As String
@@ -261,4 +263,8 @@ Private Sub Form_Load()
     cmdYtdl.Visible = False
     cmdHeaders.Left = cmdYtdl.Left
 #End If
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Unload SkinnedFrame
 End Sub
