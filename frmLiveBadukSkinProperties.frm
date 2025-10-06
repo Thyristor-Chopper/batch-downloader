@@ -368,8 +368,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Public SkinnedFrame As frmSkinnedFrame
-
 Private Sub cmdCancel_Click()
     Unload Me
 End Sub
@@ -461,10 +459,6 @@ Private Sub Form_Load()
     tr Label1, "&Progress text color:"
     tr chkEnableFontSize, "Label text &size:"
     tr chkBold, "&Bold text"
-End Sub
-
-Private Sub Form_Unload(Cancel As Integer)
-    Unload SkinnedFrame
 End Sub
 
 Private Sub lblFrameBackgroundColorSelect_Click()

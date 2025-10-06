@@ -71,8 +71,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Public SkinnedFrame As frmSkinnedFrame
-
 Private Sub chkDisableVisualStyle_Click()
     chkRoundClassicButtons.Enabled = (-chkDisableVisualStyle.Value)
 End Sub
@@ -125,6 +123,3 @@ Private Sub Form_Load()
     tr cmdCancel, "Cancel"
 End Sub
 
-Private Sub Form_Unload(Cancel As Integer)
-    Unload SkinnedFrame
-End Sub

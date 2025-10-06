@@ -1698,8 +1698,6 @@ Option Explicit
 
 Implements IBSSubclass
 
-Dim SkinnedFrame As frmSkinnedFrame
-
 Dim Elapsed As Long
 Dim BatchStarted As Boolean
 Dim CurrentBatchIdx As Long
@@ -3682,9 +3680,6 @@ Private Sub Form_Load()
     
     '스크롤 표시 유무
     vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
-    
-    Set SkinnedFrame = New frmSkinnedFrame
-    SkinnedFrame.Init Me
 End Sub
 
 Private Sub SetTygemFrameRgn()
@@ -4112,7 +4107,6 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmInputBox
     Unload frmAbout
     Unload frmDownloadOptions
-    Unload SkinnedFrame
     'If Not InIDE Then ExitProcess 0&
 End Sub
 

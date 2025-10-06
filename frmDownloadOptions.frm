@@ -309,8 +309,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Public SkinnedFrame As frmSkinnedFrame
-
 Dim SelectedListItem As LvwListItem
 Public Headers As Collection
 Public HeaderKeys As Collection
@@ -319,7 +317,6 @@ Implements IBSSubclass
 
 Private Sub Form_Unload(Cancel As Integer)
     IBSSubclass_UnsubclassIt
-    Unload SkinnedFrame
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse

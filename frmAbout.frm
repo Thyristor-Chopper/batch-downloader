@@ -140,8 +140,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Public SkinnedFrame As frmSkinnedFrame
-
 Dim ScrollBars(1 To 7) As Byte
 
 Private Sub cmdOK_Click()
@@ -187,10 +185,6 @@ Private Sub Form_Load()
     lvItems.ListItems(1).Selected = True
     
     Set cmdOK.ImageList = frmDummyForm.imgOK
-End Sub
-
-Private Sub Form_Unload(Cancel As Integer)
-    Unload SkinnedFrame
 End Sub
 
 Private Sub lvItems_ItemSelect(Item As LvwListItem, ByVal Selected As Boolean)
