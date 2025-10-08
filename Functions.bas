@@ -2278,6 +2278,11 @@ Sub InitForm(ByRef frmForm As Form)
     SetFont frmForm
     If MainFormOnTop Then SetWindowPos frmForm.hWnd, hWnd_TOPMOST, 0&, 0&, 0&, 0&, SWP_NOMOVE Or SWP_NOSIZE
     'If frmForm.BorderStyle = 2 Then Set frmForm.Icon = frmMain.Icon
+    On Error GoTo noskin
+    Set frmForm.SkinnedFrame = New frmSkinnedFrame
+    frmForm.SkinnedFrame.Init frmForm
+noskin:
+    'On Error Resume Next
 End Sub
 
 Function GenerateSolidColor(ByVal Color As Long) As IPictureDisp

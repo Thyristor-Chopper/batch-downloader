@@ -294,8 +294,13 @@ Implements IBSSubclass
 Sub Init(Target As Object)
     Terminated = False
     Set TargetForm = Target
+    AttachMessage Me, TargetForm.hWnd, WM_NCPAINT
+    AttachMessage Me, TargetForm.hWnd, WM_MOVE
+    AttachMessage Me, TargetForm.hWnd, WM_NCCALCSIZE
+    AttachMessage Me, TargetForm.hWnd, WM_NCHITTEST
+    AttachMessage Me, TargetForm.hWnd, WM_NCACTIVATE
+    AttachMessage Me, TargetForm.hWnd, WM_SIZE
     If CurrentWindowSkin > 0 Then SetSkin CurrentWindowSkin
-    If IsChild() Then ReloadSkin
 End Sub
 
 Sub ReloadSkin(Optional NewSkin As WindowSkin)
@@ -305,6 +310,12 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     If CurrentSkin > 0 Then SetSkin -1
+    DetachMessage Me, TargetForm.hWnd, WM_NCPAINT
+    DetachMessage Me, TargetForm.hWnd, WM_MOVE
+    DetachMessage Me, TargetForm.hWnd, WM_NCCALCSIZE
+    DetachMessage Me, TargetForm.hWnd, WM_NCHITTEST
+    DetachMessage Me, TargetForm.hWnd, WM_NCACTIVATE
+    DetachMessage Me, TargetForm.hWnd, WM_SIZE
     Set TargetForm = Nothing
 End Sub
 
@@ -319,20 +330,18 @@ End Function
 Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, wParam As Long, lParam As Long, bConsume As Boolean) As Long
     On Error Resume Next
     
-    If Terminated Then GoTo defproc
+    If Terminated Or CurrentSkin <= System Then GoTo defproc
     
     Dim rc As RECT
     
     Select Case uMsg
         Case WM_NCPAINT, WM_MOVE
-            If CurrentSkin <> System Then
-                SetFramePos
+            SetFramePos
 
-                IBSSubclass_WindowProc = 0&
-                Exit Function
-            End If
+            IBSSubclass_WindowProc = 0&
+            Exit Function
         Case WM_NCCALCSIZE
-            If wParam <> 0 And CurrentSkin <> System Then
+            If wParam <> 0 Then
                 CopyMemory rc, ByVal lParam, Len(rc)
         
                 rc.Top = rc.Top + WindowSkinCaptionHeight(0)
@@ -346,48 +355,46 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                 Exit Function
             End If
         Case WM_NCHITTEST
-            If CurrentSkin <> System Then
-                Dim x As Long, y As Long
-                x = (lParam And &HFFFF&)
-                y = ((lParam \ &H10000) And &HFFFF&)
-                If x And &H8000& Then x = x Or &HFFFF0000
-                If y And &H8000& Then y = y Or &HFFFF0000
-            
-                GetWindowRect hWnd, rc
-            
-                Dim hit As Long: hit = HTCLIENT
-            
-                If x >= rc.Left And x < rc.Left + WindowSkinBorderSize(0) Then
-                    hit = HTLEFT
-                ElseIf x < rc.Right And x >= rc.Right - WindowSkinBorderSize(1) Then
-                    hit = HTRIGHT
-                End If
-            
-                If y >= rc.Top And y < rc.Top + WindowSkinBorderSize(2) Then
-                    If hit = HTLEFT Then
-                        hit = HTTOPLEFT
-                    ElseIf hit = HTRIGHT Then
-                        hit = HTTOPRIGHT
-                    Else
-                        hit = HTTOP
-                    End If
-                ElseIf y < rc.Bottom And y >= rc.Bottom - WindowSkinBorderSize(2) Then
-                    If hit = HTLEFT Then
-                        hit = HTBOTTOMLEFT
-                    ElseIf hit = HTRIGHT Then
-                        hit = HTBOTTOMRIGHT
-                    Else
-                        hit = HTBOTTOM
-                    End If
-                End If
-            
-                If y >= rc.Top + WindowSkinBorderSize(2) And y < rc.Top + WindowSkinCaptionHeight(0) Then
-                    If hit = HTCLIENT Then hit = HTCAPTION
-                End If
-            
-                IBSSubclass_WindowProc = hit
-                Exit Function
+            Dim x As Long, y As Long
+            x = (lParam And &HFFFF&)
+            y = ((lParam \ &H10000) And &HFFFF&)
+            If x And &H8000& Then x = x Or &HFFFF0000
+            If y And &H8000& Then y = y Or &HFFFF0000
+        
+            GetWindowRect hWnd, rc
+        
+            Dim hit As Long: hit = HTCLIENT
+        
+            If x >= rc.Left And x < rc.Left + WindowSkinBorderSize(0) Then
+                hit = HTLEFT
+            ElseIf x < rc.Right And x >= rc.Right - WindowSkinBorderSize(1) Then
+                hit = HTRIGHT
             End If
+        
+            If y >= rc.Top And y < rc.Top + WindowSkinBorderSize(2) Then
+                If hit = HTLEFT Then
+                    hit = HTTOPLEFT
+                ElseIf hit = HTRIGHT Then
+                    hit = HTTOPRIGHT
+                Else
+                    hit = HTTOP
+                End If
+            ElseIf y < rc.Bottom And y >= rc.Bottom - WindowSkinBorderSize(2) Then
+                If hit = HTLEFT Then
+                    hit = HTBOTTOMLEFT
+                ElseIf hit = HTRIGHT Then
+                    hit = HTBOTTOMRIGHT
+                Else
+                    hit = HTBOTTOM
+                End If
+            End If
+        
+            If y >= rc.Top + WindowSkinBorderSize(2) And y < rc.Top + WindowSkinCaptionHeight(0) Then
+                If hit = HTCLIENT Then hit = HTCAPTION
+            End If
+        
+            IBSSubclass_WindowProc = hit
+            Exit Function
         Case WM_NCACTIVATE
             Select Case wParam
                 Case WA_ACTIVE
@@ -395,13 +402,11 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                 Case WA_INACTIVE
                     IsWindowActive = 0
             End Select
-            If CurrentSkin <> System Then
-                SetFramePos
-                SetSkinTextures
-                SetSizableSkinTextures
-            End If
+            SetFramePos
+            SetSkinTextures
+            SetSizableSkinTextures
         Case WM_SIZE
-            If CurrentSkin <> System Then OnResize
+            OnResize
     End Select
     
 defproc:
@@ -589,13 +594,6 @@ Sub SetSkin(NewSkin As WindowSkin)
     pbBottomRight.Visible = False
     
     If NewSkin > System And Terminated = False Then
-        AttachMessage Me, TargetForm.hWnd, WM_NCPAINT
-        AttachMessage Me, TargetForm.hWnd, WM_MOVE
-        AttachMessage Me, TargetForm.hWnd, WM_NCCALCSIZE
-        AttachMessage Me, TargetForm.hWnd, WM_NCHITTEST
-        AttachMessage Me, TargetForm.hWnd, WM_NCACTIVATE
-        AttachMessage Me, TargetForm.hWnd, WM_SIZE
-    
         lblCaption.Width = pbTopMiddle.Width
         lblCaptionShadow.Width = pbTopMiddle.Width
         lblResizeTop(0).Width = pbTopMiddle.Width
@@ -629,13 +627,6 @@ Sub SetSkin(NewSkin As WindowSkin)
         
         'OnResize
     Else
-        DetachMessage Me, TargetForm.hWnd, WM_NCPAINT
-        DetachMessage Me, TargetForm.hWnd, WM_MOVE
-        DetachMessage Me, TargetForm.hWnd, WM_NCCALCSIZE
-        DetachMessage Me, TargetForm.hWnd, WM_NCHITTEST
-        DetachMessage Me, TargetForm.hWnd, WM_NCACTIVATE
-        DetachMessage Me, TargetForm.hWnd, WM_SIZE
-    
         SetParent pbTopLeft.hWnd, Me.hWnd
         SetParent pbTopMiddle.hWnd, Me.hWnd
         SetParent pbTopRight.hWnd, Me.hWnd
@@ -659,6 +650,8 @@ Sub SetSkin(NewSkin As WindowSkin)
     
 '    SetWindowFrameRgn
 '    SetWindowPos TargetForm.hWnd, 0, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE Or SWP_NOZORDER Or SWP_FRAMECHANGED
+
+    If IsChild() Then ReloadSkin
 End Sub
 
 Private Sub SetResizeCursors()

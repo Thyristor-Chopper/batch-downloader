@@ -104,7 +104,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim SkinnedFrame As frmSkinnedFrame
+Public SkinnedFrame As frmSkinnedFrame
 
 Dim PrevKeyCode As Integer
 Public HeaderCache As String
