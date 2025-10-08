@@ -294,12 +294,6 @@ Implements IBSSubclass
 Sub Init(Target As Object)
     Terminated = False
     Set TargetForm = Target
-    AttachMessage Me, TargetForm.hWnd, WM_NCPAINT
-    AttachMessage Me, TargetForm.hWnd, WM_MOVE
-    AttachMessage Me, TargetForm.hWnd, WM_NCCALCSIZE
-    AttachMessage Me, TargetForm.hWnd, WM_NCHITTEST
-    AttachMessage Me, TargetForm.hWnd, WM_NCACTIVATE
-    AttachMessage Me, TargetForm.hWnd, WM_SIZE
     If CurrentWindowSkin > 0 Then SetSkin CurrentWindowSkin
 End Sub
 
@@ -310,17 +304,17 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     If CurrentSkin > 0 Then SetSkin -1
+    Set TargetForm = Nothing
+End Sub
+
+Sub IBSSubclass_UnsubclassIt()
+    If InIDE Or (TargetForm Is Nothing) Then Exit Sub
     DetachMessage Me, TargetForm.hWnd, WM_NCPAINT
     DetachMessage Me, TargetForm.hWnd, WM_MOVE
     DetachMessage Me, TargetForm.hWnd, WM_NCCALCSIZE
     DetachMessage Me, TargetForm.hWnd, WM_NCHITTEST
     DetachMessage Me, TargetForm.hWnd, WM_NCACTIVATE
     DetachMessage Me, TargetForm.hWnd, WM_SIZE
-    Set TargetForm = Nothing
-End Sub
-
-Sub IBSSubclass_UnsubclassIt()
-    '
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
@@ -332,46 +326,51 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
     
     If Terminated Or CurrentSkin <= System Then GoTo defproc
     
-    Dim rc As RECT
+    Dim RC As RECT
     
     Select Case uMsg
-        Case WM_NCPAINT, WM_MOVE
+        Case WM_NCPAINT
+            If IsChild() Then SetFramePos
+        
+            IBSSubclass_WindowProc = 0&
+            Exit Function
+        Case WM_MOVE
             SetFramePos
-
+            
             IBSSubclass_WindowProc = 0&
             Exit Function
         Case WM_NCCALCSIZE
             If wParam <> 0 Then
-                CopyMemory rc, ByVal lParam, Len(rc)
+                CopyMemory RC, ByVal lParam, Len(RC)
         
-                rc.Top = rc.Top + WindowSkinCaptionHeight(0)
-                rc.Left = rc.Left + WindowSkinBorderSize(0)
-                rc.Right = rc.Right - WindowSkinBorderSize(1)
-                rc.Bottom = rc.Bottom - WindowSkinBorderSize(2)
+                RC.Top = RC.Top + WindowSkinCaptionHeight(0)
+                RC.Left = RC.Left + WindowSkinBorderSize(0)
+                RC.Right = RC.Right - WindowSkinBorderSize(1)
+                RC.Bottom = RC.Bottom - WindowSkinBorderSize(2)
         
-                CopyMemory ByVal lParam, rc, Len(rc)
+                CopyMemory ByVal lParam, RC, Len(RC)
         
-                IBSSubclass_WindowProc = 0
+                IBSSubclass_WindowProc = 0&
                 Exit Function
             End If
         Case WM_NCHITTEST
-            Dim x As Long, y As Long
-            x = (lParam And &HFFFF&)
-            y = ((lParam \ &H10000) And &HFFFF&)
-            If x And &H8000& Then x = x Or &HFFFF0000
-            If y And &H8000& Then y = y Or &HFFFF0000
+            Dim X As Long, Y As Long
+            X = (lParam And &HFFFF&)
+            Y = ((lParam \ &H10000) And &HFFFF&)
+            If X And &H8000& Then X = X Or &HFFFF0000
+            If Y And &H8000& Then Y = Y Or &HFFFF0000
         
-            GetWindowRect hWnd, rc
+            GetWindowRect hWnd, RC
         
             Dim hit As Long: hit = HTCLIENT
         
-            If x >= rc.Left And x < rc.Left + WindowSkinBorderSize(0) Then
+            If X >= RC.Left And X < RC.Left + WindowSkinBorderSize(0) Then
                 hit = HTLEFT
-            ElseIf x < rc.Right And x >= rc.Right - WindowSkinBorderSize(1) Then
+            ElseIf X < RC.Right And X >= RC.Right - WindowSkinBorderSize(1) Then
                 hit = HTRIGHT
             End If
         
-            If y >= rc.Top And y < rc.Top + WindowSkinBorderSize(2) Then
+            If Y >= RC.Top And Y < RC.Top + WindowSkinBorderSize(2) Then
                 If hit = HTLEFT Then
                     hit = HTTOPLEFT
                 ElseIf hit = HTRIGHT Then
@@ -379,7 +378,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                 Else
                     hit = HTTOP
                 End If
-            ElseIf y < rc.Bottom And y >= rc.Bottom - WindowSkinBorderSize(2) Then
+            ElseIf Y < RC.Bottom And Y >= RC.Bottom - WindowSkinBorderSize(2) Then
                 If hit = HTLEFT Then
                     hit = HTBOTTOMLEFT
                 ElseIf hit = HTRIGHT Then
@@ -389,7 +388,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                 End If
             End If
         
-            If y >= rc.Top + WindowSkinBorderSize(2) And y < rc.Top + WindowSkinCaptionHeight(0) Then
+            If Y >= RC.Top + WindowSkinBorderSize(2) And Y < RC.Top + WindowSkinCaptionHeight(0) Then
                 If hit = HTCLIENT Then hit = HTCAPTION
             End If
         
@@ -405,6 +404,9 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
             SetFramePos
             SetSkinTextures
             SetSizableSkinTextures
+            
+            IBSSubclass_WindowProc = 1&
+            Exit Function
         Case WM_SIZE
             OnResize
     End Select
@@ -423,9 +425,9 @@ Private Sub OnResize()
 End Sub
 
 Private Sub SetFramePos()
-    If CurrentSkin = System Or Terminated = True Or TargetForm.Visible = False Then Exit Sub
-    Dim rc As RECT
-    GetWindowRect TargetForm.hWnd, rc
+    If CurrentSkin <= System Or Terminated = True Or TargetForm.Visible = False Then Exit Sub
+    Dim RC As RECT
+    GetWindowRect TargetForm.hWnd, RC
     Dim InsertAfter&
     If IsWindowActive Then
         InsertAfter = -1
@@ -440,25 +442,25 @@ Private Sub SetFramePos()
         Parent = GetParent(TargetForm.hWnd)
         GetClientRect Parent, RCP
         Dim PT As POINTAPI
-        PT.x = RCP.Left: PT.y = RCP.Top
+        PT.X = RCP.Left: PT.Y = RCP.Top
         ClientToScreen Parent, PT
-        rc.Left = rc.Left - PT.x
-        rc.Top = rc.Top - PT.y
-        rc.Right = rc.Right - PT.x
-        rc.Bottom = rc.Bottom - PT.y
+        RC.Left = RC.Left - PT.X
+        RC.Top = RC.Top - PT.Y
+        RC.Right = RC.Right - PT.X
+        RC.Bottom = RC.Bottom - PT.Y
     End If
     
     Dim dwp As Long
     dwp = BeginDeferWindowPos(8)
     If dwp = 0& Then Exit Sub
-    dwp = DeferWindowPos(dwp, pbTopLeft.hWnd, InsertAfter, rc.Left, rc.Top, pbTopLeft.Width \ 15, pbTopLeft.Height \ 15, Flags)
-    dwp = DeferWindowPos(dwp, pbTopMiddle.hWnd, InsertAfter, rc.Left + pbTopLeft.Width \ 15, rc.Top, pbTopMiddle.Width \ 15, pbTopMiddle.Height \ 15, Flags)
-    dwp = DeferWindowPos(dwp, pbTopRight.hWnd, InsertAfter, rc.Right - pbTopRight.Width \ 15, rc.Top, pbTopRight.Width \ 15, pbTopRight.Height \ 15, Flags)
-    dwp = DeferWindowPos(dwp, pbLeft.hWnd, InsertAfter, rc.Left, rc.Top + pbTopLeft.Height \ 15, pbLeft.Width \ 15, pbLeft.Height \ 15, Flags)
-    dwp = DeferWindowPos(dwp, pbBottomLeft.hWnd, InsertAfter, rc.Left, rc.Top + pbTopLeft.Height \ 15 + pbLeft.Height \ 15, pbBottomLeft.Width \ 15, pbBottomLeft.Height \ 15, Flags)
-    dwp = DeferWindowPos(dwp, pbBottomMiddle.hWnd, InsertAfter, rc.Left + pbBottomLeft.Width \ 15, rc.Top + pbTopLeft.Height \ 15 + pbLeft.Height \ 15, pbBottomMiddle.Width \ 15, pbBottomMiddle.Height \ 15, Flags)
-    dwp = DeferWindowPos(dwp, pbBottomRight.hWnd, InsertAfter, rc.Left + pbBottomLeft.Width \ 15 + pbBottomMiddle.Width \ 15, rc.Top + pbTopLeft.Height \ 15 + pbLeft.Height \ 15, pbBottomRight.Width \ 15, pbBottomRight.Height \ 15, Flags)
-    dwp = DeferWindowPos(dwp, pbRight.hWnd, InsertAfter, rc.Right - pbRight.Width \ 15, rc.Top + pbTopRight.Height \ 15, pbRight.Width \ 15, pbRight.Height \ 15, Flags)
+    dwp = DeferWindowPos(dwp, pbTopLeft.hWnd, InsertAfter, RC.Left, RC.Top, pbTopLeft.Width \ 15, pbTopLeft.Height \ 15, Flags)
+    dwp = DeferWindowPos(dwp, pbTopMiddle.hWnd, InsertAfter, RC.Left + pbTopLeft.Width \ 15, RC.Top, pbTopMiddle.Width \ 15, pbTopMiddle.Height \ 15, Flags)
+    dwp = DeferWindowPos(dwp, pbTopRight.hWnd, InsertAfter, RC.Right - pbTopRight.Width \ 15, RC.Top, pbTopRight.Width \ 15, pbTopRight.Height \ 15, Flags)
+    dwp = DeferWindowPos(dwp, pbLeft.hWnd, InsertAfter, RC.Left, RC.Top + pbTopLeft.Height \ 15, pbLeft.Width \ 15, pbLeft.Height \ 15, Flags)
+    dwp = DeferWindowPos(dwp, pbBottomLeft.hWnd, InsertAfter, RC.Left, RC.Top + pbTopLeft.Height \ 15 + pbLeft.Height \ 15, pbBottomLeft.Width \ 15, pbBottomLeft.Height \ 15, Flags)
+    dwp = DeferWindowPos(dwp, pbBottomMiddle.hWnd, InsertAfter, RC.Left + pbBottomLeft.Width \ 15, RC.Top + pbTopLeft.Height \ 15 + pbLeft.Height \ 15, pbBottomMiddle.Width \ 15, pbBottomMiddle.Height \ 15, Flags)
+    dwp = DeferWindowPos(dwp, pbBottomRight.hWnd, InsertAfter, RC.Left + pbBottomLeft.Width \ 15 + pbBottomMiddle.Width \ 15, RC.Top + pbTopLeft.Height \ 15 + pbLeft.Height \ 15, pbBottomRight.Width \ 15, pbBottomRight.Height \ 15, Flags)
+    dwp = DeferWindowPos(dwp, pbRight.hWnd, InsertAfter, RC.Right - pbRight.Width \ 15, RC.Top + pbTopRight.Height \ 15, pbRight.Width \ 15, pbRight.Height \ 15, Flags)
     EndDeferWindowPos dwp
     DeleteObject dwp
     
@@ -480,41 +482,41 @@ Private Function IsChild() As Boolean
 End Function
 
 Private Sub SetSkinTextures()
-    If CurrentSkin = System Then Exit Sub
+    If CurrentSkin <= System Then Exit Sub
     
-    Set pbTopLeft.Picture = WindowSkinTopLeft(IsWindowActive)
-    pbTopLeft.Width = ScaleX(WindowSkinTopLeft(IsWindowActive).Width, vbHimetric, vbTwips)
-    pbTopLeft.Height = ScaleY(WindowSkinTopLeft(IsWindowActive).Height, vbHimetric, vbTwips)
+    Set pbTopLeft.Picture = WindowSkinTopLeft((CurrentSkin - 1) * 2 + IsWindowActive)
+    pbTopLeft.Width = ScaleX(WindowSkinTopLeft((CurrentSkin - 1) * 2 + IsWindowActive).Width, vbHimetric, vbTwips)
+    pbTopLeft.Height = ScaleY(WindowSkinTopLeft((CurrentSkin - 1) * 2 + IsWindowActive).Height, vbHimetric, vbTwips)
     
-    pbTopMiddle.Height = ScaleY(WindowSkinTop(IsWindowActive).Height, vbHimetric, vbTwips)
+    pbTopMiddle.Height = ScaleY(WindowSkinTop((CurrentSkin - 1) * 2 + IsWindowActive).Height, vbHimetric, vbTwips)
     
-    Set pbTopRight.Picture = WindowSkinTopRight(IsWindowActive)
-    pbTopRight.Width = ScaleX(WindowSkinTopRight(IsWindowActive).Width, vbHimetric, vbTwips)
-    pbTopRight.Height = ScaleY(WindowSkinTopRight(IsWindowActive).Height, vbHimetric, vbTwips)
+    Set pbTopRight.Picture = WindowSkinTopRight((CurrentSkin - 1) * 2 + IsWindowActive)
+    pbTopRight.Width = ScaleX(WindowSkinTopRight((CurrentSkin - 1) * 2 + IsWindowActive).Width, vbHimetric, vbTwips)
+    pbTopRight.Height = ScaleY(WindowSkinTopRight((CurrentSkin - 1) * 2 + IsWindowActive).Height, vbHimetric, vbTwips)
     
-    pbLeft.Width = ScaleX(WindowSkinLeft(IsWindowActive).Width, vbHimetric, vbTwips)
-    pbRight.Width = ScaleX(WindowSkinRight(IsWindowActive).Width, vbHimetric, vbTwips)
+    pbLeft.Width = ScaleX(WindowSkinLeft((CurrentSkin - 1) * 2 + IsWindowActive).Width, vbHimetric, vbTwips)
+    pbRight.Width = ScaleX(WindowSkinRight((CurrentSkin - 1) * 2 + IsWindowActive).Width, vbHimetric, vbTwips)
     
-    Set pbBottomLeft.Picture = WindowSkinBottomLeft(IsWindowActive)
-    pbBottomLeft.Width = ScaleX(WindowSkinBottomLeft(IsWindowActive).Width, vbHimetric, vbTwips)
-    pbBottomLeft.Height = ScaleY(WindowSkinBottomLeft(IsWindowActive).Height, vbHimetric, vbTwips)
+    Set pbBottomLeft.Picture = WindowSkinBottomLeft((CurrentSkin - 1) * 2 + IsWindowActive)
+    pbBottomLeft.Width = ScaleX(WindowSkinBottomLeft((CurrentSkin - 1) * 2 + IsWindowActive).Width, vbHimetric, vbTwips)
+    pbBottomLeft.Height = ScaleY(WindowSkinBottomLeft((CurrentSkin - 1) * 2 + IsWindowActive).Height, vbHimetric, vbTwips)
     
-    pbBottomMiddle.Height = ScaleY(WindowSkinBottom(IsWindowActive).Height, vbHimetric, vbTwips)
+    pbBottomMiddle.Height = ScaleY(WindowSkinBottom((CurrentSkin - 1) * 2 + IsWindowActive).Height, vbHimetric, vbTwips)
     
-    Set pbBottomRight.Picture = WindowSkinBottomRight(IsWindowActive)
-    pbBottomRight.Width = ScaleX(WindowSkinBottomRight(IsWindowActive).Width, vbHimetric, vbTwips)
-    pbBottomRight.Height = ScaleY(WindowSkinBottomRight(IsWindowActive).Height, vbHimetric, vbTwips)
+    Set pbBottomRight.Picture = WindowSkinBottomRight((CurrentSkin - 1) * 2 + IsWindowActive)
+    pbBottomRight.Width = ScaleX(WindowSkinBottomRight((CurrentSkin - 1) * 2 + IsWindowActive).Width, vbHimetric, vbTwips)
+    pbBottomRight.Height = ScaleY(WindowSkinBottomRight((CurrentSkin - 1) * 2 + IsWindowActive).Height, vbHimetric, vbTwips)
     
-    Set imgCloseButton.Picture = WindowSkinClose(IsWindowActive)
+    Set imgCloseButton.Picture = WindowSkinClose((CurrentSkin - 1) * 4 + IsWindowActive)
     
     imgMaximizeButton.Enabled = IsMaximizeEnabled()
     SetMaxButtonTexture
     
     imgMinimizeButton.Enabled = IsMinimizeEnabled()
     If IsMinimizeEnabled() Then
-        Set imgMinimizeButton.Picture = WindowSkinMinimize(IsWindowActive)
+        Set imgMinimizeButton.Picture = WindowSkinMinimize((CurrentSkin - 1) * 4 + IsWindowActive)
     Else
-        Set imgMinimizeButton.Picture = WindowSkinMinimize(0)
+        Set imgMinimizeButton.Picture = WindowSkinMinimize((CurrentSkin - 1) * 4 + 0)
     End If
     
     lblCaptionShadow.Visible = IsWindowActive
@@ -529,59 +531,59 @@ End Sub
 
 Private Sub SetMaxButtonTexture()
     If IsMaximizeEnabled() Then
-        Set imgMaximizeButton.Picture = WindowSkinMaximize(IsWindowActive - (GetWindowState() = 2) * 4)
+        Set imgMaximizeButton.Picture = WindowSkinMaximize((CurrentSkin - 1) * 8 + IsWindowActive - (GetWindowState() = 2) * 4)
     Else
-        Set imgMaximizeButton.Picture = WindowSkinMaximize(0)
+        Set imgMaximizeButton.Picture = WindowSkinMaximize((CurrentSkin - 1) * 8 + 0)
     End If
 End Sub
 
 Private Sub SetSizableSkinTextures()
-    If GetWindowState() = 1 Or CurrentSkin = System Then Exit Sub
+    If GetWindowState() = 1 Or CurrentSkin <= System Then Exit Sub
     
-    Dim rc As RECT
-    GetWindowRect TargetForm.hWnd, rc
+    Dim RC As RECT
+    GetWindowRect TargetForm.hWnd, RC
     
-    Dim x&, y&, Width&, Height&
+    Dim X&, Y&, Width&, Height&
     Dim Size&, hDC&
     
-    Size = ScaleX(WindowSkinTop(IsWindowActive).Width, vbHimetric, vbPixels)
-    hDC = GetDCFromPicture(WindowSkinTop(IsWindowActive))
+    Size = ScaleX(WindowSkinTop((CurrentSkin - 1) * 2 + IsWindowActive).Width, vbHimetric, vbPixels)
+    hDC = GetDCFromPicture(WindowSkinTop((CurrentSkin - 1) * 2 + IsWindowActive))
     Height = pbTopMiddle.Height \ 15
-    pbTopMiddle.Width = (rc.Right - rc.Left) * 15 - pbTopLeft.Width - pbTopRight.Width
-    For x = 0 To pbTopMiddle.Width \ Screen.TwipsPerPixelX Step Size
-        BitBlt pbTopMiddle.hDC, x, 0&, Size, Height, hDC, 0&, 0&, vbSrcCopy
-    Next x
+    pbTopMiddle.Width = (RC.Right - RC.Left) * 15 - pbTopLeft.Width - pbTopRight.Width
+    For X = 0 To pbTopMiddle.Width \ Screen.TwipsPerPixelX Step Size
+        BitBlt pbTopMiddle.hDC, X, 0&, Size, Height, hDC, 0&, 0&, vbSrcCopy
+    Next X
     DeleteDC hDC
     
-    Size = ScaleY(WindowSkinLeft(IsWindowActive).Height, vbHimetric, vbPixels)
-    hDC = GetDCFromPicture(WindowSkinLeft(IsWindowActive))
+    Size = ScaleY(WindowSkinLeft((CurrentSkin - 1) * 2 + IsWindowActive).Height, vbHimetric, vbPixels)
+    hDC = GetDCFromPicture(WindowSkinLeft((CurrentSkin - 1) * 2 + IsWindowActive))
     Width = pbLeft.Width \ 15
-    pbLeft.Height = (rc.Bottom - rc.Top) * 15 - pbTopLeft.Height - pbBottomLeft.Height
-    For y = 0 To pbLeft.Height \ Screen.TwipsPerPixelY Step Size
-        BitBlt pbLeft.hDC, 0&, y, Width, Size, hDC, 0&, 0&, vbSrcCopy
-    Next y
+    pbLeft.Height = (RC.Bottom - RC.Top) * 15 - pbTopLeft.Height - pbBottomLeft.Height
+    For Y = 0 To pbLeft.Height \ Screen.TwipsPerPixelY Step Size
+        BitBlt pbLeft.hDC, 0&, Y, Width, Size, hDC, 0&, 0&, vbSrcCopy
+    Next Y
     DeleteDC hDC
     
-    Size = ScaleX(WindowSkinBottom(IsWindowActive).Width, vbHimetric, vbPixels)
-    hDC = GetDCFromPicture(WindowSkinBottom(IsWindowActive))
+    Size = ScaleX(WindowSkinBottom((CurrentSkin - 1) * 2 + IsWindowActive).Width, vbHimetric, vbPixels)
+    hDC = GetDCFromPicture(WindowSkinBottom((CurrentSkin - 1) * 2 + IsWindowActive))
     Height = pbBottomMiddle.Height \ 15
-    pbBottomMiddle.Width = (rc.Right - rc.Left) * 15 - pbBottomLeft.Width - pbBottomRight.Width
-    For x = 0 To pbBottomMiddle.Width \ Screen.TwipsPerPixelX Step Size
-        BitBlt pbBottomMiddle.hDC, x, 0&, Size, Height, hDC, 0&, 0&, vbSrcCopy
-    Next x
+    pbBottomMiddle.Width = (RC.Right - RC.Left) * 15 - pbBottomLeft.Width - pbBottomRight.Width
+    For X = 0 To pbBottomMiddle.Width \ Screen.TwipsPerPixelX Step Size
+        BitBlt pbBottomMiddle.hDC, X, 0&, Size, Height, hDC, 0&, 0&, vbSrcCopy
+    Next X
     DeleteDC hDC
     
-    Size = ScaleY(WindowSkinRight(IsWindowActive).Height, vbHimetric, vbPixels)
-    hDC = GetDCFromPicture(WindowSkinRight(IsWindowActive))
+    Size = ScaleY(WindowSkinRight((CurrentSkin - 1) * 2 + IsWindowActive).Height, vbHimetric, vbPixels)
+    hDC = GetDCFromPicture(WindowSkinRight((CurrentSkin - 1) * 2 + IsWindowActive))
     Width = pbRight.Width \ 15
-    pbRight.Height = (rc.Bottom - rc.Top) * 15 - pbTopRight.Height - pbBottomRight.Height
-    For y = 0 To pbRight.Height \ Screen.TwipsPerPixelY Step Size
-        BitBlt pbRight.hDC, 0&, y, Width, Size, hDC, 0&, 0&, vbSrcCopy
-    Next y
+    pbRight.Height = (RC.Bottom - RC.Top) * 15 - pbTopRight.Height - pbBottomRight.Height
+    For Y = 0 To pbRight.Height \ Screen.TwipsPerPixelY Step Size
+        BitBlt pbRight.hDC, 0&, Y, Width, Size, hDC, 0&, 0&, vbSrcCopy
+    Next Y
     DeleteDC hDC
 End Sub
 
-Sub SetSkin(NewSkin As WindowSkin)
+Sub SetSkin(NewSkin As WindowSkin, Optional ForceRedraw As Boolean = False)
     If NewSkin >= System Then CurrentSkin = NewSkin
     
     pbTopLeft.Visible = False
@@ -594,6 +596,17 @@ Sub SetSkin(NewSkin As WindowSkin)
     pbBottomRight.Visible = False
     
     If NewSkin > System And Terminated = False Then
+        AttachMessage Me, TargetForm.hWnd, WM_NCPAINT
+        AttachMessage Me, TargetForm.hWnd, WM_MOVE
+        AttachMessage Me, TargetForm.hWnd, WM_NCCALCSIZE
+        AttachMessage Me, TargetForm.hWnd, WM_NCHITTEST
+        AttachMessage Me, TargetForm.hWnd, WM_NCACTIVATE
+        AttachMessage Me, TargetForm.hWnd, WM_SIZE
+        
+        Dim Redo As Boolean
+        Redo = False
+        
+setupskin:
         lblCaption.Width = pbTopMiddle.Width
         lblCaptionShadow.Width = pbTopMiddle.Width
         lblResizeTop(0).Width = pbTopMiddle.Width
@@ -625,8 +638,10 @@ Sub SetSkin(NewSkin As WindowSkin)
         SetWindowLong pbBottomRight.hWnd, GWL_EXSTYLE, (GetWindowLong(pbBottomRight.hWnd, GWL_EXSTYLE) And (Not WS_EX_APPWINDOW)) Or WS_EX_TOOLWINDOW
         SetWindowLong pbRight.hWnd, GWL_EXSTYLE, (GetWindowLong(pbRight.hWnd, GWL_EXSTYLE) And (Not WS_EX_APPWINDOW)) Or WS_EX_TOOLWINDOW
         
-        'OnResize
+        If (IsChild() Or ForceRedraw) Then OnResize
     Else
+        IBSSubclass_UnsubclassIt
+        
         SetParent pbTopLeft.hWnd, Me.hWnd
         SetParent pbTopMiddle.hWnd, Me.hWnd
         SetParent pbTopRight.hWnd, Me.hWnd
@@ -650,8 +665,6 @@ Sub SetSkin(NewSkin As WindowSkin)
     
 '    SetWindowFrameRgn
 '    SetWindowPos TargetForm.hWnd, 0, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE Or SWP_NOZORDER Or SWP_FRAMECHANGED
-
-    If IsChild() Then ReloadSkin
 End Sub
 
 Private Sub SetResizeCursors()
@@ -673,7 +686,7 @@ End Sub
 
 Private Sub SetWindowFrameRgn()
     If CurrentSkin = System Then Exit Sub
-    Dim rc As RECT, RCWin As RECT
+    Dim RC As RECT, RCWin As RECT
     Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&, Rgn9&
     Dim Width%, Height%
     
@@ -681,20 +694,20 @@ Private Sub SetWindowFrameRgn()
     GetWindowRect TargetForm.hWnd, RCWin
     If CompareRect(RCWin, LastRect) Then Exit Sub
     LastRect = RCWin
-    GetClientRect TargetForm.hWnd, rc
-    topLeft.x = rc.Left
-    topLeft.y = rc.Top
+    GetClientRect TargetForm.hWnd, RC
+    topLeft.X = RC.Left
+    topLeft.Y = RC.Top
     ClientToScreen TargetForm.hWnd, topLeft
-    topLeft.y = topLeft.y - RCWin.Top
-    topLeft.x = topLeft.x - RCWin.Left
-    Rgn = CreateRectRgn(topLeft.x + rc.Left, topLeft.y + rc.Top, topLeft.x + rc.Right, topLeft.y + rc.Bottom)
+    topLeft.Y = topLeft.Y - RCWin.Top
+    topLeft.X = topLeft.X - RCWin.Left
+    Rgn = CreateRectRgn(topLeft.X + RC.Left, topLeft.Y + RC.Top, topLeft.X + RC.Right, topLeft.Y + RC.Bottom)
     SetWindowRgn TargetForm.hWnd, Rgn, True
     DeleteObject Rgn
     
     Select Case CurrentSkin
-        Case Bluemetal
-            GetWindowRect pbTopLeft.hWnd, rc
-            Width = rc.Right - rc.Left: Height = rc.Bottom - rc.Top
+        Case Bluemetal, Greenmetal
+            GetWindowRect pbTopLeft.hWnd, RC
+            Width = RC.Right - RC.Left: Height = RC.Bottom - RC.Top
             Rgn = CreateRectRgn(0, 0, Width, Height)
             Rgn1 = CreateRectRgn(0, 0, 7, 1)
             Rgn2 = CreateRectRgn(0, 1, 5, 2)
@@ -720,8 +733,8 @@ Private Sub SetWindowFrameRgn()
             SetWindowRgn pbTopLeft.hWnd, Rgn, True
             DeleteObject Rgn
             
-            GetWindowRect pbTopRight.hWnd, rc
-            Width = rc.Right - rc.Left: Height = rc.Bottom - rc.Top
+            GetWindowRect pbTopRight.hWnd, RC
+            Width = RC.Right - RC.Left: Height = RC.Bottom - RC.Top
             Rgn = CreateRectRgn(0, 0, Width, Height)
             Rgn1 = CreateRectRgn(Width - 7, 0, Width, 1)
             Rgn2 = CreateRectRgn(Width - 5, 1, Width, 2)
@@ -747,8 +760,8 @@ Private Sub SetWindowFrameRgn()
             SetWindowRgn pbTopRight.hWnd, Rgn, True
             DeleteObject Rgn
             
-            GetWindowRect pbBottomLeft.hWnd, rc
-            Width = rc.Right - rc.Left: Height = rc.Bottom - rc.Top
+            GetWindowRect pbBottomLeft.hWnd, RC
+            Width = RC.Right - RC.Left: Height = RC.Bottom - RC.Top
             Rgn = CreateRectRgn(0, 0, Width, Height)
             Rgn1 = CreateRectRgn(0, Height - 2, 1, Height - 1)
             Rgn2 = CreateRectRgn(0, Height - 1, 2, Height)
@@ -759,8 +772,8 @@ Private Sub SetWindowFrameRgn()
             SetWindowRgn pbBottomLeft.hWnd, Rgn, True
             DeleteObject Rgn
             
-            GetWindowRect pbBottomRight.hWnd, rc
-            Width = rc.Right - rc.Left: Height = rc.Bottom - rc.Top
+            GetWindowRect pbBottomRight.hWnd, RC
+            Width = RC.Right - RC.Left: Height = RC.Bottom - RC.Top
             Rgn = CreateRectRgn(0, 0, Width, Height)
             Rgn1 = CreateRectRgn(Width - 1, Height - 2, Width, Height - 1)
             Rgn2 = CreateRectRgn(Width - 2, Height - 1, Width, Height)
@@ -778,21 +791,21 @@ Private Sub imgCloseButton_Click()
     Unload TargetForm
 End Sub
 
-Private Sub imgCloseButton_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgCloseButton_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button <> 1 Then Exit Sub
-    Set imgCloseButton.Picture = WindowSkinClose(3)
+    Set imgCloseButton.Picture = WindowSkinClose((CurrentSkin - 1) * 4 + 3)
     imgCloseButton.Tag = "down"
 End Sub
 
-Private Sub imgCloseButton_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgCloseButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If imgCloseButton.Tag = "down" Then Exit Sub
-    Set imgCloseButton.Picture = WindowSkinClose(2)
+    Set imgCloseButton.Picture = WindowSkinClose((CurrentSkin - 1) * 4 + 2)
     timCloseHover.Enabled = True
 End Sub
 
-Private Sub imgCloseButton_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgCloseButton_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button <> 1 Then Exit Sub
-    Set imgCloseButton.Picture = WindowSkinClose(IsWindowActive)
+    Set imgCloseButton.Picture = WindowSkinClose((CurrentSkin - 1) * 4 + IsWindowActive)
     imgCloseButton.Tag = ""
 End Sub
 
@@ -801,7 +814,7 @@ Private Sub imgControlMenu_DblClick()
     Unload TargetForm
 End Sub
 
-Private Sub imgControlMenu_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgControlMenu_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     ShowControlMenu
 End Sub
 
@@ -816,21 +829,21 @@ Private Sub imgMaximizeButton_Click()
     ToggleMaximized
 End Sub
 
-Private Sub imgMaximizeButton_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgMaximizeButton_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button <> 1 Then Exit Sub
-    Set imgMaximizeButton.Picture = WindowSkinMaximize(3 - (GetWindowState() = 2) * 4)
+    Set imgMaximizeButton.Picture = WindowSkinMaximize((CurrentSkin - 1) * 8 + 3 - (GetWindowState() = 2) * 4)
     imgMaximizeButton.Tag = "down"
 End Sub
 
-Private Sub imgMaximizeButton_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgMaximizeButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If imgMaximizeButton.Tag = "down" Then Exit Sub
-    Set imgMaximizeButton.Picture = WindowSkinMaximize(2 - (GetWindowState() = 2) * 4)
+    Set imgMaximizeButton.Picture = WindowSkinMaximize((CurrentSkin - 1) * 8 + 2 - (GetWindowState() = 2) * 4)
     timMaximizeHover.Enabled = True
 End Sub
 
-Private Sub imgMaximizeButton_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgMaximizeButton_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button <> 1 Then Exit Sub
-    Set imgMaximizeButton.Picture = WindowSkinMaximize(IsWindowActive - (GetWindowState() = 2) * 4)
+    Set imgMaximizeButton.Picture = WindowSkinMaximize((CurrentSkin - 1) * 8 + IsWindowActive - (GetWindowState() = 2) * 4)
     imgMaximizeButton.Tag = ""
 End Sub
 
@@ -838,21 +851,21 @@ Private Sub imgMinimizeButton_Click()
     ShowWindow TargetForm.hWnd, SW_SHOWMINIMIZED
 End Sub
 
-Private Sub imgMinimizeButton_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgMinimizeButton_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button <> 1 Then Exit Sub
-    Set imgMinimizeButton.Picture = WindowSkinMinimize(3)
+    Set imgMinimizeButton.Picture = WindowSkinMinimize((CurrentSkin - 1) * 4 + 3)
     imgMinimizeButton.Tag = "down"
 End Sub
 
-Private Sub imgMinimizeButton_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgMinimizeButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If imgMaximizeButton.Tag = "down" Then Exit Sub
-    Set imgMinimizeButton.Picture = WindowSkinMinimize(2)
+    Set imgMinimizeButton.Picture = WindowSkinMinimize((CurrentSkin - 1) * 4 + 2)
     timMinimizeHover.Enabled = True
 End Sub
 
-Private Sub imgMinimizeButton_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub imgMinimizeButton_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button <> 1 Then Exit Sub
-    Set imgMinimizeButton.Picture = WindowSkinMinimize(IsWindowActive)
+    Set imgMinimizeButton.Picture = WindowSkinMinimize((CurrentSkin - 1) * 4 + IsWindowActive)
     imgMinimizeButton.Tag = ""
 End Sub
 
@@ -860,7 +873,7 @@ Private Sub lblCaption_DblClick()
     ToggleMaximized
 End Sub
 
-Private Sub lblCaption_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblCaption_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 2 Then ShowControlMenu
 End Sub
 
@@ -868,18 +881,18 @@ Private Sub lblCaptionShadow_DblClick()
     ToggleMaximized
 End Sub
 
-Private Sub lblCaptionShadow_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblCaptionShadow_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 2 Then ShowControlMenu
 End Sub
 
-Private Sub lblResizeLeft_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblResizeLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTLEFT, 0&
     End If
 End Sub
 
-Private Sub lblResizeRight_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblResizeRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTRIGHT, 0&
@@ -890,7 +903,7 @@ Private Sub lblResizeTop_DblClick(Index As Integer)
     If GetWindowState() = 2 Then ToggleMaximized
 End Sub
 
-Private Sub lblResizeTop_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblResizeTop_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTTOP, 0&
@@ -902,11 +915,11 @@ Private Sub lblResizeTopLeft_DblClick()
     If GetWindowState() = 2 Or IsMaximizeEnabled() = False Then Unload TargetForm
 End Sub
 
-Private Sub lblResizeTopLeft_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblResizeTopLeft_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If GetWindowState() = 2 Or IsMaximizeEnabled() = False Then ShowControlMenu
 End Sub
 
-Private Sub lblResizeTopLeft_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblResizeTopLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTTOPLEFT, 0&
@@ -917,21 +930,21 @@ Private Sub lblResizeTopRight_DblClick()
     If GetWindowState() = 2 Then ToggleMaximized
 End Sub
 
-Private Sub lblResizeTopRight_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblResizeTopRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTTOPRIGHT, 0&
     End If
 End Sub
 
-Private Sub pbBottomLeft_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbBottomLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTBOTTOMLEFT, 0&
     End If
 End Sub
 
-Private Sub pbBottomMiddle_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbBottomMiddle_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTBOTTOM, 0&
@@ -944,7 +957,7 @@ Private Sub DragWindow()
     SetFramePos
 End Sub
 
-Private Sub lblCaption_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblCaption_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then DragWindow
 End Sub
 
@@ -956,29 +969,29 @@ Private Sub ShowControlMenu()
     
     GetCursorPos PT
     hMenu = GetSystemMenu(TargetForm.hWnd, 0)
-    Cmd = TrackPopupMenu(hMenu, TPM_LEFTALIGN Or TPM_RETURNCMD, PT.x + 1, PT.y + 1, 0, TargetForm.hWnd, ByVal 0&)
+    Cmd = TrackPopupMenu(hMenu, TPM_LEFTALIGN Or TPM_RETURNCMD, PT.X + 1, PT.Y + 1, 0, TargetForm.hWnd, ByVal 0&)
     If Cmd <> 0 Then SendMessage TargetForm.hWnd, WM_SYSCOMMAND, Cmd, 0&
 End Sub
 
-Private Sub lblCaptionShadow_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblCaptionShadow_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then DragWindow
 End Sub
 
-Private Sub pbBottomRight_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbBottomRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTBOTTOMRIGHT, 0&
     End If
 End Sub
 
-Private Sub pbLeft_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTLEFT, 0&
     End If
 End Sub
 
-Private Sub pbRight_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTRIGHT, 0&
@@ -990,15 +1003,15 @@ Private Sub pbTopLeft_DblClick()
     Unload TargetForm
 End Sub
 
-Private Sub pbTopLeft_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbTopLeft_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     ShowControlMenu
 End Sub
 
-Private Sub pbTopLeft_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    pbTopMiddle_MouseMove Button, Shift, x, y
+Private Sub pbTopLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    pbTopMiddle_MouseMove Button, Shift, X, Y
 End Sub
 
-Private Sub pbTopLeft_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbTopLeft_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 2 Then ShowControlMenu
 End Sub
 
@@ -1006,11 +1019,11 @@ Private Sub pbTopMiddle_DblClick()
     ToggleMaximized
 End Sub
 
-Private Sub pbTopMiddle_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbTopMiddle_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then DragWindow
 End Sub
 
-Private Sub pbTopMiddle_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbTopMiddle_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 2 Then ShowControlMenu
 End Sub
 
@@ -1018,11 +1031,11 @@ Private Sub pbTopRight_DblClick()
     ToggleMaximized
 End Sub
 
-Private Sub pbTopRight_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    pbTopMiddle_MouseMove Button, Shift, x, y
+Private Sub pbTopRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    pbTopMiddle_MouseMove Button, Shift, X, Y
 End Sub
 
-Private Sub pbTopRight_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pbTopRight_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 2 Then ShowControlMenu
 End Sub
 
@@ -1037,15 +1050,15 @@ Private Function IsMouseOn(imgImage As Image) As Boolean
     
     GetCursorPos PT
     ScreenToClient pbTopRight.hWnd, PT
-    PT.x = PT.x * Screen.TwipsPerPixelX
-    PT.y = PT.y * Screen.TwipsPerPixelY
+    PT.X = PT.X * Screen.TwipsPerPixelX
+    PT.Y = PT.Y * Screen.TwipsPerPixelY
     
     rectLeft = imgImage.Left
     rectTop = imgImage.Top
     rectRight = imgImage.Left + imgImage.Width
     rectBottom = imgImage.Top + imgImage.Height
     
-    IsMouseOn = (PT.x >= rectLeft And PT.x <= rectRight And PT.y >= rectTop And PT.y <= rectBottom)
+    IsMouseOn = (PT.X >= rectLeft And PT.X <= rectRight And PT.Y >= rectTop And PT.Y <= rectBottom)
 End Function
 
 Private Sub timCaptionMonitor_Timer()
@@ -1057,21 +1070,21 @@ End Sub
 
 Private Sub timCloseHover_Timer()
     If (Not IsMouseOn(imgCloseButton)) And imgCloseButton.Tag <> "down" Then
-        Set imgCloseButton.Picture = WindowSkinClose(IsWindowActive)
+        Set imgCloseButton.Picture = WindowSkinClose((CurrentSkin - 1) * 4 + IsWindowActive)
         timCloseHover.Enabled = False
     End If
 End Sub
 
 Private Sub timMaximizeHover_Timer()
     If (Not IsMouseOn(imgMaximizeButton)) And imgMaximizeButton.Tag <> "down" Then
-        Set imgMaximizeButton.Picture = WindowSkinMaximize(IsWindowActive - (GetWindowState() = 2) * 4)
+        Set imgMaximizeButton.Picture = WindowSkinMaximize((CurrentSkin - 1) * 8 + IsWindowActive - (GetWindowState() = 2) * 4)
         timMaximizeHover.Enabled = False
     End If
 End Sub
 
 Private Sub timMinimizeHover_Timer()
     If (Not IsMouseOn(imgMinimizeButton)) And imgMinimizeButton.Tag <> "down" Then
-        Set imgMinimizeButton.Picture = WindowSkinMinimize(IsWindowActive)
+        Set imgMinimizeButton.Picture = WindowSkinMinimize((CurrentSkin - 1) * 4 + IsWindowActive)
         timMinimizeHover.Enabled = False
     End If
 End Sub

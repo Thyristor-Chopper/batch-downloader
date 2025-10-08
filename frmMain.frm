@@ -20,298 +20,6 @@ Begin VB.Form frmMain
    ScaleHeight     =   7740
    ScaleWidth      =   17295
    StartUpPosition =   3  'Windows 기본값
-   Begin VB.PictureBox pbBottomRight 
-      BorderStyle     =   0  '없음
-      Height          =   135
-      Left            =   12720
-      ScaleHeight     =   135
-      ScaleWidth      =   135
-      TabIndex        =   99
-      Top             =   840
-      Width           =   135
-   End
-   Begin VB.PictureBox pbBottomLeft 
-      BorderStyle     =   0  '없음
-      Height          =   135
-      Left            =   12360
-      ScaleHeight     =   135
-      ScaleWidth      =   135
-      TabIndex        =   98
-      Top             =   840
-      Width           =   135
-   End
-   Begin VB.PictureBox pbTopMiddle 
-      AutoRedraw      =   -1  'True
-      BorderStyle     =   0  '없음
-      BeginProperty Font 
-         Name            =   "돋움"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   480
-      Left            =   12090
-      ScaleHeight     =   480
-      ScaleWidth      =   2250
-      TabIndex        =   94
-      Top             =   0
-      Width           =   2250
-      Begin VB.Label lblCaption 
-         Alignment       =   2  '가운데 맞춤
-         BackStyle       =   0  '투명
-         Caption         =   "Label1"
-         BeginProperty Font 
-            Name            =   "굴림"
-            Size            =   9.75
-            Charset         =   129
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   255
-         Left            =   0
-         TabIndex        =   96
-         Tag             =   "nocolorsizechange"
-         Top             =   150
-         Width           =   2295
-      End
-      Begin VB.Label lblResizeTop 
-         BackStyle       =   0  '투명
-         Height          =   75
-         Index           =   0
-         Left            =   0
-         MousePointer    =   7  'N S크기 조정
-         TabIndex        =   95
-         Top             =   0
-         Width           =   2295
-      End
-      Begin VB.Label lblCaptionShadow 
-         Alignment       =   2  '가운데 맞춤
-         BackStyle       =   0  '투명
-         Caption         =   "Label1"
-         BeginProperty Font 
-            Name            =   "굴림"
-            Size            =   9.75
-            Charset         =   129
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   255
-         Left            =   15
-         TabIndex        =   97
-         Tag             =   "nocolorsizechange"
-         Top             =   165
-         Width           =   2295
-      End
-   End
-   Begin VB.PictureBox pbTopLeft 
-      BorderStyle     =   0  '없음
-      BeginProperty Font 
-         Name            =   "돋움"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   480
-      Left            =   11520
-      ScaleHeight     =   480
-      ScaleWidth      =   570
-      TabIndex        =   90
-      Top             =   0
-      Width           =   570
-      Begin VB.Label lblResizeTop 
-         BackStyle       =   0  '투명
-         Height          =   75
-         Index           =   2
-         Left            =   240
-         MousePointer    =   7  'N S크기 조정
-         TabIndex        =   93
-         Top             =   0
-         Width           =   330
-      End
-      Begin VB.Label lblResizeTopLeft 
-         BackStyle       =   0  '투명
-         Height          =   75
-         Left            =   0
-         MousePointer    =   8  'NW SE 크기 조정
-         TabIndex        =   92
-         Top             =   0
-         Width           =   255
-      End
-      Begin VB.Label lblResizeLeft 
-         BackStyle       =   0  '투명
-         Height          =   390
-         Left            =   0
-         MousePointer    =   9  'W E 크기 조정
-         TabIndex        =   91
-         Top             =   75
-         Width           =   75
-      End
-      Begin VB.Image imgControlMenu 
-         Height          =   240
-         Left            =   120
-         Stretch         =   -1  'True
-         Top             =   120
-         Width           =   240
-      End
-   End
-   Begin VB.PictureBox pbTopRight 
-      BorderStyle     =   0  '없음
-      BeginProperty Font 
-         Name            =   "돋움"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   480
-      Left            =   14880
-      ScaleHeight     =   480
-      ScaleWidth      =   1260
-      TabIndex        =   86
-      Top             =   0
-      Width           =   1260
-      Begin VB.Label lblResizeTop 
-         BackStyle       =   0  '투명
-         Height          =   75
-         Index           =   1
-         Left            =   0
-         MousePointer    =   7  'N S크기 조정
-         TabIndex        =   89
-         Top             =   0
-         Width           =   960
-      End
-      Begin VB.Label lblResizeTopRight 
-         BackStyle       =   0  '투명
-         Height          =   75
-         Left            =   960
-         MousePointer    =   6  'NE SW 크기 조정
-         TabIndex        =   88
-         Top             =   0
-         Width           =   375
-      End
-      Begin VB.Label lblResizeRight 
-         BackStyle       =   0  '투명
-         Height          =   495
-         Left            =   1185
-         MousePointer    =   9  'W E 크기 조정
-         TabIndex        =   87
-         Top             =   75
-         Width           =   75
-      End
-      Begin VB.Image imgCloseButton 
-         Height          =   315
-         Left            =   840
-         Top             =   90
-         Width           =   315
-      End
-      Begin VB.Image imgMaximizeButton 
-         Height          =   315
-         Left            =   480
-         Top             =   90
-         Width           =   315
-      End
-      Begin VB.Image imgMinimizeButton 
-         Height          =   315
-         Left            =   120
-         Top             =   90
-         Width           =   315
-      End
-   End
-   Begin VB.PictureBox pbLeft 
-      AutoRedraw      =   -1  'True
-      BorderStyle     =   0  '없음
-      BeginProperty Font 
-         Name            =   "돋움"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   930
-      Left            =   11520
-      MousePointer    =   9  'W E 크기 조정
-      ScaleHeight     =   930
-      ScaleWidth      =   75
-      TabIndex        =   85
-      Top             =   480
-      Width           =   75
-   End
-   Begin VB.PictureBox pbBottomMiddle 
-      AutoRedraw      =   -1  'True
-      BorderStyle     =   0  '없음
-      BeginProperty Font 
-         Name            =   "돋움"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   60
-      Left            =   11760
-      MousePointer    =   7  'N S크기 조정
-      ScaleHeight     =   60
-      ScaleWidth      =   2055
-      TabIndex        =   84
-      Top             =   1920
-      Width           =   2055
-   End
-   Begin VB.PictureBox pbRight 
-      AutoRedraw      =   -1  'True
-      BorderStyle     =   0  '없음
-      BeginProperty Font 
-         Name            =   "돋움"
-         Size            =   9
-         Charset         =   129
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   930
-      Left            =   16080
-      MousePointer    =   9  'W E 크기 조정
-      ScaleHeight     =   930
-      ScaleWidth      =   75
-      TabIndex        =   83
-      Top             =   480
-      Width           =   75
-   End
-   Begin VB.Timer timCloseHover 
-      Enabled         =   0   'False
-      Interval        =   10
-      Left            =   14280
-      Top             =   1440
-   End
-   Begin VB.Timer timMaximizeHover 
-      Enabled         =   0   'False
-      Interval        =   10
-      Left            =   14760
-      Top             =   1440
-   End
-   Begin VB.Timer timMinimizeHover 
-      Enabled         =   0   'False
-      Interval        =   10
-      Left            =   15240
-      Top             =   1440
-   End
    Begin prjDownloadBooster.FrameW fProgress 
       Height          =   255
       Left            =   5640
@@ -1696,6 +1404,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Public SkinnedFrame As frmSkinnedFrame
+
 Implements IBSSubclass
 
 Dim Elapsed As Long
@@ -1793,16 +1503,16 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
     
     Dim hSysMenu As Long
     Dim MII As MENUITEMINFO
-    Dim rc As RECT
+    Dim RC As RECT
     
     Select Case uMsg
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.x = FormWidth * (DPI / 96)
-            lpMMI.ptMinTrackSize.y = FormMinHeight * (DPI / 96)
-            lpMMI.ptMaxTrackSize.x = lpMMI.ptMinTrackSize.x
-            lpMMI.ptMaxTrackSize.y = FormMaxHeight * (DPI / 96)
+            lpMMI.ptMinTrackSize.X = FormWidth * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = FormMinHeight * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = lpMMI.ptMinTrackSize.X
+            lpMMI.ptMaxTrackSize.Y = FormMaxHeight * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
             IBSSubclass_WindowProc = 1&
@@ -1826,8 +1536,8 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                 
                 IBSSubclass_WindowProc = 1&
                 Exit Function
-            ElseIf wParam = 1003 And (Not (frmMain.Height <= 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2)) Then '창 크기 초기화
-                Me.Height = 8985 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
+            ElseIf wParam = 1003 And (Not (frmMain.Height <= 6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2)) Then '창 크기 초기화
+                Me.Height = 8985 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2
             
                 IBSSubclass_WindowProc = 1&
                 Exit Function
@@ -1838,8 +1548,8 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
                 Case "WindowMetrics"
                     UpdateBorderWidth
                     
-                    FormWidth = (9450 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
-                    FormMinHeight = (8220 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
+                    FormWidth = (9450 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) / 15
+                    FormMinHeight = (8220 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) / 15
                     
                     Me.Width = FormWidth * 15
                     Form_Resize
@@ -2610,29 +2320,29 @@ End Sub
 Sub cmdBatch_Click()
     On Error Resume Next
     
-    If Me.Height <= 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 Then
+    If Me.Height <= 6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 Then
         cmdBatch.ImageList = imgDropdownReverse
         lvBatchFiles.Visible = -1
         cmdAddToQueue.Visible = -1
-        FormWidth = (MAIN_FORM_WIDTH + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
-        FormMinHeight = (8220 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 + 45) / 15
+        FormWidth = (MAIN_FORM_WIDTH + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) / 15
+        FormMinHeight = (8220 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 + 45) / 15
         FormMaxHeight = (Screen.Height + 1200) / 15
         'sbStatusBar.AllowSizeGrip = True
         
         Dim formHeight As Integer
         formHeight = GetSetting("DownloadBooster", "UserData", "FormHeight", 8985)
         If formHeight < 8220 Then
-            Me.Height = 8985 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
+            Me.Height = 8985 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2
         Else
-            Me.Height = formHeight + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
+            Me.Height = formHeight + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2
         End If
     Else
-        SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
-        FormWidth = (MAIN_FORM_WIDTH + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
-        FormMinHeight = (6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
-        FormMaxHeight = (6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
+        SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2
+        FormWidth = (MAIN_FORM_WIDTH + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) / 15
+        FormMinHeight = (6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) / 15
+        FormMaxHeight = (6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) / 15
         'sbStatusBar.AllowSizeGrip = False
-        Me.Height = 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
+        Me.Height = 6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2
         cmdBatch.ImageList = imgDropdown
         lvBatchFiles.Visible = 0
         cmdAddToQueue.Visible = 0
@@ -2834,7 +2544,7 @@ Private Sub cmdDeleteDropdown_Click()
     Me.PopupMenu mnuDeleteDropdown, , cmdDelete.Left, cmdDelete.Top + cmdDelete.Height
 End Sub
 
-Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     cmdDeleteDropdown_Click
 End Sub
 
@@ -2908,7 +2618,7 @@ Private Sub cmdOpenDropdown_Click()
     Me.PopupMenu mnuOpenDropdown, , cmdOpenBatch.Left, cmdOpenBatch.Top + cmdOpenBatch.Height
 End Sub
 
-Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     cmdOpenDropdown_Click
 End Sub
 
@@ -2916,7 +2626,7 @@ Private Sub cmdOpenFileDropdown_Click()
     Me.PopupMenu mnuOpenFileDropdown, , cmdOpen.Left, cmdOpen.Top + cmdOpen.Height
 End Sub
 
-Private Sub cmdOpenFileDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub cmdOpenFileDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     cmdOpenFileDropdown_Click
 End Sub
 
@@ -2985,10 +2695,10 @@ Sub SetBackgroundPosition(Optional ByVal ForceRefresh As Boolean = False)
                 imgBackground.Move IIf(ImageCentered, (Me.Width - imgBackground.Width) \ 2, 0), 0, Width / Height * Me.Height, Me.Height
             Case 2 '너비에 맞추기
                 If imgBackground.Stretch <> True Then imgBackground.Stretch = True
-                imgBackground.Move 0, IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - CaptionHeight * 15 - 15) - imgBackground.Height) \ 2, 0), Me.Width, Height / Width * Me.Width
+                imgBackground.Move 0, IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - WindowSkinCaptionHeight(CurrentWindowSkin - 1) * 15 - 15) - imgBackground.Height) \ 2, 0), Me.Width, Height / Width * Me.Width
             Case 3 '원본 크기
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
-                imgBackground.Move IIf(ImageCentered, (Me.Width - imgBackground.Width) \ 2, 0), IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - CaptionHeight * 15 - 15) - imgBackground.Height) \ 2, 0), Width, Height
+                imgBackground.Move IIf(ImageCentered, (Me.Width - imgBackground.Width) \ 2, 0), IIf(ImageCentered, ((Me.Height - sbStatusBar.Height - WindowSkinCaptionHeight(CurrentWindowSkin - 1) * 15 - 15) - imgBackground.Height) \ 2, 0), Width, Height
             Case 7 '바둑판식
                 If imgBackground.Stretch = True Then imgBackground.Stretch = False
                 imgBackground.Move -Width, -Height, Width, Height
@@ -3438,7 +3148,7 @@ Private Sub Form_Load()
     LoadLiveBadukSkin
     
     '창 너비 구성
-    Me.Width = MAIN_FORM_WIDTH + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 * (DPI / 96)
+    Me.Width = MAIN_FORM_WIDTH + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 * (DPI / 96)
     cmdStop.Left = Me.Width + 1200
     cmdStopBatch.Left = Me.Width + 1200
     
@@ -3474,7 +3184,7 @@ Private Sub Form_Load()
     '화일 이름 및 경로 기억
     txtFileName.Text = GetSetting("DownloadBooster", "UserData", "SavePath", CurDir())
     
-    Me.Height = 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
+    Me.Height = 6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2
     
     '항상 위에 표시
     If GetSetting("DownloadBooster", "Options", "AlwaysOnTop", 0) = 1 Then
@@ -3528,9 +3238,9 @@ Private Sub Form_Load()
     If GetSetting("DownloadBooster", "UserData", "BatchExpanded", 1) <> 0 Then
         cmdBatch_Click
     Else
-        FormWidth = (MAIN_FORM_WIDTH + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
-        FormMinHeight = (6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
-        FormMaxHeight = (6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) / 15
+        FormWidth = (MAIN_FORM_WIDTH + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) / 15
+        FormMinHeight = (6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) / 15
+        FormMaxHeight = (6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) / 15
     End If
     
     '사용자 설정 불러오기
@@ -3680,18 +3390,21 @@ Private Sub Form_Load()
     
     '스크롤 표시 유무
     vsProgressScroll.Visible = (trThreadCount.Value > 10 And optTabThreads2.Value)
+    
+    Set SkinnedFrame = New frmSkinnedFrame
+    SkinnedFrame.Init Me
 End Sub
 
 Private Sub SetTygemFrameRgn()
     Dim fSkin As Byte
     fSkin = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 1))
     
-    Dim rc As RECT
-    GetWindowRect fTygemFrameTransparent.hWnd, rc
+    Dim RC As RECT
+    GetWindowRect fTygemFrameTransparent.hWnd, RC
     Dim Height&, Width&
     Dim DPIScaleRev As Double: DPIScaleRev = 96 / DPI
-    Width = (rc.Right - rc.Left) * DPIScaleRev
-    Height = (rc.Bottom - rc.Top) * DPIScaleRev
+    Width = (RC.Right - RC.Left) * DPIScaleRev
+    Height = (RC.Bottom - RC.Top) * DPIScaleRev
     Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&, Rgn9&
     Rgn = CreateRectRgnFix(0, 0, Width, Height)
     
@@ -3973,14 +3686,14 @@ Private Sub Form_Resize()
     imgBorderTopRight.Top = 0
     imgBorderTopRight.Left = Me.Width - imgBorderTopRight.Width - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 1) * 15 * 2
     imgBorderBottomLeft.Left = 0
-    imgBorderBottomLeft.Top = Me.Height - sbStatusBar.Height - imgBorderBottomLeft.Height - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 - CaptionHeight * 15 - 15
+    imgBorderBottomLeft.Top = Me.Height - sbStatusBar.Height - imgBorderBottomLeft.Height - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 - WindowSkinCaptionHeight(CurrentWindowSkin - 1) * 15 - 15
     imgBorderBottomRight.Left = Me.Width - imgBorderBottomRight.Width - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2
-    imgBorderBottomRight.Top = Me.Height - sbStatusBar.Height - imgBorderBottomRight.Height - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 - CaptionHeight * 15 - 15
+    imgBorderBottomRight.Top = Me.Height - sbStatusBar.Height - imgBorderBottomRight.Height - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 - WindowSkinCaptionHeight(CurrentWindowSkin - 1) * 15 - 15
     pgBorderTop.Left = 0
     pgBorderTop.Top = -15
     pgBorderTop.Width = Me.Width
     pgBorderBottom.Left = 0
-    pgBorderBottom.Top = Me.Height - sbStatusBar.Height - 30 - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 - CaptionHeight * 15 - 15
+    pgBorderBottom.Top = Me.Height - sbStatusBar.Height - 30 - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 - WindowSkinCaptionHeight(CurrentWindowSkin - 1) * 15 - 15
     pgBorderBottom.Width = Me.Width
     pgBorderLeft.Left = -15
     pgBorderLeft.Top = 0
@@ -3992,11 +3705,11 @@ Private Sub Form_Resize()
     pgPattern.Width = Me.Width
     pgPattern.Height = Me.Height
     
-    If Me.Height <= 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 Then Exit Sub
-    If Me.Height - lvBatchFiles.Top - 1320 < 870 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 Then Exit Sub
+    If Me.Height <= 6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 Then Exit Sub
+    If Me.Height - lvBatchFiles.Top - 1320 < 870 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 Then Exit Sub
     If Me.WindowState = 1 Then Exit Sub
     
-    lvBatchFiles.Height = Me.Height - WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2 - lvBatchFiles.Top - 1320
+    lvBatchFiles.Height = Me.Height - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2 - lvBatchFiles.Top - 1320
     cmdOpenBatch.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdOpenDropdown.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
     cmdAdd.Top = lvBatchFiles.Top + lvBatchFiles.Height + 45
@@ -4087,12 +3800,12 @@ Private Sub Form_Unload(Cancel As Integer)
     Me.Hide
     
     SaveSetting "DownloadBooster", "UserData", "SavePath", Trim$(txtFileName.Text)
-    SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6930 + WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2) * -1
+    SaveSetting "DownloadBooster", "UserData", "BatchExpanded", CInt(Me.Height > 6930 + WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2) * -1
     SaveSetting "DownloadBooster", "Options", "WhenFileExists", cbWhenExist.ListIndex
     If GetSetting("DownloadBooster", "Options", "RememberURL", 0) <> 0 Then SaveSetting "DownloadBooster", "UserData", "FileURL", Trim$(txtURL.Text)
     SaveSetting "DownloadBooster", "UserData", "FormTop", Me.Top
     SaveSetting "DownloadBooster", "UserData", "FormLeft", Me.Left
-    If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - WindowSkinBorderPadding(CurrentWindowSkin - 1) * 15 * 2
+    If Me.Height >= 8220 Then SaveSetting "DownloadBooster", "UserData", "FormHeight", Me.Height - WindowSkinBorderSize((CurrentWindowSkin - 1) * 3 + 2) * 15 * 2
     SaveSetting "DownloadBooster", "UserData", "LastTab", (CInt(optTabThreads2.Value) * -1) + 1
     
     Unload frmBatchAdd
@@ -4107,6 +3820,7 @@ Private Sub Form_Unload(Cancel As Integer)
     Unload frmInputBox
     Unload frmAbout
     Unload frmDownloadOptions
+    Unload SkinnedFrame
     'If Not InIDE Then ExitProcess 0&
 End Sub
 
@@ -4115,7 +3829,7 @@ Private Sub fTabDownload_Click()
     optTabDownload2_Click
 End Sub
 
-Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabDownload_Click
 End Sub
 
@@ -4124,11 +3838,11 @@ Private Sub fTabThreads_Click()
     optTabThreads2_Click
 End Sub
 
-Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabThreads_Click
 End Sub
 
-Private Sub lvBatchFiles_ContextMenu(ByVal x As Single, ByVal y As Single)
+Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
     Dim ItemCount As Long
     ItemCount = lvBatchFiles.ListItems.Count
     On Error GoTo ErrLn
@@ -4399,7 +4113,7 @@ Private Sub optTabDownload2_Click()
     vsProgressScroll.Visible = False
 End Sub
 
-Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabDownload_Click
 End Sub
 
@@ -4409,7 +4123,7 @@ Private Sub optTabThreads2_Click()
     vsProgressScroll.Visible = trThreadCount.Value > 10
 End Sub
 
-Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fTabThreads_Click
 End Sub
 

@@ -37,20 +37,19 @@ Public ButtonSkinCaptionColor(-4 To 20) As Long
 Public ButtonSkinSplitColor(0 To 4) As Long
 Public ButtonSkinInsetLabel(0 To 4) As Boolean
 
-Public WindowSkinTopLeft(-2 To 1) As IPicture
-Public WindowSkinTop(-2 To 1) As IPicture
-Public WindowSkinTopRight(-2 To 1) As IPicture
-Public WindowSkinLeft(-2 To 1) As IPicture
-Public WindowSkinRight(-2 To 1) As IPicture
-Public WindowSkinBottomLeft(-2 To 1) As IPicture
-Public WindowSkinBottom(-2 To 1) As IPicture
-Public WindowSkinBottomRight(-2 To 1) As IPicture
-Public WindowSkinClose(-4 To 3) As IPicture
-Public WindowSkinMaximize(-4 To 7) As IPicture
-Public WindowSkinMinimize(-4 To 3) As IPicture
-Public WindowSkinBorderSize(-3 To 2) As Byte
-Public WindowSkinBorderPadding(-1 To 0) As Byte
-Public WindowSkinCaptionHeight(-1 To 0) As Byte
+Public WindowSkinTopLeft(-2 To 3) As IPicture
+Public WindowSkinTop(-2 To 3) As IPicture
+Public WindowSkinTopRight(-2 To 3) As IPicture
+Public WindowSkinLeft(-2 To 3) As IPicture
+Public WindowSkinRight(-2 To 3) As IPicture
+Public WindowSkinBottomLeft(-2 To 3) As IPicture
+Public WindowSkinBottom(-2 To 3) As IPicture
+Public WindowSkinBottomRight(-2 To 3) As IPicture
+Public WindowSkinClose(-4 To 7) As IPicture
+Public WindowSkinMaximize(-4 To 15) As IPicture
+Public WindowSkinMinimize(-4 To 7) As IPicture
+Public WindowSkinBorderSize(-3 To 5) As Byte
+Public WindowSkinCaptionHeight(-1 To 1) As Byte
 Public CurrentWindowSkin As WindowSkin
 
 Public FrameSkinLabelOffset(1 To 2) As Integer
@@ -175,7 +174,7 @@ forcegulim:
         End If
     End If
 
-    DefaultDisableDWMWindow = -(WinVer >= 6.2)
+    DefaultDisableDWMWindow = 0
 
     If GetSetting("DownloadBooster", "UserData", "HeaderSettingsInitialized", "0") = "0" Then
         SaveSetting "DownloadBooster", "Options\Headers", "User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:115.0) Gecko/20100101 Firefox/115.0 PaleMoon/33.7.0"
@@ -248,7 +247,7 @@ forcegulim:
     
     Load frmDummyForm
     
-    For i = 0 To 0
+    For i = 0 To UBound(WindowSkinCaptionHeight)
         For j = 0 To 1
             Set WindowSkinTopLeft(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 1, RCData)
             Set WindowSkinTop(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 3, RCData)
@@ -271,8 +270,6 @@ forcegulim:
         WindowSkinBorderSize(i + 2) = GetPictureHeight(WindowSkinBottom(i * 2), vbPixels)
         WindowSkinCaptionHeight(i) = GetPictureHeight(WindowSkinTop(i * 2), vbPixels)
     Next i
-    
-    WindowSkinBorderPadding(0) = 0
     
     'ProcessPath = """" & GetCurrentEXEPath("cmd.exe") & """"
     

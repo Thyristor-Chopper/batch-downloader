@@ -177,8 +177,6 @@ End Sub
 
 Private Sub Form_Load()
     InitForm Me
-    Set SkinnedFrame = frmSkinnedFrame
-    SkinnedFrame.Init Me
     
     tr Me, "Batch download"
     tr cmdOK, "OK"
@@ -224,7 +222,6 @@ Private Sub Form_Unload(Cancel As Integer)
     IBSSubclass_UnsubclassIt
     
     Unload SkinnedFrame
-    Set SkinnedFrame = Nothing
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
@@ -243,10 +240,10 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.x = (5145 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
-            lpMMI.ptMinTrackSize.y = (2310 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
-            lpMMI.ptMaxTrackSize.x = (Screen.Width + 1200) * (DPI / 96)
-            lpMMI.ptMaxTrackSize.y = (Screen.Height + 1200) * (DPI / 96)
+            lpMMI.ptMinTrackSize.X = (5145 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMinTrackSize.Y = (2310 + PaddedBorderWidth * 15 * 2) / 15 * (DPI / 96)
+            lpMMI.ptMaxTrackSize.X = (Screen.Width + 1200) * (DPI / 96)
+            lpMMI.ptMaxTrackSize.Y = (Screen.Height + 1200) * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
             IBSSubclass_WindowProc = 1&
@@ -271,6 +268,6 @@ Private Sub txtURLs_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub txtURLs_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     PrevKeyCode = 0
 End Sub

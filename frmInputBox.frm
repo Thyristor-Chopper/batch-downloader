@@ -84,6 +84,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Public SkinnedFrame As frmSkinnedFrame
+
 Public ResultID As String
 Public InputBoxObject As frmInputBox
 
@@ -119,6 +121,8 @@ Private Sub Form_Unload(Cancel As Integer)
         Unload InputBoxObject
         Set InputBoxObject = Nothing
     End If
+    
+    Unload SkinnedFrame
 End Sub
 
 Private Sub txtInput_Change()

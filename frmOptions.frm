@@ -1168,6 +1168,17 @@ Begin VB.Form frmOptions
             ImageListAlignment=   4
             Transparent     =   -1  'True
          End
+         Begin prjDownloadBooster.CommandButtonW cmdAdvancedFrameSkin 
+            Height          =   300
+            Left            =   2700
+            TabIndex        =   123
+            Top             =   150
+            Width           =   495
+            _ExtentX        =   873
+            _ExtentY        =   529
+            ImageListAlignment=   4
+            Transparent     =   -1  'True
+         End
          Begin VB.Label Label5 
             BackStyle       =   0  '투명
             Caption         =   "현황(&R):"
@@ -1313,6 +1324,7 @@ Begin VB.Form frmOptions
       End
       Begin VB.PictureBox pbOuterPreview 
          AutoRedraw      =   -1  'True
+         Enabled         =   0   'False
          Height          =   2115
          Left            =   120
          ScaleHeight     =   2055
@@ -1514,6 +1526,9 @@ Attribute VB_Exposed = False
 '참고 자료:
 '- https://www.vbforums.com/showthread.php?284592-Listview-StartLabelEdit-second-column-*RESOLVED*
 
+Public SkinnedFrame As frmSkinnedFrame
+Public PreviewSkinnedFrame As frmSkinnedFrame
+
 Dim Loaded As Boolean
 Public ColorChanged As Boolean
 Public ImageChanged As Boolean
@@ -1530,6 +1545,7 @@ Dim DoLoadTheme As Boolean
 
 Public RoundClassicButtons As Byte, DisableVisualStyle As Byte
 Public LiveBadukMemoSkinShadowColor&, LiveBadukMemoSkinFrameColor&, LiveBadukMemoSkinFrameType$, LiveBadukMemoSkinTextColor&, LiveBadukMemoSkinEnableShadow As Byte, LiveBadukMemoSkinEnableTextColor As Byte, LiveBadukMemoSkinEnableBorder As Byte, LiveBadukMemoSkinFrameBackgroundType$, LiveBadukMemoSkinFrameBackgroundColor&, LiveBadukMemoSkinContentTextColor&, LiveBadukMemoSkinFrameTexture$, LiveBadukMemoSkinFrameBackground$, LiveBadukMemoSkinLabelFontSize As Integer, LiveBadukMemoSkinLabelFontBold As Byte, LiveBadukMemoSkinEnableLabelFontSize As Byte
+Public ClassicFrame As Byte, NoDWMFrame As Byte
 
 Implements IBSSubclass
 
@@ -1580,12 +1596,9 @@ Private Sub cbFrameSkin_Click()
         SkinChanged = True
     End If
     
-    If (cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1) Then
-        RemoveVisualStyles pbBackground.hWnd
-    ElseIf Loaded Then
-        ActivateVisualStyles pbBackground.hWnd
-    End If
-    pbBackground.Refresh
+    PreviewSkinnedFrame.SetSkin cbFrameSkin.ListIndex
+    
+    cmdAdvancedFrameSkin.Enabled = (cbFrameSkin.ListIndex = 0)
 End Sub
 
 Private Sub cbImagePosition_Click()
@@ -1644,18 +1657,6 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     
     txtCompleteSoundPath.Text = Trim$(GetSetting("DownloadBooster", Section, "CompleteSoundPath", ""))
     
-    If GetSetting("DownloadBooster", Section, "UseClassicThemeFrame", 0) <> 0 Then
-        If cbFrameSkin.ListCount >= 3 Then
-            cbFrameSkin.ListIndex = 2
-        Else
-            cbFrameSkin.ListIndex = 1
-        End If
-    ElseIf GetSetting("DownloadBooster", Section, "DisableDWMWindow", DefaultDisableDWMWindow) <> 0 And cbFrameSkin.ListCount >= 3 Then
-        cbFrameSkin.ListIndex = 1
-    Else
-        cbFrameSkin.ListIndex = 0
-    End If
-    
     Dim clrBackColor As Long
     clrBackColor = GetSetting("DownloadBooster", Section, "BackColor", DefaultBackColor)
     If clrBackColor < 0 Or clrBackColor > 16777215 Then
@@ -1671,10 +1672,15 @@ Private Sub LoadTheme(Optional ByVal ThemeName As String = "")
     chkBeepWhenComplete.Value = GetSetting("DownloadBooster", Section, "PlaySound", 1)
     
     cbSkin.ListIndex = GetSetting("DownloadBooster", Section, "ButtonSkin", 4)
+    cbFrameSkin.ListIndex = GetSetting("DownloadBooster", Section, "WindowSkin", 0)
     cbProgressSkin.ListIndex = GetSetting("DownloadBooster", Section, "ProgressFrameSkin", 1)
     
     DisableVisualStyle = CByte(GetSetting("DownloadBooster", Section, "DisableVisualStyle", 0))
     RoundClassicButtons = CByte(GetSetting("DownloadBooster", Section, "RoundClassicButtons", 0))
+    ClassicFrame = CByte(GetSetting("DownloadBooster", Section, "UseClassicThemeFrame", 0))
+    NoDWMFrame = CByte(GetSetting("DownloadBooster", Section, "DisableDWMWindow", DefaultDisableDWMWindow))
+    
+    If ClassicFrame Then RemoveVisualStyles pbBackground.hWnd
     
     cmdSample.RoundButton = RoundClassicButtons
     cmdSample.VisualStyles = (DisableVisualStyle = 0)
@@ -1867,6 +1873,10 @@ Private Sub chkUseServerModified_Click()
     If Loaded Then cmdApply.Enabled = -1
 End Sub
 
+Private Sub cmdAdvancedFrameSkin_Click()
+    frmSystemFrameProperties.Show vbModal
+End Sub
+
 Private Sub cmdAdvancedProgressSkin_Click()
     frmLiveBadukSkinProperties.Show vbModal, Me
 End Sub
@@ -1876,10 +1886,6 @@ Private Sub cmdAdvancedSkin_Click()
 End Sub
 
 Private Sub cmdApply_Click()
-    If cbFrameSkin.ListCount >= 3 Then
-        SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", -(cbFrameSkin.ListIndex = 1)
-    End If
-    SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", -((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
     SaveSetting "DownloadBooster", "Options", "RememberURL", chkRememberURL.Value
     SaveSetting "DownloadBooster", "Options", "NoRedirectCheck", chkNoRedirectCheck.Value
     SaveSetting "DownloadBooster", "Options", "ForceGet", chkForceGet.Value
@@ -1959,15 +1965,6 @@ aftermaxtrdcheck:
     frmMain.chkContinueDownload.Value = chkAlwaysResume.Value
     frmMain.chkAutoRetry.Value = chkAutoRetry.Value
     
-    If cbFrameSkin.ListCount >= 3 Then
-        If cbFrameSkin.ListIndex = 1 Then
-            DisableDWMWindow Me.hWnd
-            DisableDWMWindow frmMain.hWnd
-        Else
-            EnableDWMWindow Me.hWnd
-            EnableDWMWindow frmMain.hWnd
-        End If
-    End If
     If optSystemColor.Value Then
         SaveSetting "DownloadBooster", "Options", "BackColor", "-1"
     ElseIf optUserColor.Value Then
@@ -1981,6 +1978,9 @@ aftermaxtrdcheck:
     If ColorChanged Or VisualStyleChanged Or SkinChanged Then
         SaveSetting "DownloadBooster", "Options", "DisableVisualStyle", DisableVisualStyle
         SaveSetting "DownloadBooster", "Options", "RoundClassicButtons", RoundClassicButtons
+        
+        SaveSetting "DownloadBooster", "Options", "UseClassicThemeFrame", ClassicFrame
+        SaveSetting "DownloadBooster", "Options", "DisableDWMWindow", NoDWMFrame
         
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinShadowColor", LiveBadukMemoSkinShadowColor
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinFrameColor", LiveBadukMemoSkinFrameColor
@@ -1999,7 +1999,9 @@ aftermaxtrdcheck:
         SaveSetting "DownloadBooster", "Options", "LiveBadukMemoSkinEnableLabelFontSize", LiveBadukMemoSkinEnableLabelFontSize
     
         SaveSetting "DownloadBooster", "Options", "ButtonSkin", cbSkin.ListIndex
+        SaveSetting "DownloadBooster", "Options", "WindowSkin", cbFrameSkin.ListIndex
         CurrentButtonSkin = cbSkin.ListIndex
+        CurrentWindowSkin = cbFrameSkin.ListIndex
         
         SetFormBackgroundColor Me, True
         SetFormBackgroundColor frmMain, True
@@ -2007,6 +2009,17 @@ aftermaxtrdcheck:
         cmdChooseBackground.Refresh
         frmMain.pbProgressContainer.Refresh
         frmMain.SetTextColors
+        
+        If NoDWMFrame Then
+            DisableDWMWindow Me.hWnd
+            DisableDWMWindow frmMain.hWnd
+        Else
+            EnableDWMWindow Me.hWnd
+            EnableDWMWindow frmMain.hWnd
+        End If
+        
+        frmMain.SkinnedFrame.SetSkin CurrentWindowSkin
+        SkinnedFrame.SetSkin CurrentWindowSkin
     End If
     If ProgressSkinChanged Then
         SaveSetting "DownloadBooster", "Options", "ProgressFrameSkin", cbProgressSkin.ListIndex
@@ -2208,11 +2221,6 @@ Private Sub cmdSaveTheme_Click()
         End If
     End If
     
-    If cbFrameSkin.ListCount >= 3 Then
-        SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", -(cbFrameSkin.ListIndex = 1)
-    End If
-    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", -((cbFrameSkin.ListCount >= 3 And cbFrameSkin.ListIndex = 2) Or (cbFrameSkin.ListCount < 3 And cbFrameSkin.ListIndex = 1))
-    
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "CompleteSoundPath", Trim$(txtCompleteSoundPath.Text)
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "BackColorMainOnly", chkBackColorMainOnly.Value
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ForeColorMainOnly", chkForeColorMainOnly.Value
@@ -2242,6 +2250,7 @@ Private Sub cmdSaveTheme_Click()
         SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ForeColor", CLng(pgFore.BackColor)
     End If
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ButtonSkin", cbSkin.ListIndex
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "WindowSkin", cbFrameSkin.ListIndex
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "ProgressFrameSkin", cbProgressSkin.ListIndex
     Dim SaveImgPos As Byte
     If cbImagePosition.ListIndex >= 1 And cbImagePosition.ListIndex <= 3 And chkCenter.Value <> 0 Then
@@ -2261,6 +2270,9 @@ Private Sub cmdSaveTheme_Click()
     
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableVisualStyle", DisableVisualStyle
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "RoundClassicButtons", RoundClassicButtons
+        
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "UseClassicThemeFrame", ClassicFrame
+    SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "DisableDWMWindow", NoDWMFrame
     
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinShadowColor", LiveBadukMemoSkinShadowColor
     SaveSetting "DownloadBooster", "Options\Themes\" & ThemeName, "LiveBadukMemoSkinFrameColor", LiveBadukMemoSkinFrameColor
@@ -2339,6 +2351,9 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     IBSSubclass_UnsubclassIt
+    
+    Unload PreviewSkinnedFrame
+    Unload SkinnedFrame
 End Sub
 
 Private Function IBSSubclass_MsgResponse(ByVal hWnd As Long, ByVal uMsg As Long) As EMsgResponse
@@ -2464,6 +2479,7 @@ Private Sub Form_Load()
     IntervalValues(6) = 3#
     IntervalValues(7) = 5#
     
+    Set cmdAdvancedFrameSkin.ImageList = frmMain.imgWrench
     Set cmdAdvancedSkin.ImageList = frmMain.imgWrench
     Set cmdAdvancedProgressSkin.ImageList = frmMain.imgWrench
     
@@ -2486,22 +2502,17 @@ Private Sub Form_Load()
         If FontExists("맑은 고딕") Then AddItemToComboBox cbFont, "맑은 고딕"
     End If
     
-    If WinVer < 6.2 And IsDWMEnabled() Then
-        AddItemToComboBox cbFrameSkin, "Windows Aero"
-    Else
-        AddItemToComboBox cbFrameSkin, t("시스템 스타일", "System style")
-    End If
-    If IsDWMEnabled() Then
-        If WinVer < 6.2 Or LCase(GetFilename(GetKeyValue(HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\ThemeManager", "DllName", "%SystemRoot%\resources\Themes\Aero\aero.msstyles"))) = "aero.msstyles" Then
-            AddItemToComboBox cbFrameSkin, "Windows " & IIf(WinVer < 6.1, "Vista", "7") & " " & t("베이직", "Basic")
-        Else
-            AddItemToComboBox cbFrameSkin, t("시스템 (DWM 없음)", "System (No DWM)")
-        End If
-    End If
-    AddItemToComboBox cbFrameSkin, t("고전 스타일", "Classic style")
-    
     pbBackground.Enabled = False
     SetPreviewPosition
+    
+    Set PreviewSkinnedFrame = New frmSkinnedFrame
+    PreviewSkinnedFrame.Init pbBackground
+    PreviewSkinnedFrame.SetCaption App.Title
+    
+    AddItemToComboBox cbFrameSkin, t("시스템 스타일", "System style")
+    AddItemToComboBox cbFrameSkin, t("금속 파랑", "Blue metal")
+    AddItemToComboBox cbFrameSkin, t("금속 초록", "Green metal")
+    AddItemToComboBox cbFrameSkin, "Windows XP"
     
     imgPreview.Top = 0
     imgPreview.Left = 0

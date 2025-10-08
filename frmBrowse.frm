@@ -229,6 +229,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Public SkinnedFrame As frmSkinnedFrame
 
 Private Sub CancelButton_Click()
     Unload Me
@@ -290,6 +291,10 @@ Private Sub Form_Load()
     tr Me, "Select download path"
     
     txtFileName.Visible = (Tags.BrowseTargetForm <> 2)
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Unload SkinnedFrame
 End Sub
 
 Private Sub lvDir_Change()
