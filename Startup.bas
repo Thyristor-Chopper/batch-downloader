@@ -37,19 +37,20 @@ Public ButtonSkinCaptionColor(-4 To 20) As Long
 Public ButtonSkinSplitColor(0 To 4) As Long
 Public ButtonSkinInsetLabel(0 To 4) As Boolean
 
-Public WindowSkinTopLeft(-2 To 3) As IPicture
-Public WindowSkinTop(-2 To 3) As IPicture
-Public WindowSkinTopRight(-2 To 3) As IPicture
-Public WindowSkinLeft(-2 To 3) As IPicture
-Public WindowSkinRight(-2 To 3) As IPicture
-Public WindowSkinBottomLeft(-2 To 3) As IPicture
-Public WindowSkinBottom(-2 To 3) As IPicture
-Public WindowSkinBottomRight(-2 To 3) As IPicture
-Public WindowSkinClose(-4 To 7) As IPicture
-Public WindowSkinMaximize(-4 To 15) As IPicture
-Public WindowSkinMinimize(-4 To 7) As IPicture
-Public WindowSkinBorderSize(-3 To 5) As Byte
-Public WindowSkinCaptionHeight(-1 To 1) As Byte
+Public WindowSkinTopLeft(-2 To 5) As IPicture
+Public WindowSkinTop(-2 To 5) As IPicture
+Public WindowSkinTopRight(-2 To 5) As IPicture
+Public WindowSkinLeft(-2 To 5) As IPicture
+Public WindowSkinRight(-2 To 5) As IPicture
+Public WindowSkinBottomLeft(-2 To 5) As IPicture
+Public WindowSkinBottom(-2 To 5) As IPicture
+Public WindowSkinBottomRight(-2 To 5) As IPicture
+Public WindowSkinClose(-4 To 11) As IPicture
+Public WindowSkinMaximize(-4 To 23) As IPicture
+Public WindowSkinMinimize(-4 To 11) As IPicture
+Public WindowSkinBorderSize(-3 To 8) As Byte
+Public WindowSkinCaptionHeight(-1 To 2) As Byte
+Public WindowSkinCaptionAlign(-1 To 2) As AlignmentConstants
 Public CurrentWindowSkin As WindowSkin
 
 Public FrameSkinLabelOffset(1 To 2) As Integer
@@ -247,6 +248,7 @@ forcegulim:
     
     Load frmDummyForm
     
+    On Error Resume Next
     For i = 0 To UBound(WindowSkinCaptionHeight)
         For j = 0 To 1
             Set WindowSkinTopLeft(i * 2 + j) = LoadImageFromResource(300 + i * 32 + j + 1, RCData)
@@ -270,6 +272,10 @@ forcegulim:
         WindowSkinBorderSize(i + 2) = GetPictureHeight(WindowSkinBottom(i * 2), vbPixels)
         WindowSkinCaptionHeight(i) = GetPictureHeight(WindowSkinTop(i * 2), vbPixels)
     Next i
+    
+    WindowSkinCaptionAlign(0) = vbCenter
+    WindowSkinCaptionAlign(1) = vbCenter
+    WindowSkinCaptionAlign(2) = vbLeftJustify
     
     'ProcessPath = """" & GetCurrentEXEPath("cmd.exe") & """"
     

@@ -550,6 +550,7 @@ Private Sub SetSizableSkinTextures()
     hDC = GetDCFromPicture(WindowSkinTop((CurrentSkin - 1) * 2 + IsWindowActive))
     Height = pbTopMiddle.Height \ 15
     pbTopMiddle.Width = (RC.Right - RC.Left) * 15 - pbTopLeft.Width - pbTopRight.Width
+    pbTopMiddle.Cls
     For X = 0 To pbTopMiddle.Width \ Screen.TwipsPerPixelX Step Size
         BitBlt pbTopMiddle.hDC, X, 0&, Size, Height, hDC, 0&, 0&, vbSrcCopy
     Next X
@@ -559,6 +560,7 @@ Private Sub SetSizableSkinTextures()
     hDC = GetDCFromPicture(WindowSkinLeft((CurrentSkin - 1) * 2 + IsWindowActive))
     Width = pbLeft.Width \ 15
     pbLeft.Height = (RC.Bottom - RC.Top) * 15 - pbTopLeft.Height - pbBottomLeft.Height
+    pbLeft.Cls
     For Y = 0 To pbLeft.Height \ Screen.TwipsPerPixelY Step Size
         BitBlt pbLeft.hDC, 0&, Y, Width, Size, hDC, 0&, 0&, vbSrcCopy
     Next Y
@@ -568,6 +570,7 @@ Private Sub SetSizableSkinTextures()
     hDC = GetDCFromPicture(WindowSkinBottom((CurrentSkin - 1) * 2 + IsWindowActive))
     Height = pbBottomMiddle.Height \ 15
     pbBottomMiddle.Width = (RC.Right - RC.Left) * 15 - pbBottomLeft.Width - pbBottomRight.Width
+    pbBottomMiddle.Cls
     For X = 0 To pbBottomMiddle.Width \ Screen.TwipsPerPixelX Step Size
         BitBlt pbBottomMiddle.hDC, X, 0&, Size, Height, hDC, 0&, 0&, vbSrcCopy
     Next X
@@ -577,6 +580,7 @@ Private Sub SetSizableSkinTextures()
     hDC = GetDCFromPicture(WindowSkinRight((CurrentSkin - 1) * 2 + IsWindowActive))
     Width = pbRight.Width \ 15
     pbRight.Height = (RC.Bottom - RC.Top) * 15 - pbTopRight.Height - pbBottomRight.Height
+    pbRight.Cls
     For Y = 0 To pbRight.Height \ Screen.TwipsPerPixelY Step Size
         BitBlt pbRight.hDC, 0&, Y, Width, Size, hDC, 0&, 0&, vbSrcCopy
     Next Y
@@ -611,9 +615,14 @@ setupskin:
         lblCaptionShadow.Width = pbTopMiddle.Width
         lblResizeTop(0).Width = pbTopMiddle.Width
         
-        If TypeOf TargetForm Is Form Then Set imgControlMenu.Picture = TargetForm.Icon
+        lblCaption.Alignment = WindowSkinCaptionAlign(CurrentSkin - 1)
+        lblCaptionShadow.Alignment = WindowSkinCaptionAlign(CurrentSkin - 1)
+        If TypeOf TargetForm Is Form Then
+            If Not TargetForm.Icon Is Nothing Then
+                Set imgControlMenu.Picture = TargetForm.Icon
+            End If
+        End If
         SetSkinTextures
-        
         SetResizeCursors
         
         VisibilitySet = False
@@ -667,9 +676,13 @@ setupskin:
 '    SetWindowPos TargetForm.hWnd, 0, 0, 0, 0, 0, SWP_NOMOVE Or SWP_NOSIZE Or SWP_NOZORDER Or SWP_FRAMECHANGED
 End Sub
 
+Private Function IsResizable() As Boolean
+    IsResizable = (GetWindowState() = 0 And ((GetWindowLong(TargetForm.hWnd, GWL_STYLE) And WS_SIZEBOX) <> 0))
+End Function
+
 Private Sub SetResizeCursors()
     Dim Active As Byte
-    Active = -(GetWindowState() = 0 And ((GetWindowLong(TargetForm.hWnd, GWL_STYLE) And WS_SIZEBOX) <> 0))
+    Active = -IsResizable
     lblResizeLeft.MousePointer = 9 * Active
     lblResizeTopLeft.MousePointer = 8 * Active
     lblResizeTop(0).MousePointer = 7 * Active
@@ -886,6 +899,7 @@ Private Sub lblCaptionShadow_MouseUp(Button As Integer, Shift As Integer, X As S
 End Sub
 
 Private Sub lblResizeLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTLEFT, 0&
@@ -893,6 +907,7 @@ Private Sub lblResizeLeft_MouseMove(Button As Integer, Shift As Integer, X As Si
 End Sub
 
 Private Sub lblResizeRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTRIGHT, 0&
@@ -904,6 +919,7 @@ Private Sub lblResizeTop_DblClick(Index As Integer)
 End Sub
 
 Private Sub lblResizeTop_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTTOP, 0&
@@ -920,6 +936,7 @@ Private Sub lblResizeTopLeft_MouseDown(Button As Integer, Shift As Integer, X As
 End Sub
 
 Private Sub lblResizeTopLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTTOPLEFT, 0&
@@ -931,6 +948,7 @@ Private Sub lblResizeTopRight_DblClick()
 End Sub
 
 Private Sub lblResizeTopRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTTOPRIGHT, 0&
@@ -938,6 +956,7 @@ Private Sub lblResizeTopRight_MouseMove(Button As Integer, Shift As Integer, X A
 End Sub
 
 Private Sub pbBottomLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTBOTTOMLEFT, 0&
@@ -945,6 +964,7 @@ Private Sub pbBottomLeft_MouseMove(Button As Integer, Shift As Integer, X As Sin
 End Sub
 
 Private Sub pbBottomMiddle_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTBOTTOM, 0&
@@ -978,6 +998,7 @@ Private Sub lblCaptionShadow_MouseMove(Button As Integer, Shift As Integer, X As
 End Sub
 
 Private Sub pbBottomRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTBOTTOMRIGHT, 0&
@@ -985,6 +1006,7 @@ Private Sub pbBottomRight_MouseMove(Button As Integer, Shift As Integer, X As Si
 End Sub
 
 Private Sub pbLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTLEFT, 0&
@@ -992,6 +1014,7 @@ Private Sub pbLeft_MouseMove(Button As Integer, Shift As Integer, X As Single, Y
 End Sub
 
 Private Sub pbRight_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not IsResizable Then Exit Sub
     If Button = 1 Then
         ReleaseCapture
         SendMessage TargetForm.hWnd, WM_NCLBUTTONDOWN, HTRIGHT, 0&
