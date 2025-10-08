@@ -1793,16 +1793,16 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal uMsg As Long, 
     
     Dim hSysMenu As Long
     Dim MII As MENUITEMINFO
-    Dim RC As RECT
+    Dim rc As RECT
     
     Select Case uMsg
         Case WM_GETMINMAXINFO
             Dim lpMMI As MINMAXINFO
             CopyMemory lpMMI, ByVal lParam, Len(lpMMI)
-            lpMMI.ptMinTrackSize.X = FormWidth * (DPI / 96)
-            lpMMI.ptMinTrackSize.Y = FormMinHeight * (DPI / 96)
-            lpMMI.ptMaxTrackSize.X = lpMMI.ptMinTrackSize.X
-            lpMMI.ptMaxTrackSize.Y = FormMaxHeight * (DPI / 96)
+            lpMMI.ptMinTrackSize.x = FormWidth * (DPI / 96)
+            lpMMI.ptMinTrackSize.y = FormMinHeight * (DPI / 96)
+            lpMMI.ptMaxTrackSize.x = lpMMI.ptMinTrackSize.x
+            lpMMI.ptMaxTrackSize.y = FormMaxHeight * (DPI / 96)
             CopyMemory ByVal lParam, lpMMI, Len(lpMMI)
             
             IBSSubclass_WindowProc = 1&
@@ -2834,7 +2834,7 @@ Private Sub cmdDeleteDropdown_Click()
     Me.PopupMenu mnuDeleteDropdown, , cmdDelete.Left, cmdDelete.Top + cmdDelete.Height
 End Sub
 
-Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub cmdDeleteDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     cmdDeleteDropdown_Click
 End Sub
 
@@ -2908,7 +2908,7 @@ Private Sub cmdOpenDropdown_Click()
     Me.PopupMenu mnuOpenDropdown, , cmdOpenBatch.Left, cmdOpenBatch.Top + cmdOpenBatch.Height
 End Sub
 
-Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub cmdOpenDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     cmdOpenDropdown_Click
 End Sub
 
@@ -2916,7 +2916,7 @@ Private Sub cmdOpenFileDropdown_Click()
     Me.PopupMenu mnuOpenFileDropdown, , cmdOpen.Left, cmdOpen.Top + cmdOpen.Height
 End Sub
 
-Private Sub cmdOpenFileDropdown_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub cmdOpenFileDropdown_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     cmdOpenFileDropdown_Click
 End Sub
 
@@ -3686,12 +3686,12 @@ Private Sub SetTygemFrameRgn()
     Dim fSkin As Byte
     fSkin = CByte(GetSetting("DownloadBooster", "Options", "ProgressFrameSkin", 1))
     
-    Dim RC As RECT
-    GetWindowRect fTygemFrameTransparent.hWnd, RC
+    Dim rc As RECT
+    GetWindowRect fTygemFrameTransparent.hWnd, rc
     Dim Height&, Width&
     Dim DPIScaleRev As Double: DPIScaleRev = 96 / DPI
-    Width = (RC.Right - RC.Left) * DPIScaleRev
-    Height = (RC.Bottom - RC.Top) * DPIScaleRev
+    Width = (rc.Right - rc.Left) * DPIScaleRev
+    Height = (rc.Bottom - rc.Top) * DPIScaleRev
     Dim Rgn&, Rgn1&, Rgn2&, Rgn3&, Rgn4&, Rgn5&, Rgn6&, Rgn7&, Rgn8&, Rgn9&
     Rgn = CreateRectRgnFix(0, 0, Width, Height)
     
@@ -4115,7 +4115,7 @@ Private Sub fTabDownload_Click()
     optTabDownload2_Click
 End Sub
 
-Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub fTabDownload_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabDownload_Click
 End Sub
 
@@ -4124,11 +4124,11 @@ Private Sub fTabThreads_Click()
     optTabThreads2_Click
 End Sub
 
-Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub fTabThreads_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabThreads_Click
 End Sub
 
-Private Sub lvBatchFiles_ContextMenu(ByVal X As Single, ByVal Y As Single)
+Private Sub lvBatchFiles_ContextMenu(ByVal x As Single, ByVal y As Single)
     Dim ItemCount As Long
     ItemCount = lvBatchFiles.ListItems.Count
     On Error GoTo ErrLn
@@ -4399,7 +4399,7 @@ Private Sub optTabDownload2_Click()
     vsProgressScroll.Visible = False
 End Sub
 
-Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub optTabDownload2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabDownload_Click
 End Sub
 
@@ -4409,7 +4409,7 @@ Private Sub optTabThreads2_Click()
     vsProgressScroll.Visible = trThreadCount.Value > 10
 End Sub
 
-Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub optTabThreads2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     fTabThreads_Click
 End Sub
 

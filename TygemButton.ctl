@@ -345,7 +345,7 @@ Private Function IsHovering() As Boolean
     Static lpPos As POINTAPI
     Static lhWnd As Long
     GetCursorPos lpPos
-    lhWnd = WindowFromPoint(lpPos.X, lpPos.Y)
+    lhWnd = WindowFromPoint(lpPos.x, lpPos.y)
     IsHovering = (lhWnd = CommandButtonControlHandle)
 End Function
 
@@ -353,7 +353,7 @@ Private Sub tmrMouse_Timer()
     Static lpPos As POINTAPI
     Static lhWnd As Long
     GetCursorPos lpPos
-    lhWnd = WindowFromPoint(lpPos.X, lpPos.Y)
+    lhWnd = WindowFromPoint(lpPos.x, lpPos.y)
     If (Not IsHovering()) And bHovering Then MouseOut
 End Sub
 
@@ -399,14 +399,14 @@ Sub ShowAsUnpressed()
     DrawSkin DrawNormalState
 End Sub
 
-Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub imgOverlay_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     If (Not m_Enabled) Or Button <> 1 Then Exit Sub
     bMouseDown = True
     ShowAsPressed
     'RaiseEvent MouseDown(Button, Shift, X, Y)
 End Sub
  
-Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If Not m_Enabled Then Exit Sub
     tmrMouse.Enabled = -1
     If Not bHovering Then
@@ -417,7 +417,7 @@ Private Sub imgOverlay_MouseMove(Button As Integer, Shift As Integer, X As Singl
     'RaiseEvent MouseMove(Button, Shift, X, Y)
 End Sub
  
-Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub imgOverlay_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     If (Not m_Enabled) Or Button <> 1 Then Exit Sub
     bMouseDown = False
     ShowAsUnpressed
@@ -515,8 +515,8 @@ Private Sub DrawSkin(Optional ByVal State As ButtonState = Normal)
     hOld = SelectObject(hMemDC, hBmp)
 
     Dim hSrcBmp As Long
-    hSrcBmp = GetBitmapHandle(pic)
-    If hSrcBmp = 0 Then GoTo Cleanup
+    hSrcBmp = pic.Handle
+    If hSrcBmp = 0& Then GoTo Cleanup
 
     Dim hSrcDC As Long, hOldSrc As Long
     hSrcDC = CreateCompatibleDC(hScreenDC)
@@ -544,16 +544,8 @@ Private Sub DrawSkin(Optional ByVal State As ButtonState = Normal)
 Cleanup:
     SelectObject hMemDC, hOld
     DeleteDC hMemDC
-    ReleaseDC 0, hScreenDC
+    ReleaseDC 0&, hScreenDC
 End Sub
-
-Private Function GetBitmapHandle(pic As StdPicture) As Long
-    If Not pic Is Nothing Then
-        If pic.Type = vbPicTypeBitmap Then
-            GetBitmapHandle = pic.Handle
-        End If
-    End If
-End Function
 
 Private Sub UserControl_Resize()
     On Error Resume Next

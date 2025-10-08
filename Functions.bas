@@ -50,7 +50,7 @@ Declare Function InsertMenuItem Lib "user32" Alias "InsertMenuItemA" (ByVal hMen
 'Declare Function GetMenuItemID Lib "user32" (ByVal hMenu As Long, ByVal nPos As Long) As Long
 Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As Long
 Declare Function SetMenuItemInfo Lib "user32" Alias "SetMenuItemInfoA" (ByVal hMenu As Long, ByVal uItem As Long, ByVal fByPosition As Long, lpMII As MENUITEMINFO) As Long
-Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
+Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal CX As Long, ByVal CY As Long, ByVal wFlags As Long) As Long
 'Declare Function CheckMenuRadioItem Lib "user32" (ByVal hMenu As Long, ByVal un1 As Long, ByVal un2 As Long, ByVal un3 As Long, ByVal un4 As Long) As Long
 Private Declare Function CryptBinaryToString Lib "crypt32" Alias "CryptBinaryToStringW" (ByVal pbBinary As Long, ByVal cbBinary As Long, ByVal dwFlags As Long, ByVal pszString As Long, ByRef pcchString As Long) As Long
 Private Const CRYPT_STRING_BASE64 As Long = 1&
@@ -128,15 +128,18 @@ Private Declare Function GetTimeZoneInformation Lib "kernel32" (lpTimeZoneInform
 Declare Function OleCreatePictureIndirect Lib "oleaut32" (lpPictDesc As PICTDESC, riid As IID, ByVal fOwn As Boolean, lplpvObj As IPicture) As Long
 Declare Function SHGetFileInfo Lib "shell32" Alias "SHGetFileInfoW" (ByVal pszPath As Long, ByVal dwFileAttributes As Long, ByVal psfi As Long, ByVal cbSizeFileInfo As Long, ByVal uFlags As Long) As Long
 Declare Function CreateCompatibleBitmap Lib "gdi32" (ByVal hDC As Long, ByVal nWidth As Long, ByVal nHeight As Long) As Long
-Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal dwRop As Long) As Long
-Declare Function StretchBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
-Declare Function TrackPopupMenu Lib "user32" (ByVal hMenu As Long, ByVal uFlags As Long, ByVal X As Long, ByVal Y As Long, ByVal nReserved As Long, ByVal hWnd As Long, lprcRect As Any) As Long
+Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal dwRop As Long) As Long
+Declare Function StretchBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
+Declare Function TrackPopupMenu Lib "user32" (ByVal hMenu As Long, ByVal uFlags As Long, ByVal x As Long, ByVal y As Long, ByVal nReserved As Long, ByVal hWnd As Long, lprcRect As Any) As Long
 Declare Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
 Declare Function ScreenToClient Lib "user32" (ByVal hWnd As Long, lpPoint As POINTAPI) As Long
 Declare Function GetClientRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
 Declare Function ClientToScreen Lib "user32" (ByVal hWnd As Long, lpPoint As POINTAPI) As Long
 'Declare Function Release Lib "ole32.dll" Alias "IUnknown_Release_Proxy" (pUnk As Any) As Long
 Declare Function ShowWindow Lib "user32" (ByVal hWnd As Long, ByVal nCmdShow As Long) As Long
+Declare Function BeginDeferWindowPos Lib "user32" (ByVal nNumWindows As Long) As Long
+Declare Function DeferWindowPos Lib "user32" (ByVal hWinPosInfo As Long, ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal CX As Long, ByVal CY As Long, ByVal uFlags As Long) As Long
+Declare Function EndDeferWindowPos Lib "user32" (ByVal hWinPosInfo As Long) As Long
 
 Public Const WS_SIZEBOX As Long = &H40000
 
@@ -404,8 +407,8 @@ Enum ResourceType
 End Enum
 
 Type POINTAPI
-   X As Long
-   Y As Long
+   x As Long
+   y As Long
 End Type
 
 Type RECT
@@ -899,7 +902,7 @@ End Function
 
 Function GetKeyValue(ByVal KeyRoot As Long, KeyName As String, SubKeyRef As String, Optional Default As String = "") As Variant
     Dim i As Long                                           ' 루프 카운터
-    Dim RC As Long                                          ' 반환 코드
+    Dim rc As Long                                          ' 반환 코드
     Dim hKey As Long                                        ' 열려 있는 레지스트리 키 처리
     Dim hDepth As Long                                      '
     Dim KeyValType As Long                                  ' 레지스트리 키의 데이터 형식
@@ -909,9 +912,9 @@ Function GetKeyValue(ByVal KeyRoot As Long, KeyName As String, SubKeyRef As Stri
     '------------------------------------------------------------
     ' Open RegKey Under KeyRoot {HKEY_LOCAL_MACHINE...}
     '------------------------------------------------------------
-    RC = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey) ' 레지스트리 키를 엽니다.
+    rc = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey) ' 레지스트리 키를 엽니다.
 
-    If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다...
+    If (rc <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다...
 
     tmpVal = String$(1024, 0)                             ' 변수의 크기를 할당합니다.
     KeyValSize = 1024                                       ' 변수 크기를 표시합니다.
@@ -919,10 +922,10 @@ Function GetKeyValue(ByVal KeyRoot As Long, KeyName As String, SubKeyRef As Stri
     '------------------------------------------------------------
     ' 레지스트리 키 값을 읽어옵니다...
     '------------------------------------------------------------
-    RC = RegQueryValueEx(hKey, SubKeyRef, 0, _
+    rc = RegQueryValueEx(hKey, SubKeyRef, 0, _
                          KeyValType, tmpVal, KeyValSize)    ' 키 값을 가져오고 작성합니다.
 
-    If (RC <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다.
+    If (rc <> ERROR_SUCCESS) Then GoTo GetKeyError          ' 오류를 처리합니다.
 
     If (Asc(Mid$(tmpVal, KeyValSize, 1)) = 0) Then           ' Win95는 Null 종료 문자열을 추가합니다...
         tmpVal = Left(tmpVal, KeyValSize - 1)               ' Null을 찾았습니다. 문자열에서 추출합니다.
@@ -943,12 +946,12 @@ Function GetKeyValue(ByVal KeyRoot As Long, KeyName As String, SubKeyRef As Stri
     End Select
 
     GetKeyValue = KeyVal
-    RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
+    rc = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
     Exit Function                                           ' 종료합니다.
 
 GetKeyError:      ' 오류가 발생하면 지웁니다...
     GetKeyValue = Default
-    RC = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
+    rc = RegCloseKey(hKey)                                  ' 레지스트리 키를 닫습니다.
 End Function
 
 'https://www.vbforums.com/showthread.php?796771-RESOLVED-Help!-cannot-delete-registry-x64-subkeys&p=4894805
@@ -2255,14 +2258,14 @@ End Sub
 
 Sub NextTabPage(ByRef tsTabStrip As TabStrip, Optional ByVal Reverse As Boolean = False)
     On Error Resume Next
-    Dim A%, B%, X%, Y%, Z%
+    Dim A%, B%, x%, y%, Z%
     A = tsTabStrip.Tabs.Count
     B = tsTabStrip.SelectedItem.Index
-    If Reverse Then X = 1 Else X = A
-    If Reverse Then Y = A Else Y = 1
+    If Reverse Then x = 1 Else x = A
+    If Reverse Then y = A Else y = 1
     If Reverse Then Z = -1 Else Z = 1
-    If B = X Then
-        tsTabStrip.Tabs(Y).Selected = True
+    If B = x Then
+        tsTabStrip.Tabs(y).Selected = True
     Else
         tsTabStrip.Tabs(B + Z).Selected = True
     End If
@@ -2526,3 +2529,14 @@ Sub SetLabelText(lbl As Label, ByVal fullText As String)
         lbl = "..."
     End If
 End Sub
+
+Function CompareRect(R1 As RECT, R2 As RECT) As Boolean
+    CompareRect = (R1.Bottom = R2.Bottom And R1.Left = R2.Left And R1.Right = R2.Right And R1.Top = R2.Top)
+End Function
+
+Function GetDCFromPicture(pic As StdPicture) As Long
+    Dim hDCMem As Long
+    hDCMem = CreateCompatibleDC(0&)
+    SelectObject hDCMem, pic.Handle
+    GetDCFromPicture = hDCMem
+End Function
